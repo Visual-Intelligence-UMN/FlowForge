@@ -28,6 +28,15 @@ export default () => {
       <div className="dndnode" onDragStart={(event) => onDragStart(event, 'textUpdater')} draggable>
         Text Updater Node
       </div>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'textResult')} draggable>
+        Text Result Node
+      </div>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'text')} draggable>
+        Text Node
+      </div>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'uppercase')} draggable>
+        Uppercase Node
+      </div>
     </aside>
   );
 };

@@ -3,6 +3,10 @@ import type { NodeTypes } from '@xyflow/react';
 import { PositionLoggerNode } from './PositionLoggerNode';
 import { TextUpdaterNode } from './CustomTextNode';
 import { AppNode } from './types';
+import TextResultNode from './TextResultNode';
+import TextNode from './TextNode';
+import UppercaseNode from './UppercaseNode';
+
 
 export const initialNodes: AppNode[] = [
   { id: 'a', type: 'input', position: { x: 0, y: 0 }, data: { label: 'wire' } },
@@ -30,5 +34,8 @@ export const initialNodes: AppNode[] = [
 export const nodeTypes = {
   'position-logger': PositionLoggerNode,
   'textUpdater': TextUpdaterNode,
+  'textResult': TextResultNode,
+  'text': TextNode,
+  'uppercase': UppercaseNode,
   // Add any of your custom nodes here!
 } satisfies NodeTypes;
