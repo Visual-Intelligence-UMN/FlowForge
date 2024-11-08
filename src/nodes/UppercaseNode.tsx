@@ -7,10 +7,9 @@ import {
     useNodesData,
     Handle,
     Position,
-    type NodeProps
 } from '@xyflow/react';
 
-function UppercaseNode({id}: NodeProps) {
+function UppercaseNode({id}) {
     const {updateNodeData} = useReactFlow();
     const connections = useHandleConnections({
         type: 'target',

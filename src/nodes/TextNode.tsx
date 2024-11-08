@@ -3,11 +3,9 @@ import {
     Handle,
     Position,
     useReactFlow,
-    type NodeProps,
-    type Node,
 } from '@xyflow/react';
-
-function TextNode({id, data}: NodeProps<Node<{text: string}>>) {
+    
+function TextNode({id, data}) {
     const {updateNodeData} = useReactFlow();
 
     const onChange = useCallback((evt: any) => {
