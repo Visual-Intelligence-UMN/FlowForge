@@ -16,7 +16,7 @@ const dragHandleStyle = {
     
 };
  
-export function TextUpdaterNode({ data, isConnectable}) {
+export function TextUpdaterNode({ isConnectable}) {
   const onChange = useCallback((evt:any) => {
     console.log(evt.target.value);
   }, []);
