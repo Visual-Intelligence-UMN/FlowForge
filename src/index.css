@@ -10,3 +10,25 @@ body,
   height: 100%;
   margin: 0;
 }
+
+.text-updater-node {
+  position: relative;
+  height: auto; 
+  padding: 0px; 
+  border: 1.5px solid #8ACE00; 
+  border-top: 5px solid #85c702; 
+  border-radius: 6px; 
+  background: #ffffff; 
+  /* box-shadow: px 4px 8px rgba(233, 7, 7, 0.1);  */
+  font-family: Arial, sans-serif;
+}
+
+.text-updater-node label {
+  display: block;
+  color: #333; 
+  font-size: 12px; 
+  font-weight: bold;
+  margin-bottom: 1px; 
+}
+
+/* Additional style for child elements like buttons */
