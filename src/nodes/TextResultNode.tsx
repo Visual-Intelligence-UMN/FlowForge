@@ -19,6 +19,7 @@ function TextResultNode() {
                 incoming texts: {" "}
                 {textNodes.map(({data}, i) => <div key={i}>{data.text}</div>) || 'none'}
             </div>
+            <Handle type="source" position={Position.Right} />
         </div>
     );
 }

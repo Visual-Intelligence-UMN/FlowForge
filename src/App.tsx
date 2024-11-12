@@ -19,6 +19,11 @@ import { useDnD } from './components/DnDContext';
 
 import { initialNodes, nodeTypes } from './nodes';
 import { initialEdges, edgeTypes } from './edges';
+import { transformLangGraphToReactFlow } from './langgraph/graphUtils';
+import { singleAgentWithToolsGraph } from './langgraph/graphs';
+import { graphVizGraph } from './langgraph/test-graph';
+import StreamOutput from './components/StreamOutput';
+
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -27,8 +32,11 @@ const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
   const {screenToFlowPosition} = useReactFlow();
   const [type] = useDnD()
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const {nodes: initialTransformedNodes, edges: initialTransformedEdges} = transformLangGraphToReactFlow(graphVizGraph);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([...initialTransformedNodes, ...initialNodes]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([...initialTransformedEdges, ...initialEdges]);
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((edges) => addEdge(connection, edges)),
     [setEdges]
@@ -84,10 +92,11 @@ const DnDFlow = () => {
 
 export default function App() {
   return (
-    <ReactFlowProvider>
-      <DnDProvider>
-      <DnDFlow />
-      </DnDProvider>
-    </ReactFlowProvider>
+    <StreamOutput />
+    // <ReactFlowProvider>
+    //   <DnDProvider>
+    //   <DnDFlow /> 
+    //   </DnDProvider>
+    // </ReactFlowProvider>
   );
 }
