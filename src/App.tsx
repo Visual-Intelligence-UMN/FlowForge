@@ -85,6 +85,7 @@ const DnDFlow = () => {
           <Controls />
         </ReactFlow>
       </div>
+      <StreamOutput />
       
     </div>
   );
@@ -92,11 +93,11 @@ const DnDFlow = () => {
 
 export default function App() {
   return (
-    <StreamOutput />
-    // <ReactFlowProvider>
-    //   <DnDProvider>
-    //   <DnDFlow /> 
-    //   </DnDProvider>
-    // </ReactFlowProvider>
+    // <StreamOutput />
+    <ReactFlowProvider>
+      <DnDProvider>
+      <DnDFlow /> 
+      </DnDProvider>
+    </ReactFlowProvider>
   );
 }

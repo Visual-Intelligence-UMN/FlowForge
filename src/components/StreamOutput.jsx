@@ -7,9 +7,14 @@ const StreamOutput = () => {
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
   const [finalMessage, setFinalMessage] = useState("");
   const [isThreadActive, setIsThreadActive] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
+  };
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible); // Toggle panel visibility
   };
 
   const startNewThread = () => {
@@ -68,48 +73,57 @@ const StreamOutput = () => {
       }
     }
 
-    // Set the last message as the final message after the stream ends
     setFinalMessage({sender: lastSender, content: lastContent} || 'Process completed');
-    setIsThreadActive(false); // End the thread after submission
+    setIsThreadActive(false); 
   };
 
   return (
     <div>
-      <h2>Thread Control</h2>
-      <button onClick={startNewThread} style={{ padding: '10px 20px', marginBottom: '10px' }}>
-        Start New Thread
+      <button onClick={toggleVisibility} className="toggle-panel-button">
+        {isVisible ? 'Hide Panel' : 'Show Panel'}
       </button>
 
-      {isThreadActive && (
-        <form onSubmit={handleFormSubmit}>
-          <h2>Enter Input Message</h2>
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={handleInputChange}
-            placeholder="Type your message here"
-            style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-          />
-          <button type="submit" style={{ padding: '10px 20px' }}>Submit</button>
-        </form>
-      )}
-
-      <h2>Intermediary Steps</h2>
-      <div>
-        {intermediaryMessages.map((msg, index) => (
-          <div key={index}>
-            <strong>{msg.sender}</strong>
-            <p>{msg.content}</p>
-            <hr />
+      {isVisible && (
+        <div className="chat-panel">
+          <div className="thread-control">
+            <button onClick={startNewThread} className="thread-button">
+              Start New Thread
+            </button>
           </div>
-        ))}
-      </div>
-      
-      <h2>Final Output</h2>
-      <div>
-        <strong>{finalMessage.sender}</strong>
-        <p>{finalMessage.content}</p>
-      </div>
+
+          {isThreadActive && (
+            <form onSubmit={handleFormSubmit} className="message-form">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={handleInputChange}
+                placeholder="Type your message here"
+                className="message-input"
+              />
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+            </form>
+          )}
+
+          <div className="chat-messages">
+            {intermediaryMessages.map((msg, index) => (
+              <div key={index} className={`chat-bubble ${msg.sender === 'User' ? 'user' : 'system'}`}>
+                <strong>{msg.sender}</strong>
+                <p>{msg.content}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="final-output">
+            <h2>Final Output</h2>
+            <div className={`chat-bubble final ${finalMessage.sender === 'User' ? 'user' : 'system'}`}>
+              <strong>{finalMessage.sender}</strong>
+              <p>{finalMessage.content}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
