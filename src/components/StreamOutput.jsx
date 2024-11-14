@@ -2,8 +2,11 @@ import { singleAgentWithToolsGraph } from '../langgraph/graphs/';
 import { useState } from 'react';
 import { HumanMessage } from '@langchain/core/messages';
 
+const WORD_LIMIT = 30; // Global parameter for word limit
+
 const StreamOutput = () => {
   const [inputMessage, setInputMessage] = useState("");
+  const [submittedInput, setSubmittedInput] = useState("");
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
   const [finalMessage, setFinalMessage] = useState("");
   const [isThreadActive, setIsThreadActive] = useState(false);
@@ -22,10 +25,14 @@ const StreamOutput = () => {
     setIntermediaryMessages([]);
     setFinalMessage({sender: "", content: ""});
     setIsThreadActive(true);
+    setSubmittedInput({ content: "", sender: "User" });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
+    setInputMessage(""); // Clear input field after submission
 
     setIntermediaryMessages([]);
     setFinalMessage({sender: "", content: ""});
@@ -36,7 +43,6 @@ const StreamOutput = () => {
     );
     let lastSender = "";
     let lastContent = "";
-    let isFinalMessage = false;
 
 
     for await (const output of await streamResults) {
@@ -76,6 +82,25 @@ const StreamOutput = () => {
     setFinalMessage({sender: lastSender, content: lastContent} || 'Process completed');
     setIsThreadActive(false); 
   };
+  const toggleContent = (index, isFinal = false) => {
+    if (isFinal) {
+      setFinalMessage((prev) => ({ ...prev, showFullContent: !prev.showFullContent }));
+    } else {
+      setIntermediaryMessages((prev) =>
+        prev.map((msg, i) =>
+          i === index ? { ...msg, showFullContent: !msg.showFullContent } : msg
+        )
+      );
+    }
+  };
+
+  const getPreviewContent = (content, isFull) => {
+    if (isFull || content?.split(" ").length <= WORD_LIMIT) {
+      return content;
+    }
+    return content?.split(" ").slice(0, WORD_LIMIT).join(" ") + "...";
+  };
+
 
   return (
     <div>
@@ -106,11 +131,35 @@ const StreamOutput = () => {
             </form>
           )}
 
+
+           {/* Separate Section for User's Input Message */}
+           {submittedInput && (
+            <div className="input-message">
+              <h2>Start Message</h2>
+              <div className={`chat-bubble user`}>
+                <strong>{submittedInput.sender}</strong>
+                <p>{getPreviewContent(submittedInput.content, submittedInput.showFullContent)}</p>
+                {submittedInput.content && submittedInput.content.split(" ").length > WORD_LIMIT && (
+                  <button onClick={() => toggleContent("input")} className="toggle-content-button">
+                    {submittedInput.showFullContent ? "Show Less" : "Show More"}
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Intermediate Messages */}
           <div className="chat-messages">
+          <h2>Intermediary Messages</h2>
             {intermediaryMessages.map((msg, index) => (
               <div key={index} className={`chat-bubble ${msg.sender === 'User' ? 'user' : 'system'}`}>
                 <strong>{msg.sender}</strong>
-                <p>{msg.content}</p>
+                <p>{getPreviewContent(msg.content, msg.showFullContent)}</p>
+                {msg.content && msg.content.split(" ").length > WORD_LIMIT && (
+                  <button onClick={() => toggleContent(index)} className="toggle-content-button">
+                    {msg.showFullContent ? "Show Less" : "Show More"}
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -119,7 +168,12 @@ const StreamOutput = () => {
             <h2>Final Output</h2>
             <div className={`chat-bubble final ${finalMessage.sender === 'User' ? 'user' : 'system'}`}>
               <strong>{finalMessage.sender}</strong>
-              <p>{finalMessage.content}</p>
+              <p>{getPreviewContent(finalMessage.content, finalMessage.showFullContent)}</p>
+              {finalMessage.content?.split(" ").length > WORD_LIMIT && (
+                <button onClick={() => toggleContent(0, true)} className="toggle-content-button">
+                  {finalMessage.showFullContent ? "Show Less" : "Show More"}
+                </button>
+              )}
             </div>
           </div>
         </div>
