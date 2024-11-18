@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -19,10 +19,12 @@ import { useDnD } from './components/DnDContext';
 
 import { initialNodes, nodeTypes } from './nodes';
 import { initialEdges, edgeTypes } from './edges';
+
 import { transformLangGraphToReactFlow } from './langgraph/graphUtils';
-import { singleAgentWithToolsGraph } from './langgraph/graphs';
 import { graphVizGraph } from './langgraph/test-graph';
 import StreamOutput from './components/StreamOutput';
+
+import { getLayoutedNodesAndEdges } from './utils/dagreUtils';
 
 
 let id = 0;
@@ -63,6 +65,15 @@ const DnDFlow = () => {
     };
     setNodes((nds: any) => nds.concat(newNode));
   }, [type, screenToFlowPosition]);
+
+  useEffect(() => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+      nodes,
+      edges
+    );
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+  }, []);
 
   return (
     <div className="dndflow">

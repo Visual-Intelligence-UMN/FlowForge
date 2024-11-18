@@ -37,7 +37,7 @@ const StreamOutput = () => {
     setIntermediaryMessages([]);
     setFinalMessage({sender: "", content: ""});
 
-    let streamResults = singleAgentWithToolsGraph.stream(
+    const streamResults = singleAgentWithToolsGraph.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: 5 }
     );
