@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState} from 'react';
 import {
     ReactFlow,
     Background,
@@ -9,22 +9,28 @@ import {
     useEdgesState,
     useReactFlow,
     type OnConnect,
+    Panel,
   } from '@xyflow/react';
 import { nodeTypes } from '../nodes';
 import { edgeTypes } from '../edges';
 import { getLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { useDnD } from './DnDContext';
+import { useAtom } from 'jotai';
+import { flowsAtom } from '../global/GlobalStates';
 
-
+let nodeId = 0;
 
 export function FlowComponent(props) {
-    const {screenToFlowPosition} = useReactFlow();
-    let nodeId = 0;
-    const getId = () => `dndnode_${nodeId++}`;
-    const [nodes, setNodes, onNodesChange] = useNodesState(props.nodesState);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(props.edgesState);
+    const {screenToFlowPosition, setViewport} = useReactFlow();
+    const flowId = props.id;
+    const [flows, setFlows] = useAtom(flowsAtom);
+    
+    const [nodes, setNodes, onNodesChange] = useNodesState(flows[flowId].nodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(flows[flowId].edges);
     const [type] = useDnD();
+    const [rfInstance, setRfInstance] = useState(null);
 
+    const getId = (id: string) => `dndnode_${id}_${nodeId++}`;
 
     const onConnect: OnConnect = useCallback(
         (connection) => setEdges((edges) => addEdge(connection, edges)),
@@ -45,13 +51,24 @@ export function FlowComponent(props) {
           y: event.clientY,
         });
         const newNode = {
-          id: getId(),
+          id: getId(props.id),
           type,
           position,
           data: {label: `${type} node`},
         };
         setNodes((nds: any) => nds.concat(newNode));
-      }, [type, screenToFlowPosition]);
+    }, [type, screenToFlowPosition]);
+    
+    const onSave = useCallback(() => {
+        if (rfInstance) {
+            const flow = rfInstance.toObject();
+            console.log("target saved flow", flow);
+            console.log("flows atom", flows);
+            localStorage.setItem(`flow_${props.id}`, JSON.stringify(flow));
+            setFlows((prev) => ({...prev, [props.id]: flow}));
+        }
+    }, [rfInstance]);
+
 
     useEffect(() => {
         const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
@@ -60,7 +77,7 @@ export function FlowComponent(props) {
         );
         setNodes(layoutedNodes);
         setEdges(layoutedEdges);
-      }, []);
+    }, []);
 
     return (
             <div className="reactflow-wrapper">
@@ -70,6 +87,7 @@ export function FlowComponent(props) {
                 edges={edges}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
+                onInit={setRfInstance}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
@@ -80,8 +98,11 @@ export function FlowComponent(props) {
                 <Background />
                 <Controls />
                 <MiniMap />
-                </ReactFlow>
-            </div>
+                <Panel position="top-right">
+                    <button onClick={onSave}>Save</button>
+                </Panel>
+            </ReactFlow>
+        </div>
 
     )
 }
