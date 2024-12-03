@@ -197,13 +197,20 @@ body,
   flex-direction: column;
   gap: 5%;
 }
-.providerflow {
-  flex: 1;
+
+.reactflow-provider {
   height: 100%;
 }
 
 .reactflow-wrapper {
-  flex-grow: 1;
   height: 100%;
+  flex-grow: 1;
+}
+
+.recommendation-flows {
+  font-size: 20px;
+  margin-bottom: 0px;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
  

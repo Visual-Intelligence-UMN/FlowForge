@@ -6,17 +6,17 @@ import StreamOutput from './components/StreamOutput';
 import { FlowWithProvider } from './components/FlowWithProvider';
 import { useState } from 'react';
 import TabFlows from './components/TabFlows';
-import { useAtom, useAtomValue } from 'jotai';
-import { flowsNodesAtom, flowsEdgesAtom } from './global/GlobalStates';
+import TabTask from './components/TabTasks';
 
 const DoubleFlows = () => {
 
-  const flowsNodes = useAtomValue(flowsNodesAtom);
-  const flowsEdges = useAtomValue(flowsEdgesAtom);
-
   const [selectedFlow1, setSelectedFlow1] = useState("1");
   const [selectedFlow2, setSelectedFlow2] = useState("2");
-  
+  const [selectedTask, setSelectedTask] = useState("ml-visualization");
+
+  const handleSelectTask = (tabId) => {
+    setSelectedTask(tabId);
+  }
   const handleSelectFlow1 = (tabId) => {
     setSelectedFlow1(tabId);
   }
@@ -29,10 +29,12 @@ const DoubleFlows = () => {
       <div className = "dndflow">
       <DnDProvider>
         <Sidebar />
+
         <div className = "doubleflow" style={{height: "800px"}}>
-          
-        <div className = "reactflow-wrapper">
-        <TabFlows selectedFlow={selectedFlow1} onSelectFlow={handleSelectFlow1} />
+          <TabTask selectedTask={selectedTask} onSelectTask={handleSelectTask} />
+          <div className="recommend-flows"> Recommendation Flows for {selectedTask}</div>
+          <div className = "reactflow-wrapper">
+            <TabFlows selectedFlow={selectedFlow1} onSelectFlow={handleSelectFlow1} />
         {selectedFlow1 ? (
         // <FlowWithProvider key={selectedFlow1}  id = {selectedFlow1} nodesState={flowsNodes[selectedFlow1]} edgesState={flowsEdges[selectedFlow1]} />) : null}
         <FlowWithProvider key={selectedFlow1} id = {selectedFlow1} />) : null}
