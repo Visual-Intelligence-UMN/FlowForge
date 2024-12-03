@@ -6,6 +6,7 @@ import { AppNode } from './types';
 import TextResultNode from './TextResultNode';
 import TextNode from './TextNode';
 import UppercaseNode from './UppercaseNode';
+import SingleAgentNode  from './SingleAgentNode';
 
 
 export const initialNodes: AppNode[] = [
@@ -38,4 +39,5 @@ export const nodeTypes = {
   'text': TextNode,
   'uppercase': UppercaseNode,
   // Add any of your custom nodes here!
+  'single-agent': SingleAgentNode,
 } satisfies NodeTypes;

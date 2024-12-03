@@ -6,7 +6,9 @@ export type TextResultNode = Node<{}, 'textResult'>;
 export type UppercaseNode = Node<{text: string}, 'uppercase'>;
 export type PositionLoggerNode = Node<{ label: string }, 'position-logger'>;
 export type TextUpdaterNode = Node<{ label: string }, 'textUpdater'>;
-export type AppNode = BuiltInNode | PositionLoggerNode | TextUpdaterNode | TextNode | UppercaseNode | TextResultNode;
+export type SingleAgentNode = Node<{ agentName: string, systemMessage: string, model: string, temperature: number }, 'single-agent'>;
+export type AppNode = BuiltInNode | PositionLoggerNode | TextUpdaterNode | TextNode | UppercaseNode | TextResultNode | SingleAgentNode;
+export type PatternNode = SingleAgentNode;
 
 export function isTextNode(
     node: any,

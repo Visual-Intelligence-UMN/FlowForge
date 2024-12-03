@@ -37,6 +37,8 @@ const StreamOutput = () => {
     setIntermediaryMessages([]);
     setFinalMessage({sender: "", content: ""});
 
+    // get stream results from the graph 
+    // TODO: args should include graphviz graph
     const streamResults = singleAgentWithToolsGraph.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: 5 }

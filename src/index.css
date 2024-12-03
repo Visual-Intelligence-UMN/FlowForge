@@ -176,3 +176,34 @@ body,
   background-color: #cce5ff;
   color: #004085;
 }
+
+.flows-container {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+}
+
+.flow-section {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.doubleflow {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5%;
+}
+.providerflow {
+  flex: 1;
+  height: 100%;
+}
+
+.reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+ 

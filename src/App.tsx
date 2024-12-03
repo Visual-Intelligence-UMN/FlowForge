@@ -66,6 +66,7 @@ const DnDFlow = () => {
     setNodes((nds: any) => nds.concat(newNode));
   }, [type, screenToFlowPosition]);
 
+  // Layout the nodes and edges
   useEffect(() => {
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
       nodes,
@@ -80,35 +81,37 @@ const DnDFlow = () => {
       <Sidebar />
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
         <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDragOver={onDragOver}
-          onDrop={onDrop}
-          fitView
-        >
-          <Background />
-          <MiniMap />
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onDragOver={onDragOver}
+                onDrop={onDrop}
+                fitView
+              >
+              <Background />
+              <MiniMap />
           <Controls />
         </ReactFlow>
       </div>
+
       <StreamOutput />
-      
     </div>
   );
 }
 
+
+
 export default function App() {
   return (
-    // <StreamOutput />
     <ReactFlowProvider>
-      <DnDProvider>
-      <DnDFlow /> 
-      </DnDProvider>
-    </ReactFlowProvider>
+    <DnDProvider>
+      <DnDFlow />
+    </DnDProvider>
+  </ReactFlowProvider>
+   
   );
 }

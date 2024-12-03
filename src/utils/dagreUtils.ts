@@ -9,6 +9,7 @@ const nodeHeight = 36; // Set your node height
 
 // Function to handle Dagre layout
 export const getLayoutedNodesAndEdges = (nodes, edges, direction = 'TB') => {
+    // direction: TB (top to bottom), LR (left to right)
   dagreGraph.setGraph({ 
     rankdir: direction, 
     ranksep: 120,

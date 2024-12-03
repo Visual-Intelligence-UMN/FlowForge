@@ -37,6 +37,9 @@ export default () => {
       <div className="dndnode" onDragStart={(event) => onDragStart(event, 'uppercase')} draggable>
         Uppercase Node
       </div>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'single-agent')} draggable>
+        Single Agent Node
+      </div>
     </aside>
   );
 };

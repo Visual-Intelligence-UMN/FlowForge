@@ -55,6 +55,24 @@ const agent_test_conditional = (input: typeof AgentState.State) => {
     return "DoneWriting";
 }
 
+// const graphStructure = {
+//     nodes: [],
+//     edges: []
+// }
+
+// const create_workflow = (graphStructure)=>{
+//     const workflow = new StateGraph(AgentState);
+//  graphStructure.nodes.forEach(node=>
+//  {workflow.addNode(node.id, node.node)}
+//  )
+
+//  graphStructure.edges.forEach(edge=>{
+//     workflow.addEdge(edge.source, edge.target)
+//  })
+
+//  return workflow;
+// }
+
 const base_workflow = new StateGraph(AgentState)
     .addNode("loader_tool", loader_toolNode)
     .addNode("search_tool", search_toolNode)
