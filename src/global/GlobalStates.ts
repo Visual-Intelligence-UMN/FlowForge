@@ -6,17 +6,17 @@ import { initialTransformedNodes, initialTransformedEdges } from "./TestNodesEdg
 export const graphsAtom = atom([]);
 export const selectedGraphAtom = atom(null);
 export const flowsAtom = atom({
-    "1": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
-    "2": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
+    "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
+    "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
 }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} 
 
 export const flowsNodesAtom = atom({
-    "1": initialNodes,
-    "2": initialTransformedNodes
+    "a": initialNodes,
+    "b": initialTransformedNodes
 }); // {flowId: {nodes: []}}
 
 export const flowsEdgesAtom = atom({
-    "1": initialEdges,
-    "2": initialTransformedEdges
+    "a": initialEdges,
+    "b": initialTransformedEdges
 }); // {flowId: {edges: []}}
 

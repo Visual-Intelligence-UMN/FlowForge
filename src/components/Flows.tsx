@@ -25,8 +25,8 @@ export function FlowComponent(props) {
     const flowId = props.id;
     const [flows, setFlows] = useAtom(flowsAtom);
     
-    const [nodes, setNodes, onNodesChange] = useNodesState(flows[flowId].nodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(flows[flowId].edges);
+    const [nodes, setNodes, onNodesChange] = useNodesState(flows[flowId]?.nodes || []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(flows[flowId]?.edges || []);
     const [type] = useDnD();
     const [rfInstance, setRfInstance] = useState(null);
 
@@ -64,7 +64,7 @@ export function FlowComponent(props) {
             const flow = rfInstance.toObject();
             console.log("target saved flow", flow);
             console.log("flows atom", flows);
-            localStorage.setItem(`flow_${props.id}`, JSON.stringify(flow));
+            // localStorage.setItem(`flow_${props.id}`, JSON.stringify(flow));
             setFlows((prev) => ({...prev, [props.id]: flow}));
         }
     }, [rfInstance]);
@@ -77,6 +77,7 @@ export function FlowComponent(props) {
         );
         setNodes(layoutedNodes);
         setEdges(layoutedEdges);
+        // screenToFlowPosition.fitView();
     }, []);
 
     return (
