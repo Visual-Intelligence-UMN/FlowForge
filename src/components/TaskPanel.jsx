@@ -60,8 +60,8 @@ function TaskPanel() {
     };
 
     return (
-        <div style={{ padding: '20px', border: '1px solid #ccc' }}>
-            <h2>Task Selection Panel</h2>
+        <div style={{ padding: '20px', border: '8px solid #ccc' }}>
+            <h2 style={{ margin: '0px' }}>Task Selection Panel</h2>
             <div style={{ display: 'flex', gap: '20px' }}>
                 <div style={{ flex: 1, borderRight: '1px solid #ccc', paddingRight: '20px' }}>
                     {/* Task Selection */}
@@ -85,18 +85,18 @@ function TaskPanel() {
                     {/* Task Input */}
                     <div style={{ margin: '10px 0' }}>
                         <label htmlFor="task-input">Task Input:</label>
-                        <input
+                        <textarea
                             id="task-input"
                             type="text"
                             value={selectedTask?.description || ''}
                             onChange={handleInputChange}
-                            style={{ marginLeft: '10px', padding: '5px', width: 'calc(100% - 10px)' }}
+                            style={{ marginLeft: '10px', padding: '5px', width: 'calc(100% - 10px)', height: '30px' }}
                             placeholder="Enter task description"
                         />
                     </div>
 
                     {/* Submit Button */}
-                    <button
+                    {/* <button
                         onClick={handleSubmit}
                         style={{
                             marginTop: '10px',
@@ -110,7 +110,7 @@ function TaskPanel() {
                         }}
                     >
                         Submit and Generate Task Flows
-                    </button>
+                    </button> */}
                 </div>
 
                 {/* File Upload and Preview */}

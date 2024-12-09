@@ -39,11 +39,8 @@ const TaskFlows = () => {
     }
 
     return (
-        <div style={{ padding: '20px', border: '1px solid #ccc' }}>
-            <h1>Task Flows</h1>
-            <p>
-                Selected Task: <strong>{selectedTask?.name || "None"}</strong>
-            </p>
+        <div style={{ padding: '1px', border: '1px solid #ccc' }}>
+            <h1 style={{ margin: '0px' }}>Task Flows</h1>
             <button
                 onClick={generateTaskFlowsHandler}
                 disabled={taskFlowsGenerate === 0}
@@ -58,6 +55,9 @@ const TaskFlows = () => {
             >
                 {taskFlowsGenerate === 0 ? "Generating..." : "Generate Task Flows"}
             </button>
+
+                Selected Task: <strong>{selectedTask?.name || "None"}</strong>
+            
             <div style={{ marginTop: '20px' }}>
                 {taskFlowsGenerate === 0 && <p>Loading...</p>}
                 {taskFlowsGenerate === -1 && (
