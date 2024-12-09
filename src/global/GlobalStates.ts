@@ -20,3 +20,17 @@ export const flowsEdgesAtom = atom({
     "b": initialTransformedEdges
 }); // {flowId: {edges: []}}
 
+// Task configuration
+export const selectedTaskAtom = atom({
+    id: "task1", 
+    name: "Generate Presentation Script", 
+    requiresUpload: false, 
+    description: "Generate a presentation script for a given topic.", 
+    uploadedFile: null
+});
+export const taskInputAtom = atom("");
+export const uploadedFileAtom = atom(null);
+
+// Taks flows layer
+export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
+export const taskFlowsAtom = atom([]); // format: 
