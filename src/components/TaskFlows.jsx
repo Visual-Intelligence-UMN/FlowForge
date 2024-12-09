@@ -1,78 +1,71 @@
 import { useAtom } from "jotai";
 import { taskFlowsAtom, taskFlowsGenerateAtom, selectedTaskAtom } from "../global/GlobalStates";
+import { useEffect } from "react";
 
 const TaskFlows = () => {
     const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
     const [taskFlows, setTaskFlows] = useAtom(taskFlowsAtom);
     const [selectedTask] = useAtom(selectedTaskAtom);
 
-    async function generateTaskFlows(selectedTask) {
-        if (!selectedTask || !selectedTask.id) {
-            throw new Error("No valid task selected for flow generation.");
+    const generateTaskFlows = async () => {
+        setTaskFlows([{
+            id: 1,
+            name: "Task Flow 1",
+            description: "This is the first task flow",
+            steps: [
+                {
+                    id: 1,
+                    name: "Step 1",
+                    description: "This is the first step",
+                }
+            ]
+        },
+        {
+            id: 2,
+            name: "Task Flow 2",
+            description: "This is the second task flow",
+            steps: [
+                {
+                    id: 1,
+                    name: "Step 1",
+                    description: "This is the first step",
+                }
+            ]
         }
-        console.log("Generating task flows for", selectedTask);
+    ]);
+        setTaskFlowsGenerate(1);
+    };
 
-        // Example dynamic task flow generation
-        return [
-            { id: 1, name: `Flow for task: ${selectedTask.name}` },
-            { id: 2, name: `Another flow for task: ${selectedTask.name}` },
-        ];
-    }
-
-    async function generateTaskFlowsHandler() {
-        if (!selectedTask) {
-            alert("Please select a task before generating task flows!");
-            return;
+    useEffect(() => {
+        if (taskFlowsGenerate === 0) {
+            console.log("Generating task flows");
+            generateTaskFlows();
         }
+    }, [taskFlowsGenerate]);
 
-        setTaskFlowsGenerate(0); // Set loading state
-        try {
-            const flows = await generateTaskFlows(selectedTask);
-            setTaskFlows(flows);
-        } catch (error) {
-            console.error("Failed to generate task flows:", error);
-            setTaskFlows([]);
-            setTaskFlowsGenerate(-1); // Set error state
-        } finally {
-            setTaskFlowsGenerate(1); // Set completed state
-        }
-    }
+    const NoTaskFlows = () => {
+        return <p>No task flows available. Please generate flows for the selected task.</p>;
+    };
+
+    const TaskFlowsDisplay = () => {
+        return (
+            <ul>
+                {taskFlows.map((flow) => (
+                    <li key={flow.id}>{flow.name}</li>
+                ))}
+            </ul>
+        );
+    };
 
     return (
-        <div style={{ padding: '1px', border: '1px solid #ccc' }}>
-            <h1 style={{ margin: '0px' }}>Task Flows</h1>
-            <button
-                onClick={generateTaskFlowsHandler}
-                disabled={taskFlowsGenerate === 0}
-                style={{
-                    padding: '10px 15px',
-                    backgroundColor: taskFlowsGenerate === 0 ? '#ccc' : '#007bff',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: taskFlowsGenerate === 0 ? 'not-allowed' : 'pointer',
-                }}
-            >
-                {taskFlowsGenerate === 0 ? "Generating..." : "Generate Task Flows"}
-            </button>
+        <div style={{ padding: '10px', border: '8px solid #ccc' }}>
+            <h2 style={{ margin: 0 }}>Task Flows</h2>
 
-                Selected Task: <strong>{selectedTask?.name || "None"}</strong>
-            
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '10px' }}>
+                {taskFlowsGenerate === -1 && <NoTaskFlows />}
                 {taskFlowsGenerate === 0 && <p>Loading...</p>}
-                {taskFlowsGenerate === -1 && (
-                    <p style={{ color: 'red' }}>Error generating task flows. Please try again.</p>
-                )}
-                {taskFlowsGenerate === 1 && taskFlows && taskFlows.length > 0 && (
-                    <ul>
-                        {taskFlows.map((flow) => (
-                            <li key={flow.id}>{flow.name}</li>
-                        ))}
-                    </ul>
-                )}
-                {taskFlowsGenerate === 1 && (!taskFlows || taskFlows.length === 0) && (
-                    <p>No task flows available. Please generate flows for the selected task.</p>
-                )}
+                {taskFlowsGenerate === 1 && taskFlows && taskFlows.length > 0 && <TaskFlowsDisplay />}
+                {taskFlowsGenerate === 1 && (!taskFlows || taskFlows.length === 0) && <NoTaskFlows />}
             </div>
 
             {/* Debug Info */}

@@ -84,7 +84,7 @@ function TaskPanel() {
 
                     {/* Task Input */}
                     <div style={{ margin: '10px 0' }}>
-                        <label htmlFor="task-input">Task Input:</label>
+                        Text Input
                         <textarea
                             id="task-input"
                             type="text"
@@ -96,7 +96,7 @@ function TaskPanel() {
                     </div>
 
                     {/* Submit Button */}
-                    {/* <button
+                    <button
                         onClick={handleSubmit}
                         style={{
                             marginTop: '10px',
@@ -110,7 +110,7 @@ function TaskPanel() {
                         }}
                     >
                         Submit and Generate Task Flows
-                    </button> */}
+                    </button>
                 </div>
 
                 {/* File Upload and Preview */}
