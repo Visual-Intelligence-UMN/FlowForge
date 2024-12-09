@@ -1,11 +1,12 @@
 import { useAtom } from "jotai";
 import { taskFlowsAtom, taskFlowsGenerateAtom, selectedTaskAtom } from "../global/GlobalStates";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const TaskFlows = () => {
     const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
     const [taskFlows, setTaskFlows] = useAtom(taskFlowsAtom);
     const [selectedTask] = useAtom(selectedTaskAtom);
+    const [selectedFlowId, setSelectedFlowId] = useState(null);
 
     const generateTaskFlows = async () => {
         setTaskFlows([{
@@ -49,11 +50,24 @@ const TaskFlows = () => {
 
     const TaskFlowsDisplay = () => {
         return (
-            <ul>
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                 {taskFlows.map((flow) => (
-                    <li key={flow.id}>{flow.name}</li>
+                    <div
+                        key={flow.id}
+                        onClick={() => setSelectedFlowId(flow.id)}
+                        style={{
+                            padding: "10px",
+                            border: selectedFlowId === flow.id ? "2px solid blue" : "1px solid #ccc",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            backgroundColor: selectedFlowId === flow.id ? "#f0f8ff" : "#fff",
+                        }}
+                    >
+                        <h4 style={{ margin: "0 0 5px" }}>{flow.name}</h4>
+                        <p style={{ margin: 0, fontSize: "12px", color: "#666" }}>{flow.description}</p>
+                    </div>
                 ))}
-            </ul>
+            </div>
         );
     };
 
