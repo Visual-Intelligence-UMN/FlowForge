@@ -21,8 +21,8 @@ let nodeId = 0;
 
 export function FlowPanelComponent(props) {
     const {screenToFlowPosition} = useReactFlow();
-    const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+    const [nodes, setNodes, onNodesChange] = useNodesState(props.graph.nodes || []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(props.graph.edges || []);
     const [type] = useDnD();
     const [rfInstance, setRfInstance] = useState(null);
 
@@ -75,7 +75,7 @@ export function FlowPanelComponent(props) {
     }, []);
 
     return (
-            <div className="reactflow-wrapper">
+            <div className="reactflow-wrapper" style={{width: "800px", height: "800px"}}>
                 <ReactFlow
                 id = {props.id}
                 nodes={nodes}
