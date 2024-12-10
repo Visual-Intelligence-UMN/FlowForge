@@ -33,4 +33,40 @@ export const uploadedFileAtom = atom(null);
 
 // Taks flows layer
 export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const taskFlowsAtom = atom([]); // format: 
+export const taskFlowsAtom = atom([
+    {
+        taskId: 1,
+        flowId: 1,
+        name: "Task Flow 1",
+        nodes: ["subtask1", "subtask2"],
+        edges: ["edge1", "edge2"]
+    },
+    {
+        taskId: 1,
+        flowId: 2,
+        name: "Task Flow 2",
+        nodes: ["subtask1", "subtask2"],
+        edges: ["edge1", "edge2"]
+    },
+    {
+        taskId: 1,
+        flowId: 3,
+        name: "Task Flow 3",
+        nodes: ["subtask1", "subtask2"],
+        edges: ["edge1", "edge2"]
+    },
+    {
+        taskId: 1,
+        flowId: 4,
+        name: "Task Flow 4",
+        nodes: ["subtask1", "subtask2"],
+        edges: ["edge1", "edge2"]
+    }
+]); // format: 
+
+
+// Design patterns layer
+export const patternsFlowAtom = atom(null);
+export const patternsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
+export const patternsAtom = atom([]);
+

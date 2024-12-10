@@ -214,3 +214,114 @@ body,
   padding: 10px;
 }
  
+.task-flows-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 8px solid #ccc;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+}
+
+.task-flows-container {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #ccc;
+  padding: 1;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+.task-flows-container::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.task-flows-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.task-flows-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.task-flow-display {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  gap: 1px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  height: 80%;
+  width: calc(40% - 10px);
+}
+
+.task-flow-nodes-links {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid #ccc;
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 20px;
+}
+
+.patterns-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 8px solid #ccc;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+}
+
+.patterns-container {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+.patterns-container::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.patterns-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+
+.pattern-display {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  gap: 1px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  height: 80%;
+  width: calc(20% - 10px);
+}
+
+.pattern-details {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid #ccc;
+  height: 100%;
+  width: 100%;
+  margin: 1px;
+  padding: 20px;
+}
