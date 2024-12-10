@@ -12,6 +12,37 @@ const TaskFlows = () => {
     const generateTaskFlows = async () => {
         // console.log(taskFlows);
         console.log("Generating task flows");
+        const exampleTaskFlows = [
+            {
+                taskId: 1,
+                flowId: 1,
+                name: "Task Flow 1",
+                nodes: ["subtask1", "subtask2"],
+                edges: ["edge1", "edge2"]
+            },
+            {
+                taskId: 1,
+                flowId: 2,
+                name: "Task Flow 2",
+                nodes: ["subtask1", "subtask2"],
+                edges: ["edge1", "edge2"]
+            },
+            {
+                taskId: 1,
+                flowId: 3,
+                name: "Task Flow 3",
+                nodes: ["subtask1", "subtask2"],
+                edges: ["edge1", "edge2"]
+            },
+            {
+                taskId: 1,
+                flowId: 4,
+                name: "Task Flow 4",
+                nodes: ["subtask1", "subtask2"],
+                edges: ["edge1", "edge2"]
+            }
+        ]
+        setTaskFlows(exampleTaskFlows);
         setTaskFlowsGenerate(1);
     };
 

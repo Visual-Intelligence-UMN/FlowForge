@@ -1,11 +1,12 @@
 import { FlowComponent } from "./Flows";
 import { ReactFlowProvider } from '@xyflow/react'
+import { FlowPanelComponent } from "./FlowComponent";
 
 export function FlowWithProvider(props) {
     return (
         <div className="reactflow-provider">
             <ReactFlowProvider>
-                <FlowComponent {...props} />
+                <FlowPanelComponent {...props} />
             </ReactFlowProvider>
         </div>
     );

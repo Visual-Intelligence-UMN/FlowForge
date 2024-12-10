@@ -1,11 +1,14 @@
 import { useAtom } from "jotai";
 import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
+import { selectedConfigAtom, reactflowGenerateAtom } from "../global/GlobalStates";
 const AgentsPanel = () => {
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
     const [selectedAgentConfig, setSelectedAgentConfig] = useState(null);
+    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
+    const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const generateAgents = async (pattern) => {
         console.log("Generating agents for pattern:", pattern);
         setAgentsConfigGenerate(0);
@@ -42,7 +45,6 @@ const AgentsPanel = () => {
                 ]
             }
         ]
-
         setAgentsConfig(previousAgentsConfig => {
             const updatedAgentsConfig = [];
             let replaced = false;
@@ -76,6 +78,12 @@ const AgentsPanel = () => {
         return <p>No agents available. Please generate agents for the selected pattern.</p>;
     };
 
+    const handleSelectConfig = (config) => {
+        setReactflowGenerate(0);
+        setSelectedConfig(config);
+        console.log("Selected config:", config);
+    }
+
     const AgentsDisplay = () => {
         return (
             <div className="agents-config-container">
@@ -100,7 +108,7 @@ const AgentsPanel = () => {
                             </div>
                         ))}
                         </div>
-                        <button onClick={() => setSelectedAgentConfig(null)}>ReactFlow</button>
+                        <button onClick={() => handleSelectConfig(config)}>ReactFlow</button>
                     </div>
                 ))}
             </div>

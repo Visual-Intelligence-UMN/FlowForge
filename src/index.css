@@ -38,6 +38,7 @@ body,
   display: flex;
   flex-grow: 1;
   height: 100%;
+  box-sizing: border-box;
 }
  
 .dndflow aside {
@@ -200,11 +201,13 @@ body,
 
 .reactflow-provider {
   height: 100%;
+  box-sizing: border-box;
 }
 
 .reactflow-wrapper {
   height: 100%;
   flex-grow: 1;
+  box-sizing: border-box;
 }
 
 .recommendation-flows {
@@ -307,6 +310,7 @@ body,
 
 
 .pattern-display {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   flex-shrink: 0;
@@ -321,6 +325,7 @@ body,
 }
 
 .pattern-details {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
