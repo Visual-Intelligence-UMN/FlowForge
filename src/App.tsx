@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -20,6 +20,13 @@ import { useDnD } from './components/DnDContext';
 import { initialNodes, nodeTypes } from './nodes';
 import { initialEdges, edgeTypes } from './edges';
 
+import { transformLangGraphToReactFlow } from './langgraph/graphUtils';
+import { graphVizGraph } from './langgraph/test-graph';
+import StreamOutput from './components/StreamOutput';
+
+import { getLayoutedNodesAndEdges } from './utils/dagreUtils';
+
+
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
@@ -27,8 +34,11 @@ const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
   const {screenToFlowPosition} = useReactFlow();
   const [type] = useDnD()
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const {nodes: initialTransformedNodes, edges: initialTransformedEdges} = transformLangGraphToReactFlow(graphVizGraph);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([...initialTransformedNodes, ...initialNodes]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([...initialTransformedEdges, ...initialEdges]);
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((edges) => addEdge(connection, edges)),
     [setEdges]
@@ -56,38 +66,52 @@ const DnDFlow = () => {
     setNodes((nds: any) => nds.concat(newNode));
   }, [type, screenToFlowPosition]);
 
+  // Layout the nodes and edges
+  useEffect(() => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+      nodes,
+      edges
+    );
+    setNodes(layoutedNodes);
+    setEdges(layoutedEdges);
+  }, []);
+
   return (
     <div className="dndflow">
       <Sidebar />
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
         <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDragOver={onDragOver}
-          onDrop={onDrop}
-          fitView
-        >
-          <Background />
-          <MiniMap />
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onDragOver={onDragOver}
+                onDrop={onDrop}
+                fitView
+              >
+              <Background />
+              <MiniMap />
           <Controls />
         </ReactFlow>
       </div>
-      
+
+      <StreamOutput />
     </div>
   );
 }
 
+
+
 export default function App() {
   return (
     <ReactFlowProvider>
-      <DnDProvider>
+    <DnDProvider>
       <DnDFlow />
-      </DnDProvider>
-    </ReactFlowProvider>
+    </DnDProvider>
+  </ReactFlowProvider>
+   
   );
 }

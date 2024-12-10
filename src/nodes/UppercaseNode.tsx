@@ -35,7 +35,7 @@ function UppercaseNode({id}) {
                 isConnectable={!sourceId}
             />
             <div>
-                &quot;- uppercase transform&quot;
+                 uppercase transform
             </div>
             <Handle type="source" 
                 position={Position.Right}

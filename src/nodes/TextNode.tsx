@@ -15,6 +15,7 @@ function TextNode({id, data}) {
     return (
         <div>
             <div>Node {id}</div>
+            <Handle type="target" position={Position.Left} />
             <div>
                 <input 
                     type="text"
