@@ -9,7 +9,7 @@ import { initialEdges } from "../edges";
 import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "./DnDContext";
 import  Sidebar  from "./Sidebar";
-
+import  StreamOutput  from "./StreamOutput";
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
@@ -46,19 +46,26 @@ const ReactFlowPanel = () => {
             </div>
         )
     }
+    const noFlowDisplay = () => {
+        return (
+            <div className="no-flow-display">
+                <h1>No flow selected</h1>
+            </div>
+        )
+    }
 
     return (
-        <div>
+        <div className="reactflow-panel">
             {reactflowDisplay ? 
             <div className="dndflow">
                 <DnDProvider>
                     <Sidebar />
                     {canvasDisplay()}
                 </DnDProvider>
+                <StreamOutput />
             </div>
          : 
-         null}
-           
+         noFlowDisplay()}   
         </div>
     )
 }

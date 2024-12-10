@@ -407,5 +407,27 @@ body,
   flex-direction: column;
   height: 100%;
   width: 100%;
-  border: 8px solid #baff0b;
+  border: 8px solid #b9e841;
+}
+
+.reactflow-panel {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.post-construction {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  border: 8px solid #32ac69;
+}
+
+.main-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }

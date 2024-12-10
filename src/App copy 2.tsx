@@ -6,7 +6,7 @@ import AgentsPanel from './components/AgentsPanel';
 import ReactFlowPanel from './components/ReactFlowPanel';
 const Construction = () => {
     return (
-        <>
+        <div className="main-container">
             <div className="pre-construction">
                 <TaskPanel/>
             </div>
@@ -15,8 +15,10 @@ const Construction = () => {
                 <PatternsPanel/>
                 <AgentsPanel/>
             </div>
-            <ReactFlowPanel/>
-        </>
+            <div className="post-construction">
+                <ReactFlowPanel/>
+            </div>
+        </div>
     );
 };
 

@@ -20,7 +20,7 @@ import '@xyflow/react/dist/style.css';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {
-    const {screenToFlowPosition, setViewport} = useReactFlow();
+    const {screenToFlowPosition} = useReactFlow();
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
     const [type] = useDnD();
