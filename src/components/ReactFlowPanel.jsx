@@ -10,18 +10,19 @@ import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "./DnDContext";
 import  Sidebar  from "./Sidebar";
 import  StreamOutput  from "./StreamOutput";
+
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [reactflowDisplay, setReactflowDisplay] = useAtom(reactflowDisplayAtom);
-    const generateReactflow = (config) => {
+    const generateReactflow = async (config) => {
         setReactflowGenerate(0);
         // TODO: generate reactflow
-        const exampleReactflow = {
+        const exampleReactflow = [{
             configId: config.agentConfigId,
             key: [config.taskId, config.flowId , config.patternId, config.agentConfigId].join("-"),
             graph: {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
-        }
+        }]
 
         setReactflowDisplay(exampleReactflow);
         console.log("Reactflow display:", reactflowDisplay);
@@ -37,33 +38,36 @@ const ReactFlowPanel = () => {
 
     const canvasDisplay = () => {
         return (
-            <div className="reactflow-wrapper">
-                <FlowWithProvider 
-                    key={reactflowDisplay.key} 
-                    id = {reactflowDisplay.configId} 
-                    graph={reactflowDisplay.graph}
-                />
+            <div className="dndflow">
+                <DnDProvider>
+                    <Sidebar />
+                    {reactflowDisplay.map((flow) => (
+                        <div className="reactflow-wrapper">
+                            <FlowWithProvider 
+                                key={flow.key} 
+                                id = {flow.configId} 
+                                graph={flow.graph}
+                            />
+                        </div>
+                    ))}
+                </DnDProvider>
+                <StreamOutput />
             </div>
         )
     }
     const noFlowDisplay = () => {
         return (
             <div className="no-flow-display">
-                <h1>No flow selected</h1>
+                No workflow generated
             </div>
         )
     }
 
     return (
         <div className="reactflow-panel">
-            {reactflowDisplay ? 
-            <div className="dndflow">
-                <DnDProvider>
-                    <Sidebar />
-                    {canvasDisplay()}
-                </DnDProvider>
-                <StreamOutput />
-            </div>
+            <h2>Complete workflow</h2>
+            {reactflowDisplay.length > 0 ? 
+            canvasDisplay()
          : 
          noFlowDisplay()}   
         </div>
