@@ -13,7 +13,7 @@
     "@langchain/core": "^0.3.3",
     "@langchain/langgraph": "^0.2.8",
     "@langchain/openai": "^0.3.2",
-    "@xyflow/react": "^12.3.4",
+    "@xyflow/react": "^12.3.6",
     "dagre": "^0.8.5",
     "dotenv": "^16.4.5",
     "jotai": "^2.10.3",
