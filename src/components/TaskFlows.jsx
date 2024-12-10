@@ -41,7 +41,6 @@ const TaskFlows = () => {
             <div className="task-flows-container">
                 {taskFlows.map((flow) => (
                     <div
-                        key={flow.flowId}
                         onClick={() => setSelectedFlowId(flow.flowId)}
                         style={{
                             border: selectedFlowId === flow.flowId ? "2px solid blue" : "1px solid #ccc",

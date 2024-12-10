@@ -1,12 +1,14 @@
 import { useAtom } from "jotai";
 import { patternsAtom, patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
 import { useEffect } from "react";
+import { agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
 
 const PatternsPanel = () => {
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    
+    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
     const generatePatterns = async (flow) => {
         console.log("Generating patterns for flow with ID:", flow);
         const examplePatterns = [{
@@ -63,6 +65,8 @@ const PatternsPanel = () => {
     };
 
     const configureAgents = (pattern) => {
+        setAgentsConfigGenerate(0);
+        setAgentsConfigPattern(pattern);
         console.log("Configuring agents for pattern:", pattern);
     };
 

@@ -215,6 +215,7 @@ body,
 }
  
 .task-flows-panel {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -225,6 +226,7 @@ body,
 }
 
 .task-flows-container {
+  box-sizing: border-box;
   display: flex;
   gap: 10px;
   border: 1px solid #ccc;
@@ -247,6 +249,7 @@ body,
 }
 
 .task-flow-display {
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   flex-shrink: 0;
@@ -261,6 +264,7 @@ body,
 }
 
 .task-flow-nodes-links {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -273,6 +277,7 @@ body,
 }
 
 .patterns-panel {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -283,6 +288,7 @@ body,
 }
 
 .patterns-container {
+  box-sizing: border-box;
   display: flex;
   gap: 10px;
   border: 1px solid #ccc;
@@ -324,4 +330,77 @@ body,
   width: 100%;
   margin: 1px;
   padding: 20px;
+}
+
+.agents-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 8px solid #ccc;
+  height: 100%;
+  width: 100%;
+  padding: 8px;
+}
+
+.agents-config-container {
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+
+.agents-config-container::-webkit-scrollbar {
+  height: 8px; 
+}
+
+.agents-config-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.agents-config {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding: 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  gap: 1px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  height: 80%;
+  width: calc(20% - 10px);
+}
+
+.agents-config-details {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid #ccc;
+  height: 100%;
+  width: 100%;
+  margin: 1px;
+  padding: 1px;
+}
+
+.construction {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  border: 8px solid #09f473;
+}
+
+.pre-construction {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  border: 8px solid #baff0b;
 }

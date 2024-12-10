@@ -70,3 +70,10 @@ export const patternsFlowAtom = atom(null);
 export const patternsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const patternsAtom = atom([]);
 
+
+// Agents layer
+export const agentsConfigPatternAtom = atom(null);
+export const agentsConfigGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
+export const agentsConfigAtom = atom([]);
+
+
