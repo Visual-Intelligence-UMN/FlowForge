@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { taskFlowsAtom, taskFlowsGenerateAtom, selectedTaskAtom, patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
-
+import GenerateTaskFlows from "./GenerateTaskFlows";
 const TaskFlows = () => {
     const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
     const [taskFlows, setTaskFlows] = useAtom(taskFlowsAtom);
@@ -9,7 +9,8 @@ const TaskFlows = () => {
     const [selectedFlowId, setSelectedFlowId] = useState(null);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const generateTaskFlows = async () => {
+    const generateTaskFlows = async (selectedTask) => {
+        const taskFlows = await GenerateTaskFlows(selectedTask);
         // console.log(taskFlows);
         console.log("Generating task flows");
         const exampleTaskFlows = [
@@ -48,7 +49,7 @@ const TaskFlows = () => {
 
     useEffect(() => {
         if (taskFlowsGenerate === 0) {
-            generateTaskFlows();
+            generateTaskFlows(selectedTask);
         }
     }, [taskFlowsGenerate]);
 

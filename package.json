@@ -18,11 +18,12 @@
     "dotenv": "^16.4.5",
     "jotai": "^2.10.3",
     "langsmith": "^0.1.55",
+    "openai": "^4.76.1",
     "pdf-parse": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tslab": "^1.0.22",
-    "zod": "^3.23.8",
+    "zod": "^3.24.1",
     "zod-to-json-schema": "^3.23.2"
   },
   "license": "MIT",
