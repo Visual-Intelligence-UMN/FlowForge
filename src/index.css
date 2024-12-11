@@ -269,6 +269,7 @@ body,
   margin: 10px;
   height: 80%;
   width: calc(40% - 10px);
+  word-wrap: break-word;
 }
 
 .task-flow-nodes-links {
@@ -282,6 +283,7 @@ body,
   width: 100%;
   margin: 0px;
   padding: 20px;
+  word-wrap: break-word;
 }
 
 .patterns-panel {

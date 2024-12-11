@@ -2,6 +2,15 @@ import { useAtom } from "jotai";
 import { taskFlowsAtom, taskFlowsGenerateAtom, selectedTaskAtom, patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import GenerateTaskFlows from "./GenerateTaskFlows";
+
+
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
+
 const TaskFlows = () => {
     const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
     const [taskFlows, setTaskFlows] = useAtom(taskFlowsAtom);
@@ -9,41 +18,11 @@ const TaskFlows = () => {
     const [selectedFlowId, setSelectedFlowId] = useState(null);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
+    
     const generateTaskFlows = async (selectedTask) => {
         const taskFlows = await GenerateTaskFlows(selectedTask);
-        // console.log(taskFlows);
-        console.log("Generating task flows");
-        const exampleTaskFlows = [
-            {
-                taskId: 1,
-                flowId: 1,
-                name: "Task Flow 1",
-                nodes: ["subtask1", "subtask2"],
-                edges: ["edge1", "edge2"]
-            },
-            {
-                taskId: 1,
-                flowId: 2,
-                name: "Task Flow 2",
-                nodes: ["subtask1", "subtask2"],
-                edges: ["edge1", "edge2"]
-            },
-            {
-                taskId: 1,
-                flowId: 3,
-                name: "Task Flow 3",
-                nodes: ["subtask1", "subtask2"],
-                edges: ["edge1", "edge2"]
-            },
-            {
-                taskId: 1,
-                flowId: 4,
-                name: "Task Flow 4",
-                nodes: ["subtask1", "subtask2"],
-                edges: ["edge1", "edge2"]
-            }
-        ]
-        setTaskFlows(exampleTaskFlows);
+        const taskFlowsData = taskFlows.taskFlows;
+        setTaskFlows(taskFlowsData);
         setTaskFlowsGenerate(1);
     };
 
@@ -72,31 +51,103 @@ const TaskFlows = () => {
         return (
             <div className="task-flows-container">
                 {taskFlows.map((flow) => (
-                    <div
-                        onClick={() => setSelectedFlowId(flow.flowId)}
-                        style={{
-                            border: selectedFlowId === flow.flowId ? "2px solid blue" : "1px solid #ccc",
-                            backgroundColor: selectedFlowId === flow.flowId ? "#f0f8ff" : "#fff",
-                        }}
-                        className="task-flow-display"
-                    >
-                        <h4 style={{textAlign: "center"}}>{flow.name}</h4>
-                        <div className="task-flow-nodes-links"> 
-                            Nodes
-                            {flow.nodes.map((node) => (
-                                <p style={{ margin: 0, fontSize: "12px", color: "#666" }}>{node}</p>
-                            ))}
-                            Edges
-                            {flow.edges.map((edge) => (
-                                <p style={{ margin: 0, fontSize: "12px", color: "#666" }}>{edge}</p>
-                            ))}
-                        </div>
-
-                        <button onClick={() => generatePatterns(flow)}>Generate</button>
-                        <button onClick={(e) => {e.stopPropagation(); deleteFlow(flow.flowId);}}>
-                            Delete
-                        </button>
-                    </div>
+                    <Card
+                        key={flow.taskFlowId}
+                            onClick={() => setSelectedFlowId(flow.taskFlowId)}
+                            sx={{
+                                border: selectedFlowId === flow.taskFlowId ? "2px solid blue" : "1px solid #ccc",
+                                backgroundColor: selectedFlowId === flow.taskFlowId ? "#f0f8ff" : "#fff",
+                                cursor: "pointer",
+                                ":hover": { boxShadow: 3 },
+                            }}
+                        >
+                            <CardContent>
+                                <Typography
+                                    variant="h5"
+                                    component="div"
+                                    textAlign="center"
+                                    gutterBottom
+                                    sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+                                >
+                                    {flow.taskFlowName}
+                                </Typography>
+                                {/* <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    textAlign="center"
+                                    sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+                                >
+                                    {flow.taskFlowDescription}
+                                </Typography> */}
+                                <Box mt={2}>
+                                    {flow.taskFlowSteps.map((step, index) => (
+                                        <Box
+                                            key={index}
+                                            sx={{
+                                                padding: 0,
+                                                marginBottom: 1,
+                                                // backgroundColor: "#f9f9f9",
+                                                borderRadius: "4px",
+                                                wordWrap: "break-word",
+                                            }}
+                                        >
+                                            <Typography variant="body1" fontWeight="bold">
+                                                {step.stepLabel} 
+                                            </Typography>
+                                            <Typography variant="body1" sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
+                                                {step.stepDescription}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </CardContent>
+                            <CardActions>
+                                <Button
+                                    size="small"
+                                    onClick={() => generatePatterns(flow)}
+                                    sx={{ textTransform: "none" }}
+                                >
+                                    Generate
+                                </Button>
+                                <Button
+                                    size="small"
+                                    color="error"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteFlow(flow.taskFlowId);
+                                    }}
+                                    sx={{ textTransform: "none" }}
+                                >
+                                    Delete
+                                </Button>
+                            </CardActions>
+                        </Card>
+                    
+                    // <div
+                    //     key={flow.flowId}
+                    //     onClick={() => setSelectedFlowId(flow.flowId)}
+                    //     style={{
+                    //         border: selectedFlowId === flow.flowId ? "2px solid blue" : "1px solid #ccc",
+                    //         backgroundColor: selectedFlowId === flow.flowId ? "#f0f8ff" : "#fff",
+                    //     }}
+                    //     className="task-flow-display"
+                    // >
+                    //     <h4 style={{textAlign: "center"}}>{flow.taskFlowName}</h4>
+                    //     <p>{flow.taskFlowDescription}</p>
+                    //     <p>{flow.taskFlowId}</p>
+                    //     <div className="task-flow-nodes-links"> 
+                    //         {flow.taskFlowSteps.map((step, index) => (
+                    //             <div key={index}>
+                    //                 <strong>{step.stepLabel}:</strong>
+                    //                 <p>{step.stepDescription}</p>
+                    //             </div>
+                    //         ))}
+                    //     </div>
+                    //     <button onClick={() => generatePatterns(flow)}>Generate</button>
+                    //     <button onClick={(e) => {e.stopPropagation(); deleteFlow(flow.flowId);}}>
+                    //         Delete
+                    //     </button>
+                    // </div>
                 ))}
             </div>
         );

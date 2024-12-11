@@ -12,29 +12,27 @@ const PatternsPanel = () => {
     const generatePatterns = async (flow) => {
         console.log("Generating patterns for flow with ID:", flow);
         const examplePatterns = [{
-            taskId: flow.taskId,
-            flowId: flow.flowId,
+            taskId: flow.taskFlowId,
+            flowId: flow.taskFlowId + "1",
             patternId: Math.floor(Math.random() * 1000000),
             name: "Pattern 1",
             description: "Pattern 1 description",
-            nodes: flow.nodes,
-            edges: flow.edges
+            taskFlowSteps: flow.taskFlowSteps
         }, 
         {
-            taskId: flow.taskId,
-            flowId: flow.flowId,
+            taskId: flow.taskFlowId,
+            flowId: flow.taskFlowId + "2",
             patternId: Math.floor(Math.random() * 1000000),
             name: "Pattern 2",
             description: "Pattern 2 description",
-            nodes: flow.nodes,
-            edges: flow.edges
+            taskFlowSteps: flow.taskFlowSteps
         }
         ]
         setDesignPatterns(previousPatterns => {
             const updatedPatterns = [];
             let replaced = false;
             for (const pattern of previousPatterns) {
-                if (pattern.taskId === flow.taskId && pattern.flowId === flow.flowId) {
+                if (pattern.taskFlowId === flow.taskFlowId) {
                     if (!replaced) {
                         updatedPatterns.push(...examplePatterns);
                         replaced = true;
@@ -83,9 +81,11 @@ const PatternsPanel = () => {
                             <br/>
                             {pattern.description}
                             <br/>
-                            {pattern.nodes.join(", ")}
+                            {pattern.taskFlowSteps.map((step) => (
+                                <p>{step.stepName}</p>
+                            ))}
                             <br/>
-                            {pattern.edges.join(", ")}
+
                         </div>
                         <button onClick={() => configureAgents(pattern)}>Continue</button>
                     </div>
