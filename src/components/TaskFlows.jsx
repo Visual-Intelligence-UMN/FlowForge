@@ -92,7 +92,7 @@ const TaskFlows = () => {
                                             }}
                                         >
                                             <Typography variant="body1" fontWeight="bold">
-                                                {step.stepLabel} 
+                                                {step.stepName}  ({step.stepLabel})
                                             </Typography>
                                             <Typography variant="body1" sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
                                                 {step.stepDescription}
@@ -122,32 +122,6 @@ const TaskFlows = () => {
                                 </Button>
                             </CardActions>
                         </Card>
-                    
-                    // <div
-                    //     key={flow.flowId}
-                    //     onClick={() => setSelectedFlowId(flow.flowId)}
-                    //     style={{
-                    //         border: selectedFlowId === flow.flowId ? "2px solid blue" : "1px solid #ccc",
-                    //         backgroundColor: selectedFlowId === flow.flowId ? "#f0f8ff" : "#fff",
-                    //     }}
-                    //     className="task-flow-display"
-                    // >
-                    //     <h4 style={{textAlign: "center"}}>{flow.taskFlowName}</h4>
-                    //     <p>{flow.taskFlowDescription}</p>
-                    //     <p>{flow.taskFlowId}</p>
-                    //     <div className="task-flow-nodes-links"> 
-                    //         {flow.taskFlowSteps.map((step, index) => (
-                    //             <div key={index}>
-                    //                 <strong>{step.stepLabel}:</strong>
-                    //                 <p>{step.stepDescription}</p>
-                    //             </div>
-                    //         ))}
-                    //     </div>
-                    //     <button onClick={() => generatePatterns(flow)}>Generate</button>
-                    //     <button onClick={(e) => {e.stopPropagation(); deleteFlow(flow.flowId);}}>
-                    //         Delete
-                    //     </button>
-                    // </div>
                 ))}
             </div>
         );

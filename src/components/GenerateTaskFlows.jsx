@@ -12,15 +12,38 @@ const GenerateTaskFlows = async (task) => {
         dangerouslyAllowBrowser: true,
     });
 
-    const systemMessage =
-        "You are an expert in management, analyzing tasks, workflow generation, task flow generation, and task decomposition. " +
-        "You are tasked with generating task flows for a given task. " +
-        "You are provided with a task description. " +
-        "You need to generate 3 task flows for the given task, use different mindsets and strategies to solve the task" +
-        "For each task flow, they are parallel to each other and solving the same provided task, \
-        each task flow should have a unique id, name, description, and steps list. \
-        For each task flow steps, split the task into distinct steps. \
-        For each step, provide a brief name, a short label and a brief description.";
+    const systemMessage_schema =
+        "You are an expert in analyzing tasks, task decomposition, and task flow generation. " +
+        "You should generate task flows for a given task. You are provided with a task description. \
+        You can think step by step and brainstorm ideas to solve the task in multiple and diverse ways. \
+        You need to generate 3 task flows for the given task, use different mindsets and strategies to solve the task \
+        You dont have to restrict your thinking by the output format, and each taskflow do not have the same number of steps. Though\
+        For the output, each taskflow should have a unique id, name, description, and steps list. \
+        For each taskflow steps, split the task into specific, coherent, distinct steps, the number of steps can range from 4 to 7. \
+        For each step, provide a brief name, a short label and a brief description. do not use number for labelling or name \
+        Each taskflow steps can be overlapping, and they are parallel to each other and solving the same provided task. ";
+
+    const systemMessage_prompt =
+        "You are an expert in analyzing tasks, task decomposition, and task flow generation. " +
+        "You should generate task flows for a given task. You are provided with a task description. \
+        You can think step by step and brainstorm ideas to solve the task in multiple and diverse ways. \
+        You need to generate 3 task flows for the given task, use different mindsets and strategies to solve the task \
+        You dont have to restrict your thinking by the output format, and each taskflow do not have the same number of steps. Though\
+        For the output, each taskflow should have a unique id, name, description, and steps list. \
+        For each taskflow steps, split the task into specific, coherent, distinct steps, the number of steps can range from 4 to 7. \
+        For each step, provide a brief name, a short label and a brief description. \
+        Each taskflow steps can be overlapping, and they are parallel to each other and solving the same provided task. \
+        One example taskflow output should look like: " +
+        " 'taskFlowId: 1,  taskFlowName: 'Task Flow 1', taskFlowDescription: 'Task Flow 1 description', taskFlowSteps: " +
+        "[" +
+        "{ stepName: 'Step 1', stepLabel: 'Step 1 label', stepDescription: 'Step 1 description' }, " +
+        "{ stepName: 'Step 2', stepLabel: 'Step 2 label', stepDescription: 'Step 2 description' }, " +
+        "{ stepName: 'Step 3', stepLabel: 'Step 3 label', stepDescription: 'Step 3 description' } " +
+        "]" +
+        "There should be no more than 3 task flows, and no less than 3 task flows.  \
+        Each taskflow steps can be overlapping, and they are parallel to each other and solving the same provided task. ";
+
+    const systemMessage = systemMessage_schema;
 
     const taskFlowSchema = z.object({
         taskFlows: z.array(
@@ -39,6 +62,7 @@ const GenerateTaskFlows = async (task) => {
         ),
     });
 
+
     try {
         const completion = await openai.beta.chat.completions.parse({
             model: "gpt-4o-mini",
@@ -48,9 +72,17 @@ const GenerateTaskFlows = async (task) => {
             ],
             response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
         });
+        const completion_prompt = await openai.beta.chat.completions.parse({
+            model: "gpt-4o-mini",
+            messages: [
+                { role: "system", content: systemMessage_prompt },
+                { role: "user", content: taskDescription },
+            ],
+        });
 
+        console.log("Task flows response prompt:", completion_prompt.choices[0].message.content);
         const res = completion.choices[0].message.parsed;
-        console.log("Task flows response:", res);
+        console.log("Task flows response formatted:", res);
         return res;
     } catch (error) {
         console.error("Error generating task flows:", error);
