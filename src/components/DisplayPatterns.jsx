@@ -7,7 +7,6 @@ const DisplayPatterns = ({ designPatterns }) => {
   
     useEffect(() => {
       const steps = designPatterns.taskFlowSteps;
-      console.log(steps);
   
       // Prepare Nodes and Links
       const nodes = steps.map((step, index) => ({

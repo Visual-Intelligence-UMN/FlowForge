@@ -106,12 +106,11 @@ const GenerateTaskFlows = async (task) => {
                         "stepName": "Draft Slide Content",
                         "stepLabel": "Slide Outline",
                             "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
-                        "pattern": [
+                        "pattern": 
                             {
                                 "name": "single agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
-                        ]
                     },
                     {
                         "stepName": "Write Supporting Details",

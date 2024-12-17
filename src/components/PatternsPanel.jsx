@@ -35,7 +35,6 @@ const PatternsPanel = () => {
         }
         ]
 
-
         setDesignPatterns(previousPatterns => {
             const updatedPatterns = [];
             let replaced = false;
