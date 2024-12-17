@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, taskFlowsGenerateAtom } from '../global/GlobalStates';
+import {
+    Box,
+    Button,
+    Tabs,
+    Tab,
+    TextField,
+    Typography,
+    Input,
+} from '@mui/material';
+import Grid from '@mui/material/Grid2';
 
 function TaskPanel() {
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
     const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
     const [filePreview, setFilePreview] = useState(null);
+    const [tabIndex, setTabIndex] = useState(0);
 
     const taskList = [
         { id: 'task1', name: 'Generate Presentation Script', requiresUpload: false, description: 'Generate a presentation script for a given topic.', uploadedFile: null },
@@ -13,7 +24,9 @@ function TaskPanel() {
         { id: 'task3', name: 'Travel Planning', requiresUpload: false, description: 'Plan a travel itinerary for a given destination.', uploadedFile: null },
     ];
 
-    const handleTabClick = (task) => {
+    const handleTabClick = (event, newIndex) => {
+        setTabIndex(newIndex);
+        const task = taskList[newIndex];
         setSelectedTask({ ...task, uploadedFile: null });
         setFilePreview(null);
     };
@@ -50,106 +63,99 @@ function TaskPanel() {
     };
 
     return (
-        <div style={{ padding: '15px', borderRadius: '8px', fontSize: '14px', width: '70%', display: 'flex', gap: '15px' }}>
-            {/* Left Column */}
-            <div style={{ flex: 1 }}>
-                <h3 style={{ marginBottom: '10px', marginTop: '0px' }}>Task Panel</h3>
-                {/* Tabs */}
-                <div style={{ display: 'flex', gap: '5px', marginBottom: '10px' }}>
-                    {taskList.map((task) => (
-                        <button
-                            key={task.id}
-                            onClick={() => handleTabClick(task)}
-                            style={{
-                                flex: 1,
-                                padding: '5px',
+        <Box sx={{ width: '100%', maxWidth: 1000, padding: 1 }}>
+            <Grid container spacing={2} alignItems="flex-start">
+                {/* Left Column */}
+                <Grid item xs={8}>
+                    <Tabs
+                        value={tabIndex}
+                        onChange={handleTabClick}
+                        variant="fullWidth"
+                        sx={{ minHeight: '30px' }}
+                    >
+                        {taskList.map((task) => (
+                            <Tab
+                                key={task.id}
+                                label={task.name}
+                                sx={{
+                                    fontSize: '15px',
+                                    minHeight: '30px',
+                                    textTransform: 'none',
+                                }}
+                            />
+                        ))}
+                    </Tabs>
+
+                    {selectedTask && (
+                        <TextField
+                            value={selectedTask.description}
+                            onChange={handleInputChange}
+                            placeholder="Enter task description"
+                            multiline
+                            minRows={1}
+                            fullWidth
+                            sx={{ mt: 2, '& .MuiInputBase-root': { fontSize: '16px' } }}
+                        />
+                    )}
+
+                    <Button
+                        onClick={handleSubmit}
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            fontSize: '12px',
+                            mt: 2,
+                            padding: '4px 8px',
+                        }}
+                    >
+                        Submit Task
+                    </Button>
+                </Grid>
+
+                {/* Right Column */}
+                <Grid item xs={6}>
+                    {selectedTask?.requiresUpload && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 1,
                                 border: '1px solid #ccc',
-                                backgroundColor: selectedTask?.id === task.id ? '#007bff' : '#f9f9f9',
-                                color: selectedTask?.id === task.id ? '#fff' : '#000',
-                                cursor: 'pointer',
-                                fontSize: '12px',
                                 borderRadius: '4px',
+                                padding: 2,
                             }}
                         >
-                            {task.name}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Task Input */}
-                {selectedTask && (
-                    <textarea
-                        value={selectedTask.description}
-                        onChange={handleInputChange}
-                        placeholder="Enter task description"
-                        style={{
-                            width: '100%',
-                            height: '30px',
-                            marginBottom: '10px',
-                            padding: '5px',
-                            fontSize: '12px',
-                            border: '1px solid #ccc',
-                            borderRadius: '4px',
-                        }}
-                    />
-                )}
-
-                {/* Submit Button */}
-                <button
-                    onClick={handleSubmit}
-                    style={{
-                        padding: '8px',
-                        backgroundColor: '#28a745',
-                        color: '#fff',
-                        border: 'none',
-                        cursor: 'pointer',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        width: '30%',
-                    }}
-                >
-                    Submit Task
-                </button>
-            </div>
-            
-
-            {/* Right Column */}
-            <div style={{ flex: 1 }}>
-                {selectedTask?.requiresUpload && (
-                    <>
-                        <h4>Upload File</h4>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                            <input
-                                type="file"
-                                onChange={handleFileChange}
-                                style={{ fontSize: '12px' }}
-                            />
-                            {filePreview && (
-                                <>
-                                    <span style={{ fontSize: '12px' }}>{selectedTask.uploadedFile.name}</span>
-                                    <button
-                                        onClick={handleFileDelete}
-                                        style={{
-                                            padding: '3px 6px',
-                                            fontSize: '12px',
-                                            backgroundColor: '#d9534f',
-                                            color: '#fff',
-                                            border: 'none',
-                                            cursor: 'pointer',
-                                            borderRadius: '4px',
-                                        }}
-                                    >
-                                        X
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                
-            </div>
-        </div>
+                            <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>
+                                Upload File
+                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Input
+                                    type="file"
+                                    onChange={handleFileChange}
+                                    sx={{ fontSize: '12px' }}
+                                />
+                                {filePreview && (
+                                    <>
+                                        <Typography sx={{ fontSize: '12px' }}>
+                                            {selectedTask.uploadedFile.name}
+                                        </Typography>
+                                        <Button
+                                            onClick={handleFileDelete}
+                                            size="small"
+                                            variant="contained"
+                                            color="error"
+                                            sx={{ fontSize: '10px', padding: '2px 6px' }}
+                                        >
+                                            X
+                                        </Button>
+                                    </>
+                                )}
+                            </Box>
+                        </Box>
+                    )}
+                </Grid>
+            </Grid>
+        </Box>
     );
 }
 
