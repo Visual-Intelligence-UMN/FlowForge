@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { useEffect } from "react";
 
 const GenerateTaskFlows = async (task) => {
     const taskDescription = task.description;
@@ -62,8 +61,151 @@ const GenerateTaskFlows = async (task) => {
         ),
     });
 
+    // TODO: remove this after testing the patterns generation
+    const sampleTaskFlowData = {
+        "taskFlows": [
+            {
+                "taskFlowId": "tf1",
+                "taskFlowName": "Analytical Outline Approach",
+                "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "taskFlowSteps": [
+                    {
+                        "stepName": "Read the Abstract",
+                        "stepLabel": "Abstract Review",
+                        "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
+                        "designPatterns": 
+                            {
+                                "name": "single agent",
+                                "description": "This design pattern has a single agent to perform the task."
+                            }
+                    },
+                    {
+                        "stepName": "Scan the Paper Structure",
+                        "stepLabel": "Structure Overview",
+                        "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
+                        "designPatterns": 
+                            {
+                                "name": "multiple agents",
+                                "description": "This design pattern has multiple agents to perform the task."
+                            }
+                    },
+                    {
+                        "stepName": "Identify Core Ideas",
+                        "stepLabel": "Key Concepts",
+                        "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
+                        "designPatterns": 
+                            {
+                                "name": "discussion",
+                                "description": "This design pattern has a discussion to perform the task."
+                            }
+                    },
+                    {
+                        "stepName": "Draft Slide Content",
+                        "stepLabel": "Slide Outline",
+                            "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
+                        "designPatterns": 
+                            {
+                                "name": "single agent",
+                                "description": "This design pattern has a single agent to perform the task."
+                            }
+                    },
+                    {
+                        "stepName": "Write Supporting Details",
+                        "stepLabel": "Details Integration",
+                        "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
+                        "designPatterns": 
+                            {
+                                "name": "reflection",
+                                "description": "This design pattern has a reflection to perform the task."
+                            }
+                    },
+                    {
+                        "stepName": "Polish the Script",
+                        "stepLabel": "Script Refinement",
+                        "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
+                        "designPatterns": 
+                            {
+                                "name": "supervision",
+                                "description": "This design pattern has a supervision to perform the task."
+                            }
+                    }
+                ]
+            },
+            {
+                "taskFlowId": "tf2",
+                "taskFlowName": "Visual Storytelling Strategy",
+                "taskFlowDescription": "This approach emphasizes turning the academic paper into a compelling narrative for a presentation.",
+                "taskFlowSteps": [
+                    {
+                        "stepName": "Extract Key Themes",
+                        "stepLabel": "Theme Identification",
+                        "stepDescription": "Analyze the PDF to identify overarching themes or narrative arcs that connect the content."
+                    },
+                    {
+                        "stepName": "Map the Narrative",
+                        "stepLabel": "Narrative Outline",
+                        "stepDescription": "Create a story-like flow from introduction to conclusion, highlighting discoveries and their impact."
+                    },
+                    {
+                        "stepName": "Design Visual Elements",
+                        "stepLabel": "Visual Planning",
+                        "stepDescription": "Plan visuals such as graphs, images, or diagrams to complement the narrative and enhance understanding."
+                    },
+                    {
+                        "stepName": "Draft the Script",
+                        "stepLabel": "Script Composition",
+                        "stepDescription": "Write the script as a conversational and engaging narrative aligned with the visuals."
+                    },
+                    {
+                        "stepName": "Add Hooks and Transitions",
+                        "stepLabel": "Engagement Techniques",
+                        "stepDescription": "Incorporate questions, quotes, or anecdotes to maintain audience interest and smooth transitions."
+                    }
+                ]
+            },
+            {
+                "taskFlowId": "tf3",
+                "taskFlowName": "Data-Driven Synthesis Method",
+                "taskFlowDescription": "This flow centers on extracting data and evidence from the academic paper to form the foundation of the presentation.",
+                "taskFlowSteps": [
+                    {
+                        "stepName": "Isolate Critical Data",
+                        "stepLabel": "Data Extraction",
+                        "stepDescription": "Identify and extract all critical figures, tables, and data points from the PDF."
+                    },
+                    {
+                        "stepName": "Analyze Methods and Results",
+                        "stepLabel": "Results Analysis",
+                        "stepDescription": "Break down the methodology and key results to identify their implications and relevance."
+                    },
+                    {
+                        "stepName": "Organize Findings",
+                        "stepLabel": "Findings Categorization",
+                        "stepDescription": "Group the extracted data into meaningful categories or insights that align with the presentation's objectives."
+                    },
+                    {
+                        "stepName": "Develop Slide Script",
+                        "stepLabel": "Script Writing",
+                        "stepDescription": "Write the script focused on the data, providing clear explanations and linking the evidence to the paper's goals."
+                    },
+                    {
+                        "stepName": "Validate for Accuracy",
+                        "stepLabel": "Accuracy Check",
+                        "stepDescription": "Ensure all data points and findings in the script are consistent with the paper and are correctly interpreted."
+                    },
+                    {
+                        "stepName": "Refine for Clarity",
+                        "stepLabel": "Clarity Enhancement",
+                        "stepDescription": "Edit the script for technical clarity, ensuring it is understandable and impactful for the target audience."
+                    }
+                ]
+            }
+        ]
+    }
 
     try {
+        // TODO: remove this after testing the patterns generation
+        return sampleTaskFlowData;
         const completion = await openai.beta.chat.completions.parse({
             model: "gpt-4o-mini",
             messages: [
