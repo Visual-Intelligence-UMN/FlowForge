@@ -7,6 +7,7 @@ import randomCombinePatterns from "./CombinePatterns";
 import React from "react";
 import { Box, Card, CardContent, Typography, Button, Divider } from "@mui/material";
 import Grid from '@mui/material/Grid2';
+import DisplayPatterns from "./DisplayPatterns";
 
 const PatternsPanel = () => {
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
@@ -15,23 +16,26 @@ const PatternsPanel = () => {
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
     const generatePatterns = async (flow) => {
-        const patternsFlow = await GeneratePatterns(flow);
-        const examplePatterns = randomCombinePatterns(patternsFlow, 2);
+        // const patternsFlow = await GeneratePatterns(flow);
+        // const examplePatterns = randomCombinePatterns(patternsFlow, 2);
 
-        // const examplePatterns = [{
-        //     taskId: flow.taskFlowId,
-        //     flowId: flow.taskFlowId + "1",
-        //     patternId: Math.floor(Math.random() * 1000000),
-        //     taskFlowSteps: flow.taskFlowSteps
-        // }, 
-        // {
-        //     taskId: flow.taskFlowId,
-        //     flowId: flow.taskFlowId + "2",
-        //     patternId: Math.floor(Math.random() * 1000000),
-        //     taskFlowSteps: flow.taskFlowSteps
-        // }
-        // ]
-        
+        const examplePatterns = [{
+            taskId: flow.taskFlowId,
+            taskFlowId: flow.taskFlowId + "1",
+            taskFlowName: flow.taskFlowName,
+            patternId: Math.floor(Math.random() * 1000000),
+            taskFlowSteps: flow.taskFlowSteps
+        }, 
+        {
+            taskId: flow.taskFlowId,
+            taskFlowId: flow.taskFlowId + "2",
+            taskFlowName: flow.taskFlowName,
+            patternId: Math.floor(Math.random() * 1000000),
+            taskFlowSteps: flow.taskFlowSteps
+        }
+        ]
+
+
         setDesignPatterns(previousPatterns => {
             const updatedPatterns = [];
             let replaced = false;
@@ -130,11 +134,27 @@ const PatternsPanel = () => {
           </Box>
         );
       };
-
+    
+    const Display = () => {
+        return (
+           <Box sx={{ p:1, backgroundColor: "#f5f5f5" }}>   
+            <Grid container spacing={1}>
+                {designPatterns.map((pattern) => (
+                    <Grid item xs={12} key={pattern.patternsId}>
+                        <DisplayPatterns designPatterns={pattern}/>
+                    </Grid>
+                ))}
+        
+            </Grid>
+            </Box>
+        );
+    };
+    
     return (
         <div className="patterns-panel">
             <h2>Patterns</h2>
             {designPatterns.length > 0 ? <PatternsDisplay/> : <NoPatterns/>}
+            {designPatterns.length > 0 ? <Display/> : <NoPatterns/>}
         </div>
     );
 };

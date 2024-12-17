@@ -73,61 +73,67 @@ const GenerateTaskFlows = async (task) => {
                         "stepName": "Read the Abstract",
                         "stepLabel": "Abstract Review",
                         "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
-                        "designPatterns": 
+                        "pattern": 
                             {
                                 "name": "single agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
+                        
                     },
                     {
                         "stepName": "Scan the Paper Structure",
                         "stepLabel": "Structure Overview",
                         "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
-                        "designPatterns": 
+                        "pattern": 
                             {
                                 "name": "multiple agents",
                                 "description": "This design pattern has multiple agents to perform the task."
                             }
+                        
                     },
                     {
                         "stepName": "Identify Core Ideas",
                         "stepLabel": "Key Concepts",
                         "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
-                        "designPatterns": 
+                        "pattern": 
                             {
                                 "name": "discussion",
                                 "description": "This design pattern has a discussion to perform the task."
                             }
+                        
                     },
                     {
                         "stepName": "Draft Slide Content",
                         "stepLabel": "Slide Outline",
                             "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
-                        "designPatterns": 
+                        "pattern": [
                             {
                                 "name": "single agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
+                        ]
                     },
                     {
                         "stepName": "Write Supporting Details",
                         "stepLabel": "Details Integration",
                         "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
-                        "designPatterns": 
+                        "pattern": 
                             {
                                 "name": "reflection",
                                 "description": "This design pattern has a reflection to perform the task."
                             }
+                        
                     },
                     {
                         "stepName": "Polish the Script",
                         "stepLabel": "Script Refinement",
                         "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
-                        "designPatterns": 
+                        "pattern": 
                             {
                                 "name": "supervision",
                                 "description": "This design pattern has a supervision to perform the task."
                             }
+                        
                     }
                 ]
             },

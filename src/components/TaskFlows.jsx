@@ -42,7 +42,7 @@ const TaskFlows = () => {
     };
 
     const generatePatterns = (flow) => {
-        console.log("Generating patterns for flow with ID:", flow.flowId);
+        console.log("Generating patterns for flow with ID:", flow.taskFlowId);
         setPatternsGenerate(0);
         setPatternsFlow(flow);
     };
