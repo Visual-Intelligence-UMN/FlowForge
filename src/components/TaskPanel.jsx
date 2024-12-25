@@ -63,7 +63,7 @@ function TaskPanel() {
     };
 
     return (
-        <Box sx={{ width: '100%', maxWidth: 1000, padding: 1 }}>
+        <Box sx={{ width: '100%', maxWidth: 1000, padding: 2 }}>
             <Grid container spacing={2} alignItems="flex-start">
                 {/* Left Column */}
                 <Grid item xs={8}>
@@ -71,7 +71,7 @@ function TaskPanel() {
                         value={tabIndex}
                         onChange={handleTabClick}
                         variant="fullWidth"
-                        sx={{ minHeight: '30px' }}
+                        sx={{ minHeight: '20px' }}
                     >
                         {taskList.map((task) => (
                             <Tab
@@ -104,8 +104,8 @@ function TaskPanel() {
                         color="primary"
                         sx={{
                             fontSize: '12px',
-                            mt: 2,
-                            padding: '4px 8px',
+                            mt: 3,
+                            padding: '5px 10px',
                         }}
                     >
                         Submit Task
@@ -122,7 +122,7 @@ function TaskPanel() {
                                 gap: 1,
                                 border: '1px solid #ccc',
                                 borderRadius: '4px',
-                                padding: 2,
+                                padding: 4,
                             }}
                         >
                             <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>

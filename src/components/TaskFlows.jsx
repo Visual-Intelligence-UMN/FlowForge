@@ -129,7 +129,7 @@ const TaskFlows = () => {
     };
 
     return (
-        <div className="task-flows-panel" style={{ padding: '10px', border: '8px solid #ccc' }}>
+        <div className="task-flows-panel">
             <h2 style={{ margin: 0 }}>Task Flows</h2>
 
                 {taskFlowsGenerate === -1 && <NoTaskFlows />}
