@@ -82,7 +82,13 @@ const base_workflow = new StateGraph(AgentState)
     .addEdge("search_tool", "agent_test")
     .addEdge(START, "agent_test")
 
+    
 export const singleAgentWithToolsGraph = base_workflow.compile();
 export const singleAgentWithToolsWorkflow = base_workflow;
 
-
+(async () => {
+    console.log("After compilation: ");
+    console.log(singleAgentWithToolsGraph);
+    console.log("Before compilation: ");
+    console.log(singleAgentWithToolsWorkflow);
+})();

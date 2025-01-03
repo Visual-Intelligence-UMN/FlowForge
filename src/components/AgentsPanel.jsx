@@ -1,7 +1,12 @@
 import { useAtom } from "jotai";
-import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import { selectedConfigAtom, reactflowGenerateAtom } from "../global/GlobalStates";
+import GenerateRunnableConfig from "./GenerateConfig";
+import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
+import { Box, Card, CardContent, Typography, Button, Divider } from "@mui/material";
+import Grid from '@mui/material/Grid2';
+import Paper from '@mui/material/Paper';
+
 const AgentsPanel = () => {
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
@@ -9,58 +14,30 @@ const AgentsPanel = () => {
     const [selectedAgentConfig, setSelectedAgentConfig] = useState(null);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
+
     const generateAgents = async (pattern) => {
-        console.log("Generating agents for pattern:", pattern);
-        setAgentsConfigGenerate(0);
-        const exampleAgentsConfig = [
-            {
-                taskId: pattern.taskId,
-                flowId: pattern.flowId,
-                patternId: pattern.patternId,
-                agentConfigId: 1,
-                description: "Agents Configuration",
-                agents: [
-                    {
-                        agentId: 1,
-                        name: "Agent 1",
-                        description: "Agent 1 description",
-                        tools: ["tool1", "tool2"],
-                        systemPrompt: "System prompt for agent 1"
-                    },
-                    {
-                        agentId: 2,
-                        name: "Agent 2",
-                        description: "Agent 2 description",
-                        tools: ["tool1", "tool2"],
-                        systemPrompt: "System prompt for agent 2"
-                    }
-                ],
-                agentsConnect: [
-                    {
-                        source: 1,
-                        target: 2,
-                        agentConnectType: "agentConnectType1",
-                        agentConnectDescription: "Agent connect description"
-                    }
-                ]
-            }
-        ]
+        const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
+        console.log("Generated agents config:", generatedAgentsConfig);
+
         setAgentsConfig(previousAgentsConfig => {
             const updatedAgentsConfig = [];
             let replaced = false;
-            for (const agent of previousAgentsConfig) {
-                if (agent.taskId === pattern.taskId && agent.flowId === pattern.flowId && agent.patternId === pattern.patternId) {
+            for (const config of previousAgentsConfig) {
+                // TODO: make sure to display the correct agents config corresponding to the pattern
+                if (config.patternId === pattern.patternId) {
                     if (!replaced) {
-                        updatedAgentsConfig.push(...exampleAgentsConfig);
+                        updatedAgentsConfig.push(...generatedAgentsConfig);
                         replaced = true;
                     }
                 } else {
-                    updatedAgentsConfig.push(agent);
+                    updatedAgentsConfig.push(config);
                 }
             }
+
             if (!replaced) {
-                updatedAgentsConfig.push(...exampleAgentsConfig);
+                updatedAgentsConfig.push(...generatedAgentsConfig);
             }
+            console.log("Updated agents config:", updatedAgentsConfig);
             return updatedAgentsConfig;
         });
 
@@ -74,52 +51,86 @@ const AgentsPanel = () => {
         }
     }, [agentsConfigGenerate]);
 
-    const NoAgents = () => {
-        return <p>No agents available. Please generate agents for the selected pattern.</p>;
-    };
+    const NoAgents = () => (
+        <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mt: 2 }}>
+            No agents available. Please generate agents for the selected pattern.
+        </Typography>
+    );
 
     const handleSelectConfig = (config) => {
         setReactflowGenerate(0);
         setSelectedConfig(config);
         console.log("Selected config:", config);
-    }
-
-    const AgentsDisplay = () => {
-        return (
-            <div className="agents-config-container">
-                {agentsConfig.map((config) => (
-                    <div className="agents-config"
-                        onClick={() => setSelectedAgentConfig(config)}
-                        style={{
-                            border: selectedAgentConfig === config ? "2px solid blue" : "1px solid #ccc",
-                            backgroundColor: selectedAgentConfig === config ? "#f0f8ff" : "#fff",
-                        }}
-                    >
-                        <div className="agents-config-details">
-                            {config.description}
-                            {config.agents.map((agent, idx) => (
-                            <div key={agent.agentId}>
-                                <br/>
-                                {agent.name}
-                                <br/>
-                                {agent.description}
-                                <br/>
-                                {agent.systemPrompt}
-                            </div>
-                        ))}
-                        </div>
-                        <button onClick={() => handleSelectConfig(config)}>ReactFlow</button>
-                    </div>
-                ))}
-            </div>
-        );
     };
 
+    const AgentsDisplay = () => (
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+            {agentsConfig.map((config) => (
+                <Grid item xs={12} sm={6} md={4} key={config.id}>
+                    <Card 
+                        onClick={() => setSelectedAgentConfig(config)}
+                        sx={{
+                            border: selectedAgentConfig === config ? "2px solid blue" : "1px solid #ccc",
+                            backgroundColor: selectedAgentConfig === config ? "#f0f8ff" : "#fff",
+                            cursor: "pointer",
+                            transition: "0.3s",
+                            "&:hover": { boxShadow: 6 }
+                        }}
+                    >
+                        <CardContent>
+
+                            {config.taskFlowSteps.map((step, idx) => (
+                                <Paper 
+                                    key={step.stepId} 
+                                    elevation={2} 
+                                    sx={{ padding: 1, marginTop: 1, borderLeft: "4px solid #3f51b5" }}
+                                >
+                                    <Typography variant="subtitle1">{step.stepName}</Typography>
+                                    <Typography variant="caption" color="text.secondary">
+                                        Nodes: {step.config.nodes.length}
+                                    </Typography>
+                                    {step.config.nodes.map((node, idx) => (
+                                        <Typography variant="caption" color="text.secondary">
+                                            {node.name}
+                                        </Typography>
+                                    ))}
+                                    <Typography variant="caption" color="text.secondary">
+                                        Edges: {step.config.edges.length}
+                                    </Typography>
+                                    {step.config.edges.map((edge, idx) => (
+                                        <Typography variant="caption" color="text.secondary">
+                                            {edge.source} -> {edge.target}
+                                        </Typography>
+                                    ))}
+                                </Paper>
+                            ))}
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent parent click event
+                                    handleSelectConfig(config);
+                                }}
+                                sx={{ mt: 2 }}
+                            >
+                                CONTINUE
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            ))}
+        </Grid>
+    );
+
     return (
-        <div className="agents-panel">
-            <h2>Agents</h2>
-            {agentsConfig.length > 0 ? <AgentsDisplay/> : <NoAgents/>}
-        </div>
+        <Box sx={{ padding: 3 }}>
+            <Typography variant="h4" fontWeight="bold" gutterBottom>
+                Agents
+            </Typography>
+            {agentsConfig.length > 0 ? <AgentsDisplay /> : <NoAgents />}
+        </Box>
     );
 };
 

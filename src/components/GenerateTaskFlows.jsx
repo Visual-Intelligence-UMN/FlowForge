@@ -75,7 +75,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
                         "pattern": 
                             {
-                                "name": "single agent",
+                                "name": "Single Agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
                         
@@ -86,7 +86,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
                         "pattern": 
                             {
-                                "name": "multiple agents",
+                                "name": "Single Agent",
                                 "description": "This design pattern has multiple agents to perform the task."
                             }
                         
@@ -97,7 +97,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
                         "pattern": 
                             {
-                                "name": "discussion",
+                                "name": "Discussion",
                                 "description": "This design pattern has a discussion to perform the task."
                             }
                         
@@ -108,7 +108,7 @@ const GenerateTaskFlows = async (task) => {
                             "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
                         "pattern": 
                             {
-                                "name": "single agent",
+                                "name": "Single Agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
                     },
@@ -118,7 +118,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
                         "pattern": 
                             {
-                                "name": "reflection",
+                                "name": "Reflection",
                                 "description": "This design pattern has a reflection to perform the task."
                             }
                         
@@ -129,7 +129,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
                         "pattern": 
                             {
-                                "name": "supervision",
+                                "name": "Supervision",
                                 "description": "This design pattern has a supervision to perform the task."
                             }
                         

@@ -19,6 +19,7 @@ const PatternsPanel = () => {
         // const patternsFlow = await GeneratePatterns(flow);
         // const examplePatterns = randomCombinePatterns(patternsFlow, 2);
 
+        // TODO: remove this after testing the patterns generation
         const examplePatterns = [{
             taskId: flow.taskFlowId,
             taskFlowId: flow.taskFlowId + "1",
