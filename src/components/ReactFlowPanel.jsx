@@ -1,33 +1,41 @@
 import { useAtom } from "jotai";
-import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom } from "../global/GlobalStates";
+import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom } from "../global/GlobalStates";
 import {FlowWithProvider} from "./FlowWithProvider";
 import { useEffect } from "react";
 
-import { initialNodes } from "../nodes";
-import { initialEdges } from "../edges";
 
 import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "./DnDContext";
 import  Sidebar  from "./Sidebar";
 import  StreamOutput  from "./StreamOutput";
 
+import CompileReactflow from "./CompileReactflow";
+import CompileLanggraph from "./CompileLanggraph";
+
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [reactflowDisplay, setReactflowDisplay] = useAtom(reactflowDisplayAtom);
+    const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
+    const [langgraphRun, setLanggraphRun] = useAtom(langgraphRunAtom);
+
     const generateReactflow = async (config) => {
         setReactflowGenerate(0);
         // TODO: generate reactflow
-        const exampleReactflow = [{
-            configId: config.agentConfigId,
-            key: [config.taskId, config.flowId , config.patternId, config.agentConfigId].join("-"),
-            graph: {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
-        }]
-
+        const exampleReactflow = await CompileReactflow(config);
         setReactflowDisplay(exampleReactflow);
-        console.log("Reactflow display:", reactflowDisplay);
         setReactflowGenerate(-1);
-        setSelectedConfig(null);
+        if (reactflowGenerate === -1 && langgraphGenerate === -1) setSelectedConfig(null);
+    }
+
+    const generateLanggraph = async (config) => {
+        setLanggraphGenerate(0);
+        // TODO: generate runnable langgraph
+        const runnableGraph = await CompileLanggraph(config); 
+
+        setLanggraphRun(runnableGraph);
+        setLanggraphGenerate(-1);
+        if (reactflowGenerate === -1 && langgraphGenerate === -1) setSelectedConfig(null);
     }
 
     useEffect(() => {
@@ -35,6 +43,12 @@ const ReactFlowPanel = () => {
             generateReactflow(selectedConfig);
         }
     }, [reactflowGenerate]);
+
+    useEffect(() => {
+        if (langgraphGenerate === 0) {
+            generateLanggraph(selectedConfig);
+        }
+    }, [langgraphGenerate]);
 
     const canvasDisplay = () => {
         return (
@@ -51,7 +65,8 @@ const ReactFlowPanel = () => {
                         </div>
                     ))}
                 </DnDProvider>
-                <StreamOutput />
+                {/* TODO: streamout should have args: langgraph runnable graph */}
+                <StreamOutput langgraphRun={langgraphRun}/>
             </div>
         )
     }

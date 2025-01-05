@@ -50,4 +50,6 @@ export const agentsConfigAtom = atom([]);
 // reactflow layer 
 export const reactflowGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const selectedConfigAtom = atom(null);
+export const langgraphGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
+export const langgraphRunAtom = atom([]);
 export const reactflowDisplayAtom = atom([]);

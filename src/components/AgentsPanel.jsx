@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { selectedConfigAtom, reactflowGenerateAtom } from "../global/GlobalStates";
+import { selectedConfigAtom, reactflowGenerateAtom, langgraphGenerateAtom } from "../global/GlobalStates";
 import GenerateRunnableConfig from "./GenerateConfig";
 import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
 import { Box, Card, CardContent, Typography, Button, Paper } from "@mui/material";
@@ -13,7 +13,7 @@ const AgentsPanel = () => {
     const [selectedAgentConfig, setSelectedAgentConfig] = useState(null);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
-
+    const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
     const generateAgents = async (pattern) => {
         const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
         console.log("Generated agents config:", generatedAgentsConfig);
@@ -58,6 +58,7 @@ const AgentsPanel = () => {
 
     const handleSelectConfig = (config) => {
         setReactflowGenerate(0);
+        setLanggraphGenerate(0);
         setSelectedConfig(config);
     };
 
@@ -88,7 +89,7 @@ const AgentsPanel = () => {
                                     </Typography>
                                     {step.config.nodes.map((node, idx) => (
                                         <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
-                                            {node.name}
+                                            {node.description}
                                         </Typography>
                                     ))}
                                     <Typography variant="caption" color="text.secondary">

@@ -7,7 +7,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
         nodes: [
             {
                 type: "singleAgentWithWebSearchTool",
-                description: "Agent with web search tool",
+                description: "Agent_tool_search",
                 tools: ["tool_search"],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPrompt + taskPrompt 
@@ -26,7 +26,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
         nodes: [
             {
                 type: "singleAgentWithPDFLoaderTool",
-                description: "Agent with PDF loader tool",
+                description: "Agent_tool_pdf_loader",
                 tools: ["tool_PDFLoader"],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPrompt + taskPrompt 
@@ -70,26 +70,26 @@ const handleReflection = (step) => {
         edges: [
             {
                 type: "conditional",
-                source: "reviewer",
-                target: "executor",
+                source: "Reviewer",
+                target: "Executor",
                 label: "Feedback",
             },
             {
                 type: "direct",
-                source: "executor",
-                target: "reviewer",
+                source: "Executor",
+                target: "Reviewer",
                 label: "Submit",
             },
             {
                 type: "conditional",
-                source: "reviewer",
+                source: "Reviewer",
                 target: "END",
                 label: "Approve",
             },
             {
                 type: "direct",
                 source: "START",
-                target: "executor",
+                target: "Executor",
                 label: "Start",
             }
         ]
@@ -129,15 +129,15 @@ const handleSupervision = (step) => {
                 systemPrompt: patternSystemPromptSupervisor + taskPrompt
             }, 
             {
-                type: "singleAgentA",
-                description: "Agent A",
+                type: "singleAgent",
+                description: "AgentA",
                 tools: [],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPromptAgentA + taskPromptAgentA
             },
             {
-                type: "singleAgentB",
-                description: "Agent B",
+                type: "singleAgent",
+                description: "AgentB",
                 tools: [],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPromptAgentB + taskPromptAgentB
@@ -146,26 +146,26 @@ const handleSupervision = (step) => {
         edges: [
             {
                 type: "conditional",
-                source: "supervisor",
-                target: "singleAgentA",
+                source: "Supervisor",
+                target: "AgentA",
                 label: "route task",
             },
             {
                 type: "conditional",
-                source: "supervisor",
-                target: "singleAgentB",
+                source: "Supervisor",
+                target: "AgentB",
                 label: "route task",
             },
             {
                 type: "direct",
-                source: "singleAgentA",
-                target: "supervisor",
+                source: "AgentA",
+                target: "Supervisor",
                 label: "respond",
             },
             {
                 type: "direct",
-                source: "singleAgentB",
-                target: "supervisor",
+                source: "AgentB",
+                target: "Supervisor",
                 label: "respond",
             }
         ]
@@ -173,6 +173,9 @@ const handleSupervision = (step) => {
 };
 
 const handleDiscussion = (step) => {
+    const { stepDescription, pattern} = step;
+    const taskPrompt = 'The task for the team is' + stepDescription;
+
     return {
         nodes: [],
         edges: []
