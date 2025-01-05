@@ -1,7 +1,7 @@
 import { handleSingleAgentWithWebSearchTool, handleSingleAgentWithPDFLoaderTool, handleReflection, handleSupervision, handleDiscussion, handleSingleAgent } from "../langgraph/handlers";
 
-const GenerateRunnableConfig = async (pattern) => {
-    const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId } = pattern;
+const GenerateRunnableConfig = async (workflow) => {
+    const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId } = workflow;
     const agentsConfigs = [];
     const agentsConfig = {
         taskId,
@@ -25,7 +25,7 @@ const GenerateRunnableConfig = async (pattern) => {
         const { stepName, stepLabel, stepDescription, pattern } = step;
         
         if (handlersMap[pattern.name]) {
-            const config = handlersMap[pattern.name](pattern);
+            const config = handlersMap[pattern.name](step);
             agentsConfig.taskFlowSteps.push({
                 stepName,
                 stepLabel,

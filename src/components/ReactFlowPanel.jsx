@@ -42,7 +42,7 @@ const ReactFlowPanel = () => {
                 <DnDProvider>
                     <Sidebar />
                     {reactflowDisplay.map((flow) => (
-                        <div className="reactflow-wrapper">
+                        <div className="reactflow-wrapper" key={flow.key}>
                             <FlowWithProvider 
                                 key={flow.key} 
                                 id = {flow.configId} 

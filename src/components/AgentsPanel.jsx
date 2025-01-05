@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { selectedConfigAtom, reactflowGenerateAtom } from "../global/GlobalStates";
 import GenerateRunnableConfig from "./GenerateConfig";
 import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
-import { Box, Card, CardContent, Typography, Button, Divider } from "@mui/material";
+import { Box, Card, CardContent, Typography, Button, Paper } from "@mui/material";
 import Grid from '@mui/material/Grid2';
-import Paper from '@mui/material/Paper';
 
 const AgentsPanel = () => {
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
@@ -60,13 +59,12 @@ const AgentsPanel = () => {
     const handleSelectConfig = (config) => {
         setReactflowGenerate(0);
         setSelectedConfig(config);
-        console.log("Selected config:", config);
     };
 
     const AgentsDisplay = () => (
         <Grid container spacing={2} sx={{ mt: 2 }}>
-            {agentsConfig.map((config) => (
-                <Grid item xs={12} sm={6} md={4} key={config.id}>
+            {agentsConfig.map((config, configIdx) => (
+                <Grid item xs={12} sm={6} md={4} key={configIdx}>
                     <Card 
                         onClick={() => setSelectedAgentConfig(config)}
                         sx={{
@@ -80,8 +78,7 @@ const AgentsPanel = () => {
                         <CardContent>
 
                             {config.taskFlowSteps.map((step, idx) => (
-                                <Paper 
-                                    key={step.stepId} 
+                                <Paper key={`${configIdx}-${idx}`} 
                                     elevation={2} 
                                     sx={{ padding: 1, marginTop: 1, borderLeft: "4px solid #3f51b5" }}
                                 >
@@ -90,7 +87,7 @@ const AgentsPanel = () => {
                                         Nodes: {step.config.nodes.length}
                                     </Typography>
                                     {step.config.nodes.map((node, idx) => (
-                                        <Typography variant="caption" color="text.secondary">
+                                        <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
                                             {node.name}
                                         </Typography>
                                     ))}
@@ -98,8 +95,8 @@ const AgentsPanel = () => {
                                         Edges: {step.config.edges.length}
                                     </Typography>
                                     {step.config.edges.map((edge, idx) => (
-                                        <Typography variant="caption" color="text.secondary">
-                                            {edge.source} -> {edge.target}
+                                        <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
+                                            {edge.source} - {edge.target}
                                         </Typography>
                                     ))}
                                 </Paper>

@@ -86,9 +86,10 @@ const base_workflow = new StateGraph(AgentState)
 export const singleAgentWithToolsGraph = base_workflow.compile();
 export const singleAgentWithToolsWorkflow = base_workflow;
 
-(async () => {
-    console.log("After compilation: ");
-    console.log(singleAgentWithToolsGraph);
-    console.log("Before compilation: ");
-    console.log(singleAgentWithToolsWorkflow);
-})();
+// No need to get info from the langgraph graph, instead, build the graph from the config
+// (async () => {
+//     console.log("After compilation: ");
+//     console.log(singleAgentWithToolsGraph);
+//     console.log("Before compilation: ");
+//     console.log(singleAgentWithToolsWorkflow);
+// })();

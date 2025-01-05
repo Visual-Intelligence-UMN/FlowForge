@@ -24,14 +24,16 @@ const PatternsPanel = () => {
             taskId: flow.taskFlowId,
             taskFlowId: flow.taskFlowId + "1",
             taskFlowName: flow.taskFlowName,
-            patternId: Math.floor(Math.random() * 1000000),
+            patternId: flow.taskFlowId + "-A",
+            taskFlowDescription: flow.taskFlowDescription,
             taskFlowSteps: flow.taskFlowSteps
         }, 
         {
             taskId: flow.taskFlowId,
             taskFlowId: flow.taskFlowId + "2",
             taskFlowName: flow.taskFlowName,
-            patternId: Math.floor(Math.random() * 1000000),
+            patternId: flow.taskFlowId + "-B",
+            taskFlowDescription: flow.taskFlowDescription,
             taskFlowSteps: flow.taskFlowSteps
         }
         ]
@@ -100,7 +102,7 @@ const PatternsPanel = () => {
           <Box sx={{ p:1, backgroundColor: "#f5f5f5" }}>
             <Grid container spacing={1}>
               {designPatterns.map((pattern) => (
-                <Grid item xs={12} sm={6} md={4} key={pattern.patternsId}>
+                <Grid item xs={12} sm={6} md={4} key={pattern.patternId}>
                   <Card elevation={3} sx={{ borderRadius: 2 }}>
                     <CardContent>
                       <Typography variant="h6" color="primary" gutterBottom>
@@ -133,14 +135,15 @@ const PatternsPanel = () => {
             </Grid>
           </Box>
         );
-      };
+    };
     
+    // display as a d3 graph 
     const Display = () => {
         return (
            <Box sx={{ p:1, backgroundColor: "#f5f5f5" }}>   
             <Grid container spacing={1}>
                 {designPatterns.map((pattern) => (
-                    <Grid item xs={12} key={pattern.patternsId}>
+                    <Grid item xs={12} key={pattern.patternId}>
                         <DisplayPatterns designPatterns={pattern}/>
                     </Grid>
                 ))}
