@@ -22,8 +22,9 @@ const ReactFlowPanel = () => {
     const generateReactflow = async (config) => {
         setReactflowGenerate(0);
         // TODO: generate reactflow
-        const exampleReactflow = await CompileReactflow(config);
-        setReactflowDisplay(exampleReactflow);
+        console.log("config for reactflow and langgraph", config);
+        const compiledReactflow = await CompileReactflow(config);
+        setReactflowDisplay(compiledReactflow);
         setReactflowGenerate(-1);
         if (reactflowGenerate === -1 && langgraphGenerate === -1) setSelectedConfig(null);
     }

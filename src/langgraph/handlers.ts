@@ -187,6 +187,7 @@ const handleSingleAgent = (step) => {
     const systemPrompt = 'The task description for you is ' + stepDescription;
     const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task';
     return {
+        type: "singleAgent",
         nodes: [
             {
                 type: "singleAgent",
