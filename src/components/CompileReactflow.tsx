@@ -20,11 +20,12 @@ const CompileReactflow = async (config) => {
         if (!config) return;
 
         const { nodes, edges } = config;
-        let stepNodeIds = []; // Store node IDs for this step
-        let firstNodeId = null; // Track first node of this step
+        let stepNodeIds = [];
+        let firstNodeId = null;
+        let nodeMap = new Map(); // Map to store node descriptions → full IDs
 
         if (nodes?.length > 0) {
-            nodes.forEach((node, nodeIdx) => {
+            nodes.forEach((node) => {
                 const id = `step-${stepIdx}-node-${node.description}`;
                 const type = node.type || "default";
                 const position = { x: positionX, y: positionY };
@@ -40,14 +41,14 @@ const CompileReactflow = async (config) => {
 
                 reactflowNodes.push({ id, type, position, data });
                 stepNodeIds.push(id);
+                nodeMap.set(node.description, id);
 
                 if (!firstNodeId) {
-                    firstNodeId = id; // Set first node ID
+                    firstNodeId = id;
                 }
             });
         }
 
-        // If no nodes exist, add a default node
         if (stepNodeIds.length === 0) {
             console.log(`No nodes found for step ${stepIdx}, adding default node.`);
             const defaultNodeId = `step-${stepIdx}-node-default`;
@@ -70,44 +71,56 @@ const CompileReactflow = async (config) => {
             edges.forEach((edge) => {
                 let source = edge.source;
                 let target = edge.target;
+                let label = edge.label;
+                let type = edge.type || "default";
 
-                // Replace "START" with last node of previous step
                 if (source === "START") {
                     if (previousLastNodeId) {
                         source = previousLastNodeId;
+                        label = `step-${stepIdx}->step-${stepIdx + 1}`;
                     } else {
                         console.warn(`START found in step ${stepIdx}, but no previous node exists.`);
                         return;
                     }
+                } else {
+                    source = nodeMap.get(source) || findNodeId(source, reactflowNodes, stepIdx);
                 }
-                // Replace "END" with first node of the next step (temporary placeholder)
+
                 if (target === "END") {
                     target = `step-${stepIdx + 1}-node-placeholder`;
                 } else {
-                    target = findNodeId(target, reactflowNodes, stepIdx);
+                    target = nodeMap.get(target) || findNodeId(target, reactflowNodes, stepIdx);
                 }
 
                 const edgeId = `step-${stepIdx}-${edge.source}->${edge.target}`;
-                processedEdges.push({ id: edgeId, source, target, type: "default", label: edge.label || "" });
+                // **Deduplication**: Only add if the same source-target edge does not exist
+                if (!processedEdges.some(e => e.source === source && e.target === target)) {
+                    processedEdges.push({ id: edgeId, source, target, type, label });
+                } else {
+                    console.warn(`Duplicate edge skipped: ${edgeId}`);
+                }
             });
         } else {
             console.log(`No edges found for step ${stepIdx}.`);
         }
 
-        // Ensure connection from previous step's last node to this step's first node
+        // Ensure connection from previous step's last node to this step's first node **if not already connected**
         if (previousLastNodeId && firstNodeId) {
-            const stepTransitionEdgeId = `step-${stepIdx - 1}->step-${stepIdx}`;
-            reactflowEdges.push({
-                id: stepTransitionEdgeId,
-                source: previousLastNodeId,
-                target: firstNodeId,
-                type: "default",
-                label: `Step ${stepIdx - 1}->Step ${stepIdx}`,
-            });
+            const stepTransitionEdgeId = `step-${stepIdx}->step-${stepIdx + 1}`;
+            
+            if (!processedEdges.some(e => e.source === previousLastNodeId && e.target === firstNodeId)) {
+                processedEdges.push({
+                    id: stepTransitionEdgeId,
+                    source: previousLastNodeId,
+                    target: firstNodeId,
+                    type: "default",
+                    label: `Step ${stepIdx}->Step ${stepIdx + 1}`,
+                });
+            }
         }
 
         reactflowEdges.push(...processedEdges);
-        previousLastNodeId = stepNodeIds[stepNodeIds.length - 1]; // Update last node of this step
+        previousLastNodeId = stepNodeIds[stepNodeIds.length - 1];
     });
 
     // Update edges that had "END" placeholders
@@ -116,7 +129,7 @@ const CompileReactflow = async (config) => {
             const stepIdx = parseInt(edge.target.split("-")[1]);
             const nextStepNodes = reactflowNodes.filter(n => n.id.startsWith(`step-${stepIdx}`));
             if (nextStepNodes.length > 0) {
-                edge.target = nextStepNodes[0].id; // Replace with first node of next step
+                edge.target = nextStepNodes[0].id;
             }
         }
     });
@@ -138,7 +151,7 @@ const CompileReactflow = async (config) => {
 // Helper function to find node ID or return a default node reference
 const findNodeId = (description, nodes, stepIdx) => {
     const node = nodes.find(n => n.data.label === description);
-    return node ? node.id : `step-${stepIdx}-node-default`; // Fallback to default node
+    return node ? node.id : `step-${stepIdx}-node-default`;
 };
 
 export default CompileReactflow;
