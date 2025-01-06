@@ -177,6 +177,7 @@ const handleDiscussion = (step) => {
     const taskPrompt = 'The task for the team is' + stepDescription;
 
     return {
+        type: "discussion",
         nodes: [],
         edges: []
     };
