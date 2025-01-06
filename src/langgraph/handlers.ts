@@ -53,18 +53,18 @@ const handleReflection = (step) => {
         type: "reflection",
         nodes: [
             {
-                type: "reviewer",
-                description: "Reviewer",
-                tools: [],
-                llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptReview + taskPrompt
-            },
-            {
                 type: "executor",
                 description: "Executor",
                 tools: [],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPromptWork + taskPrompt
+            },
+            {
+                type: "reviewer",
+                description: "Reviewer",
+                tools: [],
+                llm: "gpt-4o-mini",
+                systemPrompt: patternSystemPromptReview + taskPrompt
             }
         ],
         edges: [
