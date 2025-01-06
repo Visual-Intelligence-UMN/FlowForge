@@ -2,15 +2,16 @@
 import { initialNodes } from "../nodes";
 import { initialEdges } from "../edges";
 
-// import { AppNode } from "../nodes/types";
+import { AppNode } from "../nodes/types";
+import { Edge, EdgeTypes } from "@xyflow/react";
 
 const CompileReactflow = async (config) => {
 
     const {taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId} = config;
-    const configId = [taskId, taskFlowId, patternId].join("-");
+    const configId = [taskId, taskFlowId, patternId].join("_");
 
-    const reactflowNodes = [];
-    const reactflowEdges = [];
+    const reactflowNodes: AppNode[] = [];
+    const reactflowEdges: Edge[] = [];
 
     let positionX = 0;
     let positionY = 0;
@@ -41,7 +42,9 @@ const CompileReactflow = async (config) => {
                 stepNodeIds.push(id);
                 reactflowNodes.push(reactflowNode);
             });
-        } else {
+        } 
+        
+        if (stepNodeIds.length === 0) {
             console.log("No nodes found for step", stepIdx);
             const defaultNodeId = `step-${stepIdx}-node-default`;
             reactflowNodes.push({
@@ -55,14 +58,13 @@ const CompileReactflow = async (config) => {
             stepNodeIds.push(defaultNodeId);
         }
 
-
-
         if (edges && edges.length > 0) {
             edges?.forEach((edge) => {
                 const id = `step-${stepIdx}-${edge.source}->${edge.target}`;
                 const source = edge.source;
                 const target = edge.target;
-                const type = edge.type  || "default";
+                // TODO: add edge type
+                const type = "default";
                 const label = edge.label || "";
 
                 const reactflowEdge = {id, source, target, type, label};
@@ -71,6 +73,20 @@ const CompileReactflow = async (config) => {
         } else {
             console.log("No edges found for step", stepIdx);
         }
+
+        if (previousLastNodeId && stepNodeIds.length > 0) {
+            const stepTransitionEdgeId = `step-${stepIdx-1}->step-${stepIdx}`;
+            reactflowEdges.push({
+                id: stepTransitionEdgeId,
+                source: previousLastNodeId,
+                target: stepNodeIds[0],
+                type: "default",
+                label: `${stepIdx-1}->${stepIdx}`,
+            });
+        }
+
+        previousLastNodeId = stepNodeIds[stepNodeIds.length - 1];
+
     })
 
     const compiledReactflow = [{
