@@ -38,6 +38,5 @@ export const nodeTypes = {
   'textResult': TextResultNode,
   'text': TextNode,
   'uppercase': UppercaseNode,
-  // Add any of your custom nodes here!
-  'singleaAgent': SingleAgentNode,
+  'singleAgent': SingleAgentNode,
 } satisfies NodeTypes;

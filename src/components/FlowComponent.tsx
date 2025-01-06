@@ -21,6 +21,7 @@ let nodeId = 0;
 
 export function FlowPanelComponent(props) {
     const {screenToFlowPosition} = useReactFlow();
+    const updateNodeData = props.updateNodeData;
     const [nodes, setNodes, onNodesChange] = useNodesState(props.graph.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.graph.edges || []);
     const [type] = useDnD();
@@ -63,6 +64,26 @@ export function FlowPanelComponent(props) {
     //     }
     // }, [rfInstance]);
 
+     // Sync node updates with Jotai state
+     const syncNodeChanges = (nodeId, key, value) => {
+        updateNodeData(props.id, nodeId, key, value);
+        setNodes((nds) =>
+            nds.map((node) =>
+                node.id === nodeId ? { ...node, data: { ...node.data, [key]: value } } : node
+            )
+        );
+    };
+
+    // Attach `updateNodeData` to each node before rendering
+    const modifiedNodes = nodes.map((node) => ({
+        ...node,
+        data: {
+            ...node.data,
+            updateNode: syncNodeChanges,
+        },
+    }));
+
+
 
     useEffect(() => {
         const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
@@ -78,7 +99,7 @@ export function FlowPanelComponent(props) {
             <div className="reactflow-wrapper" style={{width: "800px", height: "800px"}}>
                 <ReactFlow
                 id = {props.id}
-                nodes={nodes}
+                nodes={modifiedNodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}

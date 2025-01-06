@@ -51,6 +51,28 @@ const ReactFlowPanel = () => {
         }
     }, [langgraphGenerate]);
 
+
+    // Ensure node updates modify reactflowDisplayAtom
+    const updateNodeData = (flowId, nodeId, key, value) => {
+        setReactflowDisplay((prevFlows) =>
+            prevFlows.map((flow) =>
+                flow.configId === flowId
+                    ? {
+                          ...flow,
+                          graph: {
+                              ...flow.graph,
+                              nodes: flow.graph.nodes.map((node) =>
+                                  node.id === nodeId
+                                      ? { ...node, data: { ...node.data, [key]: value } }
+                                      : node
+                              ),
+                          },
+                      }
+                    : flow
+            )
+        );
+    };
+
     const canvasDisplay = () => {
         return (
             <div className="dndflow">
@@ -62,6 +84,7 @@ const ReactFlowPanel = () => {
                                 key={flow.key} 
                                 id = {flow.configId} 
                                 graph={flow.graph}
+                                updateNodeData={updateNodeData}
                             />
                         </div>
                     ))}
