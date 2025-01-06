@@ -36,8 +36,8 @@ const CompileReactflow = async (config) => {
                     systemPrompt: node.systemPrompt || "",
                 };
 
-                positionX += 100;
-                positionY += 100;
+                positionX += 400;
+                positionY += 500;
 
                 reactflowNodes.push({ id, type, position, data });
                 stepNodeIds.push(id);

@@ -4,63 +4,47 @@ import "../langGraphNode.css";
 const SingleAgentNode = ({ id, data }) => {
   return (
     <div className="single-agent-node">
-      <div style={{ fontWeight: "bold", marginBottom: "10px" }}>🤖 LLM Agent</div>
+      {/* Input Handle (for connecting incoming edges) */}
+      <Handle type="target" position={Position.Top} id={`in-${id}`} className="single-agent-node-handle" />
 
-      {/* Agent Name Input */}
-      <label>
-        Agent Name:
-        <input
-          type="text"
-          value={data.agentName}
-          onChange={(e) => data.updateNode(id, "agentName", e.target.value)}
-        />
-      </label>
+      <div className="node-header">🤖 {data.label || "Single Agent"}</div>
 
-      {/* System Message Input */}
-      <label>
-        System Msg:
-        <input
-          type="text"
-          value={data.systemMessage}
-          onChange={(e) => data.updateNode(id, "systemMessage", e.target.value)}
-        />
-      </label>
-
-      {/* Dropdown for Foundation Models */}
-      <label>
-        Model:
-        <select
-          value={data.model}
-          onChange={(e) => data.updateNode(id, "model", e.target.value)}
-        >
+      {/* LLM Model Selection */}
+      <div className="node-section">
+        <label>LLM Model:</label>
+        <select value={data.llm} onChange={(e) => data.updateNode(id, "llm", e.target.value)}>
+          <option value="gpt-4o-mini">GPT-4o Mini</option>
           <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-          <option value="gpt-4-mini">GPT-4 Mini</option>
           <option value="other">Other</option>
         </select>
-      </label>
+      </div>
 
-      {/* Slider for Temperature */}
-      <label>
-        Temperature:
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={data.temperature}
-          onChange={(e) => data.updateNode(id, "temperature", Number(e.target.value))}
+      {/* System Prompt */}
+      <div className="node-section">
+        <label>System Prompt:</label>
+        <textarea
+          value={data.systemPrompt}
+          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          rows={3}
         />
-        <span>{data.temperature?.toFixed(2)}</span>
-      </label>
+      </div>
 
-      {/* Bottom Left Handle for Custom Tool Nodes */}
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="tool-node"
-        className="single-agent-node-handle"
-        style={{ left: 10 }}
-      />
+      {/* Tools */}
+      <div className="node-section">
+        <label>Tools:</label>
+        {data.tools.length > 0 ? (
+          <ul>
+            {data.tools.map((tool, index) => (
+              <li key={index}>{tool}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>None</p>
+        )}
+      </div>
+
+      {/* Bottom Handle (for outgoing connections) */}
+      <Handle type="source" position={Position.Bottom} id={`out-${id}`} className="single-agent-node-handle" />
     </div>
   );
 };
