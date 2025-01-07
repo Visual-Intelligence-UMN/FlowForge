@@ -81,7 +81,7 @@ const CompileReactflow = async (config) => {
             outputNodes: outputNodeIds,
             outputMode: outputMode,
             pattern: type,
-            stepNodes: nodes,
+            stepNodes: nodeMap,
         };
 
         // **Process Intra-Step Edges (Exclude START/END)**

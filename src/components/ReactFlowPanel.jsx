@@ -10,7 +10,7 @@ import  Sidebar  from "./Sidebar";
 import  StreamOutput  from "./StreamOutput";
 
 import CompileReactflow from "./CompileReactflow";
-import CompileLanggraph from "./CompileLanggraph";
+import { CompileLanggraph } from "./CompileLanggraph";
 
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
