@@ -10,7 +10,7 @@ import  Sidebar  from "./Sidebar";
 import  StreamOutput  from "./StreamOutput";
 
 import CompileReactflow from "./CompileReactflow";
-import { CompileLanggraph } from "./CompileLanggraph";
+import CompileLanggraph from "./CompileLanggraph";
 
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
@@ -26,17 +26,12 @@ const ReactFlowPanel = () => {
         const compiledReactflow = await CompileReactflow(config);
         setReactflowDisplay(compiledReactflow);
         setReactflowGenerate(-1);
-        if (reactflowGenerate === -1 && langgraphGenerate === -1) setSelectedConfig(null);
-    }
+        if (reactflowGenerate === -1) setSelectedConfig(null);
 
-    const generateLanggraph = async (config) => {
         setLanggraphGenerate(0);
-        // TODO: generate runnable langgraph
-        const runnableGraph = await CompileLanggraph(config); 
-
-        setLanggraphRun(runnableGraph);
+        const runnableLanggraph = await CompileLanggraph(compiledReactflow);
+        setLanggraphRun(runnableLanggraph);
         setLanggraphGenerate(-1);
-        if (reactflowGenerate === -1 && langgraphGenerate === -1) setSelectedConfig(null);
     }
 
     useEffect(() => {
@@ -45,13 +40,10 @@ const ReactFlowPanel = () => {
         }
     }, [reactflowGenerate]);
 
-    useEffect(() => {
-        if (reactflowGenerate === -1 && langgraphGenerate === 0) {
-            generateLanggraph(reactflowDisplay);
-            // here we compile the langgraph graph based on the reactflow configs
-        }
-    }, [langgraphGenerate]);
-
+    // to check if the reactflowDisplay is updated real time
+    // useEffect(() => {
+    //     console.log("updated", reactflowDisplay);
+    // }, [reactflowDisplay]);
 
     // Ensure node updates modify reactflowDisplayAtom
     const updateNodeData = (flowId, nodeId, key, value) => {

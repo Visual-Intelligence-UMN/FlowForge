@@ -10,6 +10,43 @@ import { InputAnnotation } from "./states";
 
 
 // function to define the agent
+async function createAgent({
+    llmOption,
+    tools,
+    systemMessage
+  }: {
+    llmOption: string;
+    tools: StructuredTool[];
+    systemMessage: string;
+  }): Promise<Runnable> {
+
+    const llm = new ChatOpenAI({
+        modelName: llmOption,
+        temperature: 1,
+        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+    });
+
+    let toolNames = "";
+    let formattedTools = [];
+    
+    if (tools.length > 0) {
+        toolNames = tools.map((tool) => tool.name).join(", ");
+        formattedTools = tools.map((t) => convertToOpenAITool(t));
+    }
+
+    let prompt = ChatPromptTemplate.fromMessages([
+        ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
+        new MessagesPlaceholder("messages"),
+    ]);
+    prompt = await prompt.partial({
+        tool_names: toolNames,
+        system_message: systemMessage,
+    });
+    return prompt.pipe(llm.bind({ tools: formattedTools }));
+};
+
+
+// function to define the agent
 async function create_agent({
     llm,
     tools,

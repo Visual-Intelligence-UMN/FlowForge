@@ -1,8 +1,7 @@
-import { StateGraph, END, START } from "@langchain/langgraph";
-import { Annotation } from "@langchain/langgraph";
+import { StateGraph, END, START, Annotation } from "@langchain/langgraph/web";
 import { BaseMessage } from "@langchain/core/messages";
 
-const compileWorkflow = async (designPatternNodes) => {
+const compileWorkflow = async (config) => {
 
     const testState = Annotation.Root({
         messages: Annotation<BaseMessage[]> ({
@@ -20,20 +19,22 @@ const compileWorkflow = async (designPatternNodes) => {
     const stateGraph = new StateGraph(testState);
 
 
-    let previousStep = designPatternNodes[0].name;
-    stateGraph.addNode(START, designPatternNodes[0].name);
-    for (const node of designPatternNodes) {
-        const nodeName = node.name;
-        stateGraph.addNode(nodeName, node.object);
-        if (previousStep) {
-            stateGraph.addEdge(previousStep, nodeName);
-        }
-        previousStep = nodeName;
-    }
-    stateGraph.addEdge(previousStep, END);
-    const compiledGraph = stateGraph.compile();
+    let previousStep = config[0].name;
+    stateGraph.addNode(START, config[0].name);
 
-    return compiledGraph;
+    console.log("config in build workflow", config);
+    // for (const node of config) {
+    //     const nodeName = node.name;
+    //     stateGraph.addNode(nodeName, node.object);
+    //     if (previousStep) {
+    //         stateGraph.addEdge(previousStep, nodeName);
+    //     }
+    //     previousStep = nodeName;
+    // }
+    // stateGraph.addEdge(previousStep, END);
+    // const compiledGraph = stateGraph.compile();
+
+    return stateGraph;
 
 }
 
