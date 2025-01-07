@@ -16,7 +16,6 @@ import { edgeTypes } from '../edges';
 import { getLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';
-
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {

@@ -5,8 +5,8 @@ const SingleAgentNode = ({ id, data }) => {
   return (
     <div className="single-agent-node">
       {/* Input Handle (for connecting incoming edges) */}
-      <Handle type="target" position={Position.Top} id={`in-${id}`} className="single-agent-node-handle" />
-
+      {/* <Handle type="source" position={Position.Right} id="right" /> */}
+      <Handle type="target" position={Position.Left} id={`in-${id}`} />
       <div className="node-header">🤖 {data.label || "Single Agent"}</div>
 
       {/* LLM Model Selection */}
@@ -43,8 +43,8 @@ const SingleAgentNode = ({ id, data }) => {
         )}
       </div>
 
-      {/* Bottom Handle (for outgoing connections) */}
-      <Handle type="source" position={Position.Bottom} id={`out-${id}`} className="single-agent-node-handle" />
+      {/* Multiple Handles for Outputs */}
+      <Handle type="source" position={Position.Right} id={`out-${id}`} />
     </div>
   );
 };

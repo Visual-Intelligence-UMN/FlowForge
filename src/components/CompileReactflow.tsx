@@ -1,6 +1,4 @@
-import { initialNodes } from "../nodes";
-import { initialEdges } from "../edges";
-
+import { Position } from "@xyflow/react";
 import { AppNode } from "../nodes/types";
 import { Edge } from "@xyflow/react";
 
@@ -73,6 +71,8 @@ const CompileReactflow = async (config) => {
                 let target = edge.target;
                 let label = edge.label;
                 let type = edge.type || "default";
+                let sourceHandle = null;
+                let targetHandle = null;
 
                 if (source === "START") {
                     if (previousLastNodeId) {
