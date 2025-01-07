@@ -1,4 +1,3 @@
-import { Position } from "@xyflow/react";
 import { AppNode } from "../nodes/types";
 import { Edge } from "@xyflow/react";
 
@@ -8,11 +7,11 @@ const CompileReactflow = async (config) => {
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
+    let stepMetadata = {}; // Stores input node, output nodes, and output mode for each step
 
     let positionX = 0;
     let positionY = 0;
-    let previousLastNodeId = null; // Track last node of previous step
-
+    // **Step 1: Process Nodes and Collect Metadata**
     taskFlowSteps.forEach((step, stepIdx) => {
         const { config } = step;
         if (!config) return;
@@ -20,8 +19,11 @@ const CompileReactflow = async (config) => {
         const { nodes, edges } = config;
         let stepNodeIds = [];
         let firstNodeId = null;
-        let nodeMap = new Map(); // Map to store node descriptions → full IDs
+        let outputNodeIds = [];
+        let outputMode = "direct"; // Default output mode
+        let nodeMap = new Map(); // Stores node descriptions → full IDs
 
+        // **Add all nodes**
         if (nodes?.length > 0) {
             nodes.forEach((node) => {
                 const id = `step-${stepIdx}-node-${node.description}`;
@@ -47,93 +49,71 @@ const CompileReactflow = async (config) => {
             });
         }
 
-        if (stepNodeIds.length === 0) {
-            console.log(`No nodes found for step ${stepIdx}, adding default node.`);
-            const defaultNodeId = `step-${stepIdx}-node-default`;
-            reactflowNodes.push({
-                id: defaultNodeId,
-                type: "default",
-                position: { x: positionX, y: positionY },
-                data: { label: `Default Node for Step ${stepIdx}` },
-            });
+        // **Identify Input & Output Nodes**
+        if (stepNodeIds.length === 1) {
+            firstNodeId = stepNodeIds[0];
+            outputNodeIds.push(stepNodeIds[0]);
+        } else {
+            edges?.forEach((edge) => {
+                if (edge.source === "START") {
+                    firstNodeId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
+                }
+                if (edge.target === "END") {
+                    outputNodeIds.push(nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx));
+                    outputMode = "default"; // Capture output mode
+                    // TODO: change the edge types 
 
-            positionX += 200;
-            positionY += 100;
-            stepNodeIds.push(defaultNodeId);
-            firstNodeId = defaultNodeId;
+                }
+            });
         }
 
+        // **Store Step Metadata**
+        stepMetadata[`step-${stepIdx}`] = {
+            inputNode: firstNodeId,
+            outputNodes: outputNodeIds,
+            outputMode: outputMode,
+        };
+
+        // **Process Intra-Step Edges (Exclude START/END)**
         let processedEdges = [];
-
-        if (edges?.length > 0) {
-            edges.forEach((edge) => {
-                let source = edge.source;
-                let target = edge.target;
-                let label = edge.label;
-                let type = edge.type || "default";
-                let sourceHandle = null;
-                let targetHandle = null;
-
-                if (source === "START") {
-                    if (previousLastNodeId) {
-                        source = previousLastNodeId;
-                        label = `step-${stepIdx}->step-${stepIdx + 1}`;
-                    } else {
-                        console.warn(`START found in step ${stepIdx}, but no previous node exists.`);
-                        return;
-                    }
-                } else {
-                    source = nodeMap.get(source) || findNodeId(source, reactflowNodes, stepIdx);
-                }
-
-                if (target === "END") {
-                    target = `step-${stepIdx + 1}-node-placeholder`;
-                } else {
-                    target = nodeMap.get(target) || findNodeId(target, reactflowNodes, stepIdx);
-                }
+        edges?.forEach((edge) => {
+            if (edge.source !== "START" && edge.target !== "END") {
+                let sourceId = nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx);
+                let targetId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
 
                 const edgeId = `step-${stepIdx}-${edge.source}->${edge.target}`;
-                // **Deduplication**: Only add if the same source-target edge does not exist
-                if (!processedEdges.some(e => e.source === source && e.target === target)) {
-                    processedEdges.push({ id: edgeId, source, target, type, label });
-                } else {
-                    console.warn(`Duplicate edge skipped: ${edgeId}`);
-                }
-            });
-        } else {
-            console.log(`No edges found for step ${stepIdx}.`);
-        }
-
-        // Ensure connection from previous step's last node to this step's first node **if not already connected**
-        if (previousLastNodeId && firstNodeId) {
-            const stepTransitionEdgeId = `step-${stepIdx}->step-${stepIdx + 1}`;
-            
-            if (!processedEdges.some(e => e.source === previousLastNodeId && e.target === firstNodeId)) {
-                processedEdges.push({
-                    id: stepTransitionEdgeId,
-                    source: previousLastNodeId,
-                    target: firstNodeId,
-                    type: "default",
-                    label: `Step ${stepIdx}->Step ${stepIdx + 1}`,
-                });
+                processedEdges.push({ id: edgeId, source: sourceId, target: targetId, type: edge.type, label: edge.label });
             }
-        }
+        });
 
         reactflowEdges.push(...processedEdges);
-        previousLastNodeId = stepNodeIds[stepNodeIds.length - 1];
     });
 
-    // Update edges that had "END" placeholders
-    reactflowEdges.forEach((edge) => {
-        if (edge.target.includes("node-placeholder")) {
-            const stepIdx = parseInt(edge.target.split("-")[1]);
-            const nextStepNodes = reactflowNodes.filter(n => n.id.startsWith(`step-${stepIdx}`));
-            if (nextStepNodes.length > 0) {
-                edge.target = nextStepNodes[0].id;
-            }
+    // **Step 2: Process Inter-Step Edges**
+    Object.keys(stepMetadata).forEach((stepKey, idx) => {
+        const nextStepKey = `step-${idx + 1}`;
+        if (stepMetadata[nextStepKey]) {
+            const { inputNode } = stepMetadata[nextStepKey];
+            let { outputNodes, outputMode } = stepMetadata[stepKey];
+            // TODO: change the edge types 
+            outputMode = "default";
+
+            outputNodes.forEach((outputNode) => {
+                const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
+                reactflowEdges.push({
+                    id: stepTransitionEdgeId,
+                    source: outputNode,
+                    target: inputNode,
+                    type: outputMode,
+                    label: `${stepKey}->${nextStepKey}`,
+                });
+            });
         }
     });
 
+    console.log("Step Metadata Dictionary:", stepMetadata); 
+
+    // **Compile ReactFlow Output**
     const compiledReactflow = [{
         configId,
         key: configId,
@@ -142,13 +122,14 @@ const CompileReactflow = async (config) => {
             edges: reactflowEdges,
             viewport: { x: 0, y: 0, zoom: 1 }
         },
+        stepMetadata, // 🔹 Store the step metadata dictionary
     }];
 
     console.log("Compiled ReactFlow:", compiledReactflow);
     return compiledReactflow;
 };
 
-// Helper function to find node ID or return a default node reference
+// **Helper function to find node ID or return a default node reference**
 const findNodeId = (description, nodes, stepIdx) => {
     const node = nodes.find(n => n.data.label === description);
     return node ? node.id : `step-${stepIdx}-node-default`;

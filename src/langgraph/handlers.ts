@@ -175,10 +175,18 @@ const handleSupervision = (step) => {
 const handleDiscussion = (step) => {
     const { stepDescription, pattern} = step;
     const taskPrompt = 'The task for the team is' + stepDescription;
-
+    const patternSystemPrompt = 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
     return {
         type: "discussion",
-        nodes: [],
+        nodes: [
+            {
+                type: "singleAgent",
+                description: "Agent",
+                tools: [],
+                llm: "gpt-4o-mini",
+                systemPrompt: patternSystemPrompt + taskPrompt
+            }
+        ],
         edges: []
     };
 };
