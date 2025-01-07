@@ -16,7 +16,7 @@ const CompileReactflow = async (config) => {
         const { config } = step;
         if (!config) return;
 
-        const { nodes, edges } = config;
+        const { nodes, edges, type } = config;
         let stepNodeIds = [];
         let firstNodeId = null;
         let outputNodeIds = [];
@@ -60,11 +60,19 @@ const CompileReactflow = async (config) => {
                 }
                 if (edge.target === "END") {
                     outputNodeIds.push(nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx));
-                    outputMode = "default"; // Capture output mode
+                    outputMode = edge.type || "default"; // Capture output mode
                     // TODO: change the edge types 
 
                 }
             });
+        }
+
+        // **For the first step, set input node to "START" for visualization**
+        if (stepIdx === 0) {
+            firstNodeId = "START";
+        }
+        if (stepIdx === taskFlowSteps.length - 1) {
+            outputNodeIds.push("END");
         }
 
         // **Store Step Metadata**
@@ -72,6 +80,8 @@ const CompileReactflow = async (config) => {
             inputNode: firstNodeId,
             outputNodes: outputNodeIds,
             outputMode: outputMode,
+            pattern: type,
+            stepNodes: nodes,
         };
 
         // **Process Intra-Step Edges (Exclude START/END)**
@@ -97,6 +107,7 @@ const CompileReactflow = async (config) => {
             let { outputNodes, outputMode } = stepMetadata[stepKey];
             // TODO: change the edge types 
             outputMode = "default";
+            // keep the stepMetadata as it is but to display reactflow with default for now. 
 
             outputNodes.forEach((outputNode) => {
                 const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;

@@ -46,8 +46,9 @@ const ReactFlowPanel = () => {
     }, [reactflowGenerate]);
 
     useEffect(() => {
-        if (langgraphGenerate === 0) {
-            generateLanggraph(selectedConfig);
+        if (reactflowGenerate === -1 && langgraphGenerate === 0) {
+            generateLanggraph(reactflowDisplay);
+            // here we compile the langgraph graph based on the reactflow configs
         }
     }, [langgraphGenerate]);
 
