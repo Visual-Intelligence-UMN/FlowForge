@@ -91,4 +91,57 @@ async function create_agent_node(props: {
     };
 };
 
-export { create_agent, create_agent_node, createAgent };
+import fs from "fs";
+
+async function saveGraphImage(g: any, savePath = "graph_image.png") {
+    try {
+        console.log("Attempting to draw Mermaid PNG...");
+        const graphViz = g.getGraph({xray: 1});
+        if (!graphViz) {
+            console.error("GraphViz is not ready");
+            return;
+        }
+        const image = await graphViz.drawMermaidPng();
+        console.log("Image obtained:", image);
+
+        const arrayBuffer = await image.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        fs.writeFile(savePath, buffer, (err) => {
+            if (err) {
+                console.error(`Error saving the image to ${savePath}:`, err);
+            } else {
+                console.log(`Image saved successfully at ${savePath}`);
+            }
+        });
+    } catch (error) {
+        console.error("Error during graph drawing process:", error);
+    }
+}
+async function generateGraphImage(g: any): Promise<string | null> {
+    try {
+        console.log("Attempting to draw Mermaid PNG...");
+        const graphViz = g.getGraph({ xray: 1 });
+
+        if (!graphViz) {
+            console.error("GraphViz is not ready");
+            return null;
+        }
+
+        const image = await graphViz.drawMermaidPng();
+        console.log("Image obtained:", image);
+
+        const arrayBuffer = await image.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const base64Image = `data:image/png;base64,${buffer.toString("base64")}`;
+
+        return base64Image;
+    } catch (error) {
+        console.error("Error during graph drawing process:", error);
+        return null;
+    }
+}
+
+
+
+export { create_agent, create_agent_node, createAgent, saveGraphImage, generateGraphImage };

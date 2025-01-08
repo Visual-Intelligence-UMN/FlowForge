@@ -29,7 +29,6 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
             // workflow.addConditionalEdges(source, router, pathMap);
         }
     }
-    console.log("workflow in compileReflection", workflow);
 
     return workflow;
 }

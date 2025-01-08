@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom } from "../global/GlobalStates";
 import {FlowWithProvider} from "./FlowWithProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 import '@xyflow/react/dist/style.css';
@@ -18,6 +18,7 @@ const ReactFlowPanel = () => {
     const [reactflowDisplay, setReactflowDisplay] = useAtom(reactflowDisplayAtom);
     const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
     const [langgraphRun, setLanggraphRun] = useAtom(langgraphRunAtom);
+    const [graphImage, setGraphImage] = useState(null);
 
     const generateReactflow = async (config) => {
         setReactflowGenerate(0);
@@ -31,6 +32,8 @@ const ReactFlowPanel = () => {
         setLanggraphGenerate(0);
         const runnableLanggraph = await CompileLanggraph(compiledReactflow);
         console.log("runnableLanggraph", runnableLanggraph);
+        const graphImage = await generateGraphImage(runnableLanggraph);
+        setGraphImage(graphImage);
         setLanggraphRun(runnableLanggraph);
         setLanggraphGenerate(-1);
     }
@@ -99,6 +102,7 @@ const ReactFlowPanel = () => {
     return (
         <div className="reactflow-panel">
             <h2>Complete workflow</h2>
+            <img src={graphImage} alt="workflow graph" />
             {reactflowDisplay.length > 0 ? 
             canvasDisplay()
          : 

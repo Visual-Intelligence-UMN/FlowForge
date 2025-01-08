@@ -68,9 +68,9 @@ const CompileReactflow = async (config) => {
         }
 
         // **For the first step, set input node to "START" for visualization**
-        if (stepIdx === 0) {
-            firstNodeId = "START";
-        }
+        // if (stepIdx === 0) {
+        //     firstNodeId = "START";
+        // }
         if (stepIdx === taskFlowSteps.length - 1) {
             outputNodeIds.push("END");
         }

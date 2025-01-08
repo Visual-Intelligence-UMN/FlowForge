@@ -19,7 +19,6 @@ const compileSingleAgent = async (workflow, nodesInfo, stepeEges, AgentState) =>
         }
         workflow.addNode(node.id, agentNode);
     }
-    console.log("workflow in compileSingleAgent", workflow);
     return workflow;
 };
 
