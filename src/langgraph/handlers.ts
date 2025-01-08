@@ -145,6 +145,12 @@ const handleSupervision = (step) => {
         ],
         edges: [
             {
+                type: "direct",
+                source: "START",
+                target: "Supervisor",
+                label: "start",
+            },
+            {
                 type: "conditional",
                 source: "Supervisor",
                 target: "AgentA",
@@ -167,6 +173,12 @@ const handleSupervision = (step) => {
                 source: "AgentB",
                 target: "Supervisor",
                 label: "respond",
+            },
+            {
+                type: "conditional",
+                source: "Supervisor",
+                target: "END",
+                label: "finish",
             }
         ]
     };

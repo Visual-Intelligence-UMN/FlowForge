@@ -86,7 +86,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
                         "pattern": 
                             {
-                                "name": "Single Agent",
+                                "name": "Supervision",
                                 "description": "This design pattern has multiple agents to perform the task."
                             }
                         
