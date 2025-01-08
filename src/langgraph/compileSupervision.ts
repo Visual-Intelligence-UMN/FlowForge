@@ -101,6 +101,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
 
     workflow.addConditionalEdges(supervisor.id, selectNextFunction, targetMapping);
 
+    console.log("workflow after supervision",   workflow);
     return workflow;
 }
 

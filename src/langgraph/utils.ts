@@ -132,15 +132,29 @@ async function generateGraphImage(g: any): Promise<string | null> {
         console.log("Image obtained:", image);
 
         const arrayBuffer = await image.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-        const base64Image = `data:image/png;base64,${buffer.toString("base64")}`;
 
-        return base64Image;
+        const base64Image = await convertArrayBufferToBase64(arrayBuffer);
+
+        return `data:image/png;base64,${base64Image}`;
     } catch (error) {
         console.error("Error during graph drawing process:", error);
         return null;
     }
 }
+
+
+async function convertArrayBufferToBase64(buffer: ArrayBuffer): Promise<string> {
+    return new Promise((resolve) => {
+        const blob = new Blob([buffer], { type: "image/png" });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            resolve(reader.result?.toString().split(",")[1] || "");
+        };
+        reader.readAsDataURL(blob);
+    });
+}
+
+export default generateGraphImage;
 
 
 

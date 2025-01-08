@@ -30,6 +30,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
         }
     }
 
+    console.log("workflow after reflection", workflow);
     return workflow;
 }
 

@@ -11,7 +11,7 @@ import  StreamOutput  from "./StreamOutput";
 
 import CompileReactflow from "./CompileReactflow";
 import CompileLanggraph from "./CompileLanggraph";
-
+import { generateGraphImage } from "../langgraph/utils";
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);

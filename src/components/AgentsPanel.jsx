@@ -84,7 +84,8 @@ const AgentsPanel = () => {
                                     sx={{ padding: 1, marginTop: 1, borderLeft: "4px solid #3f51b5" }}
                                 >
                                     <Typography variant="subtitle1">{step.stepName}</Typography>
-                                    <Typography variant="caption" color="text.secondary">
+                                    <Typography variant="caption" >{step.pattern.name}</Typography>
+                                    {/* <Typography variant="caption" color="text.secondary">
                                         Nodes: {step.config.nodes.length}
                                     </Typography>
                                     {step.config.nodes.map((node, idx) => (
@@ -99,7 +100,7 @@ const AgentsPanel = () => {
                                         <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
                                             {edge.source} - {edge.target}
                                         </Typography>
-                                    ))}
+                                    ))} */}
                                 </Paper>
                             ))}
 

@@ -1,7 +1,7 @@
 import { createAgent, create_agent_node } from "./utils";
 import { RunnableConfig } from "@langchain/core/runnables";
 
-const compileSingleAgent = async (workflow, nodesInfo, stepeEges, AgentState) => {
+const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentState) => {
     for (const node of nodesInfo) {
         const createdAgent = async () => await createAgent({
             llmOption: node.data.llm,
@@ -19,6 +19,11 @@ const compileSingleAgent = async (workflow, nodesInfo, stepeEges, AgentState) =>
         }
         workflow.addNode(node.id, agentNode);
     }
+    console.log("workflow after single agent", workflow);
+    // direct next step edge
+    for (const edge of stepEdges) {
+        workflow.addEdge(edge.source, edge.target);
+    } 
     return workflow;
 };
 
