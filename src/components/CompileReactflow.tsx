@@ -91,7 +91,7 @@ const CompileReactflow = async (config) => {
                 let sourceId = nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx);
                 let targetId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
 
-                const edgeId = `step-${stepIdx}-${edge.source}->${edge.target}`;
+                const edgeId = `step_${stepIdx}-${edge.source}->${edge.target}`;
                 processedEdges.push({ id: edgeId, source: sourceId, target: targetId, type: edge.type, label: edge.label });
             }
         });

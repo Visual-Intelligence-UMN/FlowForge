@@ -3,7 +3,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
     const taskPrompt = `your task description is ${stepDescription}`;
     const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
     return {
-        type: "singleAgentWithWebSearchTool",
+        type: "singleAgent",
         nodes: [
             {
                 type: "singleAgentWithWebSearchTool",
@@ -22,7 +22,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
     const taskPrompt = `your task description is ${stepDescription}`;
     const patternSystemPrompt = 'You are a helpful assistant with access to a PDF loader tool, you can load a PDF file and extract the text';
     return {
-        type: "singleAgentWithPDFLoaderTool",
+        type: "singleAgent",
         nodes: [
             {
                 type: "singleAgentWithPDFLoaderTool",

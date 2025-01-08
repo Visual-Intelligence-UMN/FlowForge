@@ -5,7 +5,7 @@ import { Runnable } from "@langchain/core/runnables";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { AIMessage } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
-
+import { toolsMap } from "./tools";
 import { InputAnnotation } from "./states";
 
 
@@ -16,23 +16,18 @@ async function createAgent({
     systemMessage
   }: {
     llmOption: string;
-    tools: StructuredTool[];
+    tools: string[];
     systemMessage: string;
   }): Promise<Runnable> {
 
     const llm = new ChatOpenAI({
         modelName: llmOption,
         temperature: 1,
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        apiKey: process.env.VITE_OPENAI_API_KEY,
     });
 
-    let toolNames = "";
-    let formattedTools = [];
-    
-    if (tools.length > 0) {
-        toolNames = tools.map((tool) => tool.name).join(", ");
-        formattedTools = tools.map((t) => convertToOpenAITool(t));
-    }
+    const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");
+    const formattedTools = tools.map((t) => convertToOpenAITool(toolsMap[t]));
 
     let prompt = ChatPromptTemplate.fromMessages([
         ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
@@ -96,34 +91,4 @@ async function create_agent_node(props: {
     };
 };
 
-import fs from "fs";
-
-async function saveGraphImage(g: any, savePath = "graph_image.png") {
-    try {
-        console.log("Attempting to draw Mermaid PNG...");
-        const graphViz = g.getGraph({xray: 1});
-        console.log("graphViz", graphViz);
-        if (!graphViz) {
-            console.error("GraphViz is not ready");
-            return;
-        }
-        const image = await graphViz.drawMermaidPng();
-        console.log("Image obtained:", image);
-
-        const arrayBuffer = await image.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        fs.writeFile(savePath, buffer, (err) => {
-            if (err) {
-                console.error(`Error saving the image to ${savePath}:`, err);
-            } else {
-                console.log(`Image saved successfully at ${savePath}`);
-            }
-        });
-    } catch (error) {
-        console.error("Error during graph drawing process:", error);
-    }
-}
-
-
-export { create_agent, create_agent_node, saveGraphImage };
+export { create_agent, create_agent_node, createAgent };

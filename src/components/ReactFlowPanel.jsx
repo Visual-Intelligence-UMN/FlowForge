@@ -30,6 +30,7 @@ const ReactFlowPanel = () => {
 
         setLanggraphGenerate(0);
         const runnableLanggraph = await CompileLanggraph(compiledReactflow);
+        console.log("runnableLanggraph", runnableLanggraph);
         setLanggraphRun(runnableLanggraph);
         setLanggraphGenerate(-1);
     }
