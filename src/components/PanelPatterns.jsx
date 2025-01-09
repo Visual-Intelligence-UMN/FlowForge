@@ -240,9 +240,9 @@ const PatternsPanel = () => {
 
                 <CardContent>
                   <Typography variant="h6" color="primary" gutterBottom>
-                    Task Flow {pattern.patternId}
+                    Patterns {pattern.patternId}
                   </Typography>
-                  <Divider sx={{ mb: 2 }} />
+                  {/* <Divider sx={{ mb: 2 }} /> */}
                   {pattern.taskFlowSteps.map((step, index) => (
                     <Box key={index} sx={{ mb: 1 }}>
                       <Typography variant="body1" fontWeight="bold">

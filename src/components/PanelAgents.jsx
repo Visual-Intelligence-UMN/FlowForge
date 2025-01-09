@@ -228,8 +228,8 @@ const AgentsPanel = () => {
 
             <CardContent>
               {/* For debugging, you could show config.configId */}
-              <Typography variant="subtitle1" fontWeight="bold">
-                Config ID: {config.configId}
+              <Typography variant="h6" gutterBottom color="primary">
+                Config {config.configId}
               </Typography>
               {config.taskFlowSteps?.map((step, idx) => (
                 <Paper

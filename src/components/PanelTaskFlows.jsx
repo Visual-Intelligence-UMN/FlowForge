@@ -204,12 +204,12 @@ const TaskFlows = () => {
 
               <CardContent sx={{ paddingBottom: 0 }}>
                 <Typography
-                  variant="body1"
-                  component="div"
+                  variant="h6"
                   textAlign="left"
+                  color="primary"
                   sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
                 >
-                  {flow.taskFlowName} - flow {flow.taskFlowId}
+                  Task Flow {flow.taskFlowId}
                 </Typography>
                 <Box mt={2}>
                   {flow.taskFlowSteps.map((step, index) => (
