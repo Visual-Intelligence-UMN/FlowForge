@@ -15,8 +15,6 @@ function TaskPanel() {
   const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
   const [filePreview, setFilePreview] = useState(null);
 
-  // This replaces the tabIndex from before
-  // Instead, we’ll just track a selected index or let selectedTask handle that
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const taskList = [
@@ -67,12 +65,8 @@ function TaskPanel() {
   return (
     <Box sx={{ width: '100%', maxWidth: 1000, padding: 2 }}>
       <Grid container spacing={2} alignItems="flex-start">
-        {/* Left Column */}
-        <Grid item xs={8}>
-
-          {/* Suggested task bubbles */}
-          
-
+        {/* Left Column (or Main Column) */}
+        <Grid item xs={12}>
           {/* Description text field */}
           {selectedTask && (
             <TextField
@@ -82,10 +76,12 @@ function TaskPanel() {
               multiline
               minRows={1}
               fullWidth
-              sx={{ mt: 2, '& .MuiInputBase-root': { fontSize: '16px' } }}
+              sx={{ mt: 1, '& .MuiInputBase-root': { fontSize: '16px' } }}
             />
           )}
-          <Box sx={{ mb: 2, padding: 1, marginBottom: 1}}>
+
+          {/* Task selection buttons */}
+          <Box sx={{ mb: 2, padding: 1, marginBottom: 1, marginTop: 1, gap:1,display: 'flex', justifyContent: 'flex-start' }}>
             {taskList.map((task, index) => (
               <Button
                 key={task.id}
@@ -93,75 +89,77 @@ function TaskPanel() {
                 size="small"
                 onClick={() => handleTaskSelect(index)}
                 sx={{
-                  textTransform: 'none',
-                  borderRadius: '16px',
-                  mr: 1,
-                  mb: 1,
+                  borderRadius: '10px',
                   fontSize: '12px',
-                  margin: 0,
+                  marginLeft: 1,
                 }}
               >
                 {task.name}
               </Button>
             ))}
           </Box>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            color="primary"
-            sx={{
-              fontSize: '12px',
-              mt: 3,
-              padding: '5px 10px',
-              margin: 0,
-            }}
-          >
-            Submit Task
-          </Button>
-        </Grid>
 
-        {/* Right Column */}
-        <Grid item xs={6}>
-          {selectedTask?.requiresUpload && (
-            <Box
+          {/* Submit button + conditional file upload */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+              onClick={handleSubmit}
+              color="primary"
+              variant="outlined"
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 1,
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                padding: 4,
+                fontSize: '12px',
+                padding: '12px 12px',
+                margin: 0,
+                whiteSpace: 'nowrap',
               }}
             >
-              <Typography sx={{ fontSize: '18px', fontWeight: 'bold' }}>
-                Upload File
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Input
-                  type="file"
-                  onChange={handleFileChange}
-                  sx={{ fontSize: '12px' }}
-                />
-                {filePreview && (
-                  <>
-                    <Typography sx={{ fontSize: '12px' }}>
-                      {selectedTask.uploadedFile.name}
-                    </Typography>
-                    <Button
-                      onClick={handleFileDelete}
-                      size="small"
-                      variant="contained"
-                      color="error"
-                      sx={{ fontSize: '10px', padding: '2px 6px' }}
-                    >
-                      X
-                    </Button>
-                  </>
-                )}
+              Submit Task
+            </Button>
+            {selectedTask?.requiresUpload && (
+              <Box
+                sx={{
+                  marginLeft: 'auto',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: 2,
+                  border: '1px solid #ccc',
+                  borderRadius: '10px',
+                  padding: 1,
+                  mt: 0,
+                }}
+              >
+                <Typography sx={{ fontSize: '14px', fontWeight: 'bold' }}>
+                  Upload File
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Input
+                    type="file"
+                    onChange={handleFileChange}
+                    sx={{ fontSize: '12px' }}
+                  />
+                  {filePreview && (
+                    <>
+                      {/* <Typography sx={{ fontSize: '12px', textWrap: 'wrap'}}>
+                        {selectedTask.uploadedFile?.name}
+                      </Typography> */}
+                      <Button
+                        onClick={handleFileDelete}
+                        size="small"
+                        variant="contained"
+                        color="error"
+                        sx={{ fontSize: '10px', padding: '2px 6px' }}
+                      >
+                        X
+                      </Button>
+                    </>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
+
+            
+          </Box>
         </Grid>
+        
       </Grid>
     </Box>
   );
