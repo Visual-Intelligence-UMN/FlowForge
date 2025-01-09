@@ -1,8 +1,12 @@
 import { useAtom } from "jotai";
-import { taskFlowsAtom, taskFlowsGenerateAtom, selectedTaskAtom, patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
+import {
+  taskFlowsGenerateAtom,
+  selectedTaskAtom,
+  patternsGenerateAtom,
+  patternsFlowAtom,
+} from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import GenerateTaskFlows from "./GenerateTaskFlows";
-
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -10,140 +14,280 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// --------------------------------------
+// 1. Utility to reassign flow IDs
+// --------------------------------------
+let flowCounter = 1;
+
+function reassignFlowIds(flows) {
+  return flows.map((flow) => {
+    const newId = flowCounter++;
+    return {
+      ...flow,
+      originalFlowId: flow.taskFlowId,
+      taskFlowId: newId,
+    };
+  });
+}
+
+function mergeFlowsById(existingMap, existingIds, newFlows) {
+  const updatedMap = { ...existingMap };
+  let updatedIds = [...existingIds];
+
+  for (const flow of newFlows) {
+    const { taskFlowId } = flow;
+    updatedMap[taskFlowId] = {
+      ...updatedMap[taskFlowId],
+      ...flow,
+    };
+    if (!updatedIds.includes(taskFlowId)) {
+      updatedIds.push(taskFlowId);
+    }
+  }
+
+  return { updatedMap, updatedIds };
+}
 
 const TaskFlows = () => {
-    const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
-    const [taskFlows, setTaskFlows] = useAtom(taskFlowsAtom);
-    const [selectedTask] = useAtom(selectedTaskAtom);
-    const [selectedFlowId, setSelectedFlowId] = useState(null);
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    
-    const generateTaskFlows = async (selectedTask) => {
-        const taskFlows = await GenerateTaskFlows(selectedTask);
-        const taskFlowsData = taskFlows.taskFlows;
-        setTaskFlows(taskFlowsData);
-        setTaskFlowsGenerate(1);
+  // -- Normalized flow storage
+  const [flowsMap, setFlowsMap] = useState({});
+  const [flowIds, setFlowIds] = useState([]);
+
+  const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
+  const [selectedTask] = useAtom(selectedTaskAtom);
+  const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+  const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
+
+  const [selectedFlowId, setSelectedFlowId] = useState(null);
+
+  // --------------------------------------
+  // 2. Generate initial flows
+  // --------------------------------------
+  const generateTaskFlows = async (selectedTask) => {
+    const newData = await GenerateTaskFlows(selectedTask);
+    const incomingFlows = reassignFlowIds(newData.taskFlows);
+
+    setFlowsMap((prevMap) => {
+      const { updatedMap, updatedIds } = mergeFlowsById(prevMap, flowIds, incomingFlows);
+      setFlowIds(updatedIds);
+      return updatedMap;
+    });
+
+    setTaskFlowsGenerate(1);
+  };
+
+  // --------------------------------------
+  // 3. Load/Generate MORE flows
+  // --------------------------------------
+  const loadMoreTaskFlows = async (selectedTask) => {
+    const moreData = await GenerateTaskFlows(selectedTask);
+    const moreFlows = reassignFlowIds(moreData.taskFlows);
+
+    setFlowsMap((prevMap) => {
+      const { updatedMap, updatedIds } = mergeFlowsById(prevMap, flowIds, moreFlows);
+      setFlowIds(updatedIds);
+      return updatedMap;
+    });
+  };
+
+  // --------------------------------------
+  // 4. On mount or triggers, if we need initial flows
+  // --------------------------------------
+  useEffect(() => {
+    if (taskFlowsGenerate === 0) {
+      generateTaskFlows(selectedTask);
+    }
+  }, [taskFlowsGenerate]);
+
+  // --------------------------------------
+  // 5. Deleting a flow
+  // --------------------------------------
+  const deleteFlow = (flowId) => {
+    setFlowsMap((prevMap) => {
+      const updatedMap = { ...prevMap };
+      delete updatedMap[flowId];
+      return updatedMap;
+    });
+    setFlowIds((prevIds) => prevIds.filter((id) => id !== flowId));
+    console.log("Deleting flow with ID:", flowId);
+  };
+
+  // --------------------------------------
+  // 6. Generate patterns
+  // --------------------------------------
+  const generatePatterns = (flow) => {
+    console.log("Generating patterns for flow with ID:", flow.taskFlowId);
+    setPatternsGenerate(0);
+    setPatternsFlow(flow);
+  };
+
+  // A small sub-component to render the “...” menu in the top-right
+  const FlowMenu = ({ flowId }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleMenuOpen = (event) => {
+      event.stopPropagation(); // Prevent card click selection
+      setAnchorEl(event.currentTarget);
     };
-
-    useEffect(() => {
-        if (taskFlowsGenerate === 0) {
-            generateTaskFlows(selectedTask);
-        }
-    }, [taskFlowsGenerate]);
-
-    const NoTaskFlows = () => {
-        return <p>No task flows available. Please generate flows for the selected task.</p>;
+    const handleMenuClose = () => {
+      setAnchorEl(null);
     };
-
-    const deleteFlow = (flowId) => {
-        setTaskFlows((prevTaskFlows) => prevTaskFlows.filter((flow) => flow.flowId !== flowId));
-        console.log("Deleting flow with ID:", flowId);
-    };
-
-    const generatePatterns = (flow) => {
-        console.log("Generating patterns for flow with ID:", flow.taskFlowId);
-        setPatternsGenerate(0);
-        setPatternsFlow(flow);
-    };
-
-    const TaskFlowsDisplay = () => {
-        return (
-            <div className="task-flows-container">
-                {taskFlows.map((flow) => (
-                    <Card
-                        key={flow.taskFlowId}
-                            onClick={() => setSelectedFlowId(flow.taskFlowId)}
-                            sx={{
-                                border: selectedFlowId === flow.taskFlowId ? "2px solid blue" : "1px solid #ccc",
-                                backgroundColor: selectedFlowId === flow.taskFlowId ? "#f0f8ff" : "#fff",
-                                cursor: "pointer",
-                                ":hover": { boxShadow: 3 },
-                            }}
-                        >
-                            <CardContent>
-                                <Typography
-                                    variant="h5"
-                                    component="div"
-                                    textAlign="center"
-                                    gutterBottom
-                                    sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-                                >
-                                    {flow.taskFlowName}
-                                </Typography>
-                                {/* <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    textAlign="center"
-                                    sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
-                                >
-                                    {flow.taskFlowDescription}
-                                </Typography> */}
-                                <Box mt={2}>
-                                    {flow.taskFlowSteps.map((step, index) => (
-                                        <Box
-                                            key={index}
-                                            sx={{
-                                                padding: 0,
-                                                marginBottom: 1,
-                                                // backgroundColor: "#f9f9f9",
-                                                borderRadius: "4px",
-                                                wordWrap: "break-word",
-                                            }}
-                                        >
-                                            <Typography variant="body1" fontWeight="bold">
-                                                {step.stepName}  ({step.stepLabel})
-                                            </Typography>
-                                            <Typography variant="body1" sx={{ wordWrap: "break-word", whiteSpace: "normal" }}>
-                                                {step.stepDescription}
-                                            </Typography>
-                                        </Box>
-                                    ))}
-                                </Box>
-                            </CardContent>
-                            <CardActions>
-                                <Button
-                                    size="small"
-                                    onClick={() => generatePatterns(flow)}
-                                    sx={{ textTransform: "none" }}
-                                >
-                                    Generate
-                                </Button>
-                                <Button
-                                    size="small"
-                                    color="error"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        deleteFlow(flow.taskFlowId);
-                                    }}
-                                    sx={{ textTransform: "none" }}
-                                >
-                                    Delete
-                                </Button>
-                            </CardActions>
-                        </Card>
-                ))}
-            </div>
-        );
-
+    const handleDelete = (event) => {
+      event.stopPropagation();
+      deleteFlow(flowId);
+      handleMenuClose();
     };
 
     return (
-        <div className="task-flows-panel">
-            <h2 style={{ margin: 0 }}>Task Flows</h2>
-
-                {taskFlowsGenerate === -1 && <NoTaskFlows />}
-                {taskFlowsGenerate === 0 && <p>Loading...</p>}
-                {taskFlowsGenerate === 1 && taskFlows && taskFlows.length > 0 && <TaskFlowsDisplay />}
-                {taskFlowsGenerate === 1 && (!taskFlows || taskFlows.length === 0) && <NoTaskFlows />}
-
-            {/* Debug Info */}
-            {/* <div style={{ marginTop: '20px', borderTop: '1px solid #ccc', padding: '10px', fontSize: '12px', color: '#555' }}>
-                <strong>Debug Info:</strong>
-                <pre>{JSON.stringify(selectedTask, null, 2)}</pre>
-            </div> */}
-        </div>
+      <>
+        <IconButton
+          aria-label="more"
+          onClick={handleMenuOpen}
+          sx={{ position: "absolute", top: 8, right: 8 }}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleMenuClose}
+          // Stop the card click from closing or interfering
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </Menu>
+      </>
     );
+  };
+
+  // --------------------------------------
+  // 7. Rendering flows
+  // --------------------------------------
+  const TaskFlowsDisplay = () => {
+    return (
+      <div className="task-flows-container">
+        {flowIds.map((fid) => {
+          const flow = flowsMap[fid];
+          if (!flow) return null;
+
+          return (
+            <Card
+              key={flow.taskFlowId}
+              onClick={() => setSelectedFlowId(flow.taskFlowId)}
+              sx={{
+                position: "relative",
+                border:
+                  selectedFlowId === flow.taskFlowId
+                    ? "2px solid blue"
+                    : "1px solid #ccc",
+                backgroundColor:
+                  selectedFlowId === flow.taskFlowId ? "#f0f8ff" : "#fff",
+                cursor: "pointer",
+                ":hover": { boxShadow: 3 },
+                marginBottom: "8px",
+              }}
+            >
+              {/* The top-right menu */}
+              <FlowMenu flowId={flow.taskFlowId} />
+
+              <CardContent>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  textAlign="center"
+                  gutterBottom
+                  sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+                >
+                  {flow.taskFlowName} - flow {flow.taskFlowId}
+                </Typography>
+                <Box mt={2}>
+                  {flow.taskFlowSteps.map((step, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        padding: 0,
+                        marginBottom: 1,
+                        borderRadius: "4px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <Typography variant="body1" fontWeight="bold">
+                        {step.stepName} ({step.stepLabel})
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+                      >
+                        {step.stepDescription}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    generatePatterns(flow);
+                  }}
+                  sx={{ textTransform: "none" }}
+                >
+                  Generate
+                </Button>
+              </CardActions>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const NoTaskFlows = () => (
+    <p>No task flows available. Please generate flows for the selected task.</p>
+  );
+
+  const taskFlowsHeader = () => {
+    return (
+      <div
+        className="task-flows-header"
+        style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+      >
+        <h2 style={{ margin: 0 }}>Task Flows</h2>
+        {taskFlowsGenerate === 1 && flowIds.length > 0 && (
+          <Box mt={2}>
+            <Button
+              variant="contained"
+              onClick={() => loadMoreTaskFlows(selectedTask)}
+              sx={{ textTransform: "none" }}
+            >
+              Load More Flows
+            </Button>
+          </Box>
+        )}
+      </div>
+    );
+  };
+
+  // --------------------------------------
+  // 8. Main return
+  // --------------------------------------
+  return (
+    <div className="task-flows-panel">
+      {taskFlowsHeader()}
+
+      {taskFlowsGenerate === -1 && <NoTaskFlows />}
+      {taskFlowsGenerate === 0 && <p>Loading...</p>}
+      {taskFlowsGenerate === 1 && flowIds.length > 0 && <TaskFlowsDisplay />}
+      {taskFlowsGenerate === 1 && flowIds.length === 0 && <NoTaskFlows />}
+    </div>
+  );
 };
 
 export default TaskFlows;

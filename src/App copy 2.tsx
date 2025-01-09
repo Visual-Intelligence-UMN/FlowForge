@@ -1,9 +1,9 @@
 import React from 'react';
-import TaskPanel from './components/TaskPanel';
-import TaskFlows from './components/TaskFlows';
-import PatternsPanel from './components/PatternsPanel';
-import AgentsPanel from './components/AgentsPanel';
-import ReactFlowPanel from './components/ReactFlowPanel';
+import TaskPanel from './components/PanelTasks';
+import TaskFlows from './components/PanelTaskFlows';
+import PatternsPanel from './components/PanelPatterns';
+import AgentsPanel from './components/PanelAgents';
+import ReactFlowPanel from './components/PanelReactFlow';
 const Construction = () => {
     return (
         <div className="main-container">
