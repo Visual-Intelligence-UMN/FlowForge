@@ -111,10 +111,12 @@ const handleSupervision = (step) => {
     const patternSystemPromptAgentB = 'You are a helpful assistant who can achieve the task';
 
     const patternSystemPromptSupervisor = 'You are a helpful supervisor who can supervise other agents to achieve the task \
-    You manage the conversation between the following agents: {members}. With the following members description: {members_description}. \
+    You manage the conversation between the following agents: {members}.  \
     Given the user request and conversation history, respond with the worker to act next. Each agent will perform a subtask and respond with their restuls and status. \
     When the task is done, you should organize the output and respond with ending with FINISH.';
 
+    // TODO: additional information: 
+    // With the following members description: {members_description}.
 
     return {
         type: "supervision",

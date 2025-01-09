@@ -23,7 +23,7 @@ async function createAgent({
     const llm = new ChatOpenAI({
         modelName: llmOption,
         temperature: 1,
-        apiKey: process.env.VITE_OPENAI_API_KEY,
+        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
     });
 
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");

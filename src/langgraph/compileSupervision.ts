@@ -22,7 +22,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
                 return create_agent_node({
                     state: state,
                     agent: await createdAgent(),
-                    name: node.label,
+                    name: node.id,
                     config: config,
             });
         }

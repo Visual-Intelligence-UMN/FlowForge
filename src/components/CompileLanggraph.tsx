@@ -15,6 +15,14 @@ const CompileLanggraph = async (reactflowConfig) => {
         messages: Annotation<BaseMessage[]>({
             reducer: (x,y) => x.concat(y),
         }),
+        sender: Annotation<string>({
+            reducer: (x,y) => y??x??"user",
+            default: () => "user",
+        }),
+        next: Annotation<string>({
+            reducer: (x,y) => y??x??"__end__",
+            default: () => "__end__",
+        }),
     });
     let compiledWorkflow = new StateGraph(AgentState);
 
