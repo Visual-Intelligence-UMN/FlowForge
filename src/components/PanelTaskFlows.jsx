@@ -4,6 +4,7 @@ import {
   selectedTaskAtom,
   patternsGenerateAtom,
   patternsFlowAtom,
+  selectionChainAtom,
 } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import GenerateTaskFlows from "./GenerateTaskFlows";
@@ -65,6 +66,7 @@ const TaskFlows = () => {
   const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
 
   const [selectedFlowId, setSelectedFlowId] = useState(null);
+  const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
 
   // --------------------------------------
   // 2. Generate initial flows
@@ -170,6 +172,10 @@ const TaskFlows = () => {
   // --------------------------------------
   // 7. Rendering flows
   // --------------------------------------
+  const isFlowSelected = (flow) => {
+    return String(flow.taskFlowId) === String(selectionChain.flowId);
+  };
+
   const TaskFlowsDisplay = () => {
     return (
       <div className="task-flows-container">
@@ -180,15 +186,14 @@ const TaskFlows = () => {
           return (
             <Card
               key={flow.taskFlowId}
-              onClick={() => setSelectedFlowId(flow.taskFlowId)}
+              onClick={() => {
+                setSelectedFlowId(flow.taskFlowId);
+                setSelectionChain({flowId: flow.taskFlowId, patternId: null, configId: null});
+              }}
               sx={{
                 position: "relative",
-                border:
-                  selectedFlowId === flow.taskFlowId
-                    ? "2px solid blue"
-                    : "1px solid #ccc",
-                backgroundColor:
-                  selectedFlowId === flow.taskFlowId ? "#f0f8ff" : "#fff",
+                border: isFlowSelected(flow) ? "2px solid blue" : "1px solid #ccc",
+                backgroundColor: isFlowSelected(flow) ? "#f0f8ff" : "#fff",
                 cursor: "pointer",
                 ":hover": { boxShadow: 3 },
                 marginBottom: "1px",

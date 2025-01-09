@@ -5,6 +5,7 @@ import {
   patternsFlowAtom,
   agentsConfigGenerateAtom,
   agentsConfigPatternAtom,
+  selectionChainAtom,
 } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -56,6 +57,8 @@ const PatternsPanel = () => {
 
   const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
   const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
+
+  const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
 
   // --------------------------------------
   // Generate patterns for the selected flow
@@ -194,6 +197,16 @@ const PatternsPanel = () => {
   // --------------------------------------
   // Rendering the patterns in cards
   // --------------------------------------
+  const isPatternSelected = (pattern) => {
+    if (selectionChain.patternId && pattern.patternId === selectionChain.patternId) {
+      return true;
+    }
+    if (!selectionChain.patternId && selectionChain.flowId) {
+      return pattern.patternId.startsWith(selectionChain.flowId+"-");
+    }
+    return false;
+  };
+
   const PatternsDisplay = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
@@ -207,7 +220,21 @@ const PatternsPanel = () => {
               key={pattern.patternId}
               sx={{ position: "relative" }}
             >
-              <Card elevation={3} sx={{ borderRadius: 2 }}>
+              <Card 
+                elevation={3} 
+                sx={{ 
+                  borderRadius: 2,
+                  border: isPatternSelected(pattern) ? "2px solid blue" : "1px solid #ccc",
+                  backgroundColor: isPatternSelected(pattern) ? "#f0f8ff" : "#fff",
+                  cursor: "pointer",
+                  ":hover": { boxShadow: 3 },
+                  marginBottom: "1px",
+                }}
+                onClick={() => {
+                  const [flowId] = pattern.patternId.split("-");
+                  setSelectionChain({flowId: flowId, patternId: pattern.patternId, configId: null});
+                }}
+              >
                 {/* Pattern Menu in top-right */}
                 <PatternMenu patternId={pattern.patternId} />
 

@@ -7,6 +7,7 @@ import {
   agentsConfigAtom,
   agentsConfigGenerateAtom,
   agentsConfigPatternAtom,
+  selectionChainAtom,
 } from "../global/GlobalStates";
 
 import GenerateRunnableConfig from "./GenerateConfig";
@@ -43,7 +44,7 @@ function reassignConfigIds(patternId, configs) {
       // Keep original ID if needed for debugging
       originalConfigId: config.configId,
       // Overwrite with our new ID
-      configId: `${patternId}-cfg-${nextCount}`,
+      configId: `${patternId}-${nextCount}`,
       // Make sure the config object has a reference to patternId
       patternId,
     };
@@ -60,6 +61,7 @@ const AgentsPanel = () => {
   const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
   const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
 
+  const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
   // --------------------------------------
   // Deleting a config from the global array
   // --------------------------------------
@@ -126,7 +128,7 @@ const AgentsPanel = () => {
 
       for (const config of previousAgentsConfig) {
         // If an existing config is for the same pattern, replace that block
-        if (config.patternId === pattern.patternId && !replaced) {
+        if (config.patternId === pattern.patternId && config.configId === pattern.configId && !replaced) {
           updatedAgentsConfig.push(...assignedConfigs);
           replaced = true;
         } else {
@@ -178,6 +180,20 @@ const AgentsPanel = () => {
   // --------------------------------------
   // 6) AgentsDisplay => show the generated configs
   // --------------------------------------
+
+  const isAgentConfigSelected = (config) => {
+    if (selectionChain.configId && config.configId === selectionChain.configId) {
+      return true;
+    }
+    if (!selectionChain.configId && selectionChain.patternId) {
+      return config.patternId.startsWith(selectionChain.patternId);
+    }
+    if (!selectionChain.patternId && selectionChain.flowId) {
+      return config.patternId.startsWith(selectionChain.flowId+"-");
+    }
+    return false;
+  };
+
   const AgentsDisplay = () => (
     <Grid container spacing={2} sx={{ mt: 2 }}>
       {agentsConfig.map((config) => (
@@ -190,10 +206,18 @@ const AgentsPanel = () => {
           sx={{ position: "relative" }}
         >
           <Card
-            onClick={() => setSelectedAgentConfig(config)}
+            onClick={() => {
+              setSelectedAgentConfig(config);
+              const [flowId, patternNum, cfgNum] = config.patternId.split("-");
+              setSelectionChain({
+                flowId,
+                patternId: `${flowId}-${patternNum}`, 
+                configId: config.configId
+              });
+            }}
             sx={{
-              border: selectedAgentConfig === config ? "2px solid blue" : "1px solid #ccc",
-              backgroundColor: selectedAgentConfig === config ? "#f0f8ff" : "#fff",
+              border: isAgentConfigSelected(config) ? "2px solid blue" : "1px solid #ccc",
+              backgroundColor: isAgentConfigSelected(config) ? "#f0f8ff" : "#fff",
               cursor: "pointer",
               transition: "0.3s",
               "&:hover": { boxShadow: 6 },
@@ -218,9 +242,7 @@ const AgentsPanel = () => {
                 </Paper>
               ))}
               <Button
-                variant="contained"
                 color="primary"
-                fullWidth
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent parent click event
                   handleSelectConfig(config);
