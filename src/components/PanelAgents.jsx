@@ -162,9 +162,7 @@ const AgentsPanel = () => {
 
   // If no agent configs => a small message
   const NoAgents = () => (
-    <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mt: 2 }}>
-      No agents available. Please generate agents for the selected pattern.
-    </Typography>
+     <p>No agents available. Please generate agents for the selected pattern.</p>
   );
 
   // --------------------------------------
@@ -262,8 +260,8 @@ const AgentsPanel = () => {
   // 7) Main return
   // --------------------------------------
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+    <Box sx={{ padding: 1 ,border: '1px solid #ccc'}}>
+      <Typography variant="h5" fontWeight="bold">
         Agents
       </Typography>
       {agentsConfig.length > 0 ? <AgentsDisplay /> : <NoAgents />}

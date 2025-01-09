@@ -102,7 +102,7 @@ const ReactFlowPanel = () => {
     return (
         <div className="reactflow-panel">
             <h2>Complete workflow</h2>
-            <img src={graphImage} alt="workflow graph" />
+            {graphImage && <img src={graphImage} alt="workflow graph" />}
             {reactflowDisplay.length > 0 ? 
             canvasDisplay()
          : 
