@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import React from "react";
 
+import { designPatternsPool } from "../global/GlobalStates";
 import { 
   Box, 
   Card, 
@@ -19,11 +20,13 @@ import {
   Divider, 
   IconButton, 
   Menu, 
-  MenuItem 
+  MenuItem,
+  Tooltip,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DisplayPatterns from "./DisplayPatterns";
+import GeneratePatterns from "./GeneratePatterns";
 
 // --------------------------------------
 // 1) A dictionary to track per-flow pattern numbering
@@ -210,6 +213,7 @@ const PatternsPanel = () => {
   const PatternsDisplay = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
+        <PatternsMapRow />
         <Grid container spacing={1}>
           {designPatterns.map((pattern) => (
             <Grid
@@ -286,6 +290,46 @@ const PatternsPanel = () => {
       </Box>
     );
   };
+
+  const PatternsMapRow = () => {
+    return (
+      <Box sx={{ mb: 2 }}>
+        <Grid container spacing={2}>
+          {designPatternsPool.map((pattern, index) => (
+            <Grid item xs="auto" key={index}>
+              <Tooltip title={pattern.description} arrow>
+                <Card
+                  sx={{
+                    width: 200,
+                    height: 30,
+                    cursor: "pointer",
+                    "&:hover": {
+                      boxShadow: 4,
+                    },
+                    padding: 1,
+                  }}
+                >
+                  <CardContent sx={{ padding: 0, margin: 0 }} >
+                    <Typography
+                      variant="body2"
+                      textAlign="center"
+                      sx={{
+                        whiteSpace: "wrap",
+                        width: "100%",
+                      }}
+                    >
+                      {pattern.name}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Tooltip>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  };
+  
 
   return (
     <div className="patterns-panel">
