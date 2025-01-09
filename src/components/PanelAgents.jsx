@@ -1,136 +1,252 @@
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { selectedConfigAtom, reactflowGenerateAtom, langgraphGenerateAtom } from "../global/GlobalStates";
+import {
+  selectedConfigAtom,
+  reactflowGenerateAtom,
+  langgraphGenerateAtom,
+  agentsConfigAtom,
+  agentsConfigGenerateAtom,
+  agentsConfigPatternAtom,
+} from "../global/GlobalStates";
+
 import GenerateRunnableConfig from "./GenerateConfig";
-import { agentsConfigAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom } from "../global/GlobalStates";
-import { Box, Card, CardContent, Typography, Button, Paper } from "@mui/material";
-import Grid from '@mui/material/Grid2';
+import { 
+  Box, 
+  Card, 
+  CardContent, 
+  Typography, 
+  Button, 
+  Paper, 
+  IconButton, 
+  Menu, 
+  MenuItem 
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// --------------------------------------
+// 1) Dictionary to track how many configs
+// each pattern has produced so far.
+// --------------------------------------
+const patternIdToConfigCounter = {};
+
+// 2) Utility to reassign config IDs for a given pattern
+function reassignConfigIds(patternId, configs) {
+  if (!patternIdToConfigCounter[patternId]) {
+    patternIdToConfigCounter[patternId] = 1;
+  }
+
+  return configs.map((config) => {
+    const nextCount = patternIdToConfigCounter[patternId]++;
+    return {
+      ...config,
+      // Keep original ID if needed for debugging
+      originalConfigId: config.configId,
+      // Overwrite with our new ID
+      configId: `${patternId}-cfg-${nextCount}`,
+      // Make sure the config object has a reference to patternId
+      patternId,
+    };
+  });
+}
 
 const AgentsPanel = () => {
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
-    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
-    const [selectedAgentConfig, setSelectedAgentConfig] = useState(null);
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
-    const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
-    const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
-    const generateAgents = async (pattern) => {
-        const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
-        console.log("Generated agents config:", generatedAgentsConfig);
+  const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+  const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+  const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
 
-        setAgentsConfig(previousAgentsConfig => {
-            const updatedAgentsConfig = [];
-            let replaced = false;
-            for (const config of previousAgentsConfig) {
-                // TODO: make sure to display the correct agents config corresponding to the pattern
-                if (config.patternId === pattern.patternId) {
-                    if (!replaced) {
-                        updatedAgentsConfig.push(...generatedAgentsConfig);
-                        replaced = true;
-                    }
-                } else {
-                    updatedAgentsConfig.push(config);
-                }
-            }
+  const [selectedAgentConfig, setSelectedAgentConfig] = useState(null);
+  const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
+  const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
+  const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
 
-            if (!replaced) {
-                updatedAgentsConfig.push(...generatedAgentsConfig);
-            }
-            console.log("Updated agents config:", updatedAgentsConfig);
-            return updatedAgentsConfig;
-        });
+  // --------------------------------------
+  // Deleting a config from the global array
+  // --------------------------------------
+  const deleteConfig = (configId) => {
+    setAgentsConfig((prev) => prev.filter((c) => c.configId !== configId));
+    console.log("Deleting config with ID:", configId);
+  };
 
-        setAgentsConfigGenerate(-1);
-        setAgentsConfigPattern(null);
+  // --------------------------------------
+  // A small sub-component for the top-right menu
+  // --------------------------------------
+  const ConfigMenu = ({ configId }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleMenuOpen = (event) => {
+      event.stopPropagation(); // Prevent card click from selecting it
+      setAnchorEl(event.currentTarget);
     };
-
-    useEffect(() => {
-        if (agentsConfigGenerate === 0) {
-            generateAgents(agentsConfigPattern);
-        }
-    }, [agentsConfigGenerate]);
-
-    const NoAgents = () => (
-        <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mt: 2 }}>
-            No agents available. Please generate agents for the selected pattern.
-        </Typography>
-    );
-
-    const handleSelectConfig = (config) => {
-        setReactflowGenerate(0);
-        setLanggraphGenerate(0);
-        setSelectedConfig(config);
+    const handleMenuClose = () => {
+      setAnchorEl(null);
     };
-
-    const AgentsDisplay = () => (
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-            {agentsConfig.map((config, configIdx) => (
-                <Grid item xs={12} sm={6} md={4} key={configIdx}>
-                    <Card 
-                        onClick={() => setSelectedAgentConfig(config)}
-                        sx={{
-                            border: selectedAgentConfig === config ? "2px solid blue" : "1px solid #ccc",
-                            backgroundColor: selectedAgentConfig === config ? "#f0f8ff" : "#fff",
-                            cursor: "pointer",
-                            transition: "0.3s",
-                            "&:hover": { boxShadow: 6 }
-                        }}
-                    >
-                        <CardContent>
-
-                            {config.taskFlowSteps.map((step, idx) => (
-                                <Paper key={`${configIdx}-${idx}`} 
-                                    elevation={2} 
-                                    sx={{ padding: 1, marginTop: 1, borderLeft: "4px solid #3f51b5" }}
-                                >
-                                    <Typography variant="subtitle1">{step.stepName}</Typography>
-                                    <Typography variant="caption" >{step.pattern.name}</Typography>
-                                    {/* <Typography variant="caption" color="text.secondary">
-                                        Nodes: {step.config.nodes.length}
-                                    </Typography>
-                                    {step.config.nodes.map((node, idx) => (
-                                        <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
-                                            {node.description}
-                                        </Typography>
-                                    ))}
-                                    <Typography variant="caption" color="text.secondary">
-                                        Edges: {step.config.edges.length}
-                                    </Typography>
-                                    {step.config.edges.map((edge, idx) => (
-                                        <Typography variant="caption" color="text.secondary" key={`${configIdx}-${idx}-${idx}`}>
-                                            {edge.source} - {edge.target}
-                                        </Typography>
-                                    ))} */}
-                                </Paper>
-                            ))}
-
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent parent click event
-                                    handleSelectConfig(config);
-                                }}
-                                sx={{ mt: 2 }}
-                            >
-                                CONTINUE
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
-    );
+    const handleDelete = (event) => {
+      event.stopPropagation();
+      deleteConfig(configId);
+      handleMenuClose();
+    };
 
     return (
-        <Box sx={{ padding: 3 }}>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
-                Agents
-            </Typography>
-            {agentsConfig.length > 0 ? <AgentsDisplay /> : <NoAgents />}
-        </Box>
+      <>
+        <IconButton
+          aria-label="more"
+          onClick={handleMenuOpen}
+          sx={{ position: "absolute", top: 8, right: 8 }}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleMenuClose}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MenuItem onClick={handleDelete}>Delete</MenuItem>
+        </Menu>
+      </>
     );
+  };
+
+  // --------------------------------------
+  // 3) generateAgents => reassign config IDs
+  // --------------------------------------
+  const generateAgents = async (pattern) => {
+    const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
+    console.log("Generated agents config:", generatedAgentsConfig);
+
+    // Reassign each config’s ID
+    const assignedConfigs = reassignConfigIds(pattern.patternId, generatedAgentsConfig);
+
+    // Merge into the global agentsConfig
+    setAgentsConfig((previousAgentsConfig) => {
+      const updatedAgentsConfig = [];
+      let replaced = false;
+
+      for (const config of previousAgentsConfig) {
+        // If an existing config is for the same pattern, replace that block
+        if (config.patternId === pattern.patternId && !replaced) {
+          updatedAgentsConfig.push(...assignedConfigs);
+          replaced = true;
+        } else {
+          updatedAgentsConfig.push(config);
+        }
+      }
+
+      // If we never found any old configs for this pattern,
+      // just push the new ones at the end
+      if (!replaced) {
+        updatedAgentsConfig.push(...assignedConfigs);
+      }
+
+      console.log("Updated agents config:", updatedAgentsConfig);
+      return updatedAgentsConfig;
+    });
+
+    // Mark generation complete
+    setAgentsConfigGenerate(-1);
+    setAgentsConfigPattern(null);
+  };
+
+  // --------------------------------------
+  // 4) When agentsConfigGenerate===0 => call generateAgents
+  // --------------------------------------
+  useEffect(() => {
+    if (agentsConfigGenerate === 0 && agentsConfigPattern) {
+      generateAgents(agentsConfigPattern);
+    }
+  }, [agentsConfigGenerate, agentsConfigPattern]);
+
+  // If no agent configs => a small message
+  const NoAgents = () => (
+    <Typography variant="body1" color="text.secondary" sx={{ textAlign: "center", mt: 2 }}>
+      No agents available. Please generate agents for the selected pattern.
+    </Typography>
+  );
+
+  // --------------------------------------
+  // 5) handleSelectConfig => triggers next steps (ReactFlow, LangGraph, etc.)
+  // --------------------------------------
+  const handleSelectConfig = (config) => {
+    setReactflowGenerate(0);
+    setLanggraphGenerate(0);
+    setSelectedConfig(config);
+    console.log("Selected config for next step:", config);
+  };
+
+  // --------------------------------------
+  // 6) AgentsDisplay => show the generated configs
+  // --------------------------------------
+  const AgentsDisplay = () => (
+    <Grid container spacing={2} sx={{ mt: 2 }}>
+      {agentsConfig.map((config) => (
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          key={config.configId} // Use our newly assigned config ID as the key
+          sx={{ position: "relative" }}
+        >
+          <Card
+            onClick={() => setSelectedAgentConfig(config)}
+            sx={{
+              border: selectedAgentConfig === config ? "2px solid blue" : "1px solid #ccc",
+              backgroundColor: selectedAgentConfig === config ? "#f0f8ff" : "#fff",
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": { boxShadow: 6 },
+            }}
+          >
+            {/* Config menu in top-right */}
+            <ConfigMenu configId={config.configId} />
+
+            <CardContent>
+              {/* For debugging, you could show config.configId */}
+              <Typography variant="subtitle1" fontWeight="bold">
+                Config ID: {config.configId}
+              </Typography>
+              {config.taskFlowSteps?.map((step, idx) => (
+                <Paper
+                  key={`${config.configId}-step-${idx}`}
+                  elevation={2}
+                  sx={{ padding: 1, marginTop: 1, borderLeft: "4px solid #3f51b5" }}
+                >
+                  <Typography variant="subtitle1">{step.stepName}</Typography>
+                  <Typography variant="caption">{step.pattern?.name}</Typography>
+                </Paper>
+              ))}
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent parent click event
+                  handleSelectConfig(config);
+                }}
+                sx={{ mt: 2 }}
+              >
+                CONTINUE
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  );
+
+  // --------------------------------------
+  // 7) Main return
+  // --------------------------------------
+  return (
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Agents
+      </Typography>
+      {agentsConfig.length > 0 ? <AgentsDisplay /> : <NoAgents />}
+    </Box>
+  );
 };
 
 export default AgentsPanel;
