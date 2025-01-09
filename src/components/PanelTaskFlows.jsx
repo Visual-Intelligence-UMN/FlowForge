@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import GenerateTaskFlows from "./GenerateTaskFlows";
 
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid2";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -190,18 +191,17 @@ const TaskFlows = () => {
                   selectedFlowId === flow.taskFlowId ? "#f0f8ff" : "#fff",
                 cursor: "pointer",
                 ":hover": { boxShadow: 3 },
-                marginBottom: "8px",
+                marginBottom: "1px",
               }}
             >
               {/* The top-right menu */}
               <FlowMenu flowId={flow.taskFlowId} />
 
-              <CardContent>
+              <CardContent sx={{ paddingBottom: 0 }}>
                 <Typography
-                  variant="h5"
+                  variant="body1"
                   component="div"
-                  textAlign="center"
-                  gutterBottom
+                  textAlign="left"
                   sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
                 >
                   {flow.taskFlowName} - flow {flow.taskFlowId}
@@ -218,7 +218,7 @@ const TaskFlows = () => {
                       }}
                     >
                       <Typography variant="body1" fontWeight="bold">
-                        {step.stepName} ({step.stepLabel})
+                        {step.stepName}
                       </Typography>
                       <Typography
                         variant="body1"
@@ -230,7 +230,7 @@ const TaskFlows = () => {
                   ))}
                 </Box>
               </CardContent>
-              <CardActions>
+              <CardActions sx={{ paddingTop: 0 }}>
                 <Button
                   size="small"
                   onClick={(e) => {
@@ -239,7 +239,7 @@ const TaskFlows = () => {
                   }}
                   sx={{ textTransform: "none" }}
                 >
-                  Generate
+                  CONTINUE
                 </Button>
               </CardActions>
             </Card>
