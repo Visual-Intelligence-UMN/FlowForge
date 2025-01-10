@@ -1,4 +1,3 @@
-import { FlowComponent } from "./Flows";
 import { ReactFlowProvider } from '@xyflow/react'
 import { FlowPanelComponent } from "./FlowComponent";
 

@@ -26,7 +26,7 @@ import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DisplayPatterns from "./DisplayPatterns";
 import GeneratePatterns from "./GeneratePatterns";
-import PatternsMapRow from "./PatternsPool";
+import PatternsMapRow from "./PatternsPoolSidebar";
 
 // A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};

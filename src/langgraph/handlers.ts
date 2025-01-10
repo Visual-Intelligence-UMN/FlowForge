@@ -224,4 +224,13 @@ const handleSingleAgent = (step) => {
     };
 };
 
-export { handleSingleAgentWithWebSearchTool, handleSingleAgentWithPDFLoaderTool, handleReflection, handleSupervision, handleDiscussion, handleSingleAgent };
+const handlersMap = {
+    "Single Agent with Web Search Tool": handleSingleAgentWithWebSearchTool,
+    "Single Agent with PDF Loader Tool": handleSingleAgentWithPDFLoaderTool,
+    "Reflection": handleReflection,
+    "Supervision": handleSupervision,
+    "Discussion": handleDiscussion,
+    "Single Agent": handleSingleAgent,
+};
+
+export { handlersMap };

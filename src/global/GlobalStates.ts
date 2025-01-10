@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { initialNodes } from "../nodes";
 import { initialEdges } from "../edges";
-import { initialTransformedNodes, initialTransformedEdges } from "./TestNodesEdges";
+import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
 
 export const graphsAtom = atom([]);
 export const selectedGraphAtom = atom(null);
@@ -31,30 +31,30 @@ export const selectedTaskAtom = atom({
 export const taskInputAtom = atom("");
 export const uploadedFileAtom = atom(null);
 
-// Taks flows layer
+// Taks flows panel
 export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const taskFlowsAtom = atom([]); // format: 
 
 
-// Design patterns layer
+// Workflows with Design patterns panel
 export const patternsFlowAtom = atom(null);
 export const patternsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const patternsAtom = atom([]);
 
 
-// Agents layer
+// Configs panel
 export const agentsConfigPatternAtom = atom(null);
 export const agentsConfigGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const agentsConfigAtom = atom([]);
 
-// reactflow layer 
+// reactflow & langgraph panel
 export const reactflowGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const selectedConfigAtom = atom(null);
 export const langgraphGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const langgraphRunAtom = atom([]);
 export const reactflowDisplayAtom = atom([]);
 
-// chain 
+// chain for highlighting
 export const selectionChainAtom = atom({flowId: null, patternId:  null, configId: null});
 
 // design patterns pool

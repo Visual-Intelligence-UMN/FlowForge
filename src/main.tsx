@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import AppTestReactflow from './AppTestReactflow';
-import AppTestDoubleflows from './AppTestDoubleflows';
+import AppTestReactflow from './reactflow-test/AppTestReactflow';
+import AppTestDoubleflows from './reactflow-test/AppTestDoubleflows';
 import App from './App';
 
 import './index.css';

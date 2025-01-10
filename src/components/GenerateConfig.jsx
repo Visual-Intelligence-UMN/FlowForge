@@ -1,4 +1,4 @@
-import { handleSingleAgentWithWebSearchTool, handleSingleAgentWithPDFLoaderTool, handleReflection, handleSupervision, handleDiscussion, handleSingleAgent } from "../langgraph/handlers";
+import { handlersMap } from "../langgraph/handlers";
 
 const GenerateRunnableConfig = async (workflow) => {
     const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId } = workflow;
@@ -12,16 +12,8 @@ const GenerateRunnableConfig = async (workflow) => {
         patternId,
     };
 
-    // TODO: add more design patterns handle functions
-    const handlersMap = {
-        "Single Agent with Web Search Tool": handleSingleAgentWithWebSearchTool,
-        "Single Agent with PDF Loader Tool": handleSingleAgentWithPDFLoaderTool,
-        "Reflection": handleReflection,
-        "Supervision": handleSupervision,
-        "Discussion": handleDiscussion,
-        "Single Agent": handleSingleAgent,
-    };
-
+    // generate the config (nodes, edges) for each step based on its pattern
+    
     for (const step of taskFlowSteps) {
         const { stepName, stepLabel, stepDescription, pattern } = step;
         
