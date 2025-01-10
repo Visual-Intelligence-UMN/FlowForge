@@ -24,10 +24,9 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DisplayPatterns from "./DisplayPatterns";
+import DisplayPatterns from "./DisplayGraphPatterns";
 import GeneratePatterns from "./GeneratePatterns";
 import PatternsMapRow from "./PatternsPoolSidebar";
-
 // A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};
 
@@ -188,8 +187,8 @@ const PatternsPanel = () => {
   const PatternsDisplay = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
-        <PatternsMapRow />
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
+          <PatternsMapRow />
           {designPatterns.map((pattern) => (
             <Grid
               item

@@ -3,22 +3,12 @@ import { initialNodes } from "../nodes";
 import { initialEdges } from "../edges";
 import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
 
-export const graphsAtom = atom([]);
 export const selectedGraphAtom = atom(null);
 export const flowsAtom = atom({
     "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
     "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
-}); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} 
+}); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used 
 
-export const flowsNodesAtom = atom({
-    "a": initialNodes,
-    "b": initialTransformedNodes
-}); // {flowId: {nodes: []}}
-
-export const flowsEdgesAtom = atom({
-    "a": initialEdges,
-    "b": initialTransformedEdges
-}); // {flowId: {edges: []}}
 
 // Task configuration
 export const selectedTaskAtom = atom({
@@ -28,6 +18,14 @@ export const selectedTaskAtom = atom({
     description: "Generate a presentation script for a given topic.", 
     uploadedFile: null
 });
+
+export const taskList = [
+    { id: 'task1', name: 'Generate Presentation Script', requiresUpload: false, description: 'Generate a presentation script for a given topic.', uploadedFile: null },
+    { id: 'task2', name: 'Machine Learning Visualization', requiresUpload: true, description: 'Visualize a given machine learning model.', uploadedFile: null },
+    { id: 'task3', name: 'Travel Planning', requiresUpload: false, description: 'Plan a travel itinerary for a given destination.', uploadedFile: null },
+];
+
+
 export const taskInputAtom = atom("");
 export const uploadedFileAtom = atom(null);
 
@@ -60,12 +58,12 @@ export const selectionChainAtom = atom({flowId: null, patternId:  null, configId
 // design patterns pool
 export const designPatternsPool = [
     {
-        name: "Single Agent with Web Search Tool",
+        name: "Web Search Agent",
         description: "This design pattern has a single agent to perform the task, and have the access to the web search tool to search for information.\
         It is useful when the task requires the agent to search for information on the web.",
     },
     {
-        name: "Single Agent with PDF Loader Tool",
+        name: "PDF Loader Agent",
         description: "This design pattern has a single agent to perform the task, and have the access to the PDF loader tool to load the PDF files.\
         It is useful when the task requires the agent to read and understand the PDF files.",
     },
