@@ -225,8 +225,8 @@ const handleSingleAgent = (step) => {
 };
 
 const handlersMap = {
-    "Single Agent with Web Search Tool": handleSingleAgentWithWebSearchTool,
-    "Single Agent with PDF Loader Tool": handleSingleAgentWithPDFLoaderTool,
+    "Web Search Agent": handleSingleAgentWithWebSearchTool,
+    "PDF Loader Agent": handleSingleAgentWithPDFLoaderTool,
     "Reflection": handleReflection,
     "Supervision": handleSupervision,
     "Discussion": handleDiscussion,
