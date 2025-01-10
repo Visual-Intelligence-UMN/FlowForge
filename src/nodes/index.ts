@@ -7,6 +7,9 @@ import TextResultNode from './TextResultNode';
 import TextNode from './TextNode';
 import UppercaseNode from './UppercaseNode';
 import SingleAgentNode  from './SingleAgentNode';
+import ExecutorNode from './ExecutorNode';
+import ReviewerNode from './ReviewerNode';
+import SupervisorNode from './SupervisorNode';
 
 
 export const initialNodes: AppNode[] = [
@@ -38,6 +41,8 @@ export const nodeTypes = {
   'textResult': TextResultNode,
   'text': TextNode,
   'uppercase': UppercaseNode,
-  // Add any of your custom nodes here!
-  'single-agent': SingleAgentNode,
+  'singleAgent': SingleAgentNode,
+  'executor': ExecutorNode,
+  'reviewer': ReviewerNode,
+  'supervisor': SupervisorNode,
 } satisfies NodeTypes;

@@ -1,12 +1,12 @@
 import { Handle, Position } from "@xyflow/react";
 import "../langGraphNode.css";
 
-const SingleAgentNode = ({ id, data }) => {
+const SupervisorNode = ({ id, data }) => {
   return (
     <div className="single-agent-node">
       {/* Input Handle (for connecting incoming edges) */}
-      {/* <Handle type="source" position={Position.Right} id="right" /> */}
       <Handle type="target" position={Position.Left} id={`in-${id}`} />
+
       <div className="node-header">🤖 {data.label || "Single Agent"}</div>
 
       {/* LLM Model Selection */}
@@ -43,10 +43,10 @@ const SingleAgentNode = ({ id, data }) => {
         )}
       </div>
 
-      {/* Multiple Handles for Outputs */}
+      {/* Bottom Handle (for outgoing connections) */}
       <Handle type="source" position={Position.Right} id={`out-${id}`} />
     </div>
   );
 };
 
-export default SingleAgentNode;
+export default SupervisorNode;

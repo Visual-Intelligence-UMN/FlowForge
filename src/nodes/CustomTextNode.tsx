@@ -6,13 +6,12 @@ const dragHandleStyle = {
     display: 'inline-block',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%', // Adjust to fit the text if needed
-    height: '100%', // Adjust to fit the text if needed
-    // backgroundColor: '#8ACE00',
+    width: '100%', 
+    height: '100%',   
     marginLeft: 0,
     borderRadius: '1%',
-    color: 'black', // Text color to make it visible
-    fontSize: '10px', // Font size for text inside handle
+    color: 'black', 
+    fontSize: '10px',   
     
 };
  

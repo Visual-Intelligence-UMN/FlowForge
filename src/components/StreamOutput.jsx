@@ -1,10 +1,9 @@
-import { singleAgentWithToolsGraph } from '../langgraph/graphs/';
 import { useState } from 'react';
 import { HumanMessage } from '@langchain/core/messages';
 
 const WORD_LIMIT = 30; // Global parameter for word limit
 
-const StreamOutput = () => {
+const StreamOutput = ({langgraphRun}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [submittedInput, setSubmittedInput] = useState("");
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
@@ -37,9 +36,8 @@ const StreamOutput = () => {
     setIntermediaryMessages([]);
     setFinalMessage({sender: "", content: ""});
 
-    // get stream results from the graph 
     // TODO: args should include graphviz graph
-    const streamResults = singleAgentWithToolsGraph.stream(
+    const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: 5 }
     );
@@ -49,14 +47,14 @@ const StreamOutput = () => {
 
     for await (const output of await streamResults) {
       for (const [key, value] of Object.entries(output)) {
-        // console.log("key", key);
-        // console.log("value", value);
-        // console.log("output", output);
-        // console.log("--------------------------------");
+        console.log("key", key);
+        console.log("value", value);
+        console.log("output", output);
+        console.log("--------------------------------");
         let sender = value.sender;
         const messagesAll = value.messages
-        // console.log("sender", sender);
-        // console.log("messagesAll", messagesAll);
+        console.log("sender", sender);
+        console.log("messagesAll", messagesAll);
 
         let messageContent = "";
         if (Array.isArray(messagesAll) || sender === undefined) {

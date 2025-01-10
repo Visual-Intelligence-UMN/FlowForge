@@ -1,6 +1,8 @@
 // @ts-nocheck
 import type { Edge, EdgeTypes } from '@xyflow/react';
-
+import React from 'react';
+import BiDirectionalEdge from './BiDirectionalEdge';
+import { BaseEdge } from '@xyflow/react';
 
 export const initialEdges: Edge[] = [
   { id: 'a->c', source: 'a', target: 'c', animated: true },
@@ -14,4 +16,6 @@ export const initialEdges: Edge[] = [
 
 export const edgeTypes = {
   // Add your custom edge types here!
-} satisfies EdgeTypes;
+  conditional: BiDirectionalEdge,
+  direct: BaseEdge,
+} 
