@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+import AppTestReactflow from './AppTestReactflow';
+import AppTestDoubleflows from './AppTestDoubleflows';
 import App from './App';
-import DoubleFlow from './App copy';
-import AppCopy2 from './App copy 2';
 
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AppCopy2 />
+    <App />
   </React.StrictMode>
 );

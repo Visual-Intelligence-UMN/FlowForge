@@ -10,7 +10,8 @@ import { compileDiscussion } from "../langgraph/compileDiscussion";
 
 
 const CompileLanggraph = async (reactflowConfig) => {
-
+    
+    // TODO: finalize the state graph
     const AgentState = Annotation.Root({
         messages: Annotation<BaseMessage[]>({
             reducer: (x,y) => x.concat(y),
@@ -24,6 +25,7 @@ const CompileLanggraph = async (reactflowConfig) => {
             default: () => "__end__",
         }),
     });
+
     let compiledWorkflow = new StateGraph(AgentState);
 
     console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);

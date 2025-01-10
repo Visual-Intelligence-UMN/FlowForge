@@ -5,7 +5,7 @@ import { AIMessage } from "@langchain/core/messages";
 const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => {
     const edgesDict: Record<string, { id: string; source: string; target: string; type: string; label: string }[]> = {};
     const reviewer = nodesInfo.find(node => node.type === "reviewer");
-    // **Step 1: Add Nodes & Group Edges by Source**
+    // add nodes & group edges by source
     for (const node of nodesInfo) {
         const createdAgent = async () => await createAgent({
             llmOption: node.data.llm,
@@ -26,7 +26,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
         edgesDict[node.id] = stepEdges.filter(edge => edge.source === node.id) || [];
     }
 
-    // **Step 2: Add Conditional Edges**
+    // conditional edges
     let targetMapping = {};
     for (const edge of edgesDict[reviewer.id]) {
         if (edge.target.slice(0,6) !== edge.source.slice(0,6)) {
@@ -56,7 +56,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
     workflow.addConditionalEdges(reviewer.id, reviewerRouter, targetMapping);
     
 
-    console.log("✅ Workflow after compiling reflection:", workflow);
+    console.log("Workflow after compiling reflection:", workflow);
     return workflow;
 };
 

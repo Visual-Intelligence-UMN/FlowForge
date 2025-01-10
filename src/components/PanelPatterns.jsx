@@ -28,12 +28,10 @@ import DisplayPatterns from "./DisplayPatterns";
 import GeneratePatterns from "./GeneratePatterns";
 import PatternsMapRow from "./PatternsPool";
 
-// --------------------------------------
-// 1) A dictionary to track per-flow pattern numbering
-// --------------------------------------
+// A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};
 
-// 2) Utility to reassign pattern IDs for patterns of a specific flow
+// reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, patterns) {
   if (!flowIdToPatternCounter[flowId]) {
     flowIdToPatternCounter[flowId] = 1;
@@ -57,15 +55,13 @@ const PatternsPanel = () => {
   const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
   const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
 
-  // --------------------------------------
   // Generate patterns for the selected flow
-  // --------------------------------------
   const generatePatterns = async (flow) => {
 
     // const patternsFlow = await GeneratePatterns(flow);
     // const examplePatterns = randomCombinePatterns(patternsFlow, 2);
-    // TODO: remove the hardcoded patterns
 
+    // TODO: remove the hardcoded patterns
     const examplePatterns = [
       {
         taskId: flow.taskFlowId,
@@ -88,7 +84,7 @@ const PatternsPanel = () => {
     // Reassign IDs
     const reassignedPatterns = reassignPatternIds(flow.taskFlowId, examplePatterns);
 
-    // Store them
+    // Store generated workflow with patterns
     setDesignPatterns((previousPatterns) => {
       const updatedPatterns = [];
       let replaced = false;
@@ -119,17 +115,13 @@ const PatternsPanel = () => {
     }
   }, [patternsGenerate, patternsFlow]);
 
-  // --------------------------------------
-  // Function to delete a pattern by ID
-  // --------------------------------------
+  // delete a pattern by patternId
   const deletePattern = (patternId) => {
     setDesignPatterns((prev) => prev.filter((p) => p.patternId !== patternId));
     console.log("Deleting pattern with ID:", patternId);
   };
 
-  // --------------------------------------
-  // Continue button: configure agents for this pattern
-  // --------------------------------------
+  // generate configuration for this workflow with patterns
   const configureAgents = (pattern) => {
     setAgentsConfigGenerate(0);
     setAgentsConfigPattern(pattern);
@@ -140,9 +132,7 @@ const PatternsPanel = () => {
     return <p>No patterns available. Please generate patterns for the selected flow.</p>;
   };
 
-  // --------------------------------------
-  // A small sub-component for the top-right pattern menu
-  // --------------------------------------
+  // top right menu
   const PatternMenu = ({ patternId }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -183,9 +173,7 @@ const PatternsPanel = () => {
     );
   };
 
-  // --------------------------------------
-  // Check if a pattern is selected
-  // --------------------------------------
+  // Check if a pattern is selected to highlight it
   const isPatternSelected = (pattern) => {
     if (selectionChain.patternId && pattern.patternId === selectionChain.patternId) {
       return true;
@@ -196,9 +184,7 @@ const PatternsPanel = () => {
     return false;
   };
 
-  // --------------------------------------
-  // Rendering the patterns in cards
-  // --------------------------------------
+  // Rendering the workflow with patterns in cards
   const PatternsDisplay = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
@@ -239,7 +225,8 @@ const PatternsPanel = () => {
                     <Box key={index} sx={{ mb: 1 }}>
                       {/* 
                         ADD THE TOOLTIP HERE: 
-                        The title prop is displayed as the tooltip text 
+                        The title prop is displayed as the tooltip text, 
+                        to explain why this pattern is suitable f
                       */}
                       <Tooltip title={step.stepDescription || ""}>
                         <Typography variant="body1" fontWeight="bold">
@@ -270,9 +257,7 @@ const PatternsPanel = () => {
     );
   };
 
-  // --------------------------------------
-  // (Optional) Display Patterns as D3 or Graph
-  // --------------------------------------
+  // TODO: if we want to display a simple graph, it may be more informative and more specific to describe different patterns 
   const DisplayD3 = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
@@ -289,9 +274,9 @@ const PatternsPanel = () => {
 
   return (
     <div className="patterns-panel">
-      <h2>Patterns</h2>
+      <h2>Flows with Patterns</h2>
       {designPatterns.length > 0 ? <PatternsDisplay /> : <NoPatterns />}
-      {designPatterns.length > 0 ? <DisplayD3 /> : <NoPatterns />}
+      {/* {designPatterns.length > 0 ? <DisplayD3 /> : <NoPatterns />} */}
     </div>
   );
 };

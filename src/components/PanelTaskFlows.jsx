@@ -21,9 +21,6 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-// --------------------------------------
-// 1. Utility to reassign flow IDs
-// --------------------------------------
 let flowCounter = 1;
 
 function reassignFlowIds(flows) {
@@ -68,9 +65,7 @@ const TaskFlows = () => {
   const [selectedFlowId, setSelectedFlowId] = useState(null);
   const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
 
-  // --------------------------------------
-  // 2. Generate initial flows
-  // --------------------------------------
+  // generate initial flows
   const generateTaskFlows = async (selectedTask) => {
     const newData = await GenerateTaskFlows(selectedTask);
     const incomingFlows = reassignFlowIds(newData.taskFlows);
@@ -84,9 +79,8 @@ const TaskFlows = () => {
     setTaskFlowsGenerate(1);
   };
 
-  // --------------------------------------
-  // 3. Load/Generate MORE flows
-  // --------------------------------------
+  // load/generate more flows
+  // TODO: how to avoid the relunctant generation
   const loadMoreTaskFlows = async (selectedTask) => {
     const moreData = await GenerateTaskFlows(selectedTask);
     const moreFlows = reassignFlowIds(moreData.taskFlows);
@@ -98,18 +92,14 @@ const TaskFlows = () => {
     });
   };
 
-  // --------------------------------------
-  // 4. On mount or triggers, if we need initial flows
-  // --------------------------------------
+  // trigger if the task is selected and submitted
   useEffect(() => {
     if (taskFlowsGenerate === 0) {
       generateTaskFlows(selectedTask);
     }
   }, [taskFlowsGenerate]);
 
-  // --------------------------------------
-  // 5. Deleting a flow
-  // --------------------------------------
+  // delete a flow
   const deleteFlow = (flowId) => {
     setFlowsMap((prevMap) => {
       const updatedMap = { ...prevMap };
@@ -120,16 +110,14 @@ const TaskFlows = () => {
     console.log("Deleting flow with ID:", flowId);
   };
 
-  // --------------------------------------
-  // 6. Generate patterns
-  // --------------------------------------
+  // trigger to generate workflows with patterns for the selected task flow
   const generatePatterns = (flow) => {
     console.log("Generating patterns for flow with ID:", flow.taskFlowId);
     setPatternsGenerate(0);
     setPatternsFlow(flow);
   };
 
-  // A small sub-component to render the “...” menu in the top-right
+  // top-right menu
   const FlowMenu = ({ flowId }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -169,9 +157,7 @@ const TaskFlows = () => {
     );
   };
 
-  // --------------------------------------
-  // 7. Rendering flows
-  // --------------------------------------
+  // check if a task flow is highlighted
   const isFlowSelected = (flow) => {
     return String(flow.taskFlowId) === String(selectionChain.flowId);
   };
@@ -280,9 +266,7 @@ const TaskFlows = () => {
     );
   };
 
-  // --------------------------------------
-  // 8. Main return
-  // --------------------------------------
+  // main returns
   return (
     <div className="task-flows-panel">
       {taskFlowsHeader()}

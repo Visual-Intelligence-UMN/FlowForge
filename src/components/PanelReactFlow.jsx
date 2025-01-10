@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "./DnDContext";
-import  Sidebar  from "./Sidebar";
+import  Sidebar  from "./ReactflowSidebar";
 import  StreamOutput  from "./StreamOutput";
 
 import CompileReactflow from "./CompileReactflow";
@@ -22,18 +22,18 @@ const ReactFlowPanel = () => {
 
     const generateReactflow = async (config) => {
         setReactflowGenerate(0);
-        // TODO: generate reactflow
         console.log("config for reactflow and langgraph", config);
         const compiledReactflow = await CompileReactflow(config);
         setReactflowDisplay(compiledReactflow);
         setReactflowGenerate(-1);
         if (reactflowGenerate === -1) setSelectedConfig(null);
 
+        // generate langgraph based on syncronized reactflow
         setLanggraphGenerate(0);
         const runnableLanggraph = await CompileLanggraph(compiledReactflow);
         console.log("runnableLanggraph", runnableLanggraph);
         const graphImage = await generateGraphImage(runnableLanggraph);
-        setGraphImage(graphImage);
+        setGraphImage(graphImage); // debug graph building
         setLanggraphRun(runnableLanggraph);
         setLanggraphGenerate(-1);
     }
@@ -44,7 +44,7 @@ const ReactFlowPanel = () => {
         }
     }, [reactflowGenerate]);
 
-    // to check if the reactflowDisplay is updated real time
+    // to check if the reactflowDisplay is updated real time => done
     // useEffect(() => {
     //     console.log("updated", reactflowDisplay);
     // }, [reactflowDisplay]);
@@ -86,7 +86,6 @@ const ReactFlowPanel = () => {
                         </div>
                     ))}
                 </DnDProvider>
-                {/* TODO: streamout should have args: langgraph runnable graph */}
                 <StreamOutput langgraphRun={langgraphRun}/>
             </div>
         )

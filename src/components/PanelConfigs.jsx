@@ -25,13 +25,9 @@ import {
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-// --------------------------------------
-// 1) Dictionary to track how many configs
-// each pattern has produced so far.
-// --------------------------------------
+
 const patternIdToConfigCounter = {};
 
-// 2) Utility to reassign config IDs for a given pattern
 function reassignConfigIds(patternId, configs) {
   if (!patternIdToConfigCounter[patternId]) {
     patternIdToConfigCounter[patternId] = 1;
@@ -41,11 +37,8 @@ function reassignConfigIds(patternId, configs) {
     const nextCount = patternIdToConfigCounter[patternId]++;
     return {
       ...config,
-      // Keep original ID if needed for debugging
       originalConfigId: config.configId,
-      // Overwrite with our new ID
       configId: `${patternId}-${nextCount}`,
-      // Make sure the config object has a reference to patternId
       patternId,
     };
   });
@@ -62,17 +55,13 @@ const AgentsPanel = () => {
   const [langgraphGenerate, setLanggraphGenerate] = useAtom(langgraphGenerateAtom);
 
   const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
-  // --------------------------------------
-  // Deleting a config from the global array
-  // --------------------------------------
+
   const deleteConfig = (configId) => {
     setAgentsConfig((prev) => prev.filter((c) => c.configId !== configId));
     console.log("Deleting config with ID:", configId);
   };
 
-  // --------------------------------------
-  // A small sub-component for the top-right menu
-  // --------------------------------------
+  // top-right menu
   const ConfigMenu = ({ configId }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -111,9 +100,7 @@ const AgentsPanel = () => {
     );
   };
 
-  // --------------------------------------
-  // 3) generateAgents => reassign config IDs
-  // --------------------------------------
+  // generateAgents => reassign config IDs
   const generateAgents = async (pattern) => {
     const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
     console.log("Generated agents config:", generatedAgentsConfig);
@@ -127,7 +114,6 @@ const AgentsPanel = () => {
       let replaced = false;
 
       for (const config of previousAgentsConfig) {
-        // If an existing config is for the same pattern, replace that block
         if (config.patternId === pattern.patternId && config.configId === pattern.configId && !replaced) {
           updatedAgentsConfig.push(...assignedConfigs);
           replaced = true;
@@ -136,8 +122,6 @@ const AgentsPanel = () => {
         }
       }
 
-      // If we never found any old configs for this pattern,
-      // just push the new ones at the end
       if (!replaced) {
         updatedAgentsConfig.push(...assignedConfigs);
       }
@@ -151,33 +135,24 @@ const AgentsPanel = () => {
     setAgentsConfigPattern(null);
   };
 
-  // --------------------------------------
-  // 4) When agentsConfigGenerate===0 => call generateAgents
-  // --------------------------------------
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       generateAgents(agentsConfigPattern);
     }
   }, [agentsConfigGenerate, agentsConfigPattern]);
 
-  // If no agent configs => a small message
   const NoAgents = () => (
      <p>No agents available. Please generate agents for the selected pattern.</p>
   );
 
-  // --------------------------------------
-  // 5) handleSelectConfig => triggers next steps (ReactFlow, LangGraph, etc.)
-  // --------------------------------------
+
+  // handleSelectConfig => triggers ReactFlow, LangGraph
   const handleSelectConfig = (config) => {
     setReactflowGenerate(0);
     setLanggraphGenerate(0);
     setSelectedConfig(config);
     console.log("Selected config for next step:", config);
   };
-
-  // --------------------------------------
-  // 6) AgentsDisplay => show the generated configs
-  // --------------------------------------
 
   const isAgentConfigSelected = (config) => {
     if (selectionChain.configId && config.configId === selectionChain.configId) {
@@ -225,7 +200,7 @@ const AgentsPanel = () => {
             <ConfigMenu configId={config.configId} />
 
             <CardContent>
-              {/* For debugging, you could show config.configId */}
+              {/* For debugging, config.configId */}
               <Typography variant="h6" gutterBottom color="primary">
                 Config {config.configId}
               </Typography>
@@ -256,13 +231,10 @@ const AgentsPanel = () => {
     </Grid>
   );
 
-  // --------------------------------------
-  // 7) Main return
-  // --------------------------------------
   return (
-    <Box sx={{ padding: 1 ,border: '1px solid #ccc'}}>
+    <Box sx={{ padding: 1 ,border: '1px solid #ccc', paddingTop: 4}}>
       <Typography variant="h5" fontWeight="bold">
-        Agents
+        Flows with Configurations
       </Typography>
       {agentsConfig.length > 0 ? <AgentsDisplay /> : <NoAgents />}
     </Box>

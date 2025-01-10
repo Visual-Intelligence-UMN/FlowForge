@@ -4,7 +4,8 @@ import { zodResponseFormat } from "openai/helpers/zod";
 
 const GenerateTaskFlows = async (task) => {
     const taskDescription = task.description;
-    const taskFile = task.uploadedFile || null; // This variable is declared but not used
+    const taskFile = task.uploadedFile || null; 
+    // TODO: how to integrate the task file into the task description
 
     const openai = new OpenAI({
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
@@ -61,7 +62,7 @@ const GenerateTaskFlows = async (task) => {
         ),
     });
 
-    // TODO: remove this after testing the patterns generation
+    // TODO: remove this after testing 
     const sampleTaskFlowData = {
         "taskFlows": [
             {

@@ -57,6 +57,7 @@ const GeneratePatterns = async (taskFlow) => {
         ),
     });
 
+    // TODO: may change how to decide what design patterns to use for each step
     const systemMessage = "You are an expert in analyzing tasks, task decomposition, and design patterns selection. \
     here is the task flow overview: " + taskFlowName + " " + taskFlowDescription + " \
     consisting of " + taskFlowSteps.length + " steps or subtasks: " + taskFlowSteps.map(step => step.stepName).join(", ") + " \

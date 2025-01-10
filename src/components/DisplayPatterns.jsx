@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
 import * as d3 from "d3";
 
+
+// May not be used
 const DisplayPatterns = ({ designPatterns }) => {
     const svgRef = useRef();
   

@@ -1,7 +1,7 @@
 
 import '@xyflow/react/dist/style.css';
 import { DnDProvider } from './components/DnDContext';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/ReactflowSidebar';
 import StreamOutput from './components/StreamOutput';
 import { FlowWithProvider } from './components/FlowWithProvider';
 import { useState } from 'react';

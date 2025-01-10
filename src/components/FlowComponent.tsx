@@ -82,8 +82,6 @@ export function FlowPanelComponent(props) {
         },
     }));
 
-
-
     useEffect(() => {
         const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
           nodes,

@@ -12,6 +12,7 @@ const GenerateRunnableConfig = async (workflow) => {
         patternId,
     };
 
+    // TODO: add more design patterns handle functions
     const handlersMap = {
         "Single Agent with Web Search Tool": handleSingleAgentWithWebSearchTool,
         "Single Agent with PDF Loader Tool": handleSingleAgentWithPDFLoaderTool,
