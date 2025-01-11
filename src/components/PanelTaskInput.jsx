@@ -9,6 +9,7 @@ import {
   Input,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import { taskList } from '../global/GlobalStates';
 
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
@@ -16,12 +17,6 @@ function TaskPanel() {
   const [filePreview, setFilePreview] = useState(null);
 
   const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const taskList = [
-        { id: 'task1', name: 'Generate Presentation Script', requiresUpload: false, description: 'Generate a presentation script for a given topic.', uploadedFile: null },
-        { id: 'task2', name: 'Machine Learning Visualization', requiresUpload: true, description: 'Visualize a given machine learning model.', uploadedFile: null },
-        { id: 'task3', name: 'Travel Planning', requiresUpload: false, description: 'Plan a travel itinerary for a given destination.', uploadedFile: null },
-    ];
 
   // Called when one of the “bubble” buttons is clicked
   const handleTaskSelect = (index) => {

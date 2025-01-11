@@ -1,50 +1,47 @@
-import { designPatternsPool } from "../global/GlobalStates";
-import { 
-    Box, 
-    Card, 
-    CardContent, 
-    Typography,
-    Tooltip,
-  } from "@mui/material";
-  import Grid from "@mui/material/Grid2";
+import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { iconMap } from "../global/iconsMap";
 
-const PatternsMapRow = () => {
-    return (
-      <Box sx={{ mb: 2 }}>
-        <Grid container spacing={2}>
-          {designPatternsPool.map((pattern, index) => (
-            <Grid item xs="auto" key={index}>
-              <Tooltip title={pattern.description} arrow>
-                <Card
-                  sx={{
-                    width: 200,
-                    height: 30,
-                    cursor: "pointer",
-                    "&:hover": {
-                      boxShadow: 4,
-                    },
-                    padding: 1,
-                  }}
-                >
-                  <CardContent sx={{ padding: 0, margin: 0 }} >
-                    <Typography
-                      variant="body2"
-                      textAlign="center"
-                      sx={{
-                        whiteSpace: "wrap",
-                        width: "100%",
-                      }}
-                    >
-                      {pattern.name}
+const PatternsMap = () => {
+  return (
+    <Box sx={{ mb: 1, ml: 1 }}>
+      {Object.keys(iconMap).map((pattern, index) => {
+        // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
+        const IconComponent = iconMap[pattern] || HomeIcon;
+        return (
+          <Grid item xs="auto" key={index} spacing={2} sx={{ p: 1 }}>
+            <Tooltip title={pattern.description} arrow>
+              <Card
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": { boxShadow: 4 },
+                  p: 1,
+                }}
+              >
+                <CardContent sx={{ p: 0, "&:last-child": { pb: 0 } }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "left",
+                      height: "100%",
+                    }}
+                  >
+                    {/* Render the dynamic icon */}
+                    <IconComponent fontSize="small" sx={{ mr: 1 }} />
+
+                    <Typography variant="body2" textAlign="center">
+                      {pattern}
                     </Typography>
-                  </CardContent>
-                </Card>
-              </Tooltip>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    );
+                  </Box>
+                </CardContent>
+              </Card>
+            </Tooltip>
+          </Grid>
+        );
+      })}
+    </Box>
+  );
 };
 
-export default PatternsMapRow;
+export default PatternsMap;

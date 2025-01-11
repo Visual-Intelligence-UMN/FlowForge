@@ -10,23 +10,14 @@ import {
 import { useEffect, useState } from "react";
 import React from "react";
 
-import { 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
-  Button, 
-  Divider, 
-  IconButton, 
-  Menu, 
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography, Button, Divider, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DisplayPatterns from "./DisplayPatterns";
+import DisplayGraphPatterns from "./DisplayGraphPatterns";
 import GeneratePatterns from "./GeneratePatterns";
-import PatternsMapRow from "./PatternsPoolSidebar";
+import PatternsMap from "./PatternsPoolSidebar";
+
+import { iconMap } from "../global/iconsMap";
 
 // A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};
@@ -184,30 +175,48 @@ const PatternsPanel = () => {
     return false;
   };
 
+  const patternInfo = (index, step) => {
+    const IconComponent = iconMap[step.pattern?.name];
+    return (
+      <Box key={index} sx={{ mb: 1 }}>
+        {/* 
+          ADD THE TOOLTIP HERE: 
+          The title prop is displayed as the tooltip text, 
+          to explain why this pattern is suitable f
+                      */}
+        <Tooltip title={step.stepDescription || ""}>
+          <Typography variant="body1" fontWeight="bold">
+            {step.stepName}
+          </Typography>
+        </Tooltip>
+        
+        <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+          <IconComponent fontSize="small" sx={{ mr: 1 }} />
+          <Typography variant="body2" color="text.secondary">
+            {step.pattern?.name}
+          </Typography>
+        </Box>
+      </Box>
+    )
+  } 
+
   // Rendering the workflow with patterns in cards
   const PatternsDisplay = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
-        <PatternsMapRow />
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
+          <PatternsMap />
           {designPatterns.map((pattern) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={pattern.patternId}
-              sx={{ position: "relative" }}
-            >
-              <Card
-                elevation={3}
+            <Grid item xs={12} sm={6} md={4} key={pattern.patternId} sx={{ position: "relative" }}>
+              <Card elevation={3}
                 sx={{
                   borderRadius: 2,
                   border: isPatternSelected(pattern) ? "2px solid blue" : "1px solid #ccc",
                   backgroundColor: isPatternSelected(pattern) ? "#f0f8ff" : "#fff",
                   cursor: "pointer",
                   ":hover": { boxShadow: 3 },
-                  marginBottom: "1px",
+                  marginBottom: "0px",
+                  p: 0
                 }}
                 onClick={() => {
                   const [flowId] = pattern.patternId.split("-");
@@ -215,37 +224,15 @@ const PatternsPanel = () => {
                 }}
               >
                 <PatternMenu patternId={pattern.patternId} />
-
-                <CardContent>
+                <CardContent sx={{p: 1.5, "&:last-child": { pb: 0 }}}>
                   <Typography variant="h6" color="primary" gutterBottom>
                     Patterns {pattern.patternId}
                   </Typography>
-
                   {pattern.taskFlowSteps.map((step, index) => (
-                    <Box key={index} sx={{ mb: 1 }}>
-                      {/* 
-                        ADD THE TOOLTIP HERE: 
-                        The title prop is displayed as the tooltip text, 
-                        to explain why this pattern is suitable f
-                      */}
-                      <Tooltip title={step.stepDescription || ""}>
-                        <Typography variant="body1" fontWeight="bold">
-                          {step.stepName}
-                        </Typography>
-                      </Tooltip>
-
-                      <Typography variant="body2" color="text.secondary">
-                        {step.pattern?.name}
-                      </Typography>
-                    </Box>
+                    patternInfo(index, step)
                   ))}
 
-                  <Button
-                    color="primary"
-                    size="small"
-                    onClick={() => configureAgents(pattern)}
-                    sx={{ mt: 2 }}
-                  >
+                  <Button color="primary" size="small" onClick={() => configureAgents(pattern)} sx={{ mb: 1 }}>
                     Continue
                   </Button>
                 </CardContent>
@@ -264,7 +251,7 @@ const PatternsPanel = () => {
         <Grid container spacing={1}>
           {designPatterns.map((pattern) => (
             <Grid item xs={12} key={pattern.patternId}>
-              <DisplayPatterns designPatterns={pattern} />
+              <DisplayGraphPatterns designPatterns={pattern} />
             </Grid>
           ))}
         </Grid>

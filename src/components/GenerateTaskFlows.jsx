@@ -76,7 +76,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
                         "pattern": 
                             {
-                                "name": "Single Agent",
+                                "name": "PDF Loader Agent",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
                         

@@ -4,7 +4,7 @@ import * as d3 from "d3";
 
 
 // May not be used
-const DisplayPatterns = ({ designPatterns }) => {
+const DisplayGraphPatterns = ({ designPatterns }) => {
     const svgRef = useRef();
   
     useEffect(() => {
@@ -118,4 +118,4 @@ const DisplayPatterns = ({ designPatterns }) => {
     );
   };
   
-  export default DisplayPatterns;
+  export default DisplayGraphPatterns;
