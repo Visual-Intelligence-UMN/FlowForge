@@ -6,7 +6,8 @@ import {
     // ...any other icons
 } from "@mui/icons-material";
 
-// Create a mapping from iconType to the actual component
+// Create a mapping from iconType to the design pattern
+// TODO: change with better icons 
 
 export const iconMap = {
     "Discussion": HomeIcon,

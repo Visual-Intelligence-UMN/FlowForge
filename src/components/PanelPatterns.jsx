@@ -215,7 +215,8 @@ const PatternsPanel = () => {
                   backgroundColor: isPatternSelected(pattern) ? "#f0f8ff" : "#fff",
                   cursor: "pointer",
                   ":hover": { boxShadow: 3 },
-                  marginBottom: "1px",
+                  marginBottom: "0px",
+                  p: 0
                 }}
                 onClick={() => {
                   const [flowId] = pattern.patternId.split("-");
@@ -223,7 +224,7 @@ const PatternsPanel = () => {
                 }}
               >
                 <PatternMenu patternId={pattern.patternId} />
-                <CardContent>
+                <CardContent sx={{p: 1.5, "&:last-child": { pb: 0 }}}>
                   <Typography variant="h6" color="primary" gutterBottom>
                     Patterns {pattern.patternId}
                   </Typography>
@@ -231,7 +232,7 @@ const PatternsPanel = () => {
                     patternInfo(index, step)
                   ))}
 
-                  <Button color="primary" size="small" onClick={() => configureAgents(pattern)} sx={{ mt: 2 }}>
+                  <Button color="primary" size="small" onClick={() => configureAgents(pattern)} sx={{ mb: 1 }}>
                     Continue
                   </Button>
                 </CardContent>
