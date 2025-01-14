@@ -40,8 +40,8 @@ const handleReflection = (step) => {
     const { stepDescription } = step;
     const patternSystemPromptReview = 'You are a helpful reviewer who can analyze the output of another agent. \
     You work with another agent to solve the task and iterate on the output. You can provide subtle and helpful feedbacks.\
-    If the output is not good enough, you should respond with feedbacks and suggestions for improvement, and ask the agent to improve the output.\
-    If the output is good enough, you should agree and respond with the final output.';
+    If the output is not good enough, you should respond with feedbacks and suggestions for improvement, and ask the agent to improve the output, and End with NOT GOOD.\
+    If the output is good enough, you should agree and respond with the final output, and End with FINISH.';
 
     const patternSystemPromptWork = 'You are a helpful assistant who can work with reviewer agent to achieve a task. \
     You can efficiently improve the output based on the feedbacks and suggestions provided by the reviewer. \

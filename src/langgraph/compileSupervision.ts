@@ -5,6 +5,31 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { MessagesPlaceholder } from "@langchain/core/prompts";
 import { ChatOpenAI } from "@langchain/openai";
 const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) => {
+    // TODO: DEBUG supervision, REMOVE THIS
+    for (const node of nodesInfo) {
+        const createdAgent = async () => await createAgent({
+            llmOption: node.data.llm,
+            tools: node.data.tools,
+            systemMessage: node.data.systemPrompt,
+        });
+
+        const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
+            return create_agent_node({
+                state: state,
+                agent: await createdAgent(),
+                name: node.id,
+                config: config,
+            });
+        }
+        workflow.addNode(node.id, agentNode);
+    }
+    console.log("workflow after single agent", workflow);
+    // direct next step edge
+    for (const edge of stepEdges) {
+        workflow.addEdge(edge.source, edge.target);
+    } 
+    return workflow;
+
     const edgesDict: Record<string, { id: string; source: string; target: string; type: string; label: string }[]> = {};
     
     let members = [];

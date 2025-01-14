@@ -87,7 +87,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
                         "pattern": 
                             {
-                                "name": "Supervision",
+                                "name": "Single Agent",
                                 "description": "This design pattern has multiple agents to perform the task."
                             }
                         
@@ -98,8 +98,8 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
                         "pattern": 
                             {
-                                "name": "Discussion",
-                                "description": "This design pattern has a discussion to perform the task."
+                                "name": "Single Agent",
+                                "description": "This design pattern has a single agent to perform the task."
                             }
                         
                     },
@@ -130,7 +130,7 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
                         "pattern": 
                             {
-                                "name": "Supervision",
+                                "name": "Single Agent",
                                 "description": "This design pattern has a supervision to perform the task."
                             }
                         
