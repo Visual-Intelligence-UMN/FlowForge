@@ -84,10 +84,14 @@ const StreamOutput = ({ langgraphRun }) => {
         lastContent = messageContent || lastContent;
       }
     }
-    setStreamOutput({...streamOutput, finalMessage: {sender: lastSender, content: lastContent}});
+    setStreamOutput((prevStreamOutput) => ({
+      ...prevStreamOutput,
+      finalMessage: { sender: lastSender, content: lastContent },
+      isThreadActive: false,
+    }));
     // setFinalMessage({ sender: lastSender, content: lastContent } || { sender: "System", content: "Process completed" });
     // setIsThreadActive(false);
-    setStreamOutput({...streamOutput, isThreadActive: false});
+    // setStreamOutput({...streamOutput, isThreadActive: false});
   };
 
   const getPreviewContent = (content, isFull) => {
@@ -97,32 +101,70 @@ const StreamOutput = ({ langgraphRun }) => {
     return content?.split(" ").slice(0, WORD_LIMIT).join(" ") + "...";
   };
 
-  const displayIntermediaryMessages = () => {
+  const displayIntermediaryMessages1 = () => {
     return (
-        <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
-        <Grid container spacing={2}>
-            {streamOutput.intermediaryMessages.map((msg, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index} sx={{ position: "relative" }}>
-                <Card elevation={3}
-                sx={{
-                    borderRadius: 2,
-                    border: "1px solid #ccc",
-                    cursor: "pointer",
-                    ":hover": { boxShadow: 3 },
-                    p: 0
-                }}
-                >
-                    <CardContent>
-                        <Typography variant="h6" gutterBottom sx={{mb: 1}}>{msg.sender}</Typography>
-                        <Typography variant="body1">{msg.content}</Typography>
-                    </CardContent>
-                </Card>
+      <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
+        <Grid container spacing={1}>
+          {streamOutput.intermediaryMessages.map((msg, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index} sx={{ display: "flex" }}>
+              <Accordion>
+                <AccordionSummary>
+                  <Typography variant="h6">{msg.sender}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body1">{msg.content}</Typography>
+                </AccordionDetails>
+              </Accordion>
             </Grid>
           ))}
         </Grid>
       </Box>
-    )
-  }
+    );
+  };
+
+  const displayIntermediaryMessages = () => {
+    return (
+      <Box sx={{ p: 1, backgroundColor: "#f5f5f5", overflowX: "auto", whiteSpace: "nowrap" }}>
+        <Typography variant="h5" sx={{mb: 1,mt: 1}}>Intermediate Messages</Typography>
+        <Grid container spacing={2} sx={{ flexWrap: "nowrap", display: "flex" }}>
+          {streamOutput.intermediaryMessages.map((msg, index) => (
+            <Grid item key={index} sx={{ minWidth: 300, maxWidth: 400 }}>
+              <Card
+                elevation={3}
+                sx={{
+                  width: "100%",
+                  borderRadius: 2,
+                  border: "1px solid #ccc",
+                  cursor: "pointer",
+                  ":hover": { boxShadow: 3 },
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                  <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
+                    {msg.sender}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      whiteSpace: "normal", // Allow text to wrap
+                      wordWrap: "break-word", // Ensure long words break properly
+                      overflowWrap: "break-word", // Additional safeguard for text breaking
+                      flexGrow: 1, // Allow text to expand within the card
+                    }}
+                  >
+                    {msg.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
+  };
 
   const displayInputMessage = () => {
     return (
@@ -183,14 +225,14 @@ const StreamOutput = ({ langgraphRun }) => {
            {streamOutput.isThreadActive && ( displayInputMessage() )}
 
           {/* User's Input Message */}
-          {submittedInput && (
+          {streamOutput.inputMessage && (
             <Card>
               <CardContent>
                 <Typography variant="h6">Start Message</Typography>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {submittedInput.sender}
+                  {streamOutput.inputMessage.sender}
                 </Typography>
-                <Typography variant="body1">{getPreviewContent(submittedInput.content, submittedInput.showFullContent)}</Typography>
+                <Typography variant="body1">{getPreviewContent(streamOutput.inputMessage.content, streamOutput.inputMessage.showFullContent)}</Typography>
               </CardContent>
             </Card>
           )}
