@@ -1,46 +1,51 @@
 import { useState } from "react";
 import { HumanMessage } from "@langchain/core/messages";
-import {Box,Button,Card, CardContent,Typography,TextField,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
+import {Box,Button,Card, CardContent,Typography,TextField,Collapse,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
-import {selectedTaskAtom} from "../global/GlobalStates";
-
+import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
+import { useEffect } from "react";
 const WORD_LIMIT = 30; // Global word limit for preview
 
 const StreamOutput = ({ langgraphRun }) => {
-  const [inputMessage, setInputMessage] = useState("");
   const [submittedInput, setSubmittedInput] = useState(null);
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
   const [finalMessage, setFinalMessage] = useState(null);
   const [isThreadActive, setIsThreadActive] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+  const [inputMessage, setInputMessage] = useState(null);
+  const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
+
+  useEffect(() => {
+    setInputMessage(selectedTask.description);
+  }, [selectedTask]);
+
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
   };
 
   const toggleVisibility = () => {
-    setIsVisible(!isVisible);
+    setStreamOutput({...streamOutput, isVisible: !streamOutput.isVisible});
+    // setIsVisible(!isVisible);
   };
 
   const startNewThread = () => {
+    setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: ""}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}, isThreadActive: true});
     setInputMessage("");
-    setIntermediaryMessages([]);
-    setFinalMessage(null);
-    setIsThreadActive(true);
-    setSubmittedInput({ content: "", sender: "User" });
+    // setIntermediaryMessages([]);
+    // setFinalMessage(null);
+    // setIsThreadActive(true);
+    // setSubmittedInput({ content: "", sender: "User" });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
-    setInputMessage(""); // Clear input field after submission
-    setIntermediaryMessages([]);
-    setFinalMessage(null);
-    setSubmittedInput({content: selectedTask.description, sender: "User", showFullContent: false});
-
+    // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
+    setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
@@ -69,15 +74,20 @@ const StreamOutput = ({ langgraphRun }) => {
         }
 
         if (messagesAll && messageContent !== lastContent) {
-          setIntermediaryMessages((prev) => [...prev, { content: messageContent, sender }]);
+          setStreamOutput((prevStreamOutput) => ({
+            ...prevStreamOutput,
+            intermediaryMessages: [...prevStreamOutput.intermediaryMessages, { content: messageContent, sender }],
+          }));
         }
+        
         lastSender = sender;
         lastContent = messageContent || lastContent;
       }
     }
-
-    setFinalMessage({ sender: lastSender, content: lastContent } || { sender: "System", content: "Process completed" });
-    setIsThreadActive(false);
+    setStreamOutput({...streamOutput, finalMessage: {sender: lastSender, content: lastContent}});
+    // setFinalMessage({ sender: lastSender, content: lastContent } || { sender: "System", content: "Process completed" });
+    // setIsThreadActive(false);
+    setStreamOutput({...streamOutput, isThreadActive: false});
   };
 
   const getPreviewContent = (content, isFull) => {
@@ -91,18 +101,26 @@ const StreamOutput = ({ langgraphRun }) => {
     return (
         <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
         <Grid container spacing={2}>
-            {intermediaryMessages.map((msg, index) => (
+            {streamOutput.intermediaryMessages.map((msg, index) => (
             <Grid item xs={12} sm={6} md={4} key={index} sx={{ position: "relative" }}>
-                <Card>
+                <Card elevation={3}
+                sx={{
+                    borderRadius: 2,
+                    border: "1px solid #ccc",
+                    cursor: "pointer",
+                    ":hover": { boxShadow: 3 },
+                    p: 0
+                }}
+                >
                     <CardContent>
-                        <Typography variant="h6">{msg.sender}</Typography>
+                        <Typography variant="h6" gutterBottom sx={{mb: 1}}>{msg.sender}</Typography>
                         <Typography variant="body1">{msg.content}</Typography>
                     </CardContent>
                 </Card>
             </Grid>
-            ))}
+          ))}
         </Grid>
-    </Box>
+      </Box>
     )
   }
 
@@ -113,20 +131,20 @@ const StreamOutput = ({ langgraphRun }) => {
                     <form onSubmit={handleFormSubmit}>
                         <Grid container spacing={3} alignItems="center">
                             {/* TextField */}
-                            <Grid item xs={10}> {/* Adjust xs value as needed */}
+                            <Grid item xs={11}> {/* Adjust xs value as needed */}
                                 <TextField
                                 fullWidth
                                 multiline
                                 minRows={1}
                                 variant="outlined"
-                                value={selectedTask.description}
+                                value={inputMessage}
                                 onChange={handleInputChange}
                                 placeholder={selectedTask.description}
                                 sx={{'& .MuiInputBase-root': { fontSize: '16px' }}}
                             />
                             </Grid>
                             {/* Button */}
-                            <Grid item xs={2}> {/* Adjust xs value as needed */}
+                            <Grid item xs={1}> {/* Adjust xs value as needed */}
                                 <Button type="submit" variant="contained" fullWidth>
                                         Start
                                 </Button>
@@ -139,17 +157,17 @@ const StreamOutput = ({ langgraphRun }) => {
   }
 
   return (
-    <Box sx={{ width: "100%", margin: "auto", textAlign: "left", mt: 2}}>
+    <Box sx={{ width: "100%", margin: "auto", textAlign: "left", mt: 2, pt: 6, mb: 6}}>
         <Grid container spacing={2} alignItems="center">
             {/* Button to Toggle Visibility */}
-            <Grid item xs={6}>
+            <Grid item xs={1}>
                 <Button variant="contained" onClick={toggleVisibility}>
-                {isVisible ? "Hide Panel" : "Show Panel"}
+                {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
                 </Button>
             </Grid>
             {/* Conditional Panel */}
-            {isVisible && (
-                <Grid item xs={6}>
+            {streamOutput.isVisible && (
+                <Grid item xs={11}>
                 <Box sx={{ display: "flex", gap: 2 }}>
                     <Button variant="outlined" onClick={startNewThread}>
                     Start New Thread
@@ -160,10 +178,9 @@ const StreamOutput = ({ langgraphRun }) => {
         </Grid>
 
 
-      {isVisible && (
+      {streamOutput.isVisible && (
         <Box sx={{gap: 1 , mt: 1}}>
-           {isThreadActive && ( displayInputMessage() )}
-
+           {streamOutput.isThreadActive && ( displayInputMessage() )}
 
           {/* User's Input Message */}
           {submittedInput && (
@@ -179,20 +196,20 @@ const StreamOutput = ({ langgraphRun }) => {
           )}
 
           {/* Intermediate Messages */}
-          {intermediaryMessages.length > 0 && (
+          {streamOutput.intermediaryMessages.length > 0 && (
             displayIntermediaryMessages()
           )}
 
 
           {/* Final Output */}
-          {finalMessage && (
+          {streamOutput.finalMessage && (
             <Card sx={{ backgroundColor: "#f5f5f5" }}>
               <CardContent>
                 <Typography variant="h6">Final Output</Typography>
                 <Typography variant="subtitle2" color="textSecondary">
-                  {finalMessage.sender}
+                  {streamOutput.finalMessage.sender}
                 </Typography>
-                <Typography variant="body1">{getPreviewContent(finalMessage.content, finalMessage.showFullContent)}</Typography>
+                <Typography variant="body1">{getPreviewContent(streamOutput.finalMessage.content, streamOutput.finalMessage.showFullContent)}</Typography>
               </CardContent>
             </Card>
           )}

@@ -54,3 +54,12 @@ export const reactflowDisplayAtom = atom([]);
 
 // chain for highlighting
 export const selectionChainAtom = atom({flowId: null, patternId:  null, configId: null});
+
+// stream output
+export const streamOutputAtom = atom({
+    inputMessage: "",
+    intermediaryMessages: [],
+    finalMessage: "",
+    isThreadActive: false,
+    isVisible: false,
+});
