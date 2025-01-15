@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import React from "react";
+import { memo, useCallback } from "react";
 import {
   taskFlowsGenerateAtom,
   selectedTaskAtom,
@@ -68,7 +68,9 @@ const TaskFlows = () => {
 
   const [selectedFlowId, setSelectedFlowId] = useState(null);
   const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
-  const [focusedField, setFocusedField] = useState(null);   
+
+  const [editingStates, setEditingStates] = useState({});
+
   // generate initial flows
   const generateTaskFlows = async (selectedTask) => {
     const newData = await GenerateTaskFlows(selectedTask);
@@ -115,20 +117,57 @@ const TaskFlows = () => {
   };
 
   const editFlow = (flowId) => {
-    setFlowsMap((prevMap) => {
-      const updatedMap = { ...prevMap };
-      updatedMap[flowId].isEditing = true;
-      return updatedMap;
-    });
+    const currentFlow = flowsMap[flowId];
+    setEditingStates(prev => ({
+      ...prev,
+      [flowId]: {
+        taskFlowSteps: currentFlow.taskFlowSteps.map(step => ({...step})),
+        originalSteps: currentFlow.taskFlowSteps.map(step => ({...step}))
+      }
+    }));
+    
+    setFlowsMap(prevMap => ({
+      ...prevMap,
+      [flowId]: {
+        ...prevMap[flowId],
+        isEditing: true
+      }
+    }));
   };
   const saveFlow = (flowId) => {
-    setFlowsMap((prevMap) => {
-      const updatedMap = { ...prevMap };
-      updatedMap[flowId].isEditing = false;
-      return updatedMap;
-    });
+    const editedSteps = editingStates[flowId]?.taskFlowSteps;
+    if (editedSteps) {
+      setFlowsMap(prevMap => ({
+        ...prevMap,
+        [flowId]: {
+          ...prevMap[flowId],
+          isEditing: false,
+          taskFlowSteps: editedSteps
+        }
+      }));
+      setEditingStates(prev => {
+        const newState = {...prev};
+        delete newState[flowId];
+        return newState;
+      });
+    }
   };
   
+  const cancelEdit = (flowId) => {
+    setFlowsMap(prevMap => ({
+      ...prevMap,
+      [flowId]: {
+        ...prevMap[flowId],
+        isEditing: false
+      }
+    }));
+    setEditingStates(prev => {
+      const newState = {...prev};
+      delete newState[flowId];
+      return newState;
+    });
+  };
+
   // trigger to generate workflows with patterns for the selected task flow
   const generatePatterns = (flow) => {
     console.log("Generating patterns for flow with ID:", flow.taskFlowId);
@@ -140,6 +179,7 @@ const TaskFlows = () => {
   const FlowMenu = ({ flowId }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+    const isEditing = flowsMap[flowId]?.isEditing;
 
     const handleMenuOpen = (event) => {
       event.stopPropagation(); 
@@ -164,6 +204,11 @@ const TaskFlows = () => {
       saveFlow(flowId);
       handleMenuClose();
     };
+    const handleCancel = (event) => {
+      event.stopPropagation();
+      cancelEdit(flowId);
+      handleMenuClose();
+    };
     return (
       <>
         <IconButton
@@ -181,8 +226,13 @@ const TaskFlows = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <MenuItem onClick={handleDelete}>Delete</MenuItem>
-          <MenuItem onClick={handleEdit}>Edit</MenuItem>
-          <MenuItem onClick={handleSave}>Save</MenuItem>
+          {!isEditing && <MenuItem onClick={handleEdit}>Edit</MenuItem>}
+          {isEditing && (
+            <>
+              <MenuItem onClick={handleSave}>Save</MenuItem>
+              <MenuItem onClick={handleCancel}>Cancel</MenuItem>
+            </>
+          )}
         </Menu>
       </>
     );
@@ -228,23 +278,12 @@ const TaskFlows = () => {
                 </Box>
         </CardContent>
     )
-}
-
-const handleStepUpdate = (flowId, stepIndex, field, value) => {
-    setFlowsMap((prevMap) => {
-      const updatedFlow = { ...prevMap[flowId] }; // Copy the task flow object
-      updatedFlow.taskFlowSteps = [...updatedFlow.taskFlowSteps]; // Copy the steps array
-      updatedFlow.taskFlowSteps[stepIndex] = {
-        ...updatedFlow.taskFlowSteps[stepIndex], // Copy the specific step
-        [field]: value, // Update the specific field (stepName or stepDescription)
-      };
-      console.log(updatedFlow);
-      return { ...prevMap, [flowId]: updatedFlow }; // Return the updated state
-    });
-};
+  }
 
 
-  const taskflowStepEditDisplay = (flow, handleStepUpdate) => {
+  const taskflowStepEditDisplay = (flow) => {
+    const editingData = editingStates[flow.taskFlowId];
+    // console.log("Editing data:", editingData);
     return (
       <CardContent sx={{ paddingBottom: 0 }}>
         <Typography
@@ -253,10 +292,10 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
           color="primary"
           sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
         >
-          Editing Task Flow {flow.taskFlowId}
+          Editing Task Flow {editingData.taskFlowId}
         </Typography>
         <Box mt={2}>
-          {flow.taskFlowSteps.map((step, index) => (
+          {editingData.taskFlowSteps.map((step, index) => (
             <Box
               key={index}
               sx={{
@@ -265,6 +304,8 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
                 borderRadius: "4px",
                 wordWrap: "break-word",
               }}
+              onClick={(e) => e.stopPropagation()}
+              onFocus={(e) => e.stopPropagation()}
             >
               {/* Editable Step Name */}
               <TextField
@@ -277,6 +318,8 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
                 size="small"
                 label="Step Name"
                 sx={{ marginBottom: 1 }}
+                onClick={(e) => e.stopPropagation()}
+                onFocus={(e) => e.stopPropagation()}
               />
   
               {/* Editable Step Description */}
@@ -299,6 +342,18 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
     );
   };
 
+  const handleStepUpdate = (flowId, stepIndex, field, value) => {
+    setEditingStates(prev => ({
+      ...prev,
+      [flowId]: {
+        ...prev[flowId],
+        taskFlowSteps: prev[flowId].taskFlowSteps.map((step, idx) => 
+          idx === stepIndex ? { ...step, [field]: value } : step
+        )
+      }
+    }));
+  };
+
   const TaskFlowsDisplay = () => {
     return (
       <div className="task-flows-container">
@@ -306,14 +361,16 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
         {flowIds.map((fid) => {
           const flow = flowsMap[fid];
           if (!flow) return null;
-
+            // return <MemoizedCard flow={flow} key={flow.taskFlowId}/>
           return (
             <Grid item key={flow.taskFlowId} sx={{ minWidth: 400, maxWidth: 500 }}>
             <Card
               key={flow.taskFlowId}
               onClick={() => {
-                setSelectedFlowId(flow.taskFlowId);
-                setSelectionChain({flowId: flow.taskFlowId, patternId: null, configId: null});
+                if (!flow.isEditing) {
+                  setSelectedFlowId(flow.taskFlowId);
+                  setSelectionChain({flowId: flow.taskFlowId, patternId: null, configId: null});
+                }
               }}
               sx={{
                 position: "relative",
@@ -325,7 +382,7 @@ const handleStepUpdate = (flowId, stepIndex, field, value) => {
             >
               {/* The top-right menu */}
               <FlowMenu flowId={flow.taskFlowId} />
-              {flow.isEditing ? taskflowStepEditDisplay(flow, handleStepUpdate) : taskflowStepDisplay(flow)}
+              {flow.isEditing ? taskflowStepEditDisplay(flow) : taskflowStepDisplay(flow)}
               {/* {TaskflowStepCard(flow)} */}
               {/* <CardContent sx={{ paddingBottom: 0 }}>
                 <Typography
