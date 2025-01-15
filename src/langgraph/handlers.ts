@@ -20,7 +20,8 @@ const handleSingleAgentWithWebSearchTool = (step) => {
 const handleSingleAgentWithPDFLoaderTool = (step) => {
     const { stepDescription } = step;
     const taskPrompt = `your task description is ${stepDescription}`;
-    const patternSystemPrompt = 'You are a helpful assistant with access to a PDF loader tool, you can load a PDF file and extract the text';
+    const patternSystemPrompt = 'You have access to a PDF loader tool, you can load a PDF file and extract the text. \
+    You dont have to respond with the final output and other information, just load the PDF file and extract the text.';
     return {
         type: "singleAgent",
         nodes: [
@@ -29,7 +30,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
                 description: "Agent_tool_pdf_loader",
                 tools: ["tool_PDFLoader"],
                 llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPrompt + taskPrompt 
+                systemPrompt: taskPrompt + patternSystemPrompt 
             }
         ],
         edges: []
@@ -39,9 +40,9 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
 const handleReflection = (step) => {
     const { stepDescription } = step;
     const patternSystemPromptReview = 'You are a helpful reviewer who can analyze the output of another agent. \
-    You work with another agent to solve the task and iterate on the output. You can provide subtle and helpful feedbacks.\
-    If the output is not good enough, you should respond with feedbacks and suggestions for improvement, and ask the agent to improve the output, and End with NOT GOOD.\
-    If the output is good enough, you should agree and respond with the final output, and End with FINISH.';
+    You work with another agent to solve the task and iterate on the output. You provide subtle and helpful feedbacks.\
+    If the output is not good enough, you should only respond with feedbacks and suggestions for improvement, and ask the agent to improve the output, and add NOT GOOD at the end.\
+    If the output is good enough, you should include the final output from the worker agent, and add APPROVED at the end.';
 
     const patternSystemPromptWork = 'You are a helpful assistant who can work with reviewer agent to achieve a task. \
     You can efficiently improve the output based on the feedbacks and suggestions provided by the reviewer. \
@@ -57,14 +58,14 @@ const handleReflection = (step) => {
                 description: "Executor",
                 tools: [],
                 llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptWork + taskPrompt
+                systemPrompt: taskPrompt + patternSystemPromptWork
             },
             {
                 type: "reviewer",
                 description: "Reviewer",
                 tools: [],
                 llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptReview + taskPrompt
+                systemPrompt: taskPrompt + patternSystemPromptReview
             }
         ],
         edges: [

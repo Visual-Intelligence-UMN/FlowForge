@@ -57,9 +57,9 @@ export const selectionChainAtom = atom({flowId: null, patternId:  null, configId
 
 // stream output
 export const streamOutputAtom = atom({
-    inputMessage: "",
+    inputMessage: {sender: "User", content: ""},
     intermediaryMessages: [],
-    finalMessage: "",
+    finalMessage: {sender: "", content: ""},
     isThreadActive: false,
     isVisible: false,
 });

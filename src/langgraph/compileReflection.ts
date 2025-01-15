@@ -48,7 +48,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
         if (typeof lastMessage.content === "string" && lastMessage.content.includes("NOT GOOD")) {
             return "SuggestToRevise";
         }
-        if (typeof lastMessage.content === "string" && lastMessage.content.includes("FINISH")) {
+        if (typeof lastMessage.content === "string" && lastMessage.content.includes("APPROVED")) {
             return "Approve";
         }
         return "SuggestToRevise";
