@@ -8,6 +8,8 @@ import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
 import { useEffect } from "react";
 const WORD_LIMIT = 30; // Global word limit for preview
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const StreamOutput = ({ langgraphRun }) => {
   const [submittedInput, setSubmittedInput] = useState(null);
@@ -125,42 +127,47 @@ const StreamOutput = ({ langgraphRun }) => {
   const displayIntermediaryMessages = () => {
     return (
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5", overflowX: "auto", whiteSpace: "nowrap" }}>
-        <Typography variant="h5" sx={{mb: 1,mt: 1}}>Intermediate Messages</Typography>
+        <Typography variant="h5" sx={{ mb: 1, mt: 1 }}> Messages</Typography>
         <Grid container spacing={2} sx={{ flexWrap: "nowrap", display: "flex" }}>
-          {streamOutput.intermediaryMessages.map((msg, index) => (
-            <Grid item key={index} sx={{ minWidth: 300, maxWidth: 400 }}>
-              <Card
-                elevation={3}
-                sx={{
-                  width: "100%",
-                  borderRadius: 2,
-                  border: "1px solid #ccc",
-                  cursor: "pointer",
-                  ":hover": { boxShadow: 3 },
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                }}
-              >
-                <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                  <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                    {msg.sender}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      whiteSpace: "normal", // Allow text to wrap
-                      wordWrap: "break-word", // Ensure long words break properly
-                      overflowWrap: "break-word", // Additional safeguard for text breaking
-                      flexGrow: 1, // Allow text to expand within the card
-                    }}
-                  >
+          {streamOutput.intermediaryMessages.map((msg, index) => {
+            const isLastItem = index === streamOutput.intermediaryMessages.length - 1;
+  
+            return (
+              <Grid item key={index} sx={{ minWidth: 450, maxWidth: 500 }}>
+                <Card
+                  elevation={3}
+                  sx={{
+                    width: "100%",
+                    borderRadius: 2,
+                    border: "1px solid #ccc",
+                    cursor: "pointer",
+                    ":hover": { boxShadow: 3 },
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    backgroundColor: isLastItem ? "#ffeb9b" : "white", // Different background for last item
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                    <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
+                      {"Step" + (Number(msg.sender.split("-")[1])+1) + " " + msg.sender.split("-")[3]}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        whiteSpace: "normal", // Allow text to wrap
+                        wordWrap: "break-word", // Ensure long words break properly
+                        overflowWrap: "break-word", // Additional safeguard for text breaking
+                        flexGrow: 1, // Allow text to expand within the card
+                      }}
+                    >
                     {msg.content}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
     );

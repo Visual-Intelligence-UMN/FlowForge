@@ -85,7 +85,7 @@ async function create_agent_node(props: {
     // let response = await agent.invoke(input_state, config);
     const input_state = {messages: state.messages.slice(-1), sender: state.sender};
     console.log("input_state", input_state);
-    let response = await agent.invoke(input_state, config);
+    let response = await agent.invoke(state, config);
     const response_msg = handle_agent_response(response, name);
     return {
         messages: response_msg,
