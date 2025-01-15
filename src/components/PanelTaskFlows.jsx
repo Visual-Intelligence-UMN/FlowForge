@@ -1,10 +1,13 @@
 import { useAtom } from "jotai";
+import React from "react";
 import {
   taskFlowsGenerateAtom,
   selectedTaskAtom,
   patternsGenerateAtom,
   patternsFlowAtom,
   selectionChainAtom,
+  flowsMapAtom,
+  flowIdsAtom
 } from "../global/GlobalStates";
 import { useEffect, useState } from "react";
 import GenerateTaskFlows from "./GenerateTaskFlows";
@@ -13,6 +16,7 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid2";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CardActions from "@mui/material/CardActions";
@@ -54,8 +58,8 @@ function mergeFlowsById(existingMap, existingIds, newFlows) {
 
 const TaskFlows = () => {
   // -- Normalized flow storage
-  const [flowsMap, setFlowsMap] = useState({});
-  const [flowIds, setFlowIds] = useState([]);
+  const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+  const [flowIds, setFlowIds] = useAtom(flowIdsAtom);
 
   const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
   const [selectedTask] = useAtom(selectedTaskAtom);
@@ -64,7 +68,7 @@ const TaskFlows = () => {
 
   const [selectedFlowId, setSelectedFlowId] = useState(null);
   const [selectionChain, setSelectionChain] = useAtom(selectionChainAtom);
-
+  const [focusedField, setFocusedField] = useState(null);   
   // generate initial flows
   const generateTaskFlows = async (selectedTask) => {
     const newData = await GenerateTaskFlows(selectedTask);
@@ -110,6 +114,21 @@ const TaskFlows = () => {
     console.log("Deleting flow with ID:", flowId);
   };
 
+  const editFlow = (flowId) => {
+    setFlowsMap((prevMap) => {
+      const updatedMap = { ...prevMap };
+      updatedMap[flowId].isEditing = true;
+      return updatedMap;
+    });
+  };
+  const saveFlow = (flowId) => {
+    setFlowsMap((prevMap) => {
+      const updatedMap = { ...prevMap };
+      updatedMap[flowId].isEditing = false;
+      return updatedMap;
+    });
+  };
+  
   // trigger to generate workflows with patterns for the selected task flow
   const generatePatterns = (flow) => {
     console.log("Generating patterns for flow with ID:", flow.taskFlowId);
@@ -123,7 +142,7 @@ const TaskFlows = () => {
     const open = Boolean(anchorEl);
 
     const handleMenuOpen = (event) => {
-      event.stopPropagation(); // Prevent card click selection
+      event.stopPropagation(); 
       setAnchorEl(event.currentTarget);
     };
     const handleMenuClose = () => {
@@ -135,6 +154,16 @@ const TaskFlows = () => {
       handleMenuClose();
     };
 
+    const handleEdit = (event) => {
+      event.stopPropagation();
+      editFlow(flowId);
+      handleMenuClose();
+    };
+    const handleSave = (event) => {
+      event.stopPropagation();
+      saveFlow(flowId);
+      handleMenuClose();
+    };
     return (
       <>
         <IconButton
@@ -152,24 +181,134 @@ const TaskFlows = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <MenuItem onClick={handleDelete}>Delete</MenuItem>
+          <MenuItem onClick={handleEdit}>Edit</MenuItem>
+          <MenuItem onClick={handleSave}>Save</MenuItem>
         </Menu>
       </>
     );
   };
-
   // check if a task flow is highlighted
   const isFlowSelected = (flow) => {
     return String(flow.taskFlowId) === String(selectionChain.flowId);
   };
 
+  const taskflowStepDisplay = (flow) => {
+    return (
+        <CardContent sx={{ paddingBottom: 0 }}>
+          <Typography
+            variant="h6"
+            textAlign="left"
+            color="primary"
+            sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+            >
+              Task Flow {flow.taskFlowId}
+            </Typography>
+            <Box mt={2}>
+                  {flow.taskFlowSteps.map((step, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        padding: 0,
+                        marginBottom: 1,
+                        borderRadius: "4px",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      <Typography variant="body1" fontWeight="bold">
+                        {step.stepName}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+                      >
+                        {step.stepDescription}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+        </CardContent>
+    )
+}
+
+const handleStepUpdate = (flowId, stepIndex, field, value) => {
+    setFlowsMap((prevMap) => {
+      const updatedFlow = { ...prevMap[flowId] }; // Copy the task flow object
+      updatedFlow.taskFlowSteps = [...updatedFlow.taskFlowSteps]; // Copy the steps array
+      updatedFlow.taskFlowSteps[stepIndex] = {
+        ...updatedFlow.taskFlowSteps[stepIndex], // Copy the specific step
+        [field]: value, // Update the specific field (stepName or stepDescription)
+      };
+      console.log(updatedFlow);
+      return { ...prevMap, [flowId]: updatedFlow }; // Return the updated state
+    });
+};
+
+
+  const taskflowStepEditDisplay = (flow, handleStepUpdate) => {
+    return (
+      <CardContent sx={{ paddingBottom: 0 }}>
+        <Typography
+          variant="h6"
+          textAlign="left"
+          color="primary"
+          sx={{ wordWrap: "break-word", whiteSpace: "normal" }}
+        >
+          Editing Task Flow {flow.taskFlowId}
+        </Typography>
+        <Box mt={2}>
+          {flow.taskFlowSteps.map((step, index) => (
+            <Box
+              key={index}
+              sx={{
+                padding: 0,
+                marginBottom: 1,
+                borderRadius: "4px",
+                wordWrap: "break-word",
+              }}
+            >
+              {/* Editable Step Name */}
+              <TextField
+                value={step.stepName}
+                onChange={(e) =>
+                  handleStepUpdate(flow.taskFlowId, index, "stepName", e.target.value)
+                }
+                variant="outlined"
+                fullWidth
+                size="small"
+                label="Step Name"
+                sx={{ marginBottom: 1 }}
+              />
+  
+              {/* Editable Step Description */}
+              {/* <TextField
+                value={step.stepDescription}
+                onChange={(e) =>
+                  handleStepUpdate(flow.taskFlowId, index, "stepDescription", e.target.value)
+                }
+                variant="outlined"
+                fullWidth
+                size="small"
+                label="Step Description"
+                multiline
+                rows={2}
+              /> */}
+            </Box>
+          ))}
+        </Box>
+      </CardContent>
+    );
+  };
+
   const TaskFlowsDisplay = () => {
     return (
       <div className="task-flows-container">
+        <Grid container spacing={2} sx={{ flexWrap: "nowrap", display: "flex" }}>
         {flowIds.map((fid) => {
           const flow = flowsMap[fid];
           if (!flow) return null;
 
           return (
+            <Grid item key={flow.taskFlowId} sx={{ minWidth: 400, maxWidth: 500 }}>
             <Card
               key={flow.taskFlowId}
               onClick={() => {
@@ -182,13 +321,13 @@ const TaskFlows = () => {
                 backgroundColor: isFlowSelected(flow) ? "#f0f8ff" : "#fff",
                 cursor: "pointer",
                 ":hover": { boxShadow: 3 },
-                marginBottom: "1px",
               }}
             >
               {/* The top-right menu */}
               <FlowMenu flowId={flow.taskFlowId} />
-
-              <CardContent sx={{ paddingBottom: 0 }}>
+              {flow.isEditing ? taskflowStepEditDisplay(flow, handleStepUpdate) : taskflowStepDisplay(flow)}
+              {/* {TaskflowStepCard(flow)} */}
+              {/* <CardContent sx={{ paddingBottom: 0 }}>
                 <Typography
                   variant="h6"
                   textAlign="left"
@@ -220,7 +359,8 @@ const TaskFlows = () => {
                     </Box>
                   ))}
                 </Box>
-              </CardContent>
+              </CardContent> */}
+
               <CardActions sx={{ paddingTop: 0 }}>
                 <Button
                   size="small"
@@ -234,8 +374,10 @@ const TaskFlows = () => {
                 </Button>
               </CardActions>
             </Card>
+            </Grid>
           );
         })}
+        </Grid>
       </div>
     );
   };

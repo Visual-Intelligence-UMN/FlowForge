@@ -69,6 +69,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf1",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",
@@ -108,6 +109,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf1",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",
@@ -180,6 +182,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf3",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",

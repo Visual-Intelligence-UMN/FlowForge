@@ -32,6 +32,8 @@ export const uploadedFileAtom = atom(null);
 // Taks flows panel
 export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const taskFlowsAtom = atom([]); // format: 
+export const flowsMapAtom = atom({});
+export const flowIdsAtom = atom([]);
 
 
 // Workflows with Design patterns panel

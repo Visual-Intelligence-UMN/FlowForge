@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
 import {Box,Button,Card, CardContent,Typography,TextField,Collapse,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -6,17 +6,11 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
-import { useEffect } from "react";
 const WORD_LIMIT = 30; // Global word limit for preview
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const StreamOutput = ({ langgraphRun }) => {
-  const [submittedInput, setSubmittedInput] = useState(null);
-  const [intermediaryMessages, setIntermediaryMessages] = useState([]);
-  const [finalMessage, setFinalMessage] = useState(null);
-  const [isThreadActive, setIsThreadActive] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);
   const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
@@ -155,10 +149,10 @@ const StreamOutput = ({ langgraphRun }) => {
                     <Typography
                       variant="body1"
                       sx={{
-                        whiteSpace: "normal", // Allow text to wrap
-                        wordWrap: "break-word", // Ensure long words break properly
-                        overflowWrap: "break-word", // Additional safeguard for text breaking
-                        flexGrow: 1, // Allow text to expand within the card
+                        whiteSpace: "normal", 
+                        wordWrap: "break-word", 
+                        overflowWrap: "break-word", 
+                        flexGrow: 1, 
                       }}
                     >
                     {msg.content}
@@ -229,7 +223,7 @@ const StreamOutput = ({ langgraphRun }) => {
 
       {streamOutput.isVisible && (
         <Box sx={{gap: 1 , mt: 1}}>
-           {streamOutput.isThreadActive && ( displayInputMessage() )}
+          {streamOutput.isThreadActive && ( displayInputMessage() )}
 
           {/* User's Input Message */}
           {streamOutput.inputMessage && (
