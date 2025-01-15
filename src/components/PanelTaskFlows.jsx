@@ -1,5 +1,4 @@
 import { useAtom } from "jotai";
-import { memo, useCallback } from "react";
 import {
   taskFlowsGenerateAtom,
   selectedTaskAtom,
@@ -300,9 +299,11 @@ const TaskFlows = () => {
               key={index}
               sx={{
                 padding: 0,
-                marginBottom: 1,
+                marginBottom: 3,
                 borderRadius: "4px",
                 wordWrap: "break-word",
+                display: "flex",
+                flexDirection: "column",
               }}
               onClick={(e) => e.stopPropagation()}
               onFocus={(e) => e.stopPropagation()}
@@ -317,13 +318,13 @@ const TaskFlows = () => {
                 fullWidth
                 size="small"
                 label="Step Name"
-                sx={{ marginBottom: 1 }}
+                sx={{ marginBottom: 1, marginTop: 0 }}
                 onClick={(e) => e.stopPropagation()}
                 onFocus={(e) => e.stopPropagation()}
               />
   
               {/* Editable Step Description */}
-              {/* <TextField
+              <TextField
                 value={step.stepDescription}
                 onChange={(e) =>
                   handleStepUpdate(flow.taskFlowId, index, "stepDescription", e.target.value)
@@ -334,7 +335,9 @@ const TaskFlows = () => {
                 label="Step Description"
                 multiline
                 rows={2}
-              /> */}
+                onClick={(e) => e.stopPropagation()}
+                onFocus={(e) => e.stopPropagation()}
+              />
             </Box>
           ))}
         </Box>
@@ -374,8 +377,8 @@ const TaskFlows = () => {
               }}
               sx={{
                 position: "relative",
-                border: isFlowSelected(flow) ? "2px solid blue" : "1px solid #ccc",
-                backgroundColor: isFlowSelected(flow) ? "#f0f8ff" : "#fff",
+                border: isFlowSelected(flow) && !flow.isEditing ? "2px solid blue" : "1px solid #ccc",
+                backgroundColor: isFlowSelected(flow) && !flow.isEditing ? "#f0f8ff" : "#fff",
                 cursor: "pointer",
                 ":hover": { boxShadow: 3 },
               }}

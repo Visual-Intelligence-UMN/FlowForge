@@ -10,15 +10,14 @@ import {
 import { useEffect, useState } from "react";
 import React from "react";
 
-import { Box, Card, CardContent, Typography, Button, Divider, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Box, Card, CardContent, Select, Typography, Button, Divider, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DisplayGraphPatterns from "./DisplayGraphPatterns";
 import GeneratePatterns from "./GeneratePatterns";
 import PatternsMap from "./PatternsPoolSidebar";
-
 import { iconMap } from "../global/iconsMap";
-
+import { designPatternsPool } from "../global/patternsMap";
 // A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};
 
@@ -175,7 +174,22 @@ const PatternsPanel = () => {
     return false;
   };
 
-  const patternInfo = (index, step) => {
+  const updateStepPattern = (patternIndex, stepIndex, newPattern) => {
+    setDesignPatterns((prevPatterns) =>
+      prevPatterns.map((pattern, pIndex) =>
+        pIndex === patternIndex
+          ? {
+              ...pattern,
+              taskFlowSteps: pattern.taskFlowSteps.map((step, sIndex) =>
+                sIndex === stepIndex ? { ...step, pattern: { name: newPattern } } : step
+              ),
+            }
+          : pattern
+      )
+    );
+  };
+
+  const patternInfo = (patternIndex, index, step, updateStepPattern) => {
     const IconComponent = iconMap[step.pattern?.name];
     return (
       <Box key={index} sx={{ mb: 1 }}>
@@ -192,9 +206,24 @@ const PatternsPanel = () => {
         
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
           <IconComponent fontSize="small" sx={{ mr: 1 }} />
-          <Typography variant="body2" color="text.secondary">
+          {/* <Typography variant="body2" color="text.secondary">
             {step.pattern?.name}
-          </Typography>
+          </Typography> */}
+
+          <Select
+            value={step.pattern?.name}
+            onChange={(e) => {
+              console.log(e.target.value);
+              updateStepPattern(patternIndex, index, e.target.value);
+            }}
+            sx={{ fontSize: "small", ml: 0 , p: 0}}
+            size="small"
+
+          >
+            {designPatternsPool.map((pattern) => (
+              <MenuItem key={pattern.name} value={pattern.name}>{pattern.name}</MenuItem>
+            ))}
+          </Select>
         </Box>
       </Box>
     )
@@ -206,7 +235,7 @@ const PatternsPanel = () => {
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
         <Grid container spacing={2}>
           <PatternsMap />
-          {designPatterns.map((pattern) => (
+          {designPatterns.map((pattern,patternIndex) => (
             <Grid item xs={12} sm={6} md={4} key={pattern.patternId} sx={{ position: "relative" }}>
               <Card elevation={3}
                 sx={{
@@ -229,7 +258,7 @@ const PatternsPanel = () => {
                     Patterns {pattern.patternId}
                   </Typography>
                   {pattern.taskFlowSteps.map((step, index) => (
-                    patternInfo(index, step)
+                    patternInfo(patternIndex, index, step, updateStepPattern)
                   ))}
 
                   <Button color="primary" size="small" onClick={() => configureAgents(pattern)} sx={{ mb: 1 }}>

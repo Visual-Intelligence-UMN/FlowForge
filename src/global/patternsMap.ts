@@ -30,4 +30,8 @@ export const designPatternsPool = [
         and they are debating and discussing multiple ideas, brainstorming, and generating diverse perspectives.\
         It is useful when the task requires creativity and diversity of perspectives.",
     },
+    {
+        name: "Single Agent",
+        description: "This design pattern has a single agent to perform the task, and it is useful when the task is not too complex.",
+    }
 ]
