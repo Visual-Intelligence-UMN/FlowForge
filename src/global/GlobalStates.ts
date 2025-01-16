@@ -1,13 +1,13 @@
 import { atom } from "jotai";
-import { initialNodes } from "../nodes";
-import { initialEdges } from "../edges";
-import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
+// import { initialNodes } from "../nodes";
+// import { initialEdges } from "../edges";
+// import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
 
 export const selectedGraphAtom = atom(null);
-export const flowsAtom = atom({
-    "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
-    "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
-}); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used 
+// export const flowsAtom = atom({
+//     "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
+//     "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
+// }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used 
 
 
 // Task configuration
