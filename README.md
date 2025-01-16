@@ -2,9 +2,9 @@
 
 # Agentic System Builder 
 
-A non-drag-and-drop interface that facilitate the diverse design and iteration of LLM-based Multi-Agent Workflows (MAWs).
+A non-drag-and-drop interface that supports you to design and iterate diverse LLM-based Multi-Agent Workflows.
 
-## Getting up and running
+## Quick Start
 
 ### API Keys
 
@@ -12,20 +12,20 @@ Prepare your API keys in `.env` file:
 - OpenAI API key: `OPENAI_API_KEY`
 - Tevily API key: `TEVILY_API_KEY`
 
-### Install dependencies
+### Install
 
 ```bash
 npm install # or `pnpm install` or `yarn install`
 ```
 
-### Run the development server
+### Run
 
 ```bash
 npm run dev
 ```
 
 
-## Repo rename options
+## Repo Rename Options
 
 - **DivergiFlow**: reflecting diverse and branching workflow possibilities. 
 - **MetaFlow**: implying the workflow building process contains meta-level abstraction (task decomposition and design pattern).
