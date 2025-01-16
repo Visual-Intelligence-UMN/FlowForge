@@ -119,7 +119,7 @@ const PatternsPanel = () => {
   };
 
   const NoPatterns = () => {
-    return <p>No patterns available. Please generate patterns for the selected flow.</p>;
+    return <p className="hint">No patterns available. Please generate patterns for the selected flow.</p>;
   };
 
   // top right menu
@@ -290,7 +290,7 @@ const PatternsPanel = () => {
 
   return (
     <div className="patterns-panel">
-      <h2>Flows with Patterns</h2>
+      <h3>Subtask-Pattern Association</h3>
       {designPatterns.length > 0 ? <PatternsDisplay /> : <NoPatterns />}
       {/* {designPatterns.length > 0 ? <DisplayD3 /> : <NoPatterns />} */}
     </div>

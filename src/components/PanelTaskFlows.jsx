@@ -443,7 +443,7 @@ const TaskFlows = () => {
   };
 
   const NoTaskFlows = () => (
-    <p>No task flows available. Please generate flows for the selected task.</p>
+    <p className='hint'>No task flows available. Please generate flows for the selected task.</p>
   );
 
   const taskFlowsHeader = () => {
@@ -452,7 +452,7 @@ const TaskFlows = () => {
         className="task-flows-header"
         style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
       >
-        <h2 style={{ margin: 0 }}>Task Flows</h2>
+        <h3 style={{ margin: 0 }}>Task Spliting</h3>
         {taskFlowsGenerate === 1 && flowIds.length > 0 && (
           <Box mt={2}>
             <Button
