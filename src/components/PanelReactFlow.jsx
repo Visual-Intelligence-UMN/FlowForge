@@ -94,7 +94,7 @@ const ReactFlowPanel = () => {
     const noFlowDisplay = () => {
         return (
             <div className="no-flow-display">
-                No workflow generated
+                <p className="hint">No workflow generated</p>
             </div>
         )
     }

@@ -209,7 +209,7 @@ const handleDiscussion = (step) => {
 const handleSingleAgent = (step) => {
     const { stepDescription } = step;
     const systemPrompt = 'The task description for you is ' + stepDescription;
-    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task';
+    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task. You should output the final result from the previous conversation.';
     return {
         type: "singleAgent",
         nodes: [
