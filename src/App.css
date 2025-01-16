@@ -1,0 +1,44 @@
+.section {
+    padding: 0px 25px;
+  }
+  
+  .section + .section {
+    border-top: 1px solid #ccc;
+  }
+  
+  .construction {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .pre-construction {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .reactflow-panel {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  }
+  
+  .post-construction {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .main-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }

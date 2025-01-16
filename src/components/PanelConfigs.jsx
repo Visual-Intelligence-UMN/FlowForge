@@ -271,10 +271,10 @@ const AgentsPanel = () => {
   };
 
   return (
-    <Box sx={{ padding: 1 ,border: '1px solid #ccc', paddingTop: 4}}>
-      <Typography variant="h5" fontWeight="bold">
-        Flows with Configurations
-      </Typography>
+    <Box sx={{ padding: 1, paddingTop: 4}}>
+      <h3>
+        Agents Configurations
+      </h3>
       {agentsConfig.length > 0 ? <AgentsConfigDisplayRows /> : <NoAgents />}
     </Box>
   );
