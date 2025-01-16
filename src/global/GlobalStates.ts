@@ -7,40 +7,48 @@ export const selectedGraphAtom = atom(null);
 // export const flowsAtom = atom({
 //     "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
 //     "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
-// }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used 
-
+// }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used
 
 // Task configuration
-export const selectedTaskAtom = atom({
-    id: "task1", 
-    name: "Generate Presentation Script", 
-    requiresUpload: false, 
-    description: "Generate a presentation script for a given topic.", 
-    uploadedFile: null
-});
+export const selectedTaskAtom = atom({});
 
 export const taskList = [
-    { id: 'task1', name: 'Generate Presentation Script', requiresUpload: false, description: 'Generate a presentation script for a given topic.', uploadedFile: null },
-    { id: 'task2', name: 'Machine Learning Visualization', requiresUpload: true, description: 'Visualize a given machine learning model.', uploadedFile: null },
-    { id: 'task3', name: 'Travel Planning', requiresUpload: false, description: 'Plan a travel itinerary for a given destination.', uploadedFile: null },
+  {
+    id: "task1",
+    name: "Generate Presentation Script",
+    requiresUpload: false,
+    description: "Generate a presentation script for a given topic.",
+    uploadedFile: null,
+  },
+  {
+    id: "task2",
+    name: "Machine Learning Visualization",
+    requiresUpload: true,
+    description: "Visualize a given machine learning model.",
+    uploadedFile: null,
+  },
+  {
+    id: "task3",
+    name: "Travel Planning",
+    requiresUpload: false,
+    description: "Plan a travel itinerary for a given destination.",
+    uploadedFile: null,
+  },
 ];
-
 
 export const taskInputAtom = atom("");
 export const uploadedFileAtom = atom(null);
 
 // Taks flows panel
 export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const taskFlowsAtom = atom([]); // format: 
+export const taskFlowsAtom = atom([]); // format:
 export const flowsMapAtom = atom({});
 export const flowIdsAtom = atom([]);
-
 
 // Workflows with Design patterns panel
 export const patternsFlowAtom = atom(null);
 export const patternsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const patternsAtom = atom([]);
-
 
 // Configs panel
 export const agentsConfigPatternAtom = atom(null);
@@ -55,13 +63,17 @@ export const langgraphRunAtom = atom([]);
 export const reactflowDisplayAtom = atom([]);
 
 // chain for highlighting
-export const selectionChainAtom = atom({flowId: null, patternId:  null, configId: null});
+export const selectionChainAtom = atom({
+  flowId: null,
+  patternId: null,
+  configId: null,
+});
 
 // stream output
 export const streamOutputAtom = atom({
-    inputMessage: {sender: "User", content: ""},
-    intermediaryMessages: [],
-    finalMessage: {sender: "", content: ""},
-    isThreadActive: false,
-    isVisible: false,
+  inputMessage: { sender: "User", content: "" },
+  intermediaryMessages: [],
+  finalMessage: { sender: "", content: "" },
+  isThreadActive: false,
+  isVisible: false,
 });
