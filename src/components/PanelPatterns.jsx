@@ -119,7 +119,7 @@ const PatternsPanel = () => {
   };
 
   const NoPatterns = () => {
-    return <p>No patterns available. Please generate patterns for the selected flow.</p>;
+    return <p className="hint">No patterns available. Please generate patterns for the selected flow.</p>;
   };
 
   // top right menu

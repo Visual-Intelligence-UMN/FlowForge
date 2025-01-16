@@ -124,7 +124,7 @@ const AgentsPanel = () => {
   }, [agentsConfigGenerate, agentsConfigPattern]);
 
   const NoAgents = () => (
-     <p>No agents available. Please generate agents for the selected pattern.</p>
+     <p className="hint">No agents available. Please generate agents for the selected pattern.</p>
   );
 
 

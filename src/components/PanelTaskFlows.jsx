@@ -443,7 +443,7 @@ const TaskFlows = () => {
   };
 
   const NoTaskFlows = () => (
-    <p>No task flows available. Please generate flows for the selected task.</p>
+    <p className='hint'>No task flows available. Please generate flows for the selected task.</p>
   );
 
   const taskFlowsHeader = () => {

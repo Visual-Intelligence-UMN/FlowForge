@@ -11,27 +11,29 @@ body,
   margin: 0;
 }
 
+p.hint {
+  color: #aaa;
+}
+
 .text-updater-node {
   position: relative;
-  height: auto; 
-  padding: 0px; 
-  border: 1.5px solid #8ACE00; 
-  border-top: 5px solid #85c702; 
-  border-radius: 6px; 
-  background: #ffffff; 
+  height: auto;
+  padding: 0px;
+  border: 1.5px solid #8ace00;
+  border-top: 5px solid #85c702;
+  border-radius: 6px;
+  background: #ffffff;
   /* box-shadow: px 4px 8px rgba(233, 7, 7, 0.1);  */
   font-family: Arial, sans-serif;
 }
 
 .text-updater-node label {
   display: block;
-  color: #333; 
-  font-size: 12px; 
+  color: #333;
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: 1px; 
+  margin-bottom: 1px;
 }
-
-
 
 .dndflow {
   flex-direction: column;
@@ -41,18 +43,18 @@ body,
   width: 100%;
   box-sizing: border-box;
 }
- 
+
 .dndflow aside {
   border-right: 1px solid #eee;
   padding: 15px 10px;
   font-size: 12px;
   background: #fcfcfc;
 }
- 
+
 .dndflow aside .description {
   margin-bottom: 10px;
 }
- 
+
 .dndflow .dndnode {
   height: 20px;
   padding: 4px;
@@ -64,31 +66,31 @@ body,
   align-items: center;
   cursor: grab;
 }
- 
+
 .dndflow .dndnode.input {
   border-color: #0041d0;
 }
- 
+
 .dndflow .dndnode.output {
   border-color: #ff0072;
 }
- 
+
 .dndflow .reactflow-wrapper {
   flex-grow: 1;
   height: 100%;
   width: 100%;
   /* box-sizing: border-box; */
 }
- 
+
 .dndflow .selectall {
   margin-top: 10px;
 }
- 
+
 @media screen and (min-width: 768px) {
   .dndflow {
     flex-direction: row;
   }
- 
+
   .dndflow aside {
     width: 20%;
     max-width: 250px;
@@ -225,7 +227,7 @@ body,
   border: 1px solid #ccc;
   padding: 10px;
 }
- 
+
 .task-flows-panel {
   box-sizing: border-box;
   display: flex;
@@ -248,7 +250,7 @@ body,
 }
 
 .task-flows-container::-webkit-scrollbar {
-  height: 8px; 
+  height: 8px;
 }
 
 .task-flows-container::-webkit-scrollbar-thumb {
@@ -311,14 +313,13 @@ body,
 }
 
 .patterns-container::-webkit-scrollbar {
-  height: 8px; 
+  height: 8px;
 }
 
 .patterns-container::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
 }
-
 
 .pattern-display {
   box-sizing: border-box;
@@ -369,7 +370,7 @@ body,
 }
 
 .agents-config-container::-webkit-scrollbar {
-  height: 8px; 
+  height: 8px;
 }
 
 .agents-config-container::-webkit-scrollbar-thumb {
@@ -404,4 +405,3 @@ body,
   margin: 1px;
   padding: 1px;
 }
-
