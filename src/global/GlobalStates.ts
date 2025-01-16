@@ -32,6 +32,8 @@ export const uploadedFileAtom = atom(null);
 // Taks flows panel
 export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const taskFlowsAtom = atom([]); // format: 
+export const flowsMapAtom = atom({});
+export const flowIdsAtom = atom([]);
 
 
 // Workflows with Design patterns panel
@@ -54,3 +56,12 @@ export const reactflowDisplayAtom = atom([]);
 
 // chain for highlighting
 export const selectionChainAtom = atom({flowId: null, patternId:  null, configId: null});
+
+// stream output
+export const streamOutputAtom = atom({
+    inputMessage: {sender: "User", content: ""},
+    intermediaryMessages: [],
+    finalMessage: {sender: "", content: ""},
+    isThreadActive: false,
+    isVisible: false,
+});

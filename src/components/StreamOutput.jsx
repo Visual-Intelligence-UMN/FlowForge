@@ -39,7 +39,7 @@ const StreamOutput = ({langgraphRun}) => {
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
-      { recursionLimit: 5 }
+      { recursionLimit: 10 }
     );
     let lastSender = "";
     let lastContent = "";

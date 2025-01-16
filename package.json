@@ -15,12 +15,10 @@
     "@langchain/core": "^0.3.3",
     "@langchain/langgraph": "^0.2.8",
     "@langchain/openai": "^0.3.2",
-
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.0",
     "@xyflow/react": "^12.3.6",
     "d3": "^7.9.0",
-
     "dagre": "^0.8.5",
     "dotenv": "^16.4.5",
     "jotai": "^2.10.3",
@@ -30,7 +28,9 @@
     "pdf-parse": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.3",
     "reactflow": "^11.11.4",
+    "remark-gfm": "^4.0.0",
     "tslab": "^1.0.22",
     "zod": "^3.24.1",
     "zod-to-json-schema": "^3.23.2"

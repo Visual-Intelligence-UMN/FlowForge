@@ -93,7 +93,7 @@ export function FlowPanelComponent(props) {
     }, []);
 
     return (
-            <div className="reactflow-wrapper" style={{width: "800px", height: "800px"}}>
+            <div className="reactflow-wrapper" style={{width: "2300px", height: "1000px"}}>
                 <ReactFlow
                 id = {props.id}
                 nodes={modifiedNodes}

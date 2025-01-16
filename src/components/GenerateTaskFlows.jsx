@@ -69,6 +69,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf1",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",
@@ -82,34 +83,12 @@ const GenerateTaskFlows = async (task) => {
                         
                     },
                     {
-                        "stepName": "Scan the Paper Structure",
-                        "stepLabel": "Structure Overview",
-                        "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
+                        "stepName": "Outline the Paper",
+                        "stepLabel": "Outline",
+                        "stepDescription": "Outline the paper into logical sections that will serve as the basis for presentation slides.",
                         "pattern": 
                             {
-                                "name": "Supervision",
-                                "description": "This design pattern has multiple agents to perform the task."
-                            }
-                        
-                    },
-                    {
-                        "stepName": "Identify Core Ideas",
-                        "stepLabel": "Key Concepts",
-                        "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
-                        "pattern": 
-                            {
-                                "name": "Discussion",
-                                "description": "This design pattern has a discussion to perform the task."
-                            }
-                        
-                    },
-                    {
-                        "stepName": "Draft Slide Content",
-                        "stepLabel": "Slide Outline",
-                            "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
-                        "pattern": 
-                            {
-                                "name": "Single Agent",
+                                "name": "Reflection",
                                 "description": "This design pattern has a single agent to perform the task."
                             }
                     },
@@ -119,19 +98,8 @@ const GenerateTaskFlows = async (task) => {
                         "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
                         "pattern": 
                             {
-                                "name": "Reflection",
+                                "name": "Single Agent",
                                 "description": "This design pattern has a reflection to perform the task."
-                            }
-                        
-                    },
-                    {
-                        "stepName": "Polish the Script",
-                        "stepLabel": "Script Refinement",
-                        "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
-                        "pattern": 
-                            {
-                                "name": "Supervision",
-                                "description": "This design pattern has a supervision to perform the task."
                             }
                         
                     }
@@ -141,6 +109,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf1",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",
@@ -213,6 +182,7 @@ const GenerateTaskFlows = async (task) => {
                 "taskFlowId": "tf3",
                 "taskFlowName": "Analytical Outline Approach",
                 "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+                "isEditing": false,
                 "taskFlowSteps": [
                     {
                         "stepName": "Read the Abstract",

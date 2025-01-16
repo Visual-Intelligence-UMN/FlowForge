@@ -1,9 +1,8 @@
 import { Annotation } from "@langchain/langgraph/web";
 import { BaseMessage } from "@langchain/core/messages";
-
 const InputAnnotation = Annotation.Root({
-    messages: Annotation<BaseMessage[]> ({
-      reducer: (x,y) => x.concat(y),
+    messages: Annotation<BaseMessage[]>({
+        reducer: (x,y) => x.concat(y),
     }), 
     sender: Annotation<string>({
         reducer: (x,y) => y ?? x ?? "user",

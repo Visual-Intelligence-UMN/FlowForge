@@ -8,6 +8,7 @@ import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "./DnDContext";
 import  Sidebar  from "./ReactflowSidebar";
 import  StreamOutput  from "./StreamOutput";
+import  StreamOutputRow  from "./StreamOutputRow";
 
 import CompileReactflow from "./CompileReactflow";
 import CompileLanggraph from "./CompileLanggraph";
@@ -72,11 +73,11 @@ const ReactFlowPanel = () => {
 
     const canvasDisplay = () => {
         return (
-            <div className="dndflow">
+            <div className="dndflow" style={{width: "100%", height: "100%"}}>
                 <DnDProvider>
-                    <Sidebar />
+                    {/* <Sidebar /> */}
                     {reactflowDisplay.map((flow) => (
-                        <div className="reactflow-wrapper" key={flow.key}>
+                        <div className="reactflow-provider-wrapper" key={flow.key}>
                             <FlowWithProvider 
                                 key={flow.key} 
                                 id = {flow.configId} 
@@ -86,7 +87,7 @@ const ReactFlowPanel = () => {
                         </div>
                     ))}
                 </DnDProvider>
-                <StreamOutput langgraphRun={langgraphRun}/>
+                {/* <StreamOutput langgraphRun={langgraphRun}/> */}
             </div>
         )
     }
@@ -101,11 +102,12 @@ const ReactFlowPanel = () => {
     return (
         <div className="reactflow-panel">
             <h2>Complete workflow</h2>
-            {graphImage && <img src={graphImage} alt="workflow graph" />}
+            {/* {graphImage && <img src={graphImage} alt="workflow graph" style={{width: "10%", height: "10%"}}/>} */}
             {reactflowDisplay.length > 0 ? 
             canvasDisplay()
          : 
          noFlowDisplay()}   
+         <StreamOutputRow langgraphRun={langgraphRun}/>
         </div>
     )
 }
