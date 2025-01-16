@@ -6,9 +6,9 @@ const handleSingleAgentWithWebSearchTool = (step) => {
         type: "singleAgent",
         nodes: [
             {
-                type: "singleAgentWithWebSearchTool",
+                type: "singleAgent",
                 description: "Agent_tool_search",
-                tools: ["tool_search"],
+                tools: ["tool_WebSearch"],
                 llm: "gpt-4o-mini",
                 systemPrompt: patternSystemPrompt + taskPrompt 
             }
@@ -26,7 +26,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
         type: "singleAgent",
         nodes: [
             {
-                type: "singleAgentWithPDFLoaderTool",
+                type: "singleAgent",
                 description: "Agent_tool_pdf_loader",
                 tools: ["tool_PDFLoader"],
                 llm: "gpt-4o-mini",
