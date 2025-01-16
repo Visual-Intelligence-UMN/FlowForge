@@ -206,6 +206,7 @@ const PatternsPanel = () => {
         
         <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
           <IconComponent fontSize="small" sx={{ mr: 1 }} />
+          
           {/* <Typography variant="body2" color="text.secondary">
             {step.pattern?.name}
           </Typography> */}
@@ -218,7 +219,6 @@ const PatternsPanel = () => {
             }}
             sx={{ fontSize: "small", ml: 0 , p: 0}}
             size="small"
-
           >
             {designPatternsPool.map((pattern) => (
               <MenuItem key={pattern.name} value={pattern.name}>{pattern.name}</MenuItem>
