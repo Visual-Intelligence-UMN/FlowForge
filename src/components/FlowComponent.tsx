@@ -10,6 +10,7 @@ import {
     useReactFlow,
     type OnConnect,
     Panel,
+    SelectionMode
   } from '@xyflow/react';
 import { nodeTypes } from '../nodes';
 import { edgeTypes } from '../edges';
@@ -92,8 +93,10 @@ export function FlowPanelComponent(props) {
         // screenToFlowPosition.fitView();
     }, []);
 
+    const panOnDrag = [1,2]
+
     return (
-            <div className="reactflow-wrapper" style={{width: "2300px", height: "1000px"}}>
+            <div className="reactflow-wrapper" style={{width: "2800px", height: "1000px"}}>
                 <ReactFlow
                 id = {props.id}
                 nodes={modifiedNodes}
@@ -106,7 +109,11 @@ export function FlowPanelComponent(props) {
                 onConnect={onConnect}
                 onDragOver={onDragOver}
                 onDrop={onDrop}
-                fitView
+                fitView={true}
+                panOnScroll
+                panOnDrag={panOnDrag}
+                selectionOnDrag={true}
+                selectionMode={SelectionMode.Partial}
             >
                 <Background />
                 <Controls />

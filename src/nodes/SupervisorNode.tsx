@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import "../langGraphNode.css";
-import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText} from "@mui/material";
+import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText, TextareaAutosize} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
   return (
@@ -42,7 +42,16 @@ const SingleAgentNode = ({ id, data }) => {
           fullWidth
           value={data.systemPrompt}
           onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          className="nodrag nopan nowheel"
         />
+        {/* System Prompt */}
+        {/* <TextareaAutosize
+          minRows={3}          // Minimum number of rows
+          maxRows={6}       // If you'd like to cap the max rows
+          value={data.systemPrompt}
+          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          className="nodrag nopan nowheel"
+        /> */}
 
       
 

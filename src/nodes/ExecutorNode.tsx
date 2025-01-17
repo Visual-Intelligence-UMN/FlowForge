@@ -42,6 +42,7 @@ const SingleAgentNode = ({ id, data }) => {
           fullWidth
           value={data.systemPrompt}
           onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          className="nodrag nopan nowheel"
         />
 
       
