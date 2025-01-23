@@ -39,7 +39,9 @@ const TreeNav = () => {
                     height: 30, 
                 });
             const flowId = patternID.split("-")[0];
-            g.setEdge(`flow-${flowId}`, `pattern-${patternID}`);
+            g.setEdge(`flow-${flowId}`, `pattern-${patternID}`, {
+                label: `flow-${flowId}-pattern-${patternID}`,
+            });
         });
 
         agentsConfig.forEach((config) => {
@@ -53,7 +55,9 @@ const TreeNav = () => {
                  });
             const [ flowId, patternPart ] = configId.split("-");
             const patternId = `${flowId}-${patternPart}`;
-            g.setEdge(`pattern-${patternId}`, `config-${configId}`);
+            g.setEdge(`pattern-${patternId}`, `config-${configId}`, {
+                label: `pattern-${patternId}-config-${configId}`,
+            });
         });
         console.log("g.nodes()", g.nodes());
         console.log("g.edges()", g.edges());
@@ -66,13 +70,13 @@ const TreeNav = () => {
           console.log("laidOutNodes", laidOutNodes);
         const laidOutEdges = g.edges().map((edgeObj) => {
             const edgeData = g.edge(edgeObj);
-            console.log("laidOutEdges", laidOutEdges);
             return { 
             from: edgeObj.v,
             to: edgeObj.w,
             points: edgeData.points
             };
         });
+        console.log("laidOutEdges", laidOutEdges);
       
         const { width = 0, height = 0 } = g.graph();
 
