@@ -94,6 +94,7 @@ const PatternsPanel = () => {
 
       return updatedPatterns;
     });
+    console.log("design patterns:", designPatterns);
 
     setPatternsGenerate(-1);
     setPatternsFlow(null);
@@ -108,7 +109,7 @@ const PatternsPanel = () => {
   // delete a pattern by patternId
   const deletePattern = (patternId) => {
     setDesignPatterns((prev) => prev.filter((p) => p.patternId !== patternId));
-    console.log("Deleting pattern with ID:", patternId);
+    // console.log("Deleting pattern with ID:", patternId);
   };
 
   // generate configuration for this workflow with patterns

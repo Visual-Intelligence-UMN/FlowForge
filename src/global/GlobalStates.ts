@@ -77,3 +77,11 @@ export const streamOutputAtom = atom({
   isThreadActive: false,
   isVisible: false,
 });
+
+// tree nav
+export const treeNavAtom = atom({
+  nodes: [],
+  edges: [],
+  width: 0,
+  height: 0,
+});
