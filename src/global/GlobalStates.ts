@@ -82,6 +82,12 @@ export const streamOutputAtom = atom({
 export const treeNavAtom = atom({
   nodes: [],
   edges: [],
-  width: 0,
-  height: 0,
+  width: 1000,
+  height: 1000,
+});
+
+export const canvasPagesAtom = atom({
+  flowId: [],
+  patternId: [],
+  configId: [],
 });

@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom } from "../global/GlobalStates";
+import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom } from "../global/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
@@ -10,7 +10,7 @@ const TreeNav = () => {
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
-
+    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
     const handleTreeNav = () => {
         const g = new Graph();
         g.setGraph({
@@ -19,11 +19,14 @@ const TreeNav = () => {
             ranksep: 30,
         });
 
-        g.setNode(`task-${selectedTask.id}`, 
-            { label: selectedTask.name, 
-              width: 80, 
-              height: 40, 
-            });
+        if (Object.keys(selectedTask).length > 0) {
+            // console.log("selectedTask", selectedTask);
+            g.setNode(`task-${selectedTask.id}`, 
+                { label: selectedTask.name, 
+                  width: 80, 
+                  height: 40, 
+                });
+        }
 
 
         Object.keys(flowsMap).forEach((flowId) => {
@@ -32,7 +35,7 @@ const TreeNav = () => {
             g.setNode(`flow-${flowId}`, 
                 { label: `Flow ${flowId}`, 
                   data: {
-                    flowId: flowId,
+                    id: flowId,
                   },
                   width: 80, 
                   height: 40, 
@@ -52,7 +55,7 @@ const TreeNav = () => {
                     width: 100, 
                     height: 30, 
                     data: {
-                        patternId: patternID,
+                        id: patternID,
                     },
                 });
             const flowId = patternID.split("-")[0];
@@ -70,7 +73,7 @@ const TreeNav = () => {
                   width: 100, 
                   height: 30, 
                   data: {
-                    configId: configId,
+                    id: configId,
                   },
                  });
             const [ flowId, patternPart ] = configId.split("-");
@@ -79,15 +82,15 @@ const TreeNav = () => {
                 label: `pattern-${patternId}-config-${configId}`,
             });
         });
-        console.log("g.nodes()", g.nodes());
-        console.log("g.edges()", g.edges());
+        // console.log("g.nodes()", g.nodes());
+        // console.log("g.edges()", g.edges());
         dagre.layout(g);
 
         const laidOutNodes = g.nodes().map((nodeId) => {
             const { x, y, width, height, label } = g.node(nodeId);
             return { id: nodeId, label, x, y, width, height, data: g.node(nodeId).data};
           });
-          console.log("laidOutNodes", laidOutNodes);
+        //   console.log("laidOutNodes", laidOutNodes);
         const laidOutEdges = g.edges().map((edgeObj) => {
             const edgeData = g.edge(edgeObj);
             return { 
@@ -96,7 +99,7 @@ const TreeNav = () => {
                 points: edgeData.points
             };
         });
-        console.log("laidOutEdges", laidOutEdges);
+        // console.log("laidOutEdges", laidOutEdges);
       
         const { width = 0, height = 0 } = g.graph();
 
@@ -110,14 +113,8 @@ const TreeNav = () => {
 
 
     useEffect(() => {
-        console.log("flowsMap", flowsMap);
-        console.log("patterns", patterns);
-        console.log("agentsConfig", agentsConfig);
-    }, [flowsMap, patterns, agentsConfig]);
-
-    useEffect(() => {
         handleTreeNav();
-    }, [flowsMap, patterns, agentsConfig]);
+    }, [flowsMap, patterns, agentsConfig, selectedTask]);
 
     // Helper to build a path string (M x0,y0 L x1,y1 ...)
   const buildEdgePath = (points) => {
@@ -132,7 +129,55 @@ const TreeNav = () => {
   // Example node click handler
   const handleNodeClick = (node) => {
     console.log("Node clicked: ", node);
+    const layer = node.id.split("-")[0];
+    if (layer === "flow") {
+        const flowId = node.data.id;
+        let patternId = [];
+        let configId = [];
+        const childrenPatterns = patterns.filter(
+            (item) => item.patternId && item.patternId.startsWith(flowId)
+        ).reverse();
+        for (const p of childrenPatterns) {
+            const childrenConfigs = agentsConfig.filter(
+                (item) => item.configId.startsWith(p.patternId)
+            );
+            if (childrenConfigs.length > 0) {
+                patternId = p.patternId;
+                configId = childrenConfigs[0]?.configId;
+                break;
+            }
+        }
+        setCanvasPages({
+            flowId: [flowId],
+            patternId: patternId,
+            configId: configId,
+        });
+    } else if (layer === "pattern") {
+        const patternId = node.data.id;
+        const flowId = patternId.split("-")[0];
+        const childrenConfigs = agentsConfig.filter(
+            (item) => item.configId && item.configId.startsWith(patternId)
+        );
+        setCanvasPages({
+            flowId: [flowId],
+            patternId: [patternId],
+            configId: childrenConfigs.map((item) => item.configId),
+        });
+    } else if (layer === "config") {
+        const configId = node.data.id;
+        const [ flowId, patternPart ] = configId.split("-");
+        const patternId = `${flowId}-${patternPart}`;
+        setCanvasPages({
+            flowId: [flowId],
+            patternId: [patternId],
+            configId: [configId],
+        });
+    }
   };
+
+  useEffect(() => {
+    console.log("canvasPages", canvasPages);
+  }, [canvasPages]);
 
   return (
     <svg width={treeNav.width} height={treeNav.height}>
