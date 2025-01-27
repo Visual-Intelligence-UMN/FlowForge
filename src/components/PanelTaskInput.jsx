@@ -99,7 +99,7 @@ function TaskPanel() {
               }}
             >
               <InputLabel id="task-select-label">Example Tasks</InputLabel>
-              <Select value={selectedTask?.index ?? 0}
+              <Select value={selectedTask?.index}
                 sx={{ minWidth: '200px', height: '50px', color: '#777' }}
                 variant="standard" onChange={handleTaskSelect}
               >
