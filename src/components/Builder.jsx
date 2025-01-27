@@ -3,10 +3,11 @@ import SharedCanvas from './SharedCanvas';
 import { Box } from '@mui/material';
 import OrganizeTaskFlows from './OrganizeTaskFlows';
 import OrganizePatterns from './OrganizePatterns';
+import OrganizeConfig from './OrganizeConfig';
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom } from '../global/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom } from '../global/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom } from '../global/GlobalStates';
 
 const Builder = () => {
     // atoms for task flows 
@@ -19,6 +20,11 @@ const Builder = () => {
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
+
+    // atoms for agents config
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
 
     // generate inital task flows if the task is selected
     useEffect(() => {
@@ -35,6 +41,14 @@ const Builder = () => {
             setPatternsFlow(null);
         }
     }, [patternsGenerate, patternsFlow]);
+
+    useEffect(() => {
+        if (agentsConfigGenerate === 0 && agentsConfigPattern) {
+            OrganizeConfig(agentsConfigPattern, setAgentsConfig);
+            setAgentsConfigGenerate(1);
+            setAgentsConfigPattern(null);
+        }
+    }, [agentsConfigGenerate, agentsConfigPattern]);
 
 
     return (

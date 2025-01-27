@@ -3,7 +3,7 @@ import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
 import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom, patternsAtom} from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, selectionChainAtom} from "../global/GlobalStates";
 
 import PageTaskFlow from "./PageTaskFlow";
 import PagePatterns from "./PagePatterns";
@@ -16,6 +16,8 @@ const SharedCanvas = () => {
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
 
     const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
+    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
 
 
     const handleSliderChange = (event, newValue) => {
@@ -90,7 +92,7 @@ const SharedCanvas = () => {
                 return <Typography>Config Page with configId: {configId}</Typography>;
             case 'pattern':
                 const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
-                return <PagePatterns flow={flowWithPatterns} setFlowsWithPatterns={setFlowsWithPatterns} />;
+                return <PagePatterns flow={flowWithPatterns} setFlowsWithPatterns={setFlowsWithPatterns} setAgentsConfigGenerate={setAgentsConfigGenerate} setAgentsConfigPattern={setAgentsConfigPattern} />;
             case 'flow':
                 const taskflow = flowsMap[flowId];
                 console.log("taskflow", taskflow);

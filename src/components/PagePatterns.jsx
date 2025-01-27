@@ -6,11 +6,13 @@ import {
   Select,
   Typography,
   MenuItem,
+  Button
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { designPatternsPool } from "../global/patternsMap";
+import PatternsMapRow from "./PatternsPoolSidebar";
 
-const PagePatterns = ({ flow, setFlowsWithPatterns }) => {
+const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern }) => {
 
   const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps = [] } = flow || {};
 
@@ -48,7 +50,7 @@ const PagePatterns = ({ flow, setFlowsWithPatterns }) => {
           {taskFlowDescription}
         </Typography>
       )}
-
+        <PatternsMapRow />
       <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
         {taskFlowSteps.map((step, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
@@ -62,7 +64,7 @@ const PagePatterns = ({ flow, setFlowsWithPatterns }) => {
                 </Typography>
 
                 <Typography variant="body2" gutterBottom>
-                  Selected pattern:{" "}
+
                   <strong>{step.pattern?.name || "None"}</strong>
                 </Typography>
 
@@ -81,6 +83,17 @@ const PagePatterns = ({ flow, setFlowsWithPatterns }) => {
           </Grid>
         ))}
       </Box>
+      <Button
+        size="small"
+        onClick={(e) => {
+          e.stopPropagation();
+          setAgentsConfigPattern(flow);
+          setAgentsConfigGenerate(0);
+        }}
+        sx={{ textTransform: "none", pt: 2 }}
+      >
+        CONTINUE
+      </Button>
     </Box>
   );
 };
