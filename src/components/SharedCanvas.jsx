@@ -3,10 +3,10 @@ import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
 import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom} from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom, patternsAtom} from "../global/GlobalStates";
 
 import PageTaskFlow from "./PageTaskFlow";
-
+import PagePatterns from "./PagePatterns";
 const SharedCanvas = () => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
@@ -14,6 +14,8 @@ const SharedCanvas = () => {
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+
+    const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
 
 
     const handleSliderChange = (event, newValue) => {
@@ -87,10 +89,12 @@ const SharedCanvas = () => {
             case 'config':
                 return <Typography>Config Page with configId: {configId}</Typography>;
             case 'pattern':
-                return <Typography>Pattern Page with patternId: {patternId}</Typography>;
+                const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+                return <PagePatterns flow={flowWithPatterns} setFlowsWithPatterns={setFlowsWithPatterns} />;
             case 'flow':
                 const taskflow = flowsMap[flowId];
-                return <PageTaskFlow taskflow={taskflow} flowsMap={flowsMap} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
+                console.log("taskflow", taskflow);
+                return <PageTaskFlow taskflow={taskflow} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }
