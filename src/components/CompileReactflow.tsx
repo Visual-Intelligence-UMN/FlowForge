@@ -2,8 +2,8 @@ import { AppNode } from "../nodes/types";
 import { Edge } from "@xyflow/react";
 
 const CompileReactflow = async (config) => {
-    const { taskId, taskFlowId, patternId, taskFlowSteps } = config;
-    const configId = [taskId, taskFlowId, patternId].join("_");
+    const { taskFlowSteps, configId } = config;
+    // const configId = [taskId, taskFlowId, patternId].join("_");
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
@@ -123,7 +123,7 @@ const CompileReactflow = async (config) => {
 
     // compile reactflow output
     const compiledReactflow = [{
-        configId,
+        configId: configId,
         key: configId,
         graph: {
             nodes: reactflowNodes,

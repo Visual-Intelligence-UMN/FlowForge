@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom } from "../global/GlobalStates";
+import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom, compiledConfigsAtom } from "../global/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ const TreeNav = () => {
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [patterns, setPatterns] = useAtom(patternsAtom);
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
@@ -84,6 +85,16 @@ const TreeNav = () => {
         });
         // console.log("g.nodes()", g.nodes());
         // console.log("g.edges()", g.edges());
+        compiledConfigs.forEach((compiledConfig) => {
+            if (!compiledConfig?.configId) return;
+            const configId = compiledConfig.configId;
+            const label = `Compiled Config ${configId}`;
+            g.setNode(`compiled-${configId}`, { label: label, width: 100, height: 30, data: { id: configId } });
+            g.setEdge(`config-${configId}`, `compiled-${configId}`, {
+                label: `config-${configId}-compiled-${configId}`,
+            });
+        });
+
         dagre.layout(g);
 
         const laidOutNodes = g.nodes().map((nodeId) => {
@@ -114,7 +125,7 @@ const TreeNav = () => {
 
     useEffect(() => {
         handleTreeNav();
-    }, [flowsMap, patterns, agentsConfig, selectedTask]);
+    }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask]);
 
     // Helper to build a path string (M x0,y0 L x1,y1 ...)
   const buildEdgePath = (points) => {
@@ -173,6 +184,12 @@ const TreeNav = () => {
             type: "config",
             flowId: flowId,
             patternId: patternId,
+            configId: configId,
+        });
+    } else if (layer === "compiled") {
+        const configId = node.data.id;
+        setCanvasPages({
+            type: "compiled",
             configId: configId,
         });
     }

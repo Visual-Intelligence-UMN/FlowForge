@@ -3,10 +3,12 @@ import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
 import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, selectionChainAtom} from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, selectedConfigAtom, compiledConfigsAtom, compliedGenerateAtom} from "../global/GlobalStates";
 
 import PageTaskFlow from "./PageTaskFlow";
 import PagePatterns from "./PagePatterns";
+import PageConfigs from "./PageConfigs";
+
 const SharedCanvas = () => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
@@ -18,7 +20,10 @@ const SharedCanvas = () => {
     const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
 
+    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
+    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
 
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
@@ -89,7 +94,8 @@ const SharedCanvas = () => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
-                return <Typography>Config Page with configId: {configId}</Typography>;
+                const config = agentsConfig.find(config => config.configId === configId);
+                return <PageConfigs config={config} setSelectedConfig={setSelectedConfig} setCompliedGenerate={setCompliedGenerate} />;
             case 'pattern':
                 const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
                 return <PagePatterns flow={flowWithPatterns} setFlowsWithPatterns={setFlowsWithPatterns} setAgentsConfigGenerate={setAgentsConfigGenerate} setAgentsConfigPattern={setAgentsConfigPattern} />;
@@ -97,6 +103,10 @@ const SharedCanvas = () => {
                 const taskflow = flowsMap[flowId];
                 console.log("taskflow", taskflow);
                 return <PageTaskFlow taskflow={taskflow} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
+            case 'compiled':
+                // const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
+                // return <PageCompiled config={compiledConfig} />;
+                return <Typography>Canvas goes here</Typography>;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }

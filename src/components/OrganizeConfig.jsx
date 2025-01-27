@@ -23,7 +23,7 @@ const OrganizeConfig = async (pattern, setAgentsConfig) => {
     // Reassign each config’s ID
     const assignedConfigs = reassignConfigIds(pattern.patternId, generatedAgentsConfig);
     // Merge into the global agentsConfig
-    console.log("assignedConfigs", assignedConfigs);
+    // console.log("assignedConfigs", assignedConfigs);
     setAgentsConfig((previousAgentsConfig) => {
         const updatedAgentsConfig = [];
         let replaced = false;

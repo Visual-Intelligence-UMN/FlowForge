@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { designPatternsPool } from "../global/patternsMap";
-import PatternsMapRow from "./PatternsPoolSidebar";
+import { PatternsMapRow } from "./PatternsPoolSidebar";
 
 const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern }) => {
 

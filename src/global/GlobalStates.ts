@@ -61,6 +61,8 @@ export const selectedConfigAtom = atom(null);
 export const langgraphGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 export const langgraphRunAtom = atom([]);
 export const reactflowDisplayAtom = atom([]);
+export const compiledConfigsAtom = atom([]);
+export const compliedGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
 
 // chain for highlighting
 export const selectionChainAtom = atom({

@@ -4,10 +4,11 @@ import { Box } from '@mui/material';
 import OrganizeTaskFlows from './OrganizeTaskFlows';
 import OrganizePatterns from './OrganizePatterns';
 import OrganizeConfig from './OrganizeConfig';
+import OrganizeReactflow from './OrganizeReactflow';
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, flowsMapAtom, flowIdsAtom } from '../global/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom } from '../global/GlobalStates';
+import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom } from '../global/GlobalStates';
 
 const Builder = () => {
     // atoms for task flows 
@@ -25,6 +26,10 @@ const Builder = () => {
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
+
+    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
 
     // generate inital task flows if the task is selected
     useEffect(() => {
@@ -50,6 +55,13 @@ const Builder = () => {
         }
     }, [agentsConfigGenerate, agentsConfigPattern]);
 
+    useEffect(() => {
+        if (compliedGenerate === 0 && selectedConfig) {
+            OrganizeReactflow(selectedConfig, setCompiledConfigs);
+            setCompliedGenerate(1);
+            setSelectedConfig(null);
+        }
+    }, [compliedGenerate, selectedConfig]);
 
     return (
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>
