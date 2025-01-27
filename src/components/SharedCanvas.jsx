@@ -2,10 +2,19 @@ import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
+import { flowsMapAtom } from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
+
+import PageTaskFlow from "./PageTaskFlow";
 
 const SharedCanvas = () => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+
+    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
+    const [selectedFlowId, setSelectedFlowId] = useState(null);
 
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
@@ -55,7 +64,7 @@ const SharedCanvas = () => {
 
     const horizontalSlider = () => {
         return (
-            <Box sx={{ width: 300 , pt: 2, pl: 2, pr: 2, border: "1px solid black"}}>
+            <Box sx={{ width: 300 , pt: 2, pl: 2, pr: 2}}>
                 <Slider 
                     value={activeStep}
                     onChange={handleSliderChange}
@@ -71,19 +80,31 @@ const SharedCanvas = () => {
     };
 
     const canvasPage = () => {
+        const { type, configId, patternId, flowId } = canvasPages || {};
+        // Helper function to decide what to render based on `type`.
+        const renderCanvasContent = () => {
+            switch (type) {
+            case 'config':
+                return <Typography>Config Page with configId: {configId}</Typography>;
+            case 'pattern':
+                return <Typography>Pattern Page with patternId: {patternId}</Typography>;
+            case 'flow':
+                const taskflow = flowsMap[flowId];
+                return <PageTaskFlow taskflow={taskflow} flowsMap={flowsMap} setFlowsMap={setFlowsMap} />;
+            default:
+                return <Typography>Canvas goes here</Typography>;
+            }
+        };
+
         return (
-            <Box sx={{ width: 300, height: 300, border: "1px solid black" }}>
-                {canvasPages.type ??
-                <Typography>
-                    Canvas goes here
-                </Typography> 
-                }
+            <Box sx={{ width:"100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "left" }}>
+                {renderCanvasContent()}
             </Box>
         );
     };
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
             {canvasPage()}
             {horizontalSlider()}
         </Box>
