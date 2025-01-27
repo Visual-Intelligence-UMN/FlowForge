@@ -148,7 +148,8 @@ const TreeNav = () => {
             }
         }
         setCanvasPages({
-            flowId: [flowId],
+            type: "flow",
+            flowId: flowId,
             patternId: patternId,
             configId: configId,
         });
@@ -159,24 +160,27 @@ const TreeNav = () => {
             (item) => item.configId && item.configId.startsWith(patternId)
         );
         setCanvasPages({
-            flowId: [flowId],
-            patternId: [patternId],
-            configId: childrenConfigs.map((item) => item.configId),
+            type: "pattern",
+            flowId: flowId,
+            patternId: patternId,
+            configId: childrenConfigs[0]?.configId,
         });
     } else if (layer === "config") {
         const configId = node.data.id;
         const [ flowId, patternPart ] = configId.split("-");
         const patternId = `${flowId}-${patternPart}`;
         setCanvasPages({
-            flowId: [flowId],
-            patternId: [patternId],
-            configId: [configId],
+            type: "config",
+            flowId: flowId,
+            patternId: patternId,
+            configId: configId,
         });
     }
   };
 
   useEffect(() => {
     console.log("canvasPages", canvasPages);
+
   }, [canvasPages]);
 
   return (

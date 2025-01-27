@@ -4,8 +4,7 @@ import TaskFlows from './components/PanelTaskFlows';
 import PatternsPanel from './components/PanelPatterns';
 import AgentsPanel from './components/PanelConfigs';
 import ReactFlowPanel from './components/PanelReactFlow';
-import SharedCanvas from './components/SharedCanvas';
-import TreeNav from './components/TreeNav';
+import Builder from './components/Builder';
 import './App.css';
 
 const headerStyle: React.CSSProperties = {
@@ -27,9 +26,8 @@ const Construction = () => {
             <header style={headerStyle}>
                 FlowBuilder
             </header>
-            <div style={{ marginTop: '50px', padding: '20px 20px', }}>
-                <SharedCanvas />
-                <TreeNav />
+            <div className="builder-container">
+                <Builder />
             </div>
             <div style={{ marginTop: '30px', padding: '20px 0px', }}>
                 <div className="pre-construction section">
@@ -48,10 +46,26 @@ const Construction = () => {
     );
 };
 
+const NewConstruction = () => {
+    return (
+        <div className="main-container">
+            <header style={headerStyle}>
+                FlowBuilder
+            </header>
+            <div className="pre-construction section">
+                <TaskPanel />
+            </div>
+            <div className="builder-container">
+                <Builder />
+            </div>
+        </div>
+    );
+};
+
 function App() {
     return (
         <div>
-            <Construction />
+            <NewConstruction />
         </div>
 
     );

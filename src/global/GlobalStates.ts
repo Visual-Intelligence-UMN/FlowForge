@@ -87,6 +87,7 @@ export const treeNavAtom = atom({
 });
 
 export const canvasPagesAtom = atom({
+  type: null,
   flowId: [],
   patternId: [],
   configId: [],
