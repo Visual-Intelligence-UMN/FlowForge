@@ -3,18 +3,18 @@ import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
 import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom } from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom} from "../global/GlobalStates";
 
 import PageTaskFlow from "./PageTaskFlow";
 
 const SharedCanvas = () => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
 
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const [selectedFlowId, setSelectedFlowId] = useState(null);
+    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+
 
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
@@ -90,7 +90,7 @@ const SharedCanvas = () => {
                 return <Typography>Pattern Page with patternId: {patternId}</Typography>;
             case 'flow':
                 const taskflow = flowsMap[flowId];
-                return <PageTaskFlow taskflow={taskflow} flowsMap={flowsMap} setFlowsMap={setFlowsMap} />;
+                return <PageTaskFlow taskflow={taskflow} flowsMap={flowsMap} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }

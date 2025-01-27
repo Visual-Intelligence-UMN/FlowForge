@@ -7,11 +7,12 @@ import {
   TextField,
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
+  Button
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const PageTaskFlow = ({ taskflow, flowsMap, setFlowsMap }) => {
+const PageTaskFlow = ({ taskflow, flowsMap, setFlowsMap, setPatternsFlow, patternsGenerate, setPatternsGenerate }) => {
   if (!taskflow) {
     return <div>No flow data</div>;
   }
@@ -239,6 +240,17 @@ const PageTaskFlow = ({ taskflow, flowsMap, setFlowsMap }) => {
           );
         })}
       </Box>
+      <Button
+        size="small"
+        onClick={(e) => {
+          e.stopPropagation();
+          setPatternsFlow(taskflow);
+          setPatternsGenerate(0);
+        }}
+        sx={{ textTransform: "none", pt: 2 }}
+      >
+        CONTINUE
+      </Button>
     </Box>
   );
 };
