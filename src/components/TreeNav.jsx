@@ -206,7 +206,8 @@ const TreeNav = () => {
         setCanvasPages({
             type: "compiled",
             configId: configId,
-            ...canvasPages,
+            flowId: configId.split("-")[0],
+            patternId: configId.split("-")[0] + "-" + configId.split("-")[1],
         });
     }
   };
