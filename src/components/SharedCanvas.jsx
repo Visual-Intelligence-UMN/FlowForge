@@ -3,12 +3,14 @@ import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
 import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, selectedConfigAtom, compiledConfigsAtom, compliedGenerateAtom} from "../global/GlobalStates";
+import { patternsGenerateAtom, patternsFlowAtom, patternsAtom,
+     agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom,
+     selectedConfigAtom, compiledConfigsAtom, compliedGenerateAtom} from "../global/GlobalStates";
 
 import PageTaskFlow from "./PageTaskFlow";
 import PagePatterns from "./PagePatterns";
 import PageConfigs from "./PageConfigs";
-
+import PageCompiledCfg from "./PageCompiledCfg";
 const SharedCanvas = () => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
@@ -24,7 +26,7 @@ const SharedCanvas = () => {
 
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
-
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
     };
@@ -104,9 +106,8 @@ const SharedCanvas = () => {
                 console.log("taskflow", taskflow);
                 return <PageTaskFlow taskflow={taskflow} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
             case 'compiled':
-                // const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
-                // return <PageCompiled config={compiledConfig} />;
-                return <Typography>Canvas goes here</Typography>;
+                const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
+                return <PageCompiledCfg compiledConfig={compiledConfig} setCompiledConfigs={setCompiledConfigs} />;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }
