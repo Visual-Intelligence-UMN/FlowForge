@@ -12,7 +12,7 @@ const TreeNav = () => {
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
-    
+
     const handleTreeNav = () => {
         const g = new Graph();
         g.setGraph({
@@ -27,6 +27,9 @@ const TreeNav = () => {
                 { label: selectedTask.name, 
                   width: 80, 
                   height: 40, 
+                  data: {
+                    type: "task",
+                  },
                 });
         }
 
@@ -38,6 +41,7 @@ const TreeNav = () => {
                 { label: `Flow ${flowId}`, 
                   data: {
                     id: flowId,
+                    type: "flow",
                   },
                   width: 80, 
                   height: 40, 
@@ -58,6 +62,7 @@ const TreeNav = () => {
                     height: 30, 
                     data: {
                         id: patternID,
+                        type: "pattern",
                     },
                 });
             const flowId = patternID.split("-")[0];
@@ -76,6 +81,7 @@ const TreeNav = () => {
                   height: 30, 
                   data: {
                     id: configId,
+                    type: "config",
                   },
                  });
             const [ flowId, patternPart ] = configId.split("-");
@@ -90,7 +96,15 @@ const TreeNav = () => {
             if (!compiledConfig?.configId) return;
             const configId = compiledConfig.configId;
             const label = `Compiled Config ${configId}`;
-            g.setNode(`compiled-${configId}`, { label: label, width: 100, height: 30, data: { id: configId } });
+            g.setNode(`compiled-${configId}`, 
+                { label: label, 
+                  width: 100, 
+                  height: 30, 
+                  data: {
+                    id: configId,
+                    type: "compiled",
+                  },
+                });
             g.setEdge(`config-${configId}`, `compiled-${configId}`, {
                 label: `config-${configId}-compiled-${configId}`,
             });
@@ -192,6 +206,7 @@ const TreeNav = () => {
         setCanvasPages({
             type: "compiled",
             configId: configId,
+            ...canvasPages,
         });
     }
   };
@@ -200,6 +215,19 @@ const TreeNav = () => {
     console.log("canvasPages", canvasPages);
 
   }, [canvasPages]);
+
+  const isHighlighted = (node) => {
+    if (canvasPages.type === "flow" && node.data.type === "flow" && node.data.id === canvasPages.flowId.toString()) {
+        return true;
+    } else if (canvasPages.type === "pattern" && node.data.type === "pattern" && node.data.id === canvasPages.patternId) {
+        return true;
+    } else if (canvasPages.type === "config" && node.data.type === "config" && node.data.id === canvasPages.configId) {
+        return true;
+    } else if (canvasPages.type === "compiled" && node.data.type === "compiled" && node.data.id === canvasPages.configId) {
+        return true;
+    }
+    return false;
+  }
 
   return (
     <svg width={treeNav.width} height={treeNav.height}>
@@ -230,7 +258,7 @@ const TreeNav = () => {
             <rect
               width={node.width}
               height={node.height}
-              fill="white"
+              fill={isHighlighted(node) ? "lightblue" : "white"}
               stroke="black"
               onClick={() => handleNodeClick(node)}
             />
