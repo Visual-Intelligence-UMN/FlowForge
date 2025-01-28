@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid2";
 import { designPatternsPool } from "../global/patternsMap";
 import { PatternsMapRow } from "./PatternsPoolSidebar";
 
-const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern }) => {
+const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern, setCanvasPages }) => {
 
   const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps = [] } = flow || {};
 

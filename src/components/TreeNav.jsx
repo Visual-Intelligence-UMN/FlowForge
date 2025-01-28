@@ -12,6 +12,7 @@ const TreeNav = () => {
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    
     const handleTreeNav = () => {
         const g = new Graph();
         g.setGraph({

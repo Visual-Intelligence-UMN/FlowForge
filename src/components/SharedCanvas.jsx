@@ -97,17 +97,30 @@ const SharedCanvas = () => {
             switch (type) {
             case 'config':
                 const config = agentsConfig.find(config => config.configId === configId);
-                return <PageConfigs config={config} setSelectedConfig={setSelectedConfig} setCompliedGenerate={setCompliedGenerate} />;
+                return <PageConfigs config={config} 
+                setSelectedConfig={setSelectedConfig} 
+                setCompliedGenerate={setCompliedGenerate} 
+                setCanvasPages={setCanvasPages}/>;
             case 'pattern':
                 const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
-                return <PagePatterns flow={flowWithPatterns} setFlowsWithPatterns={setFlowsWithPatterns} setAgentsConfigGenerate={setAgentsConfigGenerate} setAgentsConfigPattern={setAgentsConfigPattern} />;
+                return <PagePatterns 
+                flow={flowWithPatterns} 
+                setFlowsWithPatterns={setFlowsWithPatterns} 
+                setAgentsConfigGenerate={setAgentsConfigGenerate} 
+                setAgentsConfigPattern={setAgentsConfigPattern} 
+                setCanvasPages={setCanvasPages}/>;
             case 'flow':
                 const taskflow = flowsMap[flowId];
                 console.log("taskflow", taskflow);
-                return <PageTaskFlow taskflow={taskflow} setFlowsMap={setFlowsMap} setPatternsFlow={setPatternsFlow} setPatternsGenerate={setPatternsGenerate} />;
+                return <PageTaskFlow taskflow={taskflow} 
+                setFlowsMap={setFlowsMap} 
+                setPatternsFlow={setPatternsFlow} 
+                setPatternsGenerate={setPatternsGenerate} 
+                setCanvasPages={setCanvasPages}/>;
             case 'compiled':
                 const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
-                return <PageCompiledCfg compiledConfig={compiledConfig} setCompiledConfigs={setCompiledConfigs} />;
+                return <PageCompiledCfg compiledConfig={compiledConfig} 
+                setCompiledConfigs={setCompiledConfigs}/>;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }

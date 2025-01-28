@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography, Button, Paper, IconButton, Menu, MenuItem } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
-const PageConfigs = ({config , setSelectedConfig, setCompliedGenerate}) => {
+const PageConfigs = ({config , setSelectedConfig, setCompliedGenerate, setCanvasPages}) => {
     const { configId, taskFlowSteps } = config;
 
     const configDisplay = () => (

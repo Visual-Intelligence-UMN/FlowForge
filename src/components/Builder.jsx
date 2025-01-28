@@ -8,7 +8,7 @@ import OrganizeReactflow from './OrganizeReactflow';
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom } from '../global/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom } from '../global/GlobalStates';
 
 const Builder = () => {
     // atoms for task flows 
@@ -31,7 +31,9 @@ const Builder = () => {
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
 
-    // generate inital task flows if the task is selected
+    // atoms for canvas pages
+    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+
     useEffect(() => {
         if (taskFlowsGenerate === 0) {
             OrganizeTaskFlows(selectedTask, flowsMap, setFlowsMap, flowIds, setFlowIds);
@@ -62,6 +64,57 @@ const Builder = () => {
             setSelectedConfig(null);
         }
     }, [compliedGenerate, selectedConfig]);
+
+    useEffect(() => {
+        if (flowIds.length > 0) {
+            const randomFlow = flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
+            setCanvasPages({
+                type: "flow",
+                flowId: randomFlow.taskFlowId,
+                patternId: [],
+                configId: [],
+            });
+        }
+    }, [flowsMap]);
+
+    useEffect(() => {
+        if (canvasPages.type === "flow" && designPatterns.length > 0) {
+            const newAddedPatterns = designPatterns.filter(pattern => pattern.patternId.split("-")[0] === canvasPages.flowId.toString());
+            const randomPattern = newAddedPatterns[Math.floor(Math.random() * newAddedPatterns.length)];
+            setCanvasPages({
+                type: "pattern",
+                flowId: canvasPages.flowId,
+                patternId: randomPattern.patternId,
+                configId: [],
+            });
+        }
+    }, [designPatterns]);
+
+    useEffect(() => {
+        if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
+            const newAddedConfigs = agentsConfig.filter(config => config.patternId.split("-")[0] === canvasPages.flowId.toString() && config.patternId === canvasPages.patternId.toString());
+            const randomConfig = newAddedConfigs[Math.floor(Math.random() * newAddedConfigs.length)];
+            setCanvasPages({
+                type: "config",
+                flowId: canvasPages.flowId,
+                patternId: canvasPages.patternId,
+                configId: randomConfig.configId,
+            });
+        }
+    }, [agentsConfig]);
+
+    useEffect(() => {
+        if (canvasPages.type === "config" && compiledConfigs.length > 0) {
+            const newAddedConfigs = compiledConfigs.filter(config => config.configId === canvasPages.configId.toString());
+            const randomConfig = newAddedConfigs[Math.floor(Math.random() * newAddedConfigs.length)];
+            setCanvasPages({
+                type: "compiled",
+                flowId: canvasPages.flowId,
+                patternId: canvasPages.patternId,
+                configId: randomConfig.configId,
+            });
+        }
+    }, [compiledConfigs]);
 
     return (
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>

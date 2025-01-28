@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Box, Typography, Card, CardContent, TextField, IconButton, Menu, MenuItem, Button} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const PageTaskFlow = ({ taskflow, setFlowsMap, setPatternsFlow, setPatternsGenerate }) => {
+const PageTaskFlow = ({ taskflow, setFlowsMap, setPatternsFlow, setPatternsGenerate, setCanvasPages }) => {
   if (!taskflow) {
     return <div>No flow data</div>;
   }

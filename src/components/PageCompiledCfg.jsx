@@ -63,7 +63,7 @@ const PageCompiledCfg = ({compiledConfig,setCompiledConfigs}) => {
 
    
     return (
-        <div style={{width: "100%", height: "100%"}}>
+        <div style={{width: 500, height: 500}}>
             {canvasDisplay()}
             {/* <StreamOutputRow langgraphRun={langgraphRun}/> */}
         </div>
