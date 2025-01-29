@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom } from "../global/GlobalStates";
+import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom, flowsMapAtom, patternsAtom, agentsConfigAtom } from "../global/GlobalStates";
 import {FlowWithProvider} from "./FlowWithProvider";
 import { useEffect, useState } from "react";
 
@@ -21,6 +21,10 @@ const ReactFlowPanel = () => {
     const [langgraphRun, setLanggraphRun] = useAtom(langgraphRunAtom);
     const [graphImage, setGraphImage] = useState(null);
 
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+    const [patterns, setPatterns] = useAtom(patternsAtom);
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+
     const generateReactflow = async (config) => {
         setReactflowGenerate(0);
         console.log("config for reactflow and langgraph", config);
@@ -38,6 +42,12 @@ const ReactFlowPanel = () => {
         setLanggraphRun(runnableLanggraph);
         setLanggraphGenerate(-1);
     }
+
+    useEffect(() => {
+        console.log("flowsMap", flowsMap);
+        console.log("patterns", patterns);
+        console.log("agentsConfig", agentsConfig);
+    }, [flowsMap, patterns, agentsConfig]);
 
     useEffect(() => {
         if (reactflowGenerate === 0) {

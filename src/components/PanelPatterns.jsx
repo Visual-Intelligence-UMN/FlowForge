@@ -15,7 +15,7 @@ import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DisplayGraphPatterns from "./DisplayGraphPatterns";
 import GeneratePatterns from "./GeneratePatterns";
-import PatternsMap from "./PatternsPoolSidebar";
+import { PatternsMap } from "./PatternsPoolSidebar";
 import { iconMap } from "../global/iconsMap";
 import { designPatternsPool } from "../global/patternsMap";
 // A dictionary to track per-flow pattern numbering
@@ -94,6 +94,7 @@ const PatternsPanel = () => {
 
       return updatedPatterns;
     });
+    console.log("design patterns:", designPatterns);
 
     setPatternsGenerate(-1);
     setPatternsFlow(null);
@@ -108,7 +109,7 @@ const PatternsPanel = () => {
   // delete a pattern by patternId
   const deletePattern = (patternId) => {
     setDesignPatterns((prev) => prev.filter((p) => p.patternId !== patternId));
-    console.log("Deleting pattern with ID:", patternId);
+    // console.log("Deleting pattern with ID:", patternId);
   };
 
   // generate configuration for this workflow with patterns
