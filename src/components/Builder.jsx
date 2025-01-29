@@ -8,7 +8,7 @@ import OrganizeReactflow from './OrganizeReactflow';
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom } from '../global/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../global/GlobalStates';
 
 const Builder = () => {
     // atoms for task flows 
@@ -33,6 +33,7 @@ const Builder = () => {
 
     // atoms for canvas pages
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    const [treeNav, setTreeNav] = useAtom(treeNavAtom);
 
     useEffect(() => {
         if (taskFlowsGenerate === 0) {
@@ -66,7 +67,7 @@ const Builder = () => {
     }, [compliedGenerate, selectedConfig]);
 
     useEffect(() => {
-        if (flowIds.length > 0) {
+        if (taskFlowsGenerate === 1 && flowIds.length > 0) {
             const randomFlow = flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
             setCanvasPages({
                 type: "flow",
@@ -75,7 +76,7 @@ const Builder = () => {
                 configId: [],
             });
         }
-    }, [flowsMap]);
+    }, [taskFlowsGenerate]);
 
     useEffect(() => {
         if (canvasPages.type === "flow" && designPatterns.length > 0) {
@@ -119,7 +120,16 @@ const Builder = () => {
     return (
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>
             <Box sx={{ width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <TreeNav />
+                <TreeNav
+                 flowsMap={flowsMap} 
+                 patterns={designPatterns} 
+                 agentsConfig={agentsConfig} 
+                 compiledConfigs={compiledConfigs} 
+                 selectedTask={selectedTask} 
+                 setCanvasPages={setCanvasPages}
+                 treeNav={treeNav}
+                 setTreeNav={setTreeNav}
+                 />
             </Box>
             <Box sx={{ width: "60%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <SharedCanvas />

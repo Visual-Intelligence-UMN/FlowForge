@@ -11,7 +11,9 @@ import PageTaskFlow from "./PageTaskFlow";
 import PagePatterns from "./PagePatterns";
 import PageConfigs from "./PageConfigs";
 import PageCompiledCfg from "./PageCompiledCfg";
-const SharedCanvas = () => {
+import PageRfTaskFlow from "./PageRfTaskFlow";
+
+const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
 
@@ -111,12 +113,13 @@ const SharedCanvas = () => {
                 setCanvasPages={setCanvasPages}/>;
             case 'flow':
                 const taskflow = flowsMap[flowId];
-                console.log("taskflow", taskflow);
-                return <PageTaskFlow taskflow={taskflow} 
-                setFlowsMap={setFlowsMap} 
-                setPatternsFlow={setPatternsFlow} 
-                setPatternsGenerate={setPatternsGenerate} 
-                setCanvasPages={setCanvasPages}/>;
+                console.log("taskflow for reactflow display", taskflow);
+                return <PageRfTaskFlow taskflow={taskflow} />;
+                // return <PageTaskFlow taskflow={taskflow} 
+                // setFlowsMap={setFlowsMap} 
+                // setPatternsFlow={setPatternsFlow} 
+                // setPatternsGenerate={setPatternsGenerate} 
+                // setCanvasPages={setCanvasPages}/>;
             case 'compiled':
                 const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
                 return <PageCompiledCfg compiledConfig={compiledConfig} 

@@ -3,15 +3,10 @@ import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTask
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
+const TreeNav = ({ flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, canvasPages,setCanvasPages,treeNav, setTreeNav }) => {
 
-const TreeNav = () => {
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-    const [patterns, setPatterns] = useAtom(patternsAtom);
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
-    const [treeNav, setTreeNav] = useAtom(treeNavAtom);
-    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    // const [treeNav, setTreeNav] = useAtom(treeNavAtom);
+    // const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
 
     const handleTreeNav = () => {
         const g = new Graph();
@@ -32,7 +27,6 @@ const TreeNav = () => {
                   },
                 });
         }
-
 
         Object.keys(flowsMap).forEach((flowId) => {
             if (!flowId) return;
@@ -142,6 +136,7 @@ const TreeNav = () => {
         handleTreeNav();
     }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask]);
 
+
     // Helper to build a path string (M x0,y0 L x1,y1 ...)
   const buildEdgePath = (points) => {
     if (!points || points.length === 0) return "";
@@ -212,12 +207,17 @@ const TreeNav = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("canvasPages", canvasPages);
-
-  }, [canvasPages]);
+  // useEffect(() => {
+  //   console.log("canvasPages", canvasPages);
+  // }, [canvasPages]);
 
   const isHighlighted = (node) => {
+    // console.log("node", node);
+    console.log("canvasPages", canvasPages);
+    if (!canvasPages) {
+      return false;
+    }
+
     if (canvasPages.type === "flow" && node.data.type === "flow" && node.data.id === canvasPages.flowId.toString()) {
         return true;
     } else if (canvasPages.type === "pattern" && node.data.type === "pattern" && node.data.id === canvasPages.patternId) {
