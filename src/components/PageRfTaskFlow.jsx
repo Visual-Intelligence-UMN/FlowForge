@@ -1,9 +1,21 @@
+// PageTaskFlow.js
 import React, { useState, useEffect, useCallback } from "react";
-import ReactFlow, { ReactFlowProvider, addEdge, useNodesState, useEdgesState, Handle, Position } from "reactflow";
+import ReactFlow, {
+  ReactFlowProvider,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+} from "reactflow";
 import "reactflow/dist/style.css";
-import { Typography, Box, TextField, Button } from "@mui/material";
-import { useAtom } from "jotai";
-import { patternsFlowAtom, patternsGenerateAtom, flowsMapAtom } from "../global/GlobalStates";
+import { Typography, Box, Button } from "@mui/material";
+import { useAtom, useAtomValue } from "jotai";
+import {
+  patternsFlowAtom,
+  patternsGenerateAtom,
+  flowsMapAtom,
+  canvasPagesAtom,
+} from "../global/GlobalStates";
+import isEqual from "lodash.isequal"; // For deep comparison
 
 const convertToReactFlowFormat = (taskflow) => {
   const nodes = taskflow.taskFlowSteps.map((step, index) => ({
@@ -15,7 +27,7 @@ const convertToReactFlowFormat = (taskflow) => {
       stepLabel: step.stepLabel || "",
       stepDescription: step.stepDescription || "",
       label: step.stepLabel || `Step ${index + 1}`,
-      pattern: step.pattern || {name: "", description: ""},
+      pattern: step.pattern || { name: "", description: "" },
     },
   }));
   
@@ -28,43 +40,75 @@ const convertToReactFlowFormat = (taskflow) => {
   return { nodes, edges };
 };
 
-const PageTaskFlow = ({ taskflow }) => {
+const PageRfTaskFlow = () => {
 
-    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+  const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
+  const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+  const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+  
+  const canvasPages = useAtomValue(canvasPagesAtom);
+  const { type, configId, patternId, flowId } = canvasPages || {};
+  const taskflow = flowsMap[flowId];
 
-  if (!taskflow) {
-    return <div>No flow data</div>;
-  }
 
   const { nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(taskflow);
+  
+  // Initialize ReactFlow state
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
   useEffect(() => {
-    setFlowsMap((prevFlows) => ({
-      ...prevFlows,
-      [taskflow.taskFlowId]: {
-        ...taskflow,
-        taskFlowSteps: nodes.map(node => ({
-          stepName: node.data.stepName,
-          stepLabel: node.data.stepLabel,
-          stepDescription: node.data.stepDescription,
-          pattern: node.data.pattern,
-        }))
-      },
+    if (taskflow) {
+      const { nodes: newNodes, edges: newEdges } = convertToReactFlowFormat(taskflow);
+      setNodes(newNodes);
+      setEdges(newEdges);
+    }
+  }, [taskflow]);
+
+
+  const handleSave = () => {
+    const updatedTaskFlowSteps = nodes.map((node) => ({
+      stepName: node.data.stepName,
+      stepLabel: node.data.stepLabel,
+      stepDescription: node.data.stepDescription,
+      pattern: node.data.pattern,
     }));
-  }, [nodes, setFlowsMap, taskflow.taskFlowId]);
+
+    const updatedTaskflow = {
+      ...taskflow,
+      taskFlowSteps: updatedTaskFlowSteps,
+    };
+
+    // Deep comparison to prevent unnecessary updates
+    if (!isEqual(flowsMap[flowId], updatedTaskflow)) {
+      setFlowsMap((prevFlows) => ({
+        ...prevFlows,
+        [flowId]: updatedTaskflow,
+      }));
+    }
+
+    setPatternsFlow({ ...updatedTaskflow });
+    setPatternsGenerate(0);
+  };
 
   return (
     <ReactFlowProvider>
       <Box>
         <Typography variant="h6">{taskflow.taskFlowName}</Typography>
         <Typography variant="body1">{taskflow.taskFlowDescription}</Typography>
-        <Box sx={{ height: 500, border: "1px solid #ddd", borderRadius: "8px", padding: "10px" }}>
+        <Box
+          sx={{
+            height: 500,
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            padding: "10px",
+          }}
+        >
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -78,8 +122,7 @@ const PageTaskFlow = ({ taskflow }) => {
           size="small"
           onClick={(e) => {
             e.stopPropagation();
-            setPatternsFlow({ ...taskflow }); // Ensures a fresh copy is passed
-            setPatternsGenerate(0);
+            handleSave(); // Save updates to flowsMapAtom
           }}
           sx={{ textTransform: "none", pt: 2 }}
         >
@@ -90,4 +133,4 @@ const PageTaskFlow = ({ taskflow }) => {
   );
 };
 
-export default PageTaskFlow;
+export default React.memo(PageRfTaskFlow); 

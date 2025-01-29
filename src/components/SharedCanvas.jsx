@@ -12,6 +12,7 @@ import PagePatterns from "./PagePatterns";
 import PageConfigs from "./PageConfigs";
 import PageCompiledCfg from "./PageCompiledCfg";
 import PageRfTaskFlow from "./PageRfTaskFlow";
+import { useEffect } from "react";
 
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
@@ -29,6 +30,7 @@ const SharedCanvas = ( ) => {
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
     };
@@ -113,13 +115,8 @@ const SharedCanvas = ( ) => {
                 setCanvasPages={setCanvasPages}/>;
             case 'flow':
                 const taskflow = flowsMap[flowId];
-                console.log("taskflow for reactflow display", taskflow);
-                return <PageRfTaskFlow taskflow={taskflow} />;
-                // return <PageTaskFlow taskflow={taskflow} 
-                // setFlowsMap={setFlowsMap} 
-                // setPatternsFlow={setPatternsFlow} 
-                // setPatternsGenerate={setPatternsGenerate} 
-                // setCanvasPages={setCanvasPages}/>;
+                // console.log("taskflow for reactflow display", taskflow);
+                return <PageRfTaskFlow />;
             case 'compiled':
                 const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
                 return <PageCompiledCfg compiledConfig={compiledConfig} 

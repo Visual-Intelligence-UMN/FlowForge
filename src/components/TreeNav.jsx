@@ -3,10 +3,25 @@ import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTask
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
-const TreeNav = ({ flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, canvasPages,setCanvasPages,treeNav, setTreeNav }) => {
+const TreeNav = (
+  // { flowsMap, 
+  // patterns, 
+  // agentsConfig, 
+  // compiledConfigs, 
+  // selectedTask, 
+  // canvasPages,
+  // setCanvasPages,
+  // treeNav, 
+  // setTreeNav }
+) => {
 
-    // const [treeNav, setTreeNav] = useAtom(treeNavAtom);
-    // const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    const [treeNav, setTreeNav] = useAtom(treeNavAtom);
+    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+    const [patterns, setPatterns] = useAtom(patternsAtom);
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
 
     const handleTreeNav = () => {
         const g = new Graph();
@@ -207,13 +222,14 @@ const TreeNav = ({ flowsMap, patterns, agentsConfig, compiledConfigs, selectedTa
     }
   };
 
-  // useEffect(() => {
-  //   console.log("canvasPages", canvasPages);
-  // }, [canvasPages]);
+  useEffect(() => {
+    console.log("canvasPages", canvasPages);
+  }, [canvasPages]);
 
   const isHighlighted = (node) => {
     // console.log("node", node);
-    console.log("canvasPages", canvasPages);
+    console.log("canvasPages clicked", canvasPages);
+    console.log("flowmap", flowsMap);
     if (!canvasPages) {
       return false;
     }

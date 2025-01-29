@@ -120,16 +120,7 @@ const Builder = () => {
     return (
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>
             <Box sx={{ width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <TreeNav
-                 flowsMap={flowsMap} 
-                 patterns={designPatterns} 
-                 agentsConfig={agentsConfig} 
-                 compiledConfigs={compiledConfigs} 
-                 selectedTask={selectedTask} 
-                 setCanvasPages={setCanvasPages}
-                 treeNav={treeNav}
-                 setTreeNav={setTreeNav}
-                 />
+                <TreeNav />
             </Box>
             <Box sx={{ width: "60%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <SharedCanvas />
