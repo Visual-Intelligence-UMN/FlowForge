@@ -15,6 +15,7 @@ const convertToReactFlowFormat = (taskflow) => {
       stepLabel: step.stepLabel || "",
       stepDescription: step.stepDescription || "",
       label: step.stepLabel || `Step ${index + 1}`,
+      pattern: step.pattern || {name: "", description: ""},
     },
   }));
   
@@ -52,6 +53,7 @@ const PageTaskFlow = ({ taskflow }) => {
           stepName: node.data.stepName,
           stepLabel: node.data.stepLabel,
           stepDescription: node.data.stepDescription,
+          pattern: node.data.pattern,
         }))
       },
     }));
