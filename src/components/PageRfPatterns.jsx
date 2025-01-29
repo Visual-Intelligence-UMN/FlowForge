@@ -101,6 +101,7 @@ const PageRfPatterns = () => {
     <ReactFlowProvider>
       <Box>
         <Typography variant="h6">{flowWithPatterns.taskFlowName}</Typography>
+        <Typography variant="body1">Flow with patterns {flowWithPatterns.patternId}</Typography>
         <Typography variant="body1">{flowWithPatterns.taskFlowDescription}</Typography>
         <Box
           sx={{

@@ -14,7 +14,7 @@ import { PatternsMapRow } from "./PatternsPoolSidebar";
 
 const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern, setCanvasPages }) => {
 
-  const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps = [] } = flow || {};
+  const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps , patternId } = flow || {};
 
   const handlePatternChange = (stepIndex, newPatternName) => {
     const updatedSteps = [...taskFlowSteps];
@@ -30,7 +30,7 @@ const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, set
 
     setFlowsWithPatterns((prevFlows) =>
       prevFlows.map((f) =>
-        f.taskFlowId === taskFlowId ? updatedFlow : f
+        f.patternId === patternId ? updatedFlow : f
       )
     );
   };

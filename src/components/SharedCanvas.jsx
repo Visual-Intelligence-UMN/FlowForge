@@ -14,17 +14,11 @@ import PageCompiledCfg from "./PageCompiledCfg";
 import PageRfTaskFlow from "./PageRfTaskFlow";
 import { useEffect } from "react";
 import PageRfPatterns from "./PageRfPatterns";
+import PageRfConfigs from "./PageRfConfigs";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
 
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-
-    const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
-    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
-    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
 
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
@@ -100,20 +94,9 @@ const SharedCanvas = ( ) => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
-                const config = agentsConfig.find(config => config.configId === configId);
-                return <PageConfigs config={config} 
-                setSelectedConfig={setSelectedConfig} 
-                setCompliedGenerate={setCompliedGenerate} 
-                setCanvasPages={setCanvasPages}/>;
+                return <PageRfConfigs />;
             case 'pattern':
-                const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
                 return <PageRfPatterns  />;
-                return <PagePatterns 
-                flow={flowWithPatterns} 
-                setFlowsWithPatterns={setFlowsWithPatterns} 
-                setAgentsConfigGenerate={setAgentsConfigGenerate} 
-                setAgentsConfigPattern={setAgentsConfigPattern} 
-                setCanvasPages={setCanvasPages}/>;
             case 'flow':
                 return <PageRfTaskFlow />;
             case 'compiled':
