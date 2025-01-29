@@ -10,15 +10,15 @@ import "reactflow/dist/style.css";
 import { Typography, Box, Button } from "@mui/material";
 import { useAtom, useAtomValue } from "jotai";
 import {
-  patternsFlowAtom,
-  patternsGenerateAtom,
-  flowsMapAtom,
   canvasPagesAtom,
+  patternsAtom,
+  agentsConfigGenerateAtom,
+  agentsConfigPatternAtom,
 } from "../global/GlobalStates";
 import isEqual from "lodash.isequal"; 
 
-const convertToReactFlowFormat = (taskflow) => {
-  const nodes = taskflow.taskFlowSteps.map((step, index) => ({
+const convertToReactFlowFormat = (flowWithPatterns) => {
+  const nodes = flowWithPatterns.taskFlowSteps.map((step, index) => ({
     id: `step-${index}`,
     type: "customNode",
     position: { x: index * 250, y: 100 },
@@ -40,18 +40,18 @@ const convertToReactFlowFormat = (taskflow) => {
   return { nodes, edges };
 };
 
-const PageRfTaskFlow = () => {
+const PageRfPatterns = () => {
 
-  const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-  const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-  const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+  const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
+  const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+  const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
   
   const canvasPages = useAtomValue(canvasPagesAtom);
   
   const { type, configId, patternId, flowId } = canvasPages || {};
-  const taskflow = flowsMap[flowId];
+  const flowWithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
 
-  const { nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(taskflow);
+  const { nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(flowWithPatterns);
   
   // Initialize ReactFlow state
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -63,12 +63,12 @@ const PageRfTaskFlow = () => {
   );
 
   useEffect(() => {
-    if (taskflow) {
-      const { nodes: newNodes, edges: newEdges } = convertToReactFlowFormat(taskflow);
+    if (flowWithPatterns) {
+      const { nodes: newNodes, edges: newEdges } = convertToReactFlowFormat(flowWithPatterns);
       setNodes(newNodes);
       setEdges(newEdges);
     }
-  }, [taskflow]);
+  }, [flowWithPatterns]);
 
 
   const handleSave = () => {
@@ -80,27 +80,28 @@ const PageRfTaskFlow = () => {
     }));
 
     const updatedTaskflow = {
-      ...taskflow,
+      ...flowWithPatterns,
       taskFlowSteps: updatedTaskFlowSteps,
     };
 
     // Deep comparison to prevent unnecessary updates
-    if (!isEqual(flowsMap[flowId], updatedTaskflow)) {
-      setFlowsMap((prevFlows) => ({
-        ...prevFlows,
-        [flowId]: updatedTaskflow,
-      }));
+    if (!isEqual(flowWithPatterns, updatedTaskflow)) {
+      setFlowsWithPatterns((prevFlows) => 
+        prevFlows.map((f) =>
+          f.patternId === patternId ? updatedTaskflow : f
+        )
+      );
     }
 
-    setPatternsFlow({ ...updatedTaskflow });
-    setPatternsGenerate(0);
+    setAgentsConfigPattern({ ...updatedTaskflow });
+    setAgentsConfigGenerate(0);
   };
 
   return (
     <ReactFlowProvider>
       <Box>
-        <Typography variant="h6">{taskflow.taskFlowName}</Typography>
-        <Typography variant="body1">{taskflow.taskFlowDescription}</Typography>
+        <Typography variant="h6">{flowWithPatterns.taskFlowName}</Typography>
+        <Typography variant="body1">{flowWithPatterns.taskFlowDescription}</Typography>
         <Box
           sx={{
             height: 500,
@@ -133,4 +134,4 @@ const PageRfTaskFlow = () => {
   );
 };
 
-export default React.memo(PageRfTaskFlow); 
+export default React.memo(PageRfPatterns); 
