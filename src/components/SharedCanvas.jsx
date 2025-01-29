@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
-import { canvasPagesAtom,compiledConfigsAtom } from "../global/GlobalStates";
+import { canvasPagesAtom } from "../global/GlobalStates";
 import PageCompiledCfg from "./PageCompiledCfg";
 import PageRfTaskFlow from "./PageRfTaskFlow";
 import PageRfPatterns from "./PageRfPatterns";
@@ -9,9 +9,7 @@ import PageRfConfigs from "./PageRfConfigs";
 import PageRfCompiledCfg from "./PageRfCompiledCfg";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
-    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
-
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const [canvasPages] = useAtom(canvasPagesAtom);
     
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
@@ -87,8 +85,7 @@ const SharedCanvas = ( ) => {
                 return <PageRfTaskFlow />;
             case 'compiled':
                 // return <PageRfCompiledCfg />;
-                const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === canvasPages.configId);
-                return <PageCompiledCfg compiledConfig={compiledConfig} setCompiledConfigs={setCompiledConfigs}/>;
+                return <PageCompiledCfg />;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }

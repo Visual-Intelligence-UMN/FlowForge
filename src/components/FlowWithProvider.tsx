@@ -10,3 +10,12 @@ export function FlowWithProvider(props) {
         </div>
     );
 }
+// export function FlowWithProviderWrapper(props) {
+//     return (
+//         <div className="reactflow-provider-wrapper">
+//             <ReactFlowProvider>
+//                 <PageRfComponent {...props} />
+//             </ReactFlowProvider>
+//         </div>
+//     );
+// }

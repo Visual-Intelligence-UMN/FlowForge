@@ -96,10 +96,10 @@ export function FlowPanelComponent(props) {
     const panOnDrag = [1,2]
 
     return (
-            <div className="reactflow-wrapper" style={{width: "2800px", height: "1000px"}}>
+            <div className="reactflow-wrapper" style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
                 <ReactFlow
                 id = {props.id}
-                nodes={modifiedNodes}
+                nodes={modifiedNodes} 
                 edges={edges}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}

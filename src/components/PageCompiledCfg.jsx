@@ -2,17 +2,20 @@ import { Typography } from "@mui/material";
 import  StreamOutputRow  from "./StreamOutputRow";
 import {DnDProvider} from "./DnDContext";
 import {FlowWithProvider} from "./FlowWithProvider";
+import { compiledConfigsAtom , canvasPagesAtom} from "../global/GlobalStates";
 import '@xyflow/react/dist/style.css';
+import { useAtom } from "jotai";
 
-const PageCompiledCfg = ({compiledConfig,setCompiledConfigs}) => {
-    // console.log("compiledConfig to display before", compiledConfig);
+const PageCompiledCfg = () => {
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const [canvasPages] = useAtom(canvasPagesAtom);
+    const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === canvasPages.configId);
     const {reactflowDisplay, langgraphRun, configId} = compiledConfig;
 
     const updateNodeData = (nodeId, key, value) => {
         setCompiledConfigs((prevConfigs) =>
           prevConfigs.map((cfg) => {
             if (cfg.configId === configId) {
-              // Expecting cfg.reactflow to be an array of flow objects
               return {
                 ...cfg,
                 reactflowDisplay: cfg.reactflowDisplay.map((flow) => {
