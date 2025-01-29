@@ -1,28 +1,16 @@
 import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
-import { canvasPagesAtom } from "../global/GlobalStates";
-import { flowsMapAtom } from "../global/GlobalStates";
-import { patternsGenerateAtom, patternsFlowAtom, patternsAtom,
-     agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom,
-     selectedConfigAtom, compiledConfigsAtom, compliedGenerateAtom} from "../global/GlobalStates";
-
-import PageTaskFlow from "./PageTaskFlow";
-import PagePatterns from "./PagePatterns";
-import PageConfigs from "./PageConfigs";
+import { canvasPagesAtom,compiledConfigsAtom } from "../global/GlobalStates";
 import PageCompiledCfg from "./PageCompiledCfg";
 import PageRfTaskFlow from "./PageRfTaskFlow";
-import { useEffect } from "react";
 import PageRfPatterns from "./PageRfPatterns";
 import PageRfConfigs from "./PageRfConfigs";
+import PageRfCompiledCfg from "./PageRfCompiledCfg";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
 
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
-    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     
     const handleSliderChange = (event, newValue) => {
@@ -89,10 +77,8 @@ const SharedCanvas = ( ) => {
     };
 
     const canvasPage = () => {
-        const { type, configId, patternId, flowId } = canvasPages || {};
-        // Helper function to decide what to render based on `type`.
         const renderCanvasContent = () => {
-            switch (type) {
+            switch (canvasPages.type) {
             case 'config':
                 return <PageRfConfigs />;
             case 'pattern':
@@ -100,14 +86,13 @@ const SharedCanvas = ( ) => {
             case 'flow':
                 return <PageRfTaskFlow />;
             case 'compiled':
-                const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === configId);
-                return <PageCompiledCfg compiledConfig={compiledConfig} 
-                setCompiledConfigs={setCompiledConfigs}/>;
+                // return <PageRfCompiledCfg />;
+                const compiledConfig = compiledConfigs.find(compiledConfig => compiledConfig.configId === canvasPages.configId);
+                return <PageCompiledCfg compiledConfig={compiledConfig} setCompiledConfigs={setCompiledConfigs}/>;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }
         };
-
         return (
             <Box sx={{ width:"100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "left" }}>
                 {renderCanvasContent()}
