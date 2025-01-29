@@ -29,6 +29,7 @@ const convertToReactFlowFormat = (flowWithPatterns) => {
       stepDescription: step.stepDescription || "",
       label: step.stepLabel || `Step ${index + 1}`,
       pattern: step.pattern || { name: "", description: "" },
+      config: step.config || { type: "", nodes: [], edges: [] },
     },
   }));
   
@@ -79,6 +80,7 @@ const PageRfConfigs = () => {
       stepLabel: node.data.stepLabel,
       stepDescription: node.data.stepDescription,
       pattern: node.data.pattern,
+      config: node.data.config,
     }));
 
     const updatedConfig = {

@@ -3,17 +3,7 @@ import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTask
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
-const TreeNav = (
-  // { flowsMap, 
-  // patterns, 
-  // agentsConfig, 
-  // compiledConfigs, 
-  // selectedTask, 
-  // canvasPages,
-  // setCanvasPages,
-  // treeNav, 
-  // setTreeNav }
-) => {
+const TreeNav = () => {
 
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
@@ -22,6 +12,7 @@ const TreeNav = (
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+
 
     const handleTreeNav = () => {
         const g = new Graph();
@@ -228,12 +219,11 @@ const TreeNav = (
 
   const isHighlighted = (node) => {
     // console.log("node", node);
-    console.log("canvasPages clicked", canvasPages);
-    console.log("flowmap", flowsMap);
+    // console.log("canvasPages clicked", canvasPages);
+    // console.log("flowmap", flowsMap);
     if (!canvasPages) {
       return false;
     }
-
     if (canvasPages.type === "flow" && node.data.type === "flow" && node.data.id === canvasPages.flowId.toString()) {
         return true;
     } else if (canvasPages.type === "pattern" && node.data.type === "pattern" && node.data.id === canvasPages.patternId) {
