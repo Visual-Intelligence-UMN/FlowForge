@@ -49,15 +49,16 @@ export function RflowComponent(props) {
         }));
 
         const updatedTaskflow = {
-            ...props.taskflow,
+            ...taskflow,
             taskFlowSteps: updatedTaskFlowSteps,
         };
-        if (!isEqual(props.taskflow, updatedTaskflow)) {
+        if (!isEqual(taskflow, updatedTaskflow)) {
             setFlowsMap((prevFlows) => ({
                 ...prevFlows,
                 [flowId]: updatedTaskflow,
             }));
         }
+        console.log("updatedTaskflow", updatedTaskflow);
         setPatternsFlow({...updatedTaskflow});
         setPatternsGenerate(0);
     };
