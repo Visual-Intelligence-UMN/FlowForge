@@ -1,6 +1,5 @@
 import dagre from 'dagre';
 
-// Dagre layout configuration
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -8,7 +7,7 @@ const nodeWidth = 100; // Set your node width
 const nodeHeight = 100; // Set your node height
 
 // Function to handle Dagre layout
-export const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
+const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     // direction: TB (top to bottom), LR (left to right)
   dagreGraph.setGraph({ 
     rankdir: direction, 
@@ -16,22 +15,18 @@ export const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     nodesep: 200
   });
 
-  // Add nodes to the graph
   nodes.forEach((node) => {
     dagreGraph.setNode(node.id, 
         { width: node.measured?.width ?? nodeWidth, 
         height: node.measured?.height ?? nodeHeight });
   });
 
-  // Add edges to the graph
   edges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
 
-  // Calculate layout
   dagre.layout(dagreGraph);
 
-  // Update node positions
   const layoutedNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     return {
@@ -46,3 +41,27 @@ export const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
 
   return { nodes: layoutedNodes, edges };
 };
+
+const getMultiLineLayoutedNodesAndEdges = (nodes, edges, nodesPerRow = 3) => {
+
+  const horizontalSpacing = 400; // space between columns
+  const verticalSpacing = 500;   // space between rows
+
+  const layoutedNodes = nodes.map((node, index) => {
+    const col = index % nodesPerRow;
+    const row = Math.floor(index / nodesPerRow);
+
+    return {
+      ...node,
+      position: {
+        x: col * horizontalSpacing,
+        y: row * verticalSpacing,
+      },
+      style: { ...node.style, position: 'absolute' },
+    };
+  });
+
+  return { nodes: layoutedNodes, edges };
+};
+
+export { getLayoutedNodesAndEdges, getMultiLineLayoutedNodesAndEdges };

@@ -13,7 +13,7 @@ import {
     patternsGenerateAtom,
   } from "../global/GlobalStates";
 import isEqual from "lodash/isEqual";
-import { getLayoutedNodesAndEdges } from '../utils/dagreUtils';
+import { getMultiLineLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 
@@ -64,7 +64,7 @@ export function RflowComponent(props) {
     };
 
     useEffect(() => {
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getMultiLineLayoutedNodesAndEdges(
           nodes,
           edges
         );

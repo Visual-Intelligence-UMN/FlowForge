@@ -16,7 +16,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         border: "1px solid #ddd",
         borderRadius: 4,
         backgroundColor: "#fff",
-        minWidth: 50,
+        minWidth: 230,
         textAlign: "center",
         boxShadow: 2,
         display: "flex",
@@ -45,6 +45,8 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         onChange={onChange("stepName")}
         size="small"
         sx={{ marginBottom: 1 }}
+        className="nodrag nopan nowheel"
+        fullWidth
       />
 
       <TextField
@@ -54,19 +56,21 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         onChange={onChange("stepLabel")}
         size="small"
         sx={{ marginBottom: 1 }}
+        className="nodrag nopan nowheel"
+        fullWidth
       />
 
       <TextField
         label="Step Description"
         variant="outlined"
+        multiline
+        minRows={3}         
+        maxRows={7}     
         value={data.stepDescription || ""}
         onChange={onChange("stepDescription")}
-        size="small"
         sx={{ marginBottom: 1 }}
-        className="nodrag nopan nowheel"
-        multiline
-        minRows={3}          // Minimum number of rows
-        maxRows={6}       // If you'd like to cap the max rows
+        className="nodrag nopan"
+        fullWidth
       />
 
       <Handle
