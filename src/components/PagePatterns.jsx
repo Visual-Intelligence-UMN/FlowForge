@@ -15,7 +15,7 @@ import { PatternsMapRow } from "./PatternsPoolSidebar";
 const PagePatterns = ({ flow, setFlowsWithPatterns, setAgentsConfigGenerate, setAgentsConfigPattern, setCanvasPages }) => {
 
   const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps , patternId } = flow || {};
-
+  
   const handlePatternChange = (stepIndex, newPatternName) => {
     const updatedSteps = [...taskFlowSteps];
     updatedSteps[stepIndex] = {

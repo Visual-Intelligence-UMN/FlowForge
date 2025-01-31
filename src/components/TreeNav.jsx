@@ -13,7 +13,6 @@ const TreeNav = () => {
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
 
-
     const handleTreeNav = () => {
         const g = new Graph();
         g.setGraph({

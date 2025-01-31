@@ -1,6 +1,6 @@
 import { ReactFlowProvider } from '@xyflow/react'
 import { FlowPanelComponent } from "./FlowComponent";
-
+import { RflowComponent } from "./RflowComponent";
 export function FlowWithProvider(props) {
     return (
         <div className="reactflow-provider">
@@ -10,12 +10,13 @@ export function FlowWithProvider(props) {
         </div>
     );
 }
-// export function FlowWithProviderWrapper(props) {
-//     return (
-//         <div className="reactflow-provider-wrapper">
-//             <ReactFlowProvider>
-//                 <PageRfComponent {...props} />
-//             </ReactFlowProvider>
-//         </div>
-//     );
-// }
+
+export function RfWithProvider(props) {
+    return (
+        <div className="reactflow-provider-wrapper">
+            <ReactFlowProvider>
+                <RflowComponent {...props} />
+            </ReactFlowProvider>
+        </div>
+    );
+}
