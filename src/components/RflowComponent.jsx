@@ -17,6 +17,8 @@ import { getMultiLineLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { useState } from "react";
+
+import Button from '@mui/material/Button';
 export function RflowComponent(props) {
 
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
@@ -110,7 +112,15 @@ export function RflowComponent(props) {
          onConnect={onConnect}
          fitView = {true}
          ></ReactFlow>
-         <button onClick={handleSave}>Save</button>
+
+         <Button 
+         size="small"
+         onClick={(e) => {
+            e.stopPropagation();
+            handleSave();
+         }}
+         sx={{ textTransform: "none", pt: 2 }}
+         >Continue</Button>
          </div>
     )
 }
