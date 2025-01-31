@@ -16,11 +16,14 @@ import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
-
+import { useState } from "react";
 export function RflowComponent(props) {
 
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+
+    const [layoutedNodes, setLayoutedNodes] = useState(nodes);
+    const [layoutedEdges, setLayoutedEdges] = useState(edges);
 
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
@@ -68,10 +71,9 @@ export function RflowComponent(props) {
           nodes,
           edges
         );
-        setNodes(layoutedNodes);
-        setEdges(layoutedEdges);
-        // layout only once 
-    }, []);
+        setLayoutedNodes(layoutedNodes);
+        setLayoutedEdges(layoutedEdges);
+    }, [canvasPages]);
 
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
@@ -89,7 +91,7 @@ export function RflowComponent(props) {
         );
     };
 
-    const nodeListWithHandlers = nodes.map((node) => ({
+    const nodeListWithHandlers = layoutedNodes.map((node) => ({
         ...node,
         data: {
             ...node.data,
@@ -101,12 +103,12 @@ export function RflowComponent(props) {
         <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
          nodes={nodeListWithHandlers}
-         edges={edges}
+         edges={layoutedEdges}
          nodeTypes={nodeTypes}
          onNodesChange={onNodesChange}
          onEdgesChange={onEdgesChange}
          onConnect={onConnect}
-         fitView
+         fitView = {true}
          ></ReactFlow>
          <button onClick={handleSave}>Save</button>
          </div>
