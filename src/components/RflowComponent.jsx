@@ -63,9 +63,6 @@ export function RflowComponent(props) {
         setPatternsGenerate(0);
     };
 
-    
-
-
     return (
         <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
