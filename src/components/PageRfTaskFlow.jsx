@@ -10,7 +10,7 @@ import { RfWithProvider } from "./FlowWithProvider";
 
 const convertToReactFlowFormat = (taskflow) => {
   const nodes = taskflow.taskFlowSteps.map((step, index) => ({
-    id: `step-${index}`,
+    id: `step-${index+1}`,
     type: "flowStep",
     position: { x: index * 250, y: 100 },
     data: {

@@ -4,16 +4,16 @@ import dagre from 'dagre';
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 400; // Set your node width
-const nodeHeight = 500; // Set your node height
+const nodeWidth = 100; // Set your node width
+const nodeHeight = 100; // Set your node height
 
 // Function to handle Dagre layout
 export const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     // direction: TB (top to bottom), LR (left to right)
   dagreGraph.setGraph({ 
     rankdir: direction, 
-    ranksep: 150,
-    nodesep: 100
+    ranksep: 200,
+    nodesep: 200
   });
 
   // Add nodes to the graph

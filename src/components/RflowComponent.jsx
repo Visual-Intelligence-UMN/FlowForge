@@ -13,7 +13,7 @@ import {
     patternsGenerateAtom,
   } from "../global/GlobalStates";
 import isEqual from "lodash/isEqual";
-
+import { getLayoutedNodesAndEdges } from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 
@@ -63,10 +63,44 @@ export function RflowComponent(props) {
         setPatternsGenerate(0);
     };
 
+    useEffect(() => {
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+          nodes,
+          edges
+        );
+        setNodes(layoutedNodes);
+        setEdges(layoutedEdges);
+        // layout only once 
+    }, []);
+
+    const updateNodeField = (nodeId, fieldName, newValue) => {
+        setNodes((prevNodes) =>
+        prevNodes.map((node) =>
+            node.id === nodeId
+            ? {
+                ...node,
+                data: {
+                    ...node.data,
+                    [fieldName]: newValue, // dynamic field
+                },
+                }
+            : node
+        )
+        );
+    };
+
+    const nodeListWithHandlers = nodes.map((node) => ({
+        ...node,
+        data: {
+            ...node.data,
+            updateNodeField,
+        },
+    }));
+
     return (
         <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
-         nodes={nodes}
+         nodes={nodeListWithHandlers}
          edges={edges}
          nodeTypes={nodeTypes}
          onNodesChange={onNodesChange}
