@@ -41,8 +41,10 @@ export function RflowComponent(props) {
 
     const canvasPages = useAtomValue(canvasPagesAtom);
 
-    const {flowId } = canvasPages || {};
+    const {flowId, patternId, configId } = canvasPages || {};
     const taskflow = flowsMap[flowId];
+
+    const targetWorkflow = props.targetWorkflow;
 
     const onConnect = useCallback(
         (connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -71,19 +73,80 @@ export function RflowComponent(props) {
     }, [canvasPages, nodes, edges]);
     
 
+    // const handleSave = () => {
+    //     const updatedTaskFlowSteps = nodes.map((node) => ({
+    //       stepName: node.data.stepName,
+    //       stepLabel: node.data.stepLabel,
+    //       stepDescription: node.data.stepDescription,
+    //       pattern: node.data.pattern,
+    //       config: node.data.config,
+    //     }));
+
+    //     const updatedTaskflow = {
+    //         ...taskflow,
+    //         taskFlowSteps: updatedTaskFlowSteps,
+    //     };
+    //     if (!isEqual(taskflow, updatedTaskflow)) {
+    //         setFlowsMap((prevFlows) => ({
+    //             ...prevFlows,
+    //             [flowId]: updatedTaskflow,
+    //         }));
+    //     }
+    //     console.log("updatedTaskflow", updatedTaskflow);
+    //     setPatternsFlow({...updatedTaskflow});
+    //     setPatternsGenerate(0);
+    // };
+
+    // const handleSavePatterns = () => {
+    //     let targetWorkflow;
+    //     if (canvasPages.type === 'pattern') {
+    //         targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+    //     } else if (canvasPages.type === 'config') {
+    //         targetWorkflow = agentsConfig.find(config => config.configId === configId);
+    //     }
+    //     const updatedTaskFlowSteps = nodes.map((node) => ({
+    //       stepName: node.data.stepName,
+    //       stepLabel: node.data.stepLabel,
+    //       stepDescription: node.data.stepDescription,
+    //       pattern: node.data.pattern,
+    //       config: node.data.config,
+    //     }));
+
+    //     const updatedTaskflow = {
+    //         ...targetWorkflow,
+    //         taskFlowSteps: updatedTaskFlowSteps,
+    //     };
+
+    //     if (canvasPages.type === 'pattern' && !isEqual(targetWorkflow, updatedTaskflow)) {
+    //         setPatternsFlow((prevFlows) => prevFlows.map((pattern) => 
+    //             pattern.patternId === patternId ? updatedTaskflow : pattern
+    //         ));
+    //         setPatternsFlow(updatedTaskflow);
+    //         setAgentsConfigPattern(0);
+    //     } else if (canvasPages.type === 'config' && !isEqual(targetWorkflow, updatedTaskflow)) {
+    //         setAgentsConfig((prevFlows) => prevFlows.map((pattern) => 
+    //             pattern.patternId === patternId ? updatedTaskflow : pattern
+    //         ));
+    //         setCompiledConfigs(updatedTaskflow);
+    //         setCompliedGenerate(0);
+    //     }
+
+    // };
+
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
           stepName: node.data.stepName,
           stepLabel: node.data.stepLabel,
           stepDescription: node.data.stepDescription,
           pattern: node.data.pattern,
+          config: node.data.config,
         }));
 
         const updatedTaskflow = {
-            ...taskflow,
+            ...targetWorkflow,
             taskFlowSteps: updatedTaskFlowSteps,
         };
-        if (!isEqual(taskflow, updatedTaskflow)) {
+        if (!isEqual(targetWorkflow, updatedTaskflow)) {
             setFlowsMap((prevFlows) => ({
                 ...prevFlows,
                 [flowId]: updatedTaskflow,

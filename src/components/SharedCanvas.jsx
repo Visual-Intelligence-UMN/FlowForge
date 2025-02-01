@@ -94,6 +94,7 @@ const SharedCanvas = ( ) => {
             stepDescription: step.stepDescription || "",
             label: step.stepLabel || `Step ${index + 1}`,
             pattern: step.pattern || { name: "", description: "" },
+            config: step.config || { type: "", nodes: [], edges: [] },
           },
         }));
         
@@ -113,25 +114,32 @@ const SharedCanvas = ( ) => {
 
       let initialNodes;
       let initialEdges;
+      let targetWorkflow;
     const canvasPage = () => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
                 return <PageRfConfigs />;
             case 'pattern':
-                const fowWiithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
-                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(fowWiithPatterns));
-                return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
+                targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+                break;
+                // ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow));
+                // return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
             case 'flow':
                 // return <PageRfTaskFlow /> 
-                const taskflow = flowsMap[flowId];
-                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(taskflow));
-                return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
+                targetWorkflow = flowsMap[flowId];
+                break;
+                // ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow));
+                // return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
             case 'compiled':
                 // return <PageRfCompiledCfg />;
                 return <PageCompiledCfg />;
             default:
                 return <Typography>Canvas goes here</Typography>;
+            }
+            if (targetWorkflow) {
+                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow));
+                return <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />;
             }
         };
         return (
