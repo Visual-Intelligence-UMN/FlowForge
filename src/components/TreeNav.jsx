@@ -158,6 +158,7 @@ const TreeNav = () => {
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
         const flowId = node.data.id;
+        console.log("flow node clicked", flowsMap[flowId]);
         let patternId = [];
         let configId = [];
         const childrenPatterns = patterns.filter(
@@ -180,6 +181,7 @@ const TreeNav = () => {
             configId: configId,
         });
     } else if (layer === "pattern") {
+        console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
         const patternId = node.data.id;
         const flowId = patternId.split("-")[0];
         const childrenConfigs = agentsConfig.filter(
@@ -193,6 +195,7 @@ const TreeNav = () => {
         });
     } else if (layer === "config") {
         const configId = node.data.id;
+        console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
         const [ flowId, patternPart ] = configId.split("-");
         const patternId = `${flowId}-${patternPart}`;
         setCanvasPages({
@@ -203,6 +206,7 @@ const TreeNav = () => {
         });
     } else if (layer === "compiled") {
         const configId = node.data.id;
+        console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
         setCanvasPages({
             type: "compiled",
             configId: configId,

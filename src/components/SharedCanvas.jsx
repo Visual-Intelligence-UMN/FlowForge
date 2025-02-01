@@ -10,6 +10,7 @@ import PageRfCompiledCfg from "./PageRfCompiledCfg";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages] = useAtom(canvasPagesAtom);
+    console.log("SharedCanvas Handle canvasPages", canvasPages);
     
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);

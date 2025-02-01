@@ -2,9 +2,7 @@ import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField } from "@mui/material";
 
 export const FlowStepNode = ({ data, isConnectable,id }) => {
-  if (!id) {
-    console.log("FlowStepNode id", id);
-  }
+
   const { updateNodeField } = data;
 
   const onChange = (fieldName) => (event) => {
@@ -39,7 +37,11 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
       <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
         {id}
       </Typography>
-    
+      <Typography variant="h6" gutterBottom>
+        {data.stepName}
+      </Typography>
+
+      
       <TextField
         label="Step Name"
         variant="outlined"

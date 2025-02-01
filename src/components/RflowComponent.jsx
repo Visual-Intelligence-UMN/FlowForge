@@ -11,6 +11,12 @@ import {
     canvasPagesAtom,
     patternsFlowAtom,
     patternsGenerateAtom,
+    patternsAtom,
+    agentsConfigAtom,
+    agentsConfigPatternAtom,
+    agentsConfigGenerateAtom,
+    compiledConfigsAtom,
+    compliedGenerateAtom
   } from "../global/GlobalStates";
 import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges } from '../utils/dagreUtils';
@@ -24,12 +30,16 @@ export function RflowComponent(props) {
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
 
-    const [layoutedNodes, setLayoutedNodes] = useState(nodes);
-    const [layoutedEdges, setLayoutedEdges] = useState(edges);
-
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+    const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
+    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
+
     const canvasPages = useAtomValue(canvasPagesAtom);
 
     const {flowId } = canvasPages || {};
@@ -44,6 +54,17 @@ export function RflowComponent(props) {
         setNodes(props.nodes || []);
         setEdges(props.edges || []);
     }, [taskflow]);
+
+    useEffect(() => {
+        const { nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges);
+        if (!isEqual(nodes, newLayoutedNodes)) {
+            setNodes([...newLayoutedNodes]); // Force ReactFlow update
+        }
+        if (!isEqual(edges, newLayoutedEdges)) {
+            setEdges([...newLayoutedEdges]);
+        }
+    }, [canvasPages, nodes, edges]);
+    
 
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -68,15 +89,6 @@ export function RflowComponent(props) {
         setPatternsGenerate(0);
     };
 
-    useEffect(() => {
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getMultiLineLayoutedNodesAndEdges(
-          nodes,
-          edges
-        );
-        setLayoutedNodes(layoutedNodes);
-        setLayoutedEdges(layoutedEdges);
-    }, [canvasPages]);
-
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
         prevNodes.map((node) =>
@@ -93,7 +105,7 @@ export function RflowComponent(props) {
         );
     };
 
-    const nodeListWithHandlers = layoutedNodes.map((node) => ({
+    const nodeListWithHandlers = nodes.map((node) => ({
         ...node,
         data: {
             ...node.data,
@@ -105,7 +117,7 @@ export function RflowComponent(props) {
         <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
          nodes={nodeListWithHandlers}
-         edges={layoutedEdges}
+         edges={edges}
          nodeTypes={nodeTypes}
          onNodesChange={onNodesChange}
          onEdgesChange={onEdgesChange}

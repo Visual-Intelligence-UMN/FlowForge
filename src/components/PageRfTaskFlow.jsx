@@ -43,7 +43,6 @@ const PageRfTaskFlow = () => {
   const { type, configId, patternId, flowId } = canvasPages || {};
   const taskflow = flowsMap[flowId];
   const { nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(taskflow);
-
   return (
     <RfWithProvider nodes={initialNodes} edges={initialEdges} />
   );
