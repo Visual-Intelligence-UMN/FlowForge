@@ -19,10 +19,9 @@ import {
     compliedGenerateAtom
   } from "../global/GlobalStates";
 import isEqual from "lodash/isEqual";
-import { getMultiLineLayoutedNodesAndEdges } from '../utils/dagreUtils';
+import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
-import { useState } from "react";
 
 import Button from '@mui/material/Button';
 export function RflowComponent(props) {
@@ -56,7 +55,13 @@ export function RflowComponent(props) {
     }, [taskflow]);
 
     useEffect(() => {
-        const { nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges);
+        let newLayoutedNodes;
+        let newLayoutedEdges;
+        if (nodes.length > 3) {
+            ({ nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges));
+        } else {
+            ({ nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges));
+        }
         if (!isEqual(nodes, newLayoutedNodes)) {
             setNodes([...newLayoutedNodes]); // Force ReactFlow update
         }

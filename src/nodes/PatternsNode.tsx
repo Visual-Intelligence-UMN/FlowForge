@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField } from "@mui/material";
 
-export const FlowStepNode = ({ data, isConnectable,id }) => {
+export const PatternsNode = ({ data, isConnectable,id }) => {
 
   const { updateNodeField } = data;
 

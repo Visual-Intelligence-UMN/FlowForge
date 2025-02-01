@@ -7,11 +7,19 @@ import PageRfTaskFlow from "./PageRfTaskFlow";
 import PageRfPatterns from "./PageRfPatterns";
 import PageRfConfigs from "./PageRfConfigs";
 import PageRfCompiledCfg from "./PageRfCompiledCfg";
+
+
+import { RfWithProvider } from "./FlowWithProvider";
+
+import { flowsMapAtom , patternsAtom} from "../global/GlobalStates";
+
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
     const [canvasPages] = useAtom(canvasPagesAtom);
-    console.log("SharedCanvas Handle canvasPages", canvasPages);
-    
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+    const { type, configId, patternId, flowId } = canvasPages || {};
+
+    const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
     };
@@ -75,15 +83,50 @@ const SharedCanvas = ( ) => {
         );
     };
 
+    const convertToReactFlowFormat = (taskflow) => {
+        const nodes = taskflow.taskFlowSteps.map((step, index) => ({
+          id: `step-${index+1}`,
+          type: "flowStep",
+          position: { x: index * 250, y: 100 },
+          data: {
+            stepName: step.stepName || `Step ${index + 1}`,
+            stepLabel: step.stepLabel || "",
+            stepDescription: step.stepDescription || "",
+            label: step.stepLabel || `Step ${index + 1}`,
+            pattern: step.pattern || { name: "", description: "" },
+          },
+        }));
+        
+        const edges = nodes.map((node, index) =>
+          index < nodes.length - 1
+            ? { 
+              id: `edge-${index}`, 
+              source: node.id, 
+              target: nodes[index + 1].id,
+              animated: true,
+            }
+            : null
+        ).filter(Boolean);
+        
+        return { nodes, edges };
+      };
+
+      let initialNodes;
+      let initialEdges;
     const canvasPage = () => {
         const renderCanvasContent = () => {
-            switch (canvasPages.type) {
+            switch (type) {
             case 'config':
                 return <PageRfConfigs />;
             case 'pattern':
-                return <PageRfPatterns  />;
+                const fowWiithPatterns = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(fowWiithPatterns));
+                return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
             case 'flow':
-                return <PageRfTaskFlow />;
+                // return <PageRfTaskFlow /> 
+                const taskflow = flowsMap[flowId];
+                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(taskflow));
+                return <RfWithProvider nodes={initialNodes} edges={initialEdges} />;
             case 'compiled':
                 // return <PageRfCompiledCfg />;
                 return <PageCompiledCfg />;
