@@ -154,11 +154,12 @@ const TreeNav = () => {
 
   // Example node click handler
   const handleNodeClick = (node) => {
-    console.log("Node clicked: ", node);
+    // console.log("Node clicked: ", node);
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
         const flowId = node.data.id;
-        console.log("flow node clicked", flowsMap[flowId]);
+        // console.log("flow node clicked", flowsMap[flowId]);
+        console.log("flowmap", flowsMap);
         let patternId = [];
         let configId = [];
         const childrenPatterns = patterns.filter(
@@ -180,8 +181,11 @@ const TreeNav = () => {
             patternId: patternId,
             configId: configId,
         });
+        console.log("canvasPages", canvasPages);
     } else if (layer === "pattern") {
-        console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
+      console.log("flowsMap", flowsMap);
+      console.log("patterns", patterns);
+        // console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
         const patternId = node.data.id;
         const flowId = patternId.split("-")[0];
         const childrenConfigs = agentsConfig.filter(
@@ -195,7 +199,7 @@ const TreeNav = () => {
         });
     } else if (layer === "config") {
         const configId = node.data.id;
-        console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
+        // console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
         const [ flowId, patternPart ] = configId.split("-");
         const patternId = `${flowId}-${patternPart}`;
         setCanvasPages({
@@ -206,7 +210,7 @@ const TreeNav = () => {
         });
     } else if (layer === "compiled") {
         const configId = node.data.id;
-        console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
+        // console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
         setCanvasPages({
             type: "compiled",
             configId: configId,
@@ -217,7 +221,7 @@ const TreeNav = () => {
   };
 
   useEffect(() => {
-    console.log("canvasPages", canvasPages);
+    // console.log("canvasPages", canvasPages);
   }, [canvasPages]);
 
   const isHighlighted = (node) => {

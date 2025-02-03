@@ -23,7 +23,7 @@ import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
-
+import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 export function RflowComponent(props) {
 
@@ -40,10 +40,8 @@ export function RflowComponent(props) {
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
-    const canvasPages = useAtomValue(canvasPagesAtom);
-
+    const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
     const {flowId, patternId, configId } = canvasPages || {};
-    const taskflow = flowsMap[flowId];
 
     const targetWorkflow = props.targetWorkflow;
 
@@ -55,7 +53,7 @@ export function RflowComponent(props) {
     useEffect(() => {
         setNodes(props.nodes || []);
         setEdges(props.edges || []);
-    }, [taskflow]);
+    }, [targetWorkflow]);
 
     useEffect(() => {
         let newLayoutedNodes;
@@ -69,35 +67,31 @@ export function RflowComponent(props) {
             setNodes([...newLayoutedNodes]); // Force ReactFlow update
         }
         if (!isEqual(edges, newLayoutedEdges)) {
-            setEdges([...newLayoutedEdges]);
+        setEdges([...newLayoutedEdges]);
         }
     }, [canvasPages, nodes, edges]);
-    
 
-    // const handleSave = () => {
-    //     const updatedTaskFlowSteps = nodes.map((node) => ({
-    //       stepName: node.data.stepName,
-    //       stepLabel: node.data.stepLabel,
-    //       stepDescription: node.data.stepDescription,
-    //       pattern: node.data.pattern,
-    //       config: node.data.config,
-    //     }));
-
-    //     const updatedTaskflow = {
-    //         ...targetWorkflow,
-    //         taskFlowSteps: updatedTaskFlowSteps,
-    //     };
-    //     if (!isEqual(targetWorkflow, updatedTaskflow)) {
-    //         setFlowsMap((prevFlows) => ({
-    //             ...prevFlows,
-    //             [flowId]: updatedTaskflow,
-    //         }));
-    //     }
-    //     console.log("updatedTaskflow", updatedTaskflow);
-    //     setPatternsFlow({...updatedTaskflow});
-    //     setPatternsGenerate(0);
-    // };
-
+    const headerDisplay = () => {
+        if (canvasPages.type === "flow") {
+            return (
+                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <Typography variant="h6">{targetWorkflow.flowId}</Typography>
+                </Box>
+            );
+        }
+        else if (canvasPages.type === "pattern") {
+            return (
+                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <Typography variant="h6">{targetWorkflow.patternId}</Typography>
+                </Box>
+            );
+        }
+            else if (canvasPages.type === "config") {
+                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Typography variant="h6">{targetWorkflow.configId}</Typography>
+            </Box>
+        };
+    };
 
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -111,21 +105,27 @@ export function RflowComponent(props) {
             ...targetWorkflow,
             taskFlowSteps: updatedTaskFlowSteps,
         };
+
         console.log("change handleSave", updatedTaskflow);
         switch (canvasPages.type) {
             case "flow":
+                // console.log("targetWorkflow updated for flow", updatedTaskflow.flowId);
                     setFlowsMap((prevFlows) => ({
                         ...prevFlows,
-                        [canvasPages.flowId]: updatedTaskflow,
+                        [Number(canvasPages.flowId)]: updatedTaskflow,
                     }));
+                    // console.log("all flows",  designPatterns);
                     setPatternsFlow(updatedTaskflow);
                     setPatternsGenerate(0);
                     break;
     
                 case "pattern":
+                    // console.log("targetWorkflow updated for pattern", updatedTaskflow.patternId);
                     setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
                         pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
                     ));
+                    // console.log("all flows with patterns", designPatterns);
+                    // console.log("all flows", flowsMap);
                     setAgentsConfigPattern(updatedTaskflow);
                     setAgentsConfigGenerate(0);
                     break;
@@ -149,7 +149,7 @@ export function RflowComponent(props) {
                     console.warn("Unknown type:", canvasPages.type);
             }
     }; 
-    
+
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
         prevNodes.map((node) =>
@@ -176,6 +176,7 @@ export function RflowComponent(props) {
 
     return (
         <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
+        {headerDisplay()}
         <ReactFlow
          nodes={nodeListWithHandlers}
          edges={edges}
