@@ -11,15 +11,18 @@ import PageRfCompiledCfg from "./PageRfCompiledCfg";
 
 import { RfWithProvider } from "./FlowWithProvider";
 
-import { flowsMapAtom , patternsAtom} from "../global/GlobalStates";
+import { flowsMapAtom , patternsAtom, agentsConfigAtom} from "../global/GlobalStates";
 
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
+
     const [canvasPages] = useAtom(canvasPagesAtom);
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-    const { type, configId, patternId, flowId } = canvasPages || {};
-
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
+
+    const { type, configId, patternId, flowId } = canvasPages || {};
+    
     const handleSliderChange = (event, newValue) => {
         setActiveStep(newValue);
     };
@@ -119,7 +122,9 @@ const SharedCanvas = ( ) => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
-                return <PageRfConfigs />;
+                targetWorkflow = agentsConfig.find(config => config.configId === configId);
+                // return <PageRfConfigs />;
+                break;
             case 'pattern':
                 targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
                 break;
