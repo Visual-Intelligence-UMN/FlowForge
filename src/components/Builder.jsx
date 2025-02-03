@@ -119,10 +119,10 @@ const Builder = () => {
 
     return (
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>
-            <Box sx={{ width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Box sx={{  width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <TreeNav />
             </Box>
-            <Box sx={{ width: "60%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <Box sx={{ width: "65%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <SharedCanvas />
             </Box>
         </Box>

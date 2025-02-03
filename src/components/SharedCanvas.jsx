@@ -113,17 +113,21 @@ const SharedCanvas = ( ) => {
       let initialNodes;
       let initialEdges;
       let targetWorkflow;
+      let headerContent;
     const canvasPage = () => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
                 targetWorkflow = agentsConfig.find(config => config.configId === configId);
+                headerContent = "Config " + targetWorkflow.configId;
                 break;
             case 'pattern':
                 targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+                headerContent = "Flow with Patterns " + targetWorkflow.patternId;
                 break;
             case 'flow':
                 targetWorkflow = flowsMap[flowId];
+                headerContent = "Flow " + String(targetWorkflow.taskFlowId);
                 break;
             case 'compiled':
                 // return <PageRfCompiledCfg />;
@@ -133,18 +137,23 @@ const SharedCanvas = ( ) => {
             }
             if (targetWorkflow) {
                 ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow));
-                return <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />;
+                return (
+                    <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <Typography variant="h6">{headerContent}</Typography>
+                        <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
+                    </Box>
+                );
             }
         };
         return (
-            <Box sx={{ width:"100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "left" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "left" }}>
                 {renderCanvasContent()}
             </Box>
         );
     };
 
     return (
-        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Box sx={{display: "flex", flexDirection: "column", alignItems: "center" }}>
             {canvasPage()}
             {horizontalSlider()}
         </Box>

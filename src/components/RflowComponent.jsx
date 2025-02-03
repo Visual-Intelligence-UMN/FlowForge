@@ -71,28 +71,6 @@ export function RflowComponent(props) {
         }
     }, [canvasPages, nodes, edges]);
 
-    const headerDisplay = () => {
-        if (canvasPages.type === "flow") {
-            return (
-                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <Typography variant="h6">{targetWorkflow.flowId}</Typography>
-                </Box>
-            );
-        }
-        else if (canvasPages.type === "pattern") {
-            return (
-                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <Typography variant="h6">{targetWorkflow.patternId}</Typography>
-                </Box>
-            );
-        }
-            else if (canvasPages.type === "config") {
-                <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <Typography variant="h6">{targetWorkflow.configId}</Typography>
-            </Box>
-        };
-    };
-
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
             stepName: node.data.stepName,
@@ -175,8 +153,7 @@ export function RflowComponent(props) {
     }));
 
     return (
-        <div className="reactflow-wrapper"style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
-        {headerDisplay()}
+        <div className="reactflow-wrapper"style={{width: "1000px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
          nodes={nodeListWithHandlers}
          edges={edges}
