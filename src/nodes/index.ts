@@ -10,7 +10,9 @@ import SingleAgentNode  from './SingleAgentNode';
 import ExecutorNode from './ExecutorNode';
 import ReviewerNode from './ReviewerNode';
 import SupervisorNode from './SupervisorNode';
+
 import { FlowStepNode } from './FlowStepNode';
+import { FlowWithPatternsNode } from './FlowWithPatternsNode';
 
 export const initialNodes: AppNode[] = [
   { id: 'a', type: 'input', position: { x: 0, y: 0 }, data: { label: 'wire' } },
@@ -45,5 +47,6 @@ export const nodeTypes = {
   'executor': ExecutorNode,
   'reviewer': ReviewerNode,
   'supervisor': SupervisorNode,
-  flowStep: FlowStepNode,
+  'flowStep': FlowStepNode,
+  'patternsStep': FlowWithPatternsNode,
 } satisfies NodeTypes;

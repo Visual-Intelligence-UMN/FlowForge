@@ -128,21 +128,46 @@ export function RflowComponent(props) {
             }
     }; 
 
+    // const updateNodeField = (nodeId, fieldName, newValue) => {
+    //     setNodes((prevNodes) =>
+    //     prevNodes.map((node) =>
+    //         node.id === nodeId
+    //         ? {
+    //             ...node,
+    //             data: {
+    //                 ...node.data,
+    //                 [fieldName]: newValue, // dynamic field
+    //             },
+    //             }
+    //         : node
+    //     )
+    //     );
+    // };
+    
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
-        prevNodes.map((node) =>
-            node.id === nodeId
-            ? {
-                ...node,
-                data: {
-                    ...node.data,
-                    [fieldName]: newValue, // dynamic field
-                },
-                }
-            : node
-        )
+            prevNodes.map((node) =>
+                node.id === nodeId
+                    ? {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            // If modifying pattern fields, update pattern separately
+                            pattern: fieldName.startsWith("pattern.")
+                                ? {
+                                    ...node.data.pattern,
+                                    [fieldName.split(".")[1]]: newValue, // Extract "name" or "description"
+                                  }
+                                : node.data.pattern,
+                            // Otherwise, update normally
+                            ...(fieldName.startsWith("pattern.") ? {} : { [fieldName]: newValue }),
+                        },
+                    }
+                    : node
+            )
         );
     };
+    
 
     const nodeListWithHandlers = nodes.map((node) => ({
         ...node,

@@ -81,10 +81,10 @@ const SharedCanvas = ( ) => {
         );
     };
 
-    const convertToReactFlowFormat = (taskflow) => {
+    const convertToReactFlowFormat = (taskflow, nodeType="flowStep") => {
         const nodes = taskflow.taskFlowSteps.map((step, index) => ({
           id: `step-${index+1}`,
-          type: "flowStep",
+          type: nodeType,
           position: { x: index * 250, y: 100 },
           data: {
             stepName: step.stepName || `Step ${index + 1}`,
@@ -114,16 +114,20 @@ const SharedCanvas = ( ) => {
       let initialEdges;
       let targetWorkflow;
       let headerContent;
+      let nodeType;
+
     const canvasPage = () => {
         const renderCanvasContent = () => {
             switch (type) {
             case 'config':
                 targetWorkflow = agentsConfig.find(config => config.configId === configId);
                 headerContent = "Config " + targetWorkflow.configId;
+                nodeType = "flowStep"
                 break;
             case 'pattern':
                 targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
                 headerContent = "Flow with Patterns " + targetWorkflow.patternId;
+                nodeType = "patternsStep"
                 break;
             case 'flow':
                 targetWorkflow = flowsMap[flowId];
@@ -136,7 +140,7 @@ const SharedCanvas = ( ) => {
                 return <Typography>Canvas goes here</Typography>;
             }
             if (targetWorkflow) {
-                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow));
+                ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow, nodeType));
                 return (
                     <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <Typography variant="h6">{headerContent}</Typography>

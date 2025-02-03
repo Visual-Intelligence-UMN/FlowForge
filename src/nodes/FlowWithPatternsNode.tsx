@@ -1,9 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
-import { Box, Typography, TextField } from "@mui/material";
-
-export const FlowStepNode = ({ data, isConnectable,id }) => {
+import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
+import { designPatternsPool } from "../global/patternsMap";
+export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
-    console.log("FlowStepNode id", id);
+    console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeField } = data;
 
@@ -52,22 +52,11 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
       />
 
       <TextField
-        label="Step Label"
-        variant="outlined"
-        value={data.stepLabel || ""}
-        onChange={onChange("stepLabel")}
-        size="small"
-        sx={{ marginBottom: 1 }}
-        className="nodrag nopan nowheel"
-        fullWidth
-      />
-
-      <TextField
         label="Step Description"
         variant="outlined"
         multiline
         minRows={3}         
-        maxRows={7}     
+        maxRows={3}     
         value={data.stepDescription || ""}
         onChange={onChange("stepDescription")}
         sx={{ marginBottom: 1 }}
@@ -75,7 +64,20 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         fullWidth
       />
 
-      
+      <Select
+        label="Pattern"
+        value={data.pattern?.name || ""}
+        onChange={onChange("pattern.name")}
+        size="small"
+        sx={{ marginBottom: 1 , minWidth: 120 }}
+        className="nodrag nopan"
+      >
+        {designPatternsPool.map((pattern) => (
+          <MenuItem key={pattern.name} value={pattern.name}>
+            {pattern.name}
+          </MenuItem>
+        ))}
+      </Select>
 
       <Handle
         type="source"
