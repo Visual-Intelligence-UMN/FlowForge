@@ -46,7 +46,7 @@ const PageCompiledCfg = () => {
 
     const canvasDisplay = () => {
         return (
-            <div className="dndflow" style={{width: "100%", height: "100%"}}>
+            <div>
                 <DnDProvider>
                     {reactflowDisplay.map((flow) => (
                         <div className="reactflow-provider-wrapper" key={flow.key}>
@@ -66,7 +66,7 @@ const PageCompiledCfg = () => {
 
    
     return (
-        <div style={{width: 500, height: 500}}>
+        <div>
             {canvasDisplay()}
             {/* <StreamOutputRow langgraphRun={langgraphRun}/> */}
         </div>

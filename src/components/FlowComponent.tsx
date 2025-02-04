@@ -91,12 +91,12 @@ export function FlowPanelComponent(props) {
         setNodes(layoutedNodes);
         setEdges(layoutedEdges);
         // screenToFlowPosition.fitView();
-    }, []);
+    }, [props.nodes, props.edges]);
 
     const panOnDrag = [1,2]
 
     return (
-            <div className="reactflow-wrapper" style={{width: "800px", height: "800px", border: "1px solid #ddd"}}>
+            <div className="reactflow-wrapper" style={{width: "1300px", height: "800px", border: "1px solid #ddd"}}>
                 <ReactFlow
                 id = {props.id}
                 nodes={modifiedNodes} 

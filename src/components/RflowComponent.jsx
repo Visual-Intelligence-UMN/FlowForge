@@ -168,7 +168,7 @@ export function RflowComponent(props) {
     }));
 
     return (
-        <div className="reactflow-wrapper"style={{width: "1000px", height: "800px", border: "1px solid #ddd"}}>
+        <div className="reactflow-wrapper"style={{width: "1200px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
          key={`${canvasPages.type}-${canvasPages.flowId || ''}-${canvasPages.patternId || ''}-${canvasPages.configId || ''}`}
          nodes={nodeListWithHandlers}

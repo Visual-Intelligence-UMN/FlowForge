@@ -5,7 +5,7 @@ import { canvasPagesAtom } from "../global/GlobalStates";
 import PageCompiledCfg from "./PageCompiledCfg";
 
 import { RfWithProvider } from "./FlowWithProvider";
-
+import StageHighlight from "./StageHighlight";
 import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
 
 const SharedCanvas = ( ) => {
@@ -139,7 +139,6 @@ const SharedCanvas = ( ) => {
                     nodeType = "flowStep"
                     break;
                 case 'compiled':
-                    // return <PageRfCompiledCfg />;
                     targetWorkflow = compiledConfigs.find(config => config.configId === configId);
                     headerContent = "Compiled Config " + targetWorkflow.configId;
                     nodeType = "compiledStep"
@@ -157,7 +156,12 @@ const SharedCanvas = ( ) => {
                     </Box>
                 );
             } else {
-                return <PageCompiledCfg />;
+                return (
+                    <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <Typography variant="h6">{headerContent}</Typography>
+                        <PageCompiledCfg />
+                    </Box>
+                );
             }
         };
         return (
@@ -170,7 +174,8 @@ const SharedCanvas = ( ) => {
     return (
         <Box sx={{display: "flex", flexDirection: "column", alignItems: "center" }}>
             {canvasPage()}
-            {horizontalSlider()}
+            {/* {horizontalSlider()} */}
+            <StageHighlight />
         </Box>
     );
 };
