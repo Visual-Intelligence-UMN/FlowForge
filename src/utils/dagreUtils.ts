@@ -3,16 +3,16 @@ import dagre from 'dagre';
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 100; // Set your node width
-const nodeHeight = 100; // Set your node height
+const nodeWidth = 400; // Set your node width
+const nodeHeight = 500; // Set your node height
 
 // Function to handle Dagre layout
 const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     // direction: TB (top to bottom), LR (left to right)
   dagreGraph.setGraph({ 
     rankdir: direction, 
-    ranksep: 200,
-    nodesep: 200
+    ranksep: 100,
+    nodesep: 100
   });
 
   nodes.forEach((node) => {
@@ -32,8 +32,8 @@ const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     return {
       ...node,
       position: {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
+        x: nodeWithPosition.x - nodeWidth / 10,
+        y: nodeWithPosition.y - nodeHeight / 10,
       },
       style: { ...node.style, position: 'absolute' },
     };

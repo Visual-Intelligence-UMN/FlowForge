@@ -130,7 +130,7 @@ const CompileReactflow = async (config) => {
         graph: {
             nodes: reactflowNodes,
             edges: reactflowEdges,
-            viewport: { x: 0, y: 0, zoom: 1 }
+            // viewport: { x: 0, y: 0, zoom: 1 }
         },
         stepMetadata, // store the step metadata dictionary for langgraph
     }];
