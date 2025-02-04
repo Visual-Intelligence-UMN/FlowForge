@@ -3,6 +3,8 @@ import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTask
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
+import "../tree.css";
+
 const TreeNav = () => {
 
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -246,7 +248,7 @@ const TreeNav = () => {
   }
 
   return (
-    <svg width={treeNav.width} height={treeNav.height}>
+    <svg width={treeNav.width} height={treeNav.height} >
       {/* Render Edges */}
       {treeNav.edges?.map((edge, idx) => {
         const pathData = buildEdgePath(edge.points);
@@ -257,6 +259,7 @@ const TreeNav = () => {
             stroke="black"
             fill="none"
             style={{ pointerEvents: "none" }} 
+            className="edge-path"
           />
         );
       })}
@@ -270,8 +273,10 @@ const TreeNav = () => {
           <g
             key={node.id}
             transform={`translate(${nodeX}, ${nodeY})`}
+            className="node-group"
           >
             <rect
+              className="node-rect"
               width={node.width}
               height={node.height}
               fill={isHighlighted(node) ? "lightblue" : "white"}
@@ -284,6 +289,7 @@ const TreeNav = () => {
               textAnchor="middle"
               dominantBaseline="middle"
               style={{ pointerEvents: "none" }}
+              className="node-text"
             >
               {node.label}
             </text>

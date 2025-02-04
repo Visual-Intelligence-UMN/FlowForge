@@ -128,22 +128,6 @@ export function RflowComponent(props) {
             }
     }; 
 
-    // const updateNodeField = (nodeId, fieldName, newValue) => {
-    //     setNodes((prevNodes) =>
-    //     prevNodes.map((node) =>
-    //         node.id === nodeId
-    //         ? {
-    //             ...node,
-    //             data: {
-    //                 ...node.data,
-    //                 [fieldName]: newValue, // dynamic field
-    //             },
-    //             }
-    //         : node
-    //     )
-    //     );
-    // };
-    
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
             prevNodes.map((node) =>

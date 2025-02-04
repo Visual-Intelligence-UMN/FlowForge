@@ -1,0 +1,32 @@
+.edge-path {
+    /* This defines the stroke style and sets it up for animation */
+    stroke: #333;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 1000; 
+    stroke-dashoffset: 1000;
+    animation: draw-path 3s ease forwards;
+  }
+  
+  @keyframes draw-path {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  .node-group {
+    /* transition: transform 0.3s ease-in; */
+  }
+  
+  .node-rect {
+    stroke: #ccc;
+    stroke-width: 1;
+    /* transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out; */
+  }
+  .node-text {
+    fill: #333;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    pointer-events: none; 
+  }
+  
