@@ -49,27 +49,29 @@ export function RflowComponent(props) {
         (connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
     );
-    // console.log("targetWorkflow", targetWorkflow);
-    useEffect(() => {
-        setNodes(props.nodes || []);
-        setEdges(props.edges || []);
-    }, [targetWorkflow]);
 
     useEffect(() => {
-        let newLayoutedNodes;
-        let newLayoutedEdges;
-        if (nodes.length > 3) {
-            ({ nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges));
+        // To make sure the layout is always after the nodes and edges are set
+        // 1) Set new nodes/edges from props
+        const nextNodes = props.nodes || [];
+        const nextEdges = props.edges || [];
+        // setNodes(nextNodes);
+        // setEdges(nextEdges);
+
+        // 2) Immediately lay them out
+        let layoutedNodes;
+        let layoutedEdges;
+        if (nextNodes.length > 3) {
+            ({ nodes: layoutedNodes, edges: layoutedEdges } = getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
         } else {
-            ({ nodes: newLayoutedNodes, edges: newLayoutedEdges } = getMultiLineLayoutedNodesAndEdges(nodes, edges));
+            ({ nodes: layoutedNodes, edges: layoutedEdges } = getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
         }
-        if (!isEqual(nodes, newLayoutedNodes)) {
-            setNodes([...newLayoutedNodes]); // Force ReactFlow update
-        }
-        if (!isEqual(edges, newLayoutedEdges)) {
-        setEdges([...newLayoutedEdges]);
-        }
-    }, [canvasPages, nodes, edges, targetWorkflow]);
+       
+        setNodes(layoutedNodes);
+        setEdges(layoutedEdges);
+
+      }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
+      
 
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -84,26 +86,21 @@ export function RflowComponent(props) {
             taskFlowSteps: updatedTaskFlowSteps,
         };
 
-        console.log("change handleSave", updatedTaskflow);
+        // console.log("change handleSave", updatedTaskflow);
         switch (canvasPages.type) {
             case "flow":
-                // console.log("targetWorkflow updated for flow", updatedTaskflow.flowId);
-                    setFlowsMap((prevFlows) => ({
-                        ...prevFlows,
-                        [Number(canvasPages.flowId)]: updatedTaskflow,
-                    }));
-                    // console.log("all flows",  designPatterns);
+                setFlowsMap((prevFlows) => ({
+                    ...prevFlows,
+                    [Number(canvasPages.flowId)]: updatedTaskflow,
+                }));
                     setPatternsFlow(updatedTaskflow);
                     setPatternsGenerate(0);
                     break;
     
                 case "pattern":
-                    // console.log("targetWorkflow updated for pattern", updatedTaskflow.patternId);
                     setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
                         pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
                     ));
-                    // console.log("all flows with patterns", designPatterns);
-                    // console.log("all flows", flowsMap);
                     setAgentsConfigPattern(updatedTaskflow);
                     setAgentsConfigGenerate(0);
                     break;
@@ -140,19 +137,17 @@ export function RflowComponent(props) {
                             pattern: fieldName.startsWith("pattern.")
                                 ? {
                                     ...node.data.pattern,
-                                    [fieldName.split(".")[1]]: newValue, // Extract "name" or "description"
+                                    [fieldName.split(".")[1]]: newValue, 
                                   }
                                 : node.data.pattern,
     
-                            // Update config fields
                             config: fieldName.startsWith("config.")
                                 ? {
                                     ...node.data.config,
-                                    [fieldName.split(".")[1]]: newValue, // Extract "type", "nodes", or "edges"
+                                    [fieldName.split(".")[1]]: newValue, 
                                   }
                                 : node.data.config,
-    
-                            // Otherwise, update normally
+
                             ...(fieldName.startsWith("pattern.") || fieldName.startsWith("config.")
                                 ? {}
                                 : { [fieldName]: newValue }),
@@ -162,7 +157,6 @@ export function RflowComponent(props) {
             )
         );
     };
-    
     
 
     const nodeListWithHandlers = nodes.map((node) => ({
@@ -176,6 +170,7 @@ export function RflowComponent(props) {
     return (
         <div className="reactflow-wrapper"style={{width: "1000px", height: "800px", border: "1px solid #ddd"}}>
         <ReactFlow
+         key={`${canvasPages.type}-${canvasPages.flowId || ''}-${canvasPages.patternId || ''}-${canvasPages.configId || ''}`}
          nodes={nodeListWithHandlers}
          edges={edges}
          nodeTypes={nodeTypes}

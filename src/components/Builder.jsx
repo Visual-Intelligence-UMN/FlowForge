@@ -61,7 +61,7 @@ const Builder = () => {
 
     useEffect(() => {
         if (compliedGenerate === 0 && selectedConfig) {
-            console.log("builder config to compile", selectedConfig);
+            // console.log("builder config to compile", selectedConfig);
             OrganizeReactflow(selectedConfig, setCompiledConfigs);
             setCompliedGenerate(1);
             setSelectedConfig(null);
@@ -96,12 +96,13 @@ const Builder = () => {
     useEffect(() => {
         if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
             const newAddedConfigs = agentsConfig.filter(config => config.patternId.split("-")[0] === canvasPages.flowId.toString() && config.patternId === canvasPages.patternId.toString());
-            const randomConfig = newAddedConfigs[Math.floor(Math.random() * newAddedConfigs.length)];
+            const newAddedConfig = newAddedConfigs[0];
+            // console.log("newAddedConfig", newAddedConfig);
             setCanvasPages({
                 type: "config",
                 flowId: canvasPages.flowId,
                 patternId: canvasPages.patternId,
-                configId: randomConfig.configId,
+                configId: newAddedConfig.configId,
             });
         }
     }, [agentsConfig]);
@@ -109,12 +110,12 @@ const Builder = () => {
     useEffect(() => {
         if (canvasPages.type === "config" && compiledConfigs.length > 0) {
             const newAddedConfigs = compiledConfigs.filter(config => config.configId === canvasPages.configId.toString());
-            const randomConfig = newAddedConfigs[Math.floor(Math.random() * newAddedConfigs.length)];
+            const newAddedConfig = newAddedConfigs[0];
             setCanvasPages({
                 type: "compiled",
                 flowId: canvasPages.flowId,
                 patternId: canvasPages.patternId,
-                configId: randomConfig.configId,
+                configId: newAddedConfig.configId,
             });
         }
     }, [compiledConfigs]);

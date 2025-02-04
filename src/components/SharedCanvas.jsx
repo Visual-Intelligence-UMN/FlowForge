@@ -82,6 +82,8 @@ const SharedCanvas = ( ) => {
     };
 
     const convertToReactFlowFormat = (taskflow, nodeType) => {
+        
+        // console.log("taskflow to transform nodes and edges", taskflow);
         const nodes = taskflow.taskFlowSteps.map((step, index) => ({
           id: `step-${index+1}`,
           type: nodeType,
@@ -105,6 +107,7 @@ const SharedCanvas = ( ) => {
             }
             : null
         ).filter(Boolean);
+        // console.log("nodes and edges after transform", nodes, edges);
         
         return { nodes, edges };
       };
@@ -116,34 +119,37 @@ const SharedCanvas = ( ) => {
       let nodeType;
 
     const canvasPage = () => {
+        // console.log("canvasPage", canvasPages);
+        targetWorkflow = null;
         const renderCanvasContent = () => {
             switch (type) {
-            case 'config':
-                targetWorkflow = agentsConfig.find(config => config.configId === configId);
-                headerContent = "Config " + targetWorkflow.configId;
-                nodeType = "patternsStep"
-                break;
-            case 'pattern':
-                targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
-                headerContent = "Flow with Patterns " + targetWorkflow.patternId;
-                nodeType = "patternsStep"
-                break;
-            case 'flow':
-                targetWorkflow = flowsMap[flowId];
-                headerContent = "Flow " + String(targetWorkflow.taskFlowId);
-                nodeType = "flowStep"
-                break;
-            case 'compiled':
-                // return <PageRfCompiledCfg />;
-                targetWorkflow = compiledConfigs.find(config => config.configId === configId);
-                headerContent = "Compiled Config " + targetWorkflow.configId;
-                nodeType = "compiledStep"
-                break;
-            default:
-                return <Typography>Canvas goes here</Typography>;
+                case 'config':
+                    targetWorkflow = agentsConfig.find(config => config.configId === configId);
+                    headerContent = "Config " + targetWorkflow.configId;
+                    nodeType = "configStep"
+                    break;
+                case 'pattern':
+                    targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
+                    headerContent = "Flow with Patterns " + targetWorkflow.patternId;
+                    nodeType = "patternsStep"
+                    break;
+                case 'flow':
+                    targetWorkflow = flowsMap[flowId];
+                    headerContent = "Flow " + String(targetWorkflow.taskFlowId);
+                    nodeType = "flowStep"
+                    break;
+                case 'compiled':
+                    // return <PageRfCompiledCfg />;
+                    targetWorkflow = compiledConfigs.find(config => config.configId === configId);
+                    headerContent = "Compiled Config " + targetWorkflow.configId;
+                    nodeType = "compiledStep"
+                    break;
+                default:
+                    return <Typography>Canvas goes here</Typography>;
             }
             if (targetWorkflow && type !== "compiled") {
                 ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow, nodeType));
+                // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
                 return (
                     <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <Typography variant="h6">{headerContent}</Typography>

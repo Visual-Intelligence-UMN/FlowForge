@@ -121,7 +121,7 @@ const CompileReactflow = async (config) => {
         }
     });
 
-    console.log("Step Metadata Dictionary:", stepMetadata); 
+    // console.log("Step Metadata Dictionary:", stepMetadata); 
 
     // compile reactflow output
     const compiledReactflow = [{
@@ -135,7 +135,7 @@ const CompileReactflow = async (config) => {
         stepMetadata, // store the step metadata dictionary for langgraph
     }];
 
-    console.log("Compiled ReactFlow:", compiledReactflow);
+    // console.log("Compiled ReactFlow:", compiledReactflow);
     return compiledReactflow;
 };
 
