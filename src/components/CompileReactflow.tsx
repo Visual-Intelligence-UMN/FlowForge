@@ -5,6 +5,8 @@ const CompileReactflow = async (config) => {
     const { taskFlowSteps, configId } = config;
     // const configId = [taskId, taskFlowId, patternId].join("_");
 
+    console.log("config to compile for reactflow", config);
+
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
     let stepMetadata = {}; // Stores input node, output nodes, and output mode for each step

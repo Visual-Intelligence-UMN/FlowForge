@@ -15,7 +15,7 @@ const GenerateRunnableConfig = async (workflow) => {
     // generate the config (nodes, edges) for each step based on its pattern
     
     for (const step of taskFlowSteps) {
-        const { stepName, stepLabel, stepDescription, pattern } = step;
+        const { stepName, stepLabel, stepDescription, pattern, config } = step;
         
         if (handlersMap[pattern.name]) {
             const config = handlersMap[pattern.name](step);

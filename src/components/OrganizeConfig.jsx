@@ -11,7 +11,6 @@ function reassignConfigIds(patternId, configs) {
     const nextCount = patternIdToConfigCounter[patternId]++;
     return {
       ...config,
-      originalConfigId: config.configId,
       configId: `${patternId}-${nextCount}`,
       patternId,
     };
@@ -24,6 +23,7 @@ const OrganizeConfig = async (pattern, setAgentsConfig) => {
     const assignedConfigs = reassignConfigIds(pattern.patternId, generatedAgentsConfig);
     // Merge into the global agentsConfig
     // console.log("assignedConfigs", assignedConfigs);
+    // console.log("new config to add to list", assignedConfigs);
     setAgentsConfig((previousAgentsConfig) => {
         const updatedAgentsConfig = [];
         let replaced = false;
@@ -38,8 +38,10 @@ const OrganizeConfig = async (pattern, setAgentsConfig) => {
         if (!replaced) {
           updatedAgentsConfig.push(...assignedConfigs);
         }
+        // console.log("newly updatedAgentsConfig list", updatedAgentsConfig);
         return updatedAgentsConfig;
       });
+      
 }
 
 export default OrganizeConfig;

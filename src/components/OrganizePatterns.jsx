@@ -12,7 +12,6 @@ function reassignPatternIds(flowId, patterns) {
       const nextCount = flowIdToPatternCounter[flowId]++;
       return {
         ...pattern,
-        originalPatternId: pattern.patternId,
         patternId: `${flowId}-${nextCount}`,
       };
     });

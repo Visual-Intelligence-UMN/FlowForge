@@ -185,6 +185,7 @@ const TreeNav = () => {
     } else if (layer === "pattern") {
       console.log("flowsMap", flowsMap);
       console.log("patterns", patterns);
+      console.log("agentsConfig", agentsConfig);
         // console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
         const patternId = node.data.id;
         const flowId = patternId.split("-")[0];
@@ -199,6 +200,7 @@ const TreeNav = () => {
         });
     } else if (layer === "config") {
         const configId = node.data.id;
+        console.log("configs", agentsConfig);
         // console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
         const [ flowId, patternPart ] = configId.split("-");
         const patternId = `${flowId}-${patternPart}`;

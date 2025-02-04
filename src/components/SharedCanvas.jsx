@@ -6,7 +6,7 @@ import PageCompiledCfg from "./PageCompiledCfg";
 
 import { RfWithProvider } from "./FlowWithProvider";
 
-import { flowsMapAtom , patternsAtom, agentsConfigAtom} from "../global/GlobalStates";
+import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
 
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
@@ -15,7 +15,7 @@ const SharedCanvas = ( ) => {
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
-
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const { type, configId, patternId, flowId } = canvasPages || {};
     
     const handleSliderChange = (event, newValue) => {
@@ -81,7 +81,7 @@ const SharedCanvas = ( ) => {
         );
     };
 
-    const convertToReactFlowFormat = (taskflow, nodeType="flowStep") => {
+    const convertToReactFlowFormat = (taskflow, nodeType) => {
         const nodes = taskflow.taskFlowSteps.map((step, index) => ({
           id: `step-${index+1}`,
           type: nodeType,
@@ -92,10 +92,9 @@ const SharedCanvas = ( ) => {
             stepDescription: step.stepDescription || "",
             label: step.stepLabel || `Step ${index + 1}`,
             pattern: step.pattern || { name: "", description: "" },
-            config: step.config || { type: "", nodes: [], edges: [] },
+            config: step.config || { type: "none", nodes: [], edges: [] },
           },
         }));
-        
         const edges = nodes.map((node, index) =>
           index < nodes.length - 1
             ? { 
@@ -122,7 +121,7 @@ const SharedCanvas = ( ) => {
             case 'config':
                 targetWorkflow = agentsConfig.find(config => config.configId === configId);
                 headerContent = "Config " + targetWorkflow.configId;
-                nodeType = "flowStep"
+                nodeType = "patternsStep"
                 break;
             case 'pattern':
                 targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
@@ -132,14 +131,18 @@ const SharedCanvas = ( ) => {
             case 'flow':
                 targetWorkflow = flowsMap[flowId];
                 headerContent = "Flow " + String(targetWorkflow.taskFlowId);
+                nodeType = "flowStep"
                 break;
             case 'compiled':
                 // return <PageRfCompiledCfg />;
-                return <PageCompiledCfg />;
+                targetWorkflow = compiledConfigs.find(config => config.configId === configId);
+                headerContent = "Compiled Config " + targetWorkflow.configId;
+                nodeType = "compiledStep"
+                break;
             default:
                 return <Typography>Canvas goes here</Typography>;
             }
-            if (targetWorkflow) {
+            if (targetWorkflow && type !== "compiled") {
                 ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow, nodeType));
                 return (
                     <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -147,6 +150,8 @@ const SharedCanvas = ( ) => {
                         <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
                     </Box>
                 );
+            } else {
+                return <PageCompiledCfg />;
             }
         };
         return (

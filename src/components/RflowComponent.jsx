@@ -49,7 +49,7 @@ export function RflowComponent(props) {
         (connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
     );
-
+    // console.log("targetWorkflow", targetWorkflow);
     useEffect(() => {
         setNodes(props.nodes || []);
         setEdges(props.edges || []);
@@ -69,7 +69,7 @@ export function RflowComponent(props) {
         if (!isEqual(edges, newLayoutedEdges)) {
         setEdges([...newLayoutedEdges]);
         }
-    }, [canvasPages, nodes, edges]);
+    }, [canvasPages, nodes, edges, targetWorkflow]);
 
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -120,7 +120,7 @@ export function RflowComponent(props) {
                     setCompiledConfigs(prevConfigs => prevConfigs.map(config =>
                         config.configId === canvasPages.configId ? updatedTaskflow : config
                     ));
-                    setCompliedGenerate(0);
+                    // setCompliedGenerate(0);
                     break;
     
                 default:
@@ -152,21 +152,33 @@ export function RflowComponent(props) {
                         ...node,
                         data: {
                             ...node.data,
-                            // If modifying pattern fields, update pattern separately
+                            // Update pattern fields
                             pattern: fieldName.startsWith("pattern.")
                                 ? {
                                     ...node.data.pattern,
                                     [fieldName.split(".")[1]]: newValue, // Extract "name" or "description"
                                   }
                                 : node.data.pattern,
+    
+                            // Update config fields
+                            config: fieldName.startsWith("config.")
+                                ? {
+                                    ...node.data.config,
+                                    [fieldName.split(".")[1]]: newValue, // Extract "type", "nodes", or "edges"
+                                  }
+                                : node.data.config,
+    
                             // Otherwise, update normally
-                            ...(fieldName.startsWith("pattern.") ? {} : { [fieldName]: newValue }),
+                            ...(fieldName.startsWith("pattern.") || fieldName.startsWith("config.")
+                                ? {}
+                                : { [fieldName]: newValue }),
                         },
                     }
                     : node
             )
         );
     };
+    
     
 
     const nodeListWithHandlers = nodes.map((node) => ({

@@ -52,6 +52,7 @@ const Builder = () => {
 
     useEffect(() => {
         if (agentsConfigGenerate === 0 && agentsConfigPattern) {
+            // console.log("builder config to set up", agentsConfigPattern);
             OrganizeConfig(agentsConfigPattern, setAgentsConfig);
             setAgentsConfigGenerate(1);
             setAgentsConfigPattern(null);
@@ -60,6 +61,7 @@ const Builder = () => {
 
     useEffect(() => {
         if (compliedGenerate === 0 && selectedConfig) {
+            console.log("builder config to compile", selectedConfig);
             OrganizeReactflow(selectedConfig, setCompiledConfigs);
             setCompliedGenerate(1);
             setSelectedConfig(null);
