@@ -4,7 +4,7 @@ import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
 import "../tree.css";
-
+import { Typography, Box } from "@mui/material";
 const TreeNav = () => {
 
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -250,7 +250,17 @@ const TreeNav = () => {
     return false;
   }
 
+  const emptyTreeNav = () => {
+    return (
+      <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", height: "900px"}}>
+        <Typography variant="h6" sx={{p: 2}}>Navigation Tree waits for task to be selected</Typography>
+      </Box>
+    );
+  }
+
   return (
+    <>
+    {treeNav.nodes?.length > 0 ? (
     <svg width={treeNav.width} height={treeNav.height} >
       {/* Render Edges */}
       {treeNav.edges?.map((edge, idx) => {
@@ -300,6 +310,10 @@ const TreeNav = () => {
         );
       })}
     </svg>
+  ) : (
+    emptyTreeNav()
+  )}
+  </>
   );
 }
 

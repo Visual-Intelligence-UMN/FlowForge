@@ -153,7 +153,7 @@ const SharedCanvas = ( ) => {
                 // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
                 if (type === "pattern") {
                     return (
-                        <Box sx={{width: "1500px", height: "1000px", border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center", padding: 2}}>
+                        <Box sx={{width: "1500px", height: "900px", border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center", padding: 2}}>
                             <Typography variant="h6" sx={{ marginBottom: 1 }}>
                                 {headerContent}
                             </Typography>
@@ -188,12 +188,22 @@ const SharedCanvas = ( ) => {
         );
     };
 
+    const emptyCanvas = () => {
+        return (
+            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", width: "1500px", height: "900px"}}>
+                <Typography variant="h6">Canvas page waits for task to be selected</Typography>
+            </Box>
+        );
+    };
+
     return (
+        canvasPages.type ?
         <Box sx={{display: "flex", flexDirection: "column", alignItems: "center" }}>
             {canvasPage()}
             {/* {horizontalSlider()} */}
             <StageHighlight />
         </Box>
+        : emptyCanvas()
     );
 };
 

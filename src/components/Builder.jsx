@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
 import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../global/GlobalStates';
-
+import StreamOutputRow from './StreamOutputRow';
 const Builder = () => {
     // atoms for task flows 
     const [selectedTask] = useAtom(selectedTaskAtom);
@@ -120,7 +120,9 @@ const Builder = () => {
         }
     }, [compiledConfigs]);
 
+
     return (
+        <>
         <Box sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3}}>
             <Box sx={{  width: "30%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <TreeNav />
@@ -129,6 +131,8 @@ const Builder = () => {
                 <SharedCanvas />
             </Box>
         </Box>
+        <StreamOutputRow />
+        </>
     );
 };
 

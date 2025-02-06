@@ -181,12 +181,14 @@ export function RflowComponent(props) {
          ></ReactFlow>
 
          <Button 
-         size="small"
+         size="large"
          onClick={(e) => {
             e.stopPropagation();
             handleSave();
          }}
-         sx={{ textTransform: "none", pt: 2 }}
+         sx={{ textTransform: "none", 
+            pt: 2,
+            }}
          >Continue</Button>
          </div>
     )
