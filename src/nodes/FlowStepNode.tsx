@@ -46,7 +46,15 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         value={data.stepName || ""}
         onChange={onChange("stepName")}
         size="small"
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1 ,
+          backgroundColor: "#e3f2fd",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#90caf9",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#42a5f5",
+          }
+        }}
         className="nodrag nopan nowheel"
         fullWidth
       />
@@ -57,7 +65,15 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         value={data.stepLabel || ""}
         onChange={onChange("stepLabel")}
         size="small"
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1 ,
+          backgroundColor: "#e3f2fd",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#90caf9",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#42a5f5",
+          }
+        }}
         className="nodrag nopan nowheel"
         fullWidth
       />
@@ -70,7 +86,15 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         maxRows={7}     
         value={data.stepDescription || ""}
         onChange={onChange("stepDescription")}
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1 ,
+          backgroundColor: "#e3f2fd",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#90caf9",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#42a5f5",
+          }
+        }}
         className="nodrag nopan"
         fullWidth
       />

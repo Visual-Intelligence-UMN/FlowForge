@@ -202,6 +202,7 @@ const TreeNav = () => {
             configId: childrenConfigs[0]?.configId,
         });
     } else if (layer === "config") {
+      console.log("config node clicked", agentsConfig);
         const configId = node.data.id;
         console.log("canvasPages when config clicked", canvasPages);
         // console.log("configs", agentsConfig);

@@ -25,7 +25,7 @@ export const FlowConfigNode = ({ data, isConnectable,id }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2
+        gap: 1
       }}
     >
       {/* Input / output handles */}
@@ -44,19 +44,19 @@ export const FlowConfigNode = ({ data, isConnectable,id }) => {
         {data.stepName}
       </Typography>
 
-      
+{/*       
       <TextField
         label="Step Name"
         variant="outlined"
         value={data.stepName || ""}
         onChange={onChange("stepName")}
         size="small"
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1}}
         className="nodrag nopan nowheel"
         fullWidth
-      />
+      /> */}
 
-
+{/* 
       <Select
         label="Pattern"
         value={data.pattern?.name || ""}
@@ -70,7 +70,58 @@ export const FlowConfigNode = ({ data, isConnectable,id }) => {
             {pattern.name}
           </MenuItem>
         ))}
-      </Select>
+      </Select> */}
+
+      {/* Display Config Info */}
+      
+      <Box
+        sx={{
+          width: "100%",
+          padding: 0,
+          marginTop: 0,
+        }}
+      >
+        {/* <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+          Config Type:
+        </Typography>
+        <Typography variant="subtitle2" sx={{ marginBottom: 1 }}>
+          {data.config.type}
+        </Typography> */}
+
+        <Typography variant="subtitle1">
+          Config Agent
+        </Typography>
+        {data.config.nodes && data.config.nodes.length > 0 ? (
+          data.config.nodes.map((node, index) => (
+            <Box
+              key={index}
+              sx={{
+                border: "1px solid #ddd",
+                borderRadius: 2,
+                padding: 1,
+                marginTop: 1,
+                backgroundColor: "#e3f2fd",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#90caf9",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#42a5f5",
+                }
+              }}
+            >
+              <Typography variant="body2">
+                <strong>Type:</strong> {node.type}
+              </Typography>
+              <Typography variant="body2">
+                <strong>Description:</strong> {node.description}
+              </Typography>
+            </Box>
+          ))
+        ) : (
+          <Typography variant="body2">No config nodes available</Typography>
+        )}
+      </Box>
+      
 
       <Handle
         type="source"

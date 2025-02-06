@@ -33,7 +33,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         position={Position.Left}
         id={`in-${id}`}
         isConnectable={isConnectable}
-        style={{ top: "50%", background: "#555" }}
+        style={{ top: "50%", background: "blue" }}
       />
 
       <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
@@ -46,7 +46,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         value={data.stepName || ""}
         onChange={onChange("stepName")}
         size="small"
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1}}
         className="nodrag nopan nowheel"
         fullWidth
       />
@@ -59,7 +59,9 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         maxRows={3}     
         value={data.stepDescription || ""}
         onChange={onChange("stepDescription")}
-        sx={{ marginBottom: 1 }}
+        sx={{ marginBottom: 1 , 
+          
+        }}
         className="nodrag nopan"
         fullWidth
       />
@@ -69,7 +71,17 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         value={data.pattern?.name || ""}
         onChange={onChange("pattern.name")}
         size="small"
-        sx={{ marginBottom: 1 , minWidth: 120 }}
+        sx={{ 
+          marginBottom: 1 , 
+          minWidth: 120,
+          backgroundColor: "#e3f2fd",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#90caf9",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#42a5f5",
+          }
+        }}
         className="nodrag nopan"
       >
         {designPatternsPool.map((pattern) => (
