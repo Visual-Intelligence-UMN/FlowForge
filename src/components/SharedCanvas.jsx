@@ -8,6 +8,8 @@ import { RfWithProvider } from "./FlowWithProvider";
 import StageHighlight from "./StageHighlight";
 import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
 
+import {PatternsMap} from "./PatternsPoolSidebar";
+
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
 
@@ -149,12 +151,27 @@ const SharedCanvas = ( ) => {
             if (targetWorkflow && type !== "compiled") {
                 ({ nodes: initialNodes, edges: initialEdges } = convertToReactFlowFormat(targetWorkflow, nodeType));
                 // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
-                return (
-                    <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
-                        <Typography variant="h6">{headerContent}</Typography>
-                        <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
-                    </Box>
-                );
+                if (type === "pattern") {
+                    return (
+                        <Box sx={{width: "1500px", height: "1000px", border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center", padding: 2}}>
+                            <Typography variant="h6" sx={{ marginBottom: 1 }}>
+                                {headerContent}
+                            </Typography>
+                            <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "100%", justifyContent: "center"}}>
+                                <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
+                                <PatternsMap />
+                            </Box>
+                        </Box>
+                    );
+                }
+                else {
+                    return (
+                        <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                            <Typography variant="h6">{headerContent}</Typography>
+                            <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
+                        </Box>
+                    );
+                }
             } else {
                 return (
                     <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
