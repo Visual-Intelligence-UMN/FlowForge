@@ -27,7 +27,9 @@ async function createAgent({
     });
 
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");
+    // console.log("toolNames", toolNames);
     const formattedTools = tools.map((t) => convertToOpenAITool(toolsMap[t]));
+    // console.log("formattedTools", formattedTools);
 
     let prompt = ChatPromptTemplate.fromMessages([
         ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
@@ -39,7 +41,6 @@ async function createAgent({
     });
     return prompt.pipe(llm.bind({ tools: formattedTools }));
 };
-
 
 // function to define the agent
 async function create_agent({

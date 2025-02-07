@@ -216,6 +216,7 @@ const TreeNav = () => {
             configId: configId,
         });
     } else if (layer === "compiled") {
+        console.log("compiled node clicked", compiledConfigs);
         const configId = node.data.id;
         // console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
         setCanvasPages({

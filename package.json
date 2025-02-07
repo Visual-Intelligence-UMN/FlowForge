@@ -24,6 +24,7 @@
     "dotenv": "^16.4.5",
     "graphlib": "^2.1.8",
     "jotai": "^2.10.3",
+    "jotai-utils": "^0.0.0",
     "langsmith": "^0.1.55",
     "lodash.isequal": "^4.5.0",
     "mui": "^0.0.1",

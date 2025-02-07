@@ -5,7 +5,7 @@ import OrganizeTaskFlows from './OrganizeTaskFlows';
 import OrganizePatterns from './OrganizePatterns';
 import OrganizeConfig from './OrganizeConfig';
 import OrganizeReactflow from './OrganizeReactflow';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
 import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../global/GlobalStates';
@@ -31,6 +31,7 @@ const Builder = () => {
     const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
     const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
 
+    const [langgraphRunSelected, setLanggraphRunSelected] = useState(null);
     // atoms for canvas pages
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
     const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -120,6 +121,12 @@ const Builder = () => {
         }
     }, [compiledConfigs]);
 
+    useEffect(() => {
+        if (canvasPages.type === "compiled") {
+            const langgraphRun = compiledConfigs.find(config => config.configId === canvasPages.configId.toString()).langgraphRun;
+            setLanggraphRunSelected(langgraphRun);
+        }
+    }, [canvasPages, compiledConfigs]);
 
     return (
         <>
@@ -131,7 +138,9 @@ const Builder = () => {
                 <SharedCanvas />
             </Box>
         </Box>
-        <StreamOutputRow />
+        <Box sx={{ width: "90%", display: "flex", flexDirection: "row", gap: 3, justifyContent: "center", alignItems: "center" }}>
+            <StreamOutputRow langgraphRun={langgraphRunSelected} />
+        </Box>
         </>
     );
 };

@@ -3,8 +3,8 @@ import dagre from 'dagre';
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 400; // Set your node width
-const nodeHeight = 500; // Set your node height
+const nodeWidth = 200; // Set your node width
+const nodeHeight = 200; // Set your node height
 
 // Function to handle Dagre layout
 const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
@@ -45,7 +45,7 @@ const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
 const getMultiLineLayoutedNodesAndEdges = (nodes, edges, nodesPerRow = 3) => {
 
   const horizontalSpacing = 400; // space between columns
-  const verticalSpacing = 500;   // space between rows
+  const verticalSpacing = 400;   // space between rows
 
   const layoutedNodes = nodes.map((node, index) => {
     const col = index % nodesPerRow;
