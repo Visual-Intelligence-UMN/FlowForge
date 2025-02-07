@@ -3,6 +3,7 @@ import { RunnableConfig } from "@langchain/core/runnables";
 
 const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentState) => {
     for (const node of nodesInfo) {
+        console.log("node", node);
         const createdAgent = async () => await createAgent({
             llmOption: node.data.llm,
             tools: node.data.tools,

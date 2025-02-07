@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { taskList } from '../global/GlobalStates';
+import { ResetTask } from './ResetTask';
 
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
@@ -28,6 +29,9 @@ function TaskPanel() {
     const task = taskList[index];
     setSelectedTask({ ...task, uploadedFile: null });
     setFilePreview(null);
+
+    ResetTask();
+
   };
 
   const handleInputChange = (e) => {

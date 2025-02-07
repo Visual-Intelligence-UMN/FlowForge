@@ -4,7 +4,7 @@ import TaskFlows from './components/PanelTaskFlows';
 import PatternsPanel from './components/PanelPatterns';
 import AgentsPanel from './components/PanelConfigs';
 import ReactFlowPanel from './components/PanelReactFlow';
-
+import Builder from './components/Builder';
 import './App.css';
 
 const headerStyle: React.CSSProperties = {
@@ -26,6 +26,9 @@ const Construction = () => {
             <header style={headerStyle}>
                 FlowBuilder
             </header>
+            <div className="builder-container">
+                <Builder />
+            </div>
             <div style={{ marginTop: '30px', padding: '20px 0px', }}>
                 <div className="pre-construction section">
                     <TaskPanel />
@@ -43,10 +46,26 @@ const Construction = () => {
     );
 };
 
+const NewConstruction = () => {
+    return (
+        <div className="main-container">
+            <header style={headerStyle}>
+                FlowBuilder
+            </header>
+            <div className="pre-construction section">
+                <TaskPanel />
+            </div>
+            <div className="builder-container">
+                <Builder />
+            </div>
+        </div>
+    );
+};
+
 function App() {
     return (
         <div>
-            <Construction />
+            <NewConstruction />
         </div>
 
     );

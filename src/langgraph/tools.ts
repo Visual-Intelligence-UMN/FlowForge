@@ -17,11 +17,11 @@ const loader_tool = tool(async (input) => {
 });
 
 const search_tool = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
-// const search_tool = [new TavilySearchResults({ maxResults: 3, })]
+// const search_tool = [new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY })]
 
 const toolsMap = {
   "tool_PDFLoader": loader_tool,
-  "tool_search": search_tool,
+  "tool_WebSearch": search_tool,
 }
 
 export { toolsMap, loader_tool, search_tool };

@@ -20,12 +20,14 @@ import '@xyflow/react/dist/style.css';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {
+
     const {screenToFlowPosition} = useReactFlow();
     const updateNodeData = props.updateNodeData;
+
     const [nodes, setNodes, onNodesChange] = useNodesState(props.graph.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.graph.edges || []);
     const [type] = useDnD();
-    const [rfInstance, setRfInstance] = useState(null);
+    // const [rfInstance, setRfInstance] = useState(null);
 
     const getId = (id: string) => `dndnode_${id}_${nodeId++}`;
 
@@ -33,6 +35,17 @@ export function FlowPanelComponent(props) {
         (connection) => setEdges((edges) => addEdge(connection, edges)),
         [setEdges]
     );
+
+    useEffect(() => {
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+          nodes,
+          edges
+        );
+        setNodes(layoutedNodes);
+        setEdges(layoutedEdges);
+        // screenToFlowPosition.fitView();
+    }, [props.nodes, props.edges]);
+
 
     const onDragOver = useCallback((event: any) => {
         event.preventDefault();
@@ -55,16 +68,8 @@ export function FlowPanelComponent(props) {
         };
         setNodes((nds: any) => nds.concat(newNode));
     }, [type, screenToFlowPosition]);
-    
-    // const onSave = useCallback(() => {
-    //     if (rfInstance) {
-    //         const flow = rfInstance.toObject();
-    //         // localStorage.setItem(`flow_${props.id}`, JSON.stringify(flow));
-    //         setFlows((prev) => ({...prev, [props.id]: flow}));
-    //     }
-    // }, [rfInstance]);
 
-     // Sync node updates with Jotai state
+
      const syncNodeChanges = (nodeId, key, value) => {
         updateNodeData(props.id, nodeId, key, value);
         setNodes((nds) =>
@@ -74,7 +79,6 @@ export function FlowPanelComponent(props) {
         );
     };
 
-    // Attach `updateNodeData` to each node before rendering
     const modifiedNodes = nodes.map((node) => ({
         ...node,
         data: {
@@ -83,33 +87,23 @@ export function FlowPanelComponent(props) {
         },
     }));
 
-    useEffect(() => {
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
-          nodes,
-          edges
-        );
-        setNodes(layoutedNodes);
-        setEdges(layoutedEdges);
-        // screenToFlowPosition.fitView();
-    }, []);
-
     const panOnDrag = [1,2]
 
     return (
-            <div className="reactflow-wrapper" style={{width: "2800px", height: "1000px"}}>
+            <div className="reactflow-wrapper" style={{width: "1300px", height: "800px", border: "1px solid #ddd"}}>
                 <ReactFlow
-                id = {props.id}
-                nodes={modifiedNodes}
+                // id = {props.id}
+                nodes={modifiedNodes} 
                 edges={edges}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
-                onInit={setRfInstance}
+                // onInit={setRfInstance}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onDragOver={onDragOver}
                 onDrop={onDrop}
-                fitView={true}
+                // fitView={true}
                 panOnScroll
                 panOnDrag={panOnDrag}
                 selectionOnDrag={true}

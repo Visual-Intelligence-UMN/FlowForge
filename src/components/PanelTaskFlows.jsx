@@ -78,6 +78,8 @@ const TaskFlows = () => {
     setFlowsMap((prevMap) => {
       const { updatedMap, updatedIds } = mergeFlowsById(prevMap, flowIds, incomingFlows);
       setFlowIds(updatedIds);
+      console.log(" flow IDs:", flowIds);
+      console.log(" flows map:", flowsMap);
       return updatedMap;
     });
 

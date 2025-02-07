@@ -10,6 +10,8 @@ const WORD_LIMIT = 30; // Global word limit for preview
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { compiledConfigsAtom } from "../global/GlobalStates";
+
 const StreamOutput = ({ langgraphRun }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);

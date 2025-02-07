@@ -2,8 +2,10 @@ import { AppNode } from "../nodes/types";
 import { Edge } from "@xyflow/react";
 
 const CompileReactflow = async (config) => {
-    const { taskId, taskFlowId, patternId, taskFlowSteps } = config;
-    const configId = [taskId, taskFlowId, patternId].join("_");
+    const { taskFlowSteps, configId } = config;
+    // const configId = [taskId, taskFlowId, patternId].join("_");
+
+    console.log("config to compile for reactflow", config);
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
@@ -119,21 +121,21 @@ const CompileReactflow = async (config) => {
         }
     });
 
-    console.log("Step Metadata Dictionary:", stepMetadata); 
+    // console.log("Step Metadata Dictionary:", stepMetadata); 
 
     // compile reactflow output
     const compiledReactflow = [{
-        configId,
+        configId: configId,
         key: configId,
         graph: {
             nodes: reactflowNodes,
             edges: reactflowEdges,
-            viewport: { x: 0, y: 0, zoom: 1 }
+            // viewport: { x: 0, y: 0, zoom: 1 }
         },
         stepMetadata, // store the step metadata dictionary for langgraph
     }];
 
-    console.log("Compiled ReactFlow:", compiledReactflow);
+    // console.log("Compiled ReactFlow:", compiledReactflow);
     return compiledReactflow;
 };
 
