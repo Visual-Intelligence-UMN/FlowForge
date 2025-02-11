@@ -168,7 +168,11 @@ export function RflowComponent(props) {
     }));
 
     return (
-        <div className="reactflow-wrapper"style={{width: "1200px", height: "800px", border: "1px solid #ddd"}}>
+        <div className="reactflow-wrapper"
+        style={{width: "1400px", height: "800px", 
+        border: "1px solid #ddd",
+        position: "relative",
+        }}>
         <ReactFlow
          key={`${canvasPages.type}-${canvasPages.flowId || ''}-${canvasPages.patternId || ''}-${canvasPages.configId || ''}`}
          nodes={nodeListWithHandlers}
@@ -186,10 +190,14 @@ export function RflowComponent(props) {
             e.stopPropagation();
             handleSave();
          }}
-         sx={{ textTransform: "none", 
-            pt: 2,
+         sx={{ 
+            position: "absolute",     
+            left: "50%",           
+            transform: "translateX(-50%)", 
+            textTransform: "none",
+            pt: 3,
             }}
-         >Continue</Button>
+         >CONTINUE</Button>
          </div>
     )
 }
