@@ -7,7 +7,7 @@ import PageCompiledCfg from "./PageCompiledCfg";
 import { RfWithProvider } from "./FlowWithProvider";
 import StageHighlight from "./StageHighlight";
 import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
-
+import { ExploreLeftButton, ExploreRightButton } from "./ExploreButtons";
 import {PatternsMap} from "./PatternsPoolSidebar";
 
 const SharedCanvas = ( ) => {
@@ -198,11 +198,33 @@ const SharedCanvas = ( ) => {
 
     return (
         canvasPages.type ?
-        <Box sx={{display: "flex", flexDirection: "column", alignItems: "center" }}>
-            {canvasPage()}
-            {/* {horizontalSlider()} */}
-            <StageHighlight />
+        <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          border: "1px solid #ddd",
+          // p: 2,
+          // m: 2,
+        }}
+      >
+        {/* Row with left button, canvas content, right button */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <ExploreLeftButton />
+          {canvasPage()}
+          <ExploreRightButton />
         </Box>
+  
+        <Box sx={{ mt: 8 }}>
+          <StageHighlight />
+        </Box>
+      </Box>
         : emptyCanvas()
     );
 };
