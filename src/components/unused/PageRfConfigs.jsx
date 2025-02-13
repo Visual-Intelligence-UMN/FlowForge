@@ -14,7 +14,7 @@ import {
   agentsConfigAtom,
   selectedConfigAtom,
   compliedGenerateAtom,
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 import isEqual from "lodash.isequal"; 
 import { config } from "dotenv";
 

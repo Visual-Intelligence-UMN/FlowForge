@@ -6,18 +6,18 @@ import {
   agentsConfigGenerateAtom,
   agentsConfigPatternAtom,
   selectionChainAtom,
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 import { useEffect, useState } from "react";
 import React from "react";
 
 import { Box, Card, CardContent, Select, Typography, Button, Divider, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DisplayGraphPatterns from "./DisplayGraphPatterns";
-import GeneratePatterns from "./GeneratePatterns";
-import { PatternsMap } from "./PatternsPoolSidebar";
-import { iconMap } from "../global/iconsMap";
-import { designPatternsPool } from "../global/patternsMap";
+import DisplayGraphPatterns from "../DisplayGraphPatterns";
+import GeneratePatterns from "../GeneratePatterns";
+import { PatternsMap } from "../PatternsPoolSidebar";
+import { iconMap } from "../../global/iconsMap";
+import { designPatternsPool } from "../../global/patternsMap";
 // A dictionary to track per-flow pattern numbering
 const flowIdToPatternCounter = {};
 

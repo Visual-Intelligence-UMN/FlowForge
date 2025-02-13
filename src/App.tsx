@@ -1,9 +1,9 @@
 import React from 'react';
 import TaskPanel from './components/PanelTaskInput';
-import TaskFlows from './components/PanelTaskFlows';
-import PatternsPanel from './components/PanelPatterns';
-import AgentsPanel from './components/PanelConfigs';
-import ReactFlowPanel from './components/PanelReactFlow';
+import TaskFlows from './components/unused/PanelTaskFlows';
+import PatternsPanel from './components/unused/PanelPatterns';
+import AgentsPanel from './components/unused/PanelConfigs';
+import ReactFlowPanel from './components/unused/PanelReactFlow';
 import Builder from './components/Builder';
 import './App.css';
 
