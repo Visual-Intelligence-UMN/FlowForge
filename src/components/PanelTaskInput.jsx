@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { taskList } from '../global/GlobalStates';
-import { ResetTask } from './ResetTask';
-
+import { useResetTask } from './ResetTask';
+import { useEffect } from 'react';
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
@@ -29,10 +29,16 @@ function TaskPanel() {
     const task = taskList[index];
     setSelectedTask({ ...task, uploadedFile: null });
     setFilePreview(null);
-
-    ResetTask();
-
   };
+
+  const resetTask = useResetTask();
+  useEffect(() => {
+    if (selectedTask && Object.keys(selectedTask).length > 0) {
+      console.log("selectedTask", selectedTask);
+      resetTask();
+    }
+    console.log("selectedTask after reset", selectedTask);
+  }, [selectedTask]);
 
   const handleInputChange = (e) => {
     setSelectedTask((prev) => ({ ...prev, description: e.target.value }));

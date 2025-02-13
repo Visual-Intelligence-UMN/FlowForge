@@ -51,8 +51,8 @@ const TreeNav = () => {
                 label: `task-${selectedTask.id}-flow-${flowId}`,
             });
         });
-
-       patterns.forEach((pattern) => {
+        console.log("flowsMap", flowsMap);
+        patterns.forEach((pattern) => {
             if (!pattern?.patternId) return;
             const patternID = pattern.patternId;
             const label = `Patterns ${patternID}`;

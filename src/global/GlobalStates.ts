@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { atomWithReset } from "jotai/utils";
 // import { initialNodes } from "../nodes";
 // import { initialEdges } from "../edges";
 // import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
@@ -10,7 +11,7 @@ export const selectedGraphAtom = atom(null);
 // }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used
 
 // Task configuration
-export const selectedTaskAtom = atom({});
+export const selectedTaskAtom = atomWithReset({});
 
 export const taskList = [
   {
@@ -36,43 +37,43 @@ export const taskList = [
   },
 ];
 
-export const taskInputAtom = atom("");
-export const uploadedFileAtom = atom(null);
+export const taskInputAtom = atomWithReset("");
+export const uploadedFileAtom = atomWithReset(null);
 
 // Taks flows panel
-export const taskFlowsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const taskFlowsAtom = atom([]); // format:
-export const flowsMapAtom = atom({});
-export const flowIdsAtom = atom([]);
+export const taskFlowsGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
+export const taskFlowsAtom = atomWithReset([]); // format:
+export const flowsMapAtom = atomWithReset({});
+export const flowIdsAtom = atomWithReset([]);
 
 // Workflows with Design patterns panel
-export const patternsFlowAtom = atom(null);
-export const patternsGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const patternsAtom = atom([]);
+export const patternsFlowAtom = atomWithReset(null);
+export const patternsGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
+export const patternsAtom = atomWithReset([]);
 
 // Configs panel
-export const agentsConfigPatternAtom = atom(null);
-export const agentsConfigGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const agentsConfigAtom = atom([]);
+export const agentsConfigPatternAtom = atomWithReset(null);
+export const agentsConfigGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
+export const agentsConfigAtom = atomWithReset([]);
 
 // reactflow & langgraph panel
-export const reactflowGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const selectedConfigAtom = atom(null);
-export const langgraphGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
-export const langgraphRunAtom = atom([]);
-export const reactflowDisplayAtom = atom([]);
-export const compiledConfigsAtom = atom([]);
-export const compliedGenerateAtom = atom(-1); // -1: not generating, 0: generating, 1: generated
+export const reactflowGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
+export const selectedConfigAtom = atomWithReset(null);
+export const langgraphGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
+export const langgraphRunAtom = atomWithReset([]);
+export const reactflowDisplayAtom = atomWithReset([]);
+export const compiledConfigsAtom = atomWithReset([]);
+export const compliedGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
 
 // chain for highlighting
-export const selectionChainAtom = atom({
+export const selectionChainAtom = atomWithReset({
   flowId: null,
   patternId: null,
   configId: null,
 });
 
 // stream output
-export const streamOutputAtom = atom({
+export const streamOutputAtom = atomWithReset({
   inputMessage: { sender: "User", content: "" },
   intermediaryMessages: [],
   finalMessage: { sender: "", content: "" },
@@ -81,14 +82,14 @@ export const streamOutputAtom = atom({
 });
 
 // tree nav
-export const treeNavAtom = atom({
+export const treeNavAtom = atomWithReset({
   nodes: [],
   edges: [],
   width: 1000,
   height: 1000,
 });
 
-export const canvasPagesAtom = atom({
+export const canvasPagesAtom = atomWithReset({
   type: null,
   flowId: [],
   patternId: [],
