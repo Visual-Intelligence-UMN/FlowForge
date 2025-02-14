@@ -51,7 +51,7 @@ const TreeNav = () => {
                 label: `task-${selectedTask.id}-flow-${flowId}`,
             });
         });
-        console.log("flowsMap", flowsMap);
+        
         patterns.forEach((pattern) => {
             if (!pattern?.patternId) return;
             const patternID = pattern.patternId;
@@ -72,25 +72,26 @@ const TreeNav = () => {
             });
         });
 
-        agentsConfig.forEach((config) => {
-            if (!config?.configId) return;
-            const configId = config.configId;
-            const label = `Agents Config ${configId}`;
-            g.setNode(`config-${configId}`, 
-                { label: label, 
-                  width: 100, 
-                  height: 30, 
-                  data: {
-                    id: configId,
-                    type: "config",
-                  },
-                 });
-            const [ flowId, patternPart ] = configId.split("-");
-            const patternId = `${flowId}-${patternPart}`;
-            g.setEdge(`pattern-${patternId}`, `config-${configId}`, {
-                label: `pattern-${patternId}-config-${configId}`,
-            });
-        });
+        // agentsConfig.forEach((config) => {
+        //     if (!config?.configId) return;
+        //     const configId = config.configId;
+        //     const label = `Agents Config ${configId}`;
+        //     g.setNode(`config-${configId}`, 
+        //         { label: label, 
+        //           width: 100, 
+        //           height: 30, 
+        //           data: {
+        //             id: configId,
+        //             type: "config",
+        //           },
+        //          });
+        //     const [ flowId, patternPart ] = configId.split("-");
+        //     const patternId = `${flowId}-${patternPart}`;
+        //     g.setEdge(`pattern-${patternId}`, `config-${configId}`, {
+        //         label: `pattern-${patternId}-config-${configId}`,
+        //     });
+        // });
+
         // console.log("g.nodes()", g.nodes());
         // console.log("g.edges()", g.edges());
         compiledConfigs.forEach((compiledConfig) => {
@@ -106,8 +107,10 @@ const TreeNav = () => {
                     type: "compiled",
                   },
                 });
-            g.setEdge(`config-${configId}`, `compiled-${configId}`, {
-                label: `config-${configId}-compiled-${configId}`,
+            const [ flowId, patternPart ] = configId.split("-");
+            const patternId = `${flowId}-${patternPart}`;
+            g.setEdge(`pattern-${patternId}`, `compiled-${configId}`, {
+                label: `pattern-${patternId}-compiled-${configId}`,
             });
         });
 
@@ -185,7 +188,7 @@ const TreeNav = () => {
         });
         // console.log("canvasPages", canvasPages);
     } else if (layer === "pattern") {
-        console.log("canvasPages when pattern clicked", canvasPages);
+        // console.log("canvasPages when pattern clicked", canvasPages);
       // console.log("flowsMap", flowsMap);
       // console.log("patterns", patterns);
       // console.log("agentsConfig", agentsConfig);
@@ -202,9 +205,9 @@ const TreeNav = () => {
             configId: childrenConfigs[0]?.configId,
         });
     } else if (layer === "config") {
-      console.log("config node clicked", agentsConfig);
+      // console.log("config node clicked", agentsConfig);
         const configId = node.data.id;
-        console.log("canvasPages when config clicked", canvasPages);
+        // console.log("canvasPages when config clicked", canvasPages);
         // console.log("configs", agentsConfig);
         // console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
         const [ flowId, patternPart ] = configId.split("-");
@@ -216,7 +219,7 @@ const TreeNav = () => {
             configId: configId,
         });
     } else if (layer === "compiled") {
-        console.log("compiled node clicked", compiledConfigs);
+        // console.log("compiled node clicked", compiledConfigs);
         const configId = node.data.id;
         // console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
         setCanvasPages({

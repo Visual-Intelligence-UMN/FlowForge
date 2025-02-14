@@ -1,18 +1,18 @@
 import { useAtom } from "jotai";
-import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom, flowsMapAtom, patternsAtom, agentsConfigAtom } from "../global/GlobalStates";
-import {FlowWithProvider} from "./FlowWithProvider";
+import { reactflowGenerateAtom, selectedConfigAtom, reactflowDisplayAtom, langgraphGenerateAtom, langgraphRunAtom, flowsMapAtom, patternsAtom, agentsConfigAtom } from "../../global/GlobalStates";
+import {FlowWithProvider} from "../FlowWithProvider";
 import { useEffect, useState } from "react";
 
 
 import '@xyflow/react/dist/style.css';
-import { DnDProvider } from "./DnDContext";
-import  Sidebar  from "./ReactflowSidebar";
-import  StreamOutput  from "./StreamOutput";
-import  StreamOutputRow  from "./StreamOutputRow";
+import { DnDProvider } from "../DnDContext";
+import  Sidebar  from "../ReactflowSidebar";
+import  StreamOutput  from "../StreamOutput";
+import  StreamOutputRow  from "../StreamOutputRow";
 
-import CompileReactflow from "./CompileReactflow";
-import CompileLanggraph from "./CompileLanggraph";
-import { generateGraphImage } from "../langgraph/utils";
+import CompileReactflow from "../CompileReactflow";
+import CompileLanggraph from "../CompileLanggraph";
+import { generateGraphImage } from "../../langgraph/utils";
 const ReactFlowPanel = () => {
     const [reactflowGenerate, setReactflowGenerate] = useAtom(reactflowGenerateAtom);
     const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);

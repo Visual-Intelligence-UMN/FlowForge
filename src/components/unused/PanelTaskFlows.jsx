@@ -7,9 +7,9 @@ import {
   selectionChainAtom,
   flowsMapAtom,
   flowIdsAtom
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 import { useEffect, useState } from "react";
-import GenerateTaskFlows from "./GenerateTaskFlows";
+import GenerateTaskFlows from "../GenerateTaskFlows";
 
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid2";

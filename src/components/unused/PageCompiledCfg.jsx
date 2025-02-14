@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
-import  StreamOutputRow  from "./StreamOutputRow";
-import {DnDProvider} from "./DnDContext";
-import {FlowWithProvider} from "./FlowWithProvider";
-import { compiledConfigsAtom , canvasPagesAtom} from "../global/GlobalStates";
+import  StreamOutputRow  from "../StreamOutputRow";
+import {DnDProvider} from "../DnDContext";
+import {FlowWithProvider} from "../FlowWithProvider";
+import { compiledConfigsAtom , canvasPagesAtom} from "../../global/GlobalStates";
 import '@xyflow/react/dist/style.css';
 import { useAtom } from "jotai";
 

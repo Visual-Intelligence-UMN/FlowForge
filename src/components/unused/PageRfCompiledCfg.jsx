@@ -11,11 +11,11 @@ import { useAtom } from "jotai";
 import {
   canvasPagesAtom,
   compiledConfigsAtom, // Ensure this is correctly named in your GlobalStates
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 import isEqual from "lodash.isequal";
 
-import { nodeTypes } from '../nodes';
-import { edgeTypes } from '../edges';
+import { nodeTypes } from '../../nodes';
+import { edgeTypes } from '../../edges';
 
 const PageRfCompiledCfg = () => {
 

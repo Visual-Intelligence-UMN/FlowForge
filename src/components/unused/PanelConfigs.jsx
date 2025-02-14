@@ -8,9 +8,9 @@ import {
   agentsConfigGenerateAtom,
   agentsConfigPatternAtom,
   selectionChainAtom,
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 
-import GenerateRunnableConfig from "./GenerateConfig";
+import GenerateRunnableConfig from "../GenerateConfig";
 import { Box, Card, CardContent, Typography, Button, Paper, IconButton, Menu, MenuItem } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

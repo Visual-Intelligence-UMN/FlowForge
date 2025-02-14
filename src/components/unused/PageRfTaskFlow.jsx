@@ -5,8 +5,8 @@ import { useAtom, useAtomValue } from "jotai";
 import {
   flowsMapAtom,
   canvasPagesAtom,
-} from "../global/GlobalStates";
-import { RfWithProvider } from "./FlowWithProvider";
+} from "../../global/GlobalStates";
+import { RfWithProvider } from "../FlowWithProvider";
 
 const convertToReactFlowFormat = (taskflow) => {
   const nodes = taskflow.taskFlowSteps.map((step, index) => ({

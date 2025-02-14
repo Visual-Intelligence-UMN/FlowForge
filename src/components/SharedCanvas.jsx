@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../global/GlobalStates";
-import PageCompiledCfg from "./PageCompiledCfg";
+import PageCompiledCfg from "./unused/PageCompiledCfg";
 
 import { RfWithProvider } from "./FlowWithProvider";
 import StageHighlight from "./StageHighlight";
