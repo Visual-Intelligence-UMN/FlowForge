@@ -154,8 +154,8 @@ const SharedCanvas = ( ) => {
 
     const emptyCanvas = () => {
         return (
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", width: "1500px", height: "900px"}}>
-                <Typography variant="h6">Canvas page waits for task to be selected</Typography>
+            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", width: "1500px", height: "900px", color: "grey"}}>
+                <Typography variant="h8">Canvas page waits for task to be selected</Typography>
             </Box>
         );
     };

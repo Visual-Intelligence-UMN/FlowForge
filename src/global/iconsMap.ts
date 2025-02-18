@@ -6,15 +6,27 @@ import {
     // ...any other icons
 } from "@mui/icons-material";
 
-// Create a mapping from iconType to the design pattern
-// TODO: change with better icons 
+import { 
+    DiscussionIcon, 
+    ParallelIcon,
+    VotingIcon,
+    ValidatorIcon,
+    SupervisionIcon,
+    ReflectionIcon,
+    WebsearchIcon
+} from "./Icons";
+
 
 export const iconMap = {
-    "Discussion": HomeIcon,
-    "Reflection": PersonIcon,
-    "Supervision": SettingsIcon,
-    "Web Search Agent": HomeIcon,
-    "PDF Loader Agent": PersonIcon,
     "Single Agent": SettingsIcon,
+    "Web Search Agent": WebsearchIcon,
+    "PDF Loader Agent": PersonIcon,
+    "Validator": ValidatorIcon,
+    "Reflection": ReflectionIcon,
+    "Discussion": DiscussionIcon,
+    "Parallel": ParallelIcon,
+    "Voting": VotingIcon,
+    "Supervision": SupervisionIcon,
     // any other icons ...
   };
+

@@ -20,31 +20,31 @@ const headerStyle: React.CSSProperties = {
     zIndex: 1000,
 };
 
-const Construction = () => {
-    return (
-        <div className="main-container">
-            <header style={headerStyle}>
-                FlowBuilder
-            </header>
-            <div className="builder-container">
-                <Builder />
-            </div>
-            <div style={{ marginTop: '30px', padding: '20px 0px', }}>
-                <div className="pre-construction section">
-                    <TaskPanel />
-                </div>
-                <div className="construction section">
-                    <TaskFlows />
-                    <PatternsPanel />
-                    <AgentsPanel />
-                </div>
-                <div className="post-construction section">
-                    <ReactFlowPanel />
-                </div>
-            </div>
-        </div>
-    );
-};
+// const Construction = () => {
+//     return (
+//         <div className="main-container">
+//             <header style={headerStyle}>
+//                 FlowBuilder
+//             </header>
+//             <div className="builder-container">
+//                 <Builder />
+//             </div>
+//             <div style={{ marginTop: '30px', padding: '20px 0px', }}>
+//                 <div className="pre-construction section">
+//                     <TaskPanel />
+//                 </div>
+//                 <div className="construction section">
+//                     <TaskFlows />
+//                     <PatternsPanel />
+//                     <AgentsPanel />
+//                 </div>
+//                 <div className="post-construction section">
+//                     <ReactFlowPanel />
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
 
 const NewConstruction = () => {
     return (
