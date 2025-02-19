@@ -5,26 +5,24 @@ import { designPatternsTemplate } from "../global/patternsMap";
 import { SingleAgentForm } from "./templates/SingleAgentForm";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
-  // console.log("data", data);
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeField, updateNodeFieldset } = data;
 
   const onChange = (fieldName) => (event) => {
-    updateNodeField(id, fieldName, event.target.value);
+    updateNodeFieldset(id, fieldName, event.target.value);
   };
   const patternName = data.pattern?.name || "";
 
   const onChangeTemplate = (newData) => {
     updateNodeFieldset(id, "template", newData);
-    console.log("newData", newData);
   };
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
-    updateNodeField(id, "pattern.name", chosenName);
-    updateNodeField(id, "pattern.template", designPatternsTemplate[chosenName] || {});
+    updateNodeFieldset(id, "pattern.name", chosenName);
+    updateNodeFieldset(id, "template", designPatternsTemplate[chosenName] || {});
   };
 
   return (
@@ -67,20 +65,18 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         fullWidth
       />
 
-      {/* <TextField
+      <TextField
         label="Step Description"
         variant="outlined"
         multiline
-        minRows={3}         
-        maxRows={3}     
-        value={data.stepDescription || ""}
-        onChange={onChange("stepDescription")}
+        minRows={1}         
+        maxRows={1}     
+        value={Object.keys(data.template)[0] || ""}
         sx={{ marginBottom: 1 , 
-          
         }}
         className="nodrag nopan"
         fullWidth
-      /> */}
+      />
 
       <Box
         sx={{
@@ -115,6 +111,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             </MenuItem>
             ))}
         </Select>
+
+
 
         <SingleAgentForm data={data.template} onChange={onChangeTemplate}/>
 
