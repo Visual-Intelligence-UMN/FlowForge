@@ -54,6 +54,10 @@ export const designPatternsTemplate = {
         persona: "Single Agent",
         goal: "Single Agent",
     }, 
+    "Validator": {
+        persona: "Validator",
+        goal: "Validator",
+    },
     "Supervision": {
         workerNum: 2,
         maxRound: 10,

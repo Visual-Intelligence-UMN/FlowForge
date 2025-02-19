@@ -25,6 +25,9 @@ import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
+
+import { set } from "lodash.set";
+
 export function RflowComponent(props) {
 
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
@@ -155,6 +158,17 @@ export function RflowComponent(props) {
                     }
                     : node
             )
+        );
+    };
+
+    const updateNodeFieldset = (nodeId, fieldName, newValue) => {
+        setNodes((prevNodes) =>
+            prevNodes.map((node) => {
+                if (node.id !== nodeId) return node;
+                const newData = { ...node.data };
+                set(newData, fieldName, newValue); 
+                return { ...node, data: newData };
+            })
         );
     };
     

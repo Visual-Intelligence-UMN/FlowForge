@@ -2,6 +2,8 @@ import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
 import { designPatternsPool } from "../global/patternsMap";
 import { designPatternsTemplate } from "../global/patternsMap";
+import { SingleAgentForm } from "./templates/SingleAgentForm";
+
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
@@ -10,6 +12,13 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
 
   const onChange = (fieldName) => (event) => {
     updateNodeField(id, fieldName, event.target.value);
+  };
+  const patternName = data.pattern?.name || "";
+
+  const handleSelectPattern = (event) => {
+    const chosenName = event.target.value;
+    updateNodeField(id, "pattern.name", chosenName);
+    updateNodeField(id, "pattern.template", JSON.parse(JSON.stringify(designPatternsTemplate[chosenName] || {})));
   };
 
   return (
@@ -78,8 +87,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
       >
         <Select
           label="Pattern"
-          value={data.pattern?.name || ""}
-          onChange={onChange("pattern.name")}
+          value={patternName}
+          onChange={handleSelectPattern}
           size="small"
           sx={{ 
             marginBottom: 1 , 
