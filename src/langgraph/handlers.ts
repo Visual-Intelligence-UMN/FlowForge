@@ -38,7 +38,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
 };
 
 const handleReflection = (step) => {
-    const { stepDescription } = step;
+    const { stepDescription, template } = step;
     const patternSystemPromptReview = 'You are a helpful reviewer who can analyze the output of another agent. \
     You work with another agent to solve the task and iterate on the output. You provide subtle and helpful feedbacks.\
     You should always include the final output from the worker agent in your response first. Then, \
