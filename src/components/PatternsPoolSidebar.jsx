@@ -36,7 +36,7 @@ const PatternsMap = () => {
                     }}
                   >
                     {/* Render the dynamic icon */}
-                    <IconComponent fontSize="small" sx={{ mr: 1}}/>
+                    <IconComponent sx={{ mr: 1}}/>
                     <Typography variant="subtitle1" textAlign="left" sx={{fontSize: "18px"}}>
                       {pattern}
                     </Typography>

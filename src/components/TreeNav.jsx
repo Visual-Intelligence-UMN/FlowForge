@@ -256,8 +256,8 @@ const TreeNav = () => {
 
   const emptyTreeNav = () => {
     return (
-      <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", height: "900px"}}>
-        <Typography variant="h6" sx={{p: 2}}>Navigation Tree waits for task to be selected</Typography>
+      <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", border: "1px solid #ddd", height: "900px", color: "grey"}}>
+        <Typography variant="h8" sx={{p: 2}}>Navigation Tree waits for task to be selected</Typography>
       </Box>
     );
   }

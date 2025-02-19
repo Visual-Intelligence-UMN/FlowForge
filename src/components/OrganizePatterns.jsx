@@ -1,5 +1,6 @@
 import GeneratePatterns from "./GeneratePatterns";
-// import { randomCombinePatterns } from "./CombinePatterns";
+import randomCombinePatterns from "./CombinePatterns";
+import { designPatternsTemplate } from "../global/patternsMap";
 
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
@@ -40,7 +41,18 @@ const OrganizePatterns = async (flow, setDesignPatterns) => {
           taskFlowSteps: flow.taskFlowSteps,
         },
       ];
-    const reassignedPatterns = reassignPatternIds(flow.taskFlowId, examplePatterns);
+    const examplePatternswithTemplates = examplePatterns.map((flow) => {
+        return {
+            ...flow,
+            taskFlowSteps: flow.taskFlowSteps.map((step) => {
+                return {
+                    ...step,
+                    template: designPatternsTemplate[step.pattern.name] || {},
+                }
+            }),
+        }
+    });
+    const reassignedPatterns = reassignPatternIds(flow.taskFlowId, examplePatternswithTemplates);
 
     // Store generated workflow with patterns
     setDesignPatterns((previousPatterns) => {

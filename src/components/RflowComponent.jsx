@@ -25,6 +25,9 @@ import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
+
+import  set  from "lodash.set";
+
 export function RflowComponent(props) {
 
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
@@ -80,6 +83,7 @@ export function RflowComponent(props) {
             stepDescription: node.data.stepDescription,
             pattern: node.data.pattern,
             config: node.data.config,
+            template: node.data.template,
         }));
         const updatedTaskflow = {
             ...targetWorkflow,
@@ -157,12 +161,24 @@ export function RflowComponent(props) {
             )
         );
     };
+
+    const updateNodeFieldset = (nodeId, fieldName, newValue) => {
+        setNodes((prevNodes) =>
+            prevNodes.map((node) => {
+                if (node.id !== nodeId) return node;
+                const newData = { ...node.data };
+                set(newData, fieldName, newValue); 
+                return { ...node, data: newData };
+            })
+        );
+    };
     
 
     const nodeListWithHandlers = nodes.map((node) => ({
         ...node,
         data: {
             ...node.data,
+            updateNodeFieldset,
             updateNodeField,
         },
     }));

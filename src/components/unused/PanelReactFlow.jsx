@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 import '@xyflow/react/dist/style.css';
 import { DnDProvider } from "../DnDContext";
-import  Sidebar  from "../ReactflowSidebar";
+// import  Sidebar  from "../ReactflowSidebar";
 import  StreamOutput  from "../StreamOutput";
 import  StreamOutputRow  from "../StreamOutputRow";
 
