@@ -9,6 +9,7 @@ import StageHighlight from "./StageHighlight";
 import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
 import { ExploreLeftButton, ExploreRightButton } from "./ExploreButtons";
 import {PatternsMap} from "./PatternsPoolSidebar";
+import { designPatternsTemplate } from "../global/patternsMap";
 
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
@@ -60,6 +61,7 @@ const SharedCanvas = ( ) => {
             stepDescription: step.stepDescription || "",
             label: step.stepLabel || `Step ${index + 1}`,
             pattern: step.pattern || { name: "", description: "" },
+            template: step.template || { persona: "Single Agent", goal: "Single Agent"},
             config: step.config || { type: "none", nodes: [], edges: [] },
           },
         }));
@@ -98,6 +100,7 @@ const SharedCanvas = ( ) => {
                     targetWorkflow = flowsWithPatterns.find(pattern => pattern.patternId === patternId);
                     headerContent = "Flow with Patterns " + targetWorkflow.patternId;
                     nodeType = "patternsStep"
+                    // console.log("targetWorkflow", targetWorkflow);
                     break;
                 case 'flow':
                     targetWorkflow = flowsMap[flowId];
