@@ -228,6 +228,27 @@ const handleSingleAgent = (step) => {
     };
 };
 
+const handleVoting = (step) => {
+    const { stepDescription, pattern} = step;
+    const taskPrompt = 'The task for the team is' + stepDescription;
+    const patternSystemPrompt = 'You are a helpful assistant who can vote for the best option';
+    return {
+        type: "voting",
+        nodes: [
+            {
+                type: "singleAgent",
+                description: "Agent",
+                persona: pattern.persona,
+                goal: pattern.goal,
+                tools: [],
+                llm: "gpt-4o-mini",
+                systemPrompt: patternSystemPrompt + taskPrompt
+            }
+        ],
+        edges: []
+    }
+}
+
 const handlersMap = {
     "Web Search Agent": handleSingleAgentWithWebSearchTool,
     "PDF Loader Agent": handleSingleAgentWithPDFLoaderTool,
