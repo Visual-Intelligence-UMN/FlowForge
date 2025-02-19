@@ -1,6 +1,6 @@
 import { Handle, Position, type NodeProps } from '@xyflow/react';
 
-import { type PositionLoggerNode } from './types';
+import { type PositionLoggerNode } from '../types';
 
 export function PositionLoggerNode({
   positionAbsoluteX,

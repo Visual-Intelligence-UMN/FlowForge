@@ -1,6 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
 import { designPatternsPool } from "../global/patternsMap";
+import { designPatternsTemplate } from "../global/patternsMap";
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
@@ -51,7 +52,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         fullWidth
       />
 
-      <TextField
+      {/* <TextField
         label="Step Description"
         variant="outlined"
         multiline
@@ -64,32 +65,55 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         }}
         className="nodrag nopan"
         fullWidth
-      />
+      /> */}
 
-      <Select
-        label="Pattern"
-        value={data.pattern?.name || ""}
-        onChange={onChange("pattern.name")}
-        size="small"
-        sx={{ 
-          marginBottom: 1 , 
-          minWidth: 120,
-          backgroundColor: "#e3f2fd",
-          "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#90caf9",
-          },
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#42a5f5",
-          }
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 1,
+          width: "90%"
         }}
-        className="nodrag nopan"
       >
-        {designPatternsPool.map((pattern) => (
-          <MenuItem key={pattern.name} value={pattern.name}>
-            {pattern.name}
-          </MenuItem>
-        ))}
-      </Select>
+        <Select
+          label="Pattern"
+          value={data.pattern?.name || ""}
+          onChange={onChange("pattern.name")}
+          size="small"
+          sx={{ 
+            marginBottom: 1 , 
+            minWidth: 120,
+            backgroundColor: "#e3f2fd",
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#90caf9",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#42a5f5",
+            }
+          }}
+          className="nodrag nopan"
+        >
+          {designPatternsPool.map((pattern) => (
+            <MenuItem key={pattern.name} value={pattern.name}>
+              {pattern.name}
+            </MenuItem>
+            ))}
+        </Select>
+
+        <TextField 
+          variant="outlined" 
+          multiline
+          minRows={3}
+          maxRows={3}
+          value={designPatternsTemplate[data.pattern?.name] || ""}
+          onChange={onChange("pattern.template")}
+          className="nodrag nopan"
+          sx={{  mb: 0.5 }}
+          fullWidth
+        >
+        </TextField>
+      </Box>
 
       <Handle
         type="source"

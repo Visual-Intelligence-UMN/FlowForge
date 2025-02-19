@@ -1,6 +1,6 @@
 import {memo} from 'react';
 import {useHandleConnections, useNodesData} from '@xyflow/react';
-import {AppNode, isTextNode} from './types';
+import {AppNode, isTextNode} from '../types';
 import {Handle, Position} from '@xyflow/react';
 
 function TextResultNode() {

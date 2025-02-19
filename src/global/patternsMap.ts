@@ -48,3 +48,98 @@ export const designPatternsPool = [
     }
 
 ]
+
+export const designPatternsTemplate = {
+    "Single Agent": {
+        persona: "Single Agent",
+        goal: "Single Agent",
+    }, 
+    "Supervision": {
+        workerNum: 2,
+        maxRound: 10,
+        workers: [
+            {
+                persona: "Worker",
+                goal: "Worker",
+            },
+            {
+                persona: "Worker",
+                goal: "Worker",
+            },
+        ],
+        supervisor: {
+            persona: "Supervisor",
+            goal: "Supervisor",
+        },
+    },
+    "Reflection": {
+        maxRound: 10,
+        evaluator: {
+            persona: "Evaluator",
+            goal: "Evaluator",
+        },
+        optimizer: {
+            persona: "Optimizer",
+            goal: "Optimizer",
+        },    
+    },
+    "Discussion": {
+        maxRound: 10,
+        agentNum: 3,
+        withSummary: true,
+        agents: [
+            {
+                persona: "scientist",
+                goal: "more logical and scientific",
+            },
+            {
+                persona: "journalist",
+                goal: "more realistic and engaging",
+            },
+            {
+                persona: "artist",
+                goal: "more artistic and creative",
+            },
+        ],
+        summary: {
+            persona: "Summary",
+            goal: "Summary",
+        },
+    },
+    "Parallel": {
+        agentNum: 3,
+        withSummary: true,
+        agents: [
+            {
+                persona: "Agent",
+                goal: "Agent",
+            },
+        ],
+        summary: {
+            persona: "Summary",
+            goal: "Summary",
+        },
+    },
+    "Voting": {
+        agentNum: 3,
+        withSummary: true,
+        agents: [
+            {
+                persona: "scientist",
+                goal: "more logical and scientific",
+            },
+            {
+                persona: "journalist",
+                goal: "more realistic and engaging",
+            },
+            {
+                persona: "artist",
+                goal: "more artistic and creative",
+            },
+        ],
+        summary: {
+            persona: "Summary",
+            goal: "Summary",
+        },
+    },
+}

@@ -1,5 +1,5 @@
 import type { Node, BuiltInNode } from '@xyflow/react';
-import { TextUpdaterNode } from './CustomTextNode';
+import { TextUpdaterNode } from './unused/CustomTextNode';
 
 export type TextNode = Node<{text: string}, 'text'>;
 export type TextResultNode = Node<{}, 'textResult'>;
