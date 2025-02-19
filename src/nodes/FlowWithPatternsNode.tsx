@@ -62,7 +62,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2
+        gap: 0
       }}
     >
       {/* Input / output handles */}
@@ -73,34 +73,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         isConnectable={isConnectable}
         style={{ top: "50%", background: "blue" }}
       />
-
-      <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
-        {id}
+    <Box>
+      <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0}}>
+        {id} 
       </Typography>
-    
-      <TextField
-        label="Step Name"
-        variant="outlined"
-        value={data.stepName || ""}
-        onChange={onChange("stepName")}
-        size="small"
-        sx={{ marginBottom: 1}}
-        className="nodrag nopan nowheel"
-        fullWidth
-      />
-
-      <TextField
-        label="Step Description"
-        variant="outlined"
-        multiline
-        minRows={1}         
-        maxRows={1}     
-        value={Object.keys(data.template)[0] || ""}
-        sx={{ marginBottom: 1 , 
-        }}
-        className="nodrag nopan"
-        fullWidth
-      />
+      <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1}}>
+      {data.stepName}
+      </Typography>
+    </Box>
 
       <Box
         sx={{
@@ -137,7 +117,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         </Select>
 
         {patternForm()}
-
       </Box>
 
       <Handle
