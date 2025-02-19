@@ -26,7 +26,7 @@ import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 
-import { set } from "lodash.set";
+import  set  from "lodash.set";
 
 export function RflowComponent(props) {
 
@@ -177,6 +177,7 @@ export function RflowComponent(props) {
         ...node,
         data: {
             ...node.data,
+            updateNodeFieldset,
             updateNodeField,
         },
     }));

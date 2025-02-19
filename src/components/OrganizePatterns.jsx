@@ -1,5 +1,5 @@
 import GeneratePatterns from "./GeneratePatterns";
-import { randomCombinePatterns } from "./CombinePatterns";
+import randomCombinePatterns from "./CombinePatterns";
 import { designPatternsTemplate } from "../global/patternsMap";
 
 const flowIdToPatternCounter = {};

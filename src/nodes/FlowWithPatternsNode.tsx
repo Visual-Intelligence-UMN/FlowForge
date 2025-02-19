@@ -5,20 +5,26 @@ import { designPatternsTemplate } from "../global/patternsMap";
 import { SingleAgentForm } from "./templates/SingleAgentForm";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
+  // console.log("data", data);
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
-  const { updateNodeField } = data;
+  const { updateNodeField, updateNodeFieldset } = data;
 
   const onChange = (fieldName) => (event) => {
     updateNodeField(id, fieldName, event.target.value);
   };
   const patternName = data.pattern?.name || "";
 
+  const onChangeTemplate = (newData) => {
+    updateNodeFieldset(id, "pattern.template", newData);
+    console.log("newData", newData);
+  };
+
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     updateNodeField(id, "pattern.name", chosenName);
-    updateNodeField(id, "pattern.template", JSON.parse(JSON.stringify(designPatternsTemplate[chosenName] || {})));
+    updateNodeField(id, "pattern.template", designPatternsTemplate[chosenName] || {});
   };
 
   return (
@@ -110,18 +116,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             ))}
         </Select>
 
-        <TextField 
-          variant="outlined" 
-          multiline
-          minRows={3}
-          maxRows={3}
-          value={designPatternsTemplate[data.pattern?.name] || ""}
-          onChange={onChange("pattern.template")}
-          className="nodrag nopan"
-          sx={{  mb: 0.5 }}
-          fullWidth
-        >
-        </TextField>
+        <SingleAgentForm data={data.template} onChange={onChangeTemplate}/>
+
       </Box>
 
       <Handle
