@@ -17,7 +17,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   const patternName = data.pattern?.name || "";
 
   const onChangeTemplate = (newData) => {
-    updateNodeFieldset(id, "pattern.template", newData);
+    updateNodeFieldset(id, "template", newData);
     console.log("newData", newData);
   };
 
