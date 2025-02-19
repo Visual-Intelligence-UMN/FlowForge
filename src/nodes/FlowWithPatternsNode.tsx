@@ -3,6 +3,12 @@ import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
 import { designPatternsPool } from "../global/patternsMap";
 import { designPatternsTemplate } from "../global/patternsMap";
 import { SingleAgentForm } from "./templates/SingleAgentForm";
+import { SupervisionForm } from "./templates/SupervisionForm";
+import { ValidatorForm } from "./templates/ValidatorForm";
+import { ReflectionForm } from "./templates/ReflectionForm";
+import { DiscussionForm } from "./templates/DiscussionForm";
+import { ParallelForm } from "./templates/ParallelForm";
+import { VotingForm } from "./templates/VotingForm";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
@@ -25,6 +31,24 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
     updateNodeFieldset(id, "template", designPatternsTemplate[chosenName] || {});
   };
 
+  const patternForm = () => {
+    switch (data.pattern.name) {
+      case "Single Agent":
+        return <SingleAgentForm data={data.template} onChange={onChangeTemplate}/>
+      case "Supervision":
+        return <SupervisionForm data={data.template} onChange={onChangeTemplate}/>
+      case "Validator":
+        return <ValidatorForm data={data.template} onChange={onChangeTemplate}/>
+      case "Reflection":
+        return <ReflectionForm data={data.template} onChange={onChangeTemplate}/>
+      case "Discussion":
+        return <DiscussionForm data={data.template} onChange={onChangeTemplate}/>
+      case "Parallel":
+        return <ParallelForm data={data.template} onChange={onChangeTemplate}/>
+      case "Voting":
+        return <VotingForm data={data.template} onChange={onChangeTemplate}/>
+    }
+  }
   return (
     <Box
       sx={{
@@ -112,9 +136,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             ))}
         </Select>
 
-
-
-        <SingleAgentForm data={data.template} onChange={onChangeTemplate}/>
+        {patternForm()}
 
       </Box>
 
