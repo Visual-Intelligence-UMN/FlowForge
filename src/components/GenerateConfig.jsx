@@ -13,10 +13,11 @@ const GenerateRunnableConfig = async (workflow) => {
     };
 
     // generate the config (nodes, edges) for each step based on its pattern
+    // TODO: adjust the config based on the template info
     
     for (const step of taskFlowSteps) {
-        const { stepName, stepLabel, stepDescription, pattern, config } = step;
-        
+        const { stepName, stepLabel, stepDescription, pattern, config, template } = step;
+        // console.log("template", template);
         if (handlersMap[pattern.name]) {
             const config = handlersMap[pattern.name](step);
             agentsConfig.taskFlowSteps.push({
@@ -24,7 +25,8 @@ const GenerateRunnableConfig = async (workflow) => {
                 stepLabel,
                 stepDescription,
                 pattern,
-                config
+                config,
+                template
             });
         } else {
             console.warn(`Unknown pattern: ${pattern.name}`);

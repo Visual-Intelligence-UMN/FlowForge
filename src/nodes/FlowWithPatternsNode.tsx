@@ -21,14 +21,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   };
   const patternName = data.pattern?.name || "";
 
-  const onChangeTemplate = (newData) => {
-    updateNodeFieldset(id, "template", newData);
-  };
-
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     updateNodeFieldset(id, "pattern.name", chosenName);
     updateNodeFieldset(id, "template", designPatternsTemplate[chosenName] || {});
+  };
+
+  const onChangeTemplate = (newData) => {
+    updateNodeFieldset(id, "template", newData);
   };
 
   const patternForm = () => {
