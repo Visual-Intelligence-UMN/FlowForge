@@ -13,14 +13,15 @@ import {
     ValidatorIcon,
     SupervisionIcon,
     ReflectionIcon,
-    WebsearchIcon
+    WebsearchIcon, 
+    AgentIcon
 } from "./Icons";
 
 
 export const iconMap = {
-    "Single Agent": SettingsIcon,
-    "Web Search Agent": WebsearchIcon,
-    "PDF Loader Agent": PersonIcon,
+    "Single Agent": AgentIcon,
+    // "Web Search Agent": WebsearchIcon,
+    // "PDF Loader Agent": PersonIcon,
     "Validator": ValidatorIcon,
     "Reflection": ReflectionIcon,
     "Discussion": DiscussionIcon,
