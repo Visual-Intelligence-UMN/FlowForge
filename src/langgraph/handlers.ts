@@ -100,93 +100,161 @@ const handleReflection = (step) => {
 };
 
 const handleSupervision = (step) => {
-    const { stepDescription, pattern} = step;
+    const { stepDescription, pattern, template } = step;
+    const { workerNum, maxRound, workers = [], supervisor = {} } = template;
+
     const taskPrompt = 'The task for the team is' + stepDescription;    
 
-    // TODO: parse the pattern description to get the members information
-    const members_description = [pattern.description.split(',')] as const;
-    const members = [pattern.description.split(',')] as const;
+    const members = [...workers.map(worker => worker.persona), "FINISH"];
+    const members_description = workers.map(
+        (w, i) => `Worker #${i + 1} (persona=${w.persona}, goal=${w.goal})`
+      );
 
-    const taskPromptAgentA = 'The task for you is' + stepDescription;
-    const taskPromptAgentB = 'The task for you is' + stepDescription;
-
-    const patternSystemPromptAgentA = 'You are a helpful assistant who can achieve the task';
-    const patternSystemPromptAgentB = 'You are a helpful assistant who can achieve the task';
-
-    const patternSystemPromptSupervisor = 'You are a helpful supervisor who can supervise other agents to achieve the task \
-    You manage the conversation between the following agents: {members}.  \
-    Given the user request and conversation history, respond with the worker to act next. Each agent will perform a subtask and respond with their restuls and status. \
-    When the task is done, you should organize the output and respond with ending with FINISH.';
+    const patternSystemPromptSupervisor = `You are a helpful supervisor who can coordinate the workers to complete the task \
+    You manage the conversation among following workers: ${members_description}.  \
+    Given the user request and conversation history, respond with the worker to act next. 
+    Each agent will perform a subtask and respond with their restuls and status. \
+    When the task is done, you should organize the output and respond with ending with FINISH.`;
 
     // TODO: additional information: 
     // With the following members description: {members_description}.
 
-    return {
+    const workerNodes = workers.map((worker, index) => {
+        const nodeId = `Worker-${index + 1}`;
+        return {
+          id: nodeId,
+          type: "singleAgent",
+          description: `Worker #${index + 1}`,
+          persona: worker.persona,
+          goal: worker.goal,
+          tools: [],
+          llm: "gpt-4o-mini",
+          systemPrompt: `
+            You are a helpful worker. 
+            Persona: ${worker.persona}
+            Goal: ${worker.goal}
+          `.trim(),
+        };
+      });
+
+      const supervisorNode = {
+        id: "Supervisor",
+        type: "supervisor",
+        description: "Supervisor",
+        persona: supervisor.persona || "Supervisor",
+        goal: supervisor.goal || "Supervisor",
+        tools: [],
+        llm: "gpt-4o-mini",
+        systemPrompt: patternSystemPromptSupervisor.trim(),
+      };
+
+      const edges = [
+        {
+          type: "direct",
+          source: "START",
+          target: "Supervisor",
+          label: "start",
+        },
+        {
+          type: "conditional",
+          source: "Supervisor",
+          target: "END",
+          label: "finish",
+        },
+      ];
+
+      workerNodes.forEach((w) => {
+        edges.push({
+          type: "conditional",
+          source: "Supervisor",
+          target: w.id,
+          label: "route task",
+        });
+        edges.push({
+          type: "direct",
+          source: w.id,
+          target: "Supervisor",
+          label: "respond",
+        });
+      });
+
+      return {
         type: "supervision",
-        members: members,
-        members_description: members_description,
-        nodes: [
-            {
-                type: "supervisor",
-                description: "Supervisor",
-                tools: [],
-                llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptSupervisor + taskPrompt
-            }, 
-            {
-                type: "singleAgent",
-                description: "AgentA",
-                tools: [],
-                llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptAgentA + taskPromptAgentA
-            },
-            {
-                type: "singleAgent",
-                description: "AgentB",
-                tools: [],
-                llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPromptAgentB + taskPromptAgentB
-            }
-        ],
-        edges: [
-            {
-                type: "direct",
-                source: "START",
-                target: "Supervisor",
-                label: "start",
-            },
-            {
-                type: "conditional",
-                source: "Supervisor",
-                target: "AgentA",
-                label: "route task",
-            },
-            {
-                type: "conditional",
-                source: "Supervisor",
-                target: "AgentB",
-                label: "route task",
-            },
-            {
-                type: "direct",
-                source: "AgentA",
-                target: "Supervisor",
-                label: "respond",
-            },
-            {
-                type: "direct",
-                source: "AgentB",
-                target: "Supervisor",
-                label: "respond",
-            },
-            {
-                type: "conditional",
-                source: "Supervisor",
-                target: "END",
-                label: "finish",
-            }
-        ]
-    };
+        workerNum: workerNum,
+        maxRound: maxRound,
+        options: members,
+        members: members_description,
+        nodes: [supervisorNode, ...workerNodes],
+        edges,
+      };
+
+    // return {
+    //     type: "supervision",
+    //     options: members,
+    //     members: members_description,
+    //     maxRound: maxRound,
+    //     nodes: [
+    //         {
+    //             type: "supervisor",
+    //             description: "Supervisor",
+    //             tools: [],
+    //             llm: "gpt-4o-mini",
+    //             systemPrompt: patternSystemPromptSupervisor + taskPrompt
+    //         }, 
+    //         {
+    //             type: "singleAgent",
+    //             description: "AgentA",
+    //             tools: [],
+    //             llm: "gpt-4o-mini",
+    //             systemPrompt: patternSystemPromptAgentA + taskPromptAgentA
+    //         },
+    //         {
+    //             type: "singleAgent",
+    //             description: "AgentB",
+    //             tools: [],
+    //             llm: "gpt-4o-mini",
+    //             systemPrompt: patternSystemPromptAgentB + taskPromptAgentB
+    //         }
+    //     ],
+    //     edges: [
+    //         {
+    //             type: "direct",
+    //             source: "START",
+    //             target: "Supervisor",
+    //             label: "start",
+    //         },
+    //         {
+    //             type: "conditional",
+    //             source: "Supervisor",
+    //             target: "AgentA",
+    //             label: "route task",
+    //         },
+    //         {
+    //             type: "conditional",
+    //             source: "Supervisor",
+    //             target: "AgentB",
+    //             label: "route task",
+    //         },
+    //         {
+    //             type: "direct",
+    //             source: "AgentA",
+    //             target: "Supervisor",
+    //             label: "respond",
+    //         },
+    //         {
+    //             type: "direct",
+    //             source: "AgentB",
+    //             target: "Supervisor",
+    //             label: "respond",
+    //         },
+    //         {
+    //             type: "conditional",
+    //             source: "Supervisor",
+    //             target: "END",
+    //             label: "finish",
+    //         }
+    //     ]
+    // };
 };
 
 const handleDiscussion = (step) => {
@@ -230,8 +298,9 @@ const handleSingleAgent = (step) => {
 
 const handleVoting = (step) => {
     const { stepDescription, pattern} = step;
-    const taskPrompt = 'The task for the team is' + stepDescription;
-    const patternSystemPrompt = 'You are a helpful assistant who can vote for the best option';
+    const taskPrompt = 'The task for the voting team is' + stepDescription;
+    const patternSystemPrompt = 'You should vote for the best option based on the task requirements.';
+    const personaPrompt = 'You are a helpful assistant who can vote for the best option';
     return {
         type: "voting",
         nodes: [
