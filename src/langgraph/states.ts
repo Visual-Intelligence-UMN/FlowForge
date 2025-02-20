@@ -1,6 +1,7 @@
 import { Annotation } from "@langchain/langgraph/web";
 import { BaseMessage } from "@langchain/core/messages";
-const InputAnnotation = Annotation.Root({
+
+const AgentsState = Annotation.Root({
     messages: Annotation<BaseMessage[]>({
         reducer: (x,y) => x.concat(y),
     }), 
@@ -11,10 +12,20 @@ const InputAnnotation = Annotation.Root({
     next: Annotation<string>({
         reducer: (x,y) => y ?? x ?? "__end__",
         default: () => "__end__",
+    }),
+    step1: Annotation<BaseMessage[]>({
+        default: () => [],
+        reducer: (x,y) => x.concat(y),
+    }),
+    step2: Annotation<BaseMessage[]>({
+        default: () => [],
+        reducer: (x,y) => x.concat(y),
     })
 });
 
-export {InputAnnotation};
+
+
+export {AgentsState};
 
 // if no reducer specified, the value is overwritten
 const PDFState = Annotation.Root({
@@ -25,7 +36,7 @@ const PDFState = Annotation.Root({
 
 // use spec to merge the states
 const AgentState = Annotation.Root({
-    ...InputAnnotation.spec,
+    ...AgentsState.spec,
     ...PDFState.spec,
 });
 

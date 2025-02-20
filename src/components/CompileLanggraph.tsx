@@ -8,25 +8,11 @@ import { compileReflection } from "../langgraph/compileReflection";
 import { compileSupervision } from "../langgraph/compileSupervision";
 import { compileDiscussion } from "../langgraph/compileDiscussion";
 
+import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
-    
-    // TODO: finalize the state graph
-    const AgentState = Annotation.Root({
-        messages: Annotation<BaseMessage[]>({
-            reducer: (x,y) => x.concat(y),
-        }),
-        sender: Annotation<string>({
-            reducer: (x,y) => y??x??"user",
-            default: () => "user",
-        }),
-        next: Annotation<string>({
-            reducer: (x,y) => y??x??"__end__",
-            default: () => "__end__",
-        }),
-    });
 
-    let compiledWorkflow = new StateGraph(AgentState);
+    let compiledWorkflow = new StateGraph(AgentsState);
 
     console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
     const {stepMetadata, graph} = reactflowConfig[0];
@@ -47,16 +33,16 @@ const CompileLanggraph = async (reactflowConfig) => {
         switch (pattern) {
             case "singleAgent":
                 // handle single agent with tools or without tools
-                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentState);
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
             case "reflection":
-                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, AgentState);
+                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
             case "supervision":
-                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, AgentState);
+                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
             case "discussion":
-                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentState);
+                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
         }
 
