@@ -46,5 +46,3 @@ export {AgentsState};
 //     reducer: (x,y) => x.concat(y),
 //   })
 // })
-
-export { AgentState };

@@ -19,7 +19,7 @@ const CompileLanggraph = async (reactflowConfig) => {
 
     // add the step annotations to the BaseState
     stepNum.forEach((step) => {
-        AgentsState.spec[step] = Annotation<BaseMessage[]>({
+        AgentsState.spec[step.split("-").join("")] = Annotation<BaseMessage[]>({
             default: () => [],
             reducer: (x,y) => x.concat(y),
         });
