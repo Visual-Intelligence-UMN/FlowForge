@@ -72,9 +72,9 @@ const GenerateTaskFlows = async (task) => {
                 "isEditing": false,
                 "taskFlowSteps": [
                     {
-                        "stepName": "Read the Abstract",
-                        "stepLabel": "Abstract Review",
-                        "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
+                        "stepName": "List candidate ideas about given topic",
+                        "stepLabel": "Outline ideas",
+                        "stepDescription": "generate the ideas about the given topic as many angles as possible.",
                         "pattern": 
                             {
                                 "name": "PDF Loader Agent",
@@ -83,9 +83,9 @@ const GenerateTaskFlows = async (task) => {
                         
                     },
                     {
-                        "stepName": "Outline the Paper",
-                        "stepLabel": "Outline",
-                        "stepDescription": "Outline the paper into logical sections that will serve as the basis for presentation slides.",
+                        "stepName": "Outline the Presentation",
+                        "stepLabel": "Outline structure",
+                        "stepDescription": "Outline the presentation script into logical sections that will serve as the basis for presentation with details.",
                         "pattern": 
                             {
                                 "name": "Reflection",
@@ -95,8 +95,8 @@ const GenerateTaskFlows = async (task) => {
                     {
                         "stepName": "Write Supporting Details",
                         "stepLabel": "Details Integration",
-                        "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
-                        "pattern": 
+                        "stepDescription": "Expand on the presentation outline by adding detailed explanations, transitions, and examples where needed.",
+                        "pattern":  
                             {
                                 "name": "Single Agent",
                                 "description": "This design pattern has a reflection to perform the task."
