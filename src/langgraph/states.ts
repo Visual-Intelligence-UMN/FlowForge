@@ -8,37 +8,29 @@ const AgentsState = Annotation.Root({
     sender: Annotation<string>({
         reducer: (x,y) => y ?? x ?? "user",
         default: () => "user",
-    }),
-    next: Annotation<string>({
-        reducer: (x,y) => y ?? x ?? "__end__",
-        default: () => "__end__",
-    }),
-    step1: Annotation<BaseMessage[]>({
-        default: () => [],
-        reducer: (x,y) => x.concat(y),
-    }),
-    step2: Annotation<BaseMessage[]>({
+    }), 
+    step100: Annotation<BaseMessage[]>({
         default: () => [],
         reducer: (x,y) => x.concat(y),
     })
+
 });
-
-
 
 export {AgentsState};
 
 // if no reducer specified, the value is overwritten
-const PDFState = Annotation.Root({
-    pdf: Annotation<string>({
-        reducer: (x,y) => x.concat(y),
-    })
-});
+// const PDFState = Annotation.Root({
+//     pdf: Annotation<string>({
+//         reducer: (x,y) => x.concat(y),
+//     })
+// });
 
 // use spec to merge the states
-const AgentState = Annotation.Root({
-    ...AgentsState.spec,
-    ...PDFState.spec,
-});
+
+// const AgentState = Annotation.Root({
+//     ...AgentsState.spec,
+//     ...PDFState.spec,
+// });
 
 
 // const AgentState = Annotation.Root({

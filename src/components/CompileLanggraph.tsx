@@ -12,11 +12,22 @@ import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
 
-    let compiledWorkflow = new StateGraph(AgentsState);
-
     console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
     const {stepMetadata, graph} = reactflowConfig[0];
+    const stepNum = Object.keys(stepMetadata);
     const {nodes, edges} = graph;
+
+    // add the step annotations to the BaseState
+    stepNum.forEach((step) => {
+        AgentsState.spec[step] = Annotation<BaseMessage[]>({
+            default: () => [],
+            reducer: (x,y) => x.concat(y),
+        });
+    });
+    console.log("AgentsState", AgentsState);
+
+    let compiledWorkflow = new StateGraph(AgentsState);
+
 
 
     for (const key of Object.keys(stepMetadata)) {
