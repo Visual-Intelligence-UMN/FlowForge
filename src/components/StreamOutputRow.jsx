@@ -7,16 +7,12 @@ import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import CompileLanggraph from "./CompileLanggraph";
 
-import { compiledConfigsAtom } from "../global/GlobalStates";
-
-const StreamOutput = ({ langgraphRun }) => {
+const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);
   const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
-
   useEffect(() => {
     setInputMessage(selectedTask.description);
   }, [selectedTask]);
@@ -42,6 +38,9 @@ const StreamOutput = ({ langgraphRun }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log("recompile runConfig", runConfig);
+    const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
+
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
     // TODO: args should include graphviz graph

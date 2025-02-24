@@ -126,8 +126,8 @@ const Builder = () => {
 
     useEffect(() => {
         if (canvasPages.type === "compiled") {
-            const langgraphRun = compiledConfigs.find(config => config.configId === canvasPages.configId.toString()).langgraphRun;
-            setLanggraphRunSelected(langgraphRun);
+            const runConfig = compiledConfigs.find(config => config.configId === canvasPages.configId.toString());
+            setLanggraphRunSelected(runConfig);
         }
     }, [canvasPages, compiledConfigs]);
 
@@ -142,7 +142,7 @@ const Builder = () => {
             </Box>
         </Box>
         <Box sx={{ width: "90%", display: "flex", flexDirection: "row", gap: 3, justifyContent: "center", alignItems: "center" }}>
-            <StreamOutputRow langgraphRun={langgraphRunSelected} />
+            <StreamOutputRow runConfig={langgraphRunSelected} />
         </Box>
         </>
     );

@@ -12,7 +12,7 @@ import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
 
-    console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
+    // console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
     const {stepMetadata, graph} = reactflowConfig[0];
     const stepNum = Object.keys(stepMetadata);
     const {nodes, edges} = graph;
@@ -24,7 +24,7 @@ const CompileLanggraph = async (reactflowConfig) => {
             reducer: (x,y) => x.concat(y),
         });
     });
-    console.log("AgentsState", AgentsState);
+    // console.log("AgentsState", AgentsState);
 
     let compiledWorkflow = new StateGraph(AgentsState);
 
@@ -64,9 +64,9 @@ const CompileLanggraph = async (reactflowConfig) => {
     }
 
     // const compiledLanggraph = singleAgentWithToolsGraph;
-    console.log("final Workflow before compile", compiledWorkflow);
+    // console.log("final Workflow before compile", compiledWorkflow);
     const compiledLanggraph = compiledWorkflow.compile();
-    console.log("final Workflow after compile", compiledLanggraph);
+    // console.log("final Workflow after compile", compiledLanggraph);
     return compiledLanggraph;
 }
 

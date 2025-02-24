@@ -109,9 +109,7 @@ const handleSupervision = (step) => {
     When the task is done, you should organize the output and respond with ending with FINISH.`;
 
     const workerPatternPrompt = `You are a helpful worker who can complete the task.`
-    // TODO: additional information: 
-    // With the following members description: {members_description}.
-
+    
     const workerNodes = workers.map((worker, index) => {
         return {
           type: "singleAgent",
