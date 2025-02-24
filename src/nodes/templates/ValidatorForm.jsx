@@ -11,17 +11,24 @@ export function ValidatorForm({ data, onChange }) {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
-      <TextField
+      {/* <TextField
         label="Persona"
         value={data.persona || ""}
         onChange={handleFieldChange("persona")}
         size="small"
-      />
+      /> */}
       <TextField
         label="Goal"
         value={data.goal || ""}
         onChange={handleFieldChange("goal")}
         size="small"
+      />
+      <TextField
+        label="Pattern Prompt"
+        value={data.patternPrompt || ""}
+        onChange={handleFieldChange("patternPrompt")}
+        size="small"
+        className="nodrag nopan"
       />
     </Box>
   );

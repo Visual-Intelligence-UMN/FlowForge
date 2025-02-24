@@ -10,6 +10,8 @@ import { DiscussionForm } from "./templates/DiscussionForm";
 import { ParallelForm } from "./templates/ParallelForm";
 import { VotingForm } from "./templates/VotingForm";
 
+import { PatternTextField } from "./templates/patternText";
+
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
@@ -80,7 +82,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
       <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1}}>
       {data.stepName}
       </Typography>
+     
     </Box>
+
+      <Typography 
+      variant="subtitle1" 
+        sx={{ fontWeight: "bold", mb:2, maxWidth: "60%"}}>
+        {data.stepDescription} 
+      </Typography>
 
       <Box
         sx={{
@@ -115,9 +124,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             </MenuItem>
             ))}
         </Select>
-
-        {patternForm()}
+          
+        
       </Box>
+      
+      {patternForm()}
 
       <Handle
         type="source"

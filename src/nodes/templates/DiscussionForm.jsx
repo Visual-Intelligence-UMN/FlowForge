@@ -8,6 +8,7 @@ import {
   } from "@mui/material";
   import AddCircleIcon from "@mui/icons-material/AddCircle";
   import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+  import { PatternTextField } from "./patternText";
   
   export function DiscussionForm({ data, onChange }) {
     // data = {
