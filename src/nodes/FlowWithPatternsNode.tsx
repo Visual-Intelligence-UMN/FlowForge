@@ -108,7 +108,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         backgroundColor: "#fff",
         minWidth: 230,
         textAlign: "center",
-        maxWidth: 600,
+        maxWidth: 650,
         boxShadow: 2,
         gap: 0
       }}

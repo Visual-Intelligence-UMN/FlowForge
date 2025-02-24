@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { PatternTextField } from "./patternText";
 
 export function DiscussionForm({ data, onChange }) {
   const agents = data.agents || [];
+  console.log(data)
 
   const handleSimpleFieldChange = (field) => (e) => {
     onChange({
@@ -103,13 +105,19 @@ export function DiscussionForm({ data, onChange }) {
       <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
         Agent #{i + 1}
       </Typography>
-      <TextField
+      {/* <PatternTextField
+        label="Pattern Prompt"
+        value={agent.patternPrompt || ""}
+        onChange={handleAgentChange(i, "patternPrompt")}
+        size="small"
+      /> */}
+      <PatternTextField
         label="Persona"
         value={agent.persona || ""}
         onChange={handleAgentChange(i, "persona")}
         size="small"
       />
-      <TextField
+      <PatternTextField
         label="Goal"
         value={agent.goal || ""}
         onChange={handleAgentChange(i, "goal")}
@@ -128,42 +136,47 @@ export function DiscussionForm({ data, onChange }) {
         width: "100%",
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+      <Grid2 container spacing={1} columns={3}>
         {agents.map((agent, i) => (
-          <Box key={i} sx={{ flex: "1" }}>
+          <Grid2 key={i} xs={12} md={6} lg={4}>
             {eachAgent(agent, i)}
-          </Box>
+          </Grid2>
         ))}
-      </Box>
+      </Grid2>
+      
 
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", justifyContent: "center" }}>
-        <TextField
-          label="Max Round"
-          type="number"
-          value={data.maxRound || ""}
-          onChange={handleSimpleFieldChange("maxRound")}
-          size="small"
-          sx={{ flex: "1" }}
-        />
-        <Select
-          label="With Summary"
-          value={data.withSummary || ""}
-          onChange={handleCheckboxChange("withSummary")}
-          size="small"
-          sx={{ flex: "1" }}
-          className="nodrag nopan"
-        >
-          <MenuItem value="true">Yes</MenuItem>
-          <MenuItem value="false">No</MenuItem>
-        </Select>
-      </Box>
+        
+          <IconButton 
+            onClick={addAgent} 
+            size="large" 
+            color="primary"
+            sx={{  width: "8%"}}
+            >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
-        <IconButton onClick={addAgent} size="large" color="primary">
-          <AddCircleIcon fontSize="large" />
-        </IconButton>
-      </Box>
+          <TextField
+            label="Max Round"
+            type="number"
+            value={data.maxRound || ""}
+            onChange={handleSimpleFieldChange("maxRound")}
+            size="small"
+            sx={{ flex: "1" }}
+          />
 
+          <Select
+            label="Summary"
+            value={data.withSummary || ""}
+            onChange={handleSimpleFieldChange("withSummary")}
+            size="small"
+            sx={{ flex: "1" , mt: 1}}
+            className="nodrag nopan"
+          >
+            <MenuItem value="true">yes</MenuItem>
+            <MenuItem value="false">no</MenuItem>
+          </Select>
+      </Box>
      
       
 
