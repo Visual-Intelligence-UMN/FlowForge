@@ -101,50 +101,44 @@ const handleSupervision = (step) => {
 
     const taskPrompt = 'The task for the team is' + stepDescription;    
 
-    const members = [...workers.map(worker => worker.persona), "FINISH"];
-    const members_description = workers.map(
-        (w, i) => `Worker #${i + 1} (persona=${w.persona}, goal=${w.goal})`
-      );
-
-    const patternSystemPromptSupervisor = supervisor.patternPrompt.trim() || `You are a helpful supervisor who can coordinate the workers to complete the task \
-    You manage the conversation among following workers: ${members_description}.  \
-    Given the user request and conversation history, respond with the worker to act next. 
+    const supervisorPatternPrompt = 
+    `You are a helpful supervisor who can coordinate the workers to complete the task \
+    You manage the conversation among other workers agents.  \
+    Given the request and conversation history, respond with the worker to act next. 
     Each agent will perform a subtask and respond with their restuls and status. \
     When the task is done, you should organize the output and respond with ending with FINISH.`;
 
-    const patternPromptWorker = workers[0].patternPrompt.trim() || `You are a helpful worker who can complete the task.`
+    const workerPatternPrompt = `You are a helpful worker who can complete the task.`
     // TODO: additional information: 
     // With the following members description: {members_description}.
 
     const workerNodes = workers.map((worker, index) => {
-        const nodeId = `Worker-${index + 1}`;
         return {
-          id: nodeId,
           type: "singleAgent",
-          description: `Worker #${index + 1}`,
+          description: `Worker${index + 1}`,
           persona: worker.persona,
           goal: worker.goal,
           tools: [],
           llm: "gpt-4o-mini",
           taskPrompt: taskPrompt,
-          patternPrompt: patternPromptWorker,
-          systemPrompt: patternPromptWorker + taskPrompt
-           
+          patternPrompt: worker.patternPrompt?.trim() || workerPatternPrompt,
+          systemPrompt: worker.patternPrompt?.trim() + taskPrompt
         };
       });
 
       const supervisorNode = {
-        id: "Supervisor",
         type: "supervisor",
         description: "Supervisor",
         persona: supervisor.persona || "Supervisor",
         goal: supervisor.goal || "Supervisor",
         tools: [],
         llm: "gpt-4o-mini",
-        systemPrompt: taskPrompt + patternSystemPromptSupervisor.trim(),
+        taskPrompt: taskPrompt,
+        patternPrompt: supervisor.patternPrompt?.trim() || supervisorPatternPrompt,
+        systemPrompt: supervisor.patternPrompt?.trim() + taskPrompt,
       };
 
-      const edges = [
+      const agentEdges = [
         {
           type: "direct",
           source: "START",
@@ -160,15 +154,15 @@ const handleSupervision = (step) => {
       ];
 
       workerNodes.forEach((w) => {
-        edges.push({
+        agentEdges.push({
           type: "conditional",
           source: "Supervisor",
-          target: w.id,
+          target: w.description,
           label: "route task",
         });
-        edges.push({
+        agentEdges.push({
           type: "direct",
-          source: w.id,
+          source: w.description,
           target: "Supervisor",
           label: "respond",
         });
@@ -176,12 +170,9 @@ const handleSupervision = (step) => {
 
       return {
         type: "supervision",
-        workerNum: workerNum,
         maxRound: maxRound,
-        options: members,
-        members: members_description,
         nodes: [supervisorNode, ...workerNodes],
-        edges,
+        edges: agentEdges,
       };
 
     // return {
@@ -255,7 +246,7 @@ const handleSupervision = (step) => {
 
 const handleDiscussion = (step) => {
     const { stepDescription, template} = step;
-    const { agentNum, withSummary, agents = [], summary = {} } = template;
+    const { agentNum, withSummary, maxRound, agents = [], summary = {} } = template;
 
     const taskPrompt = 'The task for the team is' + stepDescription;
     const agentsPatternSystemPrompt = 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
@@ -267,6 +258,8 @@ const handleDiscussion = (step) => {
             description: `Agent${index + 1}`,
             tools: [],
             llm: "gpt-4o-mini",
+            persona: agent.persona,
+            goal: agent.goal,
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
             systemPrompt: agent.patternPrompt?.trim() + taskPrompt
@@ -301,9 +294,11 @@ const handleDiscussion = (step) => {
             description: "Summary",
             tools: [],
             llm: "gpt-4o-mini",
+            persona: summary.persona || "Summary",
+            goal: summary.goal || "Summary",
             taskPrompt: taskPrompt,
-            patternPrompt: summaryPatternSystemPrompt,
-            systemPrompt: summaryPatternSystemPrompt
+            patternPrompt: summary.patternPrompt?.trim() || summaryPatternSystemPrompt,
+            systemPrompt: summary.patternPrompt?.trim()
         })
     }
 
@@ -328,6 +323,7 @@ const handleDiscussion = (step) => {
 
     return {
         type: "discussion",
+        maxRound: maxRound,
         nodes: [...agentsNodes],
         edges: agentsEdges
     };

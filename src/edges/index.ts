@@ -18,4 +18,5 @@ export const edgeTypes = {
   // Add your custom edge types here!
   conditional: BiDirectionalEdge,
   direct: BaseEdge,
+  network: BiDirectionalEdge,
 } 
