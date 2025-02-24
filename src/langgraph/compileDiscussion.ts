@@ -2,50 +2,94 @@ import { RunnableConfig } from "@langchain/core/runnables";
 import { createAgent, create_agent_node } from "./utils";
 import { z } from "zod";
 import { AgentsState } from "./states";
+import { ChatOpenAI } from "@langchain/openai";
+import { toolsMap } from "./tools";
+import { BaseMessage } from "@langchain/core/messages";
+import { Command } from "@langchain/langgraph/web";
 
-// TODO: change how to compile discussion
-
-
+const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
+    // For example, stepName might be "step1", "step2", etc.
+    const stepMsgs = (state as any)[stepName] as BaseMessage[];
+  
+    // If the step has no messages yet, use last message from the global messages array.
+    if (!stepMsgs || stepMsgs.length === 0) {
+      return state.messages.slice(-1);
+    }
+    return stepMsgs.slice(-1);
+  }
+  
 const makeAgentNode = (params: {
     name: string,
     destinations: string[],
     systemPrompt: string,
     llmOption: string,
+    tools: string[],
 }) => {
-    const possibleDestinations = ["__end__", ...params.destinations] as const;
-    const responseSchema = z.object({
-        response: z.string().describe(
-          "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
-        ),
-        goto: z.enum(possibleDestinations).describe("The next agent to call, or __end__ if the user's query has been resolved. Must be one of the specified values."),
-      });
+    return async (state: typeof AgentsState.State) => {
 
-}
+        const possibleDestinations = ["__end__", ...params.destinations] as const;
 
-const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    for (const node of nodesInfo) {
-        const createdAgent = async () => await createAgent({
-            llmOption: node.data.llm,
-            tools: node.data.tools,
-            systemMessage: node.data.systemPrompt,
-            accessStepMsgs: false,
+        const responseSchema = z.object({
+            response: z.string().describe(
+            "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
+            ),
+            goto: z.enum(possibleDestinations).describe("The next agent to call, or __end__ if the user's query has been resolved. Must be one of the specified values."),
         });
 
-        const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {
-            return create_agent_node({
-                state: state,
-                agent: await createdAgent(),
-                name: node.id,
-                config: config,
-            });
+        const agent = new ChatOpenAI({
+            model: params.llmOption,
+            temperature: 1,
+            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        });
+
+        if (params.tools.length > 0) {
+            const formattedTools = params.tools.map((t) => (toolsMap[t]));
+            agent.bindTools(formattedTools);
         }
-        workflow.addNode(node.id, agentNode);
+
+        const currentStep = 'step' + params.name.split("-")[1];
+        const invokePayload = [
+            {
+                role:"system",
+                content: params.systemPrompt,
+            },
+            ...getInputMessagesForStep(state, currentStep),
+        ]
+
+        const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
+        const aiMessage = {
+            role: "assistant",
+            content: response.response,
+            name: params.name,
+        }
+        return new Command({
+            goto: response.goto,
+            update: {
+                messages: aiMessage,
+                sender: params.name,
+                [currentStep]: aiMessage,
+            }
+        })
     }
-    console.log("workflow after single agent", workflow);
-    // direct next step edge
-    for (const edge of stepEdges) {
-        workflow.addEdge(edge.source, edge.target);
-    } 
+}
+
+
+const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+    console.log("nodesInfo in compileDis", nodesInfo);
+    for (const node of nodesInfo) {
+        const destinations = stepEdges.map((edge) => edge.target);
+        const agentNode = makeAgentNode({
+            name: node.id,
+            destinations: destinations,
+            systemPrompt: node.data.systemPrompt,
+            llmOption: node.data.llm,
+            tools: node.data.tools,
+        })
+        workflow.addNode(node.id, agentNode, {
+            ends: ["__end__", ...destinations]
+        });
+    }
+
     return workflow;
 }
 
