@@ -273,24 +273,12 @@ const handleDiscussion = (step) => {
         }
     })
 
-    if (withSummary) {
-        agentsNodes.push({
-            type: "singleAgent",
-            description: "Summary",
-            tools: [],
-            llm: "gpt-4o-mini",
-            taskPrompt: taskPrompt,
-            patternPrompt: summaryPatternSystemPrompt,
-            systemPrompt: summaryPatternSystemPrompt
-        })
-    }
-
     const agentsEdges = [
         {
             type: "direct",
             source: "START",
             target: "Agent1",
-            label: "discuss",
+            label: "start",
         }
     ]
 
@@ -308,13 +296,27 @@ const handleDiscussion = (step) => {
     })
 
     if (withSummary) {
+        agentsNodes.push({
+            type: "singleAgent",
+            description: "Summary",
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: summaryPatternSystemPrompt,
+            systemPrompt: summaryPatternSystemPrompt
+        })
+    }
+
+    if (withSummary) {
         agentsNodes.forEach((agent) => {
-            agentsEdges.push({
-                type: "network",
-                source: agent.description,
-                target: "Summary",
-                label: "goto",
-            })
+            if (agent.description !== "Summary") {  
+                agentsEdges.push({
+                    type: "network",
+                    source: agent.description,
+                    target: "Summary",
+                    label: "goto",
+                })
+            }
         })
         agentsEdges.push({
             type: "direct",
