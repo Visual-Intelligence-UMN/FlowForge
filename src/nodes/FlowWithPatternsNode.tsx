@@ -75,29 +75,42 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         isConnectable={isConnectable}
         style={{ top: "50%", background: "blue" }}
       />
-    <Box>
-      <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0}}>
-        {id} 
-      </Typography>
-      <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1}}>
-      {data.stepName}
-      </Typography>
-     
-    </Box>
+    <Box 
+      sx={{ 
+        display: "flex", 
+        flexDirection: "row", 
+        alignItems: "start",
+        gap: 2, 
+        padding: 1 
+      }}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", maxWidth: "40%" }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
+          {id}
+        </Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1, color: "gray" }}>
+          {data.stepName}
+        </Typography>
+      </Box>
 
-      <Typography 
-      variant="subtitle1" 
-        sx={{ fontWeight: "bold", mb:2, maxWidth: "60%"}}>
-        {data.stepDescription} 
-      </Typography>
+
+      {/* Right Column (Step Description) */}
+      <Box sx={{ maxWidth: "30%", border: "1px solid #ddd"}}>
+        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
+          {data.stepDescription}
+        </Typography>
+      </Box>
+      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
+        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
+          pattern image
+        </Typography>
+      </Box>
+    </Box>
+    
 
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 1,
-          width: "90%"
+          maxWidth: "80%"
         }}
       >
         <Select
@@ -107,7 +120,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
           size="small"
           sx={{ 
             marginBottom: 1 , 
-            minWidth: 120,
+            // maxWidth: 120,
             backgroundColor: "#e3f2fd",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "#90caf9",
@@ -124,11 +137,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             </MenuItem>
             ))}
         </Select>
-          
         
       </Box>
-      
-      {patternForm()}
+      <Box sx={{maxWidth: "80%"}}>
+        {patternForm()}
+      </Box>
 
       <Handle
         type="source"

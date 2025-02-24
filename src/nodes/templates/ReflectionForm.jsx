@@ -25,10 +25,10 @@ export function ReflectionForm({ data, onChange }) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "100%" , backgroundColor: "#e3f2fd", p: 1, borderRadius: 1, border: "1px solid #90caf9"}}>
+    <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "90%" , backgroundColor: "#e3f2fd", p: 1, borderRadius: 1, border: "1px solid #90caf9"}}>
 
      
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "90%" }}>
 
       {/* Evaluator */}
       <Typography variant="subtitle2">Evaluator</Typography>
@@ -50,7 +50,7 @@ export function ReflectionForm({ data, onChange }) {
       </Box>
 
       {/* Optimizer */}
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "100%" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "90%" }}>
       <Typography variant="subtitle2">Optimizer</Typography>
       <PatternTextField
         label="Optimizer Goal"
