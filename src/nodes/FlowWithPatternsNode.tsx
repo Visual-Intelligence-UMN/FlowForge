@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
+import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
 import { designPatternsPool } from "../global/patternsMap";
 import { designPatternsTemplate } from "../global/patternsMap";
 import { SingleAgentForm } from "./templates/SingleAgentForm";
@@ -58,6 +58,46 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
     return <IconComponent fontSize="small"/>
   }
 
+  const patternSelect = () => {
+    return (
+        <Select
+        label="Pattern"
+        value={patternName}
+        onChange={handleSelectPattern}
+        size="small"
+        sx={{ 
+          marginBottom: 1 , 
+          maxWidth: 150,
+          backgroundColor: "#e3f2fd",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#90caf9",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#42a5f5",
+          }
+        }}
+        className="nodrag nopan"
+      >
+        {designPatternsPool.map((pattern) => (
+          <MenuItem key={pattern.name} value={pattern.name}>
+            {pattern.name}
+          </MenuItem>
+          ))}
+      </Select>
+    )
+  }
+
+  const confirmButton = () => {
+    return (
+      <Button 
+        // variant="contained" 
+        color="primary" 
+        onClick={() => {}}>
+        Confirm
+      </Button>
+    )
+  }
+
   return (
     
     <Box
@@ -107,30 +147,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
           {id}
         </Typography>
-        <Select
-          label="Pattern"
-          value={patternName}
-          onChange={handleSelectPattern}
-          size="small"
-          sx={{ 
-            marginBottom: 1 , 
-            // maxWidth: 120,
-            backgroundColor: "#e3f2fd",
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#90caf9",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#42a5f5",
-            }
-          }}
-          className="nodrag nopan"
-        >
-          {designPatternsPool.map((pattern) => (
-            <MenuItem key={pattern.name} value={pattern.name}>
-              {pattern.name}
-            </MenuItem>
-            ))}
-        </Select>
+        {patternSelect()}
+        {confirmButton()}
       </Box>
 
       <Box 
@@ -148,10 +166,12 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             <b>Task Description:</b> {data.stepDescription}
         </Typography>
       </Box>
-        <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
-          {/* {patternIcon()} */}
-        </Box>
+
+      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
+        {/* {patternIcon()} */}
       </Box>
+
+    </Box>
 
       <Box
         sx={{maxWidth: "100%"}}>
