@@ -257,7 +257,7 @@ const handleDiscussion = (step) => {
     const { stepDescription, template} = step;
     const { agentNum, withSummary, agents = [], summary = {} } = template;
     const taskPrompt = 'The task for the team is' + stepDescription;
-    const patternSystemPrompt = agents[0].patternPrompt.trim() || 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
+    const patternSystemPrompt = agents[0].patternPrompt?.trim() || 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
     return {
         type: "discussion",
         nodes: [
