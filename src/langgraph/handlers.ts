@@ -256,22 +256,78 @@ const handleSupervision = (step) => {
 const handleDiscussion = (step) => {
     const { stepDescription, template} = step;
     const { agentNum, withSummary, agents = [], summary = {} } = template;
+
     const taskPrompt = 'The task for the team is' + stepDescription;
-    const patternSystemPrompt = agents[0].patternPrompt?.trim() || 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
+    const agentsPatternSystemPrompt = 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
+    const summaryPatternSystemPrompt = 'You are a helpful assistant who can summarize the discussion';
+    
+    const agentsNodes = agents.map((agent, index) => {
+        return {
+            type: "singleAgent",
+            description: `Agent${index + 1}`,
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
+            systemPrompt: agent.patternPrompt?.trim() + taskPrompt
+        }
+    })
+
+    if (withSummary) {
+        agentsNodes.push({
+            type: "singleAgent",
+            description: "Summary",
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: summaryPatternSystemPrompt,
+            systemPrompt: summaryPatternSystemPrompt
+        })
+    }
+
+    const agentsEdges = [
+        {
+            type: "direct",
+            source: "START",
+            target: "Agent1",
+            label: "discuss",
+        }
+    ]
+
+    agentsNodes.forEach((agent, index) => {
+        agentsNodes.forEach((otherAgent, otherIndex) => {
+            if (index !== otherIndex) {
+                agentsEdges.push({
+                    type: "network",
+                    source: agent.description,
+                    target: otherAgent.description,
+                    label: "goto",
+                })
+            }
+        })
+    })
+
+    if (withSummary) {
+        agentsNodes.forEach((agent) => {
+            agentsEdges.push({
+                type: "network",
+                source: agent.description,
+                target: "Summary",
+                label: "goto",
+            })
+        })
+        agentsEdges.push({
+            type: "direct",
+            source: "Summary",
+            target: "END",
+            label: "finish",
+        })
+    }
+
     return {
         type: "discussion",
-        nodes: [
-            {
-                type: "singleAgent",
-                description: "Agent",
-                tools: [],
-                llm: "gpt-4o-mini",
-                taskPrompt: taskPrompt,
-                patternPrompt: patternSystemPrompt,
-                systemPrompt: patternSystemPrompt + taskPrompt
-            }
-        ],
-        edges: []
+        nodes: [...agentsNodes],
+        edges: agentsEdges
     };
 };
 

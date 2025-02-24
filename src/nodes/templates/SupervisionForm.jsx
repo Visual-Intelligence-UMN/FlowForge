@@ -94,6 +94,8 @@ export function SupervisionForm({ data, onChange }) {
         sx={{
           position: "relative",
           display: "flex",
+          flex: 1,
+          // width: "80%",
           flexDirection: "column",
           gap: 1,
           border: "1px solid #ccc",
@@ -142,7 +144,7 @@ export function SupervisionForm({ data, onChange }) {
       sx={{ 
         display: "flex", 
         flexDirection: "column", 
-        gap: 2,
+        gap: 3,
         width: "100%"
       }}
     >
