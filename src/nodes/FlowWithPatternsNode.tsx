@@ -61,9 +61,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         minWidth: 230,
         textAlign: "center",
         boxShadow: 2,
-        display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         gap: 0
       }}
     >
@@ -80,39 +78,24 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         display: "flex", 
         flexDirection: "row", 
         alignItems: "start",
-        gap: 2, 
-        padding: 1 
+        gap: 1, 
+        padding: 1, 
+        backgroundColor: "#ddd",
+        maxWidth: "100%"
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", maxWidth: "40%" }}>
+      <Box sx={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        maxWidth: "80%" 
+      }}>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
           {id}
         </Typography>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1, color: "gray" }}>
           {data.stepName}
         </Typography>
-      </Box>
 
-
-      {/* Right Column (Step Description) */}
-      <Box sx={{ maxWidth: "30%", border: "1px solid #ddd"}}>
-        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
-          {data.stepDescription}
-        </Typography>
-      </Box>
-      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
-        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
-          pattern image
-        </Typography>
-      </Box>
-    </Box>
-    
-
-      <Box
-        sx={{
-          maxWidth: "80%"
-        }}
-      >
         <Select
           label="Pattern"
           value={patternName}
@@ -137,9 +120,35 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             </MenuItem>
             ))}
         </Select>
+
+      </Box>
+
+      {/* Right Column (Step Description) */}
+      <Box sx={{ 
+        maxWidth: "20%", 
+        border: "1px solid #ddd"}}>
+        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
+          {data.stepDescription}
+        </Typography>
+      </Box>
+      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
+        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
+          pattern image
+        </Typography>
+      </Box>
+      </Box>
+      <Box
+        sx={{
+          maxWidth: "10%"
+
+        }}
+      >
+        
         
       </Box>
-      <Box sx={{maxWidth: "80%"}}>
+      <Box
+      
+      sx={{maxWidth: "80%"}}>
         {patternForm()}
       </Box>
 
