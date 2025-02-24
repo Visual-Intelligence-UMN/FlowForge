@@ -10,7 +10,7 @@ import { DiscussionForm } from "./templates/DiscussionForm";
 import { ParallelForm } from "./templates/ParallelForm";
 import { VotingForm } from "./templates/VotingForm";
 
-import { PatternTextField } from "./templates/patternText";
+import { iconMap } from "../global/iconsMap";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
@@ -51,7 +51,15 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         return <VotingForm data={data.template} onChange={onChangeTemplate}/>
     }
   }
+
+
+  const patternIcon = () => {
+    const IconComponent = iconMap[data.pattern.name] || <Typography>No Icon</Typography>;
+    return <IconComponent fontSize="small"/>
+  }
+
   return (
+    
     <Box
       sx={{
         padding: 2,
@@ -60,12 +68,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         backgroundColor: "#fff",
         minWidth: 230,
         textAlign: "center",
+        maxWidth: 600,
         boxShadow: 2,
-        flexDirection: "column",
         gap: 0
       }}
     >
-      {/* Input / output handles */}
       <Handle
         type="target"
         position={Position.Left}
@@ -73,29 +80,33 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         isConnectable={isConnectable}
         style={{ top: "50%", background: "blue" }}
       />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id={`out-${id}`}
+        isConnectable={isConnectable}
+        style={{ top: "50%", background: "#555" }}
+      />
+
     <Box 
       sx={{ 
         display: "flex", 
-        flexDirection: "row", 
-        alignItems: "start",
+        // maxWidth: "70%",
+        flex:1,
         gap: 1, 
         padding: 1, 
-        backgroundColor: "#ddd",
-        maxWidth: "100%"
       }}
     >
-      <Box sx={{ 
+      <Box 
+        sx={{ 
         display: "flex", 
         flexDirection: "column", 
-        maxWidth: "80%" 
+        maxWidth: "80%", 
+        // flex:1,
       }}>
         <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
           {id}
         </Typography>
-        <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1, color: "gray" }}>
-          {data.stepName}
-        </Typography>
-
         <Select
           label="Pattern"
           value={patternName}
@@ -120,45 +131,34 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
             </MenuItem>
             ))}
         </Select>
-
       </Box>
 
-      {/* Right Column (Step Description) */}
-      <Box sx={{ 
-        maxWidth: "20%", 
-        border: "1px solid #ddd"}}>
-        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
-          {data.stepDescription}
+      <Box 
+        sx={{ 
+        flex:1,
+        display: "flex",
+        }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+          fontSize: "18px", 
+          mb: 1, 
+          alignSelf: "flex-start",
+          }}>
+            <b>Task Description:</b> {data.stepDescription}
         </Typography>
       </Box>
-      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
-        <Typography variant="body1" sx={{ fontSize: "14px", mb: 2 }}>
-          pattern image
-        </Typography>
+        <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
+          {/* {patternIcon()} */}
+        </Box>
       </Box>
-      </Box>
-      <Box
-        sx={{
-          maxWidth: "10%"
 
-        }}
-      >
-        
-        
-      </Box>
       <Box
+        sx={{maxWidth: "100%"}}>
+          {patternForm()}
+      </Box>
+
       
-      sx={{maxWidth: "80%"}}>
-        {patternForm()}
-      </Box>
-
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`out-${id}`}
-        isConnectable={isConnectable}
-        style={{ top: "50%", background: "#555" }}
-      />
     </Box>
   );
 };
