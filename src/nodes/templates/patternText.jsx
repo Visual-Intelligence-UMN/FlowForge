@@ -1,11 +1,10 @@
 import { TextField } from "@mui/material";
 
 export function PatternTextField({ label, value, onChange }) {
-    const trimmedValue = value.trim();
   return (
     <TextField
       label={label}
-      value={trimmedValue || ""}
+      value={value}
       onChange={onChange}
       size="small"
       multiline

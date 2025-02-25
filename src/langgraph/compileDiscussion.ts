@@ -31,7 +31,7 @@ const makeAgentNode = (params: {
             response: z.string().describe(
             "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             ),
-            goto: z.enum(params.destinations).describe("The next agent to call. Must be one of the specified values."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent or Summary to call. Must be one of the specified values."),
         });
 
         const agent = new ChatOpenAI({
@@ -82,9 +82,6 @@ const makeAgentNode = (params: {
 
 
 const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    console.log("workflow in compileDis", workflow);
-    console.log("stepEdges in compileDis", stepEdges);
-    console.log("nodesInfo in compileDis", nodesInfo);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
 
     if (summaryNode) {
@@ -108,11 +105,16 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
     }
 
     for (const node of nodesInfo) {
-        const destinations = stepEdges.map((edge) => edge.target);
-        console.log("destinations for agents", destinations);
+        const destinations = Array.from(
+            new Set(
+              stepEdges
+                .filter(edge => edge.source === node.id)
+                .map(edge => edge.target)
+            )
+          );
         const agentNode = makeAgentNode({
             name: node.id,
-            destinations: destinations,
+            destinations: destinations as string[],
             systemPrompt: node.data.systemPrompt,
             llmOption: node.data.llm,
             tools: node.data.tools,

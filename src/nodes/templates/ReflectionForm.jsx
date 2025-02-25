@@ -29,7 +29,7 @@ export function ReflectionForm({ data, onChange }) {
       display: "flex", 
       flexDirection: "column", 
       gap: 0,  
-      backgroundColor: "#e3f2fd", 
+      // backgroundColor: "#e3f2fd", 
       maxWidth: "100%" }}>
     <Box sx={{ 
       display: "flex", 

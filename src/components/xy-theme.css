@@ -1,0 +1,9 @@
+.react-flow__node-group {
+    background-color: rgba(216, 204, 239, 0.4);
+    border-color: #8866ef;
+    z-index: -2000;
+}
+
+/* .react-flow__node {
+   z-index: -1 !important;
+} */

@@ -14,9 +14,10 @@ import {
   } from '@xyflow/react';
 import { nodeTypes } from '../nodes';
 import { edgeTypes } from '../edges';
-import { getLayoutedNodesAndEdges } from '../utils/dagreUtils';
+import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../utils/dagreUtils';
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';
+import './xy-theme.css';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {
@@ -37,7 +38,7 @@ export function FlowPanelComponent(props) {
     );
 
     useEffect(() => {
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdgesInGroup(
           nodes,
           edges
         );

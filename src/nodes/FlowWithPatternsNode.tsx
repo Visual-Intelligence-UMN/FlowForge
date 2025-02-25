@@ -92,7 +92,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
       <Button 
         // variant="contained" 
         color="primary" 
-        onClick={() => {}}>
+        onClick={() => {
+          console.log("data", data);
+          if (data.template.confirm) {
+            updateNodeFieldset(id, "template.confirm", false);
+          } else {
+            updateNodeFieldset(id, "template.confirm", true);
+          }
+        }}>
         Confirm
       </Button>
     )
@@ -174,7 +181,10 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
     </Box>
 
       <Box
-        sx={{maxWidth: "100%"}}>
+        sx={{
+          maxWidth: "100%",
+          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff"
+        }}>
           {patternForm()}
       </Box>
 

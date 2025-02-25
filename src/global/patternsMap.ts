@@ -51,15 +51,18 @@ export const designPatternsPool = [
 
 export const designPatternsTemplate = {
     "Single Agent": {
+        confirm: false,
         persona: "Single Agent",
         goal: "Single Agent",
     }, 
     "Validator": {
+        confirm: false, 
         persona: "Validator",
         goal: "Validator",
         patternPrompt: "You are a validator. You are given a task and a set of requirements. You need to validate the task based on the requirements.",
     },
     "Supervision": {
+        confirm: false,
         workerNum: 2,
         maxRound: 10,
         workers: [
@@ -83,6 +86,7 @@ export const designPatternsTemplate = {
         },
     },
     "Reflection": {
+        confirm: false,
         maxRound: 10,
         evaluator: {
             persona: "Evaluator",
@@ -102,6 +106,7 @@ export const designPatternsTemplate = {
         },    
     },
     "Discussion": {
+        confirm: false,
         maxRound: 10,
         agentNum: 3,
         withSummary: true,
@@ -129,6 +134,7 @@ export const designPatternsTemplate = {
         },
     },
     "Parallel": {
+        confirm: false,
         agentNum: 3,
         withSummary: true,
         agents: [
@@ -145,22 +151,23 @@ export const designPatternsTemplate = {
         },
     },
     "Voting": {
+        confirm: false,
         agentNum: 3,
         withSummary: true,
         agents: [
             {
                 persona: "scientist",
-                goal: "more logical and scientific",
+                goal: "Ideas towards more logical and scientific, target audience is the scientific community",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
             {
                 persona: "journalist",
-                goal: "more realistic and engaging",
+                goal: "Ideas towards more realistic and engaging, target audience is the general public",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
             {
                 persona: "artist",
-                goal: "more artistic and creative",
+                goal: "Ideas towards more artistic and creative, target audience is the future art",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
         ],
