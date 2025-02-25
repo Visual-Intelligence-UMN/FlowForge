@@ -27,13 +27,11 @@ const makeAgentNode = (params: {
 }) => {
     return async (state: typeof AgentsState.State) => {
 
-        const possibleDestinations = ["__end__", ...params.destinations] as const;
-
         const responseSchema = z.object({
             response: z.string().describe(
             "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             ),
-            goto: z.enum(possibleDestinations).describe("The next agent to call, or __end__ if the user's query has been resolved. Must be one of the specified values."),
+            goto: z.enum(params.destinations).describe("The next agent to call. Must be one of the specified values."),
         });
 
         const agent = new ChatOpenAI({
@@ -56,14 +54,23 @@ const makeAgentNode = (params: {
             ...getInputMessagesForStep(state, currentStep),
         ]
 
+
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
             role: "assistant",
             content: response.response,
             name: params.name,
         }
+        
+        let response_goto = response.goto;
+        if (state[currentStep].length >= 10) {
+            response_goto = params.destinations.find((d) => d.includes("Summary"));
+        }
+
+        console.log("discussion response", response);
+        console.log("state", state);
         return new Command({
-            goto: response.goto,
+            goto: response_goto,
             update: {
                 messages: aiMessage,
                 sender: params.name,
@@ -75,9 +82,34 @@ const makeAgentNode = (params: {
 
 
 const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+    console.log("workflow in compileDis", workflow);
+    console.log("stepEdges in compileDis", stepEdges);
     console.log("nodesInfo in compileDis", nodesInfo);
+    const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
+
+    if (summaryNode) {
+        const createdAgent = async () => await createAgent({
+            llmOption: summaryNode.data.llm,
+            tools: summaryNode.data.tools,
+            systemMessage: summaryNode.data.systemPrompt,
+            accessStepMsgs: true,
+        });
+
+        const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
+            return create_agent_node({
+                state: state,
+                agent: await createdAgent(),
+                name: summaryNode.id,
+                config: config,
+            });
+        }
+        workflow.addNode(summaryNode.id, agentNode)
+        workflow.addEdge(summaryNode.id, stepEdges.find((edge) => edge.source === summaryNode.id).target)
+    }
+
     for (const node of nodesInfo) {
         const destinations = stepEdges.map((edge) => edge.target);
+        console.log("destinations for agents", destinations);
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations,
@@ -85,10 +117,14 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             llmOption: node.data.llm,
             tools: node.data.tools,
         })
+        if (node.data.label === "Summary") {
+            continue;
+        }
         workflow.addNode(node.id, agentNode, {
-            ends: ["__end__", ...destinations]
+            ends: [...destinations]
         });
     }
+   
 
     return workflow;
 }

@@ -109,7 +109,7 @@ const handleSupervision = (step) => {
     When the task is done, you should organize the output and respond with ending with FINISH.`;
 
     const workerPatternPrompt = `You are a helpful worker who can complete the task.`
-    
+
     const workerNodes = workers.map((worker, index) => {
         return {
           type: "singleAgent",
@@ -317,8 +317,16 @@ const handleDiscussion = (step) => {
             target: "END",
             label: "finish",
         })
+    } else {
+        agentsNodes.forEach((agent) => {
+            agentsEdges.push({
+                type: "network",
+                source: agent.description,
+                target: "END",
+                label: "finish",
+            })
+        })
     }
-
     return {
         type: "discussion",
         maxRound: maxRound,

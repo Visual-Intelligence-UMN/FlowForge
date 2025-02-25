@@ -8,11 +8,12 @@ import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
 import CompileLanggraph from "./CompileLanggraph";
-
+import generateGraphImage from "../langgraph/utils";
 const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);
   const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
+  const [graphImage, setGraphImage] = useState(null);
   useEffect(() => {
     setInputMessage(selectedTask.description);
   }, [selectedTask]);
@@ -40,6 +41,9 @@ const StreamOutput = ({ runConfig }) => {
     event.preventDefault();
     console.log("recompile runConfig", runConfig);
     const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
+
+    const graphImage = await generateGraphImage(langgraphRun);
+    setGraphImage(graphImage); // debug graph building
 
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
@@ -208,8 +212,10 @@ const StreamOutput = ({ runConfig }) => {
                 <Button variant="contained" onClick={toggleVisibility}>
                 {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
                 </Button>
+                
             </Grid>
             {/* Conditional Panel */}
+            {graphImage && <img src={graphImage} alt="workflow graph" style={{width: "50%", height: "50%"}}/>}
             {streamOutput.isVisible && (
                 <Grid item xs={11}>
                 <Box sx={{ display: "flex", gap: 2 }}>
