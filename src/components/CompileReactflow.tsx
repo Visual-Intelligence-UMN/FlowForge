@@ -1,3 +1,4 @@
+import zIndex from "@mui/material/styles/zIndex";
 import { AppNode } from "../nodes/types";
 import { Edge } from "@xyflow/react";
 const CompileReactflow = async (config) => {
@@ -120,11 +121,12 @@ const CompileReactflow = async (config) => {
         const currentGroup = stepGroupNodes[i];
         const nextGroup = stepGroupNodes[i + 1];
         reactflowEdges.push({
-        id: `stepGroup-${currentGroup.id}->${nextGroup.id}`,
-        source: currentGroup.id,   
-        target: nextGroup.id,      
-        type: "stepGroup",      
-        label: `Transition from ${currentGroup.id} to ${nextGroup.id}`,
+            id: `stepGroup-${currentGroup.id}->${nextGroup.id}`,
+            source: currentGroup.id,   
+            target: nextGroup.id,      
+            type: "stepGroup",      
+            label: `Transition from ${currentGroup.id} to ${nextGroup.id}`,
+            // zIndex: 2000
         });
     }
   

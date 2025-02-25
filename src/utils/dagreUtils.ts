@@ -73,7 +73,7 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const nodeWidth = 700; // Set your node width
+  const nodeWidth = 200; // Set your node width
   const nodeHeight = 200; // Set your node height
 
   dagreGraph.setGraph({ 
@@ -119,8 +119,8 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
       const padding = 10;
       const minX = Math.min(...childNodes.map(n => n.position.x)) - padding;
       const minY = Math.min(...childNodes.map(n => n.position.y)) - padding;
-      const maxX = Math.max(...childNodes.map(n => n.position.x + (n.width || nodeWidth))) + padding;
-      const maxY = Math.max(...childNodes.map(n => n.position.y + (n.height || nodeHeight))) + padding + 100;
+      const maxX = Math.max(...childNodes.map(n => n.position.x + (n.width || nodeWidth))) + padding + 100;
+      const maxY = Math.max(...childNodes.map(n => n.position.y + (n.height || nodeHeight))) + padding + 200;
       
       return {
         ...groupNode,
@@ -144,6 +144,8 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
 
   return { nodes: layoutedNodes, edges };
 };
+
+
 
 
 export { getLayoutedNodesAndEdges, getMultiLineLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup };
