@@ -7,16 +7,13 @@ import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../global/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-
-import { compiledConfigsAtom } from "../global/GlobalStates";
-
-const StreamOutput = ({ langgraphRun }) => {
+import CompileLanggraph from "./CompileLanggraph";
+import generateGraphImage from "../langgraph/utils";
+const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);
   const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
-
+  const [graphImage, setGraphImage] = useState(null);
   useEffect(() => {
     setInputMessage(selectedTask.description);
   }, [selectedTask]);
@@ -42,6 +39,12 @@ const StreamOutput = ({ langgraphRun }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log("recompile runConfig", runConfig);
+    const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
+
+    const graphImage = await generateGraphImage(langgraphRun);
+    setGraphImage(graphImage); // debug graph building
+
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
     // TODO: args should include graphviz graph
@@ -209,8 +212,10 @@ const StreamOutput = ({ langgraphRun }) => {
                 <Button variant="contained" onClick={toggleVisibility}>
                 {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
                 </Button>
+                
             </Grid>
             {/* Conditional Panel */}
+            {graphImage && <img src={graphImage} alt="workflow graph" style={{width: "50%", height: "50%"}}/>}
             {streamOutput.isVisible && (
                 <Grid item xs={11}>
                 <Box sx={{ display: "flex", gap: 2 }}>

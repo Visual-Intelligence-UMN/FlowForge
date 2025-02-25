@@ -11,6 +11,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
             llmOption: node.data.llm,
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
+            accessStepMsgs: false,
         });
 
         const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
@@ -42,6 +43,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
                 llmOption: node.data.llm,
                 tools: node.data.tools,
                 systemMessage: node.data.systemPrompt,
+                accessStepMsgs: false,
             });
             const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
                 return create_agent_node({

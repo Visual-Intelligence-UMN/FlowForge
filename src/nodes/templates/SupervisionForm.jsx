@@ -1,11 +1,9 @@
-import { Box, TextField, IconButton, Typography } from "@mui/material";
+import { Box, TextField, IconButton, Typography, Grid2 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export function SupervisionForm({ data, onChange }) {
   // data = { workerNum, maxRound, workers: [...], supervisor: {...} }
-  // Be careful: data might be empty, so default to empty arrays/objects
-
   const workers = data.workers || [];
 
   const handleSimpleFieldChange = (field) => (e) => {
@@ -28,10 +26,7 @@ export function SupervisionForm({ data, onChange }) {
   };
 
   const addWorker = () => {
-    const newWorkers = [
-      ...workers,
-      { persona: "Worker", goal: "Worker" },
-    ];
+    const newWorkers = [...workers, { persona: "Worker", goal: "Worker" }];
     onChange({
       ...data,
       workers: newWorkers,
@@ -45,7 +40,7 @@ export function SupervisionForm({ data, onChange }) {
     onChange({
       ...data,
       workers: newWorkers,
-      workerNum: (data.workerNum || 1) - 1,
+      workerNum: Math.max((data.workerNum || 1) - 1, 0),
     });
   };
 
@@ -59,58 +54,133 @@ export function SupervisionForm({ data, onChange }) {
     });
   };
 
-  return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      {/* Simple fields */}
-      <TextField
-        label="maxRound"
-        value={data.maxRound || ""}
-        onChange={handleSimpleFieldChange("maxRound")}
-        size="small"
-      />
+  const supervisorDisplay = () => {
+    return (
+      <Box 
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          border: "1px solid #ccc",
+          p: 1,
+          borderRadius: 2,
+          boxShadow: 1,
+          minHeight: 130, 
+        }}
+      >
+        <Typography variant="subtitle2">Supervisor</Typography>
+        <TextField
+          label="Supervisor Persona"
+          value={data.supervisor?.persona || ""}
+          onChange={handleSupervisorChange("persona")}
+          size="small"
+          fullWidth
+        />
+        <TextField
+          label="Supervisor Goal"
+          value={data.supervisor?.goal || ""}
+          onChange={handleSupervisorChange("goal")}
+          size="small"
+          fullWidth
+        />
+    </Box>
+    )
+  }
 
-      {/* Workers */}
-      <Typography variant="subtitle2">Workers ({workers.length})</Typography>
-      {workers.map((w, i) => (
-        <Box
-          key={i}
-          sx={{ display: "flex", flexDirection: "column", gap: 0.5, mb: 1 }}
-        >
-          <TextField
-            label="Worker Persona"
-            value={w.persona || ""}
-            onChange={handleWorkerChange(i, "persona")}
-            size="small"
-          />
-          <TextField
-            label="Worker Goal"
-            value={w.goal || ""}
-            onChange={handleWorkerChange(i, "goal")}
-            size="small"
-          />
-          <IconButton onClick={() => removeWorker(i)} size="small" color="error">
-            <RemoveCircleIcon />
-          </IconButton>
-        </Box>
-      ))}
-      <IconButton onClick={addWorker} size="small" color="primary">
-        <AddCircleIcon />
+  const eachWorker = (w, i) => {
+    return (
+      <Box 
+        sx={{
+          position: "relative",
+          display: "flex",
+          flex: 1,
+          // width: "80%",
+          flexDirection: "column",
+          gap: 1,
+          border: "1px solid #ccc",
+          p: 1,
+          borderRadius: 2,
+          boxShadow: 1,
+          minHeight: 130, 
+        }}
+      >
+            
+      <IconButton
+        onClick={() => removeWorker(i)}
+        size="small"
+        color="error"
+        sx={{
+          position: "absolute",
+          top: 4,
+          right: 12,
+        }}
+      >
+        {/* <RemoveCircleIcon /> */}
+        -
       </IconButton>
 
-      {/* Supervisor */}
-      <Typography variant="subtitle2">Supervisor</Typography>
-      <TextField
-        label="Supervisor Persona"
-        value={data.supervisor?.persona || ""}
-        onChange={handleSupervisorChange("persona")}
-        size="small"
-      />
-      <TextField
-        label="Supervisor Goal"
-        value={data.supervisor?.goal || ""}
-        onChange={handleSupervisorChange("goal")}
-        size="small"
-      />
+        <Typography variant="subtitle2">Worker #{i + 1}</Typography>
+        <TextField
+          label="Worker Persona"
+          value={w.persona || ""}
+          onChange={handleWorkerChange(i, "persona")}
+          size="small"
+          fullWidth
+        />
+        <TextField
+          label="Worker Goal"
+          value={w.goal || ""}
+          onChange={handleWorkerChange(i, "goal")}
+          size="small"
+          fullWidth
+        />
+      </Box>
+    )
+  }
+
+  return (
+    <Box 
+      sx={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        gap: 3,
+        width: "100%"
+      }}
+    >
+     
+      <Grid2
+        container
+        spacing={1}
+        columns={3}
+      >
+        <Grid2 xs={12} md={6} lg={4}>
+          {supervisorDisplay()}
+        </Grid2>
+        {workers.map((w, i) => (
+          <Grid2 key={i} xs={12} md={6} lg={4}>
+            {eachWorker(w, i)}
+          </Grid2>
+        ))}
+      </Grid2>
+
+      <Box 
+        sx={{ 
+          display: "flex", 
+          gap: 2, 
+          flexWrap: "wrap", 
+          justifyContent: "left" }}>
+        <IconButton onClick={addWorker} size="small" color="primary">
+          <AddCircleIcon />
+        </IconButton>
+        <TextField
+          label="maxRound"
+          value={data.maxRound || ""}
+          onChange={handleSimpleFieldChange("maxRound")}
+          size="small"
+        />
+      </Box>
+
     </Box>
   );
 }

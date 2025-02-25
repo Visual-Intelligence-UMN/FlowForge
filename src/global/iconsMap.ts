@@ -1,11 +1,4 @@
 // Import all the icons you need
-import {
-    Home as HomeIcon,
-    Person as PersonIcon,
-    Settings as SettingsIcon,
-    // ...any other icons
-} from "@mui/icons-material";
-
 import { 
     DiscussionIcon, 
     ParallelIcon,

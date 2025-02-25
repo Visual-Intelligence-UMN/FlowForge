@@ -16,8 +16,17 @@ const loader_tool = tool(async (input) => {
     }),
 });
 
-const search_tool = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
-// const search_tool = [new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY })]
+const search_tool = tool(async (input) => {
+    const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
+    const result = await search.invoke(input);
+    return result;
+}, {
+    name: "WebSearch",
+    description: "Search the web for information",
+    schema: z.object({
+        query: z.string(),
+    }),
+});
 
 const toolsMap = {
   "tool_PDFLoader": loader_tool,
