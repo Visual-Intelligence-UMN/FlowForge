@@ -260,7 +260,7 @@ const handleDiscussion = (step) => {
             goal: agent.goal,
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
-            systemPrompt: agent.patternPrompt?.trim() + taskPrompt
+            systemPrompt: agent.patternPrompt?.trim() + taskPrompt + "Your persona is " + agent.persona + " and your goal is " + agent.goal
         }
     })
 
