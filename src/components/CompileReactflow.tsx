@@ -33,7 +33,7 @@ const CompileReactflow = async (config) => {
             data: {label: `Step ${stepIdx}`},
             position: {x: positionX, y: positionY},
             style: {width: 500, height: 500},
-            type: "group",
+            type: "group"
         }
         reactflowNodes.push(stepGroup);
         stepGroupNodes.push(stepGroup);

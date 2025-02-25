@@ -146,6 +146,4 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
 };
 
 
-
-
 export { getLayoutedNodesAndEdges, getMultiLineLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup };

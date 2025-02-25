@@ -157,17 +157,17 @@ export const designPatternsTemplate = {
         agents: [
             {
                 persona: "scientist",
-                goal: "more logical and scientific",
+                goal: "Ideas towards more logical and scientific, target audience is the scientific community",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
             {
                 persona: "journalist",
-                goal: "more realistic and engaging",
+                goal: "Ideas towards more realistic and engaging, target audience is the general public",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
             {
                 persona: "artist",
-                goal: "more artistic and creative",
+                goal: "Ideas towards more artistic and creative, target audience is the future art",
                 patternPrompt: 'You are a helpful assistant who can vote for the best option'
             },
         ],
