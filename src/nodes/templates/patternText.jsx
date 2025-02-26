@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 
-export function PatternTextField({ label, value, onChange }) {
+export function PatternTextField({ label, value, onChange, maxRows=5 }) {
   return (
     <TextField
       label={label}
@@ -8,8 +8,9 @@ export function PatternTextField({ label, value, onChange }) {
       onChange={onChange}
       size="small"
       multiline
-      variant="outlined"
-      maxRows={4}
+      variant="outlined"  
+      minRows={2}
+      maxRows={5}
       className={`nodrag nopan nowheel`}
     />
   );

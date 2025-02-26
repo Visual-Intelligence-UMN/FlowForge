@@ -1,33 +1,26 @@
 import {
   Box,
   TextField,
-  FormControlLabel,
-  Checkbox,
   IconButton,
   Typography,
   Grid2,
   Select,
   MenuItem,
 } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+
 import { PatternTextField } from "./patternText";
 
 export function DiscussionForm({ data, onChange }) {
   const agents = data.agents || [];
-  // console.log(data)
+  // console.log("data", data)
 
   const handleSimpleFieldChange = (field) => (e) => {
     onChange({
       ...data,
       [field]: e.target.type === "number" ? parseInt(e.target.value) : e.target.value,
-    });
-  };
-
-  const handleCheckboxChange = (field) => (e) => {
-    onChange({
-      ...data,
-      [field]: e.target.checked,
     });
   };
 
@@ -62,15 +55,6 @@ export function DiscussionForm({ data, onChange }) {
     });
   };
 
-  const handleSummaryChange = (field) => (e) => {
-    onChange({
-      ...data,
-      summary: {
-        ...data.summary,
-        [field]: e.target.value,
-      },
-    });
-  };
 
   const eachAgent = (agent, i) => {
     return (
@@ -79,7 +63,7 @@ export function DiscussionForm({ data, onChange }) {
           position: "relative",
           display: "flex",
           flexDirection: "column",
-          gap: 1,
+          gap: 1.5,
           border: "1px solid #ccc",
           p: 1,
           borderRadius: 2,
@@ -94,34 +78,30 @@ export function DiscussionForm({ data, onChange }) {
         color="error"
         sx={{
           position: "absolute",
-          top: 4,
-          right: 12,
+          top: 1,
+          right: 9,
         }}
       >
-        {/* <RemoveCircleIcon /> */}
-        -
+        <RemoveOutlinedIcon 
+            size="small" 
+        />
       </IconButton>
 
       <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
         Agent #{i + 1}
       </Typography>
-      {/* <PatternTextField
-        label="Pattern Prompt"
-        value={agent.patternPrompt || ""}
-        onChange={handleAgentChange(i, "patternPrompt")}
-        size="small"
-      /> */}
+   
       <PatternTextField
         label="Persona"
         value={agent.persona || ""}
         onChange={handleAgentChange(i, "persona")}
-        size="small"
+        maxRows={4}
       />
       <PatternTextField
         label="Goal"
         value={agent.goal || ""}
         onChange={handleAgentChange(i, "goal")}
-        size="small"
+        maxRows={4}
       />
     </Box>
     )
@@ -136,24 +116,24 @@ export function DiscussionForm({ data, onChange }) {
         width: "100%",
       }}
     >
-      <Grid2 container spacing={1} columns={3}>
+      <Grid2 container spacing={2} columns={3}>
         {agents.map((agent, i) => (
-          <Grid2 key={i} xs={12} md={6} lg={4}>
+          <Grid2 key={i} xs={12} md={12} lg={12}>
             {eachAgent(agent, i)}
           </Grid2>
         ))}
       </Grid2>
       
 
-      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         
           <IconButton 
             onClick={addAgent} 
-            size="large" 
+            size="small" 
             color="primary"
-            sx={{  width: "8%"}}
+            sx={{ width: "10%"}}
             >
-            <AddCircleIcon fontSize="large" />
+            <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
 
           <TextField
@@ -162,7 +142,8 @@ export function DiscussionForm({ data, onChange }) {
             value={data.maxRound || ""}
             onChange={handleSimpleFieldChange("maxRound")}
             size="small"
-            sx={{ flex: "1" }}
+            sx={{ maxWidth: "20%" }}
+            className={`nodrag nopan nowheel`}
           />
 
           <Select
@@ -170,7 +151,7 @@ export function DiscussionForm({ data, onChange }) {
             value={data.withSummary || ""}
             onChange={handleSimpleFieldChange("withSummary")}
             size="small"
-            sx={{ flex: "1" , mt: 1}}
+            sx={{ maxWidth: "60%" }}
             className="nodrag nopan"
           >
             <MenuItem value="true">With Summary</MenuItem>
@@ -178,31 +159,6 @@ export function DiscussionForm({ data, onChange }) {
           </Select>
       </Box>
      
-      
-
-      {/* Checkbox for Summary */}
-      {/* <FormControlLabel
-        control={<Checkbox checked={!!data.withSummary} onChange={handleCheckboxChange("withSummary")} />}
-        label="With Summary"
-      />
-      {data.withSummary && (
-        <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle2">Summary</Typography>
-          <TextField
-            label="Summary Persona"
-            value={data.summary?.persona || ""}
-            onChange={handleSummaryChange("persona")}
-            size="small"
-            sx={{ mb: 1 }}
-          />
-          <TextField
-            label="Summary Goal"
-            value={data.summary?.goal || ""}
-            onChange={handleSummaryChange("goal")}
-            size="small"
-          />
-        </Box>
-      )} */}
     </Box>
   );
 }

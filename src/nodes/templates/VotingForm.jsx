@@ -1,21 +1,16 @@
 import {
   Box,
   TextField,
-  FormControlLabel,
-  Checkbox,
   IconButton,
   Typography,
   Grid2,
-  Select,
-  MenuItem,
 } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { PatternTextField } from "./patternText";
 
 export function VotingForm({ data, onChange }) {
   const agents = data.agents || [];
-  // console.log(data)
 
   const handleSimpleFieldChange = (field) => (e) => {
     onChange({
@@ -78,12 +73,13 @@ export function VotingForm({ data, onChange }) {
         color="error"
         sx={{
           position: "absolute",
-          top: 4,
-          right: 12,
+          top: 1,
+          right: 9,
         }}
       >
-        {/* <RemoveCircleIcon /> */}
-        -
+        <RemoveOutlinedIcon 
+            size="small" 
+        />
       </IconButton>
 
       <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
@@ -91,16 +87,10 @@ export function VotingForm({ data, onChange }) {
       </Typography>
 
       <PatternTextField
-        label="Persona"
-        value={agent.persona || ""}
-        onChange={handleAgentChange(i, "persona")}
-        size="small"
-      />
-      <PatternTextField
         label="Rubric"
         value={agent.rubric || ""}
         onChange={handleAgentChange(i, "rubric")}
-        size="small"
+        maxRows={4}
       />
     </Box>
     )
@@ -124,15 +114,15 @@ export function VotingForm({ data, onChange }) {
       </Grid2>
       
 
-      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         
           <IconButton 
             onClick={addAgent} 
-            size="large" 
+            size="small" 
             color="primary"
-            sx={{  width: "8%"}}
+            sx={{width: "10%"}}
             >
-            <AddCircleIcon fontSize="large" />
+            <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
 
           <TextField
@@ -141,7 +131,8 @@ export function VotingForm({ data, onChange }) {
             value={data.maxRound || ""}
             onChange={handleSimpleFieldChange("maxRound")}
             size="small"
-            sx={{ flex: "1" }}
+            sx={{ maxWidth: "20%", justifyContent: "center" }}
+            className={`nodrag nopan nowheel`}
           />
       </Box>
      

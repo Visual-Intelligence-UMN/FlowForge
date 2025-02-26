@@ -134,19 +134,24 @@ export const designPatternsTemplate = {
     },
     "Parallel": {
         confirm: false,
-        agentNum: 3,
-        withSummary: true,
+        withAggregation: true,
         agents: [
             {
-                persona: "Agent",
-                goal: "Agent",
+                persona: "scientist",
+                goal: "more logical and scientific",
                 patternPrompt: 'You are a helpful assistant who finish the task.'
             },
+            {
+                persona: "journalist",
+                goal: "more realistic and engaging",
+                patternPrompt: 'You are a helpful assistant who finish the task.'
+            },
+            
         ],
-        summary: {
-            persona: "Summary",
-            goal: "Summary",
-            patternPrompt: 'You are a helpful assistant who can summarize the output of the agents.',
+        aggregation: {
+            persona: "Aggregator",
+            goal: "Aggregator",
+            patternPrompt: 'You are a helpful assistant who can aggregate the output of the agents.',
         },
     },
     "Voting": {
