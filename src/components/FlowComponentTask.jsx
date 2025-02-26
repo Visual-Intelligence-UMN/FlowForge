@@ -3,6 +3,10 @@ import ReactFlow, {
     useNodesState,
     useEdgesState,
     useReactFlow,
+    getIncomers,
+    getOutgoers,
+    getConnectedEdges,
+    Controls,
   } from "reactflow";
 import { useCallback, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
@@ -24,8 +28,8 @@ export function FlowComponentTask(props) {
 
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
-    console.log("nodes", nodes);
-    console.log("edges", edges);
+    // console.log("nodes", nodes);
+    // console.log("edges", edges);
 
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
@@ -38,10 +42,14 @@ export function FlowComponentTask(props) {
 
     const targetWorkflow = props.targetWorkflow;
 
+    // const onConnect = useCallback(
+    //     (connection) => setEdges((eds) => addEdge(connection, eds)),
+    //     [setEdges]
+    // );
     const onConnect = useCallback(
-        (connection) => setEdges((eds) => addEdge(connection, eds)),
-        [setEdges]
-    );
+        (params) => setEdges(addEdge(params, edges)),
+        [edges],
+      );
 
     useEffect(() => {
         // To make sure the layout is always after the nodes and edges are set
@@ -65,15 +73,64 @@ export function FlowComponentTask(props) {
 
       }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
       
+    const addStep = useCallback (() => {
+        setNodes((prevNodes) => {
+            console.log("prevNodes", prevNodes);
+            return [
+                ...prevNodes, 
+                {
+                    id: `step-${prevNodes.length + 1}`,
+                    type: "flowStep",
+                    position: {
+                        x: prevNodes.length * 200,
+                        y: prevNodes.length * 100,
+                    },
+                    data: {
+                        stepName: `Step ${prevNodes.length + 1}`,
+                        stepLabel: `Step ${prevNodes.length + 1}`,
+                        stepDescription: `Step ${prevNodes.length + 1}`
+                    },
+                }   
+            ];
+        });
+    }, []);
+
+    const onNodesDelete = useCallback(
+        (deleted) => {
+          setEdges(
+            deleted.reduce((acc, node) => {
+              const incomers = getIncomers(node, nodes, edges);
+              const outgoers = getOutgoers(node, nodes, edges);
+              const connectedEdges = getConnectedEdges([node], edges);
+     
+              const remainingEdges = acc.filter(
+                (edge) => !connectedEdges.includes(edge),
+              );
+     
+              const createdEdges = incomers.flatMap(({ id: source }) =>
+                outgoers.map(({ id: target }) => ({
+                  id: `${source}->${target}`,
+                  source,
+                  target,
+                })),
+              );
+     
+              return [...remainingEdges, ...createdEdges];
+            }, edges),
+          );
+        },
+        [nodes, edges],
+      );
+     
 
     const handleSave = () => {
         const updatedTaskFlowSteps = nodes.map((node) => ({
             stepName: node.data.stepName,
             stepLabel: node.data.stepLabel,
             stepDescription: node.data.stepDescription,
-            pattern: node.data.pattern,
-            config: node.data.config,
-            template: node.data.template,
+            pattern: node.data.pattern || {},
+            config: node.data.config || {},
+            template: node.data.template || {},
         }));
         const updatedTaskflow = {
             ...targetWorkflow,
@@ -90,54 +147,26 @@ export function FlowComponentTask(props) {
 
     const updateNodeField = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
-            prevNodes.map((node) =>
-                node.id === nodeId
-                    ? {
-                        ...node,
-                        data: {
-                            ...node.data,
-                            // Update pattern fields
-                            pattern: fieldName.startsWith("pattern.")
-                                ? {
-                                    ...node.data.pattern,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.pattern,
-    
-                            config: fieldName.startsWith("config.")
-                                ? {
-                                    ...node.data.config,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.config,
-
-                            ...(fieldName.startsWith("pattern.") || fieldName.startsWith("config.")
-                                ? {}
-                                : { [fieldName]: newValue }),
-                        },
-                    }
-                    : node
-            )
+          prevNodes.map((node) =>
+            node.id === nodeId
+              ? {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    // If it’s a direct property (e.g. “stepName”):
+                    [fieldName]: newValue,
+                  },
+                }
+              : node
+          )
         );
-    };
-
-    const updateNodeFieldset = (nodeId, fieldName, newValue) => {
-        setNodes((prevNodes) =>
-            prevNodes.map((node) => {
-                if (node.id !== nodeId) return node;
-                const newData = { ...node.data };
-                set(newData, fieldName, newValue); 
-                return { ...node, data: newData };
-            })
-        );
-    };
+      };
     
 
     const nodeListWithHandlers = nodes.map((node) => ({
         ...node,
         data: {
             ...node.data,
-            updateNodeFieldset,
             updateNodeField,
         },
     }));
@@ -148,6 +177,10 @@ export function FlowComponentTask(props) {
         border: "1px solid #ddd",
         position: "relative",
         }}>
+
+
+        <Button onClick={addStep}>Add Step</Button>
+
         <ReactFlow
          key={`${canvasPages.type}-${canvasPages.flowId || ''}-${canvasPages.patternId || ''}-${canvasPages.configId || ''}`}
          nodes={nodeListWithHandlers}
@@ -156,8 +189,12 @@ export function FlowComponentTask(props) {
          onNodesChange={onNodesChange}
          onEdgesChange={onEdgesChange}
          onConnect={onConnect}
+         onNodesDelete={onNodesDelete}
          fitView = {true}
-         ></ReactFlow>
+         >
+         <Controls />
+         
+         </ReactFlow>
 
          <Button 
          size="large"

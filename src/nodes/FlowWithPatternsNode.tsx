@@ -125,9 +125,9 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         border: "1px solid #ddd",
         borderRadius: 4,
         backgroundColor: "#fff",
-        minWidth: patternWidthMap[data.pattern.name][0],
+        minWidth: patternWidthMap[data.pattern.name][0] || 100,
         textAlign: "center",
-        maxWidth:patternWidthMap[data.pattern.name][1],
+        maxWidth:patternWidthMap[data.pattern.name][1] || 100,
         boxShadow: 2,
         gap: 0
       }}
