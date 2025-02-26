@@ -108,7 +108,6 @@ export const designPatternsTemplate = {
     "Discussion": {
         confirm: false,
         maxRound: 10,
-        agentNum: 3,
         withSummary: true,
         agents: [
             {
@@ -135,46 +134,51 @@ export const designPatternsTemplate = {
     },
     "Parallel": {
         confirm: false,
-        agentNum: 3,
-        withSummary: true,
+        withAggregation: true,
         agents: [
             {
-                persona: "Agent",
-                goal: "Agent",
+                persona: "scientist",
+                goal: "more logical and scientific",
                 patternPrompt: 'You are a helpful assistant who finish the task.'
             },
+            {
+                persona: "journalist",
+                goal: "more realistic and engaging",
+                patternPrompt: 'You are a helpful assistant who finish the task.'
+            },
+            
         ],
-        summary: {
-            persona: "Summary",
-            goal: "Summary",
-            patternPrompt: 'You are a helpful assistant who can summarize the output of the agents.',
+        aggregation: {
+            persona: "Aggregator",
+            goal: "Aggregator",
+            patternPrompt: 'You are a helpful assistant who can aggregate the output of the agents.',
         },
     },
     "Voting": {
         confirm: false,
-        agentNum: 3,
-        withSummary: true,
+        withAggregation: true,
+        maxRound: 10,
         agents: [
             {
                 persona: "scientist",
-                goal: "Ideas towards more logical and scientific, target audience is the scientific community",
-                patternPrompt: 'You are a helpful assistant who can vote for the best option'
+                rubric: "Ideas towards more logical and scientific, target audience is the scientific community",
+                patternPrompt: 'You are a helpful assistant who can vote and score based on the rubric'
             },
             {
                 persona: "journalist",
-                goal: "Ideas towards more realistic and engaging, target audience is the general public",
-                patternPrompt: 'You are a helpful assistant who can vote for the best option'
+                rubric: "Ideas towards more realistic and engaging, target audience is the general public",
+                patternPrompt: 'You are a helpful assistant who can vote and score based on the rubric'
             },
             {
                 persona: "artist",
-                goal: "Ideas towards more artistic and creative, target audience is the future art",
-                patternPrompt: 'You are a helpful assistant who can vote for the best option'
+                rubric: "Ideas towards more artistic and creative, target audience is the future art",
+                patternPrompt: 'You are a helpful assistant who can vote and score based on the rubric'
             },
         ],
-        summary: {
-            persona: "Summary",
-            goal: "Summary",
-            patternPrompt: 'You are a helpful assistant who can summarize the output of the agents.',
+        aggregation: {
+            persona: "Aggregator",
+            goal: "Aggregator",
+            patternPrompt: 'You are a helpful assistant who can aggregate the scores of the voting agents.',
         },
     },
 }

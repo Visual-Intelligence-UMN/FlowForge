@@ -57,6 +57,18 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
     const IconComponent = iconMap[data.pattern.name] || <Typography>No Icon</Typography>;
     return <IconComponent fontSize="small"/>
   }
+  const patternWidthMap = {
+    "Single Agent": [450, 450],
+    "Supervision": [230, 666],
+    "Validator": [450, 450],
+    "Reflection": [666, 666],
+    "Discussion": [700, 700],
+    "Parallel": [666, 666],
+    "Voting": [666, 666],
+    "PDF Loader Agent": [450, 450],
+    "Web Search Agent": [450, 450],
+    default: [100, 100], // fallback
+  };
 
   const patternSelect = () => {
     return (
@@ -113,9 +125,9 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         border: "1px solid #ddd",
         borderRadius: 4,
         backgroundColor: "#fff",
-        minWidth: 230,
+        minWidth: patternWidthMap[data.pattern.name][0],
         textAlign: "center",
-        maxWidth: 666,
+        maxWidth:patternWidthMap[data.pattern.name][1],
         boxShadow: 2,
         gap: 0
       }}

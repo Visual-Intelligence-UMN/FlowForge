@@ -1,7 +1,7 @@
 import { Box, TextField, IconButton, Typography, Grid2 } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import { PatternTextField } from "./patternText";
 export function SupervisionForm({ data, onChange }) {
   // data = { workerNum, maxRound, workers: [...], supervisor: {...} }
   const workers = data.workers || [];
@@ -70,19 +70,15 @@ export function SupervisionForm({ data, onChange }) {
         }}
       >
         <Typography variant="subtitle2">Supervisor</Typography>
-        <TextField
-          label="Supervisor Persona"
+        <PatternTextField
+          label="Persona"
           value={data.supervisor?.persona || ""}
           onChange={handleSupervisorChange("persona")}
-          size="small"
-          fullWidth
         />
-        <TextField
-          label="Supervisor Goal"
+        <PatternTextField
+          label="Goal"
           value={data.supervisor?.goal || ""}
           onChange={handleSupervisorChange("goal")}
-          size="small"
-          fullWidth
         />
     </Box>
     )
@@ -116,20 +112,21 @@ export function SupervisionForm({ data, onChange }) {
           right: 12,
         }}
       >
-        {/* <RemoveCircleIcon /> */}
-        -
+        <RemoveOutlinedIcon 
+            size="small" 
+        />
       </IconButton>
 
         <Typography variant="subtitle2">Worker #{i + 1}</Typography>
-        <TextField
-          label="Worker Persona"
+        <PatternTextField
+          label="Persona"
           value={w.persona || ""}
           onChange={handleWorkerChange(i, "persona")}
           size="small"
           fullWidth
         />
-        <TextField
-          label="Worker Goal"
+        <PatternTextField
+          label="Goal"
           value={w.goal || ""}
           onChange={handleWorkerChange(i, "goal")}
           size="small"
@@ -170,14 +167,17 @@ export function SupervisionForm({ data, onChange }) {
           gap: 2, 
           flexWrap: "wrap", 
           justifyContent: "left" }}>
+
         <IconButton onClick={addWorker} size="small" color="primary">
-          <AddCircleIcon />
+          <AddCircleOutlineIcon fontSize="large" />
         </IconButton>
+
         <TextField
-          label="maxRound"
+          label="Max Turn"
           value={data.maxRound || ""}
           onChange={handleSimpleFieldChange("maxRound")}
           size="small"
+          sx={{ maxWidth: "23%", justifyContent: "center" }}
         />
       </Box>
 

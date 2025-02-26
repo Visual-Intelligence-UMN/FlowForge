@@ -82,7 +82,7 @@ const handleReflection = (step) => {
             {
                 type: "conditional",
                 source: "Reviewer",
-                target: "END",
+                target: "__end__",
                 label: "Approve",
             },
             {
@@ -146,7 +146,7 @@ const handleSupervision = (step) => {
         {
           type: "conditional",
           source: "Supervisor",
-          target: "END",
+          target: "__end__",
           label: "finish",
         },
       ];
@@ -173,78 +173,11 @@ const handleSupervision = (step) => {
         edges: agentEdges,
       };
 
-    // return {
-    //     type: "supervision",
-    //     options: members,
-    //     members: members_description,
-    //     maxRound: maxRound,
-    //     nodes: [
-    //         {
-    //             type: "supervisor",
-    //             description: "Supervisor",
-    //             tools: [],
-    //             llm: "gpt-4o-mini",
-    //             systemPrompt: patternSystemPromptSupervisor + taskPrompt
-    //         }, 
-    //         {
-    //             type: "singleAgent",
-    //             description: "AgentA",
-    //             tools: [],
-    //             llm: "gpt-4o-mini",
-    //             systemPrompt: patternSystemPromptAgentA + taskPromptAgentA
-    //         },
-    //         {
-    //             type: "singleAgent",
-    //             description: "AgentB",
-    //             tools: [],
-    //             llm: "gpt-4o-mini",
-    //             systemPrompt: patternSystemPromptAgentB + taskPromptAgentB
-    //         }
-    //     ],
-    //     edges: [
-    //         {
-    //             type: "direct",
-    //             source: "START",
-    //             target: "Supervisor",
-    //             label: "start",
-    //         },
-    //         {
-    //             type: "conditional",
-    //             source: "Supervisor",
-    //             target: "AgentA",
-    //             label: "route task",
-    //         },
-    //         {
-    //             type: "conditional",
-    //             source: "Supervisor",
-    //             target: "AgentB",
-    //             label: "route task",
-    //         },
-    //         {
-    //             type: "direct",
-    //             source: "AgentA",
-    //             target: "Supervisor",
-    //             label: "respond",
-    //         },
-    //         {
-    //             type: "direct",
-    //             source: "AgentB",
-    //             target: "Supervisor",
-    //             label: "respond",
-    //         },
-    //         {
-    //             type: "conditional",
-    //             source: "Supervisor",
-    //             target: "END",
-    //             label: "finish",
-    //         }
-    //     ]
-    // };
 };
 
 const handleDiscussion = (step) => {
     const { stepDescription, template} = step;
-    const { agentNum, withSummary, maxRound, agents = [], summary = {} } = template;
+    const { withSummary, maxRound, agents = [], summary = {} } = template;
 
     const taskPrompt = 'The task for the team is' + stepDescription;
     const agentsPatternSystemPrompt = 'You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas';
@@ -314,7 +247,7 @@ const handleDiscussion = (step) => {
         agentsEdges.push({
             type: "direct",
             source: "Summary",
-            target: "END",
+            target: "__end__",
             label: "finish",
         })
     } else {
@@ -322,7 +255,7 @@ const handleDiscussion = (step) => {
             agentsEdges.push({
                 type: "network",
                 source: agent.description,
-                target: "END",
+                target: "__end__",
                 label: "finish",
             })
         })
@@ -334,6 +267,84 @@ const handleDiscussion = (step) => {
         edges: agentsEdges
     };
 };
+
+const handleVoting = (step) => {
+    const { stepDescription, template} = step;
+    const { maxRound, agents = [], aggregation = {} } = template;
+
+    const taskPrompt = 'The task for the voting team is' + stepDescription;
+    const agentsPatternSystemPrompt = 'You can vote the scores based on the rubrics.';
+    const aggregatorPatternSystemPrompt = 'You are a helpful assistant who can aggregate the scores of the voting agents.';
+
+    const agentsNodes = agents.map((agent, index) => {
+        return {
+            type: "singleAgent",
+            description: `Voting${index + 1}`,
+            persona: agent.persona,
+            rubric: agent.rubric,
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
+            systemPrompt:  taskPrompt + agent.patternPrompt?.trim() + "Your persona is " + agent.persona + " and your rubric is " + agent.rubric
+        }
+    })
+
+    agentsNodes.push({
+        type: "singleAgent",
+        description: "Aggregator",
+        tools: [],
+        llm: "gpt-4o-mini",
+        taskPrompt: taskPrompt,
+        patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
+        systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
+    })
+
+    let agentsEdges = []
+
+    for (let i = 1; i < agents.length; i++) {
+        agentsEdges.push({
+            type: "direct",
+            source: `Voting${i}`,
+            target: `Voting${i + 1}`,
+            label: "goto",
+        })
+    }
+    agentsEdges.push(
+        {
+            type: "direct",
+            source: "START",
+            target: "Voting1",
+            label: "start",
+        },
+        {
+            type: "direct",
+            source: `Voting${agents.length}`,
+            target: "Voting1",
+            label: "goto",
+        },
+        {
+            type: "conditional",
+            source: `Voting${agents.length}`,
+            target: "Aggregator",
+            label: "goto",
+        },
+        {
+            type: "direct",
+            source: `Aggregator`,
+            target: "__end__",
+            label: "finish",
+        }
+    )
+
+    console.log("agentsEdges in handle", agentsEdges);
+    return {
+        type: "voting",
+        maxRound: maxRound,
+        nodes: [...agentsNodes],
+        edges: agentsEdges
+    }
+}
 
 const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
@@ -358,27 +369,6 @@ const handleSingleAgent = (step) => {
     };
 };
 
-const handleVoting = (step) => {
-    const { stepDescription, pattern} = step;
-    const taskPrompt = 'The task for the voting team is' + stepDescription;
-    const patternSystemPrompt = 'You should vote for the best option based on the task requirements.';
-    const personaPrompt = 'You are a helpful assistant who can vote for the best option';
-    return {
-        type: "voting",
-        nodes: [
-            {
-                type: "singleAgent",
-                description: "Agent",
-                persona: pattern.persona,
-                goal: pattern.goal,
-                tools: [],
-                llm: "gpt-4o-mini",
-                systemPrompt: patternSystemPrompt + taskPrompt
-            }
-        ],
-        edges: []
-    }
-}
 
 const handlersMap = {
     "Web Search Agent": handleSingleAgentWithWebSearchTool,
@@ -387,6 +377,7 @@ const handlersMap = {
     "Supervision": handleSupervision,
     "Discussion": handleDiscussion,
     "Single Agent": handleSingleAgent,
+    "Voting": handleVoting,
 };
 
 export { handlersMap };

@@ -10,7 +10,7 @@ import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} fro
 import { ExploreLeftButton, ExploreRightButton } from "./ExploreButtons";
 import {PatternsMap} from "./PatternsPoolSidebar";
 import { designPatternsTemplate } from "../global/patternsMap";
-
+import { TaskFlowWithProvider } from "./FlowWithProvider";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
 
@@ -130,10 +130,30 @@ const SharedCanvas = ( ) => {
                             </Box>
                         </Box>
                     );
-                }
-                else {
+                } else if (type === "flow") {
                     return (
-                        <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
+                        <Box sx={{
+                            border: "1px solid #ddd", 
+                            display: "flex", 
+                            flexDirection: "column", 
+                            alignItems: "center",
+                            width: "1500px",
+                            height: "900px",
+                        }}>
+                            <Typography variant="h6">{headerContent}</Typography>
+                            <TaskFlowWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
+                        </Box>
+                    );
+                } else {
+                    return (
+                        <Box sx={{
+                            border: "1px solid #ddd", 
+                            display: "flex", 
+                            flexDirection: "column", 
+                            alignItems: "center",
+                            width: "1500px",
+                            height: "900px",
+                        }}>
                             <Typography variant="h6">{headerContent}</Typography>
                             <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
                         </Box>

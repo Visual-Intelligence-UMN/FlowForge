@@ -76,7 +76,7 @@ const CompileReactflow = async (config) => {
                 if (edge.source === "START") {
                     firstNodeId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
                 }
-                if (edge.target === "END") {
+                if (edge.target === "__end__") {
                     outputNodeIds.push(nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx));
                     outputMode = edge.type || "default"; // Capture output mode
                     // TODO: change the edge types 
@@ -105,7 +105,7 @@ const CompileReactflow = async (config) => {
         // process intra-step edges (exclude START/END, those are defined by handlers, but no need to enclose pattern later)  
         let processedEdges = [];
         edges?.forEach((edge) => {
-            if (edge.source !== "START" && edge.target !== "END") {
+            if (edge.source !== "START" && edge.target !== "__end__") {
                 let sourceId = nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx);
                 let targetId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
                 const edgeId = `step-${stepIdx}-${edge.source}->${edge.target}`;
