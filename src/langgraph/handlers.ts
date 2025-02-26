@@ -82,7 +82,7 @@ const handleReflection = (step) => {
             {
                 type: "conditional",
                 source: "Reviewer",
-                target: "END",
+                target: "__end__",
                 label: "Approve",
             },
             {
@@ -146,7 +146,7 @@ const handleSupervision = (step) => {
         {
           type: "conditional",
           source: "Supervisor",
-          target: "END",
+          target: "__end__",
           label: "finish",
         },
       ];
@@ -247,7 +247,7 @@ const handleDiscussion = (step) => {
         agentsEdges.push({
             type: "direct",
             source: "Summary",
-            target: "END",
+            target: "__end__",
             label: "finish",
         })
     } else {
@@ -255,7 +255,7 @@ const handleDiscussion = (step) => {
             agentsEdges.push({
                 type: "network",
                 source: agent.description,
-                target: "END",
+                target: "__end__",
                 label: "finish",
             })
         })
@@ -332,7 +332,7 @@ const handleVoting = (step) => {
         {
             type: "direct",
             source: `Aggregator`,
-            target: "END",
+            target: "__end__",
             label: "finish",
         }
     )

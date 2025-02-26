@@ -82,7 +82,13 @@ const makeAgentNode = (params: {
 
 
 const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+    console.log("nodesInfo in compileDiscussion", nodesInfo);
+    console.log("stepEdges in compileDiscussion", stepEdges);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
+    const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
+
+    console.log("summaryNode", summaryNode);
+    console.log("summaryTarget", summaryTarget);
 
     if (summaryNode) {
         const createdAgent = async () => await createAgent({
@@ -101,7 +107,11 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             });
         }
         workflow.addNode(summaryNode.id, agentNode)
-        workflow.addEdge(summaryNode.id, stepEdges.find((edge) => edge.source === summaryNode.id).target)
+        if (summaryTarget.length > 0) {
+            workflow.addEdge(summaryNode.id, summaryTarget)
+        } else {
+            workflow.addEdge(summaryNode.id, "__end__")
+        }
     }
 
     for (const node of nodesInfo) {

@@ -84,8 +84,8 @@ const makeAgentNode = (params: {
 }
 
 const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    console.log("nodesInfo in compileVoting", nodesInfo);
-    console.log("stepEdges in compileVoting", stepEdges);
+    // console.log("nodesInfo in compileVoting", nodesInfo);
+    // console.log("stepEdges in compileVoting", stepEdges);
     const votingNode = nodesInfo.filter((node) => node.data.label.includes("Voting"));
     const aggregatorNode = nodesInfo.find((node) => node.data.label.includes("Aggregator"));
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
@@ -114,7 +114,7 @@ const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
     if (aggregatorTarget.length > 0) {
         workflow.addEdge(aggregatorNode.id, aggregatorTarget)
     } else {
-        workflow.addEdge(aggregatorNode.id, "END")
+        // workflow.addEdge(aggregatorNode.id, "END")
     }
 
     for (const node of votingNode) {
