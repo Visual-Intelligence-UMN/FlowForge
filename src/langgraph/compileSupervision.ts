@@ -1,12 +1,105 @@
 import { createAgent, create_agent_node } from "./utils";
 import { RunnableConfig } from "@langchain/core/runnables";
 import { z } from "zod";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { MessagesPlaceholder } from "@langchain/core/prompts";
 import { ChatOpenAI } from "@langchain/openai";
+import { AgentsState } from "./states";
+import { BaseMessage } from "@langchain/core/messages";
+import { toolsMap } from "./tools";
+import { Command } from "@langchain/langgraph/web";
+
+const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
+    // For example, stepName might be "step1", "step2", etc.
+    const stepMsgs = (state as any)[stepName] as BaseMessage[];
+  
+    // If the step has no messages yet, use last message from the global messages array.
+    if (!stepMsgs || stepMsgs.length === 0) {
+      return state.messages.slice(-1);
+    }
+    return stepMsgs.slice(-1);
+  }
+
+const makeAgentNode = (params: {
+    name: string,
+    destinations: string[],
+    systemPrompt: string,
+    llmOption: string,
+    tools: string[],
+}) => {
+    return async (state: typeof AgentsState.State) => {
+
+        const responseSchema = z.object({
+            // response: z.string().describe(
+            // "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
+            // ),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call or end. Must be one of the specified values."),
+        });
+
+        const agent = new ChatOpenAI({
+            model: params.llmOption,
+            temperature: 1,
+            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        });
+
+        if (params.tools.length > 0) {
+            const formattedTools = params.tools.map((t) => (toolsMap[t]));
+            agent.bindTools(formattedTools);
+        }
+        const currentStepNum = params.name.split("-")[1];
+        const currentStep = 'step' + currentStepNum;
+        const nextStep = 'step-' + (parseInt(currentStepNum) + 1);
+
+        const invokePayload = [
+            {
+                role:"system",
+                content: params.systemPrompt,
+            },
+            ...getInputMessagesForStep(state, currentStep),
+        ]
+
+        const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
+        // const aiMessage = {
+        //     role: "assistant",
+        //     content: response.response,
+        //     name: params.name,
+        // }
+        // console.log("response", response);
+
+        let response_goto = response.goto;
+        if (state[currentStep].length >= 10) {
+            response_goto = params.destinations.find((d) => d.includes(nextStep));
+        }
+
+        return new Command({
+            goto: response_goto,
+            // update: {
+            //     messages: aiMessage,
+            //     sender: params.name,
+            //     [currentStep]: aiMessage,
+            // }
+        })
+    }
+}
+
 const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) => {
-    // TODO: DEBUG supervision, REMOVE THIS
-    for (const node of nodesInfo) {
+
+    const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
+    const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
+    const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
+    // console.log("supervisorDestinations", supervisorDestinations);
+
+    const supervisorAgent = makeAgentNode({
+        name: supervisorNode.id,
+        destinations: supervisorDestinations as string[],
+        systemPrompt: supervisorNode.data.systemPrompt,
+        llmOption: supervisorNode.data.llm,
+        tools: supervisorNode.data.tools,
+    });
+
+    workflow.addNode(supervisorNode.id, supervisorAgent, {
+        ends: [...supervisorDestinations],
+    });
+
+    for (const node of agentsNodes) {
         const createdAgent = async () => await createAgent({
             llmOption: node.data.llm,
             tools: node.data.tools,
@@ -23,112 +116,8 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
             });
         }
         workflow.addNode(node.id, agentNode);
+        workflow.addEdge(node.id, supervisorNode.id);
     }
-    console.log("workflow after single agent", workflow);
-    // direct next step edge
-    for (const edge of stepEdges) {
-        workflow.addEdge(edge.source, edge.target);
-    } 
-    return workflow;
-
-    const edgesDict: Record<string, { id: string; source: string; target: string; type: string; label: string }[]> = {};
-    
-    let members = [];
-
-    const supervisor = nodesInfo.find(node => node.type === "supervisor");
-    const agents = nodesInfo.filter(node => node.type !== "supervisor");
-
-    for (const node of agents) {
-        const createdAgent = async () => await createAgent({
-                llmOption: node.data.llm,
-                tools: node.data.tools,
-                systemMessage: node.data.systemPrompt,
-                accessStepMsgs: false,
-            });
-            const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
-                return create_agent_node({
-                    state: state,
-                    agent: await createdAgent(),
-                    name: node.id,
-                    config: config,
-            });
-        }
-        workflow.addNode(node.id, agentNode);
-        members.push(node.label);
-        // label or id
-        edgesDict[node.id] = stepEdges.filter(edge => edge.source === node.id) || [];
-    }
-    edgesDict[supervisor.id] = stepEdges.filter(edge => edge.source === supervisor.id) || [];
-
-    const options = [...members, "FINISH"];
-    const selectOptions = [...members, "FINISH"];
-
-    const selectNextFunction = {
-        name: "selectNext",
-        description: "Select the next agent to act",
-        schema: z.object({
-            next: z.enum(selectOptions),
-        }),
-    }
-
-    const prompt = ChatPromptTemplate.fromMessages([
-        ["system", supervisor.data.systemPrompt],
-        new MessagesPlaceholder("messages"),
-        ["system", "Given the conversation above, who should act next? \
-            Or should we summarize the results and respond with FINISH? Select one of: {options}"],
-    ]);
-
-
-    const formattedPrompt = async () => {
-        return await prompt.partial({
-            options: options.join(","),
-            members: members.join(","),
-        })
-    }
-
-    const supervisor_llm_model = new ChatOpenAI({
-        modelName: supervisor.data.llm,
-        temperature: 0,
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    });
-
-    const supervisorChain = async () => {
-        const fp = await formattedPrompt();
-        return fp
-            .pipe(supervisor_llm_model.bindTools([selectNextFunction], {tool_choice: "selectNext"}))
-            .pipe((data:any) => {return data})
-            .pipe((aiMessage) => {if (aiMessage.tool_calls && aiMessage.tool_calls.length>0){
-                const args = aiMessage.tool_calls[0].args;
-                return args;
-            } else {
-                throw new Error("No tool calls found");
-            }
-        })
-    }
-
-    workflow.addNode(supervisor.id, supervisorChain);
-    // TODO add supervisor edges 
-
-    for (const [source, edges] of Object.entries(edgesDict)) {
-        if (edges.length === 1) {
-            workflow.addEdge(source, edges[0].target);
-        }
-    }
-
-    let targetMapping = {};
-    for (const edge of edgesDict[supervisor.id]) {
-        if (edge.target.slice(0,6) !== edge.source.slice(0,6)) {
-            targetMapping["FINISH"] = edge.target;
-        } else {
-            const nodeName = nodesInfo.find(node => node.id === edge.target).data.label;
-            targetMapping[nodeName] = edge.target;
-        }
-    }
-    console.log("supervisor targetMapping", targetMapping);
-
-    workflow.addConditionalEdges(supervisor.id, selectNextFunction, targetMapping);
-
-    console.log("workflow after supervision",   workflow);
     return workflow;
 }
 
