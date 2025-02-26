@@ -173,8 +173,8 @@ export function DiscussionForm({ data, onChange }) {
             sx={{ flex: "1" , mt: 1}}
             className="nodrag nopan"
           >
-            <MenuItem value="true">yes</MenuItem>
-            <MenuItem value="false">no</MenuItem>
+            <MenuItem value="true">With Summary</MenuItem>
+            <MenuItem value="false">No Summary</MenuItem>
           </Select>
       </Box>
      

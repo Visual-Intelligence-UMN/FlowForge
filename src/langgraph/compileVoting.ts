@@ -90,9 +90,9 @@ const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
     const aggregatorNode = nodesInfo.find((node) => node.data.label.includes("Aggregator"));
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
 
-    console.log("aggregatorNode", aggregatorNode);
-    console.log("votingNode", votingNode);
-    console.log("aggregatorTarget", aggregatorTarget);
+    // console.log("aggregatorNode", aggregatorNode);
+    // console.log("votingNode", votingNode);
+    // console.log("aggregatorTarget", aggregatorTarget);
 
     const createdAggregator = async () => await createAgent({
         llmOption: aggregatorNode.data.llm,
@@ -114,7 +114,8 @@ const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
     if (aggregatorTarget.length > 0) {
         workflow.addEdge(aggregatorNode.id, aggregatorTarget)
     } else {
-        // workflow.addEdge(aggregatorNode.id, "END")
+        workflow.addEdge(aggregatorNode.id, "__end__")
+        // or handle in compileLanggraph
     }
 
     for (const node of votingNode) {
