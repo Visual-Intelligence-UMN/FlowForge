@@ -59,7 +59,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         fullWidth
       />
 
-      <TextField
+      {/* <TextField
         label="Step Label"
         variant="outlined"
         value={data.stepLabel || ""}
@@ -76,7 +76,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         }}
         className="nodrag nopan nowheel"
         fullWidth
-      />
+      /> */}
 
       <TextField
         label="Step Description"

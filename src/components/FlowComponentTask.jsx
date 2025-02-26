@@ -12,39 +12,29 @@ import {
     patternsFlowAtom,
     patternsGenerateAtom,
     patternsAtom,
-    agentsConfigAtom,
-    agentsConfigPatternAtom,
-    agentsConfigGenerateAtom,
-    compiledConfigsAtom,
-    compliedGenerateAtom,
-    selectedConfigAtom
   } from "../global/GlobalStates";
-import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
-import { edgeTypes } from "../edges";
-import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 
 import  set  from "lodash.set";
 
 export function FlowComponentTask(props) {
 
+
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+    console.log("nodes", nodes);
+    console.log("edges", edges);
 
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
-    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
+
+    
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
-    const {flowId, patternId, configId } = canvasPages || {};
+
 
     const targetWorkflow = props.targetWorkflow;
 
@@ -90,43 +80,12 @@ export function FlowComponentTask(props) {
             taskFlowSteps: updatedTaskFlowSteps,
         };
 
-        // console.log("change handleSave", updatedTaskflow);
-        switch (canvasPages.type) {
-            case "flow":
-                setFlowsMap((prevFlows) => ({
-                    ...prevFlows,
-                    [Number(canvasPages.flowId)]: updatedTaskflow,
-                }));
-                    setPatternsFlow(updatedTaskflow);
-                    setPatternsGenerate(0);
-                    break;
-    
-                case "pattern":
-                    setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
-                        pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
-                    ));
-                    setAgentsConfigPattern(updatedTaskflow);
-                    setAgentsConfigGenerate(0);
-                    break;
-    
-                case "config":
-                    setAgentsConfig(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    setSelectedConfig(updatedTaskflow);
-                    setCompliedGenerate(0);
-                    break;
-    
-                case "compiled":
-                    setCompiledConfigs(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    // setCompliedGenerate(0);
-                    break;
-    
-                default:
-                    console.warn("Unknown type:", canvasPages.type);
-            }
+        setFlowsMap((prevFlows) => ({
+            ...prevFlows,
+            [Number(canvasPages.flowId)]: updatedTaskflow,
+        }));
+        setPatternsFlow(updatedTaskflow);
+        setPatternsGenerate(0);
     }; 
 
     const updateNodeField = (nodeId, fieldName, newValue) => {
