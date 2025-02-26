@@ -270,10 +270,11 @@ const handleDiscussion = (step) => {
 
 const handleVoting = (step) => {
     const { stepDescription, template} = step;
-    const { maxRound, agents = [] } = template;
+    const { maxRound, agents = [], aggregation = {} } = template;
 
     const taskPrompt = 'The task for the voting team is' + stepDescription;
     const agentsPatternSystemPrompt = 'You can vote the scores based on the rubrics.';
+    const aggregatorPatternSystemPrompt = 'You are a helpful assistant who can aggregate the scores of the voting agents.';
 
     const agentsNodes = agents.map((agent, index) => {
         return {
@@ -289,7 +290,27 @@ const handleVoting = (step) => {
         }
     })
 
-    const agentsEdges = [
+    agentsNodes.push({
+        type: "singleAgent",
+        description: "Aggregator",
+        tools: [],
+        llm: "gpt-4o-mini",
+        taskPrompt: taskPrompt,
+        patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
+        systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
+    })
+
+    let agentsEdges = []
+
+    for (let i = 1; i < agents.length; i++) {
+        agentsEdges.push({
+            type: "direct",
+            source: `Voting${i}`,
+            target: `Voting${i + 1}`,
+            label: "goto",
+        })
+    }
+    agentsEdges.push(
         {
             type: "direct",
             source: "START",
@@ -298,34 +319,25 @@ const handleVoting = (step) => {
         },
         {
             type: "direct",
-            source: `Voting${agentsNodes.length}`,
+            source: `Voting${agents.length}`,
             target: "Voting1",
             label: "goto",
         },
         {
             type: "conditional",
-            source: `Voting${agentsNodes.length}`,
+            source: `Voting${agents.length}`,
             target: "Aggregator",
             label: "goto",
-        }
-    ]
-
-    for (let i = 0; i < agentsNodes.length - 1; i++) {
-        agentsEdges.push({
+        },
+        {
             type: "direct",
-            source: `Voting${i}`,
-            target: `Voting${i + 1}`,
-            label: "goto",
-        })
-    }
+            source: `Aggregator`,
+            target: "END",
+            label: "finish",
+        }
+    )
 
-    agentsEdges.push({
-        type: "direct",
-        source: `Aggregator`,
-        target: "END",
-        label: "finish",
-    })
-    
+    console.log("agentsEdges in handle", agentsEdges);
     return {
         type: "voting",
         maxRound: maxRound,

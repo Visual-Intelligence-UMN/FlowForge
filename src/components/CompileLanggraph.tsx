@@ -7,7 +7,7 @@ import { compileSingleAgent } from "../langgraph/compileSingleAgent";
 import { compileReflection } from "../langgraph/compileReflection";
 import { compileSupervision } from "../langgraph/compileSupervision";
 import { compileDiscussion } from "../langgraph/compileDiscussion";
-
+import { compileVoting } from "../langgraph/compileVoting";
 import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
@@ -55,6 +55,9 @@ const CompileLanggraph = async (reactflowConfig) => {
             case "discussion":
                 compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
+            case "voting":
+                compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                break;
         }
 
         if (key === "step-0" && inputNode) {
@@ -64,7 +67,7 @@ const CompileLanggraph = async (reactflowConfig) => {
     }
 
     // const compiledLanggraph = singleAgentWithToolsGraph;
-    // console.log("final Workflow before compile", compiledWorkflow);
+    console.log("final Workflow before compile langgraph", compiledWorkflow);
     const compiledLanggraph = compiledWorkflow.compile();
     // console.log("final Workflow after compile", compiledLanggraph);
     return compiledLanggraph;

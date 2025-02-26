@@ -7,15 +7,15 @@ import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
+const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, votingNum: number) => {
 
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     if (!stepMsgs || stepMsgs.length === 0) {
       return state.messages.slice(-1);
     }
-    return stepMsgs.slice(-3);
-    // change to the number of the agents
-    // voting will have access to the previous msg from other agents.
+    const previousVotingMsgs = state.messages.slice(-votingNum);
+    return [...previousVotingMsgs];
+
   }
 
 const makeAgentNode = (params: {
@@ -24,14 +24,16 @@ const makeAgentNode = (params: {
     systemPrompt: string,
     llmOption: string,
     tools: string[],
+    votingNum: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
+
 
         const responseSchema = z.object({
             response: z.string().describe(
             "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             ),
-            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent or Summary to call. Must be one of the specified values."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call. Must be one of the specified values."),
         });
 
         const agent = new ChatOpenAI({
@@ -51,9 +53,8 @@ const makeAgentNode = (params: {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep),
+            ...getInputMessagesForStep(state, currentStep, params.votingNum),
         ]
-
 
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
@@ -63,12 +64,14 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length >= 10) {
-            response_goto = params.destinations.find((d) => d.includes("Summary"));
+        if (state[currentStep].length / params.destinations.length === 1) {
+            // finish one round of voting
+            console.log("finish one round of voting");
+            response_goto = params.destinations.find((d) => d.includes("Aggregator"));
         }
 
-        console.log("discussion response", response);
-        console.log("state", state);
+        console.log("voting response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -81,6 +84,63 @@ const makeAgentNode = (params: {
 }
 
 const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    const votingNode = nodesInfo.find((node) => node.data.label === "Voting");
+    console.log("nodesInfo in compileVoting", nodesInfo);
+    console.log("stepEdges in compileVoting", stepEdges);
+    const votingNode = nodesInfo.filter((node) => node.data.label.includes("Voting"));
+    const aggregatorNode = nodesInfo.find((node) => node.data.label.includes("Aggregator"));
+    const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
 
+    console.log("aggregatorNode", aggregatorNode);
+    console.log("votingNode", votingNode);
+    console.log("aggregatorTarget", aggregatorTarget);
+
+    const createdAggregator = async () => await createAgent({
+        llmOption: aggregatorNode.data.llm,
+        tools: aggregatorNode.data.tools,
+        systemMessage: aggregatorNode.data.systemPrompt,
+        accessStepMsgs: votingNode.length,
+    });
+
+    const aggregatorAgentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
+        return create_agent_node({
+            state: state,
+            agent: await createdAggregator(),
+            name: aggregatorNode.id,
+            config: config,
+        });
+    }
+
+    workflow.addNode(aggregatorNode.id, aggregatorAgentNode)
+    if (aggregatorTarget.length > 0) {
+        workflow.addEdge(aggregatorNode.id, aggregatorTarget)
+    } else {
+        workflow.addEdge(aggregatorNode.id, "END")
+    }
+
+    for (const node of votingNode) {
+        const destinations = Array.from(
+            new Set(
+              stepEdges
+                .filter(edge => edge.source === node.id)
+                .filter(edge => edge.target !== "Aggregator")
+                .map(edge => edge.target)
+            )
+        );
+
+        const agentNode = makeAgentNode({
+            name: node.id,
+            destinations: destinations as string[],
+            votingNum: votingNode.length,
+            systemPrompt: node.data.systemPrompt,
+            llmOption: node.data.llm,
+            tools: node.data.tools,
+        })
+        workflow.addNode(node.id, agentNode, {
+            ends: [...destinations]
+        });
+    }
+   
+    return workflow;
 }
+
+export { compileVoting };
