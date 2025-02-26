@@ -26,4 +26,5 @@ dist-ssr
 
 src/langgraph-test/
 src/reactflow-test/
-src/components/TabFlows.tsx
+src/components/unused/
+src/nodes/unused/
