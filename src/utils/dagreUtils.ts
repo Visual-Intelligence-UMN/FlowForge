@@ -15,8 +15,8 @@ const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     
     dagreGraph.setGraph({ 
       rankdir: direction, 
-      ranksep: 100,
-      nodesep: 100
+      ranksep: 200,
+      nodesep: 300
     });
 
   nodes.forEach((node) => {
