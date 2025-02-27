@@ -3,7 +3,7 @@ import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTask
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
-import "../tree.css";
+import "../components/tree.css";
 import { Typography, Box } from "@mui/material";
 const TreeNav = () => {
 

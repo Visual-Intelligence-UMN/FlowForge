@@ -2,6 +2,7 @@ import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField } from "@mui/material";
 
 export const FlowStepNode = ({ data, isConnectable,id }) => {
+  console.log("id", id);
   if (!id) {
     console.log("FlowStepNode id", id);
   }
@@ -59,7 +60,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         fullWidth
       />
 
-      <TextField
+      {/* <TextField
         label="Step Label"
         variant="outlined"
         value={data.stepLabel || ""}
@@ -76,7 +77,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         }}
         className="nodrag nopan nowheel"
         fullWidth
-      />
+      /> */}
 
       <TextField
         label="Step Description"

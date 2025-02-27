@@ -3,6 +3,10 @@ import ReactFlow, {
     useNodesState,
     useEdgesState,
     useReactFlow,
+    getIncomers,
+    getOutgoers,
+    getConnectedEdges,
+    Controls,
   } from "reactflow";
 import { useCallback, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
@@ -12,39 +16,42 @@ import {
     patternsFlowAtom,
     patternsGenerateAtom,
     patternsAtom,
-    agentsConfigAtom,
-    agentsConfigPatternAtom,
-    agentsConfigGenerateAtom,
-    compiledConfigsAtom,
-    compliedGenerateAtom,
-    selectedConfigAtom
   } from "../global/GlobalStates";
-import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../utils/dagreUtils';
 import { nodeTypes } from "../nodes";
-import { edgeTypes } from "../edges";
-import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 
-import  set  from "lodash.set";
-
 export function FlowComponentTask(props) {
+    // props: targetWorkflow, nodes, edges
+    // targetWorkflow: {
+    //      taskFlowName: "Task Flow 1",
+    //      taskFlowDescription: "Task Flow 1 Description",
+    //      taskFlowSteps: [
+    //         {
+    //             stepName: "Step 1",
+    //             stepLabel: "Step 1",
+    //             stepDescription: "Step 1",
+    //             pattern: {},
+    //             config: {},
+    //             template: {},
+    //         }, 
+    //         ...
+    //     ]
+    // }
 
+    console.log("props", props);
+    
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+    // console.log("nodes", nodes);
+    // console.log("edges", edges);
 
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
     const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
     const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-    const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
-    const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
-    const {flowId, patternId, configId } = canvasPages || {};
+
 
     const targetWorkflow = props.targetWorkflow;
 
@@ -52,16 +59,14 @@ export function FlowComponentTask(props) {
         (connection) => setEdges((eds) => addEdge(connection, eds)),
         [setEdges]
     );
+    // const onConnect = useCallback(
+    //     (params) => setEdges(addEdge(params, edges)),
+    //     [edges],
+    //   );
 
     useEffect(() => {
-        // To make sure the layout is always after the nodes and edges are set
-        // 1) Set new nodes/edges from props
         const nextNodes = props.nodes || [];
         const nextEdges = props.edges || [];
-        // setNodes(nextNodes);
-        // setEdges(nextEdges);
-
-        // 2) Immediately lay them out
         let layoutedNodes;
         let layoutedEdges;
         if (nextNodes.length > 3) {
@@ -69,108 +74,267 @@ export function FlowComponentTask(props) {
         } else {
             ({ nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(nextNodes, nextEdges));
         }
-       
         setNodes(layoutedNodes);
         setEdges(layoutedEdges);
 
       }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
       
-
-    const handleSave = () => {
-        const updatedTaskFlowSteps = nodes.map((node) => ({
-            stepName: node.data.stepName,
-            stepLabel: node.data.stepLabel,
-            stepDescription: node.data.stepDescription,
-            pattern: node.data.pattern,
-            config: node.data.config,
-            template: node.data.template,
-        }));
-        const updatedTaskflow = {
+    // Function to update the targetWorkflow in the parent component
+    const updateTargetWorkflow = useCallback((updatedNodes, updatedEdges) => {
+        // Convert nodes and edges back to taskFlowSteps format
+        const updatedTaskFlowSteps = updatedNodes.map((node) => {
+            // Find all outgoing connections for this node
+            const outgoingConnections = updatedEdges
+                .filter(edge => edge.source === node.id)
+                .map(edge => edge.target);
+                
+            return {
+                id: node.id,
+                stepName: node.data.stepName,
+                stepLabel: node.data.stepLabel,
+                stepDescription: node.data.stepDescription,
+                pattern: node.data.pattern || {},
+                config: node.data.config || {},
+                template: node.data.template || {},
+                nextSteps: outgoingConnections,
+            };
+        });
+        
+        // Create the updated workflow
+        const updatedWorkflow = {
             ...targetWorkflow,
             taskFlowSteps: updatedTaskFlowSteps,
         };
+        
+        // Update the global state
+        setFlowsMap((prevFlows) => ({
+            ...prevFlows,
+            [Number(canvasPages.flowId)]: updatedWorkflow,
+        }));
+        setPatternsFlow(updatedWorkflow);
+        
+        // If props includes an onWorkflowUpdate callback, call it
+        if (props.onWorkflowUpdate) {
+            props.onWorkflowUpdate(updatedWorkflow);
+        }
+    }, [targetWorkflow, canvasPages.flowId, setFlowsMap, setPatternsFlow, props.onWorkflowUpdate]);
 
-        // console.log("change handleSave", updatedTaskflow);
-        switch (canvasPages.type) {
-            case "flow":
-                setFlowsMap((prevFlows) => ({
-                    ...prevFlows,
-                    [Number(canvasPages.flowId)]: updatedTaskflow,
-                }));
-                    setPatternsFlow(updatedTaskflow);
-                    setPatternsGenerate(0);
-                    break;
-    
-                case "pattern":
-                    setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
-                        pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
-                    ));
-                    setAgentsConfigPattern(updatedTaskflow);
-                    setAgentsConfigGenerate(0);
-                    break;
-    
-                case "config":
-                    setAgentsConfig(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    setSelectedConfig(updatedTaskflow);
-                    setCompliedGenerate(0);
-                    break;
-    
-                case "compiled":
-                    setCompiledConfigs(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    // setCompliedGenerate(0);
-                    break;
-    
-                default:
-                    console.warn("Unknown type:", canvasPages.type);
+    // Enhance renumberNodes to update the targetWorkflow
+    const renumberNodes = useCallback(() => {
+        let updatedNodes = [];
+        
+        setNodes((prevNodes) => {
+            // Sort nodes by their x position to maintain visual order
+            const sortedNodes = [...prevNodes].sort((a, b) => a.position.x - b.position.x);
+            
+            updatedNodes = sortedNodes.map((node, index) => {
+                const stepNumber = index + 1;
+                // Only update the ID and step number references, preserve other content
+                return {
+                    ...node,
+                    id: `step-${stepNumber}`,
+                    data: {
+                        ...node.data,
+                        stepName: `Step ${stepNumber}`,
+                        stepLabel: `Step ${stepNumber}`,
+                        // Only replace the step number in the description, not the entire description
+                        stepDescription: node.data.stepDescription.replace(/Step \d+/, `Step ${stepNumber}`),
+                    }
+                };
+            });
+            
+            return updatedNodes;
+        });
+        
+        // Update edges to use the new node IDs
+        setEdges((prevEdges) => {
+            const updatedEdges = prevEdges.map(edge => {
+                // Find the nodes in the original array that match the source and target
+                const sourceNodeIndex = nodes.findIndex(n => n.id === edge.source);
+                const targetNodeIndex = nodes.findIndex(n => n.id === edge.target);
+                
+                // If we found the nodes, update the edge with the new IDs
+                if (sourceNodeIndex !== -1 && targetNodeIndex !== -1) {
+                    const newSourceId = `step-${sourceNodeIndex + 1}`;
+                    const newTargetId = `step-${targetNodeIndex + 1}`;
+                    
+                    return {
+                        ...edge,
+                        id: `${newSourceId}->${newTargetId}`,
+                        source: newSourceId,
+                        target: newTargetId,
+                    };
+                }
+                
+                return edge;
+            });
+            
+            // Update the targetWorkflow with the new nodes and edges
+            setTimeout(() => updateTargetWorkflow(updatedNodes, updatedEdges), 0);
+            
+            return updatedEdges;
+        });
+    }, [nodes, setNodes, setEdges, updateTargetWorkflow]);
+
+    // Enhance onNodesDelete to update the targetWorkflow after deletion
+    const onNodesDelete = useCallback(
+        (deleted) => {
+            setEdges(
+                deleted.reduce((acc, node) => {
+                    const incomers = getIncomers(node, nodes, edges);
+                    const outgoers = getOutgoers(node, nodes, edges);
+                    const connectedEdges = getConnectedEdges([node], edges);
+           
+                    const remainingEdges = acc.filter(
+                        (edge) => !connectedEdges.includes(edge),
+                    );
+           
+                    const createdEdges = incomers.flatMap(({ id: source }) =>
+                        outgoers.map(({ id: target }) => ({
+                            id: `${source}->${target}`,
+                            source,
+                            target,
+                        })),
+                    );
+           
+                    return [...remainingEdges, ...createdEdges];
+                }, edges),
+            );
+            
+            // After updating edges, renumber the nodes
+            setTimeout(() => renumberNodes(), 0);
+        },
+        [nodes, edges, renumberNodes],
+    );
+
+    // Now define addStep after updateTargetWorkflow has been defined
+    const addStep = useCallback(() => {
+        let newNode = null;
+        let updatedNodes = [];
+        
+        setNodes((prevNodes) => {
+            const newNodeId = `step-${prevNodes.length + 1}`;
+            newNode = {
+                id: newNodeId,
+                type: "flowStep",
+                position: {
+                    x: prevNodes.length * 200,
+                    y: prevNodes.length * 100,
+                },
+                data: {
+                    stepName: `Step ${prevNodes.length + 1}`,
+                    stepLabel: `Step ${prevNodes.length + 1}`,
+                    stepDescription: `Step ${prevNodes.length + 1}`,
+                    pattern: {},
+                    config: {},
+                    template: {},
+                },
+            };
+            
+            updatedNodes = [...prevNodes, newNode];
+            return updatedNodes;
+        });
+        
+        // Add edge connecting the new node to the last node if there are existing nodes
+        setEdges((prevEdges) => {
+            if (nodes.length === 0) {
+                // Update the targetWorkflow with just the new node
+                setTimeout(() => updateTargetWorkflow(updatedNodes, prevEdges), 0);
+                return prevEdges;
             }
-    }; 
+            
+            const lastNodeId = nodes[nodes.length - 1].id;
+            const newNodeId = newNode.id;
+            
+            const newEdge = {
+                id: `${lastNodeId}->${newNodeId}`,
+                source: lastNodeId,
+                target: newNodeId,
+            };
+            
+            const updatedEdges = [...prevEdges, newEdge];
+            
+            // Update the targetWorkflow with the new nodes and edges
+            setTimeout(() => updateTargetWorkflow(updatedNodes, updatedEdges), 0);
+            
+            return updatedEdges;
+        });
+    }, [nodes, setNodes, setEdges, updateTargetWorkflow]);
+
+    const handleSave = () => {
+        updateTargetWorkflow(nodes, edges);
+        setPatternsGenerate(0);
+    };
+    
+    const convertTaskFlowToNodesAndEdges = useCallback((taskFlow) => {
+        if (!taskFlow || !taskFlow.taskFlowSteps) return { nodes: [], edges: [] };
+        
+        const newNodes = taskFlow.taskFlowSteps.map((step, index) => ({
+            id: step.id || `step-${index + 1}`,
+            type: "flowStep",
+            position: { x: 0, y: 0 }, // Will be laid out by dagre
+            data: {
+                stepName: step.stepName,
+                stepLabel: step.stepLabel,
+                stepDescription: step.stepDescription,
+                pattern: step.pattern || {},
+                config: step.config || {},
+                template: step.template || {},
+            },
+        }));
+        
+        const newEdges = nodes.map((node, index) =>
+            index < nodes.length - 1
+              ? { 
+                id: `edge-${index}`, 
+                source: node.id, 
+                target: nodes[index + 1].id,
+                animated: true,
+              }
+              : null
+          ).filter(Boolean);
+        
+        
+        return { nodes: newNodes, edges: newEdges };
+    }, []);
+    
+    useEffect(() => {
+        if (targetWorkflow && targetWorkflow.taskFlowSteps) {
+            const { nodes: newNodes, edges: newEdges } = convertTaskFlowToNodesAndEdges(targetWorkflow);
+            // console.log("new edges", newEdges);
+            // Apply layout
+            let layoutedNodes;
+            let layoutedEdges;
+            if (newNodes.length > 3) {
+                ({ nodes: layoutedNodes, edges: layoutedEdges } = getMultiLineLayoutedNodesAndEdges(newNodes, newEdges));
+            } else {
+                ({ nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodesAndEdges(newNodes, newEdges));
+            }
+            // console.log("layout edges", layoutedEdges);
+            setNodes(layoutedNodes);
+            setEdges(layoutedEdges);
+        }
+    }, [targetWorkflow, convertTaskFlowToNodesAndEdges]);
 
     const updateNodeField = (nodeId, fieldName, newValue) => {
-        setNodes((prevNodes) =>
-            prevNodes.map((node) =>
+        setNodes((prevNodes) => {
+            const updatedNodes = prevNodes.map((node) =>
                 node.id === nodeId
-                    ? {
-                        ...node,
-                        data: {
-                            ...node.data,
-                            // Update pattern fields
-                            pattern: fieldName.startsWith("pattern.")
-                                ? {
-                                    ...node.data.pattern,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.pattern,
-    
-                            config: fieldName.startsWith("config.")
-                                ? {
-                                    ...node.data.config,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.config,
-
-                            ...(fieldName.startsWith("pattern.") || fieldName.startsWith("config.")
-                                ? {}
-                                : { [fieldName]: newValue }),
-                        },
-                    }
-                    : node
-            )
-        );
-    };
-
-    const updateNodeFieldset = (nodeId, fieldName, newValue) => {
-        setNodes((prevNodes) =>
-            prevNodes.map((node) => {
-                if (node.id !== nodeId) return node;
-                const newData = { ...node.data };
-                set(newData, fieldName, newValue); 
-                return { ...node, data: newData };
-            })
-        );
+                ? {
+                    ...node,
+                    data: {
+                        ...node.data,
+                        [fieldName]: newValue,
+                    },
+                }
+                : node
+            );
+            
+            // Update the targetWorkflow with the updated nodes
+            setTimeout(() => updateTargetWorkflow(updatedNodes, edges), 0);
+            
+            return updatedNodes;
+        });
     };
     
 
@@ -178,10 +342,12 @@ export function FlowComponentTask(props) {
         ...node,
         data: {
             ...node.data,
-            updateNodeFieldset,
             updateNodeField,
         },
     }));
+
+    // console.log("nodes", nodes);
+    // console.log("edges", edges);
 
     return (
         <div className="reactflow-wrapper"
@@ -189,6 +355,10 @@ export function FlowComponentTask(props) {
         border: "1px solid #ddd",
         position: "relative",
         }}>
+
+
+        <Button onClick={addStep}>Add Step</Button>
+
         <ReactFlow
          key={`${canvasPages.type}-${canvasPages.flowId || ''}-${canvasPages.patternId || ''}-${canvasPages.configId || ''}`}
          nodes={nodeListWithHandlers}
@@ -197,8 +367,12 @@ export function FlowComponentTask(props) {
          onNodesChange={onNodesChange}
          onEdgesChange={onEdgesChange}
          onConnect={onConnect}
+         onNodesDelete={onNodesDelete}
          fitView = {true}
-         ></ReactFlow>
+
+         >
+         <Controls />
+         </ReactFlow>
 
          <Button 
          size="large"
