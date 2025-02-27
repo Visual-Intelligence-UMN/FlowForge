@@ -2,6 +2,7 @@ import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField } from "@mui/material";
 
 export const FlowStepNode = ({ data, isConnectable,id }) => {
+  console.log("id", id);
   if (!id) {
     console.log("FlowStepNode id", id);
   }
