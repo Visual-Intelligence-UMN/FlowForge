@@ -22,6 +22,22 @@ import { nodeTypes } from "../nodes";
 import Button from '@mui/material/Button';
 
 export function FlowComponentTask(props) {
+    // props: targetWorkflow, nodes, edges
+    // targetWorkflow: {
+    //      taskFlowName: "Task Flow 1",
+    //      taskFlowDescription: "Task Flow 1 Description",
+    //      taskFlowSteps: [
+    //         {
+    //             stepName: "Step 1",
+    //             stepLabel: "Step 1",
+    //             stepDescription: "Step 1",
+    //             pattern: {},
+    //             config: {},
+    //             template: {},
+    //         }, 
+    //         ...
+    //     ]
+    // }
 
     console.log("props", props);
     
@@ -49,14 +65,8 @@ export function FlowComponentTask(props) {
     //   );
 
     useEffect(() => {
-        // To make sure the layout is always after the nodes and edges are set
-        // 1) Set new nodes/edges from props
         const nextNodes = props.nodes || [];
         const nextEdges = props.edges || [];
-        // setNodes(nextNodes);
-        // setEdges(nextEdges);
-
-        // 2) Immediately lay them out
         let layoutedNodes;
         let layoutedEdges;
         if (nextNodes.length > 3) {
