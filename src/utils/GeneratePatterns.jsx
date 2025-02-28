@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { designPatternsPool } from "../global/patternsMap";
+import { designPatternsPool } from "../pattern/patternsData";
 
 const GeneratePatterns = async (taskFlow) => {
     const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps } = taskFlow;

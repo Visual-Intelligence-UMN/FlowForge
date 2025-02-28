@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, taskFlowsGenerateAtom } from '../../global/GlobalStates';
+import { selectedTaskAtom, taskFlowsGenerateAtom } from '../../pattern/GlobalStates';
 import {
   Box,
   Button,
@@ -12,7 +12,7 @@ import {
   InputLabel
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { taskList } from '../../global/GlobalStates';
+import { taskList } from '../../pattern/GlobalStates';
 import { useResetTask } from '../../utils/ResetTask';
 import { useEffect } from 'react';
 function TaskPanel() {

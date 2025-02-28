@@ -1,0 +1,23 @@
+[
+    {
+      "id": "task1",
+      "name": "Generate Presentation Script",
+      "requiresUpload": false,
+      "description": "Generate a presentation script for a given topic.",
+      "uploadedFile": null
+    },
+    {
+      "id": "task2",
+      "name": "Machine Learning Visualization",
+      "requiresUpload": true,
+      "description": "Visualize a given machine learning model.",
+      "uploadedFile": null
+    },
+    {
+      "id": "task3",
+      "name": "Travel Planning",
+      "requiresUpload": false,
+      "description": "Plan a travel itinerary for a given destination.",
+      "uploadedFile": null
+    }
+]

@@ -6,7 +6,7 @@ import {
   patternsAtom, 
   agentsConfigAtom, 
   compiledConfigsAtom 
-} from "../../global/GlobalStates";
+} from "../../pattern/GlobalStates";
 
 
 function getSortedFlowIds(flowsMap) {

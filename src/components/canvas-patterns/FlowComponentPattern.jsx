@@ -18,7 +18,7 @@ import {
     compiledConfigsAtom,
     compliedGenerateAtom,
     selectedConfigAtom
-  } from "../../global/GlobalStates";
+  } from "../../pattern/GlobalStates";
 import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../../utils/dagreUtils';
 import { nodeTypes } from "../nodes";

@@ -13,7 +13,7 @@ import {
   patternsFlowAtom,
   patternsGenerateAtom,
   patternsAtom,
-} from "../../global/GlobalStates";
+} from "../../pattern/GlobalStates";
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,

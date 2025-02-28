@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
-import { canvasPagesAtom } from "../../global/GlobalStates";
+import { canvasPagesAtom } from "../../pattern/GlobalStates";
 import PageCompiledCfg from "../canvas-agents/PageCompiledCfg";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import StageHighlight from "../canvas-slider/StageHighlight";
-import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../../global/GlobalStates";
+import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../../pattern/GlobalStates";
 import { ExploreLeftButton, ExploreRightButton } from "../canvas-buttons/ExploreButtons";
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";

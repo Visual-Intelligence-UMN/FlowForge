@@ -1,41 +1,10 @@
 import { atom } from "jotai";
 import { atomWithReset } from "jotai/utils";
-// import { initialNodes } from "../nodes";
-// import { initialEdges } from "../edges";
-// import { initialTransformedNodes, initialTransformedEdges } from "../langgraph-test/TestNodesEdges";
+import exampleTasks from "./example-tasks.json";
 
 export const selectedGraphAtom = atom(null);
-// export const flowsAtom = atom({
-//     "a": {nodes: initialNodes, edges: initialEdges, viewport: {x: 0, y: 0, zoom: 1}},
-//     "b": {nodes: initialTransformedNodes, edges: initialTransformedEdges, viewport: {x: 0, y: 0, zoom: 1}}
-// }); // {flowId: {nodes: [], edges: [], viewport: {x, y, zoom}}} // not used
-
-// Task configuration
 export const selectedTaskAtom = atomWithReset({});
-
-export const taskList = [
-  {
-    id: "task1",
-    name: "Generate Presentation Script",
-    requiresUpload: false,
-    description: "Generate a presentation script for a given topic.",
-    uploadedFile: null,
-  },
-  {
-    id: "task2",
-    name: "Machine Learning Visualization",
-    requiresUpload: true,
-    description: "Visualize a given machine learning model.",
-    uploadedFile: null,
-  },
-  {
-    id: "task3",
-    name: "Travel Planning",
-    requiresUpload: false,
-    description: "Plan a travel itinerary for a given destination.",
-    uploadedFile: null,
-  },
-];
+export const taskList = exampleTasks;
 
 export const taskInputAtom = atomWithReset("");
 export const uploadedFileAtom = atomWithReset(null);

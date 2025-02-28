@@ -3,7 +3,7 @@ import { HumanMessage } from "@langchain/core/messages";
 import {Box,Button,Card, CardContent,Typography,TextField,Collapse,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
-import {selectedTaskAtom, streamOutputAtom} from "../../global/GlobalStates";
+import {selectedTaskAtom, streamOutputAtom} from "../../pattern/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";

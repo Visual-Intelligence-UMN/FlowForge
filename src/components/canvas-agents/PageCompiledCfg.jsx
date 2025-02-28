@@ -1,7 +1,7 @@
 
 import {DnDProvider} from "./DnDContext";
 import {FlowWithProvider} from "../canvas-provider/FlowWithProvider";
-import { compiledConfigsAtom , canvasPagesAtom} from "../../global/GlobalStates";
+import { compiledConfigsAtom , canvasPagesAtom} from "../../pattern/GlobalStates";
 import '@xyflow/react/dist/style.css';
 import { useAtom } from "jotai";
 
