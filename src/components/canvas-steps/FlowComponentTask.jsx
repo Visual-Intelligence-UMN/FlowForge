@@ -13,12 +13,12 @@ import {
   patternsFlowAtom,
   patternsGenerateAtom,
   patternsAtom,
-} from "../global/GlobalStates";
+} from "../../global/GlobalStates";
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,
-} from "../utils/dagreUtils";
-import { nodeTypes } from "../nodes";
+} from "../../utils/dagreUtils";
+import { nodeTypes } from "../../nodes";
 import Button from "@mui/material/Button";
 
 

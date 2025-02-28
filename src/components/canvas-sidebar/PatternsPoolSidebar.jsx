@@ -1,7 +1,7 @@
 import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { iconMap } from "../global/iconsMap";
-import { designPatternsPool } from "../global/patternsMap";
+import { iconMap } from "../../global/iconsMap";
+import { designPatternsPool } from "../../global/patternsMap";
 const PatternsMap = () => {
   return (
     <Box sx={{

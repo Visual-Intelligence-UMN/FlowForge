@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import {Slider, Box, Typography} from "@mui/material";
 import { useAtom } from "jotai";
-import { canvasPagesAtom } from "../global/GlobalStates";
-import PageCompiledCfg from "./PageCompiledCfg";
-
-import { RfWithProvider } from "./FlowWithProvider";
-import StageHighlight from "./StageHighlight";
-import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../global/GlobalStates";
-import { ExploreLeftButton, ExploreRightButton } from "./ExploreButtons";
-import {PatternsMap} from "./PatternsPoolSidebar";
-import { designPatternsTemplate } from "../global/patternsMap";
-import { TaskFlowWithProvider } from "./FlowWithProvider";
+import { canvasPagesAtom } from "../../global/GlobalStates";
+import PageCompiledCfg from "../canvas-agents/PageCompiledCfg";
+import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
+import StageHighlight from "../canvas-slider/StageHighlight";
+import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../../global/GlobalStates";
+import { ExploreLeftButton, ExploreRightButton } from "../canvas-buttons/ExploreButtons";
+import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
+import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
 

@@ -1,15 +1,16 @@
-import TreeNav from './TreeNav';
-import SharedCanvas from './SharedCanvas';
+import TreeNav from '../tree-navigation/TreeNav';
+import SharedCanvas from '../canvas/SharedCanvas';
 import { Box } from '@mui/material';
-import OrganizeTaskFlows from './OrganizeTaskFlows';
-import OrganizePatterns from './OrganizePatterns';
-import OrganizeConfig from './OrganizeConfig';
-import OrganizeReactflow from './OrganizeReactflow';
+import OrganizeTaskFlows from '../OrganizeTaskFlows';
+import OrganizePatterns from '../OrganizePatterns';
+import OrganizeConfig from '../OrganizeConfig';
+import OrganizeReactflow from '../OrganizeReactflow';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../global/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../global/GlobalStates';
-import StreamOutputRow from './StreamOutputRow';
+import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../../global/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../global/GlobalStates';
+import StreamOutputRow from '../panel-output/StreamOutputRow';
+
 const Builder = () => {
     // atoms for task flows 
     const [selectedTask] = useAtom(selectedTaskAtom);
