@@ -6,14 +6,14 @@ import type { NodeTypes } from '@xyflow/react';
 // import TextResultNode from './unused/TextResultNode';
 // import TextNode from './unused/TextNode';
 
-import SingleAgentNode  from './SingleAgentNode';
-import ExecutorNode from './ExecutorNode';
-import ReviewerNode from './ReviewerNode';
-import SupervisorNode from './SupervisorNode';
+import SingleAgentNode  from './node-agents/SingleAgentNode';
+import ExecutorNode from './node-agents/ExecutorNode';
+import ReviewerNode from './node-agents/ReviewerNode';
+import SupervisorNode from './node-agents/SupervisorNode';
 
-import { FlowStepNode } from './FlowStepNode';
-import { FlowWithPatternsNode } from './FlowWithPatternsNode';
-import { FlowConfigNode } from './FlowConfigNode';
+import { FlowStepNode } from './node-step/FlowStepNode';
+import { FlowWithPatternsNode } from './node-pattern/FlowWithPatternsNode';
+// import { FlowConfigNode } from './FlowConfigNode';
 
 
 export const nodeTypes = {
@@ -27,5 +27,5 @@ export const nodeTypes = {
   'supervisor': SupervisorNode,
   'flowStep': FlowStepNode,
   'patternsStep': FlowWithPatternsNode,
-  'configStep': FlowConfigNode,
+  // 'configStep': FlowConfigNode,
 } satisfies NodeTypes;

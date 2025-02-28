@@ -4,18 +4,14 @@ import {
   IconButton,
   Typography,
   Grid2,
-  Select,
-  MenuItem,
 } from "@mui/material";
-
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import { PatternTextField } from "../textfield/patternText";
 
-import { PatternTextField } from "./patternText";
-
-export function DiscussionForm({ data, onChange }) {
-  const agents = data.agents || [];
+export function ParallelForm({ data, onChange }) {
   // console.log("data", data)
+  const agents = data.agents || [];
 
   const handleSimpleFieldChange = (field) => (e) => {
     onChange({
@@ -63,7 +59,7 @@ export function DiscussionForm({ data, onChange }) {
           position: "relative",
           display: "flex",
           flexDirection: "column",
-          gap: 1.5,
+          gap: 1,
           border: "1px solid #ccc",
           p: 1,
           borderRadius: 2,
@@ -90,17 +86,11 @@ export function DiscussionForm({ data, onChange }) {
       <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
         Agent #{i + 1}
       </Typography>
-   
+
       <PatternTextField
-        label="Persona"
-        value={agent.persona || ""}
-        onChange={handleAgentChange(i, "persona")}
-        maxRows={4}
-      />
-      <PatternTextField
-        label="Goal"
-        value={agent.goal || ""}
-        onChange={handleAgentChange(i, "goal")}
+        label="goal"
+        value={agent.rubric || ""}
+        onChange={handleAgentChange(i, "rubric")}
         maxRows={4}
       />
     </Box>
@@ -116,9 +106,9 @@ export function DiscussionForm({ data, onChange }) {
         width: "100%",
       }}
     >
-      <Grid2 container spacing={2} columns={3}>
+      <Grid2 container spacing={2}>
         {agents.map((agent, i) => (
-          <Grid2 key={i} xs={12} md={12} lg={12}>
+          <Grid2 key={i} xs={12} md={6}>
             {eachAgent(agent, i)}
           </Grid2>
         ))}
@@ -131,32 +121,11 @@ export function DiscussionForm({ data, onChange }) {
             onClick={addAgent} 
             size="small" 
             color="primary"
-            sx={{ width: "10%"}}
+            sx={{width: "10%"}}
             >
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
 
-          <TextField
-            label="Max Round"
-            type="number"
-            value={data.maxRound || ""}
-            onChange={handleSimpleFieldChange("maxRound")}
-            size="small"
-            sx={{ maxWidth: "20%" }}
-            className={`nodrag nopan nowheel`}
-          />
-
-          <Select
-            label="Summary"
-            value={data.withSummary || ""}
-            onChange={handleSimpleFieldChange("withSummary")}
-            size="small"
-            sx={{ maxWidth: "60%" }}
-            className="nodrag nopan"
-          >
-            <MenuItem value="true">With Summary</MenuItem>
-            <MenuItem value="false">No Summary</MenuItem>
-          </Select>
       </Box>
      
     </Box>

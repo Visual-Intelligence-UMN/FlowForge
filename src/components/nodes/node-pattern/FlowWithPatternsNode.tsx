@@ -1,16 +1,16 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
-import { designPatternsPool } from "../../patterns/patternsData";
-import { designPatternsTemplate } from "../../patterns/patternsData";
-import { SingleAgentForm } from "../templates/SingleAgentForm";
-import { SupervisionForm } from "../templates/SupervisionForm";
-import { ValidatorForm } from "../templates/ValidatorForm";
-import { ReflectionForm } from "../templates/ReflectionForm";
-import { DiscussionForm } from "../templates/DiscussionForm";
-import { ParallelForm } from "../templates/ParallelForm";
-import { VotingForm } from "../templates/VotingForm";
+import { designPatternsPool } from "../../../patterns/patternsData";
+import { designPatternsTemplate } from "../../../patterns/patternsData";
+import { SingleAgentForm } from "../../templates/template-agent/SingleAgentForm";
+import { SupervisionForm } from "../../templates/template-supervision/SupervisionForm";
+import { ValidatorForm } from "../../templates/template-validator/ValidatorForm";
+import { ReflectionForm } from "../../templates/template-reflection/ReflectionForm";
+import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
+import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
+import { VotingForm } from "../../templates/template-voting/VotingForm";
 
-import { iconMap } from "../../images/iconsMap";
+import { iconMap } from "../../../images/iconsMap";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {

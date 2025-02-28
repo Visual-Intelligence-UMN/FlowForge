@@ -1,5 +1,5 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { PatternTextField } from "./patternText";
+import { PatternTextField } from "../textfield/patternText";
 export function ReflectionForm({ data, onChange }) {
   // data = {
   //   maxRound: number,

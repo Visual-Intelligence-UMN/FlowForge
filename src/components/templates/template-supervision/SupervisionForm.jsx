@@ -1,7 +1,7 @@
 import { Box, TextField, IconButton, Typography, Grid2 } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import { PatternTextField } from "./patternText";
+import { PatternTextField } from "../textfield/patternText";
 export function SupervisionForm({ data, onChange }) {
   // data = { workerNum, maxRound, workers: [...], supervisor: {...} }
   const workers = data.workers || [];

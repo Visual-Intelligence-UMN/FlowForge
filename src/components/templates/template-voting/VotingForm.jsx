@@ -7,10 +7,9 @@ import {
 } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import { PatternTextField } from "./patternText";
+import { PatternTextField } from "../textfield/patternText";
 
-export function ParallelForm({ data, onChange }) {
-  // console.log("data", data)
+export function VotingForm({ data, onChange }) {
   const agents = data.agents || [];
 
   const handleSimpleFieldChange = (field) => (e) => {
@@ -88,7 +87,7 @@ export function ParallelForm({ data, onChange }) {
       </Typography>
 
       <PatternTextField
-        label="goal"
+        label="Rubric"
         value={agent.rubric || ""}
         onChange={handleAgentChange(i, "rubric")}
         maxRows={4}
@@ -106,9 +105,9 @@ export function ParallelForm({ data, onChange }) {
         width: "100%",
       }}
     >
-      <Grid2 container spacing={2}>
+      <Grid2 container spacing={1} columns={3}>
         {agents.map((agent, i) => (
-          <Grid2 key={i} xs={12} md={6}>
+          <Grid2 key={i} xs={12} md={6} lg={4}>
             {eachAgent(agent, i)}
           </Grid2>
         ))}
@@ -126,6 +125,15 @@ export function ParallelForm({ data, onChange }) {
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
 
+          <TextField
+            label="Max Round"
+            type="number"
+            value={data.maxRound || ""}
+            onChange={handleSimpleFieldChange("maxRound")}
+            size="small"
+            sx={{ maxWidth: "20%", justifyContent: "center" }}
+            className={`nodrag nopan nowheel`}
+          />
       </Box>
      
     </Box>
