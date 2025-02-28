@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
-import { designPatternsPool } from "../../pattern/patternsData";
-import { designPatternsTemplate } from "../../pattern/patternsData";
+import { designPatternsPool } from "../../patterns/patternsData";
+import { designPatternsTemplate } from "../../patterns/patternsData";
 import { SingleAgentForm } from "../templates/SingleAgentForm";
 import { SupervisionForm } from "../templates/SupervisionForm";
 import { ValidatorForm } from "../templates/ValidatorForm";

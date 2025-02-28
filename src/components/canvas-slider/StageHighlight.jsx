@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Slider, Box } from '@mui/material';
 import { useAtom } from 'jotai';
-import { canvasPagesAtom } from '../../pattern/GlobalStates';
+import { canvasPagesAtom } from '../../patterns/GlobalStates';
 
 const stepFromType = (type) => {
     switch (type) {

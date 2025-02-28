@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom, compiledConfigsAtom } from "../../pattern/GlobalStates";
+import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom, compiledConfigsAtom } from "../../patterns/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";

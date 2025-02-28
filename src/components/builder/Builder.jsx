@@ -7,8 +7,8 @@ import OrganizeConfig from '../../utils/OrganizeConfig';
 import OrganizeReactflow from '../../utils/OrganizeReactflow';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../../pattern/GlobalStates';
-import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../pattern/GlobalStates';
+import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../../patterns/GlobalStates';
+import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../patterns/GlobalStates';
 import StreamOutputRow from '../panel-output/StreamOutputRow';
 
 const Builder = () => {

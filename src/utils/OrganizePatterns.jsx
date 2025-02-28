@@ -1,6 +1,6 @@
 import GeneratePatterns from "./GeneratePatterns";
 import randomCombinePatterns from "./CombinePatterns";
-import { designPatternsTemplate } from "../pattern/patternsData";
+import { designPatternsTemplate } from "../patterns/patternsData";
 
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow

@@ -1,0 +1,190 @@
+{
+    "taskFlows": [
+        {
+            "taskFlowId": "tf1",
+            "taskFlowName": "Analytical Outline Approach",
+            "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+            "isEditing": false,
+            "taskFlowSteps": [
+                {
+                    "stepName": "List candidate ideas about given topic",
+                    "stepLabel": "Outline ideas",
+                    "stepDescription": "generate the ideas about the given topic as many angles as possible.",
+                    "pattern": 
+                        {
+                            "name": "PDF Loader Agent",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Outline the Presentation",
+                    "stepLabel": "Outline structure",
+                    "stepDescription": "Outline the presentation script into logical sections that will serve as the basis for presentation with details.",
+                    "pattern": 
+                        {
+                            "name": "Reflection",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                },
+                {
+                    "stepName": "Write Supporting Details",
+                    "stepLabel": "Details Integration",
+                    "stepDescription": "Expand on the presentation outline by adding detailed explanations, transitions, and examples where needed.",
+                    "pattern":  
+                        {
+                            "name": "Single Agent",
+                            "description": "This design pattern has a reflection to perform the task."
+                        }
+                    
+                }
+            ]
+        },
+        {
+            "taskFlowId": "tf2",
+            "taskFlowName": "Analytical Outline Approach",
+            "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+            "isEditing": false,
+            "taskFlowSteps": [
+                {
+                    "stepName": "Read the Abstract",
+                    "stepLabel": "Abstract Review",
+                    "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
+                    "pattern": 
+                        {
+                            "name": "Single Agent",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Scan the Paper Structure",
+                    "stepLabel": "Structure Overview",
+                    "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
+                    "pattern": 
+                        {
+                            "name": "Supervision",
+                            "description": "This design pattern has multiple agents to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Identify Core Ideas",
+                    "stepLabel": "Key Concepts",
+                    "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
+                    "pattern": 
+                        {
+                            "name": "Discussion",
+                            "description": "This design pattern has a discussion to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Draft Slide Content",
+                    "stepLabel": "Slide Outline",
+                        "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
+                    "pattern": 
+                        {
+                            "name": "Single Agent",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                },
+                {
+                    "stepName": "Write Supporting Details",
+                    "stepLabel": "Details Integration",
+                    "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
+                    "pattern": 
+                        {
+                            "name": "Reflection",
+                            "description": "This design pattern has a reflection to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Polish the Script",
+                    "stepLabel": "Script Refinement",
+                    "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
+                    "pattern": 
+                        {
+                            "name": "Supervision",
+                            "description": "This design pattern has a supervision to perform the task."
+                        }
+                    
+                }
+            ]
+        },
+        {
+            "taskFlowId": "tf3",
+            "taskFlowName": "Analytical Outline Approach",
+            "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
+            "isEditing": false,
+            "taskFlowSteps": [
+                {
+                    "stepName": "Read the Abstract",
+                    "stepLabel": "Abstract Review",
+                    "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
+                    "pattern": 
+                        {
+                            "name": "Single Agent",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Scan the Paper Structure",
+                    "stepLabel": "Structure Overview",
+                    "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
+                    "pattern": 
+                        {
+                            "name": "Supervision",
+                            "description": "This design pattern has multiple agents to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Identify Core Ideas",
+                    "stepLabel": "Key Concepts",
+                    "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
+                    "pattern": 
+                        {
+                            "name": "Discussion",
+                            "description": "This design pattern has a discussion to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Draft Slide Content",
+                    "stepLabel": "Slide Outline",
+                        "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
+                    "pattern": 
+                        {
+                            "name": "Single Agent",
+                            "description": "This design pattern has a single agent to perform the task."
+                        }
+                },
+                {
+                    "stepName": "Write Supporting Details",
+                    "stepLabel": "Details Integration",
+                    "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
+                    "pattern": 
+                        {
+                            "name": "Reflection",
+                            "description": "This design pattern has a reflection to perform the task."
+                        }
+                    
+                },
+                {
+                    "stepName": "Polish the Script",
+                    "stepLabel": "Script Refinement",
+                    "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
+                    "pattern": 
+                        {
+                            "name": "Supervision",
+                            "description": "This design pattern has a supervision to perform the task."
+                        }
+                    
+                }
+            ]
+        }
+    ]
+}
