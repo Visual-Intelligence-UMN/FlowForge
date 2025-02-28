@@ -21,6 +21,38 @@ import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../
 import { nodeTypes } from "../nodes";
 import Button from '@mui/material/Button';
 
+const convertToReactFlowFormat = (taskflow) => {
+        
+    // console.log("taskflow to transform nodes and edges", taskflow);
+    const nodes = taskflow.taskFlowSteps.map((step, index) => ({
+      id: `step-${index+1}`,
+      type: "flowStep",
+      position: { x: index * 250, y: 100 },
+      data: {
+        stepName: step.stepName || `Step ${index + 1}`,
+        stepLabel: step.stepLabel || "",
+        stepDescription: step.stepDescription || "",
+        label: step.stepLabel || `Step ${index + 1}`,
+        pattern: step.pattern || { name: "", description: "" },
+        template: step.template || { persona: "Single Agent", goal: "Single Agent"},
+        config: step.config || { type: "none", nodes: [], edges: [] },
+      },
+    }));
+    const edges = nodes.map((node, index) =>
+      index < nodes.length - 1
+        ? { 
+          id: `edge-${index}`, 
+          source: node.id, 
+          target: nodes[index + 1].id,
+          animated: true,
+        }
+        : null
+    ).filter(Boolean);
+    // console.log("nodes and edges after transform", nodes, edges);
+    
+    return { nodes, edges };
+  };
+
 export function FlowComponentTask(props) {
     // props: targetWorkflow, nodes, edges
     // targetWorkflow: {
@@ -40,9 +72,11 @@ export function FlowComponentTask(props) {
     // }
 
     console.log("props", props);
+
+    const { initialNodes, initialEdges } = convertToReactFlowFormat(props.targetWorkflow);
     
-    const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes || []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges || []);
     // console.log("nodes", nodes);
     // console.log("edges", edges);
 
