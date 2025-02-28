@@ -21,7 +21,7 @@ import {
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
-// Converts your workflow into initial nodes/edges
+
 function convertToReactFlowFormat(taskflow) {
   const { taskFlowSteps = [] } = taskflow;
   const nodes = taskFlowSteps.map((step, index) => ({
@@ -42,7 +42,6 @@ function convertToReactFlowFormat(taskflow) {
     },
   }));
 
-  // For a simple linear chain: node i -> node i+1
   const edges = nodes
     .map((node, index) =>
       index < nodes.length - 1
@@ -67,11 +66,10 @@ export function FlowComponentTask(props) {
   const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
   const [canvasPages] = useAtom(canvasPagesAtom);
 
-  // Build initial nodes & edges from the workflow
   const { nodes: initialNodes, edges: initialEdges } =
     convertToReactFlowFormat(targetWorkflow);
 
-  // React Flow node/edge states
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -153,7 +151,7 @@ export function FlowComponentTask(props) {
       setEdges((prevEdges) => {
         const newEdges = addEdge(connection, prevEdges);
         // optionally update workflow here if you want immediate persistence
-        updateTargetWorkflow(nodes, newEdges);
+        // updateTargetWorkflow(nodes, newEdges);
         return newEdges;
       }),
     [nodes, updateTargetWorkflow, setEdges]
@@ -234,7 +232,8 @@ export function FlowComponentTask(props) {
             }
           : node
       );
-      updateTargetWorkflow(updatedNodes, edges);
+    //   updateTargetWorkflow(updatedNodes, edges);
+    // no need to update the workflow here, it will be updated when the user saves the workflow
       return updatedNodes;
     });
   };

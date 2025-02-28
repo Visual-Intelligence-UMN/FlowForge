@@ -1,8 +1,8 @@
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Position } from "reactflow";
 import { Box, Typography, TextField } from "@mui/material";
 
 export const FlowStepNode = ({ data, isConnectable,id }) => {
-  console.log("id", id);
+  // console.log("id", id);
   if (!id) {
     console.log("FlowStepNode id", id);
   }
@@ -28,7 +28,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         gap: 2
       }}
     >
-      {/* Input / output handles */}
+
       <Handle
         type="target"
         position={Position.Left}
@@ -96,7 +96,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
             borderColor: "#42a5f5",
           }
         }}
-        className="nodrag nopan"
+        className="nodrag nopan nowheel"
         fullWidth
       />
 
