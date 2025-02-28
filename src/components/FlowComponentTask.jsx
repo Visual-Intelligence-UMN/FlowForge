@@ -124,7 +124,7 @@ export function FlowComponentTask(props) {
         ...targetWorkflow,
         taskFlowSteps: updatedTaskFlowSteps,
       };
-
+      console.log("updatedWorkflow", updatedWorkflow);
       // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
@@ -169,12 +169,12 @@ export function FlowComponentTask(props) {
         type: "flowStep",
         position: { x: newIndex * 200, y: newIndex * 100 },
         data: {
-          stepName: `Step ${newIndex}`,
-          stepLabel: `Step ${newIndex}`,
-          stepDescription: `Step ${newIndex}`,
-          pattern: {},
-          config: {},
-          template: {},
+          stepName: `Step Name`,
+          stepLabel: `Step Label`,
+          stepDescription: `Step Description`,
+          pattern: { name: "Single Agent", description: "Single Agent" },
+          config: { type: "none", nodes: [], edges: [] },
+          template: { persona: "Single Agent", goal: "Single Agent" },
         },
       };
 
@@ -205,8 +205,6 @@ export function FlowComponentTask(props) {
   // Delete nodes: remove their edges, do NOT auto-link incomers/outgoers or renumber
   const onNodesDelete = useCallback(
     (deletedNodes) => {
-      // 1) React Flow automatically removes the nodes from state
-      // 2) We remove any edges referencing these nodes
       setEdges((prevEdges) => {
         const nodeIdsToRemove = new Set(deletedNodes.map((n) => n.id));
         const newEdges = prevEdges.filter(
@@ -223,7 +221,6 @@ export function FlowComponentTask(props) {
     [nodes, setEdges, updateTargetWorkflow]
   );
 
-  // Let child nodes call this to update fields
   const updateNodeField = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
       const updatedNodes = prevNodes.map((node) =>
@@ -237,13 +234,10 @@ export function FlowComponentTask(props) {
             }
           : node
       );
-      // Reflect in overall workflow
       updateTargetWorkflow(updatedNodes, edges);
       return updatedNodes;
     });
   };
-
-  // Include the updateNodeField in each node's data
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
     data: {
