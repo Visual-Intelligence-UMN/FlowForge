@@ -1,9 +1,9 @@
 import { useAtom } from "jotai";
-import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom, compiledConfigsAtom } from "../global/GlobalStates";
+import { flowsMapAtom, patternsAtom, agentsConfigAtom, treeNavAtom, selectedTaskAtom, canvasPagesAtom, compiledConfigsAtom } from "../../global/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
 import { useEffect } from "react";
-import "../components/tree.css";
+import "./tree.css";
 import { Typography, Box } from "@mui/material";
 const TreeNav = () => {
 

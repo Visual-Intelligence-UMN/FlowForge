@@ -1,10 +1,10 @@
 import React from 'react';
-import TaskPanel from './components/PanelTaskInput';
+import TaskPanel from './components/panel-input/PanelTaskInput';
 import TaskFlows from './components/unused/PanelTaskFlows';
 import PatternsPanel from './components/unused/PanelPatterns';
 import AgentsPanel from './components/unused/PanelConfigs';
 import ReactFlowPanel from './components/unused/PanelReactFlow';
-import Builder from './components/Builder';
+import Builder from './components/builder/Builder';
 import './App.css';
 
 const headerStyle: React.CSSProperties = {

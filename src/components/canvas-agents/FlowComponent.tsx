@@ -12,12 +12,12 @@ import {
     Panel,
     SelectionMode
   } from '@xyflow/react';
-import { nodeTypes } from '../nodes';
-import { edgeTypes } from '../edges';
-import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../utils/dagreUtils';
+import { nodeTypes } from '../../nodes';
+import { edgeTypes } from '../../edges';
+import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../../utils/dagreUtils';
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';
-import './xy-theme.css';
+import '../xy-theme.css';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {

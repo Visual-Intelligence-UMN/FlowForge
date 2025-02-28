@@ -1,7 +1,7 @@
 import { ReactFlowProvider } from '@xyflow/react'
-import { FlowPanelComponent } from "./FlowComponent";
-import { RflowComponent } from "./FlowComponentPattern";
-import { FlowComponentTask } from "./FlowComponentTask";
+import { FlowPanelComponent } from "../canvas-agents/FlowComponent";
+import { RflowComponent } from "../canvas-patterns/FlowComponentPattern";
+import { FlowComponentTask } from "../canvas-steps/FlowComponentTask";
 
 export function FlowWithProvider(props) {
     return (
