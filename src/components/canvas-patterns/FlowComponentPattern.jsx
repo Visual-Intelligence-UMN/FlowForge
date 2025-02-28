@@ -21,8 +21,8 @@ import {
   } from "../../global/GlobalStates";
 import isEqual from "lodash/isEqual";
 import { getMultiLineLayoutedNodesAndEdges , getLayoutedNodesAndEdges} from '../../utils/dagreUtils';
-import { nodeTypes } from "../../nodes";
-import { edgeTypes } from "../../edges";
+import { nodeTypes } from "../nodes";
+import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 

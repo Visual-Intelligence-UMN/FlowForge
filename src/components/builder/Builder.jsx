@@ -1,10 +1,10 @@
 import TreeNav from '../tree-navigation/TreeNav';
 import SharedCanvas from '../canvas/SharedCanvas';
 import { Box } from '@mui/material';
-import OrganizeTaskFlows from '../OrganizeTaskFlows';
-import OrganizePatterns from '../OrganizePatterns';
-import OrganizeConfig from '../OrganizeConfig';
-import OrganizeReactflow from '../OrganizeReactflow';
+import OrganizeTaskFlows from '../../utils/OrganizeTaskFlows';
+import OrganizePatterns from '../../utils/OrganizePatterns';
+import OrganizeConfig from '../../utils/OrganizeConfig';
+import OrganizeReactflow from '../../utils/OrganizeReactflow';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../../global/GlobalStates';

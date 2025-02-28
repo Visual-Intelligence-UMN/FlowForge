@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { taskList } from '../../global/GlobalStates';
-import { useResetTask } from '../ResetTask';
+import { useResetTask } from '../../utils/ResetTask';
 import { useEffect } from 'react';
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);

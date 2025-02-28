@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import "../langGraphNode.css";
+import "../../langGraphNode.css";
 import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText, TextareaAutosize} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
@@ -8,7 +8,7 @@ const SingleAgentNode = ({ id, data }) => {
       {/* Input Handle (for connecting incoming edges) */}
       {/* <Handle type="source" position={Position.Right} id="right" /> */}
       <Handle type="target" position={Position.Left} id={`in-${id}`} />
-      {"Step "+(Number(id.split("-")[1]) + 1)}
+      
       <Typography variant="h6" gutterBottom>
         🤖 {data.label || "Single Agent"}
       </Typography>
@@ -44,17 +44,16 @@ const SingleAgentNode = ({ id, data }) => {
           onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
           className="nodrag nopan nowheel"
         />
-        
+        {/* System Prompt */}
         {/* <TextareaAutosize
           minRows={3}          // Minimum number of rows
           maxRows={6}       // If you'd like to cap the max rows
           value={data.systemPrompt}
           onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
-          // style={{width: "95%", maxWidth: "95%", padding: "10px"}}
           className="nodrag nopan nowheel"
-        />
+        /> */}
 
-       */}
+      
 
       <Box mt={2} mb={2}>
         <FormControl fullWidth>
