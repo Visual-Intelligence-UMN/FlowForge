@@ -21,7 +21,7 @@ import {
   streamOutputAtom,
   treeNavAtom,
   canvasPagesAtom,
-} from "../global/GlobalStates";
+} from "../patterns/GlobalStates";
 
 export function useResetTask() {
  // only the selectedTaskAtom is not reset

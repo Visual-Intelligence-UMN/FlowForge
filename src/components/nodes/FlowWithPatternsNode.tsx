@@ -1,7 +1,7 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
-import { designPatternsPool } from "../../global/patternsMap";
-import { designPatternsTemplate } from "../../global/patternsMap";
+import { designPatternsPool } from "../../patterns/patternsData";
+import { designPatternsTemplate } from "../../patterns/patternsData";
 import { SingleAgentForm } from "../templates/SingleAgentForm";
 import { SupervisionForm } from "../templates/SupervisionForm";
 import { ValidatorForm } from "../templates/ValidatorForm";
@@ -10,7 +10,7 @@ import { DiscussionForm } from "../templates/DiscussionForm";
 import { ParallelForm } from "../templates/ParallelForm";
 import { VotingForm } from "../templates/VotingForm";
 
-import { iconMap } from "../../global/iconsMap";
+import { iconMap } from "../../images/iconsMap";
 
 export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {

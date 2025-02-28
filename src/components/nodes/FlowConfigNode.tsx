@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField, Select, MenuItem } from "@mui/material";
-import { designPatternsPool } from "../../global/patternsMap";
+import { designPatternsPool } from "../../patterns/patternsData";
 
 export const FlowConfigNode = ({ data, isConnectable,id }) => {
     if (!id) {
