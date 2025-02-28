@@ -17,7 +17,7 @@ import {
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,
-} from "../../utils/dagreUtils";
+} from "../../utils/layout/dagreUtils";
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 

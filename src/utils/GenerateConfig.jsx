@@ -1,4 +1,4 @@
-import { handlersMap } from "../langgraph/handlers";
+import { handlersMap } from "./handlers";
 
 const GenerateRunnableConfig = async (workflow) => {
     const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId } = workflow;

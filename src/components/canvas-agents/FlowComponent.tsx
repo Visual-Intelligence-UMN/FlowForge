@@ -14,7 +14,7 @@ import {
   } from '@xyflow/react';
 import { nodeTypes } from '../nodes';
 import { edgeTypes } from '../edges';
-import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../../utils/dagreUtils';
+import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../../utils/layout/dagreUtils';
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';
 import './xy-theme.css';
