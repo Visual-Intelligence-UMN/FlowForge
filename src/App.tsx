@@ -1,5 +1,5 @@
 import TaskPanel from './components/panel-input/PanelTaskInput';
-import Builder from './components/builder/Builder';
+import Builder from './components/builder/builder';
 import { headerStyle } from './components/header/header';
 import './App.css';
 

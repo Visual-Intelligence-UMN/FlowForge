@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import "../../langGraphNode.css";
+import "./langGraphNode.css";
 import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText, TextareaAutosize} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
