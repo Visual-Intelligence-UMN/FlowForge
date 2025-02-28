@@ -200,24 +200,43 @@ export function FlowComponentTask(props) {
     });
   }, [updateTargetWorkflow, setNodes, setEdges]);
 
-  // Delete nodes: remove their edges, do NOT auto-link incomers/outgoers or renumber
   const onNodesDelete = useCallback(
-    (deletedNodes) => {
-      setEdges((prevEdges) => {
-        const nodeIdsToRemove = new Set(deletedNodes.map((n) => n.id));
-        const newEdges = prevEdges.filter(
-          (edge) =>
-            !nodeIdsToRemove.has(edge.source) &&
-            !nodeIdsToRemove.has(edge.target)
-        );
-        // Now we update the workflow to reflect the new state
-        const newNodes = nodes.filter((n) => !nodeIdsToRemove.has(n.id));
-        updateTargetWorkflow(newNodes, newEdges);
-        return newEdges;
+  (deletedNodes) => {
+    // Determine remaining nodes after deletion
+    const remainingNodes = nodes.filter(
+      (node) => !deletedNodes.some((del) => del.id === node.id)
+    );
+
+    // If deletion would remove all nodes and only one node was deleted…
+    if (remainingNodes.length === 0 && deletedNodes.length === 1) {
+      alert("At least one step is required. Restoring the last deleted node.");
+      // Restore by simply keeping the deleted node in the state.
+      // (You could also choose to re-add it explicitly if ReactFlow has already removed it.)
+      setNodes(() => {
+        // If ReactFlow already removed it
+        // so we explicitly add back the deleted node.
+          const restoredNodes = [deletedNodes[0]];
+          updateTargetWorkflow(restoredNodes, edges);
+          return restoredNodes;
+        
       });
-    },
-    [nodes, setEdges, updateTargetWorkflow]
-  );
+      // No change to edges is needed since they would be removed along with the node.
+      return;
+    }
+    // Otherwise, proceed normally by removing nodes and corresponding edges.
+    const nodeIdsToRemove = new Set(deletedNodes.map((n) => n.id));
+    const newEdges = edges.filter(
+      (edge) =>
+        !nodeIdsToRemove.has(edge.source) && !nodeIdsToRemove.has(edge.target)
+    );
+    updateTargetWorkflow(remainingNodes, newEdges);
+    setNodes(remainingNodes);
+    setEdges(newEdges);
+  },
+  [nodes, edges, updateTargetWorkflow, setNodes, setEdges]
+);
+
+  
 
   const updateNodeField = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
