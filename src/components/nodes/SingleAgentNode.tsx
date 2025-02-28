@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
-import "../langGraphNode.css";
-import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText} from "@mui/material";
+import "../../langGraphNode.css";
+import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText, TextareaAutosize} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
   return (
@@ -44,8 +44,17 @@ const SingleAgentNode = ({ id, data }) => {
           onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
           className="nodrag nopan nowheel"
         />
+        
+        {/* <TextareaAutosize
+          minRows={3}          // Minimum number of rows
+          maxRows={6}       // If you'd like to cap the max rows
+          value={data.systemPrompt}
+          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          // style={{width: "95%", maxWidth: "95%", padding: "10px"}}
+          className="nodrag nopan nowheel"
+        />
 
-      
+       */}
 
       <Box mt={2} mb={2}>
         <FormControl fullWidth>
@@ -77,8 +86,7 @@ const SingleAgentNode = ({ id, data }) => {
       </Box>
 
       {/* Multiple Handles for Outputs */}
-      <Handle type="source" position={Position.Right} id={`out-${id}-a`} style={{top: 100}} />
-      <Handle type="source" position={Position.Right} id={`out-${id}-b`} style={{top: 200}} />
+      <Handle type="source" position={Position.Right} id={`out-${id}`} />
     </Box>
   );
 };

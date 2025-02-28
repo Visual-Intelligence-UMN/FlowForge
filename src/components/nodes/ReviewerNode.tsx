@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import "../langGraphNode.css";
+import "../../langGraphNode.css";
 import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
@@ -77,7 +77,8 @@ const SingleAgentNode = ({ id, data }) => {
       </Box>
 
       {/* Multiple Handles for Outputs */}
-      <Handle type="source" position={Position.Right} id={`out-${id}`} />
+      <Handle type="source" position={Position.Right} id={`out-${id}-a`} style={{top: 100}} />
+      <Handle type="source" position={Position.Right} id={`out-${id}-b`} style={{top: 200}} />
     </Box>
   );
 };

@@ -12,8 +12,8 @@ import {
     Panel,
     SelectionMode
   } from '@xyflow/react';
-import { nodeTypes } from '../../nodes';
-import { edgeTypes } from '../../edges';
+import { nodeTypes } from '../nodes';
+import { edgeTypes } from '../edges';
 import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../../utils/dagreUtils';
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';

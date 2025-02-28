@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import {selectedTaskAtom, streamOutputAtom} from "../../global/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
-import CompileLanggraph from "../CompileLanggraph";
+import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
 const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);

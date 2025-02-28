@@ -1,5 +1,5 @@
 import zIndex from "@mui/material/styles/zIndex";
-import { AppNode } from "../nodes/types";
+import { AppNode } from "../components/nodes/types";
 import { Edge } from "@xyflow/react";
 const CompileReactflow = async (config) => {
     const { taskFlowSteps, configId } = config;
