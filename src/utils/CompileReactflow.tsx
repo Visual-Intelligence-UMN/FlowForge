@@ -9,7 +9,7 @@ const CompileReactflow = async (config) => {
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
-    let stepMetadata = {}; // Stores input node, output nodes, and output mode for each step
+    let stepMetadata = {}; //  Stores input node, output nodes, and output mode for each step
 
     let positionX = 0;
     let positionY = 0;
@@ -50,12 +50,12 @@ const CompileReactflow = async (config) => {
                     systemPrompt: node.systemPrompt || "",
                 };
                 const parentId = `step-${stepIdx}`;
-                const extend = "parent";
+                const extent = "parent";
 
                 positionX += 400;
                 positionY += 500;
 
-                reactflowNodes.push({ id, type, position, data, parentId, extend });
+                reactflowNodes.push({ id, type, position, data, parentId, extent});
                 stepNodeIds.push(id);
                 nodeMap.set(node.description, id);
 

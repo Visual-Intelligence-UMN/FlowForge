@@ -18,21 +18,47 @@ import { edgeTypes } from '../edges';
 import { getLayoutedNodesAndEdgesInGroup } from '../../utils/layout/dagreUtils';
 import '@xyflow/react/dist/style.css';
 import './xy-theme.css';
-import { set } from 'lodash';
+import { set } from 'lodash'
+
+function reorderNodesForReactFlow(nodes) {
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+    const visited = new Set();
+    const result = [];
+  
+    function visit(node) {
+      if (!node) return;
+      if (visited.has(node.id)) return;
+      visited.add(node.id);
+  
+      // If this node has a parentId, visit that first
+      if (node.parentId) {
+        visit(nodeMap.get(node.parentId));
+      }
+  
+      result.push(node);
+    }
+  
+    // Visit each node in the array
+    nodes.forEach((node) => visit(node));
+  
+    return result;
+  }
+  
 
 export function FlowComponentAgent(props) {
   const { targetWorkflow } = props;
 
   // We assume data is in targetWorkflow.reactflowDisplay[0].graph
   let { nodes: initialNodes, edges: initialEdges } = targetWorkflow.reactflowDisplay[0].graph;
-  initialNodes = initialNodes.filter((node) => node.type !== "group");
-  initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
+//   initialNodes = initialNodes.filter((node) => node.type !== "group");
+//   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
   
   const { screenToFlowPosition } = useReactFlow();
 
   // Keep local state for ReactFlow
-  const [nodes, setNodes, rawOnNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, rawOnNodesChange] = useNodesState(reorderNodesForReactFlow(initialNodes));
   const [edges, setEdges, rawOnEdgesChange] = useEdgesState(initialEdges);
+
 
   // 1) A custom wrapper to update ReactFlow's nodes and also
   //    keep the parent data (targetWorkflow) in sync
