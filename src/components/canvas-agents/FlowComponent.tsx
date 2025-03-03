@@ -22,12 +22,27 @@ import { set } from 'lodash';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {
+    // props = {
+    //     targetWorkflow: {
+    //         graph: {
+    //         nodes: [{id, type, position, data, }],
+    //         edges: [{id, source, target,data:{label, llm, systemPrompt, tools:}}],
+    //     },
+    //      configId: "",
+    //      key: "",
+    //      langgraphRun: {},
+    //      stepMetadata: {},
+    // }
 
+    const { configId, graph, langgraphRun, reactflowDisplay } = props.targetWorkflow;
+
+    const initialNodes = graph?.nodes || [];
+    const initialEdges = graph?.edges || [];
+
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    
     const {screenToFlowPosition} = useReactFlow();
-    const updateNodeData = props.updateNodeData;
-
-    const [nodes, setNodes, onNodesChange] = useNodesState(props.graph.nodes || []);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(props.graph.edges || []);
     const [type] = useDnD();
     // const [rfInstance, setRfInstance] = useState(null);
 

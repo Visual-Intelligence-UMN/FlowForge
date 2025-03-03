@@ -2,7 +2,7 @@ import { ReactFlowProvider } from '@xyflow/react'
 import { FlowPanelComponent } from "../canvas-agents/FlowComponent";
 import { RflowComponent } from "../canvas-patterns/FlowComponentPattern";
 import { FlowComponentTask } from "../canvas-steps/FlowComponentTask";
-
+import { FlowComponentAgent } from "../canvas-agents/FlowComponentAgent";
 // canvas-agents stage 3
 export function FlowWithProvider(props) {
     return (
@@ -31,6 +31,16 @@ export function TaskFlowWithProvider(props) {
         <div className="reactflow-provider-wrapper">
             <ReactFlowProvider>
                 <FlowComponentTask {...props} />
+            </ReactFlowProvider>
+        </div>
+    );
+}
+
+export function FlowWithProviderAgent(props) {
+    return (
+        <div className="reactflow-provider">
+            <ReactFlowProvider>
+                <FlowComponentAgent {...props} />
             </ReactFlowProvider>
         </div>
     );
