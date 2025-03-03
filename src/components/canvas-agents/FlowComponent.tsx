@@ -18,6 +18,7 @@ import { getLayoutedNodesAndEdges, getLayoutedNodesAndEdgesInGroup } from '../..
 import { useDnD } from './DnDContext';
 import '@xyflow/react/dist/style.css';
 import './xy-theme.css';
+import { set } from 'lodash';
 let nodeId = 0;
 
 export function FlowPanelComponent(props) {
@@ -80,11 +81,23 @@ export function FlowPanelComponent(props) {
         );
     };
 
+    const updateNodeFieldset = (nodeId, fieldName, newValue) => {
+        setNodes((prevNodes) =>
+            prevNodes.map((node) => {
+                if (node.id !== nodeId) return node;
+                const newData = { ...node.data };
+                set(newData, fieldName, newValue); 
+                return { ...node, data: newData };
+            })
+        );
+    };
+
     const modifiedNodes = nodes.map((node) => ({
         ...node,
         data: {
             ...node.data,
             updateNode: syncNodeChanges,
+            updateNodeFieldset,
         },
     }));
 

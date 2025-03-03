@@ -26,6 +26,7 @@ async function createAgent({
         modelName: llmOption,
         temperature: 1,
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+
     });
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");
     const formattedTools = tools.map((t) => convertToOpenAITool(toolsMap[t]));
@@ -49,7 +50,7 @@ async function createAgent({
             system_message: systemMessage,
         });
         // console.log("prompt", prompt);
-        return prompt.pipe(llm.bind({ tools: formattedTools }));
+        return prompt.pipe(llm.bind({ tools: formattedTools , parallel_tool_calls:false}));
     }
 };
 

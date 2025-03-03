@@ -8,6 +8,7 @@ import StageHighlight from "../canvas-slider/StageHighlight";
 import { flowsMapAtom , patternsAtom, agentsConfigAtom, compiledConfigsAtom} from "../../patterns/GlobalStates";
 import { ExploreLeftButton, ExploreRightButton } from "../canvas-buttons/ExploreButtons";
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
+import { FlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 const SharedCanvas = ( ) => {
     const [activeStep, setActiveStep] = useState(1);
@@ -142,26 +143,13 @@ const SharedCanvas = ( ) => {
                             <TaskFlowWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
                         </Box>
                     );
-                } else {
-                    return (
-                        <Box sx={{
-                            border: "1px solid #ddd", 
-                            display: "flex", 
-                            flexDirection: "column", 
-                            alignItems: "center",
-                            width: "1500px",
-                            height: "900px",
-                        }}>
-                            <Typography variant="h6">{headerContent}</Typography>
-                            <RfWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} />
-                        </Box>
-                    );
                 }
             } else {
                 return (
                     <Box sx={{border: "1px solid #ddd", display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <Typography variant="h6">{headerContent}</Typography>
                         <PageCompiledCfg />
+                        {/* <FlowWithProvider nodes={initialNodes} edges={initialEdges} targetWorkflow={targetWorkflow} /> */}
                     </Box>
                 );
             }

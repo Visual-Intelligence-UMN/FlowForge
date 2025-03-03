@@ -42,16 +42,26 @@ const OrganizePatterns = async (flow, setDesignPatterns) => {
           taskFlowSteps: flow.taskFlowSteps,
         },
       ];
+    
 
     const examplePatternsWithTemplates = await Promise.all(examplePatterns.map(async (flow) => {
-      const templatesInfo = await GenerateTemplatesInfo(flow);
-      return {
-        ...flow,
-        taskFlowSteps: templatesInfo,
-      }
+      flow.taskFlowSteps.forEach((step) => {
+        const templatesInfo = designPatternsTemplate[step.pattern.name];
+        step.template = templatesInfo;
+      });
+      return flow;
     }));
 
-    // console.log("examplePatternsWithTemplates", examplePatternsWithTemplates);
+    // TODO: remove the below comment for production
+    // const examplePatternsWithTemplates = await Promise.all(examplePatterns.map(async (flow) => {
+    //   const templatesInfo = await GenerateTemplatesInfo(flow);
+    //   return {
+    //     ...flow,
+    //     taskFlowSteps: templatesInfo,
+    //   }
+    // }));
+
+    console.log("examplePatternsWithTemplates", examplePatternsWithTemplates);
     const reassignedPatterns = reassignPatternIds(flow.taskFlowId, examplePatternsWithTemplates);
 
     // Store generated workflow with patterns
