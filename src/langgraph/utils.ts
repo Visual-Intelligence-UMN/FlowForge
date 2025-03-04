@@ -1,5 +1,4 @@
 import { ChatOpenAI } from "@langchain/openai";
-import { StructuredTool } from "@langchain/core/tools";
 import { convertToOpenAITool } from "@langchain/core/utils/function_calling";
 import { Runnable } from "@langchain/core/runnables";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
@@ -7,7 +6,7 @@ import { AIMessage, BaseMessage } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
 import { toolsMap } from "./tools";
 import { AgentsState } from "./states";
-
+import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 
 // function to define the agent
 async function createAgent({
@@ -30,7 +29,7 @@ async function createAgent({
     });
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");
     const formattedTools = tools.map((t) => convertToOpenAITool(toolsMap[t]));
-    
+    console.log("formattedTools", formattedTools);
     if (tools.length === 0) {
         const prompt = ChatPromptTemplate.fromMessages([
             ["system", systemMessage],
@@ -50,50 +49,51 @@ async function createAgent({
             system_message: systemMessage,
         });
         // console.log("prompt", prompt);
-        return prompt.pipe(llm.bind({ tools: formattedTools , parallel_tool_calls:false}));
+        return prompt.pipe(llm.bindTools(formattedTools, { parallel_tool_calls:false}));
     }
 };
 
-// function to define the agent
-async function create_agent({
-    llm,
-    tools,
-    systemMessage
-  }: {
-    llm: ChatOpenAI;
-    tools: StructuredTool[];
-    systemMessage: string;
-  }): Promise<Runnable> {
-    const toolNames = tools.map((tool) => tool.name).join(", ");
-    const formattedTools = tools.map((t) => convertToOpenAITool(t));
-    let prompt = ChatPromptTemplate.fromMessages([
-        ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
-        new MessagesPlaceholder("messages"),
-    ]);
-    prompt = await prompt.partial({
-        tool_names: toolNames,
-        system_message: systemMessage,
-    });
-    return prompt.pipe(llm.bind({ tools: formattedTools }));
-};
 
 function handle_agent_response(result: any, name: string) {
     if (!result?.tool_calls || result.tool_calls.length === 0) {
+        console.log("no tool_calls");
         result = new AIMessage({ ...result, name: name });
+    } else {
+        console.log("tool_calls");
+        result = new AIMessage({ ...result, name: "tool" });
     }
-    // } else {
-    //     result = new AIMessage({ ...result, name: name });
-    // }
     return result;
 }
 
-function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string) {
+async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string) {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
   
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
-      return state.messages.slice(-1);
+        console.log("no stepMsgs");
+        const lastMsg = state.messages.slice(-1);
+        console.log(lastMsg)
+        console.log("lastMsg", lastMsg);
+        if (lastMsg[0].tool_calls) {
+            const tool_name = lastMsg[0].tool_calls[0].name;
+            switch (tool_name) {
+                case "tool_PDFLoader":
+                    console.log("tool_calls");
+                    lastMsg[0];
+                    return lastMsg;
+                case "WebSearch":
+                    const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
+                    const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
+                    console.log("result web", result);
+                    lastMsg[0].content = "Web search results: " + JSON.stringify(result);
+                    return lastMsg;
+                default:
+                    return lastMsg;
+            }
+        } else {
+            return lastMsg;
+        }
     }
     return stepMsgs.slice(-1);
   }
@@ -110,7 +110,7 @@ async function create_agent_node(props: {
 
     const step_state = state[current_step] ?? [];
 
-    const inputMsgs = getInputMessagesForStep(state, current_step);
+    const inputMsgs = await getInputMessagesForStep(state, current_step);
 
     const invokePayload = {messages: inputMsgs, sender: state.sender, stepMsgs: step_state};
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
@@ -193,4 +193,4 @@ export default generateGraphImage;
 
 
 
-export { create_agent, create_agent_node, createAgent, saveGraphImage, generateGraphImage };
+export { create_agent_node, createAgent, saveGraphImage, generateGraphImage }
