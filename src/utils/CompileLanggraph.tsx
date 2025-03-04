@@ -11,6 +11,14 @@ import { compileVoting } from "../langgraph/compileVoting";
 import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
+    // reactflowConfig = {
+    //     stepMetadata: {},
+    //     graph: {
+    //         nodes: [],
+    //         edges: [],
+    //     },
+    //     configId: "",
+    // }
 
     // console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
     const {stepMetadata, graph} = reactflowConfig[0];

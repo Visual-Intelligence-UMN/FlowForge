@@ -40,15 +40,16 @@ const StreamOutput = ({ runConfig }) => {
     console.log("recompile runConfig", runConfig);
     const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
 
-    const graphImage = await generateGraphImage(langgraphRun);
-    setGraphImage(graphImage); // debug graph building
+    // const graphImage = await generateGraphImage(langgraphRun);
+    // setGraphImage(graphImage); 
+    // debug graph building
 
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
-      { recursionLimit: 10 }
+      { recursionLimit: 20 }
     );
 
     let lastSender = "";
@@ -68,7 +69,12 @@ const StreamOutput = ({ runConfig }) => {
             messageContent = messagesAll?.content || "";
           } else {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
-            messageContent = `Call Tool: ${calledTool} with args: ${messagesAll.tool_calls?.[0].args.input || ""}`;
+            const toolArgs = messagesAll.tool_calls?.[0].args || "";
+            // const args = JSON.parse(toolArgs);
+            // Convert toolArgs into a readable string
+            const toolArgsStr = JSON.stringify(toolArgs, null, 2); // Pretty-printed JSON
+            // console.log("messagesAll.tool_calls?.[0].arguments", toolArgsStr);
+            messageContent = `Call Tool: ${calledTool} ${toolArgsStr || ""}`;
           }
         }
 
