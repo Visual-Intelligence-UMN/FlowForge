@@ -21,6 +21,7 @@ import './xy-theme.css';
 import { set } from 'lodash'
 
 function reorderNodesForReactFlow(nodes) {
+    // return nodes;
     const nodeMap = new Map(nodes.map((n) => [n.id, n]));
     const visited = new Set();
     const result = [];
@@ -56,17 +57,23 @@ export function FlowComponentAgent(props) {
   const { screenToFlowPosition } = useReactFlow();
 
   // Keep local state for ReactFlow
-  const [nodes, setNodes, rawOnNodesChange] = useNodesState(reorderNodesForReactFlow(initialNodes));
+  const [nodes, setNodes, rawOnNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, rawOnEdgesChange] = useEdgesState(initialEdges);
 
+  useEffect(() => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } =
+      getLayoutedNodesAndEdgesInGroup(nodes, edges);
 
-  // 1) A custom wrapper to update ReactFlow's nodes and also
-  //    keep the parent data (targetWorkflow) in sync
+    setNodes(reorderNodesForReactFlow(layoutedNodes));
+    setEdges(layoutedEdges);
+    // instance?.fitView();
+  }, [nodes, edges]);
+
+
   const onNodesChange = useCallback(
     (changes) => {
       setNodes((prevNodes) => {
         const newNodes = applyNodeChanges(changes, prevNodes);
-        // Update targetWorkflow’s node list directly
         targetWorkflow.reactflowDisplay[0].graph.nodes = newNodes;
         return newNodes;
       });
@@ -74,12 +81,11 @@ export function FlowComponentAgent(props) {
     [setNodes, targetWorkflow]
   );
 
-  // 2) A custom wrapper for edges
+
   const onEdgesChange = useCallback(
     (changes) => {
       setEdges((prevEdges) => {
         const newEdges = applyEdgeChanges(changes, prevEdges);
-        // Update targetWorkflow’s edge list
         targetWorkflow.reactflowDisplay[0].graph.edges = newEdges;
         return newEdges;
       });
@@ -87,7 +93,6 @@ export function FlowComponentAgent(props) {
     [setEdges, targetWorkflow]
   );
 
-  // 3) On connect
   const onConnect: OnConnect = useCallback(
     (connection) => {
       setEdges((prevEdges) => {
@@ -98,22 +103,8 @@ export function FlowComponentAgent(props) {
     },
     [setEdges, targetWorkflow]
   );
+  
 
-  // 4) Lay out the initial graph or whenever nodes/edges change
-  useEffect(() => {
-    const { nodes: layoutedNodes, edges: layoutedEdges } =
-      getLayoutedNodesAndEdgesInGroup(nodes, edges);
-
-    setNodes(layoutedNodes);
-    setEdges(layoutedEdges);
-
-    // If you'd like to fit the view after layout:
-    // instance?.fitView();
-  }, [nodes, edges, setNodes, setEdges]);
-
-  // 5) When a node's data is changed inside a custom node (e.g., SingleAgentNode),
-  //    call this function. It updates local state and also writes back to
-  //    targetWorkflow.reactflowDisplay[0].graph.nodes.
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
       const newNodes = prevNodes.map((node) => {
@@ -123,13 +114,11 @@ export function FlowComponentAgent(props) {
         return { ...node, data: newData };
       });
 
-      // Sync the parent data structure
       targetWorkflow.reactflowDisplay[0].graph.nodes = newNodes;
       return newNodes;
     });
   };
 
-  // 6) Pass `updateNodeFieldset` to each node so they can call it
   const modifiedNodes = nodes.map((node) => ({
     ...node,
     data: {
@@ -138,7 +127,6 @@ export function FlowComponentAgent(props) {
     }
   }));
 
-  // Let the user pan if they drag with mouse button 1 or 2
   const panOnDrag = [1, 2];
 
   return (
