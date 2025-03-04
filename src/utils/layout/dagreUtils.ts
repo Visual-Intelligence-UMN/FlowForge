@@ -82,26 +82,21 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
     nodesep: 100
   });
 
-  // Separate out group vs non-group
   const groupNodes = nodes.filter((node) => node.type === 'group');
   const nonGroupNodes = nodes.filter((node) => node.type !== 'group');
 
-  // For each non-group node, let Dagre know about its dimensions
   nonGroupNodes.forEach((node) => {
     const width = node.measured?.width ?? nodeWidth;
     const height = node.measured?.height ?? nodeHeight;
     dagreGraph.setNode(node.id, { width, height });
   });
 
-  // Let Dagre know about edges
   edges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
 
-  // Perform the Dagre layout
   dagre.layout(dagreGraph);
 
-  // Apply the Dagre positions back to the non-group nodes
   const layoutedNonGroupNodes = nonGroupNodes.map((node) => {
     const dagreNode = dagreGraph.node(node.id);
 
@@ -120,15 +115,12 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
     };
   });
 
-  // Now position group nodes around their children
   const layoutedGroupNodes = groupNodes.map((groupNode) => {
-    // Identify which child nodes belong to this group
     const childNodes = layoutedNonGroupNodes.filter(
       (node) => node.parentNode === groupNode.id || node.parentId === groupNode.id
     );
 
     if (childNodes.length > 0) {
-      // Figure out the bounding box for all child nodes (absolute positions)
       const padding = 20;
       const minX = Math.min(...childNodes.map((n) => n.position.x)) - padding;
       const minY = Math.min(...childNodes.map((n) => n.position.y)) - padding;
@@ -139,8 +131,6 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
         ...childNodes.map((n) => n.position.y + (n.height || nodeHeight))
       ) + padding;
 
-      // Shift each child so that the group node's top-left corner becomes (0,0)
-      // relative to them
       childNodes.forEach((child) => {
         child.position = {
           x: child.position.x - minX,
@@ -148,7 +138,6 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
         };
       });
 
-      // Place the group node at minX/minY
       return {
         ...groupNode,
         position: { x: minX, y: minY },
@@ -161,14 +150,12 @@ const getLayoutedNodesAndEdgesInGroup = (nodes, edges, direction = 'LR') => {
       };
     }
 
-    // If group node has no children, just return it without resizing
     return {
       ...groupNode,
       style: { ...groupNode.style, position: 'absolute' }
     };
   });
 
-  // Final combined array
   const layoutedNodes = [...layoutedNonGroupNodes, ...layoutedGroupNodes];
 
   return { nodes: layoutedNodes, edges };
