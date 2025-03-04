@@ -7,7 +7,7 @@ import type { RunnableConfig } from "@langchain/core/runnables";
 import { toolsMap } from "./tools";
 import { AgentsState } from "./states";
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
-
+import { ToolMessage } from "@langchain/core/messages";
 // function to define the agent
 async function createAgent({
     llmOption,
@@ -76,6 +76,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);
         if (lastMsg[0].tool_calls) {
+            // todo add tool msg 'tool_call_id'
             const tool_name = lastMsg[0].tool_calls[0].name;
             switch (tool_name) {
                 case "tool_PDFLoader":
@@ -86,7 +87,13 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
                     const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
                     console.log("result web", result);
-                    lastMsg[0].content = "Web search results: " + JSON.stringify(result);
+                    const tool_msg = new ToolMessage({
+                        content: "Web search results: " + JSON.stringify(result),
+                        tool_call_id: lastMsg[0].tool_calls[0].id,
+                        name: tool_name,
+                    });
+                    // return [tool_msg];
+                    return [lastMsg[0], tool_msg];
                     return lastMsg;
                 default:
                     return lastMsg;
