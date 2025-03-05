@@ -346,6 +346,67 @@ const handleVoting = (step) => {
     }
 }
 
+const handleParallel = (step) => {
+    const { stepDescription, template} = step;
+    const { agents = [], aggregation = {} } = template;
+
+    const taskPrompt = 'The task is' + stepDescription;
+    const agentsPatternSystemPrompt = 'You can complete the task independently.';
+    const aggregatorPatternSystemPrompt = 'You can aggregate the results of the agents.';
+
+    const agentsNodes = agents.map((agent, index) => {
+        return {
+            type: "singleAgent",
+            description: `Agent${index + 1}`,
+            persona: agent.persona,
+            goal: agent.goal,
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
+            systemPrompt: taskPrompt + agent.patternPrompt?.trim() + "Your persona is " + agent.persona + " and your goal is " + agent.goal
+        }
+    })
+    agentsNodes.push({
+        type: "singleAgent",
+        description: "Aggregator",
+        tools: [],
+        llm: "gpt-4o-mini",
+        taskPrompt: taskPrompt,
+        patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
+        systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
+    })
+
+    let agentsEdges = []
+
+    for (let i = 1; i <= agents.length; i++) {
+        agentsEdges.push({
+            type: "direct",
+            source: "START",
+            target: `Agent${i}`,
+            label: "start",
+        })
+        agentsEdges.push({
+            type: "direct",
+            source: `Agent${i}`,
+            target: "Aggregator",
+            label: "direct",
+        })
+    }
+    agentsEdges.push({
+        type: "direct",
+        source: "Aggregator",
+        target: "__end__",
+        label: "finish",
+    })
+    
+    return {
+        type: "parallel",
+        nodes: [...agentsNodes],
+        edges: agentsEdges
+    }
+}
+
 const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt } = template;
@@ -378,6 +439,7 @@ const handlersMap = {
     "Discussion": handleDiscussion,
     "Single Agent": handleSingleAgent,
     "Voting": handleVoting,
+    "Parallel": handleParallel,
 };
 
 export { handlersMap };
