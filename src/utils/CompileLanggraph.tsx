@@ -11,7 +11,9 @@ import { compileVoting } from "../langgraph/compileVoting";
 import {compileParallel} from "../langgraph/compileParallel";
 import { AgentsState } from "../langgraph/states";
 
+
 const CompileLanggraph = async (reactflowConfig) => {
+    let totalMaxRound = 0;
     // reactflowConfig = {
     //     stepMetadata: {},
     //     graph: {
@@ -43,9 +45,10 @@ const CompileLanggraph = async (reactflowConfig) => {
     for (const key of Object.keys(stepMetadata)) {
         console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
-        const {inputNodes,  pattern, stepNodes} = stepMetadata[key];
+        const {inputNodes,  pattern, stepNodes, maxRound} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
-        
+        totalMaxRound = totalMaxRound + maxRound;
+
         // console.log(key,"stepEdges", stepEdges);
         // console.log(key,"stepNodesInfo", stepNodesInfo);
         // console.log(key,"inputNode", inputNode);
@@ -58,16 +61,16 @@ const CompileLanggraph = async (reactflowConfig) => {
                 compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
             case "reflection":
-                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "supervision":
-                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "discussion":
-                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "voting":
-                compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "parallel":
                 compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
@@ -83,11 +86,12 @@ const CompileLanggraph = async (reactflowConfig) => {
         // no need to add END edge for the last step because it is already added in the patterns
     }
 
+    console.log("totalMaxRound after compile langgraph", totalMaxRound);
     // const compiledLanggraph = singleAgentWithToolsGraph;
     // console.log("final Workflow before compile langgraph", compiledWorkflow);
     const compiledLanggraph = compiledWorkflow.compile();
     console.log("final Workflow after compile", compiledLanggraph);
-    return compiledLanggraph;
+    return {compiledLanggraph, totalMaxRound};
 }
 
 

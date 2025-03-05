@@ -25,6 +25,7 @@ const makeAgentNode = (params: {
     llmOption: string,
     tools: string[],
     votingNum: number,
+    maxRound: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -64,7 +65,7 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length / params.destinations.length === 1) {
+        if (state[currentStep].length / params.destinations.length === params.maxRound) {
             // finish one round of voting
             console.log("finish one round of voting");
             response_goto = params.destinations.find((d) => d.includes("Aggregator"));
@@ -83,7 +84,7 @@ const makeAgentNode = (params: {
     }
 }
 
-const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
     // console.log("nodesInfo in compileVoting", nodesInfo);
     // console.log("stepEdges in compileVoting", stepEdges);
     const votingNode = nodesInfo.filter((node) => node.data.label.includes("Voting"));
@@ -135,6 +136,7 @@ const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState) => {
             systemPrompt: node.data.systemPrompt,
             llmOption: node.data.llm,
             tools: node.data.tools,
+            maxRound: maxRound,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

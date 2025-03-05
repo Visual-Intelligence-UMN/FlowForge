@@ -12,7 +12,7 @@
     },
     "Supervision": {
         "confirm": false,
-        "maxRound": 10,
+        "maxRound": 6,
         "workers": [
             {
                 "persona": "Worker",
@@ -33,11 +33,11 @@
     },
     "Reflection": {
         "confirm": false,
-        "maxRound": 10,
+        "maxRound": 3,
         "evaluator": {
             "persona": "Critical evaluator with logical rigor",
             "goal": "Evaluator",
-            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You provide subtle and helpful feedbacks. You should always include the final output from the optimizer agent in your response first. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement after the output from the optimizer agent, and ask the agent to improve the output, and add NOT GOOD at the end. If the output is good enough, you should only respond the final output from the optimizer agent, and add APPROVED at the end. "
+            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
         },
         "optimizer": {
             "persona": "Efficient problem optimizer",
@@ -47,7 +47,7 @@
     },
     "Discussion": {
         "confirm": false,
-        "maxRound": 10,
+        "maxRound": 6,
         "withSummary": true,
         "agents": [
             {
@@ -97,7 +97,7 @@
     "Voting": {
         "confirm": false,
         "withAggregation": true,
-        "maxRound": 10,
+        "maxRound": 1,
         "rubric": ["Correctness", "Relevance", "Creativity", "Engagement", "Clarity"],
         "agents": [
             {

@@ -23,6 +23,7 @@ const makeAgentNode = (params: {
     llmOption: string,
     tools: string[],
     responsePrompt: string,
+    maxRound: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -65,7 +66,7 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length >= 10) {
+        if (state[currentStep].length / 2 >= params.maxRound) {
             response_goto = params.destinations.find((d) => d.includes(nextStep));
         }
 
@@ -84,7 +85,7 @@ const makeAgentNode = (params: {
 }
 
 
-const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
@@ -112,6 +113,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             llmOption: node.data.llm,
             tools: node.data.tools,
             responsePrompt: responsePrompt,
+            maxRound: maxRound,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

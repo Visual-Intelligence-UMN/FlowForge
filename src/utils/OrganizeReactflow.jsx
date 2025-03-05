@@ -5,7 +5,7 @@ const OrganizeReactflow = async (config, setCompiledConfigs) => {
     // console.log("config to compile all", config);
     const compiledReactflow = await CompileReactflow(config);
     // console.log("compiledReactflow", compiledReactflow);
-    const runnableLanggraph = await CompileLanggraph(compiledReactflow);
+    const { runnableLanggraph, totalMaxRound } = await CompileLanggraph(compiledReactflow);
     const compiledConfig = {reactflowDisplay: compiledReactflow, langgraphRun: runnableLanggraph, configId: config.configId};
     setCompiledConfigs((previousCompiledConfigs) => {
         const updatedCompiledConfigs = [];

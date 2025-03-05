@@ -20,7 +20,7 @@ const CompileReactflow = async (config) => {
         const { config } = step;
         if (!config) return;
 
-        const { nodes, edges, type, maxRound } = config;
+        const { nodes, edges, type, maxRound, runtime} = config;
         let stepNodeIds = [];
         let firstNodeIds = [];
         let outputNodeIds = [];
@@ -102,6 +102,8 @@ const CompileReactflow = async (config) => {
             outputNodes: Array.from(new Set(outputNodeIds)),
             outputMode: outputMode,
             pattern: type,
+            maxRound: maxRound,
+            runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
         };
 

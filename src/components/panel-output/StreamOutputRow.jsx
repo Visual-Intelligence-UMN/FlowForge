@@ -7,7 +7,6 @@ import {selectedTaskAtom, streamOutputAtom} from "../../patterns/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
-import { AgentsState } from "../../langgraph/states";
 
 
 const StreamOutput = ({ runConfig }) => {
@@ -41,7 +40,7 @@ const StreamOutput = ({ runConfig }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log("recompile runConfig", runConfig);
-    const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
+    const { langgraphRun, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
 
     // const graphImage = await generateGraphImage(langgraphRun);
     // setGraphImage(graphImage); 
@@ -52,7 +51,7 @@ const StreamOutput = ({ runConfig }) => {
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
-      { recursionLimit: 20 }
+      { recursionLimit: totalMaxRound }
     );
 
     let lastSender = "";
