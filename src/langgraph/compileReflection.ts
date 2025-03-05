@@ -7,7 +7,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
     const reviewer = nodesInfo.find(node => node.type === "reviewer");
     // add nodes & group edges by source
     for (const node of nodesInfo) {
-        console.log("node", node);
+        // console.log("node", node);
         const createdAgent = async () => await createAgent({
             llmOption: node.data.llm,
             tools: node.data.tools,
@@ -58,7 +58,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentState) => 
     workflow.addConditionalEdges(reviewer.id, reviewerRouter, targetMapping);
     
 
-    console.log("Workflow after compiling reflection:", workflow);
+    // console.log("Workflow after compiling reflection:", workflow);
     return workflow;
 };
 

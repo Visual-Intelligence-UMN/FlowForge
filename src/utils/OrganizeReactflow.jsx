@@ -2,7 +2,7 @@ import CompileReactflow from "./CompileReactflow";
 import CompileLanggraph from "./CompileLanggraph";
 
 const OrganizeReactflow = async (config, setCompiledConfigs) => {
-    console.log("config to compile all", config);
+    // console.log("config to compile all", config);
     const compiledReactflow = await CompileReactflow(config);
     // console.log("compiledReactflow", compiledReactflow);
     const runnableLanggraph = await CompileLanggraph(compiledReactflow);

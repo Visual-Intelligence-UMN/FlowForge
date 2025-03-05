@@ -79,7 +79,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
             // todo add tool msg 'tool_call_id'
             const tool_name = lastMsg[0].tool_calls[0].name;
             switch (tool_name) {
-                case "tool_PDFLoader":
+                case "PDFLoader":
                     console.log("tool_calls");
                     lastMsg[0];
                     return lastMsg;
@@ -93,6 +93,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                         name: tool_name,
                     });
                     // return [tool_msg];
+                    // Note: the tool msg should be returned with the calling msg
                     return [lastMsg[0], tool_msg];
                     return lastMsg;
                 default:

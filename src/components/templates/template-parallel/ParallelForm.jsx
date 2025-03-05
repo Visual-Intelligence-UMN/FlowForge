@@ -13,13 +13,6 @@ export function ParallelForm({ data, onChange }) {
   // console.log("data", data)
   const agents = data.agents || [];
 
-  const handleSimpleFieldChange = (field) => (e) => {
-    onChange({
-      ...data,
-      [field]: e.target.type === "number" ? parseInt(e.target.value) : e.target.value,
-    });
-  };
-
   const handleAgentChange = (index, field) => (e) => {
     const newAgents = [...agents];
     newAgents[index] = {
@@ -88,9 +81,16 @@ export function ParallelForm({ data, onChange }) {
       </Typography>
 
       <PatternTextField
-        label="goal"
-        value={agent.rubric || ""}
-        onChange={handleAgentChange(i, "rubric")}
+        label="Persona"
+        value={agent.persona || ""}
+        onChange={handleAgentChange(i, "persona")}
+        maxRows={4}
+      />
+
+      <PatternTextField
+        label="Goal"
+        value={agent.goal || ""}
+        onChange={handleAgentChange(i, "goal")}
         maxRows={4}
       />
     </Box>

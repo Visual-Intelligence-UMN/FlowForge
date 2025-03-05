@@ -67,8 +67,8 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.find((d) => d.includes("Summary"));
         }
 
-        console.log("discussion response", response);
-        console.log("state", state);
+        // console.log("discussion response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -82,8 +82,8 @@ const makeAgentNode = (params: {
 
 
 const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    console.log("nodesInfo in compileDiscussion", nodesInfo);
-    console.log("stepEdges in compileDiscussion", stepEdges);
+    // console.log("nodesInfo in compileDiscussion", nodesInfo);
+    // console.log("stepEdges in compileDiscussion", stepEdges);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 

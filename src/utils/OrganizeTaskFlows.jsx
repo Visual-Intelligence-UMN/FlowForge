@@ -1,10 +1,11 @@
 import GenerateTaskFlows from "./GenerateTaskFlows";
+import { flowCounterAtom } from "../patterns/GlobalStates";
+import { useAtom } from "jotai";
 
-let flowCounter = 1;
-
-function reassignFlowIds(flows) {
+function reassignFlowIds(flows, flowCounter, setFlowCounter) {
   return flows.map((flow) => {
     const newId = flowCounter++;
+    setFlowCounter(flowCounter);
     return {
       ...flow,
       originalFlowId: flow.taskFlowId,
@@ -31,9 +32,9 @@ function mergeFlowsById(existingMap, existingIds, newFlows) {
   return { updatedMap, updatedIds };
 }
 
-const OrganizeTaskFlows = async (selectedTask, flowsMap, setFlowsMap, flowIds, setFlowIds) => {
+const OrganizeTaskFlows = async (selectedTask, flowsMap, setFlowsMap, flowIds, setFlowIds, flowCounter, setFlowCounter) => {
     const newData = await GenerateTaskFlows(selectedTask);
-    const incomingFlows = reassignFlowIds(newData.taskFlows);
+    const incomingFlows = reassignFlowIds(newData.taskFlows, flowCounter, setFlowCounter);
     setFlowsMap((prevMap) => {
         const { updatedMap, updatedIds } = mergeFlowsById(prevMap, flowIds, incomingFlows);
         setFlowIds(updatedIds);

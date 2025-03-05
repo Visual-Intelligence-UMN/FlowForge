@@ -8,6 +8,7 @@ import { compileReflection } from "../langgraph/compileReflection";
 import { compileSupervision } from "../langgraph/compileSupervision";
 import { compileDiscussion } from "../langgraph/compileDiscussion";
 import { compileVoting } from "../langgraph/compileVoting";
+import {compileParallel} from "../langgraph/compileParallel";
 import { AgentsState } from "../langgraph/states";
 
 const CompileLanggraph = async (reactflowConfig) => {
@@ -26,6 +27,7 @@ const CompileLanggraph = async (reactflowConfig) => {
     const {nodes, edges} = graph;
 
     // add the step annotations to the BaseState
+    console.log("stepNum", stepNum);
     stepNum.forEach((step) => {
         AgentsState.spec[step.split("-").join("")] = Annotation<BaseMessage[]>({
             default: () => [],
@@ -39,8 +41,9 @@ const CompileLanggraph = async (reactflowConfig) => {
 
 
     for (const key of Object.keys(stepMetadata)) {
+        console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
-        const {inputNode,  pattern, stepNodes} = stepMetadata[key];
+        const {inputNodes,  pattern, stepNodes} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
         
         // console.log(key,"stepEdges", stepEdges);
@@ -66,18 +69,24 @@ const CompileLanggraph = async (reactflowConfig) => {
             case "voting":
                 compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
+            case "parallel":
+                compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                break;
         }
 
-        if (key === "step-0" && inputNode) {
-            compiledWorkflow.addEdge(START, inputNode);
+        if (key === "step-0" && inputNodes.length !== 0) {
+            console.log("adding edge from START to inputNode", inputNodes);
+            inputNodes.forEach((inputNode) => {
+                compiledWorkflow.addEdge(START, inputNode);
+            });
         }
         // no need to add END edge for the last step because it is already added in the patterns
     }
 
     // const compiledLanggraph = singleAgentWithToolsGraph;
-    console.log("final Workflow before compile langgraph", compiledWorkflow);
+    // console.log("final Workflow before compile langgraph", compiledWorkflow);
     const compiledLanggraph = compiledWorkflow.compile();
-    // console.log("final Workflow after compile", compiledLanggraph);
+    console.log("final Workflow after compile", compiledLanggraph);
     return compiledLanggraph;
 }
 

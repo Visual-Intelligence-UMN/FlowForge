@@ -92,7 +92,7 @@
         "aggregation": {
             "persona": "Aggregator",
             "goal": "Aggregator",
-            "patternPrompt": "You are a helpful assistant who can aggregate the output of the agents."
+            "patternPrompt": "You should aggregate the output of the previous agents conversation."
         }
     },
     "Voting": {
