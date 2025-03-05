@@ -32,10 +32,10 @@ const makeAgentNode = (params: {
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response to the original input. Does not need to be a final response. Will be streamed back to the user."
+            "A human readable response to the original input. Will be streamed back to the user."
             ),
             goto: z.enum(params.destinations as [string, ...string[]])
-            .describe(params.responsePrompt + nextStep),
+            .describe(params.responsePrompt),
         });
 
         const agent = new ChatOpenAI({
