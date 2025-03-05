@@ -27,7 +27,7 @@ const CompileLanggraph = async (reactflowConfig) => {
     const {nodes, edges} = graph;
 
     // add the step annotations to the BaseState
-    console.log("stepNum", stepNum);
+    // console.log("stepNum", stepNum);
     stepNum.forEach((step) => {
         AgentsState.spec[step.split("-").join("")] = Annotation<BaseMessage[]>({
             default: () => [],
@@ -74,8 +74,8 @@ const CompileLanggraph = async (reactflowConfig) => {
                 break;
         }
 
-        if (key === "step-0" && inputNodes.length !== 0) {
-            console.log("adding edge from START to inputNode", inputNodes);
+        if (key === "step-1" && inputNodes.length !== 0) {
+            // console.log("adding edge from START to inputNode", inputNodes);
             inputNodes.forEach((inputNode) => {
                 compiledWorkflow.addEdge(START, inputNode);
             });

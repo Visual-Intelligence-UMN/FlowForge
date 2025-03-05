@@ -153,7 +153,7 @@ const StreamOutput = ({ runConfig }) => {
                 >
                   <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                      {"Step" + (Number(msg.sender.split("-")[1])+1) + " " + msg.sender.split("-")[3]}
+                      {"Step" + (Number(msg.sender.split("-")[1])) + " " + msg.sender.split("-")[3]}
                     </Typography>
                     <Typography
                       variant="body1"

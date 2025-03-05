@@ -16,6 +16,7 @@ const CompileReactflow = async (config) => {
     // iterate over each step
     let stepGroupNodes = [];
     taskFlowSteps.forEach((step, stepIdx) => {
+        stepIdx += 1;
         const { config } = step;
         if (!config) return;
 
@@ -139,6 +140,7 @@ const CompileReactflow = async (config) => {
 
     // process inter-step edges
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
+        idx += 1;
         const nextStepKey = `step-${idx + 1}`;
         if (stepMetadata[nextStepKey]) {
             const { inputNodes } = stepMetadata[nextStepKey];

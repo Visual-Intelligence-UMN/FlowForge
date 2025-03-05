@@ -32,7 +32,7 @@ const makeAgentNode = (params: {
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
+            "A human readable response to the original input. Does not need to be a final response. Will be streamed back to the user."
             ),
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt + nextStep),
@@ -40,7 +40,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 1,
+            temperature: 0.8,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -68,6 +68,9 @@ const makeAgentNode = (params: {
         if (state[currentStep].length >= 10) {
             response_goto = params.destinations.find((d) => d.includes(nextStep));
         }
+
+        console.log("reflection response", params.name, response);
+        console.log("reflection response_goto", response_goto);
         
         return new Command({
             goto: response_goto,
@@ -84,6 +87,7 @@ const makeAgentNode = (params: {
 const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) => {
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
+    const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     for (const node of nodesInfo) {
         const destinations = Array.from(
             new Set(
@@ -94,9 +98,10 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) =>
         );
         let responsePrompt = "";
         if (node.type === "evaluator") {
-            responsePrompt = "You should call the Optimizer with your feedbacks if NOT GOOD, otherwise call for next step: ."
+            const nextOne = destinations.find((d) => d.includes(nextStep));
+            responsePrompt = "You should call the Optimizer with your feedbacks if NOT GOOD, otherwise call for " + nextOne
         } else {
-            responsePrompt = "You should call the Evaluator to get the feedbacks before next "
+            responsePrompt = "You should always call the Evaluator to get the feedbacks. "
         }
         console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
