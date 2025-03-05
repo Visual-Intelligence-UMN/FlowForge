@@ -1,10 +1,12 @@
 import GenerateTaskFlows from "./GenerateTaskFlows";
-
-let flowCounter = 1;
+import { flowCounterAtom } from "../patterns/GlobalStates";
+import { useAtom } from "jotai";
 
 function reassignFlowIds(flows) {
+  const [flowCounter, setFlowCounter] = useAtom(flowCounterAtom);
   return flows.map((flow) => {
     const newId = flowCounter++;
+    setFlowCounter(flowCounter);
     return {
       ...flow,
       originalFlowId: flow.taskFlowId,
