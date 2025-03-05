@@ -40,7 +40,7 @@ const CompileLanggraph = async (reactflowConfig) => {
 
     for (const key of Object.keys(stepMetadata)) {
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
-        const {inputNode,  pattern, stepNodes} = stepMetadata[key];
+        const {inputNodes,  pattern, stepNodes} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
         
         // console.log(key,"stepEdges", stepEdges);
@@ -68,16 +68,16 @@ const CompileLanggraph = async (reactflowConfig) => {
                 break;
         }
 
-        if (key === "step-0" && inputNode) {
-            compiledWorkflow.addEdge(START, inputNode);
+        if (key === "step-0" && inputNodes.length === 1) {
+            compiledWorkflow.addEdge(START, inputNodes[0]);
         }
         // no need to add END edge for the last step because it is already added in the patterns
     }
 
     // const compiledLanggraph = singleAgentWithToolsGraph;
-    console.log("final Workflow before compile langgraph", compiledWorkflow);
+    // console.log("final Workflow before compile langgraph", compiledWorkflow);
     const compiledLanggraph = compiledWorkflow.compile();
-    // console.log("final Workflow after compile", compiledLanggraph);
+    console.log("final Workflow after compile", compiledLanggraph);
     return compiledLanggraph;
 }
 

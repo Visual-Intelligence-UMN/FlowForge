@@ -67,8 +67,8 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.find((d) => d.includes("Summary"));
         }
 
-        console.log("discussion response", response);
-        console.log("state", state);
+        // console.log("discussion response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {

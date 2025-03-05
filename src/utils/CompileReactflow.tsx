@@ -21,7 +21,7 @@ const CompileReactflow = async (config) => {
 
         const { nodes, edges, type } = config;
         let stepNodeIds = [];
-        let firstNodeId = null;
+        let firstNodeIds = [];
         let outputNodeIds = [];
        
         let outputMode = "direct"; // from this step to next step, may not be used
@@ -59,8 +59,8 @@ const CompileReactflow = async (config) => {
                 stepNodeIds.push(id);
                 nodeMap.set(node.description, id);
 
-                if (!firstNodeId) {
-                    firstNodeId = id;
+                if (!firstNodeIds.length) {
+                    firstNodeIds.push(id);
                 }
             });
         }
@@ -69,12 +69,12 @@ const CompileReactflow = async (config) => {
 
         // identify input & output nodes in one step
         if (stepNodeIds.length === 1) {
-            firstNodeId = stepNodeIds[0];
+            firstNodeIds.push(stepNodeIds[0]);
             outputNodeIds.push(stepNodeIds[0]);
         } else {
             edges?.forEach((edge) => {
                 if (edge.source === "START") {
-                    firstNodeId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
+                    firstNodeIds.push(nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx));
                 }
                 if (edge.target === "__end__") {
                     outputNodeIds.push(nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx));
@@ -95,7 +95,7 @@ const CompileReactflow = async (config) => {
 
         // store step metadata for langgraphß
         stepMetadata[`step-${stepIdx}`] = {
-            inputNode: firstNodeId,
+            inputNodes: firstNodeIds,
             outputNodes: outputNodeIds,
             outputMode: outputMode,
             pattern: type,
@@ -134,20 +134,33 @@ const CompileReactflow = async (config) => {
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
         const nextStepKey = `step-${idx + 1}`;
         if (stepMetadata[nextStepKey]) {
-            const { inputNode } = stepMetadata[nextStepKey];
+            const { inputNodes } = stepMetadata[nextStepKey];
             let { outputNodes, outputMode } = stepMetadata[stepKey];
             // TODO: change the edge types after customizing the edges
             outputMode = "default";
 
             outputNodes.forEach((outputNode) => {
-                const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
-                reactflowEdges.push({
-                    id: stepTransitionEdgeId,
-                    source: outputNode,
-                    target: inputNode,
-                    type: outputMode,
-                    label: `${stepKey}->${nextStepKey}`,
-                });
+                if (inputNodes.length === 1) {
+                    const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
+                    reactflowEdges.push({
+                        id: stepTransitionEdgeId,
+                        source: outputNode,
+                        target: inputNodes[0],
+                        type: outputMode,
+                        label: `${stepKey}->${nextStepKey}`,
+                    });
+                } else {
+                    inputNodes.forEach((inputNode) => {
+                        const stepTransitionEdgeId = `${stepKey}->${nextStepKey}-${inputNode}`;
+                        reactflowEdges.push({
+                            id: stepTransitionEdgeId,
+                            source: outputNode,
+                            target: inputNode,
+                            type: outputMode,
+                            label: `${stepKey}->${nextStepKey}`,
+                        });
+                    });
+                }
             });
         }
     });

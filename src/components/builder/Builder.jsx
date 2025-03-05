@@ -7,12 +7,13 @@ import OrganizeConfig from '../../utils/OrganizeConfig';
 import OrganizeReactflow from '../../utils/OrganizeReactflow';
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom } from '../../patterns/GlobalStates';
+import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom, flowCounterAtom } from '../../patterns/GlobalStates';
 import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../patterns/GlobalStates';
 import StreamOutputRow from '../panel-output/StreamOutputRow';
 
 const Builder = () => {
     // atoms for task flows 
+    const [flowCounter, setFlowCounter] = useAtom(flowCounterAtom);
     const [selectedTask] = useAtom(selectedTaskAtom);
     const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [flowIds, setFlowIds] = useAtom(flowIdsAtom);
@@ -39,7 +40,7 @@ const Builder = () => {
 
     useEffect(() => {
         if (taskFlowsGenerate === 0) {
-            OrganizeTaskFlows(selectedTask, flowsMap, setFlowsMap, flowIds, setFlowIds);
+            OrganizeTaskFlows(selectedTask, flowsMap, setFlowsMap, flowIds, setFlowIds, flowCounter, setFlowCounter);
             setTaskFlowsGenerate(1);
         }
     }, [taskFlowsGenerate]);

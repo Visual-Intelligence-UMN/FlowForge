@@ -122,7 +122,7 @@ export function FlowComponentTask(props) {
         ...targetWorkflow,
         taskFlowSteps: updatedTaskFlowSteps,
       };
-      console.log("updatedWorkflow", updatedWorkflow);
+      // console.log("updatedWorkflow", updatedWorkflow);
       // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
