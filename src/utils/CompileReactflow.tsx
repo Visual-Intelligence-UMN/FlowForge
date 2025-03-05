@@ -92,7 +92,7 @@ const CompileReactflow = async (config) => {
         // if (stepIdx === 0) {
         //     firstNodeId = "START";
         // }
-        if (stepIdx === taskFlowSteps.length - 1) {
+        if (stepIdx === taskFlowSteps.length) {
             outputNodeIds.push("END");
         }
 
