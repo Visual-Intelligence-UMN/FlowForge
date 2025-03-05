@@ -95,8 +95,8 @@ const CompileReactflow = async (config) => {
 
         // store step metadata for langgraphß
         stepMetadata[`step-${stepIdx}`] = {
-            inputNodes: firstNodeIds,
-            outputNodes: outputNodeIds,
+            inputNodes: Array.from(new Set(firstNodeIds)),
+            outputNodes: Array.from(new Set(outputNodeIds)),
             outputMode: outputMode,
             pattern: type,
             stepNodes: Array.from(nodeMap.values()), 

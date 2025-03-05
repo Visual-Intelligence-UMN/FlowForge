@@ -352,7 +352,7 @@ const handleParallel = (step) => {
 
     const taskPrompt = 'The task is' + stepDescription;
     const agentsPatternSystemPrompt = 'You can complete the task independently.';
-    const aggregatorPatternSystemPrompt = 'You can aggregate the results of the agents.';
+    const aggregatorPatternSystemPrompt = 'You should aggregate the previous agents outputs.';
 
     const agentsNodes = agents.map((agent, index) => {
         return {
