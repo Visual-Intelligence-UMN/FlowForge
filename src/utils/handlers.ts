@@ -13,7 +13,8 @@ const handleSingleAgentWithWebSearchTool = (step) => {
                 systemPrompt: patternSystemPrompt + taskPrompt 
             }
         ],
-        edges: []
+        edges: [],
+        maxRound: 1,
     };
 };
 
@@ -33,19 +34,21 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
                 systemPrompt: taskPrompt + patternSystemPrompt 
             }
         ],
-        edges: []
+        edges: [],
+        maxRound: 1,
     };
 };
 
 const handleReflection = (step) => {
     const { stepDescription, template } = step;
-    const { evaluator, optimizer } = template;
+    const { evaluator, optimizer, maxRound } = template;
     const optimizerPatternPrompt = optimizer.patternPrompt.trim() 
     const evaluatorPatternPrompt = evaluator.patternPrompt.trim() 
     const taskPrompt =  'The task for you is ' + stepDescription;
 
     return {
         type: "reflection",
+        maxRound: maxRound,
         nodes: [
             {
                 type: "optimizer",
@@ -97,7 +100,7 @@ const handleReflection = (step) => {
 
 const handleSupervision = (step) => {
     const { stepDescription, pattern, template } = step;
-    const { workerNum, maxRound, workers = [], supervisor = {} } = template;
+    const { maxRound, workers = [], supervisor = {} } = template;
 
     const taskPrompt = 'The task for the team is' + stepDescription;    
 
@@ -348,7 +351,7 @@ const handleVoting = (step) => {
 
 const handleParallel = (step) => {
     const { stepDescription, template} = step;
-    const { agents = [], aggregation = {} } = template;
+    const { agents = [], aggregation = {}, maxRound } = template;
 
     const taskPrompt = 'The task is' + stepDescription;
     const agentsPatternSystemPrompt = 'You can complete the task independently.';
@@ -403,18 +406,20 @@ const handleParallel = (step) => {
     return {
         type: "parallel",
         nodes: [...agentsNodes],
-        edges: agentsEdges
+        edges: agentsEdges,
+        maxRound: maxRound,
     }
 }
 
 const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
-    const { persona, goal, patternPrompt } = template;
+    const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = 'The task description for you is ' + stepDescription;
     const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task. \
     You should always respond with the final output.';
     return {
         type: "singleAgent",
+        maxRound: 1,
         nodes: [
             {
                 type: "singleAgent",

@@ -19,13 +19,37 @@ const GenerateRunnableConfig = async (workflow) => {
         const { stepName, stepLabel, stepDescription, pattern, config, template } = step;
         // console.log("template", template);
         if (handlersMap[pattern.name]) {
-            const config = handlersMap[pattern.name](step);
+            let newConfig = handlersMap[pattern.name](step);
+           
+            const { maxRound, type, nodes } = newConfig;
+            let runtime = maxRound;
+            switch (type) {
+                case "reflection":
+                    runtime = maxRound * 2;
+                    break;
+                case "discussion":
+                    runtime = maxRound * nodes.length;
+                    break;
+                case "parallel":
+                    runtime = 1;
+                    break;
+                case "voting":
+                    runtime = maxRound * nodes.length + 1;
+                    break;
+                case "singleAgent":
+                    runtime = 1;
+                    break;
+                case "supervision":
+                    runtime = maxRound * 2;
+                    break;
+            }
+            newConfig.runtime = runtime;
             agentsConfig.taskFlowSteps.push({
                 stepName,
                 stepLabel,
                 stepDescription,
                 pattern,
-                config,
+                config: newConfig,
                 template
             });
         } else {

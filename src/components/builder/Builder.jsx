@@ -10,7 +10,7 @@ import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom, flowCounterAtom } from '../../patterns/GlobalStates';
 import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../patterns/GlobalStates';
 import StreamOutputRow from '../panel-output/StreamOutputRow';
-
+import Streaming from '../panel-output/Streaming';
 const Builder = () => {
     // atoms for task flows 
     const [flowCounter, setFlowCounter] = useAtom(flowCounterAtom);
@@ -145,6 +145,7 @@ const Builder = () => {
         </Box>
         <Box sx={{ width: "90%", display: "flex", flexDirection: "row", gap: 3, justifyContent: "center", alignItems: "center" }}>
             <StreamOutputRow runConfig={langgraphRunSelected} />
+            {/* <Streaming runConfig={langgraphRunSelected} /> */}
         </Box>
         </>
     );

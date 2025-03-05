@@ -12,7 +12,6 @@
     },
     "Supervision": {
         "confirm": false,
-        "workerNum": 2,
         "maxRound": 10,
         "workers": [
             {
@@ -36,14 +35,14 @@
         "confirm": false,
         "maxRound": 10,
         "evaluator": {
-            "persona": "Critical reviewer with logical rigor",
+            "persona": "Critical evaluator with logical rigor",
             "goal": "Evaluator",
-            "patternPrompt": "You are a helpful reviewer who can analyze the output of another agent. You work with another agent to solve the task and iterate on the output. You provide subtle and helpful feedbacks. You should always include the final output from the worker agent in your response first. Then, If the output is not good enough, you should respond with feedbacks and suggestions for improvement after the output from the worker agent, and ask the agent to improve the output, and add NOT GOOD at the end. If the output is good enough, you should only respond the final output from the worker agent, and add APPROVED at the end. "
+            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You provide subtle and helpful feedbacks. You should always include the final output from the optimizer agent in your response first. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement after the output from the optimizer agent, and ask the agent to improve the output, and add NOT GOOD at the end. If the output is good enough, you should only respond the final output from the optimizer agent, and add APPROVED at the end. "
         },
         "optimizer": {
             "persona": "Efficient problem optimizer",
             "goal": "Draft an initial solution and iterate on it based on the feedbacks",
-            "patternPrompt": "You are a helpful assistant who can work with reviewer agent to achieve a task. You should always read and input first if there is any. You can efficiently improve the output based on the feedbacks and suggestions provided by the reviewer. You work with the reviewer and iterate on the output until it is good enough."
+            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough."
         }
     },
     "Discussion": {

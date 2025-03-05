@@ -20,7 +20,7 @@ const CompileReactflow = async (config) => {
         const { config } = step;
         if (!config) return;
 
-        const { nodes, edges, type } = config;
+        const { nodes, edges, type, maxRound } = config;
         let stepNodeIds = [];
         let firstNodeIds = [];
         let outputNodeIds = [];
@@ -34,7 +34,8 @@ const CompileReactflow = async (config) => {
             data: {label: `Step ${stepIdx}`},
             position: {x: positionX, y: positionY},
             style: {width: 500, height: 500},
-            type: "group"
+            type: "group",
+            maxRound: maxRound,
         }
         reactflowNodes.push(stepGroup);
         stepGroupNodes.push(stepGroup);
@@ -49,6 +50,7 @@ const CompileReactflow = async (config) => {
                     tools: node.tools || [],
                     llm: node.llm || "gpt-4o-mini",
                     systemPrompt: node.systemPrompt || "",
+                    maxRound: maxRound,
                 };
                 const parentId = `step-${stepIdx}`;
                 const extent = "parent";

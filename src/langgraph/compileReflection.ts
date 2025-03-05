@@ -56,7 +56,7 @@ const makeAgentNode = (params: {
             },
             ...getInputMessagesForStep(state, currentStep),
         ]
-
+        console.log("invokePayload", invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
             role: "assistant",
@@ -88,6 +88,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) =>
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
+    const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
     for (const node of nodesInfo) {
         const destinations = Array.from(
             new Set(
@@ -98,8 +99,8 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) =>
         );
         let responsePrompt = "";
         if (node.type === "evaluator") {
-            const nextOne = destinations.find((d) => d.includes(nextStep));
-            responsePrompt = "You should call the Optimizer with your feedbacks if NOT GOOD, otherwise call for " + nextOne
+            const nextOne = destinations.find((d: string) => d.includes(nextStep));
+            responsePrompt = "You should call " + optimizerName + " with your feedbacks if NOT GOOD, otherwise organize your response and call for " + nextOne
         } else {
             responsePrompt = "You should always call the Evaluator to get the feedbacks. "
         }
