@@ -31,10 +31,6 @@ const StreamOutput = ({ runConfig }) => {
   const startNewThread = () => {
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: ""}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}, isThreadActive: true});
     setInputMessage("");
-    // setIntermediaryMessages([]);
-    // setFinalMessage(null);
-    // setIsThreadActive(true);
-    // setSubmittedInput({ content: "", sender: "User" });
   };
 
   const handleFormSubmit = async (event) => {
@@ -46,9 +42,7 @@ const StreamOutput = ({ runConfig }) => {
     // setGraphImage(graphImage); 
     // debug graph building
 
-    // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
-    // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: totalMaxRound }
@@ -72,10 +66,7 @@ const StreamOutput = ({ runConfig }) => {
           } else {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
             const toolArgs = messagesAll.tool_calls?.[0].args || "";
-            // const args = JSON.parse(toolArgs);
-            // Convert toolArgs into a readable string
             const toolArgsStr = JSON.stringify(toolArgs, null, 2); // Pretty-printed JSON
-            // console.log("messagesAll.tool_calls?.[0].arguments", toolArgsStr);
             messageContent = `Call Tool: ${calledTool} ${toolArgsStr || ""}`;
           }
         }
@@ -96,9 +87,6 @@ const StreamOutput = ({ runConfig }) => {
       finalMessage: { sender: lastSender, content: lastContent },
       isThreadActive: false,
     }));
-    // setFinalMessage({ sender: lastSender, content: lastContent } || { sender: "System", content: "Process completed" });
-    // setIsThreadActive(false);
-    // setStreamOutput({...streamOutput, isThreadActive: false});
   };
 
   const getPreviewContent = (content, isFull) => {

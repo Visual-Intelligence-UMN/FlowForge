@@ -6,7 +6,13 @@ const OrganizeReactflow = async (config, setCompiledConfigs) => {
     const compiledReactflow = await CompileReactflow(config);
     // console.log("compiledReactflow", compiledReactflow);
     const { runnableLanggraph, totalMaxRound } = await CompileLanggraph(compiledReactflow);
-    const compiledConfig = {reactflowDisplay: compiledReactflow, langgraphRun: runnableLanggraph, configId: config.configId};
+    const compiledConfig = {
+        reactflowDisplay: compiledReactflow, 
+        langgraphRun: runnableLanggraph, 
+        configId: config.configId,
+        totalMaxRound: totalMaxRound,
+    };
+    // update the compiled configs
     setCompiledConfigs((previousCompiledConfigs) => {
         const updatedCompiledConfigs = [];
         let replaced = false;

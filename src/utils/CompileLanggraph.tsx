@@ -23,13 +23,10 @@ const CompileLanggraph = async (reactflowConfig) => {
     //     configId: "",
     // }
 
-    // console.log("reactflowConfig in compile langgraph", reactflowConfig[0]);
     const {stepMetadata, graph} = reactflowConfig[0];
     const stepNum = Object.keys(stepMetadata);
     const {nodes, edges} = graph;
 
-    // add the step annotations to the BaseState
-    // console.log("stepNum", stepNum);
     stepNum.forEach((step) => {
         AgentsState.spec[step.split("-").join("")] = Annotation<BaseMessage[]>({
             default: () => [],
@@ -45,16 +42,12 @@ const CompileLanggraph = async (reactflowConfig) => {
     for (const key of Object.keys(stepMetadata)) {
         console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
-        const {inputNodes,  pattern, stepNodes, maxRound} = stepMetadata[key];
+        const {inputNodes,  pattern, stepNodes, maxRound, runtime} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
         totalMaxRound = totalMaxRound + maxRound;
 
-        // console.log(key,"stepEdges", stepEdges);
-        // console.log(key,"stepNodesInfo", stepNodesInfo);
-        // console.log(key,"inputNode", inputNode);
-        // console.log(key,"outputNodes", outputNodes);
+        // TODO: deal with total runtime here
 
-        // TODO: add the other patterns
         switch (pattern) {
             case "singleAgent":
                 // handle single agent with tools or without tools
@@ -86,9 +79,7 @@ const CompileLanggraph = async (reactflowConfig) => {
         // no need to add END edge for the last step because it is already added in the patterns
     }
 
-    console.log("totalMaxRound after compile langgraph", totalMaxRound);
-    // const compiledLanggraph = singleAgentWithToolsGraph;
-    // console.log("final Workflow before compile langgraph", compiledWorkflow);
+
     const compiledLanggraph = compiledWorkflow.compile();
     console.log("final Workflow after compile", compiledLanggraph);
     return {compiledLanggraph, totalMaxRound};
