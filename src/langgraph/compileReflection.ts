@@ -1,7 +1,10 @@
-import { RunnableConfig } from "@langchain/core/runnables";
-import { createAgent, create_agent_node } from "./utils";
-import { AIMessage } from "@langchain/core/messages";
 
+import { BaseMessage } from "@langchain/core/messages";
+import { AgentsState } from "./states";
+import { z } from "zod";
+import { ChatOpenAI } from "@langchain/openai";
+import toolsMap from "./utils";
+import { Command } from "@langchain/langgraph/web";
 const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
@@ -90,12 +93,12 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             )
         );
         let responsePrompt = "";
-        if (node.type === "reviewer") {
+        if (node.type === "evaluator") {
             responsePrompt = "You should call the Optimizer with your feedbacks if NOT GOOD, otherwise call for next step: ."
         } else {
-            responsePrompt = "You should call the Reviewer to get the feedbacks before next"
+            responsePrompt = "You should call the Evaluator to get the feedbacks before next "
         }
-
+        console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations as string[],

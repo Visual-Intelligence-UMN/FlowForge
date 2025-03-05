@@ -40,55 +40,55 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
 const handleReflection = (step) => {
     const { stepDescription, template } = step;
     const { evaluator, optimizer } = template;
-    const executorPatternPrompt = optimizer.patternPrompt.trim() 
-    const reviewerPatternPrompt = evaluator.patternPrompt.trim() 
+    const optimizerPatternPrompt = optimizer.patternPrompt.trim() 
+    const evaluatorPatternPrompt = evaluator.patternPrompt.trim() 
     const taskPrompt =  'The task for you is ' + stepDescription;
 
     return {
         type: "reflection",
         nodes: [
             {
-                type: "executor",
-                description: "Executor",
+                type: "optimizer",
+                description: "Optimizer",
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: executorPatternPrompt,
-                systemPrompt: executorPatternPrompt + taskPrompt
+                patternPrompt: optimizerPatternPrompt,
+                systemPrompt: optimizerPatternPrompt + taskPrompt
             },
             {
-                type: "reviewer",
-                description: "Reviewer",
+                type: "evaluator",
+                description: "Evaluator",
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: reviewerPatternPrompt,
-                systemPrompt: reviewerPatternPrompt + taskPrompt
+                patternPrompt: evaluatorPatternPrompt,
+                systemPrompt: evaluatorPatternPrompt + taskPrompt
             }
         ],
         edges: [
             {
                 type: "conditional",
-                source: "Reviewer",
-                target: "Executor",
+                source: "Evaluator",
+                target: "Optimizer",
                 label: "Feedback",
             },
             {
                 type: "direct",
-                source: "Executor",
-                target: "Reviewer",
+                source: "Optimizer",
+                target: "Evaluator",
                 label: "Submit",
             },
             {
                 type: "conditional",
-                source: "Reviewer",
+                source: "Evaluator",
                 target: "__end__",
                 label: "Approve",
             },
             {
                 type: "direct",
                 source: "START",
-                target: "Executor",
+                target: "Optimizer",
                 label: "Start",
             }
         ]
