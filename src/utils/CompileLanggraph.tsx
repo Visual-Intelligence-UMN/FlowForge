@@ -40,7 +40,7 @@ const CompileLanggraph = async (reactflowConfig) => {
 
 
     for (const key of Object.keys(stepMetadata)) {
-        console.log("key", key);
+        // console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
         const {inputNodes,  pattern, stepNodes, maxRound, runtime} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));

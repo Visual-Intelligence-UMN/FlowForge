@@ -35,7 +35,7 @@ const StreamOutput = ({ runConfig }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("recompile runConfig", runConfig);
+    console.log("recompile runConfig for new langgraph run", runConfig);
     const { langgraphRun, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
 
     // const graphImage = await generateGraphImage(langgraphRun);

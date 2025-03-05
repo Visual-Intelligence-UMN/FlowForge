@@ -35,19 +35,12 @@ export function RflowComponent(props) {
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
 
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
-    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
     const {flowId, patternId, configId } = canvasPages || {};
-
     const targetWorkflow = props.targetWorkflow;
 
     const onConnect = useCallback(

@@ -100,6 +100,7 @@ const Builder = () => {
         if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
             const newAddedConfigs = agentsConfig.filter(config => config.patternId.split("-")[0] === canvasPages.flowId.toString() && config.patternId === canvasPages.patternId.toString());
             const newAddedConfig = newAddedConfigs[0];
+            // manually set the selected config
             setSelectedConfig(newAddedConfig);
             setCompliedGenerate(0);
             // Remove the config stage
@@ -117,6 +118,8 @@ const Builder = () => {
         if (canvasPages.type === "pattern" && compiledConfigs.length > 0) {
             const newAddedConfigs = compiledConfigs.filter(config => config.configId === canvasPages.configId.toString());
             const newAddedConfig = newAddedConfigs[0];
+            console.log("all compiled configs", compiledConfigs);
+            console.log("newAddedConfig", newAddedConfig);
             setCanvasPages({
                 type: "compiled",
                 flowId: canvasPages.flowId,

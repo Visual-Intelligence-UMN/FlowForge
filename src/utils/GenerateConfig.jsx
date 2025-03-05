@@ -11,13 +11,9 @@ const GenerateRunnableConfig = async (workflow) => {
         taskFlowSteps: [],
         patternId,
     };
-
-    // generate the config (nodes, edges) for each step based on its pattern
-    // TODO: adjust the config based on the template info
-    
+    // runtime, maxround can also dealt in compile langgraph
     for (const step of taskFlowSteps) {
         const { stepName, stepLabel, stepDescription, pattern, config, template } = step;
-        // console.log("template", template);
         if (handlersMap[pattern.name]) {
             let newConfig = handlersMap[pattern.name](step);
            

@@ -70,8 +70,8 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.find((d) => d.includes(nextStep));
         }
 
-        console.log("reflection response", params.name, response);
-        console.log("reflection response_goto", response_goto);
+        // console.log("reflection response", params.name, response);
+        // console.log("reflection response_goto", response_goto);
         
         return new Command({
             goto: response_goto,
@@ -86,8 +86,8 @@ const makeAgentNode = (params: {
 
 
 const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
-    console.log("nodesInfo in compileReflection", nodesInfo);
-    console.log("stepEdges in compileReflection", stepEdges);
+    // console.log("nodesInfo in compileReflection", nodesInfo);
+    // console.log("stepEdges in compileReflection", stepEdges);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
     for (const node of nodesInfo) {
@@ -105,7 +105,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, AgentsState, ma
         } else {
             responsePrompt = "You should always call the Evaluator to get the feedbacks. "
         }
-        console.log("destinations", node.id, destinations);
+        // console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations as string[],

@@ -164,7 +164,7 @@ const TreeNav = () => {
     if (layer === "flow") {
         const flowId = node.data.id;
         // console.log("flow node clicked", flowsMap[flowId]);
-        console.log("flowmap", flowsMap);
+        // console.log("flowmap", flowsMap);
         let patternId = [];
         let configId = [];
         const childrenPatterns = patterns.filter(

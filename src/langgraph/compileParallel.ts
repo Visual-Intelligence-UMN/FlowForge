@@ -2,8 +2,8 @@ import { RunnableConfig } from "@langchain/core/runnables";
 import { createAgent, create_agent_node } from "./utils";
 
 const compileParallel = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    console.log("nodesInfo in compileParallel", nodesInfo);
-    console.log("stepEdges in compileParallel", stepEdges);
+    // console.log("nodesInfo in compileParallel", nodesInfo);
+    // console.log("stepEdges in compileParallel", stepEdges);
     const aggregatorNode = nodesInfo.find((node) => node.data.label === "Aggregator");
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
     for (const node of nodesInfo) {
