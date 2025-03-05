@@ -415,8 +415,7 @@ const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = 'The task description for you is ' + stepDescription;
-    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task. \
-    You should always respond with the final output.';
+    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task.';
     return {
         type: "singleAgent",
         maxRound: 1,
@@ -427,8 +426,31 @@ const handleSingleAgent = (step) => {
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: patternPrompt,
-                systemPrompt: patternPrompt + taskPrompt
+                patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
+                systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal
+            }
+        ],
+        edges: []
+    };
+};
+
+const handleValidator = (step) => {
+    const { stepDescription, template } = step;
+    const { persona, goal, patternPrompt , maxRound} = template;
+    const taskPrompt = 'The task description for you is ' + stepDescription;
+    const patternSystemPrompt = 'You are a helpful assistant who can validate the content of the response.';
+    return {
+        type: "singleAgent",
+        maxRound: 1,
+        nodes: [
+            {
+                type: "singleAgent",
+                description: "Agent",
+                tools: [],
+                llm: "gpt-4o-mini",
+                taskPrompt: taskPrompt,
+                patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
+                systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal
             }
         ],
         edges: []
@@ -445,6 +467,7 @@ const handlersMap = {
     "Single Agent": handleSingleAgent,
     "Voting": handleVoting,
     "Parallel": handleParallel,
+    "Validator": handleValidator,
 };
 
 export { handlersMap };

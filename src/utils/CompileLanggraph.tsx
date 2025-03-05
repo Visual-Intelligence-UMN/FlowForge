@@ -68,6 +68,10 @@ const CompileLanggraph = async (reactflowConfig) => {
             case "parallel":
                 compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
                 break;
+            default:
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                console.log("pattern not supported", pattern);
+                break;
         }
 
         if (key === "step-1" && inputNodes.length !== 0) {
