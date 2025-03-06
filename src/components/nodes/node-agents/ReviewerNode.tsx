@@ -8,7 +8,7 @@ const SingleAgentNode = ({ id, data }) => {
       {/* Input Handle (for connecting incoming edges) */}
       {/* <Handle type="source" position={Position.Right} id="right" /> */}
       <Handle type="target" position={Position.Left} id={`in-${id}`} />
-      {"Step "+(Number(id.split("-")[1]) + 1)}
+      {"Step "+(Number(id.split("-")[1]))}
       <Typography variant="h6" gutterBottom>
         🤖 {data.label || "Single Agent"}
       </Typography>

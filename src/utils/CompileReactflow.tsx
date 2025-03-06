@@ -16,10 +16,11 @@ const CompileReactflow = async (config) => {
     // iterate over each step
     let stepGroupNodes = [];
     taskFlowSteps.forEach((step, stepIdx) => {
+        stepIdx += 1;
         const { config } = step;
         if (!config) return;
 
-        const { nodes, edges, type } = config;
+        const { nodes, edges, type, maxRound, runtime} = config;
         let stepNodeIds = [];
         let firstNodeIds = [];
         let outputNodeIds = [];
@@ -33,10 +34,11 @@ const CompileReactflow = async (config) => {
             data: {label: `Step ${stepIdx}`},
             position: {x: positionX, y: positionY},
             style: {width: 500, height: 500},
-            type: "group"
+            type: "group",
+            maxRound: maxRound,
         }
         reactflowNodes.push(stepGroup);
-        stepGroupNodes.push(stepGroup);
+        stepGroupNodes.push(stepGroup); // for subgraph nodes no edges between 
 
         if (nodes?.length > 0) {
             nodes.forEach((node) => {
@@ -48,6 +50,7 @@ const CompileReactflow = async (config) => {
                     tools: node.tools || [],
                     llm: node.llm || "gpt-4o-mini",
                     systemPrompt: node.systemPrompt || "",
+                    maxRound: maxRound,
                 };
                 const parentId = `step-${stepIdx}`;
                 const extent = "parent";
@@ -64,8 +67,6 @@ const CompileReactflow = async (config) => {
                 }
             });
         }
-
-
 
         // identify input & output nodes in one step
         if (stepNodeIds.length === 1) {
@@ -89,16 +90,18 @@ const CompileReactflow = async (config) => {
         // if (stepIdx === 0) {
         //     firstNodeId = "START";
         // }
-        if (stepIdx === taskFlowSteps.length - 1) {
+        if (stepIdx === taskFlowSteps.length) {
             outputNodeIds.push("END");
         }
 
-        // store step metadata for langgraphß
+        // store step metadata for langgraph
         stepMetadata[`step-${stepIdx}`] = {
             inputNodes: Array.from(new Set(firstNodeIds)),
             outputNodes: Array.from(new Set(outputNodeIds)),
             outputMode: outputMode,
             pattern: type,
+            maxRound: maxRound,
+            runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
         };
 
@@ -123,22 +126,9 @@ const CompileReactflow = async (config) => {
         reactflowEdges.push(...processedEdges);
     });
 
-        // No step between subgraph
-    // for (let i = 0; i < stepGroupNodes.length - 1; i++) {
-    //     const currentGroup = stepGroupNodes[i];
-    //     const nextGroup = stepGroupNodes[i + 1];
-    //     reactflowEdges.push({
-    //         id: `stepGroup-${currentGroup.id}->${nextGroup.id}`,
-    //         source: currentGroup.id,   
-    //         target: nextGroup.id,      
-    //         type: "stepGroup",      
-    //         label: `Transition from ${currentGroup.id} to ${nextGroup.id}`,
-    //     });
-    // }
-  
-
     // process inter-step edges
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
+        idx += 1;
         const nextStepKey = `step-${idx + 1}`;
         if (stepMetadata[nextStepKey]) {
             const { inputNodes } = stepMetadata[nextStepKey];
@@ -172,7 +162,6 @@ const CompileReactflow = async (config) => {
         }
     });
 
-    // console.log("Step Metadata Dictionary:", stepMetadata); 
 
     // compile reactflow output
     const compiledReactflow = [{

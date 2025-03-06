@@ -24,6 +24,7 @@ const makeAgentNode = (params: {
     systemPrompt: string,
     llmOption: string,
     tools: string[],
+    maxRound: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -63,7 +64,8 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length >= 10) {
+        if (state[currentStep].length >= params.maxRound) {
+            // random call, so one msg means one round
             response_goto = params.destinations.find((d) => d.includes("Summary"));
         }
 
@@ -81,7 +83,7 @@ const makeAgentNode = (params: {
 }
 
 
-const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
     // console.log("nodesInfo in compileDiscussion", nodesInfo);
     // console.log("stepEdges in compileDiscussion", stepEdges);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
@@ -128,6 +130,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             systemPrompt: node.data.systemPrompt,
             llmOption: node.data.llm,
             tools: node.data.tools,
+            maxRound: maxRound,
         })
         if (node.data.label === "Summary") {
             continue;

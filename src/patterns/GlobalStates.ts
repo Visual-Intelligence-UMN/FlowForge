@@ -2,10 +2,11 @@ import { atom } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import exampleTasks from "./example-tasks.json";
 
-export const flowCounterAtom = atomWithReset(0);
+export const flowCounterAtom = atomWithReset(1);
 export const selectedGraphAtom = atom(null);
 export const selectedTaskAtom = atomWithReset({});
 export const taskList = exampleTasks;
+export const workflowInputAtom = atomWithReset("");
 
 export const taskInputAtom = atomWithReset("");
 export const uploadedFileAtom = atomWithReset(null);
@@ -34,7 +35,7 @@ export const langgraphRunAtom = atomWithReset([]);
 export const reactflowDisplayAtom = atomWithReset([]);
 export const compiledConfigsAtom = atomWithReset([]);
 export const compliedGenerateAtom = atomWithReset(-1); // -1: not generating, 0: generating, 1: generated
-
+export const maxRoundAtom = atomWithReset(1);
 // chain for highlighting
 export const selectionChainAtom = atomWithReset({
   flowId: null,

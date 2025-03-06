@@ -14,7 +14,7 @@ const SingleAgentNode = ({ id, data }) => {
     <Box className="single-agent-node" sx={{p: 2, width: "260px"}}>
 
       <Handle type="target" position={Position.Left} id={`in-${id}`} />
-      {"Step "+(Number(id.split("-")[1]) + 1)}
+      {"Step "+(Number(id.split("-")[1]))}
       <Typography variant="h6" gutterBottom>
         🤖 {data.label || "Single Agent"}
       </Typography>

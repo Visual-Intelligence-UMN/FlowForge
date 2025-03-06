@@ -24,6 +24,7 @@ const makeAgentNode = (params: {
     systemPrompt: string,
     llmOption: string,
     tools: string[],
+    maxRound: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -65,7 +66,9 @@ const makeAgentNode = (params: {
         // console.log("response", response);
 
         let response_goto = response.goto;
-        if (state[currentStep].length >= 10) {
+        if (state[currentStep].length  >= params.maxRound) {
+            // one round of supervision means one call from the supervisor, and one response from the agent
+            // but only the response is added to the state
             response_goto = params.destinations.find((d) => d.includes(nextStep));
         }
 
@@ -80,7 +83,7 @@ const makeAgentNode = (params: {
     }
 }
 
-const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) => {
+const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
 
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
@@ -93,6 +96,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
         systemPrompt: supervisorNode.data.systemPrompt,
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
+        maxRound: maxRound,
     });
 
     workflow.addNode(supervisorNode.id, supervisorAgent, {
@@ -107,7 +111,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentState) =>
             accessStepMsgs: false,
         });
 
-        const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
+        const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {
             return create_agent_node({
                 state: state,
                 agent: await createdAgent(),

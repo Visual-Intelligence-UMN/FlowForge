@@ -10,7 +10,7 @@ import { useAtom } from 'jotai';
 import { selectedTaskAtom, flowsMapAtom, flowIdsAtom, selectedConfigAtom, flowCounterAtom } from '../../patterns/GlobalStates';
 import { taskFlowsGenerateAtom, patternsGenerateAtom, patternsFlowAtom, patternsAtom, agentsConfigGenerateAtom, agentsConfigPatternAtom, agentsConfigAtom, compiledConfigsAtom, compliedGenerateAtom, canvasPagesAtom , treeNavAtom } from '../../patterns/GlobalStates';
 import StreamOutputRow from '../panel-output/StreamOutputRow';
-
+import Streaming from '../panel-output/Streaming';
 const Builder = () => {
     // atoms for task flows 
     const [flowCounter, setFlowCounter] = useAtom(flowCounterAtom);
@@ -100,6 +100,7 @@ const Builder = () => {
         if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
             const newAddedConfigs = agentsConfig.filter(config => config.patternId.split("-")[0] === canvasPages.flowId.toString() && config.patternId === canvasPages.patternId.toString());
             const newAddedConfig = newAddedConfigs[0];
+            // manually set the selected config
             setSelectedConfig(newAddedConfig);
             setCompliedGenerate(0);
             // Remove the config stage
@@ -117,6 +118,8 @@ const Builder = () => {
         if (canvasPages.type === "pattern" && compiledConfigs.length > 0) {
             const newAddedConfigs = compiledConfigs.filter(config => config.configId === canvasPages.configId.toString());
             const newAddedConfig = newAddedConfigs[0];
+            console.log("all compiled configs", compiledConfigs);
+            console.log("newAddedConfig", newAddedConfig);
             setCanvasPages({
                 type: "compiled",
                 flowId: canvasPages.flowId,
@@ -145,6 +148,7 @@ const Builder = () => {
         </Box>
         <Box sx={{ width: "90%", display: "flex", flexDirection: "row", gap: 3, justifyContent: "center", alignItems: "center" }}>
             <StreamOutputRow runConfig={langgraphRunSelected} />
+            {/* <Streaming runConfig={langgraphRunSelected} /> */}
         </Box>
         </>
     );

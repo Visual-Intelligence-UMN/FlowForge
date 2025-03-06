@@ -3,18 +3,26 @@ import { HumanMessage } from "@langchain/core/messages";
 import {Box,Button,Card, CardContent,Typography,TextField,Collapse,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
-import {selectedTaskAtom, streamOutputAtom} from "../../patterns/GlobalStates";
+import {selectedTaskAtom, streamOutputAtom, workflowInputAtom} from "../../patterns/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
+
+import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+// 1) Set the worker URL (must happen before using WebPDFLoader!)
+// pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js";
+
+
 const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [inputMessage, setInputMessage] = useState(null);
   const [streamOutput, setStreamOutput] = useAtom(streamOutputAtom);
   const [graphImage, setGraphImage] = useState(null);
+  const [workflowInput, setWorkflowInput] = useAtom(workflowInputAtom);
+
   useEffect(() => {
-    setInputMessage(selectedTask.description);
-  }, [selectedTask]);
+    setInputMessage(workflowInput);
+  }, [workflowInput]);
 
 
   const handleInputChange = (event) => {
@@ -29,27 +37,49 @@ const StreamOutput = ({ runConfig }) => {
   const startNewThread = () => {
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: ""}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}, isThreadActive: true});
     setInputMessage("");
-    // setIntermediaryMessages([]);
-    // setFinalMessage(null);
-    // setIsThreadActive(true);
-    // setSubmittedInput({ content: "", sender: "User" });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("recompile runConfig", runConfig);
-    const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);
+    
+
+    if (selectedTask.uploadedFile) {
+      console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
+
+      // Read the file as a buffer
+      const nike10kPDFBlob = new Blob([selectedTask.uploadedFile], { type: "application/pdf" });
+      console.log("nike10kPDFBlob", nike10kPDFBlob);
+      
+      const pdfjs = await import("pdfjs-dist/build/pdf.min.mjs")
+      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs")
+      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
+      
+      const loader = new WebPDFLoader(nike10kPDFBlob, {
+        splitPages: false,
+        parsedItemSeparator: "",
+        pdfjs: pdfjs,
+      });
+
+
+      const docs = await loader.load();
+      const fileContent = docs.map(doc => doc.pageContent).join("\n");
+
+      console.log("docs", docs);
+      console.log("fileContent", fileContent);
+      setInputMessage(inputMessage + "\n" + fileContent);
+      console.log("inputMessage", inputMessage);
+    }
+    console.log("recompile runConfig for new langgraph run", runConfig);
+    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
 
     // const graphImage = await generateGraphImage(langgraphRun);
     // setGraphImage(graphImage); 
     // debug graph building
 
-    // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
-    // TODO: args should include graphviz graph
-    const streamResults = langgraphRun.stream(
+    const streamResults = compiledLanggraph.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
-      { recursionLimit: 20 }
+      { recursionLimit: totalMaxRound }
     );
 
     let lastSender = "";
@@ -70,10 +100,7 @@ const StreamOutput = ({ runConfig }) => {
           } else {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
             const toolArgs = messagesAll.tool_calls?.[0].args || "";
-            // const args = JSON.parse(toolArgs);
-            // Convert toolArgs into a readable string
             const toolArgsStr = JSON.stringify(toolArgs, null, 2); // Pretty-printed JSON
-            // console.log("messagesAll.tool_calls?.[0].arguments", toolArgsStr);
             messageContent = `Call Tool: ${calledTool} ${toolArgsStr || ""}`;
           }
         }
@@ -94,9 +121,6 @@ const StreamOutput = ({ runConfig }) => {
       finalMessage: { sender: lastSender, content: lastContent },
       isThreadActive: false,
     }));
-    // setFinalMessage({ sender: lastSender, content: lastContent } || { sender: "System", content: "Process completed" });
-    // setIsThreadActive(false);
-    // setStreamOutput({...streamOutput, isThreadActive: false});
   };
 
   const getPreviewContent = (content, isFull) => {
@@ -153,7 +177,7 @@ const StreamOutput = ({ runConfig }) => {
                 >
                   <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                      {"Step" + (Number(msg.sender.split("-")[1])+1) + " " + msg.sender.split("-")[3]}
+                      {"Step" + (Number(msg.sender.split("-")[1])) + " " + msg.sender.split("-")[3]}
                     </Typography>
                     <Typography
                       variant="body1"

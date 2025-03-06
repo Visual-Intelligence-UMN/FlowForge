@@ -4,10 +4,11 @@ import { Runnable } from "@langchain/core/runnables";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { AIMessage, BaseMessage } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
-import { toolsMap } from "./tools";
+import { toolsMap, TavilySearchTool } from "./tools";
 import { AgentsState } from "./states";
-import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
+// import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { ToolMessage } from "@langchain/core/messages";
+
 // function to define the agent
 async function createAgent({
     llmOption,
@@ -75,19 +76,29 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         const lastMsg = state.messages.slice(-1);
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);
+        let tool_msg = null;
         if (lastMsg[0].tool_calls) {
             // todo add tool msg 'tool_call_id'
             const tool_name = lastMsg[0].tool_calls[0].name;
+            // console.log("tool_name", tool_name);
             switch (tool_name) {
                 case "PDFLoader":
-                    console.log("tool_calls");
-                    lastMsg[0];
+                    // console.log("tool_calls PDFLoader");
+                    // const fileContent = await PDFLoaderTool(lastMsg[0].tool_calls[0].args);
+                    // console.log("fileContent", fileContent);
+                    // tool_msg = new ToolMessage({
+                    //     content: "PDF file content: " + fileContent,
+                    //     tool_call_id: lastMsg[0].tool_calls[0].id,
+                    //     name: tool_name,
+                    // });
+                    // return [lastMsg[0], tool_msg];
                     return lastMsg;
                 case "WebSearch":
-                    const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
-                    const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
-                    console.log("result web", result);
-                    const tool_msg = new ToolMessage({
+                    const result = await TavilySearchTool(lastMsg[0].tool_calls[0].args);
+                    // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
+                    // const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
+                    // console.log("result web", result);
+                    tool_msg = new ToolMessage({
                         content: "Web search results: " + JSON.stringify(result),
                         tool_call_id: lastMsg[0].tool_calls[0].id,
                         name: tool_name,
@@ -95,7 +106,6 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     // return [tool_msg];
                     // Note: the tool msg should be returned with the calling msg
                     return [lastMsg[0], tool_msg];
-                    return lastMsg;
                 default:
                     return lastMsg;
             }

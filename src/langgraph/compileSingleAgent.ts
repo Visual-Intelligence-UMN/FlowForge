@@ -1,7 +1,7 @@
 import { createAgent, create_agent_node } from "./utils";
 import { RunnableConfig } from "@langchain/core/runnables";
 
-const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentState) => {
+const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentsState) => {
     // console.log("nodesInfo in compileSingleAgent", nodesInfo);
     // console.log("stepEdges in compileSingleAgent", stepEdges);
     for (const node of nodesInfo) {
@@ -13,7 +13,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentState) =>
             accessStepMsgs: false,
         });
 
-        const agentNode = async (state:typeof AgentState.State, config?:RunnableConfig) => {
+        const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {
             return create_agent_node({
                 state: state,
                 agent: await createdAgent(),
