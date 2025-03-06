@@ -21,8 +21,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
 const handleSingleAgentWithPDFLoaderTool = (step) => {
     const { stepDescription } = step;
     const taskPrompt = `your task description is ${stepDescription}`;
-    const patternSystemPrompt = 'You have access to a PDF loader tool, you can load a PDF file and extract the text. \
-    You dont have to respond with the final output and other information, just load the PDF file and extract the text.';
+    const patternSystemPrompt = 'You should always call the tool to load a PDF file and extract the text, and please clean the text after extracting the content.';
     return {
         type: "singleAgent",
         nodes: [

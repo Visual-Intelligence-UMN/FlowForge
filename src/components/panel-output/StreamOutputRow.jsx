@@ -36,14 +36,14 @@ const StreamOutput = ({ runConfig }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log("recompile runConfig for new langgraph run", runConfig);
-    const { langgraphRun, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
+    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
 
     // const graphImage = await generateGraphImage(langgraphRun);
     // setGraphImage(graphImage); 
     // debug graph building
 
     setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
-    const streamResults = langgraphRun.stream(
+    const streamResults = compiledLanggraph.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: totalMaxRound }
     );

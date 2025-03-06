@@ -44,7 +44,7 @@ const CompileLanggraph = async (reactflowConfig) => {
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
         const {inputNodes,  pattern, stepNodes, maxRound, runtime} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
-        totalMaxRound = totalMaxRound + maxRound;
+        totalMaxRound = Number(totalMaxRound) + Number(maxRound);
 
         // TODO: deal with total runtime here
 
@@ -86,7 +86,7 @@ const CompileLanggraph = async (reactflowConfig) => {
 
     const compiledLanggraph = compiledWorkflow.compile();
     console.log("final Workflow after compile", compiledLanggraph);
-    return {compiledLanggraph, totalMaxRound};
+    return {compiledLanggraph, totalMaxRound: Number(totalMaxRound)};
 }
 
 
