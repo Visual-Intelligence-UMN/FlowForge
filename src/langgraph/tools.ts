@@ -2,8 +2,6 @@ import { z } from "zod";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { tool } from "@langchain/core/tools";
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
-import { selectedTaskAtom } from "../patterns/GlobalStates";
-import { useAtom, useAtomValue } from "jotai";
 
 const loader_tool = tool(async (input) => {
     const re = await new PDFLoader (input.path, {splitPages: false, parsedItemSeparator: ""}).load()
@@ -41,16 +39,6 @@ const TavilySearchTool = (async (input) => {
   return result;
 })
 
-const PDFLoaderTool = (async (input) => {
-  const selectedTask = useAtomValue(selectedTaskAtom);
-  const file = selectedTask["uploadedFile"];
-  console.log("file to load", file);
-  const {path} = file;
-
-  const re = await new PDFLoader (path, {splitPages: false, parsedItemSeparator: ""}).load()
-  const pageContents = re.map(page => page.pageContent).join("");
-  return pageContents
-})
 
 
-export { toolsMap, TavilySearchTool, PDFLoaderTool };
+export { toolsMap, TavilySearchTool };

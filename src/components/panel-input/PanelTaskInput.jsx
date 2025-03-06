@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
-import { selectedTaskAtom, taskFlowsGenerateAtom } from '../../patterns/GlobalStates';
+import { selectedTaskAtom, taskFlowsGenerateAtom, workflowInputAtom } from '../../patterns/GlobalStates';
 import {
   Box,
   Button,
@@ -125,7 +125,10 @@ function TaskPanel() {
         <Grid item xs={3}> {/* conditional file upload */}
 
           <Box>
-            <Typography sx={{ fontSize: '14px', color: '#333' }}>
+            <Typography 
+              sx={{ fontSize: '14px', color: '#333' }}
+              onChange={(e) => setWorkflowInput(e.target.value)}
+            >
               Example Input (Optional)
             </Typography>
             <TextField>

@@ -6,6 +6,7 @@ export const flowCounterAtom = atomWithReset(1);
 export const selectedGraphAtom = atom(null);
 export const selectedTaskAtom = atomWithReset({});
 export const taskList = exampleTasks;
+export const workflowInputAtom = atomWithReset("");
 
 export const taskInputAtom = atomWithReset("");
 export const uploadedFileAtom = atomWithReset(null);

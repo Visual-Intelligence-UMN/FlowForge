@@ -4,7 +4,7 @@ import { Runnable } from "@langchain/core/runnables";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { AIMessage, BaseMessage } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
-import { toolsMap, TavilySearchTool, PDFLoaderTool } from "./tools";
+import { toolsMap, TavilySearchTool } from "./tools";
 import { AgentsState } from "./states";
 // import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { ToolMessage } from "@langchain/core/messages";
@@ -83,15 +83,16 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
             // console.log("tool_name", tool_name);
             switch (tool_name) {
                 case "PDFLoader":
-                    console.log("tool_calls PDFLoader");
-                    const fileContent = await PDFLoaderTool(lastMsg[0].tool_calls[0].args);
-                    console.log("fileContent", fileContent);
-                    tool_msg = new ToolMessage({
-                        content: "PDF file content: " + fileContent,
-                        tool_call_id: lastMsg[0].tool_calls[0].id,
-                        name: tool_name,
-                    });
-                    return [lastMsg[0], tool_msg];
+                    // console.log("tool_calls PDFLoader");
+                    // const fileContent = await PDFLoaderTool(lastMsg[0].tool_calls[0].args);
+                    // console.log("fileContent", fileContent);
+                    // tool_msg = new ToolMessage({
+                    //     content: "PDF file content: " + fileContent,
+                    //     tool_call_id: lastMsg[0].tool_calls[0].id,
+                    //     name: tool_name,
+                    // });
+                    // return [lastMsg[0], tool_msg];
+                    return lastMsg;
                 case "WebSearch":
                     const result = await TavilySearchTool(lastMsg[0].tool_calls[0].args);
                     // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
