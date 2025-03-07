@@ -246,12 +246,12 @@ const SharedCanvas = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "1px solid #ddd",
-          width: "1500px",
-          height: "900px",
+          width: "100%",
+          height: "500px",
           color: "grey",
         }}
       >
-        <Typography variant="h8">
+        <Typography variant="h8" sx={{ pt: 2 }}>
           Canvas page waits for task to be selected
         </Typography>
       </Box>

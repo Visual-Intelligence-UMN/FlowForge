@@ -182,7 +182,7 @@ const Builder = () => {
   return (
     <>
       <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 20 }}
+        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 8 }}
       >
         <Box
           sx={{
@@ -191,17 +191,19 @@ const Builder = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            paddingLeft: 5,
           }}
         >
           <TreeNav />
         </Box>
         <Box
           sx={{
-            width: "65%",
+            width: "60%",
             height: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            paddingRight: 5,
           }}
         >
           <SharedCanvas />

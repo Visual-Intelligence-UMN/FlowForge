@@ -283,7 +283,8 @@ const TreeNav = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "1px solid #ddd",
-          height: "900px",
+          width: "100%",
+          height: "500px",
           color: "grey",
         }}
       >

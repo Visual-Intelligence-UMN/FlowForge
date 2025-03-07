@@ -1,9 +1,23 @@
 import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
-import {Box,Button,Card, CardContent,Typography,TextField,Collapse,Accordion,AccordionSummary,AccordionDetails,} from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Collapse,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
-import {selectedTaskAtom, streamOutputAtom} from "../../patterns/GlobalStates";
+import {
+  selectedTaskAtom,
+  streamOutputAtom,
+} from "../../patterns/GlobalStates";
 const WORD_LIMIT = 30; // Global word limit for preview
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
@@ -16,18 +30,23 @@ const StreamOutput = ({ runConfig }) => {
     setInputMessage(selectedTask.description);
   }, [selectedTask]);
 
-
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
   };
 
   const toggleVisibility = () => {
-    setStreamOutput({...streamOutput, isVisible: !streamOutput.isVisible});
+    setStreamOutput({ ...streamOutput, isVisible: !streamOutput.isVisible });
     // setIsVisible(!isVisible);
   };
 
   const startNewThread = () => {
-    setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: ""}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}, isThreadActive: true});
+    setStreamOutput({
+      ...streamOutput,
+      inputMessage: { sender: "User", content: "" },
+      intermediaryMessages: [],
+      finalMessage: { sender: "", content: "" },
+      isThreadActive: true,
+    });
     setInputMessage("");
     // setIntermediaryMessages([]);
     // setFinalMessage(null);
@@ -44,7 +63,12 @@ const StreamOutput = ({ runConfig }) => {
     setGraphImage(graphImage); // debug graph building
 
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
-    setStreamOutput({...streamOutput, inputMessage: {sender: "User", content: inputMessage}, intermediaryMessages: [], finalMessage: {sender: "", content: ""}});
+    setStreamOutput({
+      ...streamOutput,
+      inputMessage: { sender: "User", content: inputMessage },
+      intermediaryMessages: [],
+      finalMessage: { sender: "", content: "" },
+    });
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
       { messages: [new HumanMessage({ content: inputMessage })] },
@@ -68,17 +92,22 @@ const StreamOutput = ({ runConfig }) => {
             messageContent = messagesAll?.content || "";
           } else {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
-            messageContent = `Call Tool: ${calledTool} with args: ${messagesAll.tool_calls?.[0].args.input || ""}`;
+            messageContent = `Call Tool: ${calledTool} with args: ${
+              messagesAll.tool_calls?.[0].args.input || ""
+            }`;
           }
         }
 
         if (messagesAll && messageContent !== lastContent) {
           setStreamOutput((prevStreamOutput) => ({
             ...prevStreamOutput,
-            intermediaryMessages: [...prevStreamOutput.intermediaryMessages, { content: messageContent, sender }],
+            intermediaryMessages: [
+              ...prevStreamOutput.intermediaryMessages,
+              { content: messageContent, sender },
+            ],
           }));
         }
-        
+
         lastSender = sender;
         lastContent = messageContent || lastContent;
       }
@@ -105,7 +134,14 @@ const StreamOutput = ({ runConfig }) => {
       <Box sx={{ p: 1, backgroundColor: "#f5f5f5" }}>
         <Grid container spacing={1}>
           {streamOutput.intermediaryMessages.map((msg, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index} sx={{ display: "flex" }}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={index}
+              sx={{ display: "flex" }}
+            >
               <Accordion>
                 <AccordionSummary>
                   <Typography variant="h6">{msg.sender}</Typography>
@@ -123,12 +159,27 @@ const StreamOutput = ({ runConfig }) => {
 
   const displayIntermediaryMessages = () => {
     return (
-      <Box sx={{ p: 1, backgroundColor: "#f5f5f5", overflowX: "auto", whiteSpace: "nowrap" }}>
-        <Typography variant="h5" sx={{ mb: 1, mt: 1 }}> Messages</Typography>
-        <Grid container spacing={2} sx={{ flexWrap: "nowrap", display: "flex" }}>
+      <Box
+        sx={{
+          p: 1,
+          backgroundColor: "#f5f5f5",
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
+      >
+        <Typography variant="h5" sx={{ mb: 1, mt: 1 }}>
+          {" "}
+          Messages
+        </Typography>
+        <Grid
+          container
+          spacing={2}
+          sx={{ flexWrap: "nowrap", display: "flex" }}
+        >
           {streamOutput.intermediaryMessages.map((msg, index) => {
-            const isLastItem = index === streamOutput.intermediaryMessages.length - 1;
-  
+            const isLastItem =
+              index === streamOutput.intermediaryMessages.length - 1;
+
             return (
               <Grid item key={index} sx={{ minWidth: 450, maxWidth: 500 }}>
                 <Card
@@ -145,20 +196,29 @@ const StreamOutput = ({ runConfig }) => {
                     backgroundColor: isLastItem ? "#ffeb9b" : "white", // Different background for last item
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                      {"Step" + (Number(msg.sender.split("-")[1])+1) + " " + msg.sender.split("-")[3]}
+                      {"Step" +
+                        (Number(msg.sender.split("-")[1]) + 1) +
+                        " " +
+                        msg.sender.split("-")[3]}
                     </Typography>
                     <Typography
                       variant="body1"
                       sx={{
-                        whiteSpace: "normal", 
-                        wordWrap: "break-word", 
-                        overflowWrap: "break-word", 
-                        flexGrow: 1, 
+                        whiteSpace: "normal",
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                        flexGrow: 1,
                       }}
                     >
-                    {msg.content}
+                      {msg.content}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -172,63 +232,80 @@ const StreamOutput = ({ runConfig }) => {
 
   const displayInputMessage = () => {
     return (
-        <Grid container spacing={2} alignItems="flex-start">
-                <Grid item xs={12}>
-                    <form onSubmit={handleFormSubmit}>
-                        <Grid container spacing={3} alignItems="center">
-                            {/* TextField */}
-                            <Grid item xs={11}> {/* Adjust xs value as needed */}
-                                <TextField
-                                fullWidth
-                                multiline
-                                minRows={1}
-                                variant="outlined"
-                                value={inputMessage}
-                                onChange={handleInputChange}
-                                placeholder={selectedTask.description}
-                                sx={{'& .MuiInputBase-root': { fontSize: '16px' }}}
-                            />
-                            </Grid>
-                            {/* Button */}
-                            <Grid item xs={1}> {/* Adjust xs value as needed */}
-                                <Button type="submit" variant="contained" fullWidth>
-                                        Start
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Grid>
+      <Grid container spacing={2} alignItems="flex-start">
+        <Grid item xs={12}>
+          <form onSubmit={handleFormSubmit}>
+            <Grid container spacing={3} alignItems="center">
+              {/* TextField */}
+              <Grid item xs={11}>
+                {" "}
+                {/* Adjust xs value as needed */}
+                <TextField
+                  fullWidth
+                  multiline
+                  minRows={1}
+                  variant="outlined"
+                  value={inputMessage}
+                  onChange={handleInputChange}
+                  placeholder={selectedTask.description}
+                  sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
+                />
+              </Grid>
+              {/* Button */}
+              <Grid item xs={1}>
+                {" "}
+                {/* Adjust xs value as needed */}
+                <Button type="submit" variant="contained" fullWidth>
+                  Start
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
-    )
-  }
+      </Grid>
+    );
+  };
 
   return (
-    <Box sx={{ width: "100%", margin: "auto", textAlign: "left", mt: 2, pt: 6, mb: 6}}>
-        <Grid container spacing={2} alignItems="center">
-            {/* Button to Toggle Visibility */}
-            <Grid item xs={1}>
-                <Button variant="contained" onClick={toggleVisibility}>
-                {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
-                </Button>
-                
-            </Grid>
-            {/* Conditional Panel */}
-            {graphImage && <img src={graphImage} alt="workflow graph" style={{width: "50%", height: "50%"}}/>}
-            {streamOutput.isVisible && (
-                <Grid item xs={11}>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                    <Button variant="outlined" onClick={startNewThread}>
-                    Start New Thread
-                    </Button>
-                </Box>
-                </Grid>
-            )}
+    <Box
+      sx={{
+        width: "100%",
+        margin: "auto",
+        textAlign: "left",
+        ml: 5,
+        mt: 2,
+        mb: 6,
+      }}
+    >
+      <Grid container spacing={2} alignItems="center">
+        {/* Button to Toggle Visibility */}
+        <Grid item xs={1}>
+          <Button variant="contained" onClick={toggleVisibility}>
+            {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
+          </Button>
         </Grid>
-
+        {/* Conditional Panel */}
+        {graphImage && (
+          <img
+            src={graphImage}
+            alt="workflow graph"
+            style={{ width: "50%", height: "50%" }}
+          />
+        )}
+        {streamOutput.isVisible && (
+          <Grid item xs={11}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Button variant="outlined" onClick={startNewThread}>
+                Start New Thread
+              </Button>
+            </Box>
+          </Grid>
+        )}
+      </Grid>
 
       {streamOutput.isVisible && (
-        <Box sx={{gap: 1 , mt: 1}}>
-          {streamOutput.isThreadActive && ( displayInputMessage() )}
+        <Box sx={{ gap: 1, mt: 1 }}>
+          {streamOutput.isThreadActive && displayInputMessage()}
 
           {/* User's Input Message */}
           {streamOutput.inputMessage && (
@@ -238,16 +315,19 @@ const StreamOutput = ({ runConfig }) => {
                 <Typography variant="subtitle2" color="textSecondary">
                   {streamOutput.inputMessage.sender}
                 </Typography>
-                <Typography variant="body1">{getPreviewContent(streamOutput.inputMessage.content, streamOutput.inputMessage.showFullContent)}</Typography>
+                <Typography variant="body1">
+                  {getPreviewContent(
+                    streamOutput.inputMessage.content,
+                    streamOutput.inputMessage.showFullContent
+                  )}
+                </Typography>
               </CardContent>
             </Card>
           )}
 
           {/* Intermediate Messages */}
-          {streamOutput.intermediaryMessages.length > 0 && (
-            displayIntermediaryMessages()
-          )}
-
+          {streamOutput.intermediaryMessages.length > 0 &&
+            displayIntermediaryMessages()}
 
           {/* Final Output */}
           {streamOutput.finalMessage && (
@@ -257,7 +337,12 @@ const StreamOutput = ({ runConfig }) => {
                 <Typography variant="subtitle2" color="textSecondary">
                   {streamOutput.finalMessage.sender}
                 </Typography>
-                <Typography variant="body1">{getPreviewContent(streamOutput.finalMessage.content, streamOutput.finalMessage.showFullContent)}</Typography>
+                <Typography variant="body1">
+                  {getPreviewContent(
+                    streamOutput.finalMessage.content,
+                    streamOutput.finalMessage.showFullContent
+                  )}
+                </Typography>
               </CardContent>
             </Card>
           )}
