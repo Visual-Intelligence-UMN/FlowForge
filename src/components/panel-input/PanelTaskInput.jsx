@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import {
   selectedTaskAtom,
@@ -33,11 +33,16 @@ function TaskPanel() {
 
   const resetTask = useResetTask();
 
+  useEffect(() => {
+    if (selectedTask && Object.keys(selectedTask).length > 0) {
+      resetTask();
+    }
+  }, [selectedTask]);
+
   // Called when one of the “bubble” buttons is clicked
   const handleTaskSelect = (e) => {
     const index = e.target.value;
     setExampleIndex(index);
-    console.log(index);
     const task = taskList[index];
     setLocalSelectedTask({ ...task, uploadedFile: null });
     setLocalTaskDescription(task.description || "");
@@ -64,7 +69,6 @@ function TaskPanel() {
   };
 
   const handleSubmit = () => {
-    resetTask();
     if (!localTaskDescription.trim()) {
       alert("Please provide the necessary input!");
       setSelectedTask({});
