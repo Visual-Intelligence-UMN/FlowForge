@@ -284,7 +284,7 @@ const TreeNav = () => {
           alignItems: "center",
           border: "1px solid #ddd",
           width: "100%",
-          height: "500px",
+          height: "70vh",
           color: "grey",
         }}
       >
