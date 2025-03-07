@@ -165,9 +165,10 @@ function TaskPanel() {
           sx={{ minWidth: "200px", height: "50px", color: "#777" }}
           variant="standard"
           onChange={handleTaskSelect}
+          size="small"
         >
           {taskList.map((task, index) => (
-            <MenuItem key={task.id} value={index}>
+            <MenuItem key={task.id} value={index} style={{ fontSize: "14px" }}>
               {task.name}
             </MenuItem>
           ))}
