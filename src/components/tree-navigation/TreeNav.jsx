@@ -44,13 +44,14 @@ const TreeNav = () => {
 
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
+      const label = `Flow ${flowId}`;
       g.setNode(`flow-${flowId}`, {
-        label: `Flow ${flowId}`,
+        label: label,
         data: {
           id: flowId,
           type: "flow",
         },
-        width: 80,
+        width: label.length * 8,
         height: 40,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
@@ -64,7 +65,7 @@ const TreeNav = () => {
       const label = `Patterns ${patternID}`;
       g.setNode(`pattern-${patternID}`, {
         label: label,
-        width: 100,
+        width: label.length * 8,
         height: 30,
         data: {
           id: patternID,
@@ -99,7 +100,7 @@ const TreeNav = () => {
       const label = `Compiled Config ${configId}`;
       g.setNode(`compiled-${configId}`, {
         label: label,
-        width: 100,
+        width: label.length * 8,
         height: 30,
         data: {
           id: configId,

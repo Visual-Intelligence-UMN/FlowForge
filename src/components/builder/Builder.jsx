@@ -36,6 +36,7 @@ const Builder = () => {
   const [taskFlowsGenerate, setTaskFlowsGenerate] = useAtom(
     taskFlowsGenerateAtom
   );
+  const [flowsCounter, setFlowsCounter] = useState(1);
 
   // atoms for patterns
   const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
@@ -61,13 +62,17 @@ const Builder = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
 
   useEffect(() => {
+    setFlowsCounter(1);
+  }, [flowsMap]);
+
+  useEffect(() => {
     if (taskFlowsGenerate === 0) {
       OrganizeTaskFlows(
         selectedTask,
-        flowsMap,
         setFlowsMap,
         flowIds,
-        setFlowIds
+        setFlowIds,
+        flowsCounter
       );
       setTaskFlowsGenerate(1);
     }
