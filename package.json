@@ -43,6 +43,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/dagre": "^0.7.52",
+    "@types/graphlib": "^2.1.12",
     "@types/react": "^18.2.53",
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
