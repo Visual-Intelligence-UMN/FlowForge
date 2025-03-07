@@ -186,7 +186,7 @@ const Builder = () => {
       >
         <Box
           sx={{
-            width: "25%",
+            width: "30%",
             height: "100%",
             display: "flex",
             justifyContent: "center",
@@ -198,7 +198,7 @@ const Builder = () => {
         </Box>
         <Box
           sx={{
-            width: "70%",
+            width: "80%",
             height: "100%",
             display: "flex",
             justifyContent: "center",

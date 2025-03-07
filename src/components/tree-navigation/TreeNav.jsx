@@ -35,7 +35,7 @@ const TreeNav = () => {
       g.setNode(`task-${selectedTask.id}`, {
         label: selectedTask.name,
         width: selectedTask.name.length * 8,
-        height: 40,
+        height: 30,
         data: {
           type: "task",
         },
@@ -52,7 +52,7 @@ const TreeNav = () => {
           type: "flow",
         },
         width: label.length * 8,
-        height: 40,
+        height: 30,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
         label: `task-${selectedTask.id}-flow-${flowId}`,
@@ -298,55 +298,66 @@ const TreeNav = () => {
   return (
     <>
       {treeNav.nodes?.length > 0 ? (
-        <svg width={treeNav.width} height={treeNav.height}>
-          {/* Render Edges */}
-          {treeNav.edges?.map((edge, idx) => {
-            const pathData = buildEdgePath(edge.points);
-            return (
-              <path
-                key={idx}
-                d={pathData}
-                stroke="black"
-                fill="none"
-                style={{ pointerEvents: "none" }}
-                className="edge-path"
-              />
-            );
-          })}
-
-          {/* Render Nodes */}
-          {treeNav.nodes?.map((node) => {
-            const nodeX = node.x - node.width / 2;
-            const nodeY = node.y - node.height / 2;
-
-            return (
-              <g
-                key={node.id}
-                transform={`translate(${nodeX}, ${nodeY})`}
-                className="node-group"
-              >
-                <rect
-                  className="node-rect"
-                  width={node.width}
-                  height={node.height}
-                  fill={isHighlighted(node) ? "lightblue" : "white"}
+        <Box
+          sx={{
+            width: "100%",
+            height: "70vh",
+            justifyContent: "center",
+            overflow: "auto",
+            pl: 4,
+            pr: 4,
+          }}
+        >
+          <svg width={treeNav.width} height={treeNav.height}>
+            {/* Edges */}
+            {treeNav.edges?.map((edge, idx) => {
+              const pathData = buildEdgePath(edge.points);
+              return (
+                <path
+                  key={idx}
+                  d={pathData}
                   stroke="black"
-                  onClick={() => handleNodeClick(node)}
-                />
-                <text
-                  x={node.width / 2}
-                  y={node.height / 2}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
+                  fill="none"
                   style={{ pointerEvents: "none" }}
-                  className="node-text"
+                  className="edge-path"
+                />
+              );
+            })}
+
+            {/* Nodes */}
+            {treeNav.nodes?.map((node) => {
+              const nodeX = node.x - node.width / 2;
+              const nodeY = node.y - node.height / 2;
+
+              return (
+                <g
+                  key={node.id}
+                  transform={`translate(${nodeX}, ${nodeY})`}
+                  className="node-group"
                 >
-                  {node.label}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+                  <rect
+                    className="node-rect"
+                    width={node.width}
+                    height={node.height}
+                    fill={isHighlighted(node) ? "lightblue" : "white"}
+                    stroke="black"
+                    onClick={() => handleNodeClick(node)}
+                  />
+                  <text
+                    x={node.width / 2}
+                    y={node.height / 2}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{ pointerEvents: "none" }}
+                    className="node-text"
+                  >
+                    {node.label}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </Box>
       ) : (
         emptyTreeNav()
       )}
