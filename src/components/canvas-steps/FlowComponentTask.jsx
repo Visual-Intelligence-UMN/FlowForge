@@ -21,7 +21,6 @@ import {
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
-
 function convertToReactFlowFormat(taskflow) {
   const { taskFlowSteps = [] } = taskflow;
   const nodes = taskFlowSteps.map((step, index) => ({
@@ -68,7 +67,6 @@ export function FlowComponentTask(props) {
 
   const { nodes: initialNodes, edges: initialEdges } =
     convertToReactFlowFormat(targetWorkflow);
-
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -136,7 +134,13 @@ export function FlowComponentTask(props) {
         onWorkflowUpdate(updatedWorkflow);
       }
     },
-    [targetWorkflow, canvasPages.flowId, setFlowsMap, setPatternsFlow, onWorkflowUpdate]
+    [
+      targetWorkflow,
+      canvasPages.flowId,
+      setFlowsMap,
+      setPatternsFlow,
+      onWorkflowUpdate,
+    ]
   );
 
   // Called by user to save current diagram back to workflow
@@ -201,42 +205,41 @@ export function FlowComponentTask(props) {
   }, [updateTargetWorkflow, setNodes, setEdges]);
 
   const onNodesDelete = useCallback(
-  (deletedNodes) => {
-    // Determine remaining nodes after deletion
-    const remainingNodes = nodes.filter(
-      (node) => !deletedNodes.some((del) => del.id === node.id)
-    );
+    (deletedNodes) => {
+      // Determine remaining nodes after deletion
+      const remainingNodes = nodes.filter(
+        (node) => !deletedNodes.some((del) => del.id === node.id)
+      );
 
-    // If deletion would remove all nodes and only one node was deleted…
-    if (remainingNodes.length === 0 && deletedNodes.length === 1) {
-      alert("At least one step is required. Restoring the last deleted node.");
-      // Restore by simply keeping the deleted node in the state.
-      // (You could also choose to re-add it explicitly if ReactFlow has already removed it.)
-      setNodes(() => {
-        // If ReactFlow already removed it
-        // so we explicitly add back the deleted node.
+      // If deletion would remove all nodes and only one node was deleted…
+      if (remainingNodes.length === 0 && deletedNodes.length === 1) {
+        alert(
+          "At least one step is required. Restoring the last deleted node."
+        );
+        // Restore by simply keeping the deleted node in the state.
+        // (You could also choose to re-add it explicitly if ReactFlow has already removed it.)
+        setNodes(() => {
+          // If ReactFlow already removed it
+          // so we explicitly add back the deleted node.
           const restoredNodes = [deletedNodes[0]];
           updateTargetWorkflow(restoredNodes, edges);
           return restoredNodes;
-        
-      });
-      // No change to edges is needed since they would be removed along with the node.
-      return;
-    }
-    // Otherwise, proceed normally by removing nodes and corresponding edges.
-    const nodeIdsToRemove = new Set(deletedNodes.map((n) => n.id));
-    const newEdges = edges.filter(
-      (edge) =>
-        !nodeIdsToRemove.has(edge.source) && !nodeIdsToRemove.has(edge.target)
-    );
-    updateTargetWorkflow(remainingNodes, newEdges);
-    setNodes(remainingNodes);
-    setEdges(newEdges);
-  },
-  [nodes, edges, updateTargetWorkflow, setNodes, setEdges]
-);
-
-  
+        });
+        // No change to edges is needed since they would be removed along with the node.
+        return;
+      }
+      // Otherwise, proceed normally by removing nodes and corresponding edges.
+      const nodeIdsToRemove = new Set(deletedNodes.map((n) => n.id));
+      const newEdges = edges.filter(
+        (edge) =>
+          !nodeIdsToRemove.has(edge.source) && !nodeIdsToRemove.has(edge.target)
+      );
+      updateTargetWorkflow(remainingNodes, newEdges);
+      setNodes(remainingNodes);
+      setEdges(newEdges);
+    },
+    [nodes, edges, updateTargetWorkflow, setNodes, setEdges]
+  );
 
   const updateNodeField = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
@@ -251,8 +254,8 @@ export function FlowComponentTask(props) {
             }
           : node
       );
-    //   updateTargetWorkflow(updatedNodes, edges);
-    // no need to update the workflow here, it will be updated when the user saves the workflow
+      //   updateTargetWorkflow(updatedNodes, edges);
+      // no need to update the workflow here, it will be updated when the user saves the workflow
       return updatedNodes;
     });
   };
