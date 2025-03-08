@@ -16,17 +16,19 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
-  const { updateNodeField, updateNodeFieldset } = data;
+  const { updateNodeFieldset } = data;
 
-  const onChange = (fieldName) => (event) => {
-    updateNodeFieldset(id, fieldName, event.target.value);
-  };
+  // const onChange = (fieldName) => (event) => {
+  //   updateNodeFieldset(id, fieldName, event.target.value);
+  // };
   const patternName = data.pattern?.name || "";
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
+    const chosenTemplate = designPatternsTemplate[chosenName] || {};
+    // console.log("chosenTemplate", chosenTemplate);
     updateNodeFieldset(id, "pattern.name", chosenName);
-    updateNodeFieldset(id, "template", designPatternsTemplate[chosenName] || {});
+    updateNodeFieldset(id, "template", chosenTemplate);
   };
 
   const onChangeTemplate = (newData) => {
@@ -147,51 +149,52 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-    <Box 
-      sx={{ 
-        display: "flex", 
-        // maxWidth: "70%",
-        flex:1,
-        gap: 1, 
-        padding: 1, 
-      }}
-    >
       <Box 
         sx={{ 
-        display: "flex", 
-        flexDirection: "column", 
-        maxWidth: "80%", 
-        // flex:1,
-      }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
-          {id}
-        </Typography>
-        {patternSelect()}
-        {confirmButton()}
-      </Box>
-
-      <Box 
-        sx={{ 
-        flex:1,
-        display: "flex",
-        }}>
-        <Typography 
-          variant="body1" 
+          display: "flex", 
+          // maxWidth: "70%",
+          flex:1,
+          gap: 1, 
+          padding: 1, 
+        }}
+      >
+        <Box 
           sx={{ 
-          fontSize: "18px", 
-          mb: 1, 
-          alignSelf: "flex-start",
+          display: "flex", 
+          flexDirection: "column", 
+          maxWidth: "80%", 
+          // flex:1,
+        }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
+            {id}
+          </Typography>
+          {patternSelect()}
+          {confirmButton()}
+        </Box>
+
+        <Box 
+          sx={{ 
+          flex:1,
+          display: "flex",
           }}>
-            <b>Task Description:</b> {data.stepDescription}
-        </Typography>
+          <Typography 
+            variant="body1" 
+            sx={{ 
+            fontSize: "18px", 
+            mb: 1, 
+            alignSelf: "flex-start",
+            }}>
+              <b>Task Description:</b> {data.stepDescription}
+          </Typography>
+        </Box>
+
+        <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
+          {/* {patternIcon()} */}
+        </Box>
+
       </Box>
-
-      <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
-        {/* {patternIcon()} */}
-      </Box>
-
-    </Box>
-
+      
+      {/* different patterns templates */}
       <Box
         sx={{
           maxWidth: "100%",

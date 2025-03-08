@@ -2,7 +2,9 @@ import ReactFlow, {
     addEdge,
     useNodesState,
     useEdgesState,
-    useReactFlow,
+    Background,
+    Controls,
+    MiniMap,
   } from "reactflow";
 import { useCallback, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
@@ -33,19 +35,12 @@ export function RflowComponent(props) {
     const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
 
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
     const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
-    const [patternsFlow, setPatternsFlow] = useAtom(patternsFlowAtom);
-    const [patternsGenerate, setPatternsGenerate] = useAtom(patternsGenerateAtom);
     const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
     const [agentsConfigGenerate, setAgentsConfigGenerate] = useAtom(agentsConfigGenerateAtom);
     const [agentsConfigPattern, setAgentsConfigPattern] = useAtom(agentsConfigPatternAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const [compliedGenerate, setCompliedGenerate] = useAtom(compliedGenerateAtom);
-    const [selectedConfig, setSelectedConfig] = useAtom(selectedConfigAtom);
     const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
     const {flowId, patternId, configId } = canvasPages || {};
-
     const targetWorkflow = props.targetWorkflow;
 
     const onConnect = useCallback(
@@ -62,6 +57,7 @@ export function RflowComponent(props) {
         // setEdges(nextEdges);
 
         // 2) Immediately lay them out
+        // TODO: change the layout function
         let layoutedNodes;
         let layoutedEdges;
         if (nextNodes.length > 3) {
@@ -91,76 +87,13 @@ export function RflowComponent(props) {
         };
 
         // console.log("change handleSave", updatedTaskflow);
-        switch (canvasPages.type) {
-            case "flow":
-                setFlowsMap((prevFlows) => ({
-                    ...prevFlows,
-                    [Number(canvasPages.flowId)]: updatedTaskflow,
-                }));
-                    setPatternsFlow(updatedTaskflow);
-                    setPatternsGenerate(0);
-                    break;
-    
-                case "pattern":
-                    setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
-                        pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
-                    ));
-                    setAgentsConfigPattern(updatedTaskflow);
-                    setAgentsConfigGenerate(0);
-                    break;
-    
-                case "config":
-                    setAgentsConfig(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    setSelectedConfig(updatedTaskflow);
-                    setCompliedGenerate(0);
-                    break;
-    
-                case "compiled":
-                    setCompiledConfigs(prevConfigs => prevConfigs.map(config =>
-                        config.configId === canvasPages.configId ? updatedTaskflow : config
-                    ));
-                    // setCompliedGenerate(0);
-                    break;
-    
-                default:
-                    console.warn("Unknown type:", canvasPages.type);
-            }
+        setDesignPatterns(prevPatterns => prevPatterns.map(pattern =>
+            pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
+        ));
+        setAgentsConfigPattern(updatedTaskflow);
+        setAgentsConfigGenerate(0);
     }; 
 
-    const updateNodeField = (nodeId, fieldName, newValue) => {
-        setNodes((prevNodes) =>
-            prevNodes.map((node) =>
-                node.id === nodeId
-                    ? {
-                        ...node,
-                        data: {
-                            ...node.data,
-                            // Update pattern fields
-                            pattern: fieldName.startsWith("pattern.")
-                                ? {
-                                    ...node.data.pattern,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.pattern,
-    
-                            config: fieldName.startsWith("config.")
-                                ? {
-                                    ...node.data.config,
-                                    [fieldName.split(".")[1]]: newValue, 
-                                  }
-                                : node.data.config,
-
-                            ...(fieldName.startsWith("pattern.") || fieldName.startsWith("config.")
-                                ? {}
-                                : { [fieldName]: newValue }),
-                        },
-                    }
-                    : node
-            )
-        );
-    };
 
     const updateNodeFieldset = (nodeId, fieldName, newValue) => {
         setNodes((prevNodes) =>
@@ -179,7 +112,6 @@ export function RflowComponent(props) {
         data: {
             ...node.data,
             updateNodeFieldset,
-            updateNodeField,
         },
     }));
 
@@ -198,7 +130,11 @@ export function RflowComponent(props) {
          onEdgesChange={onEdgesChange}
          onConnect={onConnect}
          fitView = {true}
-         ></ReactFlow>
+         >
+            <Background />
+            <Controls />
+            <MiniMap />
+         </ReactFlow>
 
          <Button 
          size="large"

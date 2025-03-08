@@ -167,22 +167,25 @@ const TreeNav = () => {
     // console.log("Node clicked: ", node);
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
-      const flowId = node.data.id;
-      // console.log("flow node clicked", flowsMap[flowId]);
-      console.log("flowmap", flowsMap);
-      let patternId = [];
-      let configId = [];
-      const childrenPatterns = patterns
-        .filter((item) => item.patternId && item.patternId.startsWith(flowId))
-        .reverse();
-      for (const p of childrenPatterns) {
-        const childrenConfigs = agentsConfig.filter((item) =>
-          item.configId.startsWith(p.patternId)
-        );
-        if (childrenConfigs.length > 0) {
-          patternId = p.patternId;
-          configId = childrenConfigs[0]?.configId;
-          break;
+
+        const flowId = node.data.id;
+        // console.log("flow node clicked", flowsMap[flowId]);
+        // console.log("flowmap", flowsMap);
+        let patternId = [];
+        let configId = [];
+        const childrenPatterns = patterns.filter(
+            (item) => item.patternId && item.patternId.startsWith(flowId)
+        ).reverse();
+        for (const p of childrenPatterns) {
+            const childrenConfigs = agentsConfig.filter(
+                (item) => item.configId.startsWith(p.patternId)
+            );
+            if (childrenConfigs.length > 0) {
+                patternId = p.patternId;
+                configId = childrenConfigs[0]?.configId;
+                break;
+            }
+
         }
       }
       setCanvasPages({

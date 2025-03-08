@@ -3,12 +3,18 @@ import "./langGraphNode.css";
 import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText, TextareaAutosize} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
+
+  const { updateNodeFieldset } = data;
+
+  const onChange = (fieldName) => (event) => {
+    updateNodeFieldset(id, fieldName, event.target.value);
+  };
+
   return (
     <Box className="single-agent-node" sx={{p: 2, width: "260px"}}>
-      {/* Input Handle (for connecting incoming edges) */}
-      {/* <Handle type="source" position={Position.Right} id="right" /> */}
+
       <Handle type="target" position={Position.Left} id={`in-${id}`} />
-      {"Step "+(Number(id.split("-")[1]) + 1)}
+      {"Step "+(Number(id.split("-")[1]))}
       <Typography variant="h6" gutterBottom>
         🤖 {data.label || "Single Agent"}
       </Typography>
@@ -21,12 +27,13 @@ const SingleAgentNode = ({ id, data }) => {
             id={`llm-select-${id}`}
             value={data.llm}
             label="LLM Model"
-            onChange={(e) => data.updateNode(id, "llm", e.target.value)}
+            onChange={onChange("llm")}
             size="small"
             className="nodrag nopan" // set to prevent dragging and panning
           >
             <MenuItem value="gpt-4o-mini">GPT-4o Mini</MenuItem>
             <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+            <MenuItem value="gpt-4o">GPT-4o</MenuItem>
             <MenuItem value="other">Other</MenuItem>
           </Select>
         </FormControl>
@@ -41,20 +48,11 @@ const SingleAgentNode = ({ id, data }) => {
           maxRows={6}       // If you'd like to cap the max rows
           fullWidth
           value={data.systemPrompt}
-          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          onChange={onChange("systemPrompt")}
           className="nodrag nopan nowheel"
         />
         
-        {/* <TextareaAutosize
-          minRows={3}          // Minimum number of rows
-          maxRows={6}       // If you'd like to cap the max rows
-          value={data.systemPrompt}
-          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
-          // style={{width: "95%", maxWidth: "95%", padding: "10px"}}
-          className="nodrag nopan nowheel"
-        />
 
-       */}
 
       <Box mt={2} mb={2}>
         <FormControl fullWidth>
@@ -66,12 +64,8 @@ const SingleAgentNode = ({ id, data }) => {
             value={data.tools}
             label="Tools"
             size="small"
-            onChange={(e) => data.updateNode(id, "tools", e.target.value)}
-            // If you only need to display them (no editing), consider `disabled`:
-            // disabled
+            onChange={onChange("tools")}
             renderValue={(selected) => {
-              // 'selected' is an array of the currently selected tool values
-              // e.g., ["someTool_ChatGPT", "anotherTool_Search"]
               const displayedNames = selected.map((tool) => tool.split("_")[1]);
               return displayedNames.join(", ");
             }}

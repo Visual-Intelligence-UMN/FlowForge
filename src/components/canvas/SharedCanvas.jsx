@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+
 import { Slider, Box, Typography } from "@mui/material";
+
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
-import PageCompiledCfg from "../canvas-agents/PageCompiledCfg";
-import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   flowsMapAtom,
@@ -17,25 +17,20 @@ import {
 } from "../canvas-buttons/ExploreButtons";
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
-const SharedCanvas = () => {
-  const [activeStep, setActiveStep] = useState(1);
+import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
+import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
 
-  const [canvasPages] = useAtom(canvasPagesAtom);
-  const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-  const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-  const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
-  const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-  const { type, configId, patternId, flowId } = canvasPages || {};
 
-  const handleSliderChange = (event, newValue) => {
-    setActiveStep(newValue);
-  };
 
-  const steps = [
-    { value: 1, label: "Task Split" },
-    { value: 2, label: "Subtask-Pattern" },
-    { value: 3, label: "Agents Config" },
-  ];
+const SharedCanvas = ( ) => {
+
+    const [canvasPages] = useAtom(canvasPagesAtom);
+    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
+    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
+    const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
+    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+    const { type, configId, patternId, flowId } = canvasPages || {};
+    
 
   const horizontalSlider = () => {
     return (
@@ -92,6 +87,7 @@ const SharedCanvas = () => {
 
     return { nodes, edges };
   };
+
 
   let initialNodes;
   let initialEdges;
@@ -193,6 +189,8 @@ const SharedCanvas = () => {
             </Box>
           );
         } else {
+          initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
+          initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
           return (
             <Box
               sx={{
@@ -205,15 +203,15 @@ const SharedCanvas = () => {
               }}
             >
               <Typography variant="h6">{headerContent}</Typography>
-              <RfWithProvider
+              <FlowWithProviderAgent
                 nodes={initialNodes}
                 edges={initialEdges}
                 targetWorkflow={targetWorkflow}
               />
             </Box>
           );
-        }
-      } else {
+        } else {
+          
         return (
           <Box
             sx={{

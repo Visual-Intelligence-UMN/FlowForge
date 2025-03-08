@@ -13,15 +13,15 @@ const handleSingleAgentWithWebSearchTool = (step) => {
                 systemPrompt: patternSystemPrompt + taskPrompt 
             }
         ],
-        edges: []
+        edges: [],
+        maxRound: 1,
     };
 };
 
 const handleSingleAgentWithPDFLoaderTool = (step) => {
     const { stepDescription } = step;
     const taskPrompt = `your task description is ${stepDescription}`;
-    const patternSystemPrompt = 'You have access to a PDF loader tool, you can load a PDF file and extract the text. \
-    You dont have to respond with the final output and other information, just load the PDF file and extract the text.';
+    const patternSystemPrompt = 'You should always call the tool to load a PDF file and extract the text, and please clean the text after extracting the content.';
     return {
         type: "singleAgent",
         nodes: [
@@ -33,62 +33,64 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
                 systemPrompt: taskPrompt + patternSystemPrompt 
             }
         ],
-        edges: []
+        edges: [],
+        maxRound: 1,
     };
 };
 
 const handleReflection = (step) => {
     const { stepDescription, template } = step;
-    const { evaluator, optimizer } = template;
-    const executorPatternPrompt = optimizer.patternPrompt.trim() 
-    const reviewerPatternPrompt = evaluator.patternPrompt.trim() 
+    const { evaluator, optimizer, maxRound } = template;
+    const optimizerPatternPrompt = optimizer.patternPrompt.trim() 
+    const evaluatorPatternPrompt = evaluator.patternPrompt.trim() 
     const taskPrompt =  'The task for you is ' + stepDescription;
 
     return {
         type: "reflection",
+        maxRound: maxRound,
         nodes: [
             {
-                type: "executor",
-                description: "Executor",
+                type: "optimizer",
+                description: "Optimizer",
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: executorPatternPrompt,
-                systemPrompt: executorPatternPrompt + taskPrompt
+                patternPrompt: optimizerPatternPrompt,
+                systemPrompt: optimizerPatternPrompt + taskPrompt
             },
             {
-                type: "reviewer",
-                description: "Reviewer",
+                type: "evaluator",
+                description: "Evaluator",
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: reviewerPatternPrompt,
-                systemPrompt: reviewerPatternPrompt + taskPrompt
+                patternPrompt: evaluatorPatternPrompt,
+                systemPrompt: evaluatorPatternPrompt + taskPrompt
             }
         ],
         edges: [
             {
                 type: "conditional",
-                source: "Reviewer",
-                target: "Executor",
+                source: "Evaluator",
+                target: "Optimizer",
                 label: "Feedback",
             },
             {
                 type: "direct",
-                source: "Executor",
-                target: "Reviewer",
+                source: "Optimizer",
+                target: "Evaluator",
                 label: "Submit",
             },
             {
                 type: "conditional",
-                source: "Reviewer",
+                source: "Evaluator",
                 target: "__end__",
                 label: "Approve",
             },
             {
                 type: "direct",
                 source: "START",
-                target: "Executor",
+                target: "Optimizer",
                 label: "Start",
             }
         ]
@@ -97,7 +99,7 @@ const handleReflection = (step) => {
 
 const handleSupervision = (step) => {
     const { stepDescription, pattern, template } = step;
-    const { workerNum, maxRound, workers = [], supervisor = {} } = template;
+    const { maxRound, workers = [], supervisor = {} } = template;
 
     const taskPrompt = 'The task for the team is' + stepDescription;    
 
@@ -346,14 +348,76 @@ const handleVoting = (step) => {
     }
 }
 
+const handleParallel = (step) => {
+    const { stepDescription, template} = step;
+    const { agents = [], aggregation = {}, maxRound } = template;
+
+    const taskPrompt = 'The task is' + stepDescription;
+    const agentsPatternSystemPrompt = 'You can complete the task independently.';
+    const aggregatorPatternSystemPrompt = 'You should aggregate the previous agents outputs.';
+
+    const agentsNodes = agents.map((agent, index) => {
+        return {
+            type: "singleAgent",
+            description: `Agent${index + 1}`,
+            persona: agent.persona,
+            goal: agent.goal,
+            tools: [],
+            llm: "gpt-4o-mini",
+            taskPrompt: taskPrompt,
+            patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
+            systemPrompt: taskPrompt + agent.patternPrompt?.trim() + "Your persona is " + agent.persona + " and your goal is " + agent.goal
+        }
+    })
+    agentsNodes.push({
+        type: "singleAgent",
+        description: "Aggregator",
+        tools: [],
+        llm: "gpt-4o-mini",
+        taskPrompt: taskPrompt,
+        patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
+        systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
+    })
+
+    let agentsEdges = []
+
+    for (let i = 1; i <= agents.length; i++) {
+        agentsEdges.push({
+            type: "direct",
+            source: "START",
+            target: `Agent${i}`,
+            label: "start",
+        })
+        agentsEdges.push({
+            type: "direct",
+            source: `Agent${i}`,
+            target: "Aggregator",
+            label: "direct",
+        })
+    }
+    agentsEdges.push({
+        type: "direct",
+        source: "Aggregator",
+        target: "__end__",
+        label: "finish",
+    })
+    
+    return {
+        type: "parallel",
+        nodes: [...agentsNodes],
+        edges: agentsEdges,
+        maxRound: maxRound,
+    }
+}
+
 const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
-    const { persona, goal, patternPrompt } = template;
+    const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = 'The task description for you is ' + stepDescription;
-    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task. \
-    You should always respond with the final output.';
+    const patternSystemPrompt = 'You are a helpful assistant who can efficiently solve the task.';
     return {
         type: "singleAgent",
+        maxRound: 1,
         nodes: [
             {
                 type: "singleAgent",
@@ -361,8 +425,31 @@ const handleSingleAgent = (step) => {
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: patternPrompt,
-                systemPrompt: patternPrompt + taskPrompt
+                patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
+                systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal
+            }
+        ],
+        edges: []
+    };
+};
+
+const handleValidator = (step) => {
+    const { stepDescription, template } = step;
+    const { persona, goal, patternPrompt , maxRound} = template;
+    const taskPrompt = 'The task description for you is ' + stepDescription;
+    const patternSystemPrompt = 'You are a helpful assistant who can validate the content of the response.';
+    return {
+        type: "singleAgent",
+        maxRound: 1,
+        nodes: [
+            {
+                type: "singleAgent",
+                description: "Agent",
+                tools: [],
+                llm: "gpt-4o-mini",
+                taskPrompt: taskPrompt,
+                patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
+                systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal
             }
         ],
         edges: []
@@ -378,6 +465,8 @@ const handlersMap = {
     "Discussion": handleDiscussion,
     "Single Agent": handleSingleAgent,
     "Voting": handleVoting,
+    "Parallel": handleParallel,
+    "Validator": handleValidator,
 };
 
 export { handlersMap };
