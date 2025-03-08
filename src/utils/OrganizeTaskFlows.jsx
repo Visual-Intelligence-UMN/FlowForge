@@ -38,7 +38,7 @@ const OrganizeTaskFlows = async (
   setFlowsMap,
   flowIds,
   setFlowIds,
-  flowsCounter
+  flowsCounter,
   flowCounter,
   setFlowCounter
 ) => {

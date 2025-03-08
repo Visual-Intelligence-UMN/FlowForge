@@ -210,21 +210,7 @@ const SharedCanvas = ( ) => {
               />
             </Box>
           );
-        } else {
-          
-        return (
-          <Box
-            sx={{
-              border: "1px solid #ddd",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h6">{headerContent}</Typography>
-            <PageCompiledCfg />
-          </Box>
-        );
+        } 
       }
     };
     return (
