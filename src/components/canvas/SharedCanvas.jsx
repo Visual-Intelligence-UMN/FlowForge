@@ -188,30 +188,31 @@ const SharedCanvas = ( ) => {
               />
             </Box>
           );
-        } else {
-          initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
-          initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
-          return (
-            <Box
-              sx={{
-                border: "1px solid #ddd",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "1500px",
-                height: "900px",
-              }}
-            >
-              <Typography variant="h6">{headerContent}</Typography>
-              <FlowWithProviderAgent
-                nodes={initialNodes}
-                edges={initialEdges}
-                targetWorkflow={targetWorkflow}
-              />
-            </Box>
-          );
         } 
-      }
+      } else {
+        initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
+        initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
+        console.log("initialNodes", initialNodes);
+        return (
+          <Box
+            sx={{
+              border: "1px solid #ddd",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "1500px",
+              height: "900px",
+            }}
+          >
+            <Typography variant="h6">{headerContent}</Typography>
+            <FlowWithProviderAgent
+              nodes={initialNodes}
+              edges={initialEdges}
+              targetWorkflow={targetWorkflow}
+            />
+          </Box>
+        );
+      } 
     };
     return (
       <Box

@@ -4,7 +4,7 @@ import GenerateTaskFlows from "./GenerateTaskFlows";
 function reassignFlowIds(flows, flowsCounter, flowCounter, setFlowCounter) {
 
   return flows.map((flow) => {
-    const newId = flowCounter++;
+    const newId = flowsCounter++;
     setFlowCounter(flowCounter);
     return {
       ...flow,

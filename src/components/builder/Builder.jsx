@@ -75,7 +75,9 @@ const Builder = () => {
         setFlowsMap,
         flowIds,
         setFlowIds,
-        flowsCounter
+        flowsCounter,
+        flowCounter,
+        setFlowCounter
       );
       setTaskFlowsGenerate(1);
     }
