@@ -125,8 +125,7 @@ export function RflowComponent(props) {
     <div
       className="reactflow-wrapper"
       style={{
-        width: "1400px",
-        height: "800px",
+        height: "57vh",
         border: "1px solid #ddd",
         position: "relative",
       }}
@@ -145,7 +144,7 @@ export function RflowComponent(props) {
       ></ReactFlow>
 
       <Button
-        size="large"
+        size="small"
         onClick={(e) => {
           e.stopPropagation();
           handleSave();
@@ -155,7 +154,7 @@ export function RflowComponent(props) {
           left: "50%",
           transform: "translateX(-50%)",
           textTransform: "none",
-          // pt: 3,
+          pt: 1,
         }}
       >
         CONTINUE

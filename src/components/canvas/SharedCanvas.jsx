@@ -111,20 +111,16 @@ const SharedCanvas = () => {
               sx={{
                 width: "100%",
                 height: "55vh",
-                border: "1px solid #ddd",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
               }}
             >
-              <Typography variant="body1" sx={{ marginBottom: 1 }}>
-                {headerContent}
-              </Typography>
+              <Typography variant="body1">{headerContent}</Typography>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  gap: 2,
                   width: "100%",
                   justifyContent: "center",
                 }}
@@ -142,7 +138,6 @@ const SharedCanvas = () => {
           return (
             <Box
               sx={{
-                // border: "1px solid #ddd",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",

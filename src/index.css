@@ -217,6 +217,7 @@ body,
 
 .reactflow-wrapper {
   width: 120vh;
+  height: 100vh;
 }
 
 .recommendation-flows {

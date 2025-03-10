@@ -271,7 +271,7 @@ export function FlowComponentTask(props) {
     <div
       className="reactflow-wrapper"
       style={{
-        height: "110%",
+        height: "57vh",
         border: "1px solid #ddd",
         position: "relative",
       }}
