@@ -1,8 +1,11 @@
 import GenerateTaskFlows from "./GenerateTaskFlows";
 
-function reassignFlowIds(flows, flowCounter) {
+
+function reassignFlowIds(flows, flowsCounter, flowCounter, setFlowCounter) {
+
   return flows.map((flow) => {
-    const newId = flowCounter++;
+    const newId = flowsCounter++;
+    setFlowCounter(flowCounter);
     return {
       ...flow,
       originalFlowId: flow.taskFlowId,
@@ -29,15 +32,18 @@ function mergeFlowsById(existingMap, existingIds, newFlows) {
   return { updatedMap, updatedIds };
 }
 
+
 const OrganizeTaskFlows = async (
   selectedTask,
   setFlowsMap,
   flowIds,
   setFlowIds,
-  flowsCounter
+  flowsCounter,
+  flowCounter,
+  setFlowCounter
 ) => {
   const newData = await GenerateTaskFlows(selectedTask);
-  const incomingFlows = reassignFlowIds(newData.taskFlows, flowsCounter);
+  const incomingFlows = reassignFlowIds(newData.taskFlows, flowsCounter, flowCounter, setFlowCounter);
 
   setFlowsMap((prevMap) => {
     const { updatedMap, updatedIds } = mergeFlowsById(
@@ -48,6 +54,7 @@ const OrganizeTaskFlows = async (
     setFlowIds(updatedIds);
     return updatedMap;
   });
+
 };
 
 export default OrganizeTaskFlows;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+
 import { Slider, Box, Typography } from "@mui/material";
+
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
-import PageCompiledCfg from "../canvas-agents/PageCompiledCfg";
-import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   flowsMapAtom,
@@ -27,35 +27,25 @@ const SharedCanvas = () => {
   const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
   const { type, configId, patternId, flowId } = canvasPages || {};
 
-  const handleSliderChange = (event, newValue) => {
-    setActiveStep(newValue);
+  const horizontalSlider = () => {
+    return (
+      <Box sx={{ width: 300, pt: 2, pl: 2, pr: 2 }}>
+        <Slider
+          value={activeStep}
+          onChange={handleSliderChange}
+          step={1}
+          min={1}
+          max={3}
+          marks={steps.map((step) => ({
+            value: step.value,
+            label: step.label,
+          }))}
+          valueLabelDisplay="auto"
+          // disabled={true}
+        />
+      </Box>
+    );
   };
-
-  // const steps = [
-  //   { value: 1, label: "Task Split" },
-  //   { value: 2, label: "Subtask-Pattern" },
-  //   { value: 3, label: "Agents Config" },
-  // ];
-
-  // const horizontalSlider = () => {
-  //   return (
-  //     <Box sx={{ width: 300, pt: 2, pl: 2, pr: 2 }}>
-  //       <Slider
-  //         value={activeStep}
-  //         onChange={handleSliderChange}
-  //         step={1}
-  //         min={1}
-  //         max={3}
-  //         marks={steps.map((step) => ({
-  //           value: step.value,
-  //           label: step.label,
-  //         }))}
-  //         valueLabelDisplay="auto"
-  //         // disabled={true}
-  //       />
-  //     </Box>
-  //   );
-  // };
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
     // console.log("taskflow to transform nodes and edges", taskflow);
@@ -192,28 +182,11 @@ const SharedCanvas = () => {
               />
             </Box>
           );
-        } else {
-          return (
-            <Box
-              sx={{
-                border: "1px solid #ddd",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "100%",
-                height: "50vh",
-              }}
-            >
-              <Typography variant="body1">{headerContent}</Typography>
-              <RfWithProvider
-                nodes={initialNodes}
-                edges={initialEdges}
-                targetWorkflow={targetWorkflow}
-              />
-            </Box>
-          );
         }
       } else {
+        initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
+        initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
+        console.log("initialNodes", initialNodes);
         return (
           <Box
             sx={{
@@ -221,10 +194,16 @@ const SharedCanvas = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              width: "100%",
+              height: "50vh",
             }}
           >
             <Typography variant="body1">{headerContent}</Typography>
-            <PageCompiledCfg />
+            <FlowWithProviderAgent
+              nodes={initialNodes}
+              edges={initialEdges}
+              targetWorkflow={targetWorkflow}
+            />
           </Box>
         );
       }

@@ -31,6 +31,7 @@
     "mui": "^0.0.1",
     "openai": "^4.76.1",
     "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.10.38",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",

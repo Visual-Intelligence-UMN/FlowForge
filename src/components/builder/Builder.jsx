@@ -1,3 +1,4 @@
+
 import TreeNav from "../tree-navigation/TreeNav";
 import SharedCanvas from "../canvas/SharedCanvas";
 import { Box } from "@mui/material";
@@ -12,6 +13,7 @@ import {
   flowsMapAtom,
   flowIdsAtom,
   selectedConfigAtom,
+  flowCounterAtom
 } from "../../patterns/GlobalStates";
 import {
   taskFlowsGenerateAtom,
@@ -30,6 +32,7 @@ import StreamOutputRow from "../panel-output/StreamOutputRow";
 
 const Builder = () => {
   // atoms for task flows
+  const [flowCounter, setFlowCounter] = useAtom(flowCounterAtom);
   const [selectedTask] = useAtom(selectedTaskAtom);
   const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
   const [flowIds, setFlowIds] = useAtom(flowIdsAtom);
@@ -72,7 +75,9 @@ const Builder = () => {
         setFlowsMap,
         flowIds,
         setFlowIds,
-        flowsCounter
+        flowsCounter,
+        flowCounter,
+        setFlowCounter
       );
       setTaskFlowsGenerate(1);
     }

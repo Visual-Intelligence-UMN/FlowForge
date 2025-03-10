@@ -167,14 +167,17 @@ const TreeNav = () => {
     // console.log("Node clicked: ", node);
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
+
       const flowId = node.data.id;
-      // console.log("flow node clicked", flowsMap[flowId]);
-      console.log("flowmap", flowsMap);
-      let patternId = [];
-      let configId = [];
+      // Find a patternId/configId you want as the default
+      let patternId = null;
+      let configId = null;
+
+      // Example: pick the last pattern for that flow that has some agent configs
       const childrenPatterns = patterns
         .filter((item) => item.patternId && item.patternId.startsWith(flowId))
         .reverse();
+
       for (const p of childrenPatterns) {
         const childrenConfigs = agentsConfig.filter((item) =>
           item.configId.startsWith(p.patternId)
@@ -185,6 +188,7 @@ const TreeNav = () => {
           break;
         }
       }
+
       setCanvasPages({
         type: "flow",
         flowId: flowId,
@@ -275,25 +279,23 @@ const TreeNav = () => {
     return false;
   };
 
-  const emptyTreeNav = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          border: "1px solid #ddd",
-          width: "100%",
-          height: "70vh",
-          color: "grey",
-        }}
-      >
-        <Typography variant="h8" sx={{ p: 2 }}>
-          Navigation Tree waits for task to be selected
-        </Typography>
-      </Box>
-    );
-  };
+  const emptyTreeNav = () => (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        border: "1px solid #ddd",
+        width: "100%",
+        height: "70vh",
+        color: "grey",
+      }}
+    >
+      <Typography variant="h8" sx={{ p: 2 }}>
+        Navigation Tree waits for task to be selected
+      </Typography>
+    </Box>
+  );
 
   return (
     <>

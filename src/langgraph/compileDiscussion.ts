@@ -24,6 +24,7 @@ const makeAgentNode = (params: {
     systemPrompt: string,
     llmOption: string,
     tools: string[],
+    maxRound: number,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -63,12 +64,13 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length >= 10) {
+        if (state[currentStep].length >= params.maxRound) {
+            // random call, so one msg means one round
             response_goto = params.destinations.find((d) => d.includes("Summary"));
         }
 
-        console.log("discussion response", response);
-        console.log("state", state);
+        // console.log("discussion response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -81,14 +83,14 @@ const makeAgentNode = (params: {
 }
 
 
-const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) => {
-    console.log("nodesInfo in compileDiscussion", nodesInfo);
-    console.log("stepEdges in compileDiscussion", stepEdges);
+const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
+    // console.log("nodesInfo in compileDiscussion", nodesInfo);
+    // console.log("stepEdges in compileDiscussion", stepEdges);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
-    console.log("summaryNode", summaryNode);
-    console.log("summaryTarget", summaryTarget);
+    // console.log("summaryNode", summaryNode);
+    // console.log("summaryTarget", summaryTarget);
 
     if (summaryNode) {
         const createdAgent = async () => await createAgent({
@@ -108,7 +110,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
         }
         workflow.addNode(summaryNode.id, agentNode)
         if (summaryTarget.length > 0) {
-            workflow.addEdge(summaryNode.id, summaryTarget)
+            workflow.addEdge(summaryNode.id, summaryTarget[0])
         } else {
             workflow.addEdge(summaryNode.id, "__end__")
         }
@@ -128,6 +130,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState) =>
             systemPrompt: node.data.systemPrompt,
             llmOption: node.data.llm,
             tools: node.data.tools,
+            maxRound: maxRound,
         })
         if (node.data.label === "Summary") {
             continue;

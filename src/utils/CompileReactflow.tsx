@@ -9,19 +9,20 @@ const CompileReactflow = async (config) => {
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
-    let stepMetadata = {}; // Stores input node, output nodes, and output mode for each step
+    let stepMetadata = {}; //  Stores input node, output nodes, and output mode for each step
 
     let positionX = 0;
     let positionY = 0;
     // iterate over each step
     let stepGroupNodes = [];
     taskFlowSteps.forEach((step, stepIdx) => {
+        stepIdx += 1;
         const { config } = step;
         if (!config) return;
 
-        const { nodes, edges, type } = config;
+        const { nodes, edges, type, maxRound, runtime} = config;
         let stepNodeIds = [];
-        let firstNodeId = null;
+        let firstNodeIds = [];
         let outputNodeIds = [];
        
         let outputMode = "direct"; // from this step to next step, may not be used
@@ -33,10 +34,11 @@ const CompileReactflow = async (config) => {
             data: {label: `Step ${stepIdx}`},
             position: {x: positionX, y: positionY},
             style: {width: 500, height: 500},
-            type: "group"
+            type: "group",
+            maxRound: maxRound,
         }
         reactflowNodes.push(stepGroup);
-        stepGroupNodes.push(stepGroup);
+        stepGroupNodes.push(stepGroup); // for subgraph nodes no edges between 
 
         if (nodes?.length > 0) {
             nodes.forEach((node) => {
@@ -48,33 +50,32 @@ const CompileReactflow = async (config) => {
                     tools: node.tools || [],
                     llm: node.llm || "gpt-4o-mini",
                     systemPrompt: node.systemPrompt || "",
+                    maxRound: maxRound,
                 };
                 const parentId = `step-${stepIdx}`;
-                const extend = "parent";
+                const extent = "parent";
 
                 positionX += 400;
                 positionY += 500;
 
-                reactflowNodes.push({ id, type, position, data, parentId, extend });
+                reactflowNodes.push({ id, type, position, data, parentId, extent});
                 stepNodeIds.push(id);
                 nodeMap.set(node.description, id);
 
-                if (!firstNodeId) {
-                    firstNodeId = id;
+                if (!firstNodeIds.length) {
+                    firstNodeIds.push(id);
                 }
             });
         }
 
-
-
         // identify input & output nodes in one step
         if (stepNodeIds.length === 1) {
-            firstNodeId = stepNodeIds[0];
+            firstNodeIds.push(stepNodeIds[0]);
             outputNodeIds.push(stepNodeIds[0]);
         } else {
             edges?.forEach((edge) => {
                 if (edge.source === "START") {
-                    firstNodeId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
+                    firstNodeIds.push(nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx));
                 }
                 if (edge.target === "__end__") {
                     outputNodeIds.push(nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx));
@@ -89,16 +90,18 @@ const CompileReactflow = async (config) => {
         // if (stepIdx === 0) {
         //     firstNodeId = "START";
         // }
-        if (stepIdx === taskFlowSteps.length - 1) {
+        if (stepIdx === taskFlowSteps.length) {
             outputNodeIds.push("END");
         }
 
-        // store step metadata for langgraphß
+        // store step metadata for langgraph
         stepMetadata[`step-${stepIdx}`] = {
-            inputNode: firstNodeId,
-            outputNodes: outputNodeIds,
+            inputNodes: Array.from(new Set(firstNodeIds)),
+            outputNodes: Array.from(new Set(outputNodeIds)),
             outputMode: outputMode,
             pattern: type,
+            maxRound: maxRound,
+            runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
         };
 
@@ -109,51 +112,56 @@ const CompileReactflow = async (config) => {
                 let sourceId = nodeMap.get(edge.source) || findNodeId(edge.source, reactflowNodes, stepIdx);
                 let targetId = nodeMap.get(edge.target) || findNodeId(edge.target, reactflowNodes, stepIdx);
                 const edgeId = `step-${stepIdx}-${edge.source}->${edge.target}`;
-                processedEdges.push({ id: edgeId, source: sourceId, target: targetId, type: edge.type, label: edge.label });
+                processedEdges.push({ 
+                    id: edgeId, 
+                    source: sourceId, 
+                    target: targetId, 
+                    // type: edge.type, 
+                    // TODO: change the edge types after customizing the edges
+                    type: "default",
+                    label: edge.label });
             }
         });
 
         reactflowEdges.push(...processedEdges);
     });
 
-        
-    for (let i = 0; i < stepGroupNodes.length - 1; i++) {
-        const currentGroup = stepGroupNodes[i];
-        const nextGroup = stepGroupNodes[i + 1];
-        reactflowEdges.push({
-            id: `stepGroup-${currentGroup.id}->${nextGroup.id}`,
-            source: currentGroup.id,   
-            target: nextGroup.id,      
-            type: "stepGroup",      
-            label: `Transition from ${currentGroup.id} to ${nextGroup.id}`,
-            // zIndex: 2000
-        });
-    }
-  
-
     // process inter-step edges
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
+        idx += 1;
         const nextStepKey = `step-${idx + 1}`;
         if (stepMetadata[nextStepKey]) {
-            const { inputNode } = stepMetadata[nextStepKey];
+            const { inputNodes } = stepMetadata[nextStepKey];
             let { outputNodes, outputMode } = stepMetadata[stepKey];
             // TODO: change the edge types after customizing the edges
             outputMode = "default";
 
             outputNodes.forEach((outputNode) => {
-                const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
-                reactflowEdges.push({
-                    id: stepTransitionEdgeId,
-                    source: outputNode,
-                    target: inputNode,
-                    type: outputMode,
-                    label: `${stepKey}->${nextStepKey}`,
-                });
+                if (inputNodes.length === 1) {
+                    const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
+                    reactflowEdges.push({
+                        id: stepTransitionEdgeId,
+                        source: outputNode,
+                        target: inputNodes[0],
+                        type: outputMode,
+                        label: `${stepKey}->${nextStepKey}`,
+                    });
+                } else {
+                    inputNodes.forEach((inputNode) => {
+                        const stepTransitionEdgeId = `${stepKey}->${nextStepKey}-${inputNode}`;
+                        reactflowEdges.push({
+                            id: stepTransitionEdgeId,
+                            source: outputNode,
+                            target: inputNode,
+                            type: outputMode,
+                            label: `${stepKey}->${nextStepKey}`,
+                        });
+                    });
+                }
             });
         }
     });
 
-    // console.log("Step Metadata Dictionary:", stepMetadata); 
 
     // compile reactflow output
     const compiledReactflow = [{
