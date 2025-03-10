@@ -211,14 +211,13 @@ body,
 }
 
 .reactflow-provider-wrapper {
-  height: 100%;
-  width: 100%;
+  width: 120vh;
   flex-grow: 1;
 }
 
 .reactflow-wrapper {
-  height: 1800px;
-  width: 1800px;
+  width: 120vh;
+  height: 100vh;
 }
 
 .recommendation-flows {

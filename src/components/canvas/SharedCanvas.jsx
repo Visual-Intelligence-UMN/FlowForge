@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import { Slider, Box, Typography } from "@mui/material";
-
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -19,38 +17,13 @@ import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
-
-
-
-const SharedCanvas = ( ) => {
-
-    const [canvasPages] = useAtom(canvasPagesAtom);
-    const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-    const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-    const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
-    const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
-    const { type, configId, patternId, flowId } = canvasPages || {};
-    
-
-  const horizontalSlider = () => {
-    return (
-      <Box sx={{ width: 300, pt: 2, pl: 2, pr: 2 }}>
-        <Slider
-          value={activeStep}
-          onChange={handleSliderChange}
-          step={1}
-          min={1}
-          max={3}
-          marks={steps.map((step) => ({
-            value: step.value,
-            label: step.label,
-          }))}
-          valueLabelDisplay="auto"
-          // disabled={true}
-        />
-      </Box>
-    );
-  };
+const SharedCanvas = () => {
+  const [canvasPages] = useAtom(canvasPagesAtom);
+  const [flowsMap] = useAtom(flowsMapAtom);
+  const [agentsConfig] = useAtom(agentsConfigAtom);
+  const [flowsWithPatterns] = useAtom(patternsAtom);
+  const [compiledConfigs] = useAtom(compiledConfigsAtom);
+  const { type, configId, patternId, flowId } = canvasPages || {};
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
     // console.log("taskflow to transform nodes and edges", taskflow);
@@ -87,7 +60,6 @@ const SharedCanvas = ( ) => {
 
     return { nodes, edges };
   };
-
 
   let initialNodes;
   let initialEdges;
@@ -138,23 +110,18 @@ const SharedCanvas = ( ) => {
           return (
             <Box
               sx={{
-                width: "1500px",
-                height: "900px",
-                border: "1px solid #ddd",
+                width: "100%",
+                height: "55vh",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                padding: 2,
               }}
             >
-              <Typography variant="h6" sx={{ marginBottom: 1 }}>
-                {headerContent}
-              </Typography>
+              <Typography variant="body1">{headerContent}</Typography>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  gap: 2,
                   width: "100%",
                   justifyContent: "center",
                 }}
@@ -172,15 +139,14 @@ const SharedCanvas = ( ) => {
           return (
             <Box
               sx={{
-                border: "1px solid #ddd",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                width: "1500px",
-                height: "900px",
+                width: "100%",
+                height: "55vh",
               }}
             >
-              <Typography variant="h6">{headerContent}</Typography>
+              <Typography variant="body1">{headerContent}</Typography>
               <TaskFlowWithProvider
                 nodes={initialNodes}
                 edges={initialEdges}
@@ -188,7 +154,7 @@ const SharedCanvas = ( ) => {
               />
             </Box>
           );
-        } 
+        }
       } else {
         initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
         initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
@@ -196,15 +162,14 @@ const SharedCanvas = ( ) => {
         return (
           <Box
             sx={{
-              border: "1px solid #ddd",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              width: "1500px",
-              height: "900px",
+              width: "100%",
+              height: "55vh",
             }}
           >
-            <Typography variant="h6">{headerContent}</Typography>
+            <Typography variant="body1">{headerContent}</Typography>
             <FlowWithProviderAgent
               nodes={initialNodes}
               edges={initialEdges}
@@ -212,7 +177,7 @@ const SharedCanvas = ( ) => {
             />
           </Box>
         );
-      } 
+      }
     };
     return (
       <Box
@@ -250,8 +215,6 @@ const SharedCanvas = ( ) => {
         flexDirection: "column",
         alignItems: "center",
         border: "1px solid #ddd",
-        // p: 2,
-        // m: 2,
       }}
     >
       {/* Row with left button, canvas content, right button */}

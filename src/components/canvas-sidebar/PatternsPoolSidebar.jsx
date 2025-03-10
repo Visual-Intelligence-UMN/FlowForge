@@ -4,29 +4,35 @@ import { iconMap } from "../../images/iconsMap";
 import { designPatternsPool } from "../../patterns/patternsData";
 const PatternsMap = () => {
   return (
-    <Box sx={{
-       mb: 1, ml: 1,
-       backgroundColor: "#f5f5f5",
-       }}>
+    <Box
+      sx={{
+        mb: 1,
+        ml: 1,
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       {Object.keys(iconMap).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap[pattern] || HomeIcon;
         return (
-          <Grid container item xs="auto" key={index} spacing={2} sx={{ p:1 }}>
-            <Tooltip 
-            title={designPatternsPool[index].description} 
-            sx={{width: "240px", fontSize: "26px"}}
-            arrow>
+          <Grid container item xs="auto" key={index}>
+            <Tooltip
+              title={designPatternsPool[index].description}
+              sx={{ width: "240px", fontSize: "26px" }}
+              arrow
+            >
               <Card
                 sx={{
                   cursor: "pointer",
                   "&:hover": { boxShadow: 4 },
-                  p: 1,
-                  m: 1.5,
-                  width: "240px",
+                  p: 0.5,
+                  ml: 1.5,
+                  mr: 1.5,
+                  mt: 1,
+                  width: "17vh",
                 }}
               >
-                <CardContent sx={{ p: 1, "&:last-child": { pb: 0 } }}>
+                <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
                   <Box
                     sx={{
                       display: "flex",
@@ -36,8 +42,12 @@ const PatternsMap = () => {
                     }}
                   >
                     {/* Render the dynamic icon */}
-                    <IconComponent sx={{ mr: 1}}/>
-                    <Typography variant="subtitle1" textAlign="left" sx={{fontSize: "18px"}}>
+                    <IconComponent />
+                    <Typography
+                      variant="subtitle1"
+                      textAlign="left"
+                      sx={{ fontSize: "12px", ml: 1 }}
+                    >
                       {pattern}
                     </Typography>
                   </Box>
@@ -53,14 +63,19 @@ const PatternsMap = () => {
 
 const PatternsMapRow = () => {
   return (
-    <Box sx={{ mb: 1, ml: 1, 
-    display: "flex", flexDirection: "row", gap: 0, 
-    }}>
+    <Box sx={{ mb: 1, ml: 1, display: "flex", flexDirection: "row", gap: 0 }}>
       {Object.keys(iconMap).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap[pattern] || HomeIcon;
         return (
-          <Grid container item xs="auto" key={index} spacing={2} sx={{ p: 0.5 }}>
+          <Grid
+            container
+            item
+            xs="auto"
+            key={index}
+            spacing={2}
+            sx={{ p: 0.5 }}
+          >
             <Tooltip title={pattern.description} arrow>
               <Card
                 sx={{
@@ -79,7 +94,7 @@ const PatternsMapRow = () => {
                     }}
                   >
                     {/* Render the dynamic icon */}
-                    <IconComponent fontSize="small" sx={{ mr: 1 }}/>
+                    <IconComponent fontSize="small" sx={{ mr: 1 }} />
                     <Typography variant="body2" textAlign="center">
                       {pattern}
                     </Typography>
@@ -93,6 +108,5 @@ const PatternsMapRow = () => {
     </Box>
   );
 };
-
 
 export { PatternsMap, PatternsMapRow };

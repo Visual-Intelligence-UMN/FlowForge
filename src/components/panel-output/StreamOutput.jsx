@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { HumanMessage } from '@langchain/core/messages';
+import { useState } from "react";
+import { HumanMessage } from "@langchain/core/messages";
 
 const WORD_LIMIT = 30; // Global parameter for word limit
 
-const StreamOutput = ({langgraphRun}) => {
+const StreamOutput = ({ langgraphRun }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [submittedInput, setSubmittedInput] = useState("");
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
@@ -22,7 +22,7 @@ const StreamOutput = ({langgraphRun}) => {
   const startNewThread = () => {
     setInputMessage("");
     setIntermediaryMessages([]);
-    setFinalMessage({sender: "", content: ""});
+    setFinalMessage({ sender: "", content: "" });
     setIsThreadActive(true);
     setSubmittedInput({ content: "", sender: "User" });
   };
@@ -30,11 +30,15 @@ const StreamOutput = ({langgraphRun}) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
+    setSubmittedInput({
+      content: inputMessage,
+      sender: "User",
+      showFullContent: false,
+    });
     setInputMessage(""); // Clear input field after submission
 
     setIntermediaryMessages([]);
-    setFinalMessage({sender: "", content: ""});
+    setFinalMessage({ sender: "", content: "" });
 
     // TODO: args should include graphviz graph
     const streamResults = langgraphRun.stream(
@@ -44,7 +48,6 @@ const StreamOutput = ({langgraphRun}) => {
     let lastSender = "";
     let lastContent = "";
 
-
     for await (const output of await streamResults) {
       for (const [key, value] of Object.entries(output)) {
         // console.log("key", key);
@@ -52,7 +55,7 @@ const StreamOutput = ({langgraphRun}) => {
         // console.log("output", output);
         // console.log("--------------------------------");
         let sender = value.sender;
-        const messagesAll = value.messages
+        const messagesAll = value.messages;
         // console.log("sender", sender);
         // console.log("messagesAll", messagesAll);
 
@@ -65,26 +68,36 @@ const StreamOutput = ({langgraphRun}) => {
             messageContent = messagesAll?.content || "";
           } else {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
-            messageContent = "Call Tool:" + calledTool + " with args:" + messagesAll.tool_calls?.[0].args.input || "";
+            messageContent =
+              "Call Tool:" +
+                calledTool +
+                " with args:" +
+                messagesAll.tool_calls?.[0].args.input || "";
           }
         }
 
-
         if (messagesAll && messageContent != lastContent) {
-          setIntermediaryMessages((prev) => 
-            [...prev, {content: messageContent, sender}]);
+          setIntermediaryMessages((prev) => [
+            ...prev,
+            { content: messageContent, sender },
+          ]);
         }
         lastSender = sender;
         lastContent = messageContent || lastContent;
       }
     }
 
-    setFinalMessage({sender: lastSender, content: lastContent} || 'Process completed');
-    setIsThreadActive(false); 
+    setFinalMessage(
+      { sender: lastSender, content: lastContent } || "Process completed"
+    );
+    setIsThreadActive(false);
   };
   const toggleContent = (index, isFinal = false) => {
     if (isFinal) {
-      setFinalMessage((prev) => ({ ...prev, showFullContent: !prev.showFullContent }));
+      setFinalMessage((prev) => ({
+        ...prev,
+        showFullContent: !prev.showFullContent,
+      }));
     } else {
       setIntermediaryMessages((prev) =>
         prev.map((msg, i) =>
@@ -101,11 +114,10 @@ const StreamOutput = ({langgraphRun}) => {
     return content?.split(" ").slice(0, WORD_LIMIT).join(" ") + "...";
   };
 
-
   return (
     <div>
       <button onClick={toggleVisibility} className="toggle-panel-button">
-        {isVisible ? 'Hide Panel' : 'Show Panel'}
+        {isVisible ? "Hide Panel" : "Show Panel"}
       </button>
 
       {isVisible && (
@@ -131,33 +143,51 @@ const StreamOutput = ({langgraphRun}) => {
             </form>
           )}
 
-
-           {/* Separate Section for User's Input Message */}
-           {submittedInput && (
+          {/* Separate Section for User's Input Message */}
+          {submittedInput && (
             <div className="input-message">
               <h2>Start Message</h2>
               <div className={`chat-bubble user`}>
                 <strong>{submittedInput.sender}</strong>
-                <p>{getPreviewContent(submittedInput.content, submittedInput.showFullContent)}</p>
-                {submittedInput.content && submittedInput.content.split(" ").length > WORD_LIMIT && (
-                  <button onClick={() => toggleContent("input")} className="toggle-content-button">
-                    {submittedInput.showFullContent ? "Show Less" : "Show More"}
-                  </button>
-                )}
+                <p>
+                  {getPreviewContent(
+                    submittedInput.content,
+                    submittedInput.showFullContent
+                  )}
+                </p>
+                {submittedInput.content &&
+                  submittedInput.content.split(" ").length > WORD_LIMIT && (
+                    <button
+                      onClick={() => toggleContent("input")}
+                      className="toggle-content-button"
+                    >
+                      {submittedInput.showFullContent
+                        ? "Show Less"
+                        : "Show More"}
+                    </button>
+                  )}
               </div>
             </div>
           )}
 
           {/* Intermediate Messages */}
           <div className="chat-messages">
-          <h2>Intermediary Messages</h2>
+            <h2>Intermediary Messages</h2>
             {intermediaryMessages.map((msg, index) => (
               // console.log("msg", msg),
-              <div key={index} className={`chat-bubble ${msg.sender === 'User' ? 'user' : 'system'}`}>
+              <div
+                key={index}
+                className={`chat-bubble ${
+                  msg.sender === "User" ? "user" : "system"
+                }`}
+              >
                 <strong>{msg.sender}</strong>
                 <p>{getPreviewContent(msg.content, msg.showFullContent)}</p>
                 {msg.content && msg.content.split(" ").length > WORD_LIMIT && (
-                  <button onClick={() => toggleContent(index)} className="toggle-content-button">
+                  <button
+                    onClick={() => toggleContent(index)}
+                    className="toggle-content-button"
+                  >
                     {msg.showFullContent ? "Show Less" : "Show More"}
                   </button>
                 )}
@@ -167,11 +197,23 @@ const StreamOutput = ({langgraphRun}) => {
 
           <div className="final-output">
             <h2>Final Output</h2>
-            <div className={`chat-bubble final ${finalMessage.sender === 'User' ? 'user' : 'system'}`}>
+            <div
+              className={`chat-bubble final ${
+                finalMessage.sender === "User" ? "user" : "system"
+              }`}
+            >
               <strong>{finalMessage.sender}</strong>
-              <p>{getPreviewContent(finalMessage.content, finalMessage.showFullContent)}</p>
+              <p>
+                {getPreviewContent(
+                  finalMessage.content,
+                  finalMessage.showFullContent
+                )}
+              </p>
               {finalMessage.content?.split(" ").length > WORD_LIMIT && (
-                <button onClick={() => toggleContent(0, true)} className="toggle-content-button">
+                <button
+                  onClick={() => toggleContent(0, true)}
+                  className="toggle-content-button"
+                >
                   {finalMessage.showFullContent ? "Show Less" : "Show More"}
                 </button>
               )}
