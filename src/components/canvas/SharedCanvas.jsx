@@ -16,6 +16,7 @@ import {
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
+import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
 const SharedCanvas = () => {
   const [canvasPages] = useAtom(canvasPagesAtom);
   const [flowsMap] = useAtom(flowsMapAtom);
@@ -161,7 +162,6 @@ const SharedCanvas = () => {
         return (
           <Box
             sx={{
-              border: "1px solid #ddd",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

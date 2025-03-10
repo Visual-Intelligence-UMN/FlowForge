@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from "react";
 import {
   ReactFlow,
   Background,
@@ -11,49 +11,49 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
   OnConnect,
-  SelectionMode
-} from '@xyflow/react';
-import { nodeTypes } from '../nodes';
-import { edgeTypes } from '../edges';
-import { getLayoutedNodesAndEdgesInGroup } from '../../utils/layout/dagreUtils';
-import '@xyflow/react/dist/style.css';
-import './xy-theme.css';
-import { set } from 'lodash'
+  SelectionMode,
+} from "@xyflow/react";
+import { nodeTypes } from "../nodes";
+import { edgeTypes } from "../edges";
+import { getLayoutedNodesAndEdgesInGroup } from "../../utils/layout/dagreUtils";
+import "@xyflow/react/dist/style.css";
+import "./xy-theme.css";
+import { set } from "lodash";
 
 function reorderNodesForReactFlow(nodes) {
-    // return nodes;
-    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
-    const visited = new Set();
-    const result = [];
-  
-    function visit(node) {
-      if (!node) return;
-      if (visited.has(node.id)) return;
-      visited.add(node.id);
-  
-      // If this node has a parentId, visit that first
-      if (node.parentId) {
-        visit(nodeMap.get(node.parentId));
-      }
-  
-      result.push(node);
+  // return nodes;
+  const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+  const visited = new Set();
+  const result = [];
+
+  function visit(node) {
+    if (!node) return;
+    if (visited.has(node.id)) return;
+    visited.add(node.id);
+
+    // If this node has a parentId, visit that first
+    if (node.parentId) {
+      visit(nodeMap.get(node.parentId));
     }
-  
-    // Visit each node in the array
-    nodes.forEach((node) => visit(node));
-  
-    return result;
+
+    result.push(node);
   }
-  
+
+  // Visit each node in the array
+  nodes.forEach((node) => visit(node));
+
+  return result;
+}
 
 export function FlowComponentAgent(props) {
   const { targetWorkflow } = props;
 
   // We assume data is in targetWorkflow.reactflowDisplay[0].graph
-  let { nodes: initialNodes, edges: initialEdges } = targetWorkflow.reactflowDisplay[0].graph;
-//   initialNodes = initialNodes.filter((node) => node.type !== "group");
-//   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
-  
+  let { nodes: initialNodes, edges: initialEdges } =
+    targetWorkflow.reactflowDisplay[0].graph;
+  //   initialNodes = initialNodes.filter((node) => node.type !== "group");
+  //   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
+
   const { screenToFlowPosition } = useReactFlow();
 
   // Keep local state for ReactFlow
@@ -69,7 +69,6 @@ export function FlowComponentAgent(props) {
     // instance?.fitView();
   }, [nodes, edges]);
 
-
   const onNodesChange = useCallback(
     (changes) => {
       setNodes((prevNodes) => {
@@ -80,7 +79,6 @@ export function FlowComponentAgent(props) {
     },
     [setNodes, targetWorkflow]
   );
-
 
   const onEdgesChange = useCallback(
     (changes) => {
@@ -103,7 +101,6 @@ export function FlowComponentAgent(props) {
     },
     [setEdges, targetWorkflow]
   );
-  
 
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
@@ -123,8 +120,8 @@ export function FlowComponentAgent(props) {
     ...node,
     data: {
       ...node.data,
-      updateNodeFieldset
-    }
+      updateNodeFieldset,
+    },
   }));
 
   const panOnDrag = [1, 2];
@@ -132,7 +129,7 @@ export function FlowComponentAgent(props) {
   return (
     <div
       className="reactflow-wrapper"
-      style={{ width: '1300px', height: '800px', border: '1px solid #ddd' }}
+      style={{ height: "57vh", border: "1px solid #ddd", position: "relative" }}
     >
       <ReactFlow
         nodes={modifiedNodes}
@@ -146,6 +143,7 @@ export function FlowComponentAgent(props) {
         selectionMode={SelectionMode.Partial}
         panOnScroll
         panOnDrag={panOnDrag}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
       >
         <Background />
         <Controls />
