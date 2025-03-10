@@ -271,13 +271,16 @@ export function FlowComponentTask(props) {
     <div
       className="reactflow-wrapper"
       style={{
-        width: "1400px",
-        height: "800px",
+        height: "110%",
         border: "1px solid #ddd",
         position: "relative",
       }}
     >
-      <Button onClick={addStep} style={{ marginBottom: 8 }}>
+      <Button
+        onClick={addStep}
+        sx={{ position: "absolute", zIndex: 1 }}
+        size="small"
+      >
         Add Step
       </Button>
 
@@ -298,7 +301,7 @@ export function FlowComponentTask(props) {
       </ReactFlow>
 
       <Button
-        size="large"
+        size="small"
         onClick={(e) => {
           e.stopPropagation();
           handleSave();
@@ -308,7 +311,7 @@ export function FlowComponentTask(props) {
           left: "50%",
           transform: "translateX(-50%)",
           textTransform: "none",
-          pt: 3,
+          pt: 1,
         }}
       >
         CONTINUE
