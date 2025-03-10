@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import { Slider, Box, Typography } from "@mui/material";
-
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -17,35 +15,14 @@ import {
 } from "../canvas-buttons/ExploreButtons";
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
+import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 const SharedCanvas = () => {
-  const [activeStep, setActiveStep] = useState(1);
-
   const [canvasPages] = useAtom(canvasPagesAtom);
-  const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
-  const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
-  const [flowsWithPatterns, setFlowsWithPatterns] = useAtom(patternsAtom);
-  const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
+  const [flowsMap] = useAtom(flowsMapAtom);
+  const [agentsConfig] = useAtom(agentsConfigAtom);
+  const [flowsWithPatterns] = useAtom(patternsAtom);
+  const [compiledConfigs] = useAtom(compiledConfigsAtom);
   const { type, configId, patternId, flowId } = canvasPages || {};
-
-  const horizontalSlider = () => {
-    return (
-      <Box sx={{ width: 300, pt: 2, pl: 2, pr: 2 }}>
-        <Slider
-          value={activeStep}
-          onChange={handleSliderChange}
-          step={1}
-          min={1}
-          max={3}
-          marks={steps.map((step) => ({
-            value: step.value,
-            label: step.label,
-          }))}
-          valueLabelDisplay="auto"
-          // disabled={true}
-        />
-      </Box>
-    );
-  };
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
     // console.log("taskflow to transform nodes and edges", taskflow);
