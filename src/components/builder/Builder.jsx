@@ -1,4 +1,3 @@
-
 import TreeNav from "../tree-navigation/TreeNav";
 import SharedCanvas from "../canvas/SharedCanvas";
 import { Box } from "@mui/material";
@@ -13,7 +12,7 @@ import {
   flowsMapAtom,
   flowIdsAtom,
   selectedConfigAtom,
-  flowCounterAtom
+  flowCounterAtom,
 } from "../../patterns/GlobalStates";
 import {
   taskFlowsGenerateAtom,

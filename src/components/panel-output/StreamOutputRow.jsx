@@ -18,7 +18,7 @@ import { useAtom } from "jotai";
 import {
   selectedTaskAtom,
   streamOutputAtom,
-  workflowInputAtom
+  workflowInputAtom,
 } from "../../patterns/GlobalStates";
 
 const WORD_LIMIT = 30; // Global word limit for preview
@@ -28,7 +28,6 @@ import generateGraphImage from "../../langgraph/utils";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 // 1) Set the worker URL (must happen before using WebPDFLoader!)
 // pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.worker.min.js";
-
 
 const StreamOutput = ({ runConfig }) => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
@@ -63,28 +62,28 @@ const StreamOutput = ({ runConfig }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    
 
     if (selectedTask.uploadedFile) {
       console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
 
       // Read the file as a buffer
-      const nike10kPDFBlob = new Blob([selectedTask.uploadedFile], { type: "application/pdf" });
+      const nike10kPDFBlob = new Blob([selectedTask.uploadedFile], {
+        type: "application/pdf",
+      });
       console.log("nike10kPDFBlob", nike10kPDFBlob);
-      
-      const pdfjs = await import("pdfjs-dist/build/pdf.min.mjs")
-      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs")
-      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker
-      
+
+      const pdfjs = await import("pdfjs-dist/build/pdf.min.mjs");
+      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
+      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
       const loader = new WebPDFLoader(nike10kPDFBlob, {
         splitPages: false,
         parsedItemSeparator: "",
         pdfjs: pdfjs,
       });
 
-
       const docs = await loader.load();
-      const fileContent = docs.map(doc => doc.pageContent).join("\n");
+      const fileContent = docs.map((doc) => doc.pageContent).join("\n");
 
       console.log("docs", docs);
       console.log("fileContent", fileContent);
@@ -92,12 +91,13 @@ const StreamOutput = ({ runConfig }) => {
       console.log("inputMessage", inputMessage);
     }
     console.log("recompile runConfig for new langgraph run", runConfig);
-    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(runConfig.reactflowDisplay);
+    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
+      runConfig.reactflowDisplay
+    );
 
     // const graphImage = await generateGraphImage(langgraphRun);
-    // setGraphImage(graphImage); 
+    // setGraphImage(graphImage);
     // debug graph building
-
 
     // setSubmittedInput({ content: inputMessage, sender: "User", showFullContent: false });
     setStreamOutput({
@@ -108,7 +108,6 @@ const StreamOutput = ({ runConfig }) => {
     });
     // TODO: args should include graphviz graph
     const streamResults = compiledLanggraph.stream(
-
       { messages: [new HumanMessage({ content: inputMessage })] },
       { recursionLimit: totalMaxRound }
     );
@@ -239,9 +238,8 @@ const StreamOutput = ({ runConfig }) => {
                     }}
                   >
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-
                       {"Step" +
-                        (Number(msg.sender.split("-")[1])) +
+                        Number(msg.sender.split("-")[1]) +
                         " " +
                         msg.sender.split("-")[3]}
                     </Typography>
@@ -309,7 +307,7 @@ const StreamOutput = ({ runConfig }) => {
         margin: "auto",
         textAlign: "left",
         ml: 5,
-        mt: 2,
+        mt: 1,
         mb: 6,
       }}
     >

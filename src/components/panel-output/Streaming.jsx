@@ -1,12 +1,23 @@
 import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
 import {
-  Box, Button, Card, CardContent, Typography, TextField,
-  Collapse, Accordion, AccordionSummary, AccordionDetails
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Collapse,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
-import { selectedTaskAtom, streamOutputAtom } from "../../patterns/GlobalStates";
+import {
+  selectedTaskAtom,
+  streamOutputAtom,
+} from "../../patterns/GlobalStates";
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
 import { AgentsState } from "../../langgraph/states"; // <-- Your custom annotation
@@ -46,7 +57,7 @@ const Streaming = ({ runConfig }) => {
       finalMessage: { sender: "", content: "" },
       isThreadActive: true,
       // Initialize an empty AgentsState
-      agentsState: AgentsState, 
+      agentsState: AgentsState,
     }));
     setInputMessage("");
   };
@@ -81,7 +92,7 @@ const Streaming = ({ runConfig }) => {
     /* ------------------------ Streaming Loop ------------------------ */
     for await (const outputChunk of await streamResults) {
       // First, merge any new AgentsState chunk
-      // (Assuming your run returns annotation data in `outputChunk` 
+      // (Assuming your run returns annotation data in `outputChunk`
       // that matches your AgentsState schema.)
       setStreamOutput((prev) => {
         const prevAgents = prev.agentsState || AgentsState.createEmpty();
@@ -164,7 +175,9 @@ const Streaming = ({ runConfig }) => {
                 variant="outlined"
                 value={inputMessage}
                 onChange={handleInputChange}
-                placeholder={selectedTask?.description || "Enter your prompt..."}
+                placeholder={
+                  selectedTask?.description || "Enter your prompt..."
+                }
                 sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
               />
             </Grid>
@@ -193,9 +206,14 @@ const Streaming = ({ runConfig }) => {
         <Typography variant="h5" sx={{ mb: 1, mt: 1 }}>
           Messages
         </Typography>
-        <Grid container spacing={2} sx={{ flexWrap: "nowrap", display: "flex" }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ flexWrap: "nowrap", display: "flex" }}
+        >
           {streamOutput.intermediaryMessages.map((msg, index) => {
-            const isLastItem = index === streamOutput.intermediaryMessages.length - 1;
+            const isLastItem =
+              index === streamOutput.intermediaryMessages.length - 1;
             const parts = msg.sender ? msg.sender.split("-") : [];
             const stepIndex = parts?.[1] ? Number(parts[1]) : index;
             const stepName = parts?.[3] ?? "Agent";
@@ -216,7 +234,13 @@ const Streaming = ({ runConfig }) => {
                     backgroundColor: isLastItem ? "#ffeb9b" : "white",
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
                       {"Step " + stepIndex + " " + stepName}
                     </Typography>
@@ -244,7 +268,16 @@ const Streaming = ({ runConfig }) => {
   /* ------------------------ Render UI ------------------------ */
 
   return (
-    <Box sx={{ width: "100%", margin: "auto", textAlign: "left", mt: 2, pt: 6, mb: 6 }}>
+    <Box
+      sx={{
+        width: "100%",
+        margin: "auto",
+        textAlign: "left",
+        mt: 2,
+        pt: 6,
+        mb: 6,
+      }}
+    >
       {/* Top row: toggle visibility & optional graphImage */}
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={1}>
@@ -298,7 +331,8 @@ const Streaming = ({ runConfig }) => {
           )}
 
           {/* Intermediate Messages */}
-          {streamOutput.intermediaryMessages?.length > 0 && displayIntermediaryMessages()}
+          {streamOutput.intermediaryMessages?.length > 0 &&
+            displayIntermediaryMessages()}
 
           {/* Final Output */}
           {streamOutput.finalMessage?.content && (
