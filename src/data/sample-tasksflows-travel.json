@@ -3,7 +3,7 @@
         {
             "taskFlowId": "tf1",
             "taskFlowName": "Comprehensive Travel Planning",
-            "taskFlowDescription": "A structured approach to plan every essential detail of a trip to Vienna.",
+            "taskFlowDescription": "A structured approach to plan every essential detail of a trip to the destination.",
             "isEditing": false,
             "taskFlowSteps": [
                 {
@@ -56,13 +56,13 @@
         {
             "taskFlowId": "tf2",
             "taskFlowName": "Art and Music Exploration",
-            "taskFlowDescription": "Focused exploration of Vienna's renowned museums, galleries, and music venues.",
+            "taskFlowDescription": "Focused exploration of the destination's renowned museums, galleries, and music venues.",
             "isEditing": false,
             "taskFlowSteps": [
                 {
                     "stepName": "Identify Key Museums",
                     "stepLabel": "Museum Selection",
-                    "stepDescription": "Identify and prioritize must-visit museums and art galleries in Vienna.",
+                    "stepDescription": "Identify and prioritize must-visit museums and art galleries in the destination.",
                     "pattern": {
                         "name": "Web Search Agent",
                         "description": "Agent uses web searches to identify key cultural venues."
