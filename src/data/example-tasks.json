@@ -7,6 +7,13 @@
       "uploadedFile": null
     },
     {
+      "id": "task4",
+      "name": "Generate Podcast Script",
+      "requiresUpload": false,
+      "description": "Generate a podcast script for a given event or topic.",
+      "uploadedFile": null
+    },
+    {
       "id": "task2",
       "name": "Machine Learning Visualization",
       "requiresUpload": true,
@@ -18,6 +25,13 @@
       "name": "Travel Planning",
       "requiresUpload": false,
       "description": "Plan a travel itinerary for a given destination.",
+      "uploadedFile": null
+    },
+    {
+      "id": "task5",
+      "name": "Review a Paper",
+      "requiresUpload": false,
+      "description": "Review a given paper.",
       "uploadedFile": null
     }
 ]

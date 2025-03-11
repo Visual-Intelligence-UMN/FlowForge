@@ -21,11 +21,11 @@
     },
     {
         "name": "Discussion",
-        "description": "This design pattern has three agents with different personas or jobs or roles, and they are debating and discussing multiple ideas, brainstorming, and generating diverse perspectives. It is useful when the task requires creativity and diversity of perspectives."
+        "description": "This design pattern has multiple agents with different personas and roles, and they can debate, randomly discuss to generate diverse ideas, voting, brainstorming, and generating diverse perspectives. It is useful when the task requires creativity and diversity of perspectives."
     },
     {
         "name": "Parallel",
-        "description": "Work simultaneously on a task and have their outputs aggregated programmatically."
+        "description": "Work simultaneously on a task and have their outputs aggregated programmatically. It is useful when the task has several focus points, and each focus point can be handled by a different worker agent."
     },
     {
         "name": "Voting",
@@ -33,7 +33,7 @@
     },
     {
         "name": "Supervision",
-        "description": "This design pattern has a supervisor agent, and two worker agents. The supervisor agent is the one observing and routing the tasks to the worker agents, and worker agents are the ones performing the tasks. It is useful when the task has several focus points, and each focus point can be handled by a different worker agent."
+        "description": "This design pattern has a supervisor agent, and multiple worker agents. The supervisor agent is the one observing and calling the worker agents to act on the tasks. It is useful when the task needs may vary with different focus points, and each focus point can be handled by a different worker agent."
     }
 
 ]

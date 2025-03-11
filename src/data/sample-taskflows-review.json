@@ -1,0 +1,142 @@
+{
+    "taskFlows": [
+      {
+        "taskFlowId": "tf1",
+        "taskFlowName": "Structured Rubric Evaluation",
+        "taskFlowDescription": "Employs a structured rubric to objectively assess and score the paper based on predefined criteria.",
+        "taskFlowSteps": [
+          {
+            "stepName": "Criteria Selection",
+            "stepLabel": "Define Evaluation Criteria",
+            "stepDescription": "Identify and finalize clear evaluation criteria (e.g., clarity, originality, relevance, methodology).",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Detailed Assessment",
+            "stepLabel": "Conduct Thorough Review",
+            "stepDescription": "Read the paper carefully, assessing it systematically against each criterion.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Scoring Application",
+            "stepLabel": "Assign Scores",
+            "stepDescription": "Assign numeric scores to each criterion based on rubric standards and observed paper quality.",
+            "designPatterns": ["Single Agent", "Reflection"]
+          },
+          {
+            "stepName": "Summarize Evaluation",
+            "stepLabel": "Generate Score Summary",
+            "stepDescription": "Compile final criteria list with assigned scores, clearly summarizing strengths and weaknesses.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          }
+        ]
+      },
+      {
+        "taskFlowId": "tf2",
+        "taskFlowName": "Expert Judgment Review",
+        "taskFlowDescription": "Uses expert judgment and qualitative analysis to evaluate paper quality, followed by translating evaluations into numeric scores.",
+        "taskFlowSteps": [
+          {
+            "stepName": "Qualitative Review",
+            "stepLabel": "Expert Qualitative Analysis",
+            "stepDescription": "Carefully read and analyze the paper qualitatively, noting expert impressions and key strengths and weaknesses.",
+            "designPatterns": ["Single Agent", "Discussion"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }   
+          },
+          {
+            "stepName": "Criteria Extraction",
+            "stepLabel": "Identify Critical Factors",
+            "stepDescription": "Identify essential criteria or dimensions naturally emerging from the qualitative analysis.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Scoring Conversion",
+            "stepLabel": "Convert Insights to Scores",
+            "stepDescription": "Assign numerical scores to each criterion based on expert judgment and qualitative insights.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Evaluation Summary",
+            "stepLabel": "Final Review Output",
+            "stepDescription": "Summarize the evaluated criteria along with scores into a concise evaluation document.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          }
+        ]
+      },
+      {
+        "taskFlowId": "tf3",
+        "taskFlowName": "Comparative Benchmarking Approach",
+        "taskFlowDescription": "Evaluates the paper through benchmarking against established high-quality standards or exemplar papers, resulting in scored criteria.",
+        "taskFlowSteps": [
+          {
+            "stepName": "Benchmark Identification",
+            "stepLabel": "Select Benchmarks",
+            "stepDescription": "Identify high-quality benchmarks or exemplary papers to compare against the submitted paper.",
+            "designPatterns": ["Parallel", "Discussion"],
+            "pattern": {
+              "name": "Parallel",
+              "description": "A parallel agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Comparative Review",
+            "stepLabel": "Perform Comparative Analysis",
+            "stepDescription": "Evaluate the paper by directly comparing aspects such as argument clarity, research quality, originality, and coherence to benchmarks.",
+            "designPatterns": ["Parallel", "Discussion"],
+            "pattern": {
+              "name": "Parallel",
+              "description": "A parallel agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Criteria Scoring",
+            "stepLabel": "Score via Comparison",
+            "stepDescription": "Score each evaluation criterion based on how closely the paper meets or exceeds benchmark standards.",
+            "designPatterns": ["Parallel", "Discussion"],
+            "pattern": {
+              "name": "Parallel",
+              "description": "A parallel agent is used to perform the task."
+            }
+          },
+          {
+            "stepName": "Comparative Summary",
+            "stepLabel": "Finalize Benchmark Scores",
+            "stepDescription": "Compile and present the evaluation criteria with scores clearly reflecting comparative strengths and weaknesses.",
+            "designPatterns": ["Single Agent", "Reflection"],
+            "pattern": {
+              "name": "Single Agent",
+              "description": "A single agent is used to perform the task."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  

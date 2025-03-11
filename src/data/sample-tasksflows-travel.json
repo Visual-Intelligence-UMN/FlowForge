@@ -1,0 +1,111 @@
+{
+    "taskFlows": [
+        {
+            "taskFlowId": "tf1",
+            "taskFlowName": "Comprehensive Travel Planning",
+            "taskFlowDescription": "A structured approach to plan every essential detail of a trip to the destination.",
+            "isEditing": false,
+            "taskFlowSteps": [
+                {
+                    "stepName": "Identify Travel Dates",
+                    "stepLabel": "Dates Selection",
+                    "stepDescription": "Choose optimal travel dates considering weather, local events, and personal availability.",
+                    "pattern": {
+                        "name": "Web Search Agent",
+                        "description": "This design pattern has a single agent to perform the task, and have access to the web search tool to search for information. It is useful when the task requires the agent to search for information on the web."
+                    }
+                },
+                {
+                    "stepName": "Explore Accommodation Options",
+                    "stepLabel": "Accommodation Research",
+                    "stepDescription": "Research and compare hotels, Airbnb, hostels, or other lodging options.",
+                    "pattern": {
+                        "name": "Parallel",
+                        "description": "Work simultaneously on a task and have their outputs aggregated programmatically. It is useful when the task has several focus points, and each focus point can be handled by a different worker agent."
+                    }
+                },
+                {
+                    "stepName": "Plan Daily Itinerary",
+                    "stepLabel": "Itinerary Development",
+                    "stepDescription": "Create a day-to-day itinerary including sightseeing, dining, and local experiences.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "description": "This design pattern has multiple agents with different personas and roles, and they can debate, randomly discuss to generate diverse ideas, voting, brainstorming, and generating diverse perspectives. It is useful when the task requires creativity and diversity of perspectives."
+                    }
+                },
+                {
+                    "stepName": "Arrange Transportation",
+                    "stepLabel": "Transportation Planning",
+                    "stepDescription": "Decide on flights, local transportation passes, car rentals, and other logistics.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "description": "This design pattern has a pair of agents, one is the main agent, and the other is the reflection agent. The main agent performs the task, and the reflection agent observes and provides iterative feedback to improve performance."
+                    }
+                },
+                {
+                    "stepName": "Budgeting and Expense Management",
+                    "stepLabel": "Budget Planning",
+                    "stepDescription": "Estimate costs and manage expenses effectively.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "description": "A supervisor agent coordinates multiple specialized worker agents."
+                    }
+                }
+            ]
+        },
+        {
+            "taskFlowId": "tf2",
+            "taskFlowName": "Art and Music Exploration",
+            "taskFlowDescription": "Focused exploration of the destination's renowned museums, galleries, and music venues.",
+            "isEditing": false,
+            "taskFlowSteps": [
+                {
+                    "stepName": "Identify Key Museums",
+                    "stepLabel": "Museum Selection",
+                    "stepDescription": "Identify and prioritize must-visit museums and art galleries in the destination.",
+                    "pattern": {
+                        "name": "Web Search Agent",
+                        "description": "Agent uses web searches to identify key cultural venues."
+                    }
+                },
+                {
+                    "stepName": "Schedule Museum Visits",
+                    "stepLabel": "Museum Scheduling",
+                    "stepDescription": "Organize and schedule visits to selected museums and exhibitions.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "description": "Single agent efficiently handles scheduling tasks."
+                    }
+                },
+                {
+                    "stepName": "Plan Concerts and Performances",
+                    "stepLabel": "Music Planning",
+                    "stepDescription": "Research and select music concerts, operas, and performances.",
+                    "pattern": {
+                        "name": "Parallel",
+                        "description": "Agents simultaneously research diverse musical events."
+                    }
+                },
+                {
+                    "stepName": "Reserve Tickets",
+                    "stepLabel": "Ticket Booking",
+                    "stepDescription": "Reserve tickets for museums, concerts, and performances.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "description": "Efficient single agent handles ticket booking."
+                    }
+                },
+                {
+                    "stepName": "Review and Finalize Plan",
+                    "stepLabel": "Final Review",
+                    "stepDescription": "Ensure all bookings and plans align with personal interests and schedules.",
+                    "pattern": {
+                        "name": "Validator",
+                        "description": "Evaluator agent confirms all planned activities match user preferences."
+                    }
+                }
+            ]
+        }
+    ]
+}
+

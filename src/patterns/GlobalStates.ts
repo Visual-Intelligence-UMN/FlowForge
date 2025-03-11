@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { atomWithReset } from "jotai/utils";
-import exampleTasks from "./example-tasks.json";
+import exampleTasks from "../data/example-tasks.json";
 
 export const flowCounterAtom = atomWithReset(1);
 export const selectedGraphAtom = atom(null);

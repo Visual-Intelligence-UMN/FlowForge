@@ -167,6 +167,7 @@ const TreeNav = () => {
     // console.log("Node clicked: ", node);
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
+      console.log("flow node clicked", flowsMap);
 
       const flowId = node.data.id;
       // Find a patternId/configId you want as the default
@@ -201,7 +202,7 @@ const TreeNav = () => {
       // console.log("flowsMap", flowsMap);
       // console.log("patterns", patterns);
       // console.log("agentsConfig", agentsConfig);
-      // console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
+      console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
       const patternId = node.data.id;
       const flowId = patternId.split("-")[0];
       const childrenConfigs = agentsConfig.filter(
@@ -230,7 +231,7 @@ const TreeNav = () => {
     } else if (layer === "compiled") {
       // console.log("compiled node clicked", compiledConfigs);
       const configId = node.data.id;
-      // console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
+      console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
       setCanvasPages({
         type: "compiled",
         configId: configId,

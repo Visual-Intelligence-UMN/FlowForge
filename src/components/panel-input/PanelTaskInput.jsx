@@ -40,6 +40,7 @@ function TaskPanel() {
 
   useEffect(() => {
     if (selectedTask && Object.keys(selectedTask).length > 0) {
+      // console.log("resetting task");
       resetTask();
     }
   }, [selectedTask]);
@@ -178,7 +179,7 @@ function TaskPanel() {
         </Select>
       </Box>
 
-      {/* <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Typography 
           sx={{ fontSize: "14px", color: "#333" }}
           onChange={(e) => setWorkflowInput(e.target.value)}
@@ -187,7 +188,7 @@ function TaskPanel() {
         </Typography>
 
         <TextField size="small" />
-      </Box> */}
+      </Box>
 
     </Box>
   );
