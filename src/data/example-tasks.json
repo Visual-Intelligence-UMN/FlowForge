@@ -26,6 +26,12 @@
       "requiresUpload": false,
       "description": "Plan a travel itinerary for a given destination.",
       "uploadedFile": null
+    },
+    {
+      "id": "task5",
+      "name": "Review a Paper",
+      "requiresUpload": false,
+      "description": "Review a given paper.",
+      "uploadedFile": null
     }
-
 ]

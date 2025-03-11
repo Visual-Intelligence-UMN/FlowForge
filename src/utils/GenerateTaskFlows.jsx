@@ -1,8 +1,12 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
+
 import sampleTaskFlows from "../data/sample-taskflows.json";
 import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
+import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
+import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
+
 import promptTaskflow from "../models/prompt-generate-taskflows.json";
 
 const GenerateTaskFlows = async (task) => {
@@ -46,6 +50,8 @@ const GenerateTaskFlows = async (task) => {
         sampleTaskFlowData = sampleTaskFlows;
     } else if (task.name === "Generate Podcast Script") {
         sampleTaskFlowData = sampleTaskFlowsPodcast;
+    } else if (task.name === "Review a Paper") {
+        sampleTaskFlowData = sampleTaskFlowsReview;
     }
    
     try {
