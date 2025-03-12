@@ -85,13 +85,16 @@ export function RflowComponent(props) {
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
 
-    setTimeout(() => {
-        if (layoutedNodes.length) {
-          fitView({ padding: 0.2});
-        }
-      }, 500);
+  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
 
-  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
+  useEffect(() => {
+    setTimeout(() => {
+        if (nodes.length) {
+          fitView({ padding: 0.2});
+          reactFlowInstance.zoomOut({ padding: 0.2});
+        }
+      }, 100);
+  }, [nodes, fitView]);
 
   const handleSave = () => {
     const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -166,6 +169,8 @@ export function RflowComponent(props) {
         panOnDrag={panOnDrag}
         panOnScroll
         selectionMode={SelectionMode.Partial}
+        // minZoom={0.2}
+        defaultZoom={0.1}
       >
         <MiniMap />
         <Controls />
