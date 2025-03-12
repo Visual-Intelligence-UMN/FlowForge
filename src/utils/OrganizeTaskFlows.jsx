@@ -8,7 +8,7 @@ function reassignFlowIds(flows, flowsCounter, flowCounter, setFlowCounter) {
     setFlowCounter(flowCounter);
     return {
       ...flow,
-      originalFlowId: flow.taskFlowId,
+      // originalFlowId: flow.taskFlowId,
       taskFlowId: newId,
     };
   });
@@ -43,7 +43,7 @@ const OrganizeTaskFlows = async (
   setFlowCounter,
   runRealtime
 ) => {
-  const newData = await GenerateTaskFlows(selectedTask);
+  const newData = await GenerateTaskFlows(selectedTask, runRealtime);
   const incomingFlows = reassignFlowIds(newData.taskFlows, flowsCounter, flowCounter, setFlowCounter);
 
   setFlowsMap((prevMap) => {

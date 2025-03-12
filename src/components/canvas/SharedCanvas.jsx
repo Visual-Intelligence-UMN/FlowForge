@@ -26,7 +26,6 @@ const SharedCanvas = () => {
   const { type, configId, patternId, flowId } = canvasPages || {};
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
-    // console.log("taskflow to transform nodes and edges", taskflow);
     const nodes = taskflow.taskFlowSteps.map((step, index) => ({
       id: `step-${index + 1}`,
       type: nodeType,

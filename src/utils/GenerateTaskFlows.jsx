@@ -20,9 +20,16 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     });
 
     const systemMessage_schema = promptTaskflow.systemMessage_schema;
-    const systemMessage_prompt = promptTaskflow.systemMessage_prompt;
-
     const systemMessage = systemMessage_schema;
+
+    const systemMessage_ideas = promptTaskflow.systemMessage_ideas.replace("{{flow_num}}", 3);
+    const systemMessage_oneFlow = promptTaskflow.systemMessage_oneFlow;
+    
+    const ideasSchema = z.object({
+        flowProposals: z.array(
+            z.string()
+        )
+    });
 
     const taskFlowSchema = z.object({
         taskFlows: z.array(
@@ -37,6 +44,18 @@ const GenerateTaskFlows = async (task, runRealtime) => {
                         stepDescription: z.string(), // Detailed description of the step
                     })
                 ),
+            })
+        )
+    });
+
+    const oneTaskFlowSchema = z.object({
+        taskFlowName: z.string(),
+        taskFlowDescription: z.string(),
+        taskFlowSteps: z.array(
+            z.object({
+                stepName: z.string(),
+                stepLabel: z.string(), // Short label for the step
+                stepDescription: z.string(), // Detailed description of the step
             })
         ),
     });
@@ -60,6 +79,34 @@ const GenerateTaskFlows = async (task, runRealtime) => {
             return sampleTaskFlowData;
         }
 
+        // const taskFlows = [];
+        // const completion = await openai.beta.chat.completions.parse({
+        //     model: "gpt-4o-mini",
+        //     messages: [
+        //         { role: "system", content: systemMessage_ideas },
+        //         { role: "user", content: taskDescription },
+        //     ],
+        //     response_format: zodResponseFormat(ideasSchema, "flowProposals"),
+        // });
+        // const flowProposals = completion.choices[0].message.parsed.flowProposals;
+        // console.log("Task flows proposals formatted:", flowProposals);
+
+        // for (let i = 0; i < flowProposals.length; i++) {
+        //     const oneTaskFlow = await openai.beta.chat.completions.parse({
+        //         model: "gpt-4o-mini",
+        //         messages: [
+        //             { role: "system", content: systemMessage_oneFlow },
+        //             { role: "user", content: taskDescription },
+        //             { role: "user", content: flowProposals[i] },
+        //         ],
+        //         response_format: zodResponseFormat(oneTaskFlowSchema, "taskflow"),
+        //     });
+        //     const res = oneTaskFlow.choices[0].message.parsed;
+        //     console.log("One task flow response formatted:", res);
+        //     taskFlows.push(res);
+        // }
+        // return {taskFlows: taskFlows};
+
         const completion = await openai.beta.chat.completions.parse({
             model: "gpt-4o-mini",
             messages: [
@@ -68,15 +115,6 @@ const GenerateTaskFlows = async (task, runRealtime) => {
             ],
             response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
         });
-        // const completion_prompt = await openai.beta.chat.completions.parse({
-        //     model: "gpt-4o-mini",
-        //     messages: [
-        //         { role: "system", content: systemMessage_prompt },
-        //         { role: "user", content: taskDescription },
-        //     ],
-        // });
-
-        // console.log("Task flows response prompt:", completion_prompt.choices[0].message.content);
         const res = completion.choices[0].message.parsed;
         console.log("Task flows response formatted:", res);
         return res;
