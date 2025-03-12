@@ -54,7 +54,8 @@ export function FlowComponentAgent(props) {
   //   initialNodes = initialNodes.filter((node) => node.type !== "group");
   //   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
 
-  const { screenToFlowPosition } = useReactFlow();
+  const reactFlowInstance = useReactFlow();
+  const {fitView} = useReactFlow();
 
   // Keep local state for ReactFlow
   const [nodes, setNodes, rawOnNodesChange] = useNodesState(initialNodes);
@@ -66,8 +67,14 @@ export function FlowComponentAgent(props) {
 
     setNodes(reorderNodesForReactFlow(layoutedNodes));
     setEdges(layoutedEdges);
-    // instance?.fitView();
-  }, [nodes, edges]);
+
+    setTimeout(() => {
+      if (layoutedNodes.length) {
+        fitView({ padding: 0.2 });
+      }
+    }, 100);
+
+  }, [setNodes, setEdges, fitView]);
 
   const onNodesChange = useCallback(
     (changes) => {
@@ -143,7 +150,8 @@ export function FlowComponentAgent(props) {
         selectionMode={SelectionMode.Partial}
         panOnScroll
         panOnDrag={panOnDrag}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.1}}
+        minZoom={0.1}
       >
         <Background />
         <Controls />

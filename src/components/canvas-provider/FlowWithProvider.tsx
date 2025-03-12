@@ -1,4 +1,7 @@
-import { ReactFlowProvider } from '@xyflow/react'
+import { 
+    ReactFlowProvider,
+    useViewport
+ } from '@xyflow/react'
 import { FlowPanelComponent } from "../canvas-agents/FlowComponent";
 import { RflowComponent } from "../canvas-patterns/FlowComponentPattern";
 import { FlowComponentTask } from "../canvas-steps/FlowComponentTask";
@@ -19,7 +22,7 @@ export function RfWithProvider(props) {
     return (
         <div className="reactflow-provider-wrapper">
             <ReactFlowProvider>
-                <RflowComponent {...props} />
+                <RflowComponent {...props}/>
             </ReactFlowProvider>
         </div>
     );
