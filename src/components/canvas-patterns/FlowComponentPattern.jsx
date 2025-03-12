@@ -170,8 +170,9 @@ export function RflowComponent(props) {
 
   const handleNodeClick = useCallback((evt, node) => {
     if (node){
+        // const pattern = node.data.pattern.name;
         const x = node.position.x + node.measured.width / 2;
-        const y = node.position.y + node.measured.height / 2;
+        const y = node.position.y + node.measured.height / 0.9;
         const zoom = 0.7;
         // todo: change the zoom ratio based on the pattern type?
         setCenter(x, y, { zoom, duration: 1000 });
