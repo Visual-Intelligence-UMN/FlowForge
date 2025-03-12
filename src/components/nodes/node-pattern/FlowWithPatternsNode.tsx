@@ -62,12 +62,12 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const patternWidthMap = {
     "Single Agent": showContent ? [450, 450] : [230, 450],
-    "Supervision": showContent ? [230, 450] : [100, 450],
+    "Supervision": showContent ? [230, 700] : [100, 450],
     "Validator": showContent ? [450, 450] : [230, 450],
-    "Reflection": showContent ? [666, 450] : [333, 450],
-    "Discussion": showContent ? [700, 450] : [350, 450],
-    "Parallel": showContent ? [666, 450] : [333, 450],
-    "Voting": showContent ? [666, 450] : [333, 450],
+    "Reflection": showContent ? [666, 600] : [333, 450],
+    "Discussion": showContent ? [700, 700] : [350, 450],
+    "Parallel": showContent ? [666, 700] : [333, 450],
+    "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
     default: [100, 100], // fallback
@@ -153,6 +153,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         maxWidth: patternWidthMap[patternName]?.[1] || 100,
         boxShadow: 2,
         gap: 0,
+        transition: "all 0.3s ease-in-out",
       }}
     >
       <Handle
@@ -199,19 +200,28 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         </Box>
       </Box>
 
-      
       {showContent ? (
         <Box
           sx={{
             maxWidth: "100%",
             backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+            transition: "opacity 0.3s ease-in-out",
+            opacity: 1,
           }}
         >
           {patternForm()}
         </Box>
       ) : (
-        <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+        <Box
+          sx={{
+            transition: "opacity 0.5s ease-in-out",
+            opacity: 1,
+          }}
+        >
+          <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+        </Box>
       )}
+
     </Box>
   );
 };

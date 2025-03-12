@@ -29,7 +29,10 @@ import {
   selectedConfigAtom,
 } from "../../patterns/GlobalStates";
 import isEqual from "lodash/isEqual";
-import { getMultiLineLayoutedNodesAndEdges } from "./layout";
+import {
+     getMultiLineLayoutedNodesAndEdges, 
+     zoomOutLayout
+} from "./layout";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
@@ -61,7 +64,7 @@ export function RflowComponent(props) {
     [setEdges]
   );
 
-  const {fitView} = useReactFlow();
+  const {fitView, setViewport, zoomIn, zoomOut, setCenter} = useReactFlow();
 
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
@@ -87,9 +90,10 @@ export function RflowComponent(props) {
 
     setTimeout(() => {
         if (nodes.length) {
-          fitView({ padding: 0.5});
-
-        //   reactFlowInstance.zoomOut({ padding: 0.2});
+        //   fitView({ padding: 0.5, duration: 1000 });
+          setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+        //   setCenter(0, 0, { duration: 1000 });
+        //   zoomOut({ zoom: 1, duration: 1000 });
         }
       }, 100);
 
@@ -131,8 +135,22 @@ export function RflowComponent(props) {
     );
   };
 
-  const zoomSelector = (s) => s.transform[2] >= 1;
+  const zoomSelector = (s) => s.transform[2] >= 0.5;
   const showContent = useStore(zoomSelector);
+
+
+useEffect(() => {
+    // console.log("showContent", showContent);
+
+    const doRelayout = async () => {
+      const { nodes: layoutedNodes, edges: layoutedEdges } = zoomOutLayout(nodes, edges);
+      setNodes(layoutedNodes);
+      setEdges(layoutedEdges);
+      setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+    };
+  
+    doRelayout();
+  }, [showContent]);
 
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
@@ -143,7 +161,7 @@ export function RflowComponent(props) {
     },
   }));
 
-  const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
+//   const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
   const panOnDrag = [1, 2];
 
   return (
@@ -165,14 +183,14 @@ export function RflowComponent(props) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        defaultViewport={defaultViewport}
+        // defaultViewport={defaultViewport}
         panOnDrag={panOnDrag}
         panOnScroll
         selectionMode={SelectionMode.Partial}
-        // minZoom={0.2}
-        defaultZoom={0.1}
+        minZoom={0.2}
+        // defaultZoom={0.1}
       >
-        <MiniMap />
+        {/* <MiniMap /> */}
         <Controls />
       </ReactFlow>
 
