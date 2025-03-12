@@ -5,6 +5,8 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
+  SelectionMode,
+//   useViewport,
 } from "reactflow";
 import { useCallback, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
@@ -22,10 +24,7 @@ import {
   selectedConfigAtom,
 } from "../../patterns/GlobalStates";
 import isEqual from "lodash/isEqual";
-import {
-  getMultiLineLayoutedNodesAndEdges,
-  getLayoutedNodesAndEdges,
-} from "../../utils/layout/dagreUtils";
+import { getMultiLineLayoutedNodesAndEdges } from "./layout";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
@@ -54,6 +53,8 @@ export function RflowComponent(props) {
     [setEdges]
   );
 
+//   const { fitView } = useViewport();
+
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
     // 1) Set new nodes/edges from props
@@ -71,7 +72,7 @@ export function RflowComponent(props) {
         getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedNodesAndEdges(nextNodes, nextEdges));
+        getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
     }
 
     setNodes(layoutedNodes);
@@ -121,6 +122,9 @@ export function RflowComponent(props) {
     },
   }));
 
+  const defaultViewport = { x: 0, y: 0, zoom: 1 };
+  const panOnDrag = [1, 2];
+
   return (
     <div
       className="reactflow-wrapper"
@@ -140,7 +144,11 @@ export function RflowComponent(props) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        fitView={true}
+        defaultViewport={defaultViewport}
+        // fitView={fitView}
+        panOnDrag={panOnDrag}
+        panOnScroll
+        selectionMode={SelectionMode.Partial}
       ></ReactFlow>
 
       <Button

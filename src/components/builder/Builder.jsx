@@ -13,6 +13,7 @@ import {
   flowIdsAtom,
   selectedConfigAtom,
   flowCounterAtom,
+  runRealtimeAtom,
 } from "../../patterns/GlobalStates";
 import {
   taskFlowsGenerateAtom,
@@ -63,6 +64,8 @@ const Builder = () => {
   const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
 
+  const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
+
   useEffect(() => {
     setFlowsCounter(1);
   }, [flowsMap]);
@@ -76,7 +79,8 @@ const Builder = () => {
         setFlowIds,
         flowsCounter,
         flowCounter,
-        setFlowCounter
+        setFlowCounter,
+        runRealtime
       );
       setTaskFlowsGenerate(1);
     }
@@ -84,7 +88,11 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      OrganizePatterns(patternsFlow, setDesignPatterns);
+      OrganizePatterns(
+        patternsFlow, 
+        setDesignPatterns,
+        runRealtime
+    );
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -119,7 +127,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [taskFlowsGenerate]);
+  }, [flowsMap]);
 
   useEffect(() => {
     if (canvasPages.type === "flow" && designPatterns.length > 0) {
