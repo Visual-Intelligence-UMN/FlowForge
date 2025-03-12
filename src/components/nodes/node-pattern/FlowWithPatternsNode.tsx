@@ -153,6 +153,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         maxWidth: patternWidthMap[patternName]?.[1] || 100,
         boxShadow: 2,
         gap: 0,
+        transition: "all 0.3s ease-in-out",
       }}
     >
       <Handle
@@ -199,19 +200,28 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         </Box>
       </Box>
 
-      
       {showContent ? (
         <Box
           sx={{
             maxWidth: "100%",
             backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+            transition: "opacity 0.3s ease-in-out",
+            opacity: 1,
           }}
         >
           {patternForm()}
         </Box>
       ) : (
-        <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+        <Box
+          sx={{
+            transition: "opacity 0.5s ease-in-out",
+            opacity: 1,
+          }}
+        >
+          <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+        </Box>
       )}
+
     </Box>
   );
 };
