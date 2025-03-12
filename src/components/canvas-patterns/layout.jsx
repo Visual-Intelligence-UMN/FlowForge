@@ -1,7 +1,7 @@
 
 export const getMultiLineLayoutedNodesAndEdges = (nodes, edges, nodesPerRow = 3) => {
 
-    const horizontalSpacing = 600; // space between columns
+    const horizontalSpacing = 800; // space between columns
     const verticalSpacing = 600;   // space between rows
   
     const layoutedNodes = nodes.map((node, index) => {
