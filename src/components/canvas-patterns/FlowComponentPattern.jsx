@@ -6,6 +6,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   SelectionMode,
+  useReactFlow
 //   useViewport,
 } from "reactflow";
 import { useCallback, useEffect } from "react";
@@ -54,6 +55,8 @@ export function RflowComponent(props) {
   );
 
 //   const { fitView } = useViewport();
+    const { setViewport, zoomIn, zoomOut } = useReactFlow();
+    
 
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set

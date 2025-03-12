@@ -127,7 +127,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [flowsMap]);
+  }, [flowsMap, taskFlowsGenerate]);
 
   useEffect(() => {
     if (canvasPages.type === "flow" && designPatterns.length > 0) {
