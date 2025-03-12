@@ -140,6 +140,7 @@ export function RflowComponent(props) {
 
   const zoomSelector = (s) => s.transform[2] >= 0.5;
   const showContent = useStore(zoomSelector);
+  const zoomRatio = useStore((s) => s.transform[2]);
 
 
 //   useEffect(() => {
@@ -171,11 +172,19 @@ export function RflowComponent(props) {
   const handleNodeClick = useCallback((evt, node) => {
     if (node){
         // const pattern = node.data.pattern.name;
-        const x = node.position.x + node.measured.width / 2;
-        const y = node.position.y + node.measured.height / 0.9;
-        const zoom = 0.7;
-        // todo: change the zoom ratio based on the pattern type?
-        setCenter(x, y, { zoom, duration: 1000 });
+        let x = node.position.x + node.measured.width / 2;
+        let y = node.position.y + node.measured.height / 0.9;
+        // console.log("zoomRatio", zoomRatio);
+
+        if (zoomRatio < 0.7){
+            const zoom = 0.7;
+            // todo: change the zoom ratio based on the pattern type?
+            setCenter(x, y, { zoom, duration: 1000 });
+        } else {
+            x = x * 1.1;
+            y = y * 0.6;
+            setCenter(x, y, { zoom: 0.7, duration: 1000 });
+        }
     }
   }, [setCenter]);
 
