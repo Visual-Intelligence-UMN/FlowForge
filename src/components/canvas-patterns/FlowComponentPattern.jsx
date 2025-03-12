@@ -61,6 +61,8 @@ export function RflowComponent(props) {
     [setEdges]
   );
 
+  const {fitView} = useReactFlow();
+
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
     // 1) Set new nodes/edges from props
@@ -83,7 +85,13 @@ export function RflowComponent(props) {
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
 
-  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
+    setTimeout(() => {
+        if (layoutedNodes.length) {
+          fitView({ padding: 0.2});
+        }
+      }, 500);
+
+  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
 
   const handleSave = () => {
     const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -135,14 +143,6 @@ export function RflowComponent(props) {
   const defaultViewport = { x: 100, y: 100, zoom: 1 };
   const panOnDrag = [1, 2];
 
-  const onLoad = () => {
-    console.log("onLoad");
-    reactFlowInstance.fitView();
-  };
-
-
-
-
   return (
     <div
       className="reactflow-wrapper"
@@ -163,7 +163,6 @@ export function RflowComponent(props) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         defaultViewport={defaultViewport}
-        onLoad={onLoad}
         panOnDrag={panOnDrag}
         panOnScroll
         selectionMode={SelectionMode.Partial}

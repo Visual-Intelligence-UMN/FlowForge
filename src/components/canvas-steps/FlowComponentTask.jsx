@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect } from "react";
-import ReactFlow, {
+import  {
+  ReactFlow,
   addEdge,
   useNodesState,
   useEdgesState,
   getConnectedEdges,
   Controls,
-} from "reactflow";
+  useReactFlow,
+} from "@xyflow/react";
 import { useAtom } from "jotai";
 import {
   flowsMapAtom,
@@ -22,6 +24,7 @@ import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
 function convertToReactFlowFormat(taskflow) {
+
   const { taskFlowSteps = [] } = taskflow;
   const nodes = taskFlowSteps.map((step, index) => ({
     id: `step-${index + 1}`,
@@ -58,6 +61,10 @@ function convertToReactFlowFormat(taskflow) {
 }
 
 export function FlowComponentTask(props) {
+
+  const reactFlowInstance = useReactFlow();
+  const {fitView} = useReactFlow();
+
   const { targetWorkflow, onWorkflowUpdate } = props;
 
   const [flowsMap, setFlowsMap] = useAtom(flowsMapAtom);
@@ -93,7 +100,13 @@ export function FlowComponentTask(props) {
 
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
-  }, [targetWorkflow, setNodes, setEdges]);
+
+    setTimeout(() => {
+      if (layoutedNodes.length) {
+        fitView({ padding: 0.2 });
+      }
+    }, 10);
+  }, [targetWorkflow, setNodes, setEdges, fitView]);
 
   // Helper to update the overall "workflow" shape in global or parent
   const updateTargetWorkflow = useCallback(
@@ -295,7 +308,6 @@ export function FlowComponentTask(props) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
-        fitView
       >
         <Controls />
       </ReactFlow>
