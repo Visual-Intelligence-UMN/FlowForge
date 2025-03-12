@@ -9,24 +9,27 @@ import { ReflectionForm } from "../../templates/template-reflection/ReflectionFo
 import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
 import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
+import { ZoomOutDisplay } from "../../canvas-patterns/zoomoutlevel";
+
+import Grow from '@mui/material/Grow';
 
 import { iconMap } from "../../../images/iconsMap";
 
-export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
+import { useStore } from "reactflow";
+
+const zoomSelector = (s) => s.transform[2] >= 1;
+export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
+  const showContent = useStore(zoomSelector);
 
-  // const onChange = (fieldName) => (event) => {
-  //   updateNodeFieldset(id, fieldName, event.target.value);
-  // };
   const patternName = data.pattern?.name || "";
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     const chosenTemplate = designPatternsTemplate[chosenName] || {};
-    // console.log("chosenTemplate", chosenTemplate);
     updateNodeFieldset(id, "pattern.name", chosenName);
     updateNodeFieldset(id, "template", chosenTemplate);
   };
@@ -36,51 +39,48 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
   };
 
   const patternForm = () => {
-    switch (data.pattern.name) {
+    switch (patternName) {
       case "Single Agent":
-        return <SingleAgentForm data={data.template} onChange={onChangeTemplate}/>
+        return <SingleAgentForm data={data.template} onChange={onChangeTemplate} />;
       case "Supervision":
-        return <SupervisionForm data={data.template} onChange={onChangeTemplate}/>
+        return <SupervisionForm data={data.template} onChange={onChangeTemplate} />;
       case "Validator":
-        return <ValidatorForm data={data.template} onChange={onChangeTemplate}/>
+        return <ValidatorForm data={data.template} onChange={onChangeTemplate} />;
       case "Reflection":
-        return <ReflectionForm data={data.template} onChange={onChangeTemplate}/>
+        return <ReflectionForm data={data.template} onChange={onChangeTemplate} />;
       case "Discussion":
-        return <DiscussionForm data={data.template} onChange={onChangeTemplate}/>
+        return <DiscussionForm data={data.template} onChange={onChangeTemplate} />;
       case "Parallel":
-        return <ParallelForm data={data.template} onChange={onChangeTemplate}/>
+        return <ParallelForm data={data.template} onChange={onChangeTemplate} />;
       case "Voting":
-        return <VotingForm data={data.template} onChange={onChangeTemplate}/>
+        return <VotingForm data={data.template} onChange={onChangeTemplate} />;
+      default:
+        return null;
     }
-  }
+  };
 
-
-  const patternIcon = () => {
-    const IconComponent = iconMap[data.pattern.name] || <Typography>No Icon</Typography>;
-    return <IconComponent fontSize="small"/>
-  }
   const patternWidthMap = {
-    "Single Agent": [450, 450],
-    "Supervision": [230, 666],
-    "Validator": [450, 450],
-    "Reflection": [666, 666],
-    "Discussion": [700, 700],
-    "Parallel": [666, 666],
-    "Voting": [666, 666],
-    "PDF Loader Agent": [450, 450],
-    "Web Search Agent": [450, 450],
+    "Single Agent": showContent ? [450, 450] : [230, 450],
+    "Supervision": showContent ? [230, 450] : [100, 450],
+    "Validator": showContent ? [450, 450] : [230, 450],
+    "Reflection": showContent ? [666, 450] : [333, 450],
+    "Discussion": showContent ? [700, 450] : [350, 450],
+    "Parallel": showContent ? [666, 450] : [333, 450],
+    "Voting": showContent ? [666, 450] : [333, 450],
+    "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
+    "Web Search Agent": showContent ? [450, 450] : [230, 450],
     default: [100, 100], // fallback
   };
 
   const patternSelect = () => {
     return (
-        <Select
+      <Select
         label="Pattern"
         value={patternName}
         onChange={handleSelectPattern}
         size="small"
-        sx={{ 
-          marginBottom: 1 , 
+        sx={{
+          marginBottom: 1,
           maxWidth: 150,
           backgroundColor: "#e3f2fd",
           "& .MuiOutlinedInput-notchedOutline": {
@@ -88,7 +88,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "#42a5f5",
-          }
+          },
         }}
         className="nodrag nopan"
       >
@@ -96,42 +96,62 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
           <MenuItem key={pattern.name} value={pattern.name}>
             {pattern.name}
           </MenuItem>
-          ))}
+        ))}
       </Select>
-    )
-  }
+    );
+  };
 
   const confirmButton = () => {
     return (
-      <Button 
-        // variant="contained" 
-        color="primary" 
+      <Button
+        color="primary"
         onClick={() => {
-          console.log("data", data);
           if (data.template.confirm) {
             updateNodeFieldset(id, "template.confirm", false);
           } else {
             updateNodeFieldset(id, "template.confirm", true);
           }
-        }}>
+        }}
+      >
         Confirm
       </Button>
-    )
-  }
+    );
+  };
+
+  const taskDescription = () => {
+    return (
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+        }}
+      >
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: "18px",
+            mb: 1,
+            alignSelf: "flex-start",
+          }}
+        >
+          <b>Task Description:</b> {data.stepDescription}
+        </Typography>
+      </Box>
+    );
+  };
 
   return (
-    
     <Box
       sx={{
         padding: 2,
         border: "1px solid #ddd",
         borderRadius: 4,
         backgroundColor: "#fff",
-        minWidth: patternWidthMap[data.pattern.name][0] || 100,
+        minWidth: patternWidthMap[patternName]?.[0] || 100,
         textAlign: "center",
-        maxWidth:patternWidthMap[data.pattern.name][1] || 100,
+        maxWidth: patternWidthMap[patternName]?.[1] || 100,
         boxShadow: 2,
-        gap: 0
+        gap: 0,
       }}
     >
       <Handle
@@ -149,22 +169,21 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      <Box 
-        sx={{ 
-          display: "flex", 
-          // maxWidth: "70%",
-          flex:1,
-          gap: 1, 
-          padding: 1, 
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          gap: 1,
+          padding: 1,
         }}
       >
-        <Box 
-          sx={{ 
-          display: "flex", 
-          flexDirection: "column", 
-          maxWidth: "80%", 
-          // flex:1,
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "80%",
+          }}
+        >
           <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
             {id}
           </Typography>
@@ -172,38 +191,26 @@ export const FlowWithPatternsNode = ({ data, isConnectable,id }) => {
           {confirmButton()}
         </Box>
 
-        <Box 
-          sx={{ 
-          flex:1,
-          display: "flex",
-          }}>
-          <Typography 
-            variant="body1" 
-            sx={{ 
-            fontSize: "18px", 
-            mb: 1, 
-            alignSelf: "flex-start",
-            }}>
-              <b>Task Description:</b> {data.stepDescription}
-          </Typography>
-        </Box>
+        {taskDescription()}
 
-        <Box sx={{maxWidth: "30%", border: "1px solid #ddd"}}>
-          {/* {patternIcon()} */}
+        <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
+          {/* You can place an icon here if you like */}
         </Box>
-
       </Box>
+
       
-      {/* different patterns templates */}
-      <Box
-        sx={{
-          maxWidth: "100%",
-          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff"
-        }}>
+      {showContent ? (
+        <Box
+          sx={{
+            maxWidth: "100%",
+            backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+          }}
+        >
           {patternForm()}
-      </Box>
-
-      
+        </Box>
+      ) : (
+        <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+      )}
     </Box>
   );
 };
