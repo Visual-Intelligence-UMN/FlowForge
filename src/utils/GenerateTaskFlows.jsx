@@ -9,7 +9,7 @@ import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 
 import promptTaskflow from "../models/prompt-generate-taskflows.json";
 
-const GenerateTaskFlows = async (task) => {
+const GenerateTaskFlows = async (task, runRealtime) => {
     const taskDescription = task.description;
     const taskFile = task.uploadedFile || null; 
     // TODO: how to integrate the task file into the task description
@@ -56,7 +56,10 @@ const GenerateTaskFlows = async (task) => {
    
     try {
         // TODO: remove this after testing the patterns generation
-        return sampleTaskFlowData;
+        if (!runRealtime) {
+            return sampleTaskFlowData;
+        }
+
         const completion = await openai.beta.chat.completions.parse({
             model: "gpt-4o-mini",
             messages: [
@@ -65,15 +68,15 @@ const GenerateTaskFlows = async (task) => {
             ],
             response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
         });
-        const completion_prompt = await openai.beta.chat.completions.parse({
-            model: "gpt-4o-mini",
-            messages: [
-                { role: "system", content: systemMessage_prompt },
-                { role: "user", content: taskDescription },
-            ],
-        });
+        // const completion_prompt = await openai.beta.chat.completions.parse({
+        //     model: "gpt-4o-mini",
+        //     messages: [
+        //         { role: "system", content: systemMessage_prompt },
+        //         { role: "user", content: taskDescription },
+        //     ],
+        // });
 
-        console.log("Task flows response prompt:", completion_prompt.choices[0].message.content);
+        // console.log("Task flows response prompt:", completion_prompt.choices[0].message.content);
         const res = completion.choices[0].message.parsed;
         console.log("Task flows response formatted:", res);
         return res;

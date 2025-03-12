@@ -6,7 +6,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   SelectionMode,
-
+//   useViewport,
 } from "reactflow";
 import { useCallback, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
@@ -52,6 +52,8 @@ export function RflowComponent(props) {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
+
+//   const { fitView } = useViewport();
 
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
@@ -143,7 +145,7 @@ export function RflowComponent(props) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         defaultViewport={defaultViewport}
-        fitView
+        // fitView={fitView}
         panOnDrag={panOnDrag}
         panOnScroll
         selectionMode={SelectionMode.Partial}
