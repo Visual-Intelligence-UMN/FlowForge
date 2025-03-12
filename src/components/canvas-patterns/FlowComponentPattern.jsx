@@ -10,7 +10,8 @@ import {
   SelectionMode,
   useReactFlow,
 //   useViewport,
-    useStore
+    useStore,
+    useStoreApi
 } from "@xyflow/react";
 import { ViewportPortal } from '@xyflow/react';
 import { useCallback, useEffect } from "react";
@@ -40,9 +41,11 @@ import Button from "@mui/material/Button";
 
 import set from "lodash.set";
 
+
 export function RflowComponent(props) {
 
   const reactFlowInstance = useReactFlow();
+  const store = useStoreApi();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
@@ -139,18 +142,18 @@ export function RflowComponent(props) {
   const showContent = useStore(zoomSelector);
 
 
-useEffect(() => {
-    // console.log("showContent", showContent);
+//   useEffect(() => {
+//     // console.log("showContent", showContent);
 
-    const doRelayout = async () => {
-      const { nodes: layoutedNodes, edges: layoutedEdges } = zoomOutLayout(nodes, edges);
-      setNodes(layoutedNodes);
-      setEdges(layoutedEdges);
-      setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
-    };
+//     const doRelayout = async () => {
+//       const { nodes: layoutedNodes, edges: layoutedEdges } = zoomOutLayout(nodes, edges);
+//       setNodes(layoutedNodes);
+//       setEdges(layoutedEdges);
+//       setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+//     };
   
-    doRelayout();
-  }, [showContent]);
+//     doRelayout();
+//   }, [showContent]);
 
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
@@ -163,6 +166,18 @@ useEffect(() => {
 
 //   const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
   const panOnDrag = [1, 2];
+
+
+  const handleNodeClick = useCallback((evt, node) => {
+    if (node){
+        const x = node.position.x + node.measured.width / 2;
+        const y = node.position.y + node.measured.height / 2;
+        const zoom = 0.7;
+        // todo: change the zoom ratio based on the pattern type?
+        setCenter(x, y, { zoom, duration: 1000 });
+    }
+  }, [setCenter]);
+
 
   return (
     <div
@@ -183,6 +198,7 @@ useEffect(() => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onNodeClick={handleNodeClick}
         // defaultViewport={defaultViewport}
         panOnDrag={panOnDrag}
         panOnScroll
