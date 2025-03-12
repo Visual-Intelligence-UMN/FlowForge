@@ -15,15 +15,16 @@ import Grow from '@mui/material/Grow';
 
 import { iconMap } from "../../../images/iconsMap";
 
-import { useStore } from "reactflow";
+// import { useStore } from "reactflow";
 
-const zoomSelector = (s) => s.transform[2] >= 1;
+
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  const showContent = useStore(zoomSelector);
+  const showContent = data.showContent;
+  // console.log("showContent", showContent);
 
   const patternName = data.pattern?.name || "";
 
