@@ -85,16 +85,16 @@ export function RflowComponent(props) {
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
 
-  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges]);
-
-  useEffect(() => {
     setTimeout(() => {
         if (nodes.length) {
-          fitView({ padding: 0.2});
-          reactFlowInstance.zoomOut({ padding: 0.2});
+          fitView({ padding: 0.5});
+
+        //   reactFlowInstance.zoomOut({ padding: 0.2});
         }
       }, 100);
-  }, [nodes, fitView]);
+
+  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
+
 
   const handleSave = () => {
     const updatedTaskFlowSteps = nodes.map((node) => ({
@@ -143,7 +143,7 @@ export function RflowComponent(props) {
     },
   }));
 
-  const defaultViewport = { x: 100, y: 100, zoom: 1 };
+  const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
   const panOnDrag = [1, 2];
 
   return (
