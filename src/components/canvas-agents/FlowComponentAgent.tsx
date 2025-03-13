@@ -12,10 +12,13 @@ import {
   applyEdgeChanges,
   OnConnect,
   SelectionMode,
+  useStore,
+  useStoreApi
 } from "@xyflow/react";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { getLayoutedNodesAndEdgesInGroup } from "../../utils/layout/dagreUtils";
+import { layoutDagre } from "./layout-agents";
 import "@xyflow/react/dist/style.css";
 import "./xy-theme.css";
 import { set } from "lodash";
@@ -54,16 +57,54 @@ export function FlowComponentAgent(props) {
   //   initialNodes = initialNodes.filter((node) => node.type !== "group");
   //   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
 
+  const edgesWithHandles = initialEdges.map(edge => {
+    // Check for condition when edge.id includes "Supervisor->Worker"
+    if (edge.id.includes("Supervisor->Worker")) {
+      return {
+        ...edge,
+        sourceHandle: "bottom" + "-" + edge.source,
+        targetHandle: "top" + "-" + edge.target,
+        type: "default",
+        animated: true,
+      };
+    }
+
+    if (edge.id.includes("->Supervisor")) {
+      return {
+        ...edge,
+        sourceHandle: "top" + "-" + edge.source,
+        targetHandle: "bottom" + "-" + edge.target,
+        type: "default",
+        animated: true,
+      };
+    }
+
+    if (edge.id.includes("->Optimizer")) {
+        return {
+            ...edge,
+            sourceHandle: "right" + "-" + edge.source,
+            targetHandle: "left" + "-" + edge.target,
+            type: "default",
+            animated: true,
+        };
+    }
+    return edge;
+  });
+
+  // console.log("edgesWithHandles", edgesWithHandles);
+
+  
+
   const reactFlowInstance = useReactFlow();
   const {fitView} = useReactFlow();
 
   // Keep local state for ReactFlow
   const [nodes, setNodes, rawOnNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, rawOnEdgesChange] = useEdgesState(initialEdges);
+  const [edges, setEdges, rawOnEdgesChange] = useEdgesState(edgesWithHandles);
 
   useEffect(() => {
     const { nodes: layoutedNodes, edges: layoutedEdges } =
-      getLayoutedNodesAndEdgesInGroup(nodes, edges);
+      layoutDagre(nodes, edges);
 
     setNodes(reorderNodesForReactFlow(layoutedNodes));
     setEdges(layoutedEdges);
@@ -123,15 +164,32 @@ export function FlowComponentAgent(props) {
     });
   };
 
+  const zoomSelector = (s) => s.transform[2] >= 0.5;
+  const showContent = useStore(zoomSelector);
+  const zoomRatio = useStore((s) => s.transform[2]);
+
   const modifiedNodes = nodes.map((node) => ({
     ...node,
     data: {
       ...node.data,
       updateNodeFieldset,
+      showContent,
     },
   }));
 
   const panOnDrag = [1, 2];
+
+  const handleNodeClick = useCallback((evt, node) => {
+    if (node){
+      console.log("node", node);
+    }
+  }, []);
+
+  const handleEdgeClick = useCallback((evt, edge) => {
+    if (edge){
+      console.log("edge", edge);
+    }
+  }, []);
 
   return (
     <div
@@ -146,6 +204,8 @@ export function FlowComponentAgent(props) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        // onNodeClick={handleNodeClick}
+        // onEdgeClick={handleEdgeClick}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
         panOnScroll

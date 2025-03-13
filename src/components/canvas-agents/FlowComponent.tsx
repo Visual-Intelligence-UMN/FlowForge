@@ -65,41 +65,34 @@ export function FlowPanelComponent(props) {
     // screenToFlowPosition.fitView();
   }, [props.nodes, props.edges]);
 
-  const onDragOver = useCallback((event: any) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-  }, []);
+  // --- on drag over --- 
+  // const onDragOver = useCallback((event: any) => {
+  //   event.preventDefault();
+  //   event.dataTransfer.dropEffect = "move";
+  // }, []);
+  // --- on drag over --- 
 
-  const onDrop = useCallback(
-    (event: any) => {
-      event.preventDefault();
-      if (!type) return;
+  // --- on drop --- 
+  // const onDrop = useCallback(
+  //   (event: any) => {
+  //     event.preventDefault();
+  //     if (!type) return;
 
-      const position = screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-      const newNode = {
-        id: getId(props.id),
-        type,
-        position,
-        data: { label: `${type} node` },
-      };
-      setNodes((nds: any) => nds.concat(newNode));
-    },
-    [type, screenToFlowPosition]
-  );
-
-  const syncNodeChanges = (nodeId, key, value) => {
-    updateNodeData(props.id, nodeId, key, value);
-    setNodes((nds) =>
-      nds.map((node) =>
-        node.id === nodeId
-          ? { ...node, data: { ...node.data, [key]: value } }
-          : node
-      )
-    );
-  };
+  //     const position = screenToFlowPosition({
+  //       x: event.clientX,
+  //       y: event.clientY,
+  //     });
+  //     const newNode = {
+  //       id: getId(props.id),
+  //       type,
+  //       position,
+  //       data: { label: `${type} node` },
+  //     };
+  //     setNodes((nds: any) => nds.concat(newNode));
+  //   },
+  //   [type, screenToFlowPosition]
+  // );
+  // --- on drop --- 
 
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) =>
@@ -116,7 +109,6 @@ export function FlowPanelComponent(props) {
     ...node,
     data: {
       ...node.data,
-      updateNode: syncNodeChanges,
       updateNodeFieldset,
     },
   }));
@@ -138,8 +130,8 @@ export function FlowPanelComponent(props) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
+        // onDragOver={onDragOver}
+        // onDrop={onDrop}
         // fitView={true}
         panOnScroll
         panOnDrag={panOnDrag}

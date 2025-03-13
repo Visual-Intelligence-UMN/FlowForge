@@ -21,6 +21,7 @@ const CompileReactflow = async (config) => {
         if (!config) return;
 
         const { nodes, edges, type, maxRound, runtime} = config;
+        const pattern = type;
         let stepNodeIds = [];
         let firstNodeIds = [];
         let outputNodeIds = [];
@@ -51,6 +52,7 @@ const CompileReactflow = async (config) => {
                     llm: node.llm || "gpt-4o-mini",
                     systemPrompt: node.systemPrompt || "",
                     maxRound: maxRound,
+                    pattern: pattern+"-"+node.description,
                 };
                 const parentId = `step-${stepIdx}`;
                 const extent = "parent";
@@ -99,7 +101,7 @@ const CompileReactflow = async (config) => {
             inputNodes: Array.from(new Set(firstNodeIds)),
             outputNodes: Array.from(new Set(outputNodeIds)),
             outputMode: outputMode,
-            pattern: type,
+            pattern: pattern,
             maxRound: maxRound,
             runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
@@ -119,7 +121,8 @@ const CompileReactflow = async (config) => {
                     // type: edge.type, 
                     // TODO: change the edge types after customizing the edges
                     type: "default",
-                    label: edge.label });
+                    label: edge.label 
+                });
             }
         });
 

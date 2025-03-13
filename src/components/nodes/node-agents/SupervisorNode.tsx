@@ -7,10 +7,14 @@ const SingleAgentNode = ({ id, data }) => {
     <Box className="single-agent-node" sx={{p: 2, width: "260px"}}>
       {/* Input Handle (for connecting incoming edges) */}
       {/* <Handle type="source" position={Position.Right} id="right" /> */}
-      <Handle type="target" position={Position.Left} id={`in-${id}`} />
-      
+      <Handle type="target" position={Position.Left} id={`in-left-${id}`}/>
+      <Handle type="target" position={Position.Bottom} id={`bottom-${id}`} style={{left:250}}/>
+      <Handle type="source" position={Position.Right} id={`right-${id}`}/>
+      <Handle type="source" position={Position.Bottom} id={`bottom-${id}`} style={{left:50}}/>
+
+
       <Typography variant="h6" gutterBottom>
-        🤖 {data.label || "Single Agent"}
+        🤖 {data.label || "Supervisor"}
       </Typography>
 
        <Box mt={2} mb={2}>
@@ -84,8 +88,7 @@ const SingleAgentNode = ({ id, data }) => {
         </FormControl>
       </Box>
 
-      {/* Multiple Handles for Outputs */}
-      <Handle type="source" position={Position.Right} id={`out-${id}`} />
+     
     </Box>
   );
 };

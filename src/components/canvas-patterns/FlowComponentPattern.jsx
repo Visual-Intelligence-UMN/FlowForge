@@ -44,8 +44,11 @@ import set from "lodash.set";
 
 export function RflowComponent(props) {
 
-  const reactFlowInstance = useReactFlow();
-  const store = useStoreApi();
+  const {
+    fitView, 
+    setViewport,
+    setCenter
+    } = useReactFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
@@ -67,7 +70,6 @@ export function RflowComponent(props) {
     [setEdges]
   );
 
-  const {fitView, setViewport, zoomIn, zoomOut, setCenter} = useReactFlow();
 
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
@@ -142,20 +144,6 @@ export function RflowComponent(props) {
   const showContent = useStore(zoomSelector);
   const zoomRatio = useStore((s) => s.transform[2]);
 
-
-//   useEffect(() => {
-//     // console.log("showContent", showContent);
-
-//     const doRelayout = async () => {
-//       const { nodes: layoutedNodes, edges: layoutedEdges } = zoomOutLayout(nodes, edges);
-//       setNodes(layoutedNodes);
-//       setEdges(layoutedEdges);
-//       setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
-//     };
-  
-//     doRelayout();
-//   }, [showContent]);
-
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
     data: {
@@ -168,18 +156,22 @@ export function RflowComponent(props) {
 //   const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
   const panOnDrag = [1, 2];
 
-
   const handleNodeClick = useCallback((evt, node) => {
     if (node){
+        console.log("node", node);
+        // const eventX = evt.clientX;
+        // const eventY = evt.clientY;
         // const pattern = node.data.pattern.name;
         let x = node.position.x + node.measured.width / 2;
-        let y = node.position.y + node.measured.height / 0.9;
+        let y = node.position.y + node.measured.height / 0.8;
         // console.log("zoomRatio", zoomRatio);
 
         if (zoomRatio < 0.7){
             const zoom = 0.7;
             // todo: change the zoom ratio based on the pattern type?
             setCenter(x, y, { zoom, duration: 1000 });
+
+            // setViewport({ x: eventX, y: eventY, zoom: 0.7 }, { duration: 1000 });
         } else {
             x = x * 1.1;
             y = y * 0.6;

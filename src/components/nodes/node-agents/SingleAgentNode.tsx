@@ -13,7 +13,12 @@ const SingleAgentNode = ({ id, data }) => {
   return (
     <Box className="single-agent-node" sx={{p: 2, width: "260px"}}>
 
-      <Handle type="target" position={Position.Left} id={`in-${id}`} />
+      <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
+      <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+      <Handle type="source" position={Position.Top} id={`top-${id}`} />
+      <Handle type="target" position={Position.Top} id={`top-${id}`} />
+
+
       {"Step "+(Number(id.split("-")[1]))}
       <Typography variant="h6" gutterBottom>
         🤖 {data.label || "Single Agent"}
@@ -80,7 +85,7 @@ const SingleAgentNode = ({ id, data }) => {
       </Box>
 
       {/* Multiple Handles for Outputs */}
-      <Handle type="source" position={Position.Right} id={`out-${id}`} />
+     
     </Box>
   );
 };
