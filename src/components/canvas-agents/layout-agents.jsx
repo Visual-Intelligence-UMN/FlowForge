@@ -3,6 +3,7 @@ import dagre from 'dagre';
 /**
  * Layout using Dagre, clustering nodes by step (ex: 'step-1-node-X' → step = '1')
  * and ensuring supervision pattern nodes (Supervisor + Workers) stay close.
+ * Additionally, all step clusters are forced to share the same horizontal alignment.
  */
 export const layoutDagre = (nodes, edges, direction = 'LR') => {
   // 1) Initialize Dagre with compound graph = true (so we can use clusters).
@@ -107,12 +108,11 @@ export const layoutDagre = (nodes, edges, direction = 'LR') => {
       const supWidth = supervisorNode.measured?.width ?? defaultNodeWidth;
       const supHeight = supervisorNode.measured?.height ?? defaultNodeHeight;
 
-      // We'll keep the supervisor’s X from Dagre, but re-center the workers beneath it
+      // Keep the supervisor’s X from Dagre, and re-center the workers beneath it
       const supervisorCenterX = supervisorNode.position.x + supWidth / 2;
       const rowY = supervisorNode.position.y + supHeight + verticalGap;
 
       // Sort workers by their current X to keep them in a left-to-right sequence
-      // (You can skip sorting if you just want them in any order)
       workerNodes.sort((a, b) => a.position.x - b.position.x);
 
       // Calculate total width of workers placed in a row
@@ -132,14 +132,36 @@ export const layoutDagre = (nodes, edges, direction = 'LR') => {
         curX += wW + horizontalGap;
       });
     }
-    // If multiple supervisors or none, you can skip or do your own logic, e.g.:
-    // - If multiple, lay them out side by side, each with its workers.
-    // - If none, do nothing.
+    // If multiple supervisors or none, you can skip or do your own logic.
   });
 
+  // === New step: Adjust clusters to have the same horizontal (y) alignment ===
+  // Determine a global baseline (smallest y among all clusters)...
+  const allStepBaselines = [];
+  steps.forEach((step) => {
+    const clusterNodes = layoutedNonGroupNodes.filter(n => getStepFromId(n.id) === step);
+    if (clusterNodes.length) {
+      // Use the topmost (smallest) y value as the baseline for this cluster
+      const baseline = Math.min(...clusterNodes.map(n => n.position.y));
+      allStepBaselines.push(baseline);
+    }
+  });
+  if (allStepBaselines.length) {
+    const globalBaseline = Math.min(...allStepBaselines);
+    // For each cluster, shift nodes so that their top aligns with the globalBaseline
+    steps.forEach((step) => {
+      const clusterNodes = layoutedNonGroupNodes.filter(n => getStepFromId(n.id) === step);
+      if (clusterNodes.length) {
+        const clusterBaseline = Math.min(...clusterNodes.map(n => n.position.y));
+        const deltaY = globalBaseline - clusterBaseline;
+        clusterNodes.forEach(n => {
+          n.position.y += deltaY;
+        });
+      }
+    });
+  }
+
   // 7) Recombine potentially adjusted node positions
-  //    (We changed some positions in place, but to keep everything consistent, we might
-  //     reassign them to a final array.)
   layoutedNonGroupNodes = [...layoutedNonGroupNodes];
 
   // 8) Layout group nodes to encapsulate their children (same as your original logic)
