@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useLayoutEffect } from "react";
 import {
   ReactFlow,
   Background,
@@ -17,7 +17,6 @@ import {
 } from "@xyflow/react";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
-import { getLayoutedNodesAndEdgesInGroup } from "../../utils/layout/dagreUtils";
 import { layoutDagre } from "./layout-agents";
 import "@xyflow/react/dist/style.css";
 import "./xy-theme.css";
@@ -54,83 +53,77 @@ export function FlowComponentAgent(props) {
   // We assume data is in targetWorkflow.reactflowDisplay[0].graph
   let { nodes: initialNodes, edges: initialEdges } =
     targetWorkflow.reactflowDisplay[0].graph;
-  //   initialNodes = initialNodes.filter((node) => node.type !== "group");
-  //   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
 
-  console.log("initialEdges", initialEdges);
-  const edgesWithHandles = initialEdges.map(edge => {
+      // Keep local state for ReactFlow
+  const [nodes, setNodes] = useNodesState(initialNodes);
+  const [edges, setEdges] = useEdgesState(initialEdges);
 
-    if (edge.id.includes("Supervisor->Worker")) {
-      return {
-        ...edge,
-        sourceHandle: "bottom" + "-" + edge.source,
-        targetHandle: "top" + "-" + edge.target,
-        type: "default",
-        animated: true,
-      };
-    }
-
-    if (edge.id.includes("->Supervisor")) {
-      return {
-        ...edge,
-        sourceHandle: "top" + "-" + edge.source,
-        targetHandle: "bottom" + "-" + edge.target,
-        type: "default",
-        animated: true,
-      };
-    }
-
-    if (edge.id.includes("Evaluator->Optimizer")) {
-        return {
-            ...edge,
-            sourceHandle: "out-left" + "-" + edge.source,
-            targetHandle: "in-right" + "-" + edge.target,
-            type: "default",
-            animated: true,
-            style: {
-              stroke: "red",
-            },
-        };
-    }
-
-    if (edge.id.includes("Optimizer->Evaluator")) {
-        return {
-            ...edge,
-            sourceHandle: "out-right" + "-" + edge.source,
-            targetHandle: "in-left" + "-" + edge.target,
-            type: "default",
-            animated: true,
-        };
-    }
-    if (edge.id.includes("->Aggregator")) {
-        return {
-            ...edge,
-            type: "default",
-            sourceHandle: "out-right" + "-" + edge.source,
-            targetHandle: "in-left" + "-" + edge.target,
-            animated: true,
-        };
-    }
-    return edge;
-  });
-
-  // console.log("edgesWithHandles", edgesWithHandles);
-
-
-
-  const reactFlowInstance = useReactFlow();
   const {fitView} = useReactFlow();
 
-  // Keep local state for ReactFlow
-  const [nodes, setNodes, rawOnNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, rawOnEdgesChange] = useEdgesState(edgesWithHandles);
-
   useEffect(() => {
+
+    // const edgesWithHandles = initialEdges.map(edge => {
+
+    //   if (edge.id.includes("Supervisor->Worker")) {
+    //     return {
+    //       ...edge,
+    //       sourceHandle: "bottom" + "-" + edge.source,
+    //       targetHandle: "top" + "-" + edge.target,
+    //       type: "default",
+    //       animated: true,
+    //     };
+    //   }
+
+    //   if (edge.id.includes("->Supervisor")) {
+    //     return {
+    //       ...edge,
+    //       sourceHandle: "top" + "-" + edge.source,
+    //       targetHandle: "bottom" + "-" + edge.target,
+    //       type: "default",
+    //       animated: true,
+    //     };
+    //   }
+
+    //   if (edge.id.includes("Evaluator->Optimizer")) {
+    //       return {
+    //           ...edge,
+    //           sourceHandle: "out-left" + "-" + edge.source,
+    //           targetHandle: "in-right" + "-" + edge.target,
+    //           type: "default",
+    //           animated: true,
+    //           style: {
+    //             stroke: "red",
+    //           },
+    //       };
+    //   }
+
+    //   if (edge.id.includes("Optimizer->Evaluator")) {
+    //       return {
+    //           ...edge,
+    //           sourceHandle: "out-right" + "-" + edge.source,
+    //           targetHandle: "in-left" + "-" + edge.target,
+    //           type: "default",
+    //           animated: true,
+    //       };
+    //   }
+    //   if (edge.id.includes("->Aggregator")) {
+    //       return {
+    //           ...edge,
+    //           type: "default",
+    //           sourceHandle: "out-right" + "-" + edge.source,
+    //           targetHandle: "in-left" + "-" + edge.target,
+    //           animated: true,
+    //       };
+    //   }
+    //   return edge;
+    //   });
+    
     console.log("layout");
     const { nodes: layoutedNodes, edges: layoutedEdges } =
-      layoutDagre(nodes, edges);
+      layoutDagre(initialNodes, initialEdges);
 
-    setNodes(reorderNodesForReactFlow(layoutedNodes));
+    const reorderedNodes = reorderNodesForReactFlow(layoutedNodes);
+    setNodes(reorderedNodes);
     setEdges(layoutedEdges);
 
     setTimeout(() => {
@@ -138,8 +131,8 @@ export function FlowComponentAgent(props) {
         fitView({ padding: 0.2 });
       }
     }, 300);
-
   }, [props.nodes, props.edges, fitView]);
+
 
   const onNodesChange = useCallback(
     (changes) => {
@@ -152,27 +145,27 @@ export function FlowComponentAgent(props) {
     [setNodes, targetWorkflow]
   );
 
-  const onEdgesChange = useCallback(
-    (changes) => {
-      setEdges((prevEdges) => {
-        const newEdges = applyEdgeChanges(changes, prevEdges);
-        targetWorkflow.reactflowDisplay[0].graph.edges = newEdges;
-        return newEdges;
-      });
-    },
-    [setEdges, targetWorkflow]
-  );
+  // const onEdgesChange = useCallback(
+  //   (changes) => {
+  //     setEdges((prevEdges) => {
+  //       const newEdges = applyEdgeChanges(changes, prevEdges);
+  //       targetWorkflow.reactflowDisplay[0].graph.edges = newEdges;
+  //       return newEdges;
+  //     });
+  //   },
+  //   [setEdges, targetWorkflow]
+  // );
 
-  const onConnect: OnConnect = useCallback(
-    (connection) => {
-      setEdges((prevEdges) => {
-        const newEdges = addEdge(connection, prevEdges);
-        targetWorkflow.reactflowDisplay[0].graph.edges = newEdges;
-        return newEdges;
-      });
-    },
-    [setEdges, targetWorkflow]
-  );
+  // const onConnect: OnConnect = useCallback(
+  //   (connection) => {
+  //     setEdges((prevEdges) => {
+  //       const newEdges = addEdge(connection, prevEdges);
+  //       targetWorkflow.reactflowDisplay[0].graph.edges = newEdges;
+  //       return newEdges;
+  //     });
+  //   },
+  //   [setEdges, targetWorkflow]
+  // );
 
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) => {
@@ -209,11 +202,11 @@ export function FlowComponentAgent(props) {
     }
   }, []);
 
-  const handleEdgeClick = useCallback((evt, edge) => {
-    if (edge){
-      console.log("edge", edge);
-    }
-  }, []);
+  // const handleEdgeClick = useCallback((evt, edge) => {
+  //   if (edge){
+  //     console.log("edge", edge);
+  //   }
+  // }, []);
 
   return (
     <div
@@ -226,15 +219,15 @@ export function FlowComponentAgent(props) {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        // onEdgesChange={onEdgesChange}
+        // onConnect={onConnect}
         onNodeClick={handleNodeClick}
         // onEdgeClick={handleEdgeClick}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
         panOnScroll
         panOnDrag={panOnDrag}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.1}}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.2}}
         minZoom={0.1}
       >
         <Background />

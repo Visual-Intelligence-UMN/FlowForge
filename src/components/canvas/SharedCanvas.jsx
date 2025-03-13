@@ -157,7 +157,7 @@ const SharedCanvas = () => {
       } else {
         initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
         initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
-        console.log("initialNodes", initialNodes);
+        // console.log("initialNodes", initialNodes);
         return (
           <Box
             sx={{

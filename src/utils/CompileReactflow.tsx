@@ -165,6 +165,62 @@ const CompileReactflow = async (config) => {
         }
     });
 
+    const edgesWithHandles = reactflowEdges.map(edge => {
+
+        if (edge.id.includes("Supervisor->Worker")) {
+          return {
+            ...edge,
+            sourceHandle: "bottom" + "-" + edge.source,
+            targetHandle: "top" + "-" + edge.target,
+            type: "default",
+            animated: true,
+          };
+        }
+  
+        if (edge.id.includes("->Supervisor")) {
+          return {
+            ...edge,
+            sourceHandle: "top" + "-" + edge.source,
+            targetHandle: "bottom" + "-" + edge.target,
+            type: "default",
+            animated: true,
+          };
+        }
+  
+        if (edge.id.includes("Evaluator->Optimizer")) {
+            return {
+                ...edge,
+                sourceHandle: "out-left" + "-" + edge.source,
+                targetHandle: "in-right" + "-" + edge.target,
+                type: "default",
+                animated: true,
+                style: {
+                  stroke: "red",
+                },
+            };
+        }
+  
+        if (edge.id.includes("Optimizer->Evaluator")) {
+            return {
+                ...edge,
+                sourceHandle: "out-right" + "-" + edge.source,
+                targetHandle: "in-left" + "-" + edge.target,
+                type: "default",
+                animated: true,
+            };
+        }
+        if (edge.id.includes("->Aggregator")) {
+            return {
+                ...edge,
+                type: "default",
+                sourceHandle: "out-right" + "-" + edge.source,
+                targetHandle: "in-left" + "-" + edge.target,
+                animated: true,
+            };
+        }
+        return edge;
+        });
+
 
     // compile reactflow output
     const compiledReactflow = [{
@@ -172,7 +228,7 @@ const CompileReactflow = async (config) => {
         key: configId,
         graph: {
             nodes: reactflowNodes,
-            edges: reactflowEdges,
+            edges: edgesWithHandles,
             // viewport: { x: 0, y: 0, zoom: 1 }
         },
         stepMetadata, // store the step metadata dictionary for langgraph
