@@ -128,9 +128,9 @@ export function FlowComponentAgent(props) {
 
     setTimeout(() => {
       if (layoutedNodes.length) {
-        fitView({ padding: 0.2 });
+        fitView({ padding: 0.05, duration: 2000 });
       }
-    }, 300);
+    }, 500);
   }, [props.nodes, props.edges, fitView]);
 
 
@@ -227,7 +227,7 @@ export function FlowComponentAgent(props) {
         selectionMode={SelectionMode.Partial}
         panOnScroll
         panOnDrag={panOnDrag}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.2}}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
         minZoom={0.1}
       >
         <Background />
