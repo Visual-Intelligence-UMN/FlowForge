@@ -57,8 +57,9 @@ export function FlowComponentAgent(props) {
   //   initialNodes = initialNodes.filter((node) => node.type !== "group");
   //   initialEdges = initialEdges.filter((edge) => edge.type !== "stepGroup");
 
+  console.log("initialEdges", initialEdges);
   const edgesWithHandles = initialEdges.map(edge => {
-    // Check for condition when edge.id includes "Supervisor->Worker"
+
     if (edge.id.includes("Supervisor->Worker")) {
       return {
         ...edge,
@@ -79,13 +80,41 @@ export function FlowComponentAgent(props) {
       };
     }
 
-    if (edge.id.includes("->Optimizer")) {
+    if (edge.id.includes("Evaluator->Optimizer")) {
         return {
             ...edge,
-            sourceHandle: "right" + "-" + edge.source,
-            targetHandle: "left" + "-" + edge.target,
+            sourceHandle: "out-left" + "-" + edge.source,
+            targetHandle: "in-right" + "-" + edge.target,
             type: "default",
             animated: true,
+            style: {
+              stroke: "red",
+            },
+        };
+    }
+
+    if (edge.id.includes("Optimizer->Evaluator")) {
+        return {
+            ...edge,
+            sourceHandle: "out-right" + "-" + edge.source,
+            targetHandle: "in-left" + "-" + edge.target,
+            type: "default",
+            animated: true,
+            style: {
+              stroke: "red",
+            },
+        };
+    }
+    if (edge.id.includes("->Aggregator")) {
+        return {
+            ...edge,
+            type: "default",
+            sourceHandle: "out-right" + "-" + edge.source,
+            targetHandle: "in-left" + "-" + edge.target,
+            animated: true,
+            style: {
+              stroke: "red",
+            },
         };
     }
     return edge;
@@ -93,7 +122,7 @@ export function FlowComponentAgent(props) {
 
   // console.log("edgesWithHandles", edgesWithHandles);
 
-  
+
 
   const reactFlowInstance = useReactFlow();
   const {fitView} = useReactFlow();
@@ -204,7 +233,7 @@ export function FlowComponentAgent(props) {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        // onNodeClick={handleNodeClick}
+        onNodeClick={handleNodeClick}
         // onEdgeClick={handleEdgeClick}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}

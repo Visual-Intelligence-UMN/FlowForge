@@ -30,6 +30,29 @@ const SingleAgentNode = ({ id, data }) => {
         <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
         </>
       )
+    } else if (data.label.includes("Optimizer")) {
+      return (
+        <>
+        <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+        <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
+        <Handle type="target" position={Position.Right} id={`in-right-${id}`}  style={{top: "40%"}}/>
+        </>
+      )
+    } else if (data.label.includes("Summary") || data.label.includes("Aggregator")) {
+      return (
+        <>
+                <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+                <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
+        </>
+      )
+    } else if (data.label.includes("Evaluator")) {
+        return (
+          <>
+          <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+          <Handle type="source" position={Position.Left} id={`out-left-${id}`} />
+          <Handle type="target" position={Position.Left} id={`in-left-${id}`}  style={{top: "40%"}}/>
+        </>
+      )
     }
   }
 
