@@ -146,6 +146,10 @@ export function RflowComponent(props) {
 
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
+    style: {
+        ...(node.style || {}),
+        transition: "transform 0.5s ease"
+      },
     data: {
       ...node.data,
       updateNodeFieldset,

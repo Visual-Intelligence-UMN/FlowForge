@@ -10,14 +10,14 @@ export const layoutDagre = (nodes, edges, direction = 'LR') => {
   const dagreGraph = new dagre.graphlib.Graph({ multigraph: true, compound: true });
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const defaultNodeWidth = 200;
-  const defaultNodeHeight = 200;
+  const defaultNodeWidth = 300;
+  const defaultNodeHeight = 510;
 
   // Tweak ranksep (distance between clusters/steps) and nodesep (distance between nodes in same cluster).
   dagreGraph.setGraph({
     rankdir: direction,  // 'LR' = left-to-right
     ranksep: 200,        // bigger gap between steps
-    nodesep: 100         // smaller gap among nodes within a step
+    nodesep: 100         // smaller gaps among nodes within a step
   });
 
   // Separate group vs. non-group

@@ -187,6 +187,10 @@ export function FlowComponentAgent(props) {
 
   const modifiedNodes = nodes.map((node) => ({
     ...node,
+    style: {
+      ...(node.style || {}),
+      transition: "transform 0.5s ease"
+    },
     data: {
       ...node.data,
       updateNodeFieldset,

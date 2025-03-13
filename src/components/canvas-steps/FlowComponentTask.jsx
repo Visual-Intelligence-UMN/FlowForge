@@ -103,7 +103,7 @@ export function FlowComponentTask(props) {
 
     setTimeout(() => {
       if (layoutedNodes.length) {
-        fitView({ padding: 0.2 });
+        fitView({ padding: 0.2, duration: 1000 });
       }
     }, 10);
   }, [targetWorkflow, setNodes, setEdges, fitView]);
@@ -274,6 +274,10 @@ export function FlowComponentTask(props) {
   };
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
+    style: {
+      ...(node.style || {}),
+      transition: "transform 0.5s ease"
+    },
     data: {
       ...node.data,
       updateNodeField,
