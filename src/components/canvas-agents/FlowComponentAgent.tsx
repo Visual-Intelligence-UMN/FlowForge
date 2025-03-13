@@ -126,6 +126,7 @@ export function FlowComponentAgent(props) {
   const [edges, setEdges, rawOnEdgesChange] = useEdgesState(edgesWithHandles);
 
   useEffect(() => {
+    console.log("layout");
     const { nodes: layoutedNodes, edges: layoutedEdges } =
       layoutDagre(nodes, edges);
 
@@ -136,9 +137,9 @@ export function FlowComponentAgent(props) {
       if (layoutedNodes.length) {
         fitView({ padding: 0.2 });
       }
-    }, 100);
+    }, 300);
 
-  }, [setNodes, setEdges, fitView]);
+  }, [props.nodes, props.edges, fitView]);
 
   const onNodesChange = useCallback(
     (changes) => {

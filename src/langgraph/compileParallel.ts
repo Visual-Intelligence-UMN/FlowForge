@@ -31,7 +31,11 @@ const compileParallel = async (workflow, nodesInfo, stepEdges, AgentsState) => {
             workflow.addEdge(edge.source, edge.target);
         }
     }
-    workflow.addEdge(aggregatorNode.id, aggregatorTarget);
+    if (aggregatorTarget.length > 0) {
+        workflow.addEdge(aggregatorNode.id, aggregatorTarget[0])
+    } else {
+        workflow.addEdge(aggregatorNode.id, "__end__")
+    }
  
     return workflow;
     
