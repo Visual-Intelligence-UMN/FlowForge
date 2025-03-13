@@ -1,44 +1,77 @@
 import dagre from 'dagre';
+
+/**
+ * Layout using Dagre, clustering nodes by step (ex: 'step-1-node-X' → step = '1')
+ * and ensuring supervision pattern nodes (Supervisor + Workers) stay close.
+ */
 export const layoutDagre = (nodes, edges, direction = 'LR') => {
-  const dagreGraph = new dagre.graphlib.Graph();
+  // 1) Initialize Dagre with compound graph = true (so we can use clusters).
+  const dagreGraph = new dagre.graphlib.Graph({ multigraph: true, compound: true });
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const defaultNodeWidth = 300;
-  const defaultNodeHeight = 420;
+  const defaultNodeWidth = 200;
+  const defaultNodeHeight = 200;
 
+  // Tweak ranksep (distance between clusters/steps) and nodesep (distance between nodes in same cluster).
   dagreGraph.setGraph({
-    rankdir: direction,
-    ranksep: 300,
-    nodesep: 200
+    rankdir: direction,  // 'LR' = left-to-right
+    ranksep: 200,        // bigger gap between steps
+    nodesep: 100         // smaller gap among nodes within a step
   });
 
-  const groupNodes = nodes.filter((node) => node.type === 'group');
-  const nonGroupNodes = nodes.filter((node) => node.type !== 'group');
+  // Separate group vs. non-group
+  const groupNodes = nodes.filter((n) => n.type === 'group');
+  const nonGroupNodes = nodes.filter((n) => n.type !== 'group');
 
-  // Set each non-group node in dagre
+  // Extract "step" from a node's ID, e.g. "step-1-node-Supervisor" -> step = "1"
+  const getStepFromId = (nodeId) => {
+    // Feel free to adjust this regex if your ID format is different
+    const match = nodeId.match(/step-(\d+)/);
+    return match?.[1] ?? 'unknown';
+  };
+
+  // 2) Collect unique steps
+  const steps = new Set(nonGroupNodes.map((n) => getStepFromId(n.id)));
+
+  // Add each step as a "cluster node" in Dagre
+  steps.forEach((step) => {
+    dagreGraph.setNode(`cluster-${step}`, {
+      label: `step-${step}`,
+      clusterLabelPos: 'top'
+    });
+  });
+
+  // 3) Add non-group nodes into the graph
   nonGroupNodes.forEach((node) => {
     const width = node.measured?.width ?? defaultNodeWidth;
     const height = node.measured?.height ?? defaultNodeHeight;
     dagreGraph.setNode(node.id, { width, height });
+
+    // Place into that step's cluster
+    const step = getStepFromId(node.id);
+    dagreGraph.setParent(node.id, `cluster-${step}`);
   });
 
-  // Set edges in dagre
+  // 4) Add edges into Dagre
   edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
+    // If you need distinct edges in a multigraph, pass a unique name as 4th param
+    dagreGraph.setEdge(edge.source, edge.target, {}, edge.id || undefined);
   });
 
-  // Compute layout via dagre
+  // 5) Compute layout
   dagre.layout(dagreGraph);
 
-  // Apply positions computed by dagre
-  const layoutedNonGroupNodes = nonGroupNodes.map((node) => {
+  // 6) Apply the Dagre-computed positions to your non-group nodes
+  let layoutedNonGroupNodes = nonGroupNodes.map((node) => {
     const dagreNode = dagreGraph.node(node.id);
+    const w = node.measured?.width ?? defaultNodeWidth;
+    const h = node.measured?.height ?? defaultNodeHeight;
+
     return {
       ...node,
       position: {
-        // Adjust to get the top-left corner:
-        x: dagreNode.x - (node.measured?.width ?? defaultNodeWidth) / 2,
-        y: dagreNode.y - (node.measured?.height ?? defaultNodeHeight) / 2
+        x: dagreNode.x - w / 2,
+        y: dagreNode.y - h / 2
       },
       style: {
         ...node.style,
@@ -47,107 +80,110 @@ export const layoutDagre = (nodes, edges, direction = 'LR') => {
     };
   });
 
-  // === Additional adjustment for supervision nodes ===
-  // Identify the supervisor node and all worker nodes.
-  const supervisorNode = layoutedNonGroupNodes.find(
-    (node) => node.data.pattern === 'supervision-Supervisor'
-  );
-  const workerNodes = layoutedNonGroupNodes.filter(
-    (node) => node.data.pattern.includes('supervision-Worker')
-  );
+  // === Custom step: post-process each step to group Supervisor + Workers ===
+  // For each step cluster, we look for "supervision-Supervisor" and any "supervision-Worker" nodes,
+  // and forcibly place them close together (supervisor above, workers in a row).
+  // This ensures they don't end up scattered by Dagre’s default approach.
+  const verticalGap = 50;
+  const horizontalGap = 50;
 
-  if (supervisorNode) {
-    const verticalGap = 50; // gap between supervisor and workers
-    const horizontalGap = 50; // gap between adjacent worker nodes
-    const supervisorWidth = supervisorNode.measured?.width ?? defaultNodeWidth;
-    const supervisorHeight = supervisorNode.measured?.height ?? defaultNodeHeight;
-    const supervisorCenterX = supervisorNode.position.x + supervisorWidth / 2;
-    
-    // Try to locate the next step node:
-    // (i.e. a node that is not a worker, not the supervisor itself, and that lies further right)
-    const nextStepCandidate = layoutedNonGroupNodes
-      .filter((node) => {
-        return (
-          node.id !== supervisorNode.id &&
-          !node.data.pattern.includes('supervision-Worker') &&
-          node.position.x > supervisorNode.position.x
-        );
-      })
-      .sort((a, b) => a.position.x - b.position.x)[0];
+  steps.forEach((step) => {
+    const clusterNodes = layoutedNonGroupNodes.filter(
+      (n) => getStepFromId(n.id) === step
+    );
+    if (!clusterNodes.length) return;
 
-    if (nextStepCandidate) {
-      // Align the supervisor's y coordinate with that of the next step node.
-      supervisorNode.position.y = nextStepCandidate.position.y;
-    }
-
-    // Arrange worker nodes under the supervisor:
-    if (workerNodes.length > 0) {
-      // Calculate total width required for worker nodes.
-      const totalWorkersWidth =
-        workerNodes.reduce(
-          (sum, node) => sum + (node.measured?.width ?? defaultNodeWidth),
-          0
-        ) + horizontalGap * (workerNodes.length - 1);
-
-      // The starting x coordinate for the first worker to center them under the supervisor.
-      let currentX = supervisorCenterX - totalWorkersWidth / 2;
-      // Place workers below the (possibly realigned) supervisor.
-      const workerY = supervisorNode.position.y + supervisorHeight + verticalGap;
-
-      workerNodes.forEach((workerNode) => {
-        const nodeWidth = workerNode.measured?.width ?? defaultNodeWidth;
-        workerNode.position.x = currentX;
-        workerNode.position.y = workerY;
-        currentX += nodeWidth + horizontalGap;
-      });
-    }
-  }
-  // =======================================================
-
-  // Process group nodes to encapsulate their children.
-  const layoutedGroupNodes = groupNodes.map((groupNode) => {
-    const childNodes = layoutedNonGroupNodes.filter(
-      (node) => node.parentNode === groupNode.id || node.parentId === groupNode.id
+    // Possibly you only expect one Supervisor per step, but we’ll gather them just in case
+    const supervisorNodes = clusterNodes.filter(
+      (n) => n.data?.pattern === 'supervision-Supervisor'
+    );
+    const workerNodes = clusterNodes.filter(
+      (n) => n.data?.pattern?.includes('supervision-Worker')
     );
 
-    if (childNodes.length > 0) {
-      const padding = 20;
-      const minX = Math.min(...childNodes.map((n) => n.position.x)) - padding;
-      const minY = Math.min(...childNodes.map((n) => n.position.y)) - padding;
-      const maxX = Math.max(
-        ...childNodes.map((n) => n.position.x + (n.measured?.width ?? defaultNodeWidth))
-      ) + padding;
-      const maxY = Math.max(
-        ...childNodes.map((n) => n.position.y + (n.measured?.height ?? defaultNodeHeight))
-      ) + padding;
+    // If exactly one supervisor, place the workers in a horizontal row below it
+    if (supervisorNodes.length === 1 && workerNodes.length > 0) {
+      const [supervisorNode] = supervisorNodes;
+      const supWidth = supervisorNode.measured?.width ?? defaultNodeWidth;
+      const supHeight = supervisorNode.measured?.height ?? defaultNodeHeight;
 
-      // Also adjust child nodes positions relative to the group node's new top-left
-      childNodes.forEach((child) => {
-        child.position = {
-          x: child.position.x - minX,
-          y: child.position.y - minY
-        };
+      // We'll keep the supervisor’s X from Dagre, but re-center the workers beneath it
+      const supervisorCenterX = supervisorNode.position.x + supWidth / 2;
+      const rowY = supervisorNode.position.y + supHeight + verticalGap;
+
+      // Sort workers by their current X to keep them in a left-to-right sequence
+      // (You can skip sorting if you just want them in any order)
+      workerNodes.sort((a, b) => a.position.x - b.position.x);
+
+      // Calculate total width of workers placed in a row
+      const totalWorkersWidth = workerNodes.reduce((acc, wNode) => {
+        const wW = wNode.measured?.width ?? defaultNodeWidth;
+        return acc + wW;
+      }, 0) + horizontalGap * (workerNodes.length - 1);
+
+      // Starting X so that all workers are centered under the supervisor
+      let curX = supervisorCenterX - totalWorkersWidth / 2;
+
+      // Update worker positions
+      workerNodes.forEach((wNode) => {
+        const wW = wNode.measured?.width ?? defaultNodeWidth;
+        wNode.position.x = curX;
+        wNode.position.y = rowY;
+        curX += wW + horizontalGap;
       });
+    }
+    // If multiple supervisors or none, you can skip or do your own logic, e.g.:
+    // - If multiple, lay them out side by side, each with its workers.
+    // - If none, do nothing.
+  });
 
+  // 7) Recombine potentially adjusted node positions
+  //    (We changed some positions in place, but to keep everything consistent, we might
+  //     reassign them to a final array.)
+  layoutedNonGroupNodes = [...layoutedNonGroupNodes];
+
+  // 8) Layout group nodes to encapsulate their children (same as your original logic)
+  const layoutedGroupNodes = groupNodes.map((groupNode) => {
+    const children = layoutedNonGroupNodes.filter(
+      (n) => n.parentNode === groupNode.id || n.parentId === groupNode.id
+    );
+    if (!children.length) {
       return {
         ...groupNode,
-        position: { x: minX, y: minY },
-        style: {
-          ...groupNode.style,
-          width: maxX - minX,
-          height: maxY - minY,
-          position: 'absolute'
-        }
+        style: { ...groupNode.style, position: 'absolute' }
       };
     }
 
+    const padding = 20;
+    const minX = Math.min(...children.map((n) => n.position.x)) - padding;
+    const minY = Math.min(...children.map((n) => n.position.y)) - padding;
+    const maxX = Math.max(
+      ...children.map((n) => n.position.x + (n.measured?.width ?? defaultNodeWidth))
+    ) + padding;
+    const maxY = Math.max(
+      ...children.map((n) => n.position.y + (n.measured?.height ?? defaultNodeHeight))
+    ) + padding;
+
+    // Shift children to be relative to group top-left (0,0)
+    children.forEach((child) => {
+      child.position = {
+        x: child.position.x - minX,
+        y: child.position.y - minY
+      };
+    });
+
     return {
       ...groupNode,
-      style: { ...groupNode.style, position: 'absolute' }
+      position: { x: minX, y: minY },
+      style: {
+        ...groupNode.style,
+        width: maxX - minX,
+        height: maxY - minY,
+        position: 'absolute'
+      }
     };
   });
 
   const layoutedNodes = [...layoutedNonGroupNodes, ...layoutedGroupNodes];
-
   return { nodes: layoutedNodes, edges };
 };

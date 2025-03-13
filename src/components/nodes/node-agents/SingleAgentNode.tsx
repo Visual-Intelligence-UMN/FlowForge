@@ -23,7 +23,7 @@ const SingleAgentNode = ({ id, data }) => {
         <Handle type="target" position={Position.Top} id={`top-${id}`} />
         </>
       )
-    } else if (data.label.includes("Agent")) {
+    } else if (data.label.includes("Agent") && data.pattern.includes("parallel")) {
       return (
         <>
         <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
@@ -49,8 +49,31 @@ const SingleAgentNode = ({ id, data }) => {
         return (
           <>
           <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
-          <Handle type="source" position={Position.Left} id={`out-left-${id}`} />
-          <Handle type="target" position={Position.Left} id={`in-left-${id}`}  style={{top: "40%"}}/>
+          <Handle type="source" position={Position.Left} id={`out-left-${id}`} style={{top: "40%"}}/>
+          <Handle type="target" position={Position.Left} id={`in-left-${id}`}  />
+        </>
+      )
+    } else if (data.label.includes("Agent") && data.pattern.includes("discussion")) {
+      if (data.label.includes("Agent1")) {
+        return (
+          <>
+          <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+          <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
+          </>
+        )
+      } else {
+        return (
+          <>
+          <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+          {/* <Handle type="target" position={Position.Left} id={`in-left-${id}`} /> */}
+          </>
+        )
+      }
+    } else {
+      return (
+        <>
+        <Handle type="source" position={Position.Right} id={`out-right-${id}`} />
+        <Handle type="target" position={Position.Left} id={`in-left-${id}`} />
         </>
       )
     }

@@ -100,9 +100,6 @@ export function FlowComponentAgent(props) {
             targetHandle: "in-left" + "-" + edge.target,
             type: "default",
             animated: true,
-            style: {
-              stroke: "red",
-            },
         };
     }
     if (edge.id.includes("->Aggregator")) {
@@ -112,9 +109,6 @@ export function FlowComponentAgent(props) {
             sourceHandle: "out-right" + "-" + edge.source,
             targetHandle: "in-left" + "-" + edge.target,
             animated: true,
-            style: {
-              stroke: "red",
-            },
         };
     }
     return edge;
@@ -244,7 +238,7 @@ export function FlowComponentAgent(props) {
       >
         <Background />
         <Controls />
-        <MiniMap />
+        {/* <MiniMap /> */}
       </ReactFlow>
     </div>
   );
