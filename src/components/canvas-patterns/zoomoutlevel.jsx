@@ -27,7 +27,7 @@ const CircleIcon = ({ label }) => {
   );
 };
 
-export const ZoomOutDisplay = ({ pattern, template }) => {
+export const PatternIcons = ({ pattern, template }) => {
   if (!pattern) return null;
 
   const line = (x1, y1, x2, y2, key) => (

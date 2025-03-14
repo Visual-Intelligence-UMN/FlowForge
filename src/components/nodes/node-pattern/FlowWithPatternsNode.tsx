@@ -9,14 +9,10 @@ import { ReflectionForm } from "../../templates/template-reflection/ReflectionFo
 import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
 import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
-import { ZoomOutDisplay } from "../../canvas-patterns/zoomoutlevel";
-
+import { PatternIcons } from "../../canvas-patterns/zoomoutlevel";
 import Grow from '@mui/material/Grow';
 
-import { iconMap } from "../../../images/iconsMap";
-
 // import { useStore } from "reactflow";
-
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
@@ -142,66 +138,29 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-  return (
-    <Box
-      sx={{
-        padding: 2,
-        border: "1px solid #ddd",
-        borderRadius: 4,
-        backgroundColor: "#fff",
-        minWidth: patternWidthMap[patternName]?.[0] || 100,
-        textAlign: "center",
-        maxWidth: patternWidthMap[patternName]?.[1] || 100,
-        boxShadow: 2,
-        gap: 0,
-        transition: "all 0.3s ease-in-out",
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`in-${id}`}
-        isConnectable={isConnectable}
-        style={{ top: "50%", background: "blue" }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`out-${id}`}
-        isConnectable={isConnectable}
-        style={{ top: "50%", background: "#555" }}
-      />
 
+  const iconsDisplay = () => {
+    return (
       <Box
-        sx={{
-          display: "flex",
-          flex: 1,
-          gap: 1,
-          padding: 1,
-        }}
-      >
-        <Box
           sx={{
+            transition: "opacity 0.5s ease-in-out",
+            opacity: 1,
             display: "flex",
-            flexDirection: "column",
-            maxWidth: "80%",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+            // backgroundColor: "#f0f0f0",
+            border: "1px solid #ddd",
           }}
         >
-          <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
-            {id}
-          </Typography>
-          {patternSelect()}
-          {confirmButton()}
+          <PatternIcons pattern={data.pattern} template={data.template} />
         </Box>
+    );
+  };
 
-        {taskDescription()}
-
-        <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
-          {/* You can place an icon here if you like */}
-        </Box>
-      </Box>
-
-      {showContent ? (
+  const detailedTemplate = () => {
+    return (
         <Box
           sx={{
             maxWidth: "100%",
@@ -212,23 +171,91 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         >
           {patternForm()}
         </Box>
-      ) : (
+    );
+  };
+
+  const nodeHandles = () => {
+    return (
+      <>
+        <Handle
+          type="target"
+          position={Position.Left}
+          id={`in-${id}`}
+          isConnectable={isConnectable}
+          style={{ top: "50%", background: "blue" }}
+    />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id={`out-${id}`}
+        isConnectable={isConnectable}
+          style={{ top: "50%", background: "#555" }}
+        />
+      </>
+    );
+  };
+
+  const stepNumber = () => {
+    return (
+      <Typography 
+        sx={{ 
+          fontWeight: "bold", 
+          fontSize: "22px",
+          m: 0 
+        }}
+      >
+        Step {id.split("-")[1]}
+      </Typography>
+    );
+  };
+
+
+  const ZoomOutLevel = () => {
+    return (
+      <Box
+        sx={{
+          padding: 2,
+          border: "1px solid #ddd",
+          borderRadius: 4,
+          backgroundColor: "#fff",
+          minWidth: patternWidthMap[patternName]?.[0] || 100,
+          textAlign: "center",
+          maxWidth: patternWidthMap[patternName]?.[1] || 100,
+          boxShadow: 2,
+          gap: 0,
+          transition: "all 0.3s ease-in-out",
+        }}
+    >
+      {nodeHandles()}
+      <Box
+        sx={{
+          display: "flex",
+          flex: 1,
+          gap: 1,
+          // padding: 1,
+        }}
+      >
         <Box
           sx={{
-            transition: "opacity 0.5s ease-in-out",
-            opacity: 1,
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-            backgroundColor: "#f0f0f0",
+            flexDirection: "column",
+            maxWidth: "100%",
           }}
         >
-          <ZoomOutDisplay pattern={data.pattern} template={data.template} />
+          {stepNumber()}
+          {patternSelect()}
         </Box>
-      )}
+
+        {/* {taskDescription()} */}
+        {iconsDisplay()}
+
+      </Box>
 
     </Box>
+    );
+  };
+
+  return (
+    <ZoomOutLevel />
   );
 };
