@@ -127,6 +127,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         sx={{
           flex: 1,
           display: "flex",
+          transition: "all 0.3s ease-in-out",
         }}
       >
         <Typography
@@ -395,7 +396,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   //       maxWidth: patternWidthMap[patternName]?.[1] || 100,
   //       boxShadow: 2,
   //       gap: 0,
-  //       transition: "all 1s ease-in-out",
+  //       transition: "all 0.5s ease-in-out",
   //     }}
   //   >
   //     <Handle
@@ -513,26 +514,35 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           maxWidth: "80%",
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
-          {id}
-        </Typography>
+        {stepNumber()}
         {patternSelect()}
-        {confirmButton()}
+        {/* {confirmButton()} */}
       </Box>
 
-      {taskDescription()}
+      {showContent ? taskDescription() : iconsDisplay()}
 
-      <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
-        {/* You can place an icon here if you like */}
-      </Box>
     </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            {showContent ? iconsDisplay() : null}
+            {computationCost()}
+            {explanation()}
+            
+          </Box>
 
     {showContent ? (
       <Box
         sx={{
           maxWidth: "100%",
           backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-          transition: "opacity 0.3s ease-in-out",
+          transition: "all 0.3s ease-in-out",
           opacity: 1,
         }}
       >
@@ -541,15 +551,16 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     ) : (
       <Box
         sx={{
-          transition: "opacity 0.3s ease-in-out",
+          transition: "all 0.3s ease-in-out",
           opacity: 1,
         }}
       >
-        <PatternIcons pattern={data.pattern} template={data.template} />
+        {/* <PatternIcons pattern={data.pattern} template={data.template} /> */}
       </Box>
     )}
 
   </Box>
+    // <ZoomInZoomOut />
     // showContent ? <ZoomInLevel /> : <ZoomOutLevel />
   );
 };
