@@ -1,11 +1,13 @@
 {
     "Single Agent": {
         "confirm": false,
+        "maxRound": 1,
         "persona": "Single Agent",
         "goal": "Single Agent"
     }, 
     "Validator": {
         "confirm": false, 
+        "maxRound": 1,
         "persona": "Validator",
         "goal": "Validator",
         "patternPrompt": "You are a validator. You are given a task and a set of requirements. You need to validate the task based on the requirements."
@@ -74,6 +76,7 @@
     },
     "Parallel": {
         "confirm": false,
+        "maxRound": 1,
         "withAggregation": true,
         "agents": [
             {

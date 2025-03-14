@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
+import { Box, Typography, Select, MenuItem, Button, Tooltip } from "@mui/material";
 import { designPatternsPool } from "../../../patterns/patternsData";
 import { designPatternsTemplate } from "../../../patterns/patternsData";
 import { SingleAgentForm } from "../../templates/template-agent/SingleAgentForm";
@@ -9,14 +9,9 @@ import { ReflectionForm } from "../../templates/template-reflection/ReflectionFo
 import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
 import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
-import { ZoomOutDisplay } from "../../canvas-patterns/zoomoutlevel";
-
+import { PatternIcons } from "../../canvas-patterns/PatternIcons";
+import { calculateCost } from "./helpers";
 import Grow from '@mui/material/Grow';
-
-import { iconMap } from "../../../images/iconsMap";
-
-// import { useStore } from "reactflow";
-
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
@@ -24,8 +19,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   }
   const { updateNodeFieldset } = data;
   const showContent = data.showContent;
-  // console.log("showContent", showContent);
-
+  // const showContent = false;
   const patternName = data.pattern?.name || "";
 
   const handleSelectPattern = (event) => {
@@ -70,7 +64,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
-    default: [100, 100], // fallback
+    default: [100, 100],
   };
 
   const patternSelect = () => {
@@ -81,6 +75,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         onChange={handleSelectPattern}
         size="small"
         sx={{
+          fontSize: "16px",
           marginBottom: 1,
           maxWidth: 150,
           backgroundColor: "#e3f2fd",
@@ -94,7 +89,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         className="nodrag nopan"
       >
         {designPatternsPool.map((pattern) => (
-          <MenuItem key={pattern.name} value={pattern.name}>
+          <MenuItem 
+            key={pattern.name} 
+            value={pattern.name}
+            sx={{
+              cursor: "pointer",
+              fontSize: "12px",
+            }}
+          >
             {pattern.name}
           </MenuItem>
         ))}
@@ -141,87 +143,413 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-  return (
-    <Box
-      sx={{
-        padding: 2,
-        border: "1px solid #ddd",
-        borderRadius: 4,
-        backgroundColor: "#fff",
-        minWidth: patternWidthMap[patternName]?.[0] || 100,
-        textAlign: "center",
-        maxWidth: patternWidthMap[patternName]?.[1] || 100,
-        boxShadow: 2,
-        gap: 0,
-        transition: "all 0.3s ease-in-out",
-      }}
-    >
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`in-${id}`}
-        isConnectable={isConnectable}
-        style={{ top: "50%", background: "blue" }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`out-${id}`}
-        isConnectable={isConnectable}
-        style={{ top: "50%", background: "#555" }}
-      />
-
+  const iconsDisplay = () => {
+    return (
       <Box
         sx={{
+          transition: "opacity 0.3s ease-in-out",
+          opacity: 1,
           display: "flex",
-          flex: 1,
-          gap: 1,
-          padding: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+          border: "1px solid #ddd",
         }}
       >
+        <PatternIcons pattern={data.pattern} template={data.template} />
+      </Box>
+    );
+  };
+
+  const detailedTemplate = () => {
+    return (
+      <Box
+        sx={{
+          maxWidth: "100%",
+          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+          transition: "opacity 0.3s ease-in-out",
+          opacity: 1,
+        }}
+      >
+        {patternForm()}
+      </Box>
+    );
+  };
+
+  const nodeHandles = () => {
+    return (
+      <>
+        <Handle
+          type="target"
+          position={Position.Left}
+          id={`in-${id}`}
+          isConnectable={isConnectable}
+          style={{ top: "50%", background: "blue" }}
+        />
+        <Handle
+          type="source"
+          position={Position.Right}
+          id={`out-${id}`}
+          isConnectable={isConnectable}
+          style={{ top: "50%", background: "#555" }}
+        />
+      </>
+    );
+  };
+
+  const stepNumber = () => {
+    return (
+      <Typography 
+        sx={{ 
+          fontWeight: "bold", 
+          fontSize: "22px",
+          m: 0 
+        }}
+      >
+        Step {id.split("-")[1]}
+      </Typography>
+    );
+  };
+
+  const computationCost = () => {
+    const { calls, runtime } = calculateCost(data.pattern, data.template);
+    return (
+      <Typography
+        sx={{
+          fontSize: "18px",
+          fontWeight: "bold",
+        }}
+      >
+        {calls} LLM calls
+      </Typography>
+    );
+  };
+
+  const explanation = () => {
+    const explanation = data.pattern.description;
+    const placeholder = "This pattern is suitable because it optimizes cost and efficiency.";
+    return (
+      <Tooltip 
+        title={explanation || placeholder} 
+        arrow
+        placement="right"
+        componentsProps={{
+          tooltip: {
+            sx: {
+              maxWidth: "150px",
+            },
+          },
+        }}
+      >
+        <Button
+          size="small"
+          variant="outlined"
+        >
+          ?
+        </Button>
+      </Tooltip>
+    );
+  };
+
+  // Existing ZoomOutLevel remains intact
+  const ZoomOutLevel = () => {
+    return (
+      <Box
+        sx={{
+          padding: 2,
+          border: "1px solid #ddd",
+          borderRadius: 4,
+          backgroundColor: "#fff",
+          minWidth: patternWidthMap[patternName]?.[0] || 100,
+          textAlign: "center",
+          maxWidth: patternWidthMap[patternName]?.[1] || 100,
+          boxShadow: 2,
+          gap: 0,
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
+        {nodeHandles()}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            maxWidth: "80%",
+            gap: 1,
+            padding: 1,
           }}
         >
-          <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
-            {id}
-          </Typography>
-          {patternSelect()}
-          {confirmButton()}
-        </Box>
+          {/* Top row: step number and pattern select centered */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            {stepNumber()}
+            {patternSelect()}
+          </Box>
 
-        {taskDescription()}
+          {/* Second row: menu */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            {computationCost()}
+            {explanation()}
+            {/* <Button size="small" variant="outlined">
+              +
+            </Button> */}
+          </Box>
 
-        <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
-          {/* You can place an icon here if you like */}
+          {/* Icons display row */}
+          <Box sx={{ marginTop: 1 }}>
+            {iconsDisplay()}
+          </Box>
         </Box>
       </Box>
+    );
+  };
 
-      {showContent ? (
+  // New ZoomInLevel as per request
+  const ZoomInLevel = () => {
+    return (
+      <Box
+        sx={{
+          padding: 2,
+          border: "1px solid #ddd",
+          borderRadius: 4,
+          backgroundColor: "#fff",
+          minWidth: patternWidthMap[patternName]?.[0] || 100,
+          maxWidth: patternWidthMap[patternName]?.[1] || 100,
+          boxShadow: 2,
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
+        {nodeHandles()}
         <Box
           sx={{
-            maxWidth: "100%",
-            backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-            transition: "opacity 0.3s ease-in-out",
-            opacity: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
           }}
         >
-          {patternForm()}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            transition: "opacity 0.5s ease-in-out",
-            opacity: 1,
-          }}
-        >
-          <ZoomOutDisplay pattern={data.pattern} template={data.template} />
-        </Box>
-      )}
+          {/* Top row: left side shows step number and pattern select; right side shows task description */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+              }}
+            >
+              {stepNumber()}
+              {patternSelect()}
+            </Box>
+            {taskDescription()}
+          </Box>
 
+          {/* Second row: cost and explanation */}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 3,
+              alignItems: "center",
+            }}
+          >
+            {computationCost()}
+            {explanation()}
+          </Box>
+
+          {/* Third row: detailed template */}
+          <Box>
+            {detailedTemplate()}
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
+
+
+  // const ZoomInZoomOut = () => {
+  //   return (
+  //     <Box
+  //     sx={{
+  //       padding: 2,
+  //       border: "1px solid #ddd",
+  //       borderRadius: 4,
+  //       backgroundColor: "#fff",
+  //       minWidth: patternWidthMap[patternName]?.[0] || 100,
+  //       textAlign: "center",
+  //       maxWidth: patternWidthMap[patternName]?.[1] || 100,
+  //       boxShadow: 2,
+  //       gap: 0,
+  //       transition: "all 1s ease-in-out",
+  //     }}
+  //   >
+  //     <Handle
+  //       type="target"
+  //       position={Position.Left}
+  //       id={`in-${id}`}
+  //       isConnectable={isConnectable}
+  //       style={{ top: "50%", background: "blue" }}
+  //     />
+  //     <Handle
+  //       type="source"
+  //       position={Position.Right}
+  //       id={`out-${id}`}
+  //       isConnectable={isConnectable}
+  //       style={{ top: "50%", background: "#555" }}
+  //     />
+
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         flex: 1,
+  //         gap: 1,
+  //         padding: 1,
+  //       }}
+  //     >
+  //       <Box
+  //         sx={{
+  //           display: "flex",
+  //           flexDirection: "column",
+  //           maxWidth: "80%",
+  //         }}
+  //       >
+  //         <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
+  //           {id}
+  //         </Typography>
+  //         {patternSelect()}
+  //         {confirmButton()}
+  //       </Box>
+
+  //       {taskDescription()}
+
+  //       <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
+  //         {/* You can place an icon here if you like */}
+  //       </Box>
+  //     </Box>
+
+  //     {showContent ? (
+  //       <Box
+  //         sx={{
+  //           maxWidth: "100%",
+  //           backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+  //           transition: "opacity 0.3s ease-in-out",
+  //           opacity: 1,
+  //         }}
+  //       >
+  //         {patternForm()}
+  //       </Box>
+  //     ) : (
+  //       <Box
+  //         sx={{
+  //           transition: "opacity 0.5s ease-in-out",
+  //           opacity: 1,
+  //         }}
+  //       >
+  //         <PatternIcons pattern={data.pattern} template={data.template} />
+  //       </Box>
+  //     )}
+
+  //   </Box>
+  //   )
+  // }
+
+  return (
+    <Box
+    sx={{
+      padding: 2,
+      border: "1px solid #ddd",
+      borderRadius: 4,
+      backgroundColor: "#fff",
+      minWidth: patternWidthMap[patternName]?.[0] || 100,
+      textAlign: "center",
+      maxWidth: patternWidthMap[patternName]?.[1] || 100,
+      boxShadow: 2,
+      gap: 0,
+      transition: "all 0.3s ease-in-out",
+    }}
+  >
+    <Handle
+      type="target"
+      position={Position.Left}
+      id={`in-${id}`}
+      isConnectable={isConnectable}
+      style={{ top: "50%", background: "blue" }}
+    />
+    <Handle
+      type="source"
+      position={Position.Right}
+      id={`out-${id}`}
+      isConnectable={isConnectable}
+      style={{ top: "50%", background: "#555" }}
+    />
+
+    <Box
+      sx={{
+        display: "flex",
+        flex: 1,
+        gap: 1,
+        padding: 1,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "80%",
+        }}
+      >
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
+          {id}
+        </Typography>
+        {patternSelect()}
+        {confirmButton()}
+      </Box>
+
+      {taskDescription()}
+
+      <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
+        {/* You can place an icon here if you like */}
+      </Box>
     </Box>
+
+    {showContent ? (
+      <Box
+        sx={{
+          maxWidth: "100%",
+          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+          transition: "opacity 0.3s ease-in-out",
+          opacity: 1,
+        }}
+      >
+        {patternForm()}
+      </Box>
+    ) : (
+      <Box
+        sx={{
+          transition: "opacity 0.3s ease-in-out",
+          opacity: 1,
+        }}
+      >
+        <PatternIcons pattern={data.pattern} template={data.template} />
+      </Box>
+    )}
+
+  </Box>
+    // showContent ? <ZoomInLevel /> : <ZoomOutLevel />
   );
 };
