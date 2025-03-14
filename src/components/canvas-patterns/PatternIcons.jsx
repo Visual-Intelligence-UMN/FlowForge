@@ -26,7 +26,7 @@ const CircleIcon = ({ label }) => {
 
 const CircleIconMsg = ({ label }) => {
   const clipId = useId();
-  const r = 20; // Circle radius
+  const r = 25; // Circle radius
   return (
     <g>
       <clipPath id={`circleClip-${clipId}`}>
@@ -41,7 +41,7 @@ const CircleIconMsg = ({ label }) => {
         clipPath={`url(#circleClip-${clipId})`}
       />
       <circle cx={0} cy={0} r={r} fill="none" strokeWidth="1" />
-      <text x={0} y={25} fontSize="10px" textAnchor="middle" fill="black">
+      <text x={0} y={35} fontSize="10px" textAnchor="middle" fill="black">
         {label}
       </text>
     </g>
@@ -116,9 +116,9 @@ export const PatternIcons = ({ pattern, template }) => {
         );
       } else {
         // More than 3: show first, "..." (as a different icon), last, plus total
-        const firstWorker = { isPlaceholder: false, label: "W1" };
-        const placeholder = { isPlaceholder: true, label: "..." };
-        const lastWorker = { isPlaceholder: false, label: `W${workers.length}` };
+        const firstWorker = { isPlaceholder: false, label: "Worker 1" };
+        const placeholder = { isPlaceholder: false, label: "Worker 2" };
+        const lastWorker = { isPlaceholder: true, label: `${workers.length - 2}+ workers` };
 
         const displayWorkers = [firstWorker, placeholder, lastWorker];
 
@@ -148,18 +148,17 @@ export const PatternIcons = ({ pattern, template }) => {
           );
         });
 
-        // Additional text for total on the far right
         const totalX = startX + 2 * workerSpacing + 40;
         linesAndWorkers.push(
-          <text
-            key="total-workers"
-            x={totalX}
-            y={yPos + 5}
-            fontSize="12px"
-            fill="black"
-          >
-            {workers.length} workers
-          </text>
+          // <text
+          //   key="total-workers"
+          //   x={totalX}
+          //   y={yPos + 5}
+          //   fontSize="12px"
+          //   fill="black"
+          // >
+          //   {workers.length} workers
+          // </text>
         );
 
         const width = totalX + 60;
@@ -188,92 +187,223 @@ export const PatternIcons = ({ pattern, template }) => {
       );
     }
 
-    case "Discussion": {
-      const agents = template?.agents || [];
-      const withSummary = template?.withSummary;
+    // case "Discussion": {
+    //   const agents = template?.agents || [];
+    //   const withSummary = template?.withSummary;
+    
+    //   // Reduced dimensions for a compact layout
+    //   const radius = 40;
+    //   const margin = 20;
+    //   const centerX = radius + margin;
+    //   const centerY = radius + margin;
+    
+    //   if (agents.length <= 1) {
+    //     return (
+    //       <svg width={2 * (radius + margin)} height={2 * (radius + margin)}>
+    //         <g transform={`translate(${centerX}, ${centerY})`}>
+    //           <CircleIcon label={agents[0] ? "A1" : "?"} />
+    //         </g>
+    //       </svg>
+    //     );
+    //   }
+    
+    //   // 1) ring lines (between agents)
+    //   const ringLines = [];
+    //   // 2) agent nodes
+    //   const agentElements = [];
+    //   // 3) summary lines (if any)
+    //   const summaryLines = [];
+    //   // 4) summary node (if any)
+    //   let summaryElement = null;
+    
+    //   // Compute agent positions around a circle
+    //   agents.forEach((_, i) => {
+    //     const angle = (2 * Math.PI * i) / agents.length;
+    //     const xPos = centerX + radius * Math.cos(angle);
+    //     const yPos = centerY + radius * Math.sin(angle);
+    
+    //     agentElements.push(
+    //       <g key={`agent-${i}`} transform={`translate(${xPos}, ${yPos})`}>
+    //         <CircleIcon label={`A${i + 1}`} />
+    //       </g>
+    //     );
+    //   });
+    
+    //   // Connect each agent to the next (forming the ring)
+    //   for (let i = 0; i < agents.length; i++) {
+    //     const next = (i + 1) % agents.length;
+    //     const angle1 = (2 * Math.PI * i) / agents.length;
+    //     const angle2 = (2 * Math.PI * next) / agents.length;
+    //     const x1 = centerX + radius * Math.cos(angle1);
+    //     const y1 = centerY + radius * Math.sin(angle1);
+    //     const x2 = centerX + radius * Math.cos(angle2);
+    //     const y2 = centerY + radius * Math.sin(angle2);
+    
+    //     ringLines.push(line(x1, y1, x2, y2, `ring-${i}`));
+    //   }
+    
+    //   // Optional summary in center
+    //   if (withSummary) {
+    //     // Draw summary lines to each agent
+    //     agents.forEach((_, i) => {
+    //       const angle = (2 * Math.PI * i) / agents.length;
+    //       const xPos = centerX + radius * Math.cos(angle);
+    //       const yPos = centerY + radius * Math.sin(angle);
+    //       summaryLines.push(line(centerX, centerY, xPos, yPos, `sum-line-${i}`));
+    //     });
+    //     // Summary node at the center
+    //     summaryElement = (
+    //       <g key="summary" transform={`translate(${centerX}, ${centerY})`}>
+    //         <CircleIcon label="Sum" />
+    //       </g>
+    //     );
+    //   }
+    
+    //   // New SVG size is compact
+    //   const svgSize = 2 * (radius + margin);
+    
+    //   return (
+    //     <svg width={svgSize} height={svgSize}>
+    //       {ringLines}
+    //       {agentElements}
+    //       {summaryLines}
+    //       {summaryElement}
+    //     </svg>
+    //   );
+    // }
+    // ...the rest of your code...
 
-      // Round-table layout
-      const centerX = 100;
-      const centerY = 100;
-      const radius = 60;
+  case "Discussion": {
+    const agents = template?.agents || [];
+    const withSummary = template?.withSummary;
 
-      if (agents.length <= 1) {
-        // Handle trivial case
-        return (
-          <svg width="200" height="200">
-            <g transform={`translate(${centerX}, ${centerY})`}>
-              <CircleIcon label={agents[0] ? "A1" : "?"} />
-            </g>
-          </svg>
-        );
-      }
+    // Compact layout for the circle
+    const radius = 45;
+    const margin = 25;
+    // Center coordinates
+    const centerX = radius + margin;
+    const centerY = radius + margin;
 
-      // 1) ring lines (between agents)
-      const ringLines = [];
-      // 2) agent nodes
-      const agentElements = [];
-      // 3) summary lines (if any)
-      const summaryLines = [];
-      // 4) summary node (if any)
-      let summaryElement = null;
+    // SVG dimensions
+    const svgSize = 2 * (radius + margin);
 
-      // Compute agent positions around a circle
-      agents.forEach((_, i) => {
-        const angle = (2 * Math.PI * i) / agents.length;
-        const xPos = centerX + radius * Math.cos(angle);
-        const yPos = centerY + radius * Math.sin(angle);
-
-        agentElements.push(
-          <g key={`agent-${i}`} transform={`translate(${xPos}, ${yPos})`}>
-            <CircleIcon label={`A${i + 1}`} />
-          </g>
-        );
-      });
-
-      // Connect each agent to the next (forming the ring)
-      for (let i = 0; i < agents.length; i++) {
-        const next = (i + 1) % agents.length;
-        const angle1 = (2 * Math.PI * i) / agents.length;
-        const angle2 = (2 * Math.PI * next) / agents.length;
-        const x1 = centerX + radius * Math.cos(angle1);
-        const y1 = centerY + radius * Math.sin(angle1);
-        const x2 = centerX + radius * Math.cos(angle2);
-        const y2 = centerY + radius * Math.sin(angle2);
-
-        ringLines.push(line(x1, y1, x2, y2, `ring-${i}`));
-      }
-
-      // Optional summary in center
-      if (withSummary) {
-        // 1) summary lines to each agent
-        agents.forEach((_, i) => {
-          const angle = (2 * Math.PI * i) / agents.length;
-          const xPos = centerX + radius * Math.cos(angle);
-          const yPos = centerY + radius * Math.sin(angle);
-          summaryLines.push(line(centerX, centerY, xPos, yPos, `sum-line-${i}`));
-        });
-
-        // 2) summary node
-        summaryElement = (
-          <g key="summary" transform={`translate(${centerX}, ${centerY})`}>
-            <CircleIcon label="Sum" />
-          </g>
-        );
-      }
-
-      // Expand SVG to comfortably fit the circle
-      const svgSize = 2 * (radius + 35);
-
+    // If 1 or fewer agents, just place single or "?" node
+    if (agents.length <= 1) {
       return (
         <svg width={svgSize} height={svgSize}>
-          {/* Draw order matters! Lines first, then agents, then summary (on top). */}
-          {ringLines}
-          {agentElements}
-          {summaryLines}
-          {summaryElement}
+          <g transform={`translate(${centerX}, ${centerY})`}>
+            <CircleIcon label={agents[0] ? "A1" : "?"} />
+          </g>
         </svg>
       );
     }
+
+    // Determine which "agents" to display if there's more than 3
+    let displayedAgents;
+    if (agents.length <= 3) {
+      // Show all actual agents
+      displayedAgents = agents.map((_, idx) => ({
+        label: `A${idx + 1}`,
+        isPlaceholder: false
+      }));
+    } else {
+      // Show first, placeholder, last
+      displayedAgents = [
+        { label: `${agents.length - 2}+ agents`, isPlaceholder: true },
+        { label: "A1", isPlaceholder: false },
+        { label: `A2`, isPlaceholder: false }
+      ];
+    }
+
+    // We'll place `displayedAgents.length` nodes evenly in a circle
+    const count = displayedAgents.length; // either 2, 3, or 3 (with placeholder)
+
+    // These arrays will store the SVG elements in layers
+    const ringLines = [];
+    const agentElements = [];
+    const summaryLines = [];
+    let summaryElement = null;
+
+    // 1) Create agent nodes around a circle
+    displayedAgents.forEach((agent, i) => {
+      // Evenly distribute around the circle
+      const angle = (2 * Math.PI * i) / count;
+      const xPos = centerX + radius * Math.cos(angle);
+      const yPos = centerY + radius * Math.sin(angle);
+
+      agentElements.push(
+        <g key={`agent-${i}`} transform={`translate(${xPos}, ${yPos})`}>
+          {agent.isPlaceholder ? (
+            // For the placeholder, you might prefer CircleIconMsg or similar
+            <CircleIconMsg label={agent.label} />
+          ) : (
+            <CircleIcon label={agent.label} />
+          )}
+        </g>
+      );
+    });
+
+    // 2) Draw ring lines between each adjacent pair (forming a polygon)
+    for (let i = 0; i < count; i++) {
+      const next = (i + 1) % count;
+      const angle1 = (2 * Math.PI * i) / count;
+      const angle2 = (2 * Math.PI * next) / count;
+      const x1 = centerX + radius * Math.cos(angle1);
+      const y1 = centerY + radius * Math.sin(angle1);
+      const x2 = centerX + radius * Math.cos(angle2);
+      const y2 = centerY + radius * Math.sin(angle2);
+
+      ringLines.push(
+        <line
+          key={`ring-${i}`}
+          x1={x1}
+          y1={y1}
+          x2={x2}
+          y2={y2}
+          stroke="black"
+          strokeWidth="1"
+        />
+      );
+    }
+
+    // 3) Optional summary in center
+    if (withSummary) {
+      // Draw lines from summary to each agent node
+      for (let i = 0; i < count; i++) {
+        const angle = (2 * Math.PI * i) / count;
+        const xPos = centerX + radius * Math.cos(angle);
+        const yPos = centerY + radius * Math.sin(angle);
+
+        summaryLines.push(
+          <line
+            key={`sum-line-${i}`}
+            x1={centerX}
+            y1={centerY}
+            x2={xPos}
+            y2={yPos}
+            stroke="black"
+            strokeWidth="1"
+          />
+        );
+      }
+
+      summaryElement = (
+        <g key="summary" transform={`translate(${centerX}, ${centerY})`}>
+          <CircleIcon label="Sum" />
+        </g>
+      );
+    }
+
+    return (
+      <svg width={svgSize} height={svgSize}>
+        {ringLines}
+        {agentElements}
+        {summaryLines}
+        {summaryElement}
+      </svg>
+    );
+  }
+
 
     case "Parallel": {
       const agents = template?.agents || [];
