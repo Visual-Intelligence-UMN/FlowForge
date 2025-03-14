@@ -23,7 +23,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  const showContent = data.showContent;
+  // const showContent = data.showContent;
+  const showContent = false
   // console.log("showContent", showContent);
 
   const patternName = data.pattern?.name || "";
@@ -216,6 +217,12 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           sx={{
             transition: "opacity 0.5s ease-in-out",
             opacity: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+            backgroundColor: "#f0f0f0",
           }}
         >
           <ZoomOutDisplay pattern={data.pattern} template={data.template} />
