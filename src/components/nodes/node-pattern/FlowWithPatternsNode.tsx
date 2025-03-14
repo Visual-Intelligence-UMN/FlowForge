@@ -18,7 +18,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  const showContent = false;
+  const showContent = data.showContent;
+  // const showContent = false;
   const patternName = data.pattern?.name || "";
 
   const handleSelectPattern = (event) => {
@@ -89,12 +90,12 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
       >
         {designPatternsPool.map((pattern) => (
           <MenuItem 
-          key={pattern.name} 
-          value={pattern.name}
-          sx={{
-            cursor: "pointer",
-            fontSize: "12px",
-          }}
+            key={pattern.name} 
+            value={pattern.name}
+            sx={{
+              cursor: "pointer",
+              fontSize: "12px",
+            }}
           >
             {pattern.name}
           </MenuItem>
@@ -163,16 +164,16 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const detailedTemplate = () => {
     return (
-        <Box
-          sx={{
-            maxWidth: "100%",
-            backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-            transition: "opacity 0.3s ease-in-out",
-            opacity: 1,
-          }}
-        >
-          {patternForm()}
-        </Box>
+      <Box
+        sx={{
+          maxWidth: "100%",
+          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+          transition: "opacity 0.3s ease-in-out",
+          opacity: 1,
+        }}
+      >
+        {patternForm()}
+      </Box>
     );
   };
 
@@ -212,7 +213,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   };
 
   const computationCost = () => {
-    const {calls, runtime} = calculateCost(data.pattern, data.template);
+    const { calls, runtime } = calculateCost(data.pattern, data.template);
     return (
       <Typography
         sx={{
@@ -251,7 +252,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-
+  // Existing ZoomOutLevel remains intact
   const ZoomOutLevel = () => {
     return (
       <Box
@@ -300,9 +301,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
             }}
           >
             {computationCost()}
-
             {explanation()}
-
             {/* <Button size="small" variant="outlined">
               +
             </Button> */}
@@ -317,5 +316,79 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-  return <ZoomOutLevel />;
+  // New ZoomInLevel as per request
+  const ZoomInLevel = () => {
+    return (
+      <Box
+        sx={{
+          padding: 2,
+          border: "1px solid #ddd",
+          borderRadius: 4,
+          backgroundColor: "#fff",
+          minWidth: patternWidthMap[patternName]?.[0] || 100,
+          maxWidth: patternWidthMap[patternName]?.[1] || 100,
+          boxShadow: 2,
+          transition: "all 0.3s ease-in-out",
+        }}
+      >
+        {nodeHandles()}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          {/* Top row: left side shows step number and pattern select; right side shows task description */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+              }}
+            >
+              {stepNumber()}
+              {patternSelect()}
+            </Box>
+            {taskDescription()}
+          </Box>
+
+          {/* Second row: cost and explanation */}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 3,
+              alignItems: "center",
+            }}
+          >
+            {computationCost()}
+            {explanation()}
+          </Box>
+
+          {/* Third row: detailed template */}
+          <Box>
+            {detailedTemplate()}
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
+
+
+  // const ZoomInZoomOut = () => {
+  //   return (
+  //     a
+  //   )
+  // }
+
+  return (
+    showContent ? <ZoomInLevel /> : <ZoomOutLevel />
+  );
 };
