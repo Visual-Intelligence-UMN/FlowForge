@@ -3,7 +3,8 @@ import { useAtom } from "jotai";
 import {
   selectedTaskAtom,
   taskFlowsGenerateAtom,
-  workflowInputAtom
+  workflowInputAtom,
+  runRealtimeAtom
 } from "../../patterns/GlobalStates";
 
 import {
@@ -21,12 +22,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { taskList } from "../../patterns/GlobalStates";
 import { useResetTask } from "../../utils/ResetTask";
 
+
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [, setTaskFlowsGenerate] = useAtom(taskFlowsGenerateAtom);
   const [filePreview, setFilePreview] = useState(null);
   const [exampleIndex, setExampleIndex] = useState(null);
   const [fileName, setFileName] = useState("");
+
+  const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
 
   // Local state for description
   const [localTaskDescription, setLocalTaskDescription] = useState(
@@ -107,6 +111,12 @@ function TaskPanel() {
     console.log("Submitting task:", selectedTask);
   };
 
+  // Add checkbox for real-time execution control
+  const handleRealtimeToggle = (e) => {
+    setRunRealtime(e.target.checked);
+  };
+// ... existing code ...
+
   return (
 // <<<<<<< nick-work
     <Box
@@ -159,6 +169,17 @@ function TaskPanel() {
         >
           Submit Task
         </Button>
+        <div>
+          <input
+            type="checkbox"
+            id="run-realtime"
+            checked={runRealtime}
+            onChange={handleRealtimeToggle}
+          />
+          <label>
+            Check to Run Real Time
+          </label>
+        </div>
       </Box>
 
       {/* Example Task Selector */}
