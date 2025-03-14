@@ -16,14 +16,31 @@ const CircleIcon = ({ label }) => {
         height={r * 2}
         clipPath={`url(#circleClip-${clipId})`}
       />
-      <circle
-        cx={0}
-        cy={0}
-        r={r}
-        fill="none"
-        // stroke="black"
-        strokeWidth="1"
+      <circle cx={0} cy={0} r={r} fill="none" strokeWidth="1" />
+      <text x={0} y={25} fontSize="10px" textAnchor="middle" fill="black">
+        {label}
+      </text>
+    </g>
+  );
+};
+
+const CircleIconMsg = ({ label }) => {
+  const clipId = useId();
+  const r = 20; // Circle radius
+  return (
+    <g>
+      <clipPath id={`circleClip-${clipId}`}>
+        <circle cx={0} cy={0} r={r} />
+      </clipPath>
+      <image
+        href="/agent_msg.svg"
+        x={-r}
+        y={-r}
+        width={r * 2}
+        height={r * 2}
+        clipPath={`url(#circleClip-${clipId})`}
       />
+      <circle cx={0} cy={0} r={r} fill="none" strokeWidth="1" />
       <text x={0} y={25} fontSize="10px" textAnchor="middle" fill="black">
         {label}
       </text>
@@ -60,27 +77,22 @@ export const PatternIcons = ({ pattern, template }) => {
 
     case "Supervision": {
       const workers = template?.workers || [];
-      // Supervisor coordinates
       const supervisorX = 100;
       const supervisorY = 20;
-      // Spacing between workers
       const workerSpacing = 50;
 
-      // If 3 or fewer workers, same approach as before:
+      // If 3 or fewer workers, show them all
       if (workers.length <= 3) {
         const startX = supervisorX - ((workers.length - 1) * workerSpacing) / 2;
 
         const supervisorIcon = (
-          <g
-            transform={`translate(${supervisorX}, ${supervisorY})`}
-            key="supervisor"
-          >
+          <g transform={`translate(${supervisorX}, ${supervisorY})`} key="supervisor">
             <CircleIcon label="S" />
           </g>
         );
 
         let linesAndWorkers = [];
-        workers.forEach((w, idx) => {
+        workers.forEach((_, idx) => {
           const xPos = startX + idx * workerSpacing;
           const yPos = 60;
           linesAndWorkers.push(
@@ -93,7 +105,7 @@ export const PatternIcons = ({ pattern, template }) => {
           );
         });
 
-        const width = workers.length * workerSpacing + 100; // somewhat flexible
+        const width = workers.length * workerSpacing + 100;
         const height = 100;
 
         return (
@@ -103,39 +115,34 @@ export const PatternIcons = ({ pattern, template }) => {
           </svg>
         );
       } else {
-        // More than 3 workers: show first, "...", last, plus total
-        const firstWorker = { label: "W1" };
-        const placeholder = { label: "..." };
-        const lastWorker = { label: `W${workers.length}` };
+        // More than 3: show first, "..." (as a different icon), last, plus total
+        const firstWorker = { isPlaceholder: false, label: "W1" };
+        const placeholder = { isPlaceholder: true, label: "..." };
+        const lastWorker = { isPlaceholder: false, label: `W${workers.length}` };
+
+        const displayWorkers = [firstWorker, placeholder, lastWorker];
 
         const supervisorIcon = (
-          <g
-            transform={`translate(${supervisorX}, ${supervisorY})`}
-            key="supervisor"
-          >
+          <g transform={`translate(${supervisorX}, ${supervisorY})`} key="supervisor">
             <CircleIcon label="S" />
           </g>
         );
 
-        // We'll place them horizontally:
-        // S --- W1 --- ... --- W(n)
-        // And a text at the far right indicating total
-        const startX = supervisorX - (2 * workerSpacing) / 2; // we have 3 positions (first, "...", last)
+        const startX = supervisorX - (2 * workerSpacing) / 2; 
         const yPos = 60;
-
-        // We can create an array with 3 “positions” for the 3 displayed icons
-        const displayWorkers = [firstWorker, placeholder, lastWorker];
-
         let linesAndWorkers = [];
 
         displayWorkers.forEach((dw, idx) => {
           const xPos = startX + idx * workerSpacing;
           linesAndWorkers.push(
             <g key={`worker-${idx}`} transform={`translate(${xPos}, ${yPos})`}>
-              <CircleIcon label={dw.label} />
+              {dw.isPlaceholder ? (
+                <CircleIconMsg label={dw.label} />
+              ) : (
+                <CircleIcon label={dw.label} />
+              )}
             </g>
           );
-          // Draw a line from Supervisor to each worker
           linesAndWorkers.push(
             line(supervisorX, supervisorY + 20, xPos, yPos - 20, `line-${idx}`)
           );
@@ -151,11 +158,11 @@ export const PatternIcons = ({ pattern, template }) => {
             fontSize="12px"
             fill="black"
           >
-            ({workers.length} workers)
+            {workers.length} workers
           </text>
         );
 
-        const width = totalX + 60; // buffer
+        const width = totalX + 60;
         const height = 100;
 
         return (
@@ -185,28 +192,32 @@ export const PatternIcons = ({ pattern, template }) => {
       const agents = template?.agents || [];
       const withSummary = template?.withSummary;
 
-      // Arrange agents in a circle (round table).
+      // Round-table layout
       const centerX = 100;
       const centerY = 100;
       const radius = 60;
 
-      // We'll create one line between each pair of adjacent agents (forming a ring).
-      // If withSummary is true, place summary in the center and connect all agents to it.
-      const agentElements = [];
-      const lineElements = [];
-
-      // If only 1 or 2 agents, handle simply
       if (agents.length <= 1) {
+        // Handle trivial case
         return (
           <svg width="200" height="200">
             <g transform={`translate(${centerX}, ${centerY})`}>
-              <CircleIcon label={agents[0] ? "A1" : "A?"} />
+              <CircleIcon label={agents[0] ? "A1" : "?"} />
             </g>
           </svg>
         );
       }
 
-      // Compute positions around a circle
+      // 1) ring lines (between agents)
+      const ringLines = [];
+      // 2) agent nodes
+      const agentElements = [];
+      // 3) summary lines (if any)
+      const summaryLines = [];
+      // 4) summary node (if any)
+      let summaryElement = null;
+
+      // Compute agent positions around a circle
       agents.forEach((_, i) => {
         const angle = (2 * Math.PI * i) / agents.length;
         const xPos = centerX + radius * Math.cos(angle);
@@ -219,7 +230,7 @@ export const PatternIcons = ({ pattern, template }) => {
         );
       });
 
-      // Connect each agent to the next to form a ring
+      // Connect each agent to the next (forming the ring)
       for (let i = 0; i < agents.length; i++) {
         const next = (i + 1) % agents.length;
         const angle1 = (2 * Math.PI * i) / agents.length;
@@ -229,33 +240,36 @@ export const PatternIcons = ({ pattern, template }) => {
         const x2 = centerX + radius * Math.cos(angle2);
         const y2 = centerY + radius * Math.sin(angle2);
 
-        lineElements.push(line(x1, y1, x2, y2, `ring-${i}`));
+        ringLines.push(line(x1, y1, x2, y2, `ring-${i}`));
       }
 
-      // Optional summary in the center
-      let summaryElement = null;
+      // Optional summary in center
       if (withSummary) {
+        // 1) summary lines to each agent
+        agents.forEach((_, i) => {
+          const angle = (2 * Math.PI * i) / agents.length;
+          const xPos = centerX + radius * Math.cos(angle);
+          const yPos = centerY + radius * Math.sin(angle);
+          summaryLines.push(line(centerX, centerY, xPos, yPos, `sum-line-${i}`));
+        });
+
+        // 2) summary node
         summaryElement = (
           <g key="summary" transform={`translate(${centerX}, ${centerY})`}>
             <CircleIcon label="Sum" />
           </g>
         );
-        // Draw lines from each agent to summary
-        agents.forEach((_, i) => {
-          const angle = (2 * Math.PI * i) / agents.length;
-          const xPos = centerX + radius * Math.cos(angle);
-          const yPos = centerY + radius * Math.sin(angle);
-          lineElements.push(line(centerX, centerY, xPos, yPos, `sum-line-${i}`));
-        });
       }
 
-      // Expand the SVG to comfortably fit the circle
-      const svgSize = 2 * (radius + 40);
+      // Expand SVG to comfortably fit the circle
+      const svgSize = 2 * (radius + 35);
 
       return (
         <svg width={svgSize} height={svgSize}>
-          {lineElements}
+          {/* Draw order matters! Lines first, then agents, then summary (on top). */}
+          {ringLines}
           {agentElements}
+          {summaryLines}
           {summaryElement}
         </svg>
       );
@@ -264,7 +278,7 @@ export const PatternIcons = ({ pattern, template }) => {
     case "Parallel": {
       const agents = template?.agents || [];
 
-      // If 3 or fewer, show them all as before
+      // If 3 or fewer, show all
       if (agents.length <= 3) {
         const startY = 20;
         const gapY = 50;
@@ -282,10 +296,7 @@ export const PatternIcons = ({ pattern, template }) => {
         agents.forEach((_, i) => {
           const yPos = startY + i * gapY;
           parallelElements.push(
-            <g
-              key={`parallel-agent-${i}`}
-              transform={`translate(${agentX}, ${yPos})`}
-            >
+            <g key={`parallel-agent-${i}`} transform={`translate(${agentX}, ${yPos})`}>
               <CircleIcon label={`A${i + 1}`} />
             </g>
           );
@@ -302,14 +313,12 @@ export const PatternIcons = ({ pattern, template }) => {
           </svg>
         );
       } else {
-        // More than 3 agents: first, "...", last
-        // aggregator in the middle
+        // More than 3: show first, "..." as a different icon, last
         const aggregatorX = 100;
-        // We'll just vertically place 3 positions
         const startY = 20;
         const gapY = 50;
         const agentX = 30;
-        const aggregatorY = startY + gapY; // aggregator roughly in middle
+        const aggregatorY = startY + gapY; // roughly center
 
         const aggregatorIcon = (
           <g transform={`translate(${aggregatorX}, ${aggregatorY})`} key="agg">
@@ -319,29 +328,29 @@ export const PatternIcons = ({ pattern, template }) => {
 
         // For display, we show first agent, placeholder, last agent
         const displayAgents = [
-          { label: "A1" },
-          { label: "..." },
-          { label: `A${agents.length}` },
+          { isPlaceholder: false, label: "A1" },
+          { isPlaceholder: true, label: "..." },
+          { isPlaceholder: false, label: `A${agents.length}` },
         ];
 
         let parallelElements = [];
-        displayAgents.forEach((dA, idx) => {
+        displayAgents.forEach((item, idx) => {
           const yPos = startY + idx * gapY;
           parallelElements.push(
-            <g
-              key={`parallel-agent-${idx}`}
-              transform={`translate(${agentX}, ${yPos})`}
-            >
-              <CircleIcon label={dA.label} />
+            <g key={`parallel-agent-${idx}`} transform={`translate(${agentX}, ${yPos})`}>
+              {item.isPlaceholder ? (
+                <CircleIconMsg label={item.label} />
+              ) : (
+                <CircleIcon label={item.label} />
+              )}
             </g>
           );
-          // line from agent to aggregator
           parallelElements.push(
             line(agentX + 20, yPos, aggregatorX - 20, aggregatorY, `agg-line-${idx}`)
           );
         });
 
-        // Show total count on the right, near aggregator
+        // Show total count near aggregator
         parallelElements.push(
           <text
             key="total-agents"
@@ -354,7 +363,7 @@ export const PatternIcons = ({ pattern, template }) => {
           </text>
         );
 
-        const height = startY + gapY * 2 + 40; // for the three displayed positions
+        const height = startY + gapY * 2 + 40; // for three positions + some padding
         return (
           <svg width="200" height={height}>
             {parallelElements}
@@ -379,6 +388,10 @@ export const PatternIcons = ({ pattern, template }) => {
     }
 
     default:
-      return <div style={{ fontSize: "12px" }}>No zoom out diagram available</div>;
+      return (
+        <div style={{ fontSize: "12px" }}>
+          No zoom-out diagram available
+        </div>
+      );
   }
 };
