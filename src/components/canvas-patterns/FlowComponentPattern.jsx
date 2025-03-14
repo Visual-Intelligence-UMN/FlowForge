@@ -14,7 +14,7 @@ import {
     useStoreApi
 } from "@xyflow/react";
 import { ViewportPortal } from '@xyflow/react';
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect , useRef} from "react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   flowsMapAtom,
@@ -69,7 +69,7 @@ export function RflowComponent(props) {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-
+  const previousNodeRef = useRef(null);
 
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
@@ -161,7 +161,16 @@ export function RflowComponent(props) {
   const panOnDrag = [1, 2];
 
   const handleNodeClick = useCallback((evt, node) => {
+
     if (node){
+
+        if (previousNodeRef.current && previousNodeRef.current.id === node.id) {
+            console.log("Clicked the same node. View remains unchanged.");
+            return; // Do nothing if it's the same node.
+          }
+        
+          previousNodeRef.current = node;
+      
         console.log("node", node);
         // const eventX = evt.clientX;
         // const eventY = evt.clientY;
