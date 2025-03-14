@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { Box, Typography, TextField, Select, MenuItem, Button } from "@mui/material";
+import { Box, Typography, Select, MenuItem, Button, Tooltip } from "@mui/material";
 import { designPatternsPool } from "../../../patterns/patternsData";
 import { designPatternsTemplate } from "../../../patterns/patternsData";
 import { SingleAgentForm } from "../../templates/template-agent/SingleAgentForm";
@@ -9,20 +9,16 @@ import { ReflectionForm } from "../../templates/template-reflection/ReflectionFo
 import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
 import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
-import { PatternIcons } from "../../canvas-patterns/zoomoutlevel";
+import { PatternIcons } from "../../canvas-patterns/PatternIcons";
+import { calculateCost } from "./helpers";
 import Grow from '@mui/material/Grow';
-
-// import { useStore } from "reactflow";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  // const showContent = data.showContent;
-  const showContent = false
-  // console.log("showContent", showContent);
-
+  const showContent = false;
   const patternName = data.pattern?.name || "";
 
   const handleSelectPattern = (event) => {
@@ -67,7 +63,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
-    default: [100, 100], // fallback
+    default: [100, 100],
   };
 
   const patternSelect = () => {
@@ -78,6 +74,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         onChange={handleSelectPattern}
         size="small"
         sx={{
+          fontSize: "16px",
           marginBottom: 1,
           maxWidth: 150,
           backgroundColor: "#e3f2fd",
@@ -91,7 +88,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         className="nodrag nopan"
       >
         {designPatternsPool.map((pattern) => (
-          <MenuItem key={pattern.name} value={pattern.name}>
+          <MenuItem 
+          key={pattern.name} 
+          value={pattern.name}
+          sx={{
+            cursor: "pointer",
+            fontSize: "12px",
+          }}
+          >
             {pattern.name}
           </MenuItem>
         ))}
@@ -138,24 +142,22 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-
   const iconsDisplay = () => {
     return (
       <Box
-          sx={{
-            transition: "opacity 0.5s ease-in-out",
-            opacity: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-            // backgroundColor: "#f0f0f0",
-            border: "1px solid #ddd",
-          }}
-        >
-          <PatternIcons pattern={data.pattern} template={data.template} />
-        </Box>
+        sx={{
+          transition: "opacity 0.5s ease-in-out",
+          opacity: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+          border: "1px solid #ddd",
+        }}
+      >
+        <PatternIcons pattern={data.pattern} template={data.template} />
+      </Box>
     );
   };
 
@@ -183,12 +185,12 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           id={`in-${id}`}
           isConnectable={isConnectable}
           style={{ top: "50%", background: "blue" }}
-    />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`out-${id}`}
-        isConnectable={isConnectable}
+        />
+        <Handle
+          type="source"
+          position={Position.Right}
+          id={`out-${id}`}
+          isConnectable={isConnectable}
           style={{ top: "50%", background: "#555" }}
         />
       </>
@@ -209,6 +211,46 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
+  const computationCost = () => {
+    const {calls, runtime} = calculateCost(data.pattern, data.template);
+    return (
+      <Typography
+        sx={{
+          fontSize: "18px",
+          fontWeight: "bold",
+        }}
+      >
+        {calls} LLM calls
+      </Typography>
+    );
+  };
+
+  const explanation = () => {
+    const explanation = data.pattern.description;
+    const placeholder = "This pattern is suitable because it optimizes cost and efficiency.";
+    return (
+      <Tooltip 
+        title={explanation || placeholder} 
+        arrow
+        placement="right"
+        componentsProps={{
+          tooltip: {
+            sx: {
+              maxWidth: "150px",
+            },
+          },
+        }}
+      >
+        <Button
+          size="small"
+          variant="outlined"
+        >
+          ?
+        </Button>
+      </Tooltip>
+    );
+  };
+
 
   const ZoomOutLevel = () => {
     return (
@@ -225,37 +267,55 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           gap: 0,
           transition: "all 0.3s ease-in-out",
         }}
-    >
-      {nodeHandles()}
-      <Box
-        sx={{
-          display: "flex",
-          flex: 1,
-          gap: 1,
-          // padding: 1,
-        }}
       >
+        {nodeHandles()}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            maxWidth: "100%",
+            gap: 1,
+            padding: 1,
           }}
         >
-          {stepNumber()}
-          {patternSelect()}
+          {/* Top row: step number and pattern select centered */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+            }}
+          >
+            {stepNumber()}
+            {patternSelect()}
+          </Box>
+
+          {/* Second row: menu */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
+            {computationCost()}
+
+            {explanation()}
+
+            {/* <Button size="small" variant="outlined">
+              +
+            </Button> */}
+          </Box>
+
+          {/* Icons display row */}
+          <Box sx={{ marginTop: 1 }}>
+            {iconsDisplay()}
+          </Box>
         </Box>
-
-        {/* {taskDescription()} */}
-        {iconsDisplay()}
-
       </Box>
-
-    </Box>
     );
   };
 
-  return (
-    <ZoomOutLevel />
-  );
+  return <ZoomOutLevel />;
 };
