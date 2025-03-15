@@ -228,7 +228,7 @@ export function FlowComponentTask(props) {
       setEdges((prevEdges) => {
         const newEdges = addEdge(connection, prevEdges);
         // optionally update workflow here if you want immediate persistence
-        // updateTargetWorkflow(nodes, newEdges);
+        updateTargetWorkflow(nodes, newEdges);
         return newEdges;
       }),
     [nodes, updateTargetWorkflow, setEdges]
@@ -258,7 +258,6 @@ export function FlowComponentTask(props) {
       // Also link it to the last existing node (if any)
       setEdges((prevEdges) => {
         if (!prevNodes.length) {
-          // If this is the first node, just update
           updateTargetWorkflow(newNodes, prevEdges);
           return prevEdges;
         }
