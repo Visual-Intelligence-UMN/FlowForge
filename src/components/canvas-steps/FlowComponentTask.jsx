@@ -153,16 +153,12 @@ export function FlowComponentTask(props) {
       setPatternsFlow(updatedWorkflow);
 
       // Callback to parent
-      if (onWorkflowUpdate) {
-        onWorkflowUpdate(updatedWorkflow);
-      }
     },
     [
       targetWorkflow,
       canvasPages.flowId,
       setFlowsMap,
       setPatternsFlow,
-      onWorkflowUpdate,
     ]
   );
   

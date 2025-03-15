@@ -44,6 +44,10 @@ import set from "lodash.set";
 
 export function RflowComponent(props) {
 
+    const targetWorkflow = props.targetWorkflow;
+
+    // const { nodes: initialNodes, edges: initialEdges } =
+    // convertToReactFlowFormat(targetWorkflow);
   const {
     fitView, 
     setViewport,
@@ -52,6 +56,7 @@ export function RflowComponent(props) {
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
+
 
   const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
   const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
@@ -63,7 +68,7 @@ export function RflowComponent(props) {
   );
   const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
   const { flowId, patternId, configId } = canvasPages || {};
-  const targetWorkflow = props.targetWorkflow;
+
 
   const onConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
