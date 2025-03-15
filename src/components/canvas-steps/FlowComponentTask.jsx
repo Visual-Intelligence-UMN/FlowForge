@@ -30,7 +30,7 @@ function convertToReactFlowFormat(taskflow) {
 
   // Convert each step into a React Flow node
   const nodes = taskFlowSteps.map((step,index) => ({
-    id: step.stepId, // use the actual stepId
+    id: `step-${index+1}` || step.stepId, // use the actual stepId
     type: "flowStep",
     position: { x: 0, y: 0 }, // will get overridden by the Dagre layout
     data: {
