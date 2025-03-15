@@ -7,6 +7,7 @@
             "isEditing": false,
             "taskFlowSteps": [
                 {
+                    "stepId": "step-1",
                     "stepName": "List candidate ideas about given topic",
                     "stepLabel": "Outline ideas",
                     "stepDescription": "generate the ideas about the given topic as many angles as possible.",
@@ -14,10 +15,12 @@
                         {
                             "name": "PDF Loader Agent",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-2"]
                     
                 },
                 {
+                    "stepId": "step-2",
                     "stepName": "Outline the Presentation",
                     "stepLabel": "Outline structure",
                     "stepDescription": "Outline the presentation script into logical sections that will serve as the basis for presentation with details.",
@@ -25,9 +28,11 @@
                         {
                             "name": "Reflection",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-3"]
                 },
                 {
+                    "stepId": "step-3",
                     "stepName": "Write Supporting Details",
                     "stepLabel": "Details Integration",
                     "stepDescription": "Expand on the presentation outline by adding detailed explanations, transitions, and examples where needed.",
@@ -35,8 +40,8 @@
                         {
                             "name": "Single Agent",
                             "description": "This design pattern has a reflection to perform the task."
-                        }
-                    
+                        },
+                    "nextSteps": []  
                 }
             ]
         },
@@ -47,6 +52,7 @@
             "isEditing": false,
             "taskFlowSteps": [
                 {
+                    "stepId": "step-1",
                     "stepName": "Read the Abstract",
                     "stepLabel": "Abstract Review",
                     "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
@@ -54,10 +60,12 @@
                         {
                             "name": "Single Agent",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
+                    "stepId": "step-2",
                     "stepName": "Scan the Paper Structure",
                     "stepLabel": "Structure Overview",
                     "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
@@ -65,10 +73,12 @@
                         {
                             "name": "Supervision",
                             "description": "This design pattern has multiple agents to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
+                    "stepId": "step-3",
                     "stepName": "Identify Core Ideas",
                     "stepLabel": "Key Concepts",
                     "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
@@ -76,10 +86,12 @@
                         {
                             "name": "Discussion",
                             "description": "This design pattern has a discussion to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-4"]
                     
                 },
                 {
+                    "stepId": "step-4",
                     "stepName": "Draft Slide Content",
                     "stepLabel": "Slide Outline",
                         "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
@@ -87,9 +99,11 @@
                         {
                             "name": "Single Agent",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-5"]
                 },
                 {
+                    "stepId": "step-5",
                     "stepName": "Write Supporting Details",
                     "stepLabel": "Details Integration",
                     "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
@@ -97,10 +111,12 @@
                         {
                             "name": "Reflection",
                             "description": "This design pattern has a reflection to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-6"]
                     
                 },
                 {
+                    "stepId": "step-6",
                     "stepName": "Polish the Script",
                     "stepLabel": "Script Refinement",
                     "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
@@ -108,7 +124,8 @@
                         {
                             "name": "Supervision",
                             "description": "This design pattern has a supervision to perform the task."
-                        }
+                        },
+                    "nextSteps": []
                     
                 }
             ]
@@ -120,6 +137,7 @@
             "isEditing": false,
             "taskFlowSteps": [
                 {
+                    "stepId": "step-1",
                     "stepName": "Read the Abstract",
                     "stepLabel": "Abstract Review",
                     "stepDescription": "Start by reading the abstract to grasp the central focus and objectives of the paper.",
@@ -127,10 +145,12 @@
                         {
                             "name": "Single Agent",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-2"]
                     
                 },
                 {
+                    "stepId": "step-2",
                     "stepName": "Scan the Paper Structure",
                     "stepLabel": "Structure Overview",
                     "stepDescription": "Skim through headings, subheadings, and major sections to understand the layout and organization of the content.",
@@ -138,10 +158,12 @@
                         {
                             "name": "Supervision",
                             "description": "This design pattern has multiple agents to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
+                    "stepId": "step-3",
                     "stepName": "Identify Core Ideas",
                     "stepLabel": "Key Concepts",
                     "stepDescription": "Highlight the main arguments, hypotheses, methods, results, and conclusions from the paper.",
@@ -149,10 +171,12 @@
                         {
                             "name": "Discussion",
                             "description": "This design pattern has a discussion to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-4"]
                     
                 },
                 {
+                    "stepId": "step-4",
                     "stepName": "Draft Slide Content",
                     "stepLabel": "Slide Outline",
                         "stepDescription": "Organize the key points into logical sections that will serve as the basis for presentation slides.",
@@ -160,9 +184,11 @@
                         {
                             "name": "Single Agent",
                             "description": "This design pattern has a single agent to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-5"]
                 },
                 {
+                    "stepId": "step-5",
                     "stepName": "Write Supporting Details",
                     "stepLabel": "Details Integration",
                     "stepDescription": "Expand on the slide outline by adding detailed explanations, transitions, and examples where needed.",
@@ -170,10 +196,12 @@
                         {
                             "name": "Reflection",
                             "description": "This design pattern has a reflection to perform the task."
-                        }
+                        },
+                    "nextSteps": ["step-6"]
                     
                 },
                 {
+                    "stepId": "step-6",
                     "stepName": "Polish the Script",
                     "stepLabel": "Script Refinement",
                     "stepDescription": "Refine the script for clarity, coherence, and timing to ensure it aligns with the presentation flow.",
@@ -181,8 +209,8 @@
                         {
                             "name": "Supervision",
                             "description": "This design pattern has a supervision to perform the task."
-                        }
-                    
+                        },
+                    "nextSteps": []
                 }
             ]
         }

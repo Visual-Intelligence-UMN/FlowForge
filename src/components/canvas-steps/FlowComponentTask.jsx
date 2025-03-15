@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import  {
   ReactFlow,
   addEdge,
@@ -7,6 +7,7 @@ import  {
   getConnectedEdges,
   Controls,
   useReactFlow,
+  SelectionMode,
 } from "@xyflow/react";
 import { useAtom } from "jotai";
 import {
@@ -19,7 +20,8 @@ import {
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,
-} from "../../utils/layout/dagreUtils";
+  getLayeredLayout
+} from "./layout-steps";
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
@@ -44,18 +46,20 @@ function convertToReactFlowFormat(taskflow) {
     },
   }));
 
-  const edges = nodes
-    .map((node, index) =>
-      index < nodes.length - 1
-        ? {
-            id: `edge-${index}`,
-            source: node.id,
-            target: nodes[index + 1].id,
-            animated: true,
-          }
-        : null
-    )
-    .filter(Boolean);
+  // Build edges from step.nextSteps array
+  const edges = [];
+  taskFlowSteps.forEach((step) => {
+    if (Array.isArray(step.nextSteps)) {
+      step.nextSteps.forEach((nextStepId, idx) => {
+        edges.push({
+          id: `${step.stepId}->${nextStepId}-${idx}`,
+          source: step.stepId,
+          target: nextStepId,
+          animated: true,
+        });
+      });
+    }
+  });
 
   return { nodes, edges };
 }
@@ -78,6 +82,7 @@ export function FlowComponentTask(props) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const [animation, setAnimation] = useState(true);
   // Keep a single effect to layout on first render (or whenever the workflow changes)
   useEffect(() => {
     if (!targetWorkflow?.taskFlowSteps?.length) {
@@ -92,7 +97,7 @@ export function FlowComponentTask(props) {
     let layoutedNodes, layoutedEdges;
     if (newNodes.length > 3) {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getMultiLineLayoutedNodesAndEdges(newNodes, newEdges));
+        getLayeredLayout(newNodes, newEdges));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
         getLayoutedNodesAndEdges(newNodes, newEdges));
@@ -105,12 +110,15 @@ export function FlowComponentTask(props) {
       if (layoutedNodes.length) {
         fitView({ padding: 0.2, duration: 1000 });
       }
-    }, 10);
+      setAnimation(false)
+    }, 20);
   }, [targetWorkflow, setNodes, setEdges, fitView]);
 
   // Helper to update the overall "workflow" shape in global or parent
   const updateTargetWorkflow = useCallback(
     (updatedNodes, updatedEdges) => {
+      const taskFlowId = targetWorkflow.taskFlowId;
+  
       const updatedTaskFlowSteps = updatedNodes.map((node) => {
         // find all outgoing connections for this node
         const outgoingConnections = updatedEdges
@@ -118,7 +126,9 @@ export function FlowComponentTask(props) {
           .map((edge) => edge.target);
 
         return {
+          // here are the updated step details
           id: node.id,
+          stepId: node.id,
           stepName: node.data.stepName,
           stepLabel: node.data.stepLabel,
           stepDescription: node.data.stepDescription,
@@ -128,7 +138,7 @@ export function FlowComponentTask(props) {
           nextSteps: outgoingConnections,
         };
       });
-
+  
       const updatedWorkflow = {
         ...targetWorkflow,
         taskFlowSteps: updatedTaskFlowSteps,
@@ -137,9 +147,9 @@ export function FlowComponentTask(props) {
       // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
-        [Number(canvasPages.flowId)]: updatedWorkflow,
+        [Number(taskFlowId)]: updatedWorkflow,
       }));
-      // Store separately if needed
+
       setPatternsFlow(updatedWorkflow);
 
       // Callback to parent
@@ -155,6 +165,7 @@ export function FlowComponentTask(props) {
       onWorkflowUpdate,
     ]
   );
+  
 
   // Called by user to save current diagram back to workflow
   const handleSave = () => {
@@ -168,7 +179,7 @@ export function FlowComponentTask(props) {
       setEdges((prevEdges) => {
         const newEdges = addEdge(connection, prevEdges);
         // optionally update workflow here if you want immediate persistence
-        // updateTargetWorkflow(nodes, newEdges);
+        updateTargetWorkflow(nodes, newEdges);
         return newEdges;
       }),
     [nodes, updateTargetWorkflow, setEdges]
@@ -198,7 +209,6 @@ export function FlowComponentTask(props) {
       // Also link it to the last existing node (if any)
       setEdges((prevEdges) => {
         if (!prevNodes.length) {
-          // If this is the first node, just update
           updateTargetWorkflow(newNodes, prevEdges);
           return prevEdges;
         }
@@ -276,13 +286,19 @@ export function FlowComponentTask(props) {
     ...node,
     style: {
       ...(node.style || {}),
-      transition: "transform 0.5s ease"
+      transition: animation ? "transform 0.5s ease" : "none"
     },
     data: {
       ...node.data,
       updateNodeField,
     },
   }));
+
+  const panOnDrag = [1, 2];
+
+  const handleNodeClick = (e, node) => {
+    console.log("node", node);
+  };
 
   return (
     <div
@@ -312,6 +328,13 @@ export function FlowComponentTask(props) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
+        onNodeClick={handleNodeClick}
+        minZoom={0.1}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.3}}
+        selectionOnDrag
+        selectionMode={SelectionMode.Partial}
+        panOnScroll
+        panOnDrag={panOnDrag}
       >
         <Controls />
       </ReactFlow>

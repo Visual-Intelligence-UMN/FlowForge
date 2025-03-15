@@ -118,6 +118,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
+        // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
       setCanvasPages({
@@ -126,8 +127,8 @@ const Builder = () => {
         patternId: [],
         configId: [],
       });
-    }
-  }, [flowsMap, taskFlowsGenerate]);
+    } 
+  }, [flowsMap.length, taskFlowsGenerate]);
 
   useEffect(() => {
     if (canvasPages.type === "flow" && designPatterns.length > 0) {

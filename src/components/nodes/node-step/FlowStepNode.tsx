@@ -38,7 +38,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
       />
 
       <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
-        {id}
+        {id} - {data.stepLabel}
       </Typography>
     
       <TextField
