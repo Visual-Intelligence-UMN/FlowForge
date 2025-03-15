@@ -14,7 +14,7 @@ import {
     useStoreApi
 } from "@xyflow/react";
 import { ViewportPortal } from '@xyflow/react';
-import { useCallback, useEffect , useRef} from "react";
+import { useCallback, useEffect , useRef, useState} from "react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   flowsMapAtom,
@@ -70,7 +70,7 @@ export function RflowComponent(props) {
     [setEdges]
   );
   const previousNodeRef = useRef(null);
-
+  const [animation, setAnimation] = useState(true);
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
     // 1) Set new nodes/edges from props
@@ -100,6 +100,7 @@ export function RflowComponent(props) {
         //   setCenter(0, 0, { duration: 1000 });
         //   zoomOut({ zoom: 1, duration: 1000 });
         }
+        setAnimation(false)
       }, 100);
 
   }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
@@ -148,7 +149,7 @@ export function RflowComponent(props) {
     ...node,
     style: {
         ...(node.style || {}),
-        transition: "transform 0.5s ease"
+        transition: animation ? "transform 0.5s ease" : "none"
       },
     data: {
       ...node.data,

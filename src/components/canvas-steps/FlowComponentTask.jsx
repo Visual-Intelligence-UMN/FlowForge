@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import  {
   ReactFlow,
   addEdge,
@@ -25,17 +25,18 @@ import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
 function convertToReactFlowFormat(taskflow) {
-
   const { taskFlowSteps = [] } = taskflow;
-  const nodes = taskFlowSteps.map((step, index) => ({
-    id: `step-${index + 1}`,
+
+  // Convert each step into a React Flow node
+  const nodes = taskFlowSteps.map((step) => ({
+    id: step.stepId, // use the actual stepId
     type: "flowStep",
-    position: { x: index * 250, y: 100 }, // Overridden by Dagre layout
+    position: { x: 0, y: 0 }, // will get overridden by the Dagre layout
     data: {
-      stepName: step.stepName || `Step ${index + 1}`,
+      stepName: step.stepName || "",
       stepLabel: step.stepLabel || "",
       stepDescription: step.stepDescription || "",
-      label: step.stepLabel || `Step ${index + 1}`,
+      label: step.stepLabel || step.stepId,
       pattern: step.pattern || { name: "", description: "" },
       template: step.template || {
         persona: "Single Agent",
@@ -45,21 +46,24 @@ function convertToReactFlowFormat(taskflow) {
     },
   }));
 
-  const edges = nodes
-    .map((node, index) =>
-      index < nodes.length - 1
-        ? {
-            id: `edge-${index}`,
-            source: node.id,
-            target: nodes[index + 1].id,
-            animated: true,
-          }
-        : null
-    )
-    .filter(Boolean);
+  // Build edges from step.nextSteps array
+  const edges = [];
+  taskFlowSteps.forEach((step) => {
+    if (Array.isArray(step.nextSteps)) {
+      step.nextSteps.forEach((nextStepId, idx) => {
+        edges.push({
+          id: `${step.stepId}->${nextStepId}-${idx}`,
+          source: step.stepId,
+          target: nextStepId,
+          animated: true,
+        });
+      });
+    }
+  });
 
   return { nodes, edges };
 }
+
 
 export function FlowComponentTask(props) {
 
@@ -79,6 +83,7 @@ export function FlowComponentTask(props) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const [animation, setAnimation] = useState(true);
   // Keep a single effect to layout on first render (or whenever the workflow changes)
   useEffect(() => {
     if (!targetWorkflow?.taskFlowSteps?.length) {
@@ -106,21 +111,71 @@ export function FlowComponentTask(props) {
       if (layoutedNodes.length) {
         fitView({ padding: 0.2, duration: 1000 });
       }
-    }, 10);
+      setAnimation(false)
+    }, 20);
   }, [targetWorkflow, setNodes, setEdges, fitView]);
 
   // Helper to update the overall "workflow" shape in global or parent
+  // const updateTargetWorkflow = useCallback(
+  //   (updatedNodes, updatedEdges) => {
+  //     const taskFlowId = targetWorkflow.taskFlowId;
+  //     const updatedTaskFlowSteps = updatedNodes.map((node) => {
+  //       // find all outgoing connections for this node
+  //       const outgoingConnections = updatedEdges
+  //         .filter((edge) => edge.source === node.id)
+  //         .map((edge) => edge.target);
+
+  //       return {
+  //         id: node.id,
+  //         stepName: node.data.stepName,
+  //         stepLabel: node.data.stepLabel,
+  //         stepDescription: node.data.stepDescription,
+  //         pattern: node.data.pattern || {},
+  //         config: node.data.config || {},
+  //         template: node.data.template || {},
+  //         nextSteps: outgoingConnections,
+  //       };
+  //     });
+
+  //     const updatedWorkflow = {
+  //       ...targetWorkflow,
+  //       taskFlowSteps: updatedTaskFlowSteps,
+  //     };
+  //     // console.log("updatedWorkflow", updatedWorkflow);
+  //     // Update global flows map
+  //     setFlowsMap((prevFlows) => ({
+  //       ...prevFlows,
+  //       [Number(taskFlowId)]: updatedWorkflow,
+  //     }));
+  //     // Store separately if needed
+  //     setPatternsFlow(updatedWorkflow);
+
+  //     // Callback to parent
+  //     if (onWorkflowUpdate) {
+  //       onWorkflowUpdate(updatedWorkflow);
+  //     }
+  //   },
+  //   [
+  //     targetWorkflow,
+  //     canvasPages.flowId,
+  //     setFlowsMap,
+  //     setPatternsFlow,
+  //     onWorkflowUpdate,
+  //   ]
+  // );
+
   const updateTargetWorkflow = useCallback(
     (updatedNodes, updatedEdges) => {
       const taskFlowId = targetWorkflow.taskFlowId;
+  
       const updatedTaskFlowSteps = updatedNodes.map((node) => {
         // find all outgoing connections for this node
         const outgoingConnections = updatedEdges
           .filter((edge) => edge.source === node.id)
           .map((edge) => edge.target);
-
+  
         return {
-          id: node.id,
+          stepId: node.id, // store back as stepId
           stepName: node.data.stepName,
           stepLabel: node.data.stepLabel,
           stepDescription: node.data.stepDescription,
@@ -130,20 +185,21 @@ export function FlowComponentTask(props) {
           nextSteps: outgoingConnections,
         };
       });
-
+  
       const updatedWorkflow = {
         ...targetWorkflow,
         taskFlowSteps: updatedTaskFlowSteps,
       };
-      // console.log("updatedWorkflow", updatedWorkflow);
-      // Update global flows map
+  
+      // Update your atoms, global states, or parent callback
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
         [Number(taskFlowId)]: updatedWorkflow,
       }));
-      // Store separately if needed
+
       setPatternsFlow(updatedWorkflow);
 
+      setAnimation(true)
       // Callback to parent
       if (onWorkflowUpdate) {
         onWorkflowUpdate(updatedWorkflow);
@@ -157,6 +213,7 @@ export function FlowComponentTask(props) {
       onWorkflowUpdate,
     ]
   );
+  
 
   // Called by user to save current diagram back to workflow
   const handleSave = () => {
@@ -278,7 +335,7 @@ export function FlowComponentTask(props) {
     ...node,
     style: {
       ...(node.style || {}),
-      transition: "transform 0.5s ease"
+      transition: animation ? "transform 0.5s ease" : "none"
     },
     data: {
       ...node.data,
@@ -322,7 +379,7 @@ export function FlowComponentTask(props) {
         onNodesDelete={onNodesDelete}
         onNodeClick={handleNodeClick}
         minZoom={0.1}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.3}}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
         panOnScroll

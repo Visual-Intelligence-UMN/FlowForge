@@ -32,7 +32,7 @@
                     "nextSteps": ["step-3"]
                 },
                 {
-                    "stepId": "step-4",
+                    "stepId": "step-3",
                     "stepName": "Write Supporting Details",
                     "stepLabel": "Details Integration",
                     "stepDescription": "Expand on the presentation outline by adding detailed explanations, transitions, and examples where needed.",
@@ -41,7 +41,7 @@
                             "name": "Single Agent",
                             "description": "This design pattern has a reflection to perform the task."
                         },
-                    "nextSteps": ["step-4"]  
+                    "nextSteps": []  
                 }
             ]
         },
@@ -61,7 +61,7 @@
                             "name": "Single Agent",
                             "description": "This design pattern has a single agent to perform the task."
                         },
-                    "nextSteps": ["step-2"]
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
@@ -74,7 +74,7 @@
                             "name": "Supervision",
                             "description": "This design pattern has multiple agents to perform the task."
                         },
-                    "nextSteps": ["step3"]
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
