@@ -26,18 +26,17 @@ import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
 function convertToReactFlowFormat(taskflow) {
-  const { taskFlowSteps = [] } = taskflow;
 
-  // Convert each step into a React Flow node
-  const nodes = taskFlowSteps.map((step,index) => ({
-    id: `step-${index+1}` || step.stepId, // use the actual stepId
+  const { taskFlowSteps = [] } = taskflow;
+  const nodes = taskFlowSteps.map((step, index) => ({
+    id: `step-${index + 1}`,
     type: "flowStep",
-    position: { x: 0, y: 0 }, // will get overridden by the Dagre layout
+    position: { x: index * 250, y: 100 }, // Overridden by Dagre layout
     data: {
-      stepName: step.stepName || "",
+      stepName: step.stepName || `Step ${index + 1}`,
       stepLabel: step.stepLabel || "",
       stepDescription: step.stepDescription || "",
-      label: step.stepLabel || step.stepId,
+      label: step.stepLabel || `Step ${index + 1}`,
       pattern: step.pattern || { name: "", description: "" },
       template: step.template || {
         persona: "Single Agent",
@@ -64,7 +63,6 @@ function convertToReactFlowFormat(taskflow) {
 
   return { nodes, edges };
 }
-
 
 export function FlowComponentTask(props) {
 
@@ -117,54 +115,6 @@ export function FlowComponentTask(props) {
   }, [targetWorkflow, setNodes, setEdges, fitView]);
 
   // Helper to update the overall "workflow" shape in global or parent
-  // const updateTargetWorkflow = useCallback(
-  //   (updatedNodes, updatedEdges) => {
-  //     const taskFlowId = targetWorkflow.taskFlowId;
-  //     const updatedTaskFlowSteps = updatedNodes.map((node) => {
-  //       // find all outgoing connections for this node
-  //       const outgoingConnections = updatedEdges
-  //         .filter((edge) => edge.source === node.id)
-  //         .map((edge) => edge.target);
-
-  //       return {
-  //         id: node.id,
-  //         stepName: node.data.stepName,
-  //         stepLabel: node.data.stepLabel,
-  //         stepDescription: node.data.stepDescription,
-  //         pattern: node.data.pattern || {},
-  //         config: node.data.config || {},
-  //         template: node.data.template || {},
-  //         nextSteps: outgoingConnections,
-  //       };
-  //     });
-
-  //     const updatedWorkflow = {
-  //       ...targetWorkflow,
-  //       taskFlowSteps: updatedTaskFlowSteps,
-  //     };
-  //     // console.log("updatedWorkflow", updatedWorkflow);
-  //     // Update global flows map
-  //     setFlowsMap((prevFlows) => ({
-  //       ...prevFlows,
-  //       [Number(taskFlowId)]: updatedWorkflow,
-  //     }));
-  //     // Store separately if needed
-  //     setPatternsFlow(updatedWorkflow);
-
-  //     // Callback to parent
-  //     if (onWorkflowUpdate) {
-  //       onWorkflowUpdate(updatedWorkflow);
-  //     }
-  //   },
-  //   [
-  //     targetWorkflow,
-  //     canvasPages.flowId,
-  //     setFlowsMap,
-  //     setPatternsFlow,
-  //     onWorkflowUpdate,
-  //   ]
-  // );
-
   const updateTargetWorkflow = useCallback(
     (updatedNodes, updatedEdges) => {
       const taskFlowId = targetWorkflow.taskFlowId;
@@ -174,9 +124,11 @@ export function FlowComponentTask(props) {
         const outgoingConnections = updatedEdges
           .filter((edge) => edge.source === node.id)
           .map((edge) => edge.target);
-  
+
         return {
-          stepId: node.id, // store back as stepId
+          // here are the updated step details
+          id: node.id,
+          stepId: node.id,
           stepName: node.data.stepName,
           stepLabel: node.data.stepLabel,
           stepDescription: node.data.stepDescription,
@@ -191,8 +143,8 @@ export function FlowComponentTask(props) {
         ...targetWorkflow,
         taskFlowSteps: updatedTaskFlowSteps,
       };
-  
-      // Update your atoms, global states, or parent callback
+      // console.log("updatedWorkflow", updatedWorkflow);
+      // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
         [Number(taskFlowId)]: updatedWorkflow,
@@ -200,7 +152,6 @@ export function FlowComponentTask(props) {
 
       setPatternsFlow(updatedWorkflow);
 
-      setAnimation(true)
       // Callback to parent
       if (onWorkflowUpdate) {
         onWorkflowUpdate(updatedWorkflow);
