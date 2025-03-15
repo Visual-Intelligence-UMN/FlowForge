@@ -20,7 +20,8 @@ import {
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,
-} from "../../utils/layout/dagreUtils";
+  getLayeredLayout
+} from "./layout-steps";
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
 
@@ -28,7 +29,7 @@ function convertToReactFlowFormat(taskflow) {
   const { taskFlowSteps = [] } = taskflow;
 
   // Convert each step into a React Flow node
-  const nodes = taskFlowSteps.map((step) => ({
+  const nodes = taskFlowSteps.map((step,index) => ({
     id: step.stepId, // use the actual stepId
     type: "flowStep",
     position: { x: 0, y: 0 }, // will get overridden by the Dagre layout
@@ -98,7 +99,7 @@ export function FlowComponentTask(props) {
     let layoutedNodes, layoutedEdges;
     if (newNodes.length > 3) {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getMultiLineLayoutedNodesAndEdges(newNodes, newEdges));
+        getLayeredLayout(newNodes, newEdges));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
         getLayoutedNodesAndEdges(newNodes, newEdges));
