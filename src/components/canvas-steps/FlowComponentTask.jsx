@@ -7,6 +7,7 @@ import  {
   getConnectedEdges,
   Controls,
   useReactFlow,
+  SelectionMode,
 } from "@xyflow/react";
 import { useAtom } from "jotai";
 import {
@@ -111,6 +112,7 @@ export function FlowComponentTask(props) {
   // Helper to update the overall "workflow" shape in global or parent
   const updateTargetWorkflow = useCallback(
     (updatedNodes, updatedEdges) => {
+      const taskFlowId = targetWorkflow.taskFlowId;
       const updatedTaskFlowSteps = updatedNodes.map((node) => {
         // find all outgoing connections for this node
         const outgoingConnections = updatedEdges
@@ -137,7 +139,7 @@ export function FlowComponentTask(props) {
       // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
-        [Number(canvasPages.flowId)]: updatedWorkflow,
+        [Number(taskFlowId)]: updatedWorkflow,
       }));
       // Store separately if needed
       setPatternsFlow(updatedWorkflow);
@@ -284,6 +286,12 @@ export function FlowComponentTask(props) {
     },
   }));
 
+  const panOnDrag = [1, 2];
+
+  const handleNodeClick = (e, node) => {
+    console.log("node", node);
+  };
+
   return (
     <div
       className="reactflow-wrapper"
@@ -312,6 +320,13 @@ export function FlowComponentTask(props) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodesDelete={onNodesDelete}
+        onNodeClick={handleNodeClick}
+        minZoom={0.1}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
+        selectionOnDrag
+        selectionMode={SelectionMode.Partial}
+        panOnScroll
+        panOnDrag={panOnDrag}
       >
         <Controls />
       </ReactFlow>
