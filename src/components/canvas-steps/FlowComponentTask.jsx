@@ -380,7 +380,7 @@ export function FlowComponentTask(props) {
           left: "50%",
           transform: "translateX(-50%)",
           textTransform: "none",
-          pt: 1,
+          p: 2,
         }}
       >
         CONTINUE

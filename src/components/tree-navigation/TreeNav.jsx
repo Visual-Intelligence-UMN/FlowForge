@@ -44,7 +44,11 @@ const TreeNav = () => {
 
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
-      const label = `Flow ${flowId}`;
+      const flow = Object.values(flowsMap).find(
+        (flow) => flow.taskFlowId.toString() === flowId
+      );
+      const steps = Object.keys(flow.taskFlowSteps).length;
+      const label = `Flow ${flowId} (${steps} Steps)`;
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {

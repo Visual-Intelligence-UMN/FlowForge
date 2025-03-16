@@ -9,12 +9,12 @@ import {
   MiniMap,
   SelectionMode,
   useReactFlow,
-//   useViewport,
-    useStore,
-    useStoreApi
+  //   useViewport,
+  useStore,
+  useStoreApi,
 } from "@xyflow/react";
-import { ViewportPortal } from '@xyflow/react';
-import { useCallback, useEffect , useRef, useState} from "react";
+import { ViewportPortal } from "@xyflow/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   flowsMapAtom,
@@ -30,10 +30,7 @@ import {
   selectedConfigAtom,
 } from "../../patterns/GlobalStates";
 import isEqual from "lodash/isEqual";
-import {
-     getMultiLineLayoutedNodesAndEdges, 
-     zoomOutLayout
-} from "./layout";
+import { getMultiLineLayoutedNodesAndEdges, zoomOutLayout } from "./layout";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
@@ -41,22 +38,15 @@ import Button from "@mui/material/Button";
 
 import set from "lodash.set";
 
-
 export function RflowComponent(props) {
+  const targetWorkflow = props.targetWorkflow;
 
-    const targetWorkflow = props.targetWorkflow;
-
-    // const { nodes: initialNodes, edges: initialEdges } =
-    // convertToReactFlowFormat(targetWorkflow);
-  const {
-    fitView, 
-    setViewport,
-    setCenter
-    } = useReactFlow();
+  // const { nodes: initialNodes, edges: initialEdges } =
+  // convertToReactFlowFormat(targetWorkflow);
+  const { fitView, setViewport, setCenter } = useReactFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
-
 
   const [designPatterns, setDesignPatterns] = useAtom(patternsAtom);
   const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
@@ -68,7 +58,6 @@ export function RflowComponent(props) {
   );
   const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
   const { flowId, patternId, configId } = canvasPages || {};
-
 
   const onConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -99,17 +88,15 @@ export function RflowComponent(props) {
     setEdges(layoutedEdges);
 
     setTimeout(() => {
-        if (nodes.length) {
+      if (nodes.length) {
         //   fitView({ padding: 0.5, duration: 1000 });
-          setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+        setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
         //   setCenter(0, 0, { duration: 1000 });
         //   zoomOut({ zoom: 1, duration: 1000 });
-        }
-        setAnimation(false)
-      }, 100);
-
+      }
+      setAnimation(false);
+    }, 100);
   }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
-
 
   const handleSave = () => {
     const stepNodes = nodes.filter((node) => node.id !== "step-0");
@@ -167,9 +154,9 @@ export function RflowComponent(props) {
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
     style: {
-        ...(node.style || {}),
-        transition: animation ? "transform 0.5s ease" : "none"
-      },
+      ...(node.style || {}),
+      transition: animation ? "transform 0.5s ease" : "none",
+    },
     data: {
       ...node.data,
       updateNodeFieldset,
@@ -177,20 +164,19 @@ export function RflowComponent(props) {
     },
   }));
 
-//   const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
+  //   const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
   const panOnDrag = [1, 2];
 
-  const handleNodeClick = useCallback((evt, node) => {
-
-    if (node){
-
+  const handleNodeClick = useCallback(
+    (evt, node) => {
+      if (node) {
         if (previousNodeRef.current && previousNodeRef.current.id === node.id) {
-            console.log("Clicked the same node. View remains unchanged.");
-            return; // Do nothing if it's the same node.
-          }
-        
-          previousNodeRef.current = node;
-      
+          console.log("Clicked the same node. View remains unchanged.");
+          return; // Do nothing if it's the same node.
+        }
+
+        previousNodeRef.current = node;
+
         console.log("node", node);
         // const eventX = evt.clientX;
         // const eventY = evt.clientY;
@@ -199,20 +185,21 @@ export function RflowComponent(props) {
         let y = node.position.y + node.measured.height / 0.8;
         // console.log("zoomRatio", zoomRatio);
 
-        if (zoomRatio < 0.7){
-            const zoom = 0.7;
-            // todo: change the zoom ratio based on the pattern type?
-            setCenter(x, y, { zoom, duration: 1000 });
+        if (zoomRatio < 0.7) {
+          const zoom = 0.7;
+          // todo: change the zoom ratio based on the pattern type?
+          setCenter(x, y, { zoom, duration: 1000 });
 
-            // setViewport({ x: eventX, y: eventY, zoom: 0.7 }, { duration: 1000 });
+          // setViewport({ x: eventX, y: eventY, zoom: 0.7 }, { duration: 1000 });
         } else {
-            x = x * 1.1;
-            y = y * 0.6;
-            setCenter(x, y, { zoom: 0.7, duration: 1000 });
+          x = x * 1.1;
+          y = y * 0.6;
+          setCenter(x, y, { zoom: 0.7, duration: 1000 });
         }
-    }
-  }, [setCenter]);
-
+      }
+    },
+    [setCenter]
+  );
 
   return (
     <div
@@ -245,8 +232,6 @@ export function RflowComponent(props) {
         <Controls />
       </ReactFlow>
 
-    
-
       <Button
         size="small"
         onClick={(e) => {
@@ -258,7 +243,7 @@ export function RflowComponent(props) {
           left: "50%",
           transform: "translateX(-50%)",
           textTransform: "none",
-          pt: 1,
+          p: 2,
         }}
       >
         CONTINUE
