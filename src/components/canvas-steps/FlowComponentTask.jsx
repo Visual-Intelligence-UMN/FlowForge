@@ -43,6 +43,7 @@ function convertToReactFlowFormat(taskflow) {
         goal: "Single Agent",
       },
       config: step.config || { type: "none", nodes: [], edges: [] },
+      nextSteps: step.nextSteps || [],
     },
   }));
 

@@ -41,6 +41,7 @@ const SharedCanvas = () => {
           goal: "Single Agent",
         },
         config: step.config || { type: "none", nodes: [], edges: [] },
+        nextSteps: step.nextSteps || [],
       },
     }));
     // const edges = nodes
@@ -55,7 +56,7 @@ const SharedCanvas = () => {
     //       : null
     //   )
     //   .filter(Boolean);
-    
+
     const edges = [];
     taskflow.taskFlowSteps.forEach((step) => {
       if (Array.isArray(step.nextSteps)) {

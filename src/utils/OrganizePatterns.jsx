@@ -20,6 +20,7 @@ function reassignPatternIds(flowId, patterns) {
   }
   
 const OrganizePatterns = async (flow, setDesignPatterns, runRealtime) => {
+  // console.log("flow to organize patterns", flow);
     // TODO: remove the hardcoded patterns
     let exampleFlowsWithPatterns;
     if (!runRealtime) {

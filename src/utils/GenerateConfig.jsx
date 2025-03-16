@@ -13,7 +13,8 @@ const GenerateRunnableConfig = async (workflow) => {
     };
     // runtime, maxround can also dealt in compile langgraph
     for (const step of taskFlowSteps) {
-        const { stepName, stepLabel, stepDescription, pattern, config, template } = step;
+        console.log("step in generate config", step);
+        const { stepId, stepName, stepLabel, stepDescription, pattern, config, template, nextSteps } = step;
         if (handlersMap[pattern.name]) {
             let newConfig = handlersMap[pattern.name](step);
            
@@ -40,12 +41,14 @@ const GenerateRunnableConfig = async (workflow) => {
             }
             newConfig.runtime = runtime;
             agentsConfig.taskFlowSteps.push({
+                stepId,
                 stepName,
                 stepLabel,
                 stepDescription,
                 pattern,
                 config: newConfig,
-                template
+                template,
+                nextSteps,
             });
         } else {
             console.warn(`Unknown pattern: ${pattern.name}`);

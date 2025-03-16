@@ -119,6 +119,8 @@ export function RflowComponent(props) {
       pattern: node.data.pattern,
       config: node.data.config,
       template: node.data.template,
+      nextSteps: node.data.nextSteps,
+      stepId: node.id,
     }));
     const updatedTaskflow = {
       ...targetWorkflow,

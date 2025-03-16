@@ -16,7 +16,7 @@
                             "name": "PDF Loader Agent",
                             "description": "This design pattern has a single agent to perform the task."
                         },
-                    "nextSteps": ["step-2"]
+                    "nextSteps": ["step-3"]
                     
                 },
                 {
