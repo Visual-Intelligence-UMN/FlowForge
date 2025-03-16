@@ -7,6 +7,7 @@ import {
   selectedTaskAtom,
   canvasPagesAtom,
   compiledConfigsAtom,
+  flowUserRatingAtom,
 } from "../../patterns/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
@@ -22,6 +23,7 @@ const TreeNav = () => {
   const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
   const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+  const [flowUserRating, setFlowUserRating] = useAtom(flowUserRatingAtom);
 
   const handleTreeNav = () => {
     const g = new Graph();
@@ -29,6 +31,12 @@ const TreeNav = () => {
       rankdir: "TB", // top to bottom
       nodesep: 30, // node spacing
       ranksep: 30, // level spacing
+    });
+
+    // TESTING ONLY
+    setFlowUserRating({
+      1: { compiledId: "1-1-1", userRating: "4" },
+      2: { compiledId: "1-2-1", userRating: "5" },
     });
 
     if (Object.keys(selectedTask).length > 0) {
@@ -101,7 +109,11 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const label = `Compiled Config ${configId}`;
+      const config = Object.values(flowUserRating).find(
+        (config) => config.compiledId === configId
+      );
+      const rating = config.userRating || "-1";
+      const label = `Compiled Config ${configId} (Rating: ${rating})`;
       g.setNode(`compiled-${configId}`, {
         label: label,
         width: label.length * 8,
