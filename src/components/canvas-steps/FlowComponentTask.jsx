@@ -163,7 +163,7 @@ export function FlowComponentTask(props) {
       });
       
       const startNode = updatedNodes.find((node) => node.id === "step-0");
-      const startEdges = edges.filter((edge) => edge.source === "step-0");
+      const startEdges = updatedEdges.filter((edge) => edge.source === "step-0");
       const updatedTaskFlowStart = {
         stepId: "step-0",
         nextSteps: startEdges.map((edge) => edge.target),

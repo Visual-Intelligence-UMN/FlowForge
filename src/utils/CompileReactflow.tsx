@@ -2,7 +2,7 @@
 import { AppNode } from "../components/nodes/types";
 import { Edge } from "@xyflow/react";
 const CompileReactflow = async (config) => {
-    const { taskFlowSteps, configId } = config;
+    const { taskFlowSteps, taskFlowStart, configId } = config;
     // const configId = [taskId, taskFlowId, patternId].join("_");
 
     console.log("config to compile for reactflow", config);
@@ -131,10 +131,37 @@ const CompileReactflow = async (config) => {
 
         reactflowEdges.push(...processedEdges);
     });
-
+    // process start edges
+    stepMetadata["step-0"] = {
+        inputNodes: ["step-0"],
+        outputNodes: ["step-0"],
+        outputMode: "default",
+        pattern: "startStep",
+        maxRound: 1,
+        runtime: 1,
+        stepNodes: ["step-0"], 
+        nextSteps: taskFlowStart.nextSteps,
+    };
+    reactflowNodes.push({
+        id: "step-0",
+        type: "startStep",
+        position: { x: 0, y: 0 },
+        data: { 
+            label: "START" , 
+            inputText: taskFlowStart.input.text, 
+            inputFile: taskFlowStart.input.file
+        },
+        deletable: false,
+    });
     // process inter-step edges
     console.log("stepMetadata", stepMetadata);
+    let stepLabel = null;
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
+        if (stepKey === "step-0") {
+            stepLabel = "START";
+        } else {
+            stepLabel = null;
+        }
         idx += 1;
         // const nextStepKey = `step-${idx + 1}`;
         const nextStepsKeys = stepMetadata[stepKey]?.nextSteps || [];
@@ -153,7 +180,7 @@ const CompileReactflow = async (config) => {
                             source: outputNode,
                             target: inputNodes[0],
                             type: outputMode,
-                            label: `${stepKey}->${nextStepKey}`,
+                            label: stepLabel || `${stepKey}->${nextStepKey}`,
                         });
                     } else {
                         inputNodes.forEach((inputNode) => {
