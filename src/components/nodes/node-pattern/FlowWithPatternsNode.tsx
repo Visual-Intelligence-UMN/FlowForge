@@ -228,7 +228,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   };
 
   const explanation = () => {
-    const explanation = data.pattern.description;
+    const explanation = data.pattern.recommendationReason;
     const placeholder = "This pattern is suitable because it optimizes cost and efficiency.";
     return (
       <Tooltip 
