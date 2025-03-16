@@ -73,25 +73,23 @@ const Builder = () => {
   useEffect(() => {
     if (taskFlowsGenerate === 0) {
       setCanvasPages({
-            type: "flow-generating",
-            flowId: flowIds[0],
-            patternId: [],
-            configId: [],
-        });
-        OrganizeTaskFlows(
-            selectedTask,
-            setFlowsMap,
-            flowIds,
-            setFlowIds,
-            flowsCounter,
-            flowCounter,
-            setFlowCounter,
-            runRealtime
-          );
-         setTaskFlowsGenerate(1);
+        type: "flow-generating",
+        flowId: flowIds[0],
+        patternId: [],
+        configId: [],
+      });
+      OrganizeTaskFlows(
+        selectedTask,
+        setFlowsMap,
+        flowIds,
+        setFlowIds,
+        flowsCounter,
+        flowCounter,
+        setFlowCounter,
+        runRealtime
+      );
+      setTaskFlowsGenerate(1);
     }
-      
-     
   }, [taskFlowsGenerate]);
 
   useEffect(() => {
@@ -124,12 +122,11 @@ const Builder = () => {
     // console.log("builder task flows generate", taskFlowsGenerate);
     // console.log("builder flows map", flowsMap.length, flowIds.length, flowIds, flowsMap);
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
-       
       // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
-        // console.log("builder task flows generate", flowsMap);
-        console.log("builder task flows generate to set canvas", randomFlow);
+      // console.log("builder task flows generate", flowsMap);
+      console.log("builder task flows generate to set canvas", randomFlow);
       setCanvasPages({
         type: "flow",
         flowId: randomFlow.taskFlowId,
@@ -148,7 +145,7 @@ const Builder = () => {
       );
       const randomPattern =
         newAddedPatterns[Math.floor(Math.random() * newAddedPatterns.length)];
-        console.log("builder task flows generate to set canvas", randomPattern);
+      console.log("builder task flows generate to set canvas", randomPattern);
       setCanvasPages({
         type: "pattern",
         flowId: canvasPages.flowId,
@@ -156,7 +153,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [designPatterns, patternsGenerate]);
+  }, [designPatterns]);
 
   useEffect(() => {
     if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
