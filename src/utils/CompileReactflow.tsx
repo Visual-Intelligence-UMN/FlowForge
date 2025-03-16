@@ -16,11 +16,13 @@ const CompileReactflow = async (config) => {
     // iterate over each step
     let stepGroupNodes = [];
     taskFlowSteps.forEach((step, stepIdx) => {
+        // console.log("step", step);
+
         stepIdx += 1;
-        const { config } = step;
+        const { config, nextSteps, stepId } = step;
         if (!config) return;
 
-        const { nodes, edges, type, maxRound, runtime} = config;
+        const { nodes, edges, type, maxRound, runtime } = config;
         const pattern = type;
         let stepNodeIds = [];
         let firstNodeIds = [];
@@ -105,6 +107,7 @@ const CompileReactflow = async (config) => {
             maxRound: maxRound,
             runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
+            nextSteps: nextSteps,
         };
 
         // process intra-step edges (exclude START/END, those are defined by handlers, but no need to enclose pattern later)  
@@ -130,38 +133,42 @@ const CompileReactflow = async (config) => {
     });
 
     // process inter-step edges
+    console.log("stepMetadata", stepMetadata);
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
         idx += 1;
-        const nextStepKey = `step-${idx + 1}`;
-        if (stepMetadata[nextStepKey]) {
-            const { inputNodes } = stepMetadata[nextStepKey];
-            let { outputNodes, outputMode } = stepMetadata[stepKey];
-            // TODO: change the edge types after customizing the edges
-            outputMode = "default";
+        // const nextStepKey = `step-${idx + 1}`;
+        const nextStepsKeys = stepMetadata[stepKey]?.nextSteps || [];
+        for (const nextStepKey of nextStepsKeys) {
+            if (stepMetadata[nextStepKey]) {
+                const { inputNodes } = stepMetadata[nextStepKey];
+                let { outputNodes, outputMode } = stepMetadata[stepKey];
+                // TODO: change the edge types after customizing the edges
+                outputMode = "default";
 
-            outputNodes.forEach((outputNode) => {
-                if (inputNodes.length === 1) {
-                    const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
-                    reactflowEdges.push({
-                        id: stepTransitionEdgeId,
-                        source: outputNode,
-                        target: inputNodes[0],
-                        type: outputMode,
-                        label: `${stepKey}->${nextStepKey}`,
-                    });
-                } else {
-                    inputNodes.forEach((inputNode) => {
-                        const stepTransitionEdgeId = `${stepKey}->${nextStepKey}-${inputNode}`;
+                outputNodes.forEach((outputNode) => {
+                    if (inputNodes.length === 1) {
+                        const stepTransitionEdgeId = `${stepKey}->${nextStepKey}`;
                         reactflowEdges.push({
                             id: stepTransitionEdgeId,
                             source: outputNode,
-                            target: inputNode,
+                            target: inputNodes[0],
                             type: outputMode,
                             label: `${stepKey}->${nextStepKey}`,
                         });
-                    });
-                }
-            });
+                    } else {
+                        inputNodes.forEach((inputNode) => {
+                            const stepTransitionEdgeId = `${stepKey}->${nextStepKey}-${inputNode}`;
+                            reactflowEdges.push({
+                                id: stepTransitionEdgeId,
+                                source: outputNode,
+                                target: inputNode,
+                                type: outputMode,
+                                label: `${stepKey}->${nextStepKey}`,
+                            });
+                        });
+                    }
+                });
+            }
         }
     });
 

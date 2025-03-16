@@ -41,20 +41,35 @@ const SharedCanvas = () => {
           goal: "Single Agent",
         },
         config: step.config || { type: "none", nodes: [], edges: [] },
+        nextSteps: step.nextSteps || [],
       },
     }));
-    const edges = nodes
-      .map((node, index) =>
-        index < nodes.length - 1
-          ? {
-              id: `edge-${index}`,
-              source: node.id,
-              target: nodes[index + 1].id,
-              animated: true,
-            }
-          : null
-      )
-      .filter(Boolean);
+    // const edges = nodes
+    //   .map((node, index) =>
+    //     index < nodes.length - 1
+    //       ? {
+    //           id: `edge-${index}`,
+    //           source: node.id,
+    //           target: nodes[index + 1].id,
+    //           animated: true,
+    //         }
+    //       : null
+    //   )
+    //   .filter(Boolean);
+
+    const edges = [];
+    taskflow.taskFlowSteps.forEach((step) => {
+      if (Array.isArray(step.nextSteps)) {
+        step.nextSteps.forEach((nextStepId, idx) => {
+          edges.push({
+            id: `${step.stepId}->${nextStepId}-${idx}`,
+            source: step.stepId,
+            target: nextStepId,
+            animated: true,
+          });
+        });
+      }
+    });
     // console.log("nodes and edges after transform", nodes, edges);
 
     return { nodes, edges };

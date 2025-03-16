@@ -43,6 +43,7 @@ function convertToReactFlowFormat(taskflow) {
         goal: "Single Agent",
       },
       config: step.config || { type: "none", nodes: [], edges: [] },
+      nextSteps: step.nextSteps || [],
     },
   }));
 
@@ -153,16 +154,12 @@ export function FlowComponentTask(props) {
       setPatternsFlow(updatedWorkflow);
 
       // Callback to parent
-      if (onWorkflowUpdate) {
-        onWorkflowUpdate(updatedWorkflow);
-      }
     },
     [
       targetWorkflow,
       canvasPages.flowId,
       setFlowsMap,
       setPatternsFlow,
-      onWorkflowUpdate,
     ]
   );
   

@@ -95,7 +95,7 @@ const StreamOutput = ({ runConfig }) => {
       runConfig.reactflowDisplay
     );
 
-    // const graphImage = await generateGraphImage(langgraphRun);
+    // const graphImage = await generateGraphImage(compiledLanggraph);
     // setGraphImage(graphImage);
     // debug graph building
 

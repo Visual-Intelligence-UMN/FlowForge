@@ -18,7 +18,7 @@ function reassignConfigIds(patternId, configs) {
 }
 
 const OrganizeConfig = async (pattern, setAgentsConfig) => {
-  // console.log("pattern to organize", pattern);
+  console.log("pattern to organize", pattern);
     const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
        // Reassign each config’s ID
     const assignedConfigs = reassignConfigIds(pattern.patternId, generatedAgentsConfig);
