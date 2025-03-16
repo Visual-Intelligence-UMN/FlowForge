@@ -1,39 +1,38 @@
 [
     {
         "name": "Web Search Agent",
-        "description": "This design pattern has a single agent to perform the task, and have the access to the web search tool to search for information.It is useful when the task requires the agent to search for information on the web."
+        "description": "Utilizes a single agent equipped with web search capabilities to gather relevant information online. Ideal for tasks requiring extensive online research. Example use: conducting market research or gathering recent scientific findings."
     },
     {
         "name": "PDF Loader Agent",
-        "description": "This design pattern has a single agent to perform the task, and have the access to the PDF loader tool to load the PDF files.It is useful when the task requires the agent to read and understand the PDF files."
+        "description": "Employs a single agent capable of loading and analyzing PDF documents. Best suited for tasks involving reading, understanding, and extracting insights from PDF files. Example use: reviewing academic papers or extracting information from reports."
     },
     {
         "name": "Single Agent",
-        "description": "This design pattern has a single agent to perform the task, and it is useful when the task is not too complex."
-    }, 
+        "description": "Features a single agent designed to handle straightforward tasks efficiently without additional complexity. Ideal for simple, clearly defined tasks. Example use: summarizing short documents or answering basic questions."
+    },
     {
         "name": "Validator",
-        "description": "Agent evaluator can perform testing to assess the agent regarding diverse requirements and metrics."
+        "description": "Incorporates an evaluator agent tasked with systematically assessing other agents' performance against defined metrics and requirements. Ideal for ensuring quality and accuracy. Example use: verifying outputs against compliance standards or evaluating the accuracy of generated content."
     },
     {
         "name": "Reflection",
-        "description": "This design pattern has a pair of agents, one is the main agent, and the other is the reflection agent. The main agent is the one performing the task, and the reflection agent is the one observing and deciding the main agent's performance and providing iterative feedback to the main agent to improve its performance. It is useful when the task is not too complex but requires iterations to get the best result."
+        "description": "Consists of two agents—a main agent performing the primary task and a reflection agent that reviews performance and provides iterative feedback to improve performance. Suitable for tasks requiring refinement through feedback loops. Example use: iteratively improving a text draft or refining a strategic plan."
     },
     {
         "name": "Discussion",
-        "description": "This design pattern has multiple agents with different personas and roles, and they can debate, randomly discuss to generate diverse ideas, voting, brainstorming, and generating diverse perspectives. It is useful when the task requires creativity and diversity of perspectives."
+        "description": "Engages multiple agents with distinct personas and roles in a collaborative dialogue, fostering creativity, brainstorming, idea generation, debate, and consensus building. Best for tasks benefiting from diverse perspectives. Example use: collaborative creative writing or strategic decision-making discussions."
     },
     {
         "name": "Parallel",
-        "description": "Work simultaneously on a task and have their outputs aggregated programmatically. It is useful when the task has several focus points, and each focus point can be handled by a different worker agent."
+        "description": "Deploys multiple agents simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: simultaneously translating documents into multiple languages or parallel processing of different chapters of a book."
     },
     {
         "name": "Voting",
-        "description": "Agents with diverse identities can freely provide their opinions and reach consensus through voting-based cooperation."
+        "description": "Enables agents with diverse identities or perspectives to propose solutions and collectively determine the best outcome through a voting process. Optimal for decision-making tasks requiring collective agreement. Example use: selecting the best design concept or choosing a project direction through democratic voting."
     },
     {
         "name": "Supervision",
-        "description": "This design pattern has a supervisor agent, and multiple worker agents. The supervisor agent is the one observing and calling the worker agents to act on the tasks. It is useful when the task needs may vary with different focus points, and each focus point can be handled by a different worker agent."
+        "description": "Combines a supervisor agent overseeing multiple specialized worker agents. The supervisor dynamically routes requests based on varying requirements, efficiently managing and coordinating workers. Suitable for tasks with diverse and shifting focuses. Example use: diagnosing and classifying input to delegate them to specialized worker agents, such as refining content in aspects of creativity, clarity, or accuracy."
     }
-
 ]
