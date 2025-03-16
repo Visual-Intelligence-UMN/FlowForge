@@ -24,10 +24,14 @@ const CompileLanggraph = async (reactflowConfig) => {
     // }
 
     const {stepMetadata, graph} = reactflowConfig[0];
+    const startStep = stepMetadata["step-0"];
     const stepNum = Object.keys(stepMetadata);
     const {nodes, edges} = graph;
 
     stepNum.forEach((step) => {
+        if (step === "step-0") {
+            return;
+        }
         AgentsState.spec[step.split("-").join("")] = Annotation<BaseMessage[]>({
             default: () => [],
             reducer: (x,y) => x.concat(y),
@@ -40,6 +44,9 @@ const CompileLanggraph = async (reactflowConfig) => {
     console.log("reactflow to compile to langgraph", reactflowConfig);
 
     for (const key of Object.keys(stepMetadata)) {
+        if (key === "step-0") {
+            continue;
+        }
         // console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
         const {inputNodes,  pattern, stepNodes, maxRound, runtime, nextSteps} = stepMetadata[key];
@@ -85,27 +92,14 @@ const CompileLanggraph = async (reactflowConfig) => {
 
     console.log("stepMetadata in langgraph", stepMetadata);
 
-    if (stepMetadata["step-1"]?.nextSteps[0] === "step-2" && stepMetadata["step-1"]?.inputNodes.length !== 0) {
-        console.log("adding edge from START to inputNode", stepMetadata["step-1"]?.inputNodes);
-        stepMetadata["step-1"]?.inputNodes.forEach((inputNode) => {
-            compiledWorkflow.addEdge(START, inputNode);
-        });
-    } else if (stepMetadata["step-1"]?.nextSteps[0] !== "step-2") {
-        const secondStepidx = parseInt(stepMetadata["step-1"]?.nextSteps[0].split("-")[1]);
-        console.log("secondStepidx", secondStepidx);
-        for (const key of Object.keys(stepMetadata)) {
-            const stepIdx = parseInt(key.split("-")[1]);
-            if (stepIdx < secondStepidx) {
-                console.log("adding edge from START to inputNode", stepMetadata[key]?.inputNodes);
-                const inputNodes = stepMetadata[key]?.inputNodes;
-                inputNodes.forEach((inputNode) => {
-                    compiledWorkflow.addEdge(START, inputNode);
-                });
-            } else {
-                continue;
-            }
-        }
-    }
+    // add start step
+
+    console.log("startStep", startStep);
+    const startStepEdges = edges.filter(edge => edge.id.startsWith("step-0"));
+    startStepEdges.forEach((edge) => {
+        compiledWorkflow.addEdge(START, edge.target);
+    });
+
 
     const compiledLanggraph = compiledWorkflow.compile();
     console.log("final Workflow after compile", compiledLanggraph);

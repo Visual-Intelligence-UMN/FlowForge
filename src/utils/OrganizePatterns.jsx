@@ -32,6 +32,7 @@ const OrganizePatterns = async (flow, setDesignPatterns, runRealtime) => {
           patternId: flow.taskFlowId + "-A", 
           taskFlowDescription: flow.taskFlowDescription,
           taskFlowSteps: flow.taskFlowSteps,
+          taskFlowStart: flow.taskFlowStart,
         },
         {
           taskId: flow.taskFlowId,
@@ -40,6 +41,7 @@ const OrganizePatterns = async (flow, setDesignPatterns, runRealtime) => {
           patternId: flow.taskFlowId + "-B", 
           taskFlowDescription: flow.taskFlowDescription,
           taskFlowSteps: flow.taskFlowSteps,
+          taskFlowStart: flow.taskFlowStart,
         },
       ];
     } else {

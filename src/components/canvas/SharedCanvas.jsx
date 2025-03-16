@@ -26,11 +26,24 @@ const SharedCanvas = () => {
   const { type, configId, patternId, flowId } = canvasPages || {};
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
-    const nodes = taskflow.taskFlowSteps.map((step, index) => ({
-      id: `step-${index + 1}`,
-      type: nodeType,
-      position: { x: index * 250, y: 100 },
+    const { taskFlowSteps = [], taskFlowStart } = taskflow;
+    const startNode = {
+      id: "step-0",
+      type: "startStep",
+      position: { x: 0, y: 0 },
       data: {
+        stepName: "START",
+        inputText: taskFlowStart.input.text || "",
+        inputFile: taskFlowStart.input.file || "",
+      },
+      deletable: false,
+    };
+    const stepNodes = taskFlowSteps.map((step, index) => {
+      return {
+        id: `step-${index + 1}`,
+        type: nodeType,
+        position: { x: index * 250, y: 100 },
+        data: {
         stepName: step.stepName || `Step ${index + 1}`,
         stepLabel: step.stepLabel || "",
         stepDescription: step.stepDescription || "",
@@ -42,8 +55,11 @@ const SharedCanvas = () => {
         },
         config: step.config || { type: "none", nodes: [], edges: [] },
         nextSteps: step.nextSteps || [],
-      },
-    }));
+        },
+      };
+    });
+
+    const nodes = [startNode, ...stepNodes];
     // const edges = nodes
     //   .map((node, index) =>
     //     index < nodes.length - 1
@@ -58,7 +74,16 @@ const SharedCanvas = () => {
     //   .filter(Boolean);
 
     const edges = [];
-    taskflow.taskFlowSteps.forEach((step) => {
+    taskFlowStart.nextSteps.forEach((nextStepId, idx) => {
+      edges.push({
+        id: `step-0->${nextStepId}`,
+        source: "step-0",
+        target: nextStepId,
+        animated: true,
+      });
+    });
+
+    taskFlowSteps.forEach((step) => {
       if (Array.isArray(step.nextSteps)) {
         step.nextSteps.forEach((nextStepId, idx) => {
           edges.push({
