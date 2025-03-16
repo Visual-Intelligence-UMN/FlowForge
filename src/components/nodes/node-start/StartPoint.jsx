@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { TextField, Box } from '@mui/material';
+import { TextField, Box, Typography } from '@mui/material';
 
 export const StartPoint = ({ data, isConnectable }) => {
   const onChange = useCallback((evt) => {
@@ -27,6 +27,9 @@ export const StartPoint = ({ data, isConnectable }) => {
         id="a"
         isConnectable={isConnectable}
       />
+      <Typography variant="h6" sx={{ mt: 1, mb: 1 }}>
+        START 
+      </Typography>
       <TextField
         id="text"
         name="text"
@@ -34,7 +37,14 @@ export const StartPoint = ({ data, isConnectable }) => {
         variant="outlined"
         size="small"
         onChange={onChange}
-        sx={{ mt: 1, mb: 1 }}
+        sx={{ 
+          mt: 1, 
+          mb: 1,
+        }}
+        value={data.inputText}
+        multiline
+        minRows={2} 
+        className = "nodrag nopan nowheel"
       />
     </Box>
   );

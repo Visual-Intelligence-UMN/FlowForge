@@ -60,11 +60,20 @@ const GenerateTaskFlows = async (task, runRealtime) => {
         taskFlowId: z.string(),
         taskFlowName: z.string(),
         taskFlowDescription: z.string(),
+        taskFlowStart: z.object({
+          nextSteps: z.array(z.string()),
+          input: z.object({
+            text: z.string(),
+            file: z.string(),
+          }),
+        }),
         taskFlowSteps: z.array(
           z.object({
+            stepId: z.string(),
             stepName: z.string(),
             stepLabel: z.string(), // Short label for the step
             stepDescription: z.string(), // Detailed description of the step
+            nextSteps: z.array(z.string()),
           })
         ),
       })
