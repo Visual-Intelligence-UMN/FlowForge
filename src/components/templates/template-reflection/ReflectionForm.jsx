@@ -44,39 +44,40 @@ export function ReflectionForm({ data, onChange }) {
         {/* Evaluator */}
         <Typography variant="subtitle2">Evaluator</Typography>
         <PatternTextField
-          label="Evaluator Goal"
-          value={data.evaluator?.goal || ""}
-          onChange={handleNestedFieldChange("evaluator", "goal")}
-        />
-        <PatternTextField
-          label="Evaluator Pattern Prompt"
-          value={data.evaluator?.patternPrompt || ""}
-          onChange={handleNestedFieldChange("evaluator", "patternPrompt")}
-        />
-        <PatternTextField
           label="Evaluator Persona"
           value={data.evaluator?.persona || ""}
           onChange={handleNestedFieldChange("evaluator", "persona")}
         />
+        {/* <PatternTextField
+          label="Evaluator Pattern Prompt"
+          value={data.evaluator?.patternPrompt || ""}
+          onChange={handleNestedFieldChange("evaluator", "patternPrompt")}
+        /> */}
+        <PatternTextField
+          label="Evaluator Goal"
+          value={data.evaluator?.goal || ""}
+          onChange={handleNestedFieldChange("evaluator", "goal")}
+        />
+
       </Box>
 
       {/* Optimizer */}
       <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
         <Typography variant="subtitle2">Optimizer</Typography>
         <PatternTextField
-          label="Optimizer Goal"
-          value={data.optimizer?.goal || ""}
-          onChange={handleNestedFieldChange("optimizer", "goal")}
-        />
-        <PatternTextField
-          label="Optimizer Pattern Prompt"
-          value={data.optimizer?.patternPrompt || ""}
-          onChange={handleNestedFieldChange("optimizer", "patternPrompt")}
-        />
-        <PatternTextField
           label="Optimizer Persona"
           value={data.optimizer?.persona || ""}
           onChange={handleNestedFieldChange("optimizer", "persona")}
+        />
+        {/* <PatternTextField
+          label="Optimizer Pattern Prompt"
+          value={data.optimizer?.patternPrompt || ""}
+          onChange={handleNestedFieldChange("optimizer", "patternPrompt")}
+        /> */}
+        <PatternTextField
+          label="Optimizer Goal"
+          value={data.optimizer?.goal || ""}
+          onChange={handleNestedFieldChange("optimizer", "goal")}
         />
       
       </Box>
@@ -90,6 +91,7 @@ export function ReflectionForm({ data, onChange }) {
           onChange={handleSimpleFieldChange("maxRound")}
           size="small"
           sx={{ width: "50%", margin: "auto" }}
+          className="nodrag nopan nowheel"
       />
     </Box>
   );

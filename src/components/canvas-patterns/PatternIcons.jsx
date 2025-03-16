@@ -367,7 +367,7 @@ export const PatternIcons = ({ pattern, template }) => {
     }
 
     // 3) Optional summary in center
-    if (withSummary) {
+    if (withSummary === "true") {
       // Draw lines from summary to each agent node
       for (let i = 0; i < count; i++) {
         const angle = (2 * Math.PI * i) / count;
@@ -518,10 +518,17 @@ export const PatternIcons = ({ pattern, template }) => {
     }
 
     default:
+      // return (
+      //   <div style={{ fontSize: "12px" }}>
+      //     No zoom-out diagram available
+      //   </div>
+      // );
       return (
-        <div style={{ fontSize: "12px" }}>
-          No zoom-out diagram available
-        </div>
+        <svg width="100" height="60">
+          <g transform="translate(50,30)">
+            <CircleIcon label="A" />
+          </g>
+        </svg>
       );
   }
 };
