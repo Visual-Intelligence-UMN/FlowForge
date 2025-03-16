@@ -112,7 +112,8 @@ export function RflowComponent(props) {
 
 
   const handleSave = () => {
-    const updatedTaskFlowSteps = nodes.map((node) => ({
+    const stepNodes = nodes.filter((node) => node.id !== "step-0");
+    const updatedTaskFlowSteps = stepNodes.map((node) => ({
       stepName: node.data.stepName,
       stepLabel: node.data.stepLabel,
       stepDescription: node.data.stepDescription,
@@ -122,9 +123,20 @@ export function RflowComponent(props) {
       nextSteps: node.data.nextSteps,
       stepId: node.id,
     }));
+    const startNode = nodes.find((node) => node.id === "step-0");
+    const startEdges = edges.filter((edge) => edge.source === "step-0");
+    const updatedTaskFlowStart = {
+      stepId: "step-0",
+      nextSteps: startEdges.map((edge) => edge.target),
+      input: {
+        text: startNode.data.inputText,
+        file: startNode.data.inputFile,
+      },
+    };
     const updatedTaskflow = {
       ...targetWorkflow,
       taskFlowSteps: updatedTaskFlowSteps,
+      taskFlowStart: updatedTaskFlowStart,
     };
 
     // console.log("change handleSave", updatedTaskflow);

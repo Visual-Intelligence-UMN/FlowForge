@@ -1,7 +1,7 @@
 import { handlersMap } from "./handlers";
 
 const GenerateRunnableConfig = async (workflow) => {
-    const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, patternId } = workflow;
+    const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, taskFlowStart, patternId } = workflow;
     const agentsConfigs = [];
     const agentsConfig = {
         taskId,
@@ -10,6 +10,7 @@ const GenerateRunnableConfig = async (workflow) => {
         taskFlowDescription,
         taskFlowSteps: [],
         patternId,
+        taskFlowStart,
     };
     // runtime, maxround can also dealt in compile langgraph
     for (const step of taskFlowSteps) {
