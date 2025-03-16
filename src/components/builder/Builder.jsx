@@ -72,6 +72,13 @@ const Builder = () => {
 
   useEffect(() => {
     if (taskFlowsGenerate === 0) {
+      setCanvasPages({
+            type: "flow-generating",
+            flowId: flowIds[0],
+            patternId: [],
+            configId: [],
+        });
+        }
       OrganizeTaskFlows(
         selectedTask,
         setFlowsMap,
@@ -83,11 +90,16 @@ const Builder = () => {
         runRealtime
       );
       setTaskFlowsGenerate(1);
-    }
   }, [taskFlowsGenerate]);
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
+      setCanvasPages({
+        type: "pattern-generating",
+        flowId: flowIds[0],
+        patternId: [],
+        configId: [],
+      });
       OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
@@ -113,10 +125,14 @@ const Builder = () => {
   }, [compliedGenerate, selectedConfig]);
 
   useEffect(() => {
+    // console.log("builder task flows generate", taskFlowsGenerate);
+    // console.log("builder flows map", flowsMap.length, flowIds.length, flowIds, flowsMap);
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
+       
       // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
+        console.log("builder task flows generate", flowsMap);
       setCanvasPages({
         type: "flow",
         flowId: randomFlow.taskFlowId,
@@ -124,7 +140,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [flowsMap.length, taskFlowsGenerate]);
+  }, [flowIds.length, taskFlowsGenerate]);
 
   useEffect(() => {
     if (canvasPages.type === "flow" && designPatterns.length > 0) {

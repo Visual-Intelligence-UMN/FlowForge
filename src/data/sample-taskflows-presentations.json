@@ -1,0 +1,291 @@
+{
+    "taskFlows": [
+        {
+            "taskFlowId": "1",
+            "taskFlowName": "Creating an Engaging Presentation Script",
+            "taskFlowDescription": "A step-by-step guide to drafting a compelling presentation script.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Create a presentation script about climate change.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Outline Presentation Structure",
+                    "stepLabel": "Structuring Your Presentation",
+                    "stepDescription": "Identify the main sections of the presentation: Introduction, Key Points, and Conclusion. Decide how many slides will be used and their content.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Draft Engaging Opening",
+                    "stepLabel": "Attention Grabber",
+                    "stepDescription": "Craft a hook that engages the audience, such as a surprising statistic about climate change or a relevant personal story.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Identify Key Points",
+                    "stepLabel": "Main Ideas",
+                    "stepDescription": "Select 3-5 key points to cover related to climate change, such as causes, effects, and solutions, ensuring they align with visual aids that illustrate these concepts.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Smooth Transitions",
+                    "stepLabel": "Connecting Sections",
+                    "stepDescription": "Write transition phrases that link the introduction to key points and between key points, maintaining flow and coherence throughout the presentation.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Craft a Concise Conclusion",
+                    "stepLabel": "Closure",
+                    "stepDescription": "Summarize the key points effectively and leave the audience with a strong closing thought or call to action regarding climate change.",
+                    "nextSteps": [
+                        "step-6"
+                    ]
+                },
+                {
+                    "stepId": "step-6",
+                    "stepName": "Allocate Timing",
+                    "stepLabel": "Timing Your Presentation",
+                    "stepDescription": "Assign a specific time limit for the entire presentation (e.g., 15 minutes), deciding on the duration for introduction (2 min), each key point (2 min each), and conclusion (2 min) to fit.",
+                    "nextSteps": [
+                        "step-7"
+                    ]
+                },
+                {
+                    "stepId": "step-7",
+                    "stepName": "Suggest Visual Aids",
+                    "stepLabel": "Enhancing Engagement",
+                    "stepDescription": "Identify suitable visual aids such as graphs, images, or videos related to climate change to be included in the presentation to enhance understanding.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        {
+            "taskFlowId": "2",
+            "taskFlowName": "Script Finalization and Edits",
+            "taskFlowDescription": "Guidelines for polishing and finalizing the presentation script.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Final edits for a climate change presentation script.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Review Script for Clarity",
+                    "stepLabel": "Clarifying Content",
+                    "stepDescription": "Go through the entire script and ensure it is clear and appropriate for the audience's understanding level.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Check for Engagement Level",
+                    "stepLabel": "Engagement Review",
+                    "stepDescription": "Assess whether the script maintains an engaging tone and whether the visuals enhance the content effectively.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Practice Delivery",
+                    "stepLabel": "Rehearsing",
+                    "stepDescription": "Practice the speech multiple times, checking timing, flow, and comfort with material.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Gather Feedback",
+                    "stepLabel": "Seeking Opinions",
+                    "stepDescription": "Have a colleague or friend review the script and provide feedback on clarity and engagement before finalizing.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Final Edits",
+                    "stepLabel": "Last Touches",
+                    "stepDescription": "Incorporate the received feedback to refine the script and ensure it meets the desired standards.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        {
+            "taskFlowId": "3",
+            "taskFlowName": "Creating a Presentation Script",
+            "taskFlowDescription": "This flow outlines the steps to develop a comprehensive presentation script based on a specific topic.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Topic: Importance of Renewable Energy",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Engage the Audience",
+                    "stepLabel": "Opening Hook",
+                    "stepDescription": "Start with a compelling fact or question to captivate the audience's interest in renewable energy.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Main Points",
+                    "stepDescription": "Clearly outline 3-5 key points regarding the benefits and importance of renewable energy, appropriately matched with their corresponding visual aids.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Develop Smooth Transitions",
+                    "stepLabel": "Flow Between Sections",
+                    "stepDescription": "Craft transitions between each key point to maintain a natural flow throughout the presentation.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Conclusion",
+                    "stepDescription": "Summarize the key points and end with a strong call to action regarding renewable energy adoption.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        {
+            "taskFlowId": "4",
+            "taskFlowName": "Enhancing Presentation Elements",
+            "taskFlowDescription": "This flow focuses on suggesting visual aids and multimedia elements to support the presentation script.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Visual Elements for Renewable Energy Presentation",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Identify Relevant Visual Aids",
+                    "stepLabel": "Choosing Aids",
+                    "stepDescription": "Select images, graphs, or infographics that complement each key point regarding renewable energy.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Incorporate Multimedia",
+                    "stepLabel": "Video Clips",
+                    "stepDescription": "Recommend short video clips to illustrate real-world applications of renewable energy technologies.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Design Slide Template",
+                    "stepLabel": "Aesthetic Elements",
+                    "stepDescription": "Create a visually appealing slide template that matches the topic's theme and enhances readability.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Review Alignment with Script",
+                    "stepLabel": "Final Review",
+                    "stepDescription": "Ensure that all visual aids align seamlessly with the presentation script for better comprehension.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        {
+            "taskFlowId": "5",
+            "taskFlowName": "Presentation Timing and Structure",
+            "taskFlowDescription": "This flow allocates time for each segment while ensuring clarity and engagement.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Timing for Renewable Energy Presentation",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Allocate Time for Hook",
+                    "stepLabel": "Opening Timing",
+                    "stepDescription": "Set aside 1-2 minutes for the opening hook to engage the audience.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Designate Key Points Duration",
+                    "stepLabel": "Main Points Timing",
+                    "stepDescription": "Assign approximately 3-4 minutes for each of the main points, allowing for detailed explanations.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Plan Transition Durations",
+                    "stepLabel": "Smooth Flow Timing",
+                    "stepDescription": "Allocate 1 minute for transitions between each section to maintain the flow.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Adequate Time",
+                    "stepLabel": "Conclusion Timing",
+                    "stepDescription": "Reserve the final 2 minutes for the conclusion and audience engagement or questions.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    ]
+}

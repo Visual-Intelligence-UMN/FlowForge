@@ -17,6 +17,7 @@ import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
+import LoadingFlows from "./Loading";
 
 const SharedCanvas = () => {
   const [canvasPages] = useAtom(canvasPagesAtom);
@@ -155,6 +156,8 @@ const SharedCanvas = () => {
           nodeType = "compiledStep";
           break;
 
+        case "flow-generating":
+          return <LoadingFlows />;
         default:
           return <Typography>Canvas goes here</Typography>;
       }
