@@ -32,7 +32,8 @@ import {
 import isEqual from "lodash/isEqual";
 import {
      getMultiLineLayoutedNodesAndEdges, 
-     zoomOutLayout
+     zoomOutLayout,
+     getLayeredLayout
 } from "./layout";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
@@ -90,18 +91,18 @@ export function RflowComponent(props) {
     let layoutedEdges;
     if (nextNodes.length > 3) {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
+        getLayeredLayout(nextNodes, nextEdges));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getMultiLineLayoutedNodesAndEdges(nextNodes, nextEdges));
+        getLayeredLayout(nextNodes, nextEdges));
     }
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
 
     setTimeout(() => {
         if (nodes.length) {
-        //   fitView({ padding: 0.5, duration: 1000 });
-          setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+          fitView({ padding: 0.2, duration: 1000 });
+        //   setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
         //   setCenter(0, 0, { duration: 1000 });
         //   zoomOut({ zoom: 1, duration: 1000 });
         }
