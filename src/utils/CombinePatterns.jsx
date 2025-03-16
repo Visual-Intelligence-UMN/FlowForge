@@ -1,5 +1,5 @@
 const randomCombinePatterns = (patternsFlow, numCombinations) => {
-    const {taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps} = patternsFlow;
+    const {taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, taskFlowStart} = patternsFlow;
     const patterns = [];
     const getRandomPatterns = (patterns) => {
         if (patterns.length === 0) {
@@ -15,11 +15,14 @@ const randomCombinePatterns = (patternsFlow, numCombinations) => {
             taskFlowName: taskFlowName,
             taskFlowDescription: taskFlowDescription,
             patternsId: taskFlowId + i,
+            taskFlowStart: taskFlowStart,
             taskFlowSteps: taskFlowSteps.map((step) => ({
+                stepId: step.stepId,
                 stepName: step.stepName,
                 stepLabel: step.stepLabel,
                 stepDescription: step.stepDescription,
                 pattern: getRandomPatterns(step.designPatterns),
+                nextSteps: step.nextSteps,
             })),
         }
         patterns.push(combinedPatterns);

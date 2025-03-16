@@ -21,10 +21,18 @@ const GenerateTemplatesInfo = async (flow) => {
                 "persona": z.string(),
                 "goal": z.string(),
             }),
-            "Validator": z.object({
+            "Web Search Agent": z.object({
                 "persona": z.string(),
                 "goal": z.string(),
             }),
+            "PDF Loader Agent": z.object({
+                "persona": z.string(),
+                "goal": z.string(),
+            }),
+            // "Validator": z.object({
+            //     "persona": z.string(),
+            //     "goal": z.string(),
+            // }),
             "Supervision": z.object({
                 "persona": z.string(),
                 "goal": z.string(),
@@ -80,22 +88,22 @@ const GenerateTemplatesInfo = async (flow) => {
                     "goal": z.string(),
                 }),
             }),
-            "Voting": z.object({
-                "agents": z.array(z.object({
-                    "persona": z.string(),
-                    "goal": z.string(),
-                }), z.object({
-                    "persona": z.string(),
-                    "goal": z.string(),
-                }), z.object({
-                    "persona": z.string(),
-                    "goal": z.string(),
-                })),
-                "aggregation": z.object({
-                    "persona": z.string(),
-                    "goal": z.string(),
-                }),
-            })
+            // "Voting": z.object({
+            //     "agents": z.array(z.object({
+            //         "persona": z.string(),
+            //         "goal": z.string(),
+            //     }), z.object({
+            //         "persona": z.string(),
+            //         "goal": z.string(),
+            //     }), z.object({
+            //         "persona": z.string(),
+            //         "goal": z.string(),
+            //     })),
+            //     "aggregation": z.object({
+            //         "persona": z.string(),
+            //         "goal": z.string(),
+            //     }),
+            // })
         }
 
         const stepTemplateSchema = templateSchema[pattern.name] || templateSchema["Single Agent"];

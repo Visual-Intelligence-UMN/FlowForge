@@ -7,6 +7,7 @@ import {
   selectedTaskAtom,
   canvasPagesAtom,
   compiledConfigsAtom,
+  flowUserRatingAtom,
 } from "../../patterns/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
@@ -22,6 +23,7 @@ const TreeNav = () => {
   const [agentsConfig, setAgentsConfig] = useAtom(agentsConfigAtom);
   const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
+  const [flowUserRating, setFlowUserRating] = useAtom(flowUserRatingAtom);
 
   const handleTreeNav = () => {
     const g = new Graph();
@@ -29,6 +31,12 @@ const TreeNav = () => {
       rankdir: "TB", // top to bottom
       nodesep: 30, // node spacing
       ranksep: 30, // level spacing
+    });
+
+    // TESTING ONLY
+    setFlowUserRating({
+      1: { compiledId: "1-1-1", userRating: "4" },
+      2: { compiledId: "1-2-1", userRating: "5" },
     });
 
     if (Object.keys(selectedTask).length > 0) {
@@ -44,7 +52,11 @@ const TreeNav = () => {
 
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
-      const label = `Flow ${flowId}`;
+      const flow = Object.values(flowsMap).find(
+        (flow) => flow.taskFlowId.toString() === flowId
+      );
+      const steps = Object.keys(flow.taskFlowSteps).length;
+      const label = `Flow ${flowId} (${steps} Steps)`;
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
@@ -97,7 +109,11 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const label = `Compiled Config ${configId}`;
+      const config = Object.values(flowUserRating).find(
+        (config) => config.compiledId === configId
+      );
+      const rating = config?.userRating || "-1";
+      const label = `Compiled Config ${configId} (Rating: ${rating})`;
       g.setNode(`compiled-${configId}`, {
         label: label,
         width: label.length * 8,
@@ -153,6 +169,94 @@ const TreeNav = () => {
     handleTreeNav();
   }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask]);
 
+  const handleDeleteNode = (selected) => {
+    if (!selected || !selected.type) return;
+
+    const {
+      type: canvasType,
+      flowId: canvasFlowId,
+      patternId: canvasPatternId,
+      configId: canvasConfigId,
+    } = canvasPages;
+    const { type, flowId, patternId, configId } = selected;
+
+    switch (type) {
+      case "task":
+        alert("You cannot delete the task node!");
+        break;
+
+      case "flow":
+        if (Object.keys(flowsMap).length == 1) {
+          alert("You cannot delete the last remaining flow.");
+          break;
+        }
+        setFlowsMap((prev) => {
+          const copy = { ...prev };
+          delete copy[flowId];
+          if (flowId == canvasFlowId) {
+            setCanvasPages({
+              type: type,
+              flowId: Object.keys(copy)[0],
+              patternId: null,
+              configId: null,
+            });
+          }
+          return copy;
+        });
+        setPatterns((prev) =>
+          prev.filter((p) => !p.patternId.startsWith(`${flowId}-`))
+        );
+        setAgentsConfig((prev) =>
+          prev.filter((cfg) => !cfg.configId.startsWith(`${flowId}-`))
+        );
+        setCompiledConfigs((prev) =>
+          prev.filter((c) => !c.configId.startsWith(`${flowId}-`))
+        );
+        break;
+
+      case "pattern":
+        setPatterns((prev) => {
+          const copy = [...prev];
+          const filteredCopy = copy.filter((p) => p.patternId !== patternId);
+          if (patternId == canvasPatternId) {
+            setCanvasPages({
+              type: filteredCopy.length == 0 ? "flow" : "pattern",
+              flowId: canvasFlowId,
+              patternId: filteredCopy[0]?.patternId || null,
+              configId: canvasConfigId,
+            });
+          }
+          return filteredCopy;
+        });
+        setAgentsConfig((prev) =>
+          prev.filter((cfg) => !cfg.configId.startsWith(patternId))
+        );
+        setCompiledConfigs((prev) =>
+          prev.filter((c) => !c.configId.startsWith(patternId))
+        );
+        break;
+
+      case "compiled":
+        setCompiledConfigs((prev) => {
+          const copy = [...prev];
+          const filteredCopy = copy.filter((c) => c.configId !== configId);
+          if (configId == canvasConfigId) {
+            setCanvasPages({
+              type: filteredCopy.length == 0 ? "pattern" : "compiled",
+              flowId: canvasFlowId,
+              patternId: canvasPatternId,
+              configId: filteredCopy[0]?.configId || null,
+            });
+          }
+          return filteredCopy;
+        });
+        break;
+
+      default:
+        break;
+    }
+  };
+
   // Helper to build a path string (M x0,y0 L x1,y1 ...)
   const buildEdgePath = (points) => {
     if (!points || points.length === 0) return "";
@@ -202,7 +306,10 @@ const TreeNav = () => {
       // console.log("flowsMap", flowsMap);
       // console.log("patterns", patterns);
       // console.log("agentsConfig", agentsConfig);
-      console.log("pattern node clicked", patterns.find(item => item.patternId === node.data.id));
+      console.log(
+        "pattern node clicked",
+        patterns.find((item) => item.patternId === node.data.id)
+      );
       const patternId = node.data.id;
       const flowId = patternId.split("-")[0];
       const childrenConfigs = agentsConfig.filter(
@@ -231,7 +338,10 @@ const TreeNav = () => {
     } else if (layer === "compiled") {
       // console.log("compiled node clicked", compiledConfigs);
       const configId = node.data.id;
-      console.log("compiled node clicked", compiledConfigs.find(item => item.configId === configId));
+      console.log(
+        "compiled node clicked",
+        compiledConfigs.find((item) => item.configId === configId)
+      );
       setCanvasPages({
         type: "compiled",
         configId: configId,
@@ -239,6 +349,65 @@ const TreeNav = () => {
         patternId: configId.split("-")[0] + "-" + configId.split("-")[1],
       });
     }
+  };
+
+  const handleRightClick = (event, node) => {
+    event.preventDefault(); // Prevent browser context menu
+
+    const layer = node.id.split("-")[0];
+    let selectedNode = {
+      type: null,
+      flowId: null,
+      patternId: null,
+      configId: null,
+    };
+
+    if (layer === "flow") {
+      console.log("flow node right-clicked", flowsMap);
+
+      selectedNode.type = "flow";
+      selectedNode.flowId = node.data.id;
+    } else if (layer === "pattern") {
+      console.log(
+        "pattern node right-clicked",
+        patterns.find((item) => item.patternId === node.data.id)
+      );
+
+      selectedNode.type = "pattern";
+      selectedNode.patternId = node.data.id;
+      selectedNode.flowId = node.data.id.split("-")[0];
+    } else if (layer === "config") {
+      console.log(
+        "config node right-clicked",
+        agentsConfig.find((item) => item.configId === node.data.id)
+      );
+
+      selectedNode.type = "config";
+      selectedNode.configId = node.data.id;
+      const [flowId, patternPart] = node.data.id.split("-");
+      selectedNode.patternId = `${flowId}-${patternPart}`;
+      selectedNode.flowId = flowId;
+    } else if (layer === "compiled") {
+      console.log(
+        "compiled node right-clicked",
+        compiledConfigs.find((item) => item.configId === node.data.id)
+      );
+
+      selectedNode.type = "compiled";
+      selectedNode.configId = node.data.id;
+      selectedNode.flowId = node.data.id.split("-")[0];
+      selectedNode.patternId =
+        node.data.id.split("-")[0] + "-" + node.data.id.split("-")[1];
+    }
+
+    if (!selectedNode.type) return;
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete ${selectedNode.type} ${selectedNode.flowId}?\n\nWARNING: All child nodes will be deleted.`
+    );
+    if (!confirmDelete) return;
+
+    handleDeleteNode(selectedNode);
   };
 
   useEffect(() => {
@@ -337,6 +506,7 @@ const TreeNav = () => {
                   key={node.id}
                   transform={`translate(${nodeX}, ${nodeY})`}
                   className="node-group"
+                  onContextMenu={(event) => handleRightClick(event, node)}
                 >
                   <rect
                     className="node-rect"

@@ -81,12 +81,6 @@ const CompileLanggraph = async (reactflowConfig) => {
                 break;
         }
 
-        // if (key === "step-1" && nextSteps[0] === "step-2" && inputNodes.length !== 0) {
-        //     // console.log("adding edge from START to inputNode", inputNodes);
-        //     inputNodes.forEach((inputNode) => {
-        //         compiledWorkflow.addEdge(START, inputNode);
-        //     });
-        // } 
         // no need to add END edge for the last step because it is already added in the patterns
     }
 

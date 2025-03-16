@@ -5,7 +5,7 @@ import { designPatternsPool } from "../patterns/patternsData";
 import promptGeneratePatterns from "../models/prompt-generate-patterns.json";
 
 const GeneratePatterns = async (taskFlow) => {
-    const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps } = taskFlow;
+    const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, taskFlowStart } = taskFlow;
     const openai = new OpenAI({
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
@@ -16,6 +16,7 @@ const GeneratePatterns = async (taskFlow) => {
         taskFlowName: taskFlowName,
         taskFlowDescription: taskFlowDescription,
         taskFlowSteps: [],
+        taskFlowStart: taskFlowStart,
     }
 
     const designPatternSchema = z.object({
@@ -35,6 +36,8 @@ const GeneratePatterns = async (taskFlow) => {
     .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => pattern.name + ": " + pattern.description).join(", "));
 
     for (const step of taskFlowSteps) {
+        const stepId = step.stepId;
+        const nextSteps = step.nextSteps;
         const stepName = step.stepName;
         const stepLabel = step.stepLabel;
         const stepDescription = step.stepDescription;
@@ -53,17 +56,21 @@ const GeneratePatterns = async (taskFlow) => {
             console.log("Design pattern for subtask " + stepName + " is: " + res);
             const designPatterns = res.designPatterns;
             patternsFlow.taskFlowSteps.push({
+                stepId: stepId,
                 stepName: stepName,
                 stepLabel: stepLabel,
                 stepDescription: stepDescription,
                 designPatterns: designPatterns,
+                nextSteps: nextSteps,
             });
         } catch (error) {
             patternsFlow.taskFlowSteps.push({
+                stepId: stepId,
                 stepName: stepName,
                 stepLabel: stepLabel,
                 stepDescription: stepDescription,
                 designPatterns: [],
+                nextSteps: nextSteps,
             });
             console.error("Error generating design pattern for subtask " + stepName + ": " + error);
         }

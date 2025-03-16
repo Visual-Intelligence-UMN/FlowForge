@@ -97,6 +97,36 @@ export function ParallelForm({ data, onChange }) {
     )
   }
 
+  const aggregationDisplay = () => {
+    return (
+      <Box 
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          border: "1px solid #ccc",
+          p: 1,
+          borderRadius: 2,
+          boxShadow: 1,
+          minHeight: 130, 
+        }}
+      >
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Aggregation</Typography>
+        <PatternTextField
+          label="Persona"
+          value={data.aggregation?.persona || ""}
+          // onChange={handleAggregationChange("persona")}
+        />
+        <PatternTextField
+          label="Goal"
+          value={data.aggregation?.goal || ""}
+          // onChange={handleAggregationChange("goal")}
+        />
+    </Box>
+    )
+  }
+
   return (
     <Box 
       sx={{ 
@@ -112,8 +142,9 @@ export function ParallelForm({ data, onChange }) {
             {eachAgent(agent, i)}
           </Grid2>
         ))}
+              {aggregationDisplay()}
       </Grid2>
-      
+
 
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         

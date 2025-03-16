@@ -15,11 +15,11 @@ export const iconMap = {
     "Single Agent": AgentIcon,
     // "Web Search Agent": WebsearchIcon,
     // "PDF Loader Agent": PersonIcon,
-    "Validator": ValidatorIcon,
+    // "Validator": ValidatorIcon,
     "Reflection": ReflectionIcon,
     "Discussion": DiscussionIcon,
     "Parallel": ParallelIcon,
-    "Voting": VotingIcon,
+    // "Voting": VotingIcon,
     "Supervision": SupervisionIcon,
     // any other icons ...
   };

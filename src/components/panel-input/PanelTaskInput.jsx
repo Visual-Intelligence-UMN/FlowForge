@@ -4,7 +4,7 @@ import {
   selectedTaskAtom,
   taskFlowsGenerateAtom,
   workflowInputAtom,
-  runRealtimeAtom
+  runRealtimeAtom,
 } from "../../patterns/GlobalStates";
 
 import {
@@ -21,7 +21,6 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { taskList } from "../../patterns/GlobalStates";
 import { useResetTask } from "../../utils/ResetTask";
-
 
 function TaskPanel() {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
@@ -115,17 +114,17 @@ function TaskPanel() {
   const handleRealtimeToggle = (e) => {
     setRunRealtime(e.target.checked);
   };
-// ... existing code ...
+  // ... existing code ...
 
   return (
-// <<<<<<< nick-work
+    // <<<<<<< nick-work
     <Box
       sx={{
         width: "100%",
         padding: 2,
         display: "flex",
         alignItems: "center",
-        gap: 10,
+        gap: 6,
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -169,17 +168,15 @@ function TaskPanel() {
         >
           Submit Task
         </Button>
-        <div>
+        <Box sx={{ gap: 2 }}>
           <input
             type="checkbox"
             id="run-realtime"
             checked={runRealtime}
             onChange={handleRealtimeToggle}
           />
-          <label>
-            Check to Run Real Time
-          </label>
-        </div>
+          <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
+        </Box>
       </Box>
 
       {/* Example Task Selector */}
@@ -187,7 +184,7 @@ function TaskPanel() {
         <InputLabel id="task-select-label">Example Tasks</InputLabel>
         <Select
           value={localSelectedTask.index ?? ""}
-          sx={{ minWidth: "200px", height: "50px", color: "#777" }}
+          sx={{ width: "100px", height: "50px", color: "#777" }}
           variant="standard"
           onChange={handleTaskSelect}
           size="small"
@@ -200,17 +197,16 @@ function TaskPanel() {
         </Select>
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Typography 
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Typography
           sx={{ fontSize: "14px", color: "#333" }}
           onChange={(e) => setWorkflowInput(e.target.value)}
-          >
+        >
           Example Input (Optional)
         </Typography>
 
-        <TextField size="small" />
+        <TextField size="small" sx={{ width: "200px" }} />
       </Box>
-
     </Box>
   );
 }

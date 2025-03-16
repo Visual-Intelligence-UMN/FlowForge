@@ -1,142 +1,145 @@
 {
-    "taskFlows": [
+  "taskFlows": [
       {
-        "taskFlowId": "tf1",
-        "taskFlowName": "Structured Rubric Evaluation",
-        "taskFlowDescription": "Employs a structured rubric to objectively assess and score the paper based on predefined criteria.",
-        "taskFlowSteps": [
-          {
-            "stepName": "Criteria Selection",
-            "stepLabel": "Define Evaluation Criteria",
-            "stepDescription": "Identify and finalize clear evaluation criteria (e.g., clarity, originality, relevance, methodology).",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
+          "taskFlowId": "1",
+          "taskFlowName": "Initial Paper Summary and Evaluation",
+          "taskFlowDescription": "This flow outlines the steps to summarize and evaluate the academic paper's primary elements.",
+          "taskFlowStart": {
+              "nextSteps": [
+                  "step-1"
+              ],
+              "input": {
+                  "text": "Initial summary of the paper's objectives, methodology, and findings.",
+                  "file": ""
+              }
           },
-          {
-            "stepName": "Detailed Assessment",
-            "stepLabel": "Conduct Thorough Review",
-            "stepDescription": "Read the paper carefully, assessing it systematically against each criterion.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          },
-          {
-            "stepName": "Scoring Application",
-            "stepLabel": "Assign Scores",
-            "stepDescription": "Assign numeric scores to each criterion based on rubric standards and observed paper quality.",
-            "designPatterns": ["Single Agent", "Reflection"]
-          },
-          {
-            "stepName": "Summarize Evaluation",
-            "stepLabel": "Generate Score Summary",
-            "stepDescription": "Compile final criteria list with assigned scores, clearly summarizing strengths and weaknesses.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          }
-        ]
+          "taskFlowSteps": [
+              {
+                  "stepId": "step-1",
+                  "stepName": "Summarize Paper Objectives",
+                  "stepLabel": "Objectives Summary",
+                  "stepDescription": "Identify and summarize the primary objectives outlined in the paper.",
+                  "nextSteps": [
+                      "step-2"
+                  ]
+              },
+              {
+                  "stepId": "step-2",
+                  "stepName": "Outline Methodology",
+                  "stepLabel": "Methodology Overview",
+                  "stepDescription": "Detail the research methodology employed by the authors.",
+                  "nextSteps": [
+                      "step-3"
+                  ]
+              },
+              {
+                  "stepId": "step-3",
+                  "stepName": "Highlight Key Findings",
+                  "stepLabel": "Findings Highlight",
+                  "stepDescription": "Summarize the main findings reported in the paper.",
+                  "nextSteps": [
+                      "step-4"
+                  ]
+              },
+              {
+                  "stepId": "step-4",
+                  "stepName": "Conclude with Summary",
+                  "stepLabel": "Conclusion Summary",
+                  "stepDescription": "Provide a brief conclusion that encapsulates the objectives, methodology, and findings.",
+                  "nextSteps": []
+              }
+          ]
       },
       {
-        "taskFlowId": "tf2",
-        "taskFlowName": "Expert Judgment Review",
-        "taskFlowDescription": "Uses expert judgment and qualitative analysis to evaluate paper quality, followed by translating evaluations into numeric scores.",
-        "taskFlowSteps": [
-          {
-            "stepName": "Qualitative Review",
-            "stepLabel": "Expert Qualitative Analysis",
-            "stepDescription": "Carefully read and analyze the paper qualitatively, noting expert impressions and key strengths and weaknesses.",
-            "designPatterns": ["Single Agent", "Discussion"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }   
+          "taskFlowId": "2",
+          "taskFlowName": "Critical Evaluation of Methodology and Results",
+          "taskFlowDescription": "This flow focuses on critically evaluating the paper's methodological soundness and the significance of its results.",
+          "taskFlowStart": {
+              "nextSteps": [
+                  "step-1"
+              ],
+              "input": {
+                  "text": "Review the soundness of methodology and results significance.",
+                  "file": ""
+              }
           },
-          {
-            "stepName": "Criteria Extraction",
-            "stepLabel": "Identify Critical Factors",
-            "stepDescription": "Identify essential criteria or dimensions naturally emerging from the qualitative analysis.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          },
-          {
-            "stepName": "Scoring Conversion",
-            "stepLabel": "Convert Insights to Scores",
-            "stepDescription": "Assign numerical scores to each criterion based on expert judgment and qualitative insights.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          },
-          {
-            "stepName": "Evaluation Summary",
-            "stepLabel": "Final Review Output",
-            "stepDescription": "Summarize the evaluated criteria along with scores into a concise evaluation document.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          }
-        ]
+          "taskFlowSteps": [
+              {
+                  "stepId": "step-1",
+                  "stepName": "Evaluate Methodological Rigor",
+                  "stepLabel": "Methodology Evaluation",
+                  "stepDescription": "Critically assess the rigor and appropriateness of the research methodology used in the paper.",
+                  "nextSteps": [
+                      "step-2"
+                  ]
+              },
+              {
+                  "stepId": "step-2",
+                  "stepName": "Assess Result Validity",
+                  "stepLabel": "Results Validity",
+                  "stepDescription": "Evaluate the validity of the results presented in the paper.",
+                  "nextSteps": [
+                      "step-3"
+                  ]
+              },
+              {
+                  "stepId": "step-3",
+                  "stepName": "Determine Findings Significance",
+                  "stepLabel": "Significance Assessment",
+                  "stepDescription": "Analyze the significance of the findings and their contribution to the field.",
+                  "nextSteps": []
+              }
+          ]
       },
       {
-        "taskFlowId": "tf3",
-        "taskFlowName": "Comparative Benchmarking Approach",
-        "taskFlowDescription": "Evaluates the paper through benchmarking against established high-quality standards or exemplar papers, resulting in scored criteria.",
-        "taskFlowSteps": [
-          {
-            "stepName": "Benchmark Identification",
-            "stepLabel": "Select Benchmarks",
-            "stepDescription": "Identify high-quality benchmarks or exemplary papers to compare against the submitted paper.",
-            "designPatterns": ["Parallel", "Discussion"],
-            "pattern": {
-              "name": "Parallel",
-              "description": "A parallel agent is used to perform the task."
-            }
+          "taskFlowId": "3",
+          "taskFlowName": "Constructive Feedback and Final Recommendation",
+          "taskFlowDescription": "This flow emphasizes providing constructive feedback along with a final recommendation regarding the paper's status.",
+          "taskFlowStart": {
+              "nextSteps": [
+                  "step-1"
+              ],
+              "input": {
+                  "text": "Provide feedback and a final recommendation for the paper.",
+                  "file": ""
+              }
           },
-          {
-            "stepName": "Comparative Review",
-            "stepLabel": "Perform Comparative Analysis",
-            "stepDescription": "Evaluate the paper by directly comparing aspects such as argument clarity, research quality, originality, and coherence to benchmarks.",
-            "designPatterns": ["Parallel", "Discussion"],
-            "pattern": {
-              "name": "Parallel",
-              "description": "A parallel agent is used to perform the task."
-            }
-          },
-          {
-            "stepName": "Criteria Scoring",
-            "stepLabel": "Score via Comparison",
-            "stepDescription": "Score each evaluation criterion based on how closely the paper meets or exceeds benchmark standards.",
-            "designPatterns": ["Parallel", "Discussion"],
-            "pattern": {
-              "name": "Parallel",
-              "description": "A parallel agent is used to perform the task."
-            }
-          },
-          {
-            "stepName": "Comparative Summary",
-            "stepLabel": "Finalize Benchmark Scores",
-            "stepDescription": "Compile and present the evaluation criteria with scores clearly reflecting comparative strengths and weaknesses.",
-            "designPatterns": ["Single Agent", "Reflection"],
-            "pattern": {
-              "name": "Single Agent",
-              "description": "A single agent is used to perform the task."
-            }
-          }
-        ]
+          "taskFlowSteps": [
+              {
+                  "stepId": "step-1",
+                  "stepName": "Identify Strengths",
+                  "stepLabel": "Strengths Identification",
+                  "stepDescription": "Highlight notable strengths of the paper, including clarity and originality.",
+                  "nextSteps": [
+                      "step-2"
+                  ]
+              },
+              {
+                  "stepId": "step-2",
+                  "stepName": "Outline Areas for Improvement",
+                  "stepLabel": "Improvements Suggestions",
+                  "stepDescription": "Clearly outline areas where the paper needs improvement or further clarification.",
+                  "nextSteps": [
+                      "step-3"
+                  ]
+              },
+              {
+                  "stepId": "step-3",
+                  "stepName": "Recommend Actions",
+                  "stepLabel": "Recommendations",
+                  "stepDescription": "Provide practical recommendations for enhancing the overall quality of the paper.",
+                  "nextSteps": [
+                      "step-4"
+                  ]
+              },
+              {
+                  "stepId": "step-4",
+                  "stepName": "Final Decision and Justification",
+                  "stepLabel": "Final Recommendation",
+                  "stepDescription": "Conclude with an explicit recommendation regarding acceptance, revision, or rejection, supported by detailed arguments.",
+                  "nextSteps": []
+              }
+          ]
       }
-    ]
-  }
-  
+  ]
+}

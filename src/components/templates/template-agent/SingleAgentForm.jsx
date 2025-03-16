@@ -11,7 +11,13 @@ export function SingleAgentForm({ data, onChange }) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
+    <Box sx={{ 
+      display: "flex", 
+      flexDirection: "column", 
+      gap: 2, 
+      width: "100%",
+      p: 1,
+    }}>
       <TextField
         label="Persona"
         value={data.persona || ""}
@@ -25,6 +31,8 @@ export function SingleAgentForm({ data, onChange }) {
         onChange={handleFieldChange("goal")}
         size="small"
         className="nodrag nopan"
+        multiline
+        minRows={3}
       />
     </Box>
   );

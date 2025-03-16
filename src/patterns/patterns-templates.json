@@ -93,7 +93,7 @@
         ],
         "aggregation": {
             "persona": "Aggregator",
-            "goal": "Aggregator",
+            "goal": "Aggregator of the output of the previous agents conversation.",
             "patternPrompt": "You should aggregate the output of the previous agents conversation."
         }
     },

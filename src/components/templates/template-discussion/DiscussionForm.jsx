@@ -107,6 +107,36 @@ export function DiscussionForm({ data, onChange }) {
     )
   }
 
+  const summaryDisplay = () => {
+    return (
+      <Box 
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          border: "1px solid #ccc",
+          p: 1,
+          borderRadius: 2,
+          boxShadow: 1,
+          minHeight: 130, 
+        }}
+      >
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Summary</Typography>
+        <PatternTextField
+          label="Persona"
+          value={data.summary?.persona || ""}
+          // onChange={handleAggregationChange("persona")}
+        />
+        <PatternTextField
+          label="Goal"
+          value={data.summary?.goal || ""}
+          // onChange={handleAggregationChange("goal")}
+        />
+    </Box>
+    )
+  }
+
   return (
     <Box 
       sx={{ 
@@ -122,6 +152,7 @@ export function DiscussionForm({ data, onChange }) {
             {eachAgent(agent, i)}
           </Grid2>
         ))}
+        {data.withSummary === "true" && summaryDisplay()}
       </Grid2>
       
 

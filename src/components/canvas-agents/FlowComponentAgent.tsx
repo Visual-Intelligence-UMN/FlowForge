@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useLayoutEffect } from "react";
+import React, { useEffect, useCallback, useLayoutEffect, useState } from "react";
 import {
   ReactFlow,
   Background,
@@ -59,6 +59,7 @@ export function FlowComponentAgent(props) {
   const [edges, setEdges] = useEdgesState(initialEdges);
 
   const {fitView} = useReactFlow();
+  const [animation, setAnimation] = useState(true);
 
   useEffect(() => {
 
@@ -130,6 +131,7 @@ export function FlowComponentAgent(props) {
       if (layoutedNodes.length) {
         fitView({ padding: 0.05, duration: 2000 });
       }
+      setAnimation(false);
     }, 500);
   }, [props.nodes, props.edges, fitView]);
 
@@ -189,7 +191,7 @@ export function FlowComponentAgent(props) {
     ...node,
     style: {
       ...(node.style || {}),
-      transition: "transform 0.5s ease"
+      transition: animation ? "transform 0.5s ease" : "none"
     },
     data: {
       ...node.data,

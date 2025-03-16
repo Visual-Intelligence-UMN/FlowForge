@@ -17,12 +17,15 @@ import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
+import LoadingFlows from "./Loading";
+
 const SharedCanvas = () => {
   const [canvasPages] = useAtom(canvasPagesAtom);
   const [flowsMap] = useAtom(flowsMapAtom);
   const [agentsConfig] = useAtom(agentsConfigAtom);
   const [flowsWithPatterns] = useAtom(patternsAtom);
   const [compiledConfigs] = useAtom(compiledConfigsAtom);
+
   const { type, configId, patternId, flowId } = canvasPages || {};
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
@@ -33,8 +36,8 @@ const SharedCanvas = () => {
       position: { x: 0, y: 0 },
       data: {
         stepName: "START",
-        inputText: taskFlowStart.input.text || "",
-        inputFile: taskFlowStart.input.file || "",
+        inputText: taskFlowStart.input?.text || "",
+        inputFile: taskFlowStart.input?.file || "",
       },
       deletable: false,
     };
@@ -44,17 +47,17 @@ const SharedCanvas = () => {
         type: nodeType,
         position: { x: index * 250, y: 100 },
         data: {
-        stepName: step.stepName || `Step ${index + 1}`,
-        stepLabel: step.stepLabel || "",
-        stepDescription: step.stepDescription || "",
-        label: step.stepLabel || `Step ${index + 1}`,
-        pattern: step.pattern || { name: "", description: "" },
-        template: step.template || {
-          persona: "Single Agent",
-          goal: "Single Agent",
-        },
-        config: step.config || { type: "none", nodes: [], edges: [] },
-        nextSteps: step.nextSteps || [],
+          stepName: step.stepName || `Step ${index + 1}`,
+          stepLabel: step.stepLabel || "",
+          stepDescription: step.stepDescription || "",
+          label: step.stepLabel || `Step ${index + 1}`,
+          pattern: step.pattern || { name: "", description: "" },
+          template: step.template || {
+            persona: "Single Agent",
+            goal: "Single Agent",
+          },
+          config: step.config || { type: "none", nodes: [], edges: [] },
+          nextSteps: step.nextSteps || [],
         },
       };
     });
@@ -118,26 +121,43 @@ const SharedCanvas = () => {
           headerContent = "Config " + targetWorkflow.configId;
           nodeType = "configStep";
           break;
+
         case "pattern":
           targetWorkflow = flowsWithPatterns.find(
             (pattern) => pattern.patternId === patternId
           );
+          if (!targetWorkflow) {
+            return <Typography>Pattern not found or deleted.</Typography>;
+          }
           headerContent = "Flow with Patterns " + targetWorkflow.patternId;
           nodeType = "patternsStep";
           console.log("targetWorkflow", targetWorkflow);
           break;
+
         case "flow":
           targetWorkflow = flowsMap[flowId];
+          if (!targetWorkflow) {
+            return <Typography>Flow not found or deleted.</Typography>;
+          }
           headerContent = "Flow " + String(targetWorkflow.taskFlowId);
           nodeType = "flowStep";
           break;
+
         case "compiled":
           targetWorkflow = compiledConfigs.find(
             (config) => config.configId === configId
           );
+          if (!targetWorkflow) {
+            return (
+              <Typography>Compiled config not found or deleted.</Typography>
+            );
+          }
           headerContent = "Compiled Config " + targetWorkflow.configId;
           nodeType = "compiledStep";
           break;
+
+        case "flow-generating":
+          return <LoadingFlows />;
         default:
           return <Typography>Canvas goes here</Typography>;
       }

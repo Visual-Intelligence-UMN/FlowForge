@@ -21,11 +21,11 @@ export function calculateCost(pattern, template) {
         calls = `${agentsParallel.length} * 1 + 1`;
         runtime = `1 + 1`;
         break;
-      case "Voting":
-        const {agents: agentsVoting} = template;
-        calls = `${maxRound} * ${agentsVoting.length} + 1`;
-        runtime = `${maxRound} * ${agentsVoting.length} + 1`;
-        break;
+      // case "Voting":
+      //   const {agents: agentsVoting} = template;
+      //   calls = `${maxRound} * ${agentsVoting.length} + 1`;
+      //   runtime = `${maxRound} * ${agentsVoting.length} + 1`;
+      //   break;
       case "Supervision":
         calls = `${maxRound} * 2`;
         runtime = `${maxRound} * 2`;
