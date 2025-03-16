@@ -5,6 +5,14 @@
             "taskFlowName": "Analytical Outline Approach",
             "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
             "isEditing": false,
+            "taskFlowStart":  {
+                "nextSteps": ["step-1", "step-2"],
+                "input": 
+                    {
+                        "text": "topic is AI",
+                        "file": ""
+                    }
+            },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
@@ -50,6 +58,15 @@
             "taskFlowName": "Analytical Outline Approach",
             "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
             "isEditing": false,
+            "taskFlowStart":  {  
+                "stepId": "step-0",
+                "nextSteps": ["step-1"],
+                "input": 
+                    {
+                        "text": "topic is AI",
+                        "file": ""
+                    }
+            },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
@@ -135,6 +152,15 @@
             "taskFlowName": "Analytical Outline Approach",
             "taskFlowDescription": "This flow focuses on understanding the PDF thoroughly, identifying key elements, and organizing them into a structured presentation script.",
             "isEditing": false,
+            "taskFlowStart":  {  
+                "stepId": "step-0",
+                "nextSteps": ["step-1"],
+                "input": 
+                    {
+                        "text": "topic is AI",
+                        "file": ""
+                    }
+            },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",

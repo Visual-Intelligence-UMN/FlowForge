@@ -14,7 +14,7 @@ import SupervisorNode from './node-agents/SupervisorNode';
 import { FlowStepNode } from './node-step/FlowStepNode';
 import { FlowWithPatternsNode } from './node-pattern/FlowWithPatternsNode';
 // import { FlowConfigNode } from './FlowConfigNode';
-
+import { StartPoint } from './node-start/StartPoint';
 
 export const nodeTypes = {
   // 'position-logger': PositionLoggerNode,
@@ -27,5 +27,6 @@ export const nodeTypes = {
   'supervisor': SupervisorNode,
   'flowStep': FlowStepNode,
   'patternsStep': FlowWithPatternsNode,
+  'startStep': StartPoint,
   // 'configStep': FlowConfigNode,
 } satisfies NodeTypes;
