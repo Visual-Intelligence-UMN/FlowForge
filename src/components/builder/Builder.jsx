@@ -151,6 +151,9 @@ const Builder = () => {
           config.patternId === canvasPages.patternId.toString()
       );
       const newAddedConfig = newAddedConfigs[0];
+      if (newAddedConfig == undefined) {
+        return;
+      }
       setSelectedConfig(newAddedConfig);
       setCompliedGenerate(0);
       // Remove the config stage
@@ -166,10 +169,16 @@ const Builder = () => {
   useEffect(() => {
     // transit from the pattern stage to the compiled stage
     if (canvasPages.type === "pattern" && compiledConfigs.length > 0) {
+      if (canvasPages.configId == undefined) {
+        return;
+      }
       const newAddedConfigs = compiledConfigs.filter(
         (config) => config.configId === canvasPages.configId.toString()
       );
       const newAddedConfig = newAddedConfigs[0];
+      if (newAddedConfig == undefined) {
+        return;
+      }
       setCanvasPages({
         type: "compiled",
         flowId: canvasPages.flowId,
