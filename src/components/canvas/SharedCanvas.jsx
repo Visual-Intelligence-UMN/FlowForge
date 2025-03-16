@@ -33,8 +33,8 @@ const SharedCanvas = () => {
       position: { x: 0, y: 0 },
       data: {
         stepName: "START",
-        inputText: taskFlowStart.input.text || "",
-        inputFile: taskFlowStart.input.file || "",
+        inputText: taskFlowStart?.input.text || "",
+        inputFile: taskFlowStart?.input.file || "",
       },
       deletable: false,
     };
@@ -44,17 +44,17 @@ const SharedCanvas = () => {
         type: nodeType,
         position: { x: index * 250, y: 100 },
         data: {
-        stepName: step.stepName || `Step ${index + 1}`,
-        stepLabel: step.stepLabel || "",
-        stepDescription: step.stepDescription || "",
-        label: step.stepLabel || `Step ${index + 1}`,
-        pattern: step.pattern || { name: "", description: "" },
-        template: step.template || {
-          persona: "Single Agent",
-          goal: "Single Agent",
-        },
-        config: step.config || { type: "none", nodes: [], edges: [] },
-        nextSteps: step.nextSteps || [],
+          stepName: step.stepName || `Step ${index + 1}`,
+          stepLabel: step.stepLabel || "",
+          stepDescription: step.stepDescription || "",
+          label: step.stepLabel || `Step ${index + 1}`,
+          pattern: step.pattern || { name: "", description: "" },
+          template: step.template || {
+            persona: "Single Agent",
+            goal: "Single Agent",
+          },
+          config: step.config || { type: "none", nodes: [], edges: [] },
+          nextSteps: step.nextSteps || [],
         },
       };
     });
@@ -74,7 +74,7 @@ const SharedCanvas = () => {
     //   .filter(Boolean);
 
     const edges = [];
-    taskFlowStart.nextSteps.forEach((nextStepId, idx) => {
+    taskFlowStart?.nextSteps.forEach((nextStepId, idx) => {
       edges.push({
         id: `step-0->${nextStepId}`,
         source: "step-0",

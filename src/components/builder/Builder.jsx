@@ -88,11 +88,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      OrganizePatterns(
-        patternsFlow, 
-        setDesignPatterns,
-        runRealtime
-    );
+      OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -118,7 +114,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
-        // TODO, display new generated flow
+      // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
       setCanvasPages({
@@ -127,7 +123,7 @@ const Builder = () => {
         patternId: [],
         configId: [],
       });
-    } 
+    }
   }, [flowsMap.length, taskFlowsGenerate]);
 
   useEffect(() => {
