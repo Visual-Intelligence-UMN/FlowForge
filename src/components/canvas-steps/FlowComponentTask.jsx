@@ -36,6 +36,7 @@ function convertToReactFlowFormat(taskflow) {
       inputText: taskFlowStart.input.text || "",
       inputFile: taskFlowStart.input.file || "",
     },
+    deletable: false,
   };
   const stepNodes = taskFlowSteps.map((step, index) => ({
     id: `step-${index + 1}`,
@@ -82,6 +83,7 @@ function convertToReactFlowFormat(taskflow) {
     }
   });
 
+  // console.log("edges", edges);
   return { nodes, edges };
 }
 
@@ -139,8 +141,8 @@ export function FlowComponentTask(props) {
   const updateTargetWorkflow = useCallback(
     (updatedNodes, updatedEdges) => {
       const taskFlowId = targetWorkflow.taskFlowId;
-  
-      const updatedTaskFlowSteps = updatedNodes.map((node) => {
+      const stepNodes = updatedNodes.filter((node) => node.id !== "step-0");
+      const updatedTaskFlowSteps = stepNodes.map((node) => {
         // find all outgoing connections for this node
         const outgoingConnections = updatedEdges
           .filter((edge) => edge.source === node.id)
@@ -159,11 +161,25 @@ export function FlowComponentTask(props) {
           nextSteps: outgoingConnections,
         };
       });
-  
+      
+      const startNode = updatedNodes.find((node) => node.id === "step-0");
+      const startEdges = edges.filter((edge) => edge.source === "step-0");
+      const updatedTaskFlowStart = {
+        stepId: "step-0",
+        nextSteps: startEdges.map((edge) => edge.target),
+        input: {
+          text: startNode.data.inputText,
+          file: startNode.data.inputFile,
+        },
+      };
+      
       const updatedWorkflow = {
         ...targetWorkflow,
+        taskFlowStart: updatedTaskFlowStart,
         taskFlowSteps: updatedTaskFlowSteps,
       };
+
+      console.log("updatedWorkflow after saved", updatedWorkflow);
       // console.log("updatedWorkflow", updatedWorkflow);
       // Update global flows map
       setFlowsMap((prevFlows) => ({
