@@ -1,108 +1,163 @@
 {
   "taskFlows": [
     {
-      "taskFlowId": 1,
+      "taskFlowId": "tf1",
       "taskFlowName": "Research-Driven Script Generation",
       "taskFlowDescription": "Focuses on thorough research and factual accuracy to craft a comprehensive podcast script.",
+      "taskFlowStart": {
+        "nextSteps": ["step-1"],
+        "input": {
+          "text": "",
+          "file": ""
+        }
+      },
       "taskFlowSteps": [
         {
+          "stepId": "step-1",
           "stepName": "Topic Analysis",
           "stepLabel": "Analyzing Topics",
-          "stepDescription": "Carefully examine and break down the given event or topic list to identify core themes and key discussion points."
+          "stepDescription": "Carefully examine and break down the given event or topic list to identify core themes and key discussion points.",
+          "nextSteps": ["step-2"]
         },
         {
+          "stepId": "step-2",
           "stepName": "In-depth Research",
           "stepLabel": "Gathering Information",
-          "stepDescription": "Conduct extensive research on each identified topic, collecting facts, statistics, expert opinions, and relevant historical context."
+          "stepDescription": "Conduct extensive research on each identified topic, collecting facts, statistics, expert opinions, and relevant historical context.",
+          "nextSteps": ["step-3"]
         },
         {
+          "stepId": "step-3",
           "stepName": "Outline Creation",
           "stepLabel": "Building Outline",
-          "stepDescription": "Organize the research material into a logical outline, structuring segments clearly to ensure smooth transitions between topics."
+          "stepDescription": "Organize the research material into a logical outline, structuring segments clearly to ensure smooth transitions between topics.",
+          "nextSteps": ["step-4"]
         },
         {
+          "stepId": "step-4",
           "stepName": "Draft Script",
           "stepLabel": "Initial Script Drafting",
-          "stepDescription": "Write the initial script based on the structured outline, ensuring clarity, factual accuracy, and informative value."
+          "stepDescription": "Write the initial script based on the structured outline, ensuring clarity, factual accuracy, and informative value.",
+          "nextSteps": ["step-5"]
         },
         {
+          "stepId": "step-5",
           "stepName": "Expert Review",
           "stepLabel": "Fact Checking and Review",
-          "stepDescription": "Review the script for accuracy, consistency, and coherence, consulting expert sources or additional materials as needed."
+          "stepDescription": "Review the script for accuracy, consistency, and coherence, consulting expert sources or additional materials as needed.",
+          "nextSteps": []
         }
       ]
     },
     {
-      "taskFlowId": 2,
+      "taskFlowId": "tf2",
       "taskFlowName": "Conversational and Engaging Approach",
       "taskFlowDescription": "Prioritizes audience engagement through storytelling, anecdotes, and a conversational tone.",
+      "taskFlowStart": {
+        "nextSteps": ["step-1"],
+        "input": {
+          "text": "",
+          "file": ""
+        }
+      },
       "taskFlowSteps": [
         {
+          "stepId": "step-1",
           "stepName": "Audience Profiling",
           "stepLabel": "Understanding Audience",
-          "stepDescription": "Identify the target audience's interests, preferences, and desired tone for the podcast."
+          "stepDescription": "Identify the target audience's interests, preferences, and desired tone for the podcast.",
+          "nextSteps": ["step-2"]
         },
         {
+          "stepId": "step-2",
           "stepName": "Story Ideation",
           "stepLabel": "Generating Stories",
-          "stepDescription": "Brainstorm relatable stories, engaging anecdotes, or personal experiences that align with the given event or topics."
+          "stepDescription": "Brainstorm relatable stories, engaging anecdotes, or personal experiences that align with the given event or topics.",
+          "nextSteps": ["step-3"]
         },
         {
+          "stepId": "step-3",
           "stepName": "Conversational Outline",
           "stepLabel": "Mapping Conversation",
-          "stepDescription": "Develop a conversational structure for the script, emphasizing informal dialogue, listener engagement, and narrative flow."
+          "stepDescription": "Develop a conversational structure for the script, emphasizing informal dialogue, listener engagement, and narrative flow.",
+          "nextSteps": ["step-4"]
         },
         {
+          "stepId": "step-4",
           "stepName": "Script Drafting",
           "stepLabel": "Writing Conversational Script",
-          "stepDescription": "Create a conversational script, integrating anecdotes and humor to maintain listener interest and foster a personal connection."
+          "stepDescription": "Create a conversational script, integrating anecdotes and humor to maintain listener interest and foster a personal connection.",
+          "nextSteps": ["step-5", "step-6"]
         },
         {
+          "stepId": "step-5",
           "stepName": "Engagement Enhancement",
           "stepLabel": "Boosting Engagement",
-          "stepDescription": "Review and enhance the script by adding rhetorical questions, interactive elements, or calls-to-action to boost listener engagement."
+          "stepDescription": "Review and enhance the script by adding rhetorical questions, interactive elements, or calls-to-action to boost listener engagement.",
+          "nextSteps": ["step-6"]
         },
         {
+          "stepId": "step-6",
           "stepName": "Final Review",
           "stepLabel": "Finalizing Conversational Tone",
-          "stepDescription": "Perform a final review to ensure consistency in tone, natural flow, and strong listener appeal."
+          "stepDescription": "Perform a final review to ensure consistency in tone, natural flow, and strong listener appeal.",
+          "nextSteps": []
         }
       ]
     },
     {
-      "taskFlowId": 3,
+      "taskFlowId": "tf3",
       "taskFlowName": "Rapid Iterative Scripting",
       "taskFlowDescription": "Utilizes rapid prototyping, quick iteration, and incremental refinements to quickly produce and polish a podcast script.",
+      "taskFlowStart": {
+        "nextSteps": ["step-1"],
+        "input": {
+          "text": "",
+          "file": ""
+        }
+      },
       "taskFlowSteps": [
         {
+          "stepId": "step-1",
           "stepName": "Rapid Brainstorming",
           "stepLabel": "Quick Ideation",
-          "stepDescription": "Quickly generate a wide array of ideas, themes, and perspectives related to the provided event or topic list without filtering initially."
+          "stepDescription": "Quickly generate a wide array of ideas, themes, and perspectives related to the provided event or topic list without filtering initially.",
+          "nextSteps": ["step-2"]
         },
         {
+          "stepId": "step-2",
           "stepName": "Rapid Outline",
           "stepLabel": "Drafting Quick Outline",
-          "stepDescription": "Rapidly structure the most promising ideas into a coherent outline, emphasizing main talking points and potential sub-points."
+          "stepDescription": "Rapidly structure the most promising ideas into a coherent outline, emphasizing main talking points and potential sub-points.",
+          "nextSteps": ["step-3"]
         },
         {
+          "stepId": "step-3",
           "stepName": "Initial Fast Draft",
           "stepLabel": "First Draft Writing",
-          "stepDescription": "Quickly create a rough draft script, prioritizing speed and coverage over precision and polish."
+          "stepDescription": "Quickly create a rough draft script, prioritizing speed and coverage over precision and polish.",
+          "nextSteps": ["step-4", "step-6"]
         },
         {
+          "stepId": "step-4",
           "stepName": "Iterative Refinement",
           "stepLabel": "Improving Drafts",
-          "stepDescription": "Conduct iterative improvements, progressively enhancing script quality, clarity, and flow through repeated quick revisions."
+          "stepDescription": "Conduct iterative improvements, progressively enhancing script quality, clarity, and flow through repeated quick revisions.",
+          "nextSteps": ["step-5"]
         },
         {
+          "stepId": "step-5",
           "stepName": "Feedback Incorporation",
           "stepLabel": "Applying Feedback",
-          "stepDescription": "Solicit brief, targeted feedback from peers or test listeners, rapidly incorporating constructive feedback into the script."
+          "stepDescription": "Solicit brief, targeted feedback from peers or test listeners, rapidly incorporating constructive feedback into the script.",
+          "nextSteps": ["step-6"]
         },
         {
+          "stepId": "step-6",
           "stepName": "Polished Script",
           "stepLabel": "Final Polish",
-          "stepDescription": "Perform a final refinement of the script, focusing on readability, clarity, and overall listener experience."
+          "stepDescription": "Perform a final refinement of the script, focusing on readability, clarity, and overall listener experience.",
+          "nextSteps": []
         }
       ]
     }

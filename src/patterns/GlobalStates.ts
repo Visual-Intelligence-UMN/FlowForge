@@ -18,6 +18,7 @@ export const taskFlowsGenerateAtom = atomWithReset(-1); // -1: not generating, 0
 export const taskFlowsAtom = atomWithReset([]); // format:
 export const flowsMapAtom = atomWithReset({});
 export const flowIdsAtom = atomWithReset([]);
+export const flowUserRatingAtom = atomWithReset({}); 
 
 // Workflows with Design patterns panel
 export const patternsFlowAtom = atomWithReset(null);

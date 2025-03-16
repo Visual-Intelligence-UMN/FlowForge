@@ -67,7 +67,7 @@ const StageHighlight = () => {
   };
 
   return (
-    <Box sx={{ width: 300, pt: 1 }}>
+    <Box sx={{ width: 300, pt: 3 }}>
       <Slider
         value={activeStep}
         onChange={handleSliderChange}

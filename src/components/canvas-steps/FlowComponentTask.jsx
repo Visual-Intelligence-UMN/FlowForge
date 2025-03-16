@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import  {
+import {
   ReactFlow,
   addEdge,
   useNodesState,
@@ -20,7 +20,7 @@ import {
 import {
   getMultiLineLayoutedNodesAndEdges,
   getLayoutedNodesAndEdges,
-  getLayeredLayout
+  getLayeredLayout,
 } from "./layout-steps";
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
@@ -88,9 +88,8 @@ function convertToReactFlowFormat(taskflow) {
 }
 
 export function FlowComponentTask(props) {
-
   const reactFlowInstance = useReactFlow();
-  const {fitView} = useReactFlow();
+  const { fitView } = useReactFlow();
 
   const { targetWorkflow, onWorkflowUpdate } = props;
 
@@ -119,8 +118,10 @@ export function FlowComponentTask(props) {
 
     let layoutedNodes, layoutedEdges;
     if (newNodes.length > 3) {
-      ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayeredLayout(newNodes, newEdges));
+      ({ nodes: layoutedNodes, edges: layoutedEdges } = getLayeredLayout(
+        newNodes,
+        newEdges
+      ));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
         getLayoutedNodesAndEdges(newNodes, newEdges));
@@ -133,7 +134,7 @@ export function FlowComponentTask(props) {
       if (layoutedNodes.length) {
         fitView({ padding: 0.2, duration: 1000 });
       }
-      setAnimation(false)
+      setAnimation(false);
     }, 20);
   }, [targetWorkflow, setNodes, setEdges, fitView]);
 
@@ -161,9 +162,11 @@ export function FlowComponentTask(props) {
           nextSteps: outgoingConnections,
         };
       });
-      
+
       const startNode = updatedNodes.find((node) => node.id === "step-0");
-      const startEdges = updatedEdges.filter((edge) => edge.source === "step-0");
+      const startEdges = updatedEdges.filter(
+        (edge) => edge.source === "step-0"
+      );
       const updatedTaskFlowStart = {
         stepId: "step-0",
         nextSteps: startEdges.map((edge) => edge.target),
@@ -172,7 +175,7 @@ export function FlowComponentTask(props) {
           file: startNode.data.inputFile,
         },
       };
-      
+
       const updatedWorkflow = {
         ...targetWorkflow,
         taskFlowStart: updatedTaskFlowStart,
@@ -191,14 +194,8 @@ export function FlowComponentTask(props) {
 
       // Callback to parent
     },
-    [
-      targetWorkflow,
-      canvasPages.flowId,
-      setFlowsMap,
-      setPatternsFlow,
-    ]
+    [targetWorkflow, canvasPages.flowId, setFlowsMap, setPatternsFlow]
   );
-  
 
   // Called by user to save current diagram back to workflow
   const handleSave = () => {
@@ -319,7 +316,7 @@ export function FlowComponentTask(props) {
     ...node,
     style: {
       ...(node.style || {}),
-      transition: animation ? "transform 0.5s ease" : "none"
+      transition: animation ? "transform 0.5s ease" : "none",
     },
     data: {
       ...node.data,
@@ -363,7 +360,7 @@ export function FlowComponentTask(props) {
         onNodesDelete={onNodesDelete}
         onNodeClick={handleNodeClick}
         minZoom={0.1}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.3}}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.3 }}
         selectionOnDrag
         selectionMode={SelectionMode.Partial}
         panOnScroll
@@ -383,7 +380,7 @@ export function FlowComponentTask(props) {
           left: "50%",
           transform: "translateX(-50%)",
           textTransform: "none",
-          pt: 1,
+          p: 2,
         }}
       >
         CONTINUE

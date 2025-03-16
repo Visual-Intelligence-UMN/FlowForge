@@ -88,11 +88,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      OrganizePatterns(
-        patternsFlow, 
-        setDesignPatterns,
-        runRealtime
-    );
+      OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -118,7 +114,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
-        // TODO, display new generated flow
+      // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
       setCanvasPages({
@@ -127,7 +123,7 @@ const Builder = () => {
         patternId: [],
         configId: [],
       });
-    } 
+    }
   }, [flowsMap.length, taskFlowsGenerate]);
 
   useEffect(() => {
@@ -155,6 +151,9 @@ const Builder = () => {
           config.patternId === canvasPages.patternId.toString()
       );
       const newAddedConfig = newAddedConfigs[0];
+      if (newAddedConfig == undefined) {
+        return;
+      }
       setSelectedConfig(newAddedConfig);
       setCompliedGenerate(0);
       // Remove the config stage
@@ -170,10 +169,16 @@ const Builder = () => {
   useEffect(() => {
     // transit from the pattern stage to the compiled stage
     if (canvasPages.type === "pattern" && compiledConfigs.length > 0) {
+      if (canvasPages.configId == undefined) {
+        return;
+      }
       const newAddedConfigs = compiledConfigs.filter(
         (config) => config.configId === canvasPages.configId.toString()
       );
       const newAddedConfig = newAddedConfigs[0];
+      if (newAddedConfig == undefined) {
+        return;
+      }
       setCanvasPages({
         type: "compiled",
         flowId: canvasPages.flowId,
