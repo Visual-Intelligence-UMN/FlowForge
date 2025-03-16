@@ -8,7 +8,7 @@
       "taskFlowStart": {
         "nextSteps": ["step-1"],
         "input": {
-          "text": "",
+          "text": "I want to travel to Paris in June",
           "file": ""
         }
       },
@@ -78,7 +78,7 @@
       "taskFlowStart": {
         "nextSteps": ["step-1"],
         "input": {
-          "text": "",
+          "text": "I want to travel to Vienna in December",
           "file": ""
         }
       },

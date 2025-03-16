@@ -95,13 +95,13 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   // TODO: remove this after testing
   console.log("task", task);
   let sampleTaskFlowData;
-  if (task.name === "Travel Planning") {
+  if (task.name.includes("Travel Planning")) {
     sampleTaskFlowData = sampleTaskFlowsTravel;
-  } else if (task.name === "Generate Presentation Script") {
+  } else if (task.name.includes("Presentation")) {
     sampleTaskFlowData = sampleTaskFlowsPresentation;
-  } else if (task.name === "Generate Podcast Script") {
+  } else if (task.name.includes("Podcast")) {
     sampleTaskFlowData = sampleTaskFlowsPodcast;
-  } else if (task.name === "Review a Paper") {
+  } else if (task.name.includes("Review a Paper")) {
     sampleTaskFlowData = sampleTaskFlowsReview;
   }
 

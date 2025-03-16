@@ -1,5 +1,26 @@
 [
   {
+    "id": "task3",
+    "name": "[Dev Test] Travel Planning",
+    "requiresUpload": false,
+    "description": "Plan a travel itinerary for a given destination.",
+    "uploadedFile": null
+  },
+  {
+    "id": "task4",
+    "name": "[User Case] Generate Podcast Script",
+    "requiresUpload": false,
+    "description": "Generate an engaging and informative podcast script based on a specified event or topic. The script should include a captivating introduction that immediately grabs listeners' attention, clear segments or discussion points structured logically throughout the podcast, and a strong closing summary or call to action. It should also suggest appropriate moments for incorporating interviews, guest experts, listener questions, or interactive elements if applicable. The generated script must be suitable for a defined target audience, maintaining an appropriate tone and style, ranging from casual and conversational to formal and informative. Additionally, the script overall length should be about five minutes, and should specify the ideal duration for each segment and the overall podcast length, ensuring the content flows naturally and maintains listener engagement throughout.",
+    "uploadedFile": null
+  },
+  {
+    "id": "task5",
+    "name": "[User Case] Review a Paper",
+    "requiresUpload": false,
+    "description": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices, including an initial summary of the paper's objectives, methodology, findings, and conclusions. It must critically evaluate the paper's clarity, originality, and contribution to the field. Specific attention should be given to the soundness and rigor of the methodology, validity and significance of the results, coherence of arguments, and relevance of cited literature. Provide constructive feedback, highlighting strengths and clearly outlining areas needing improvement or further clarification. Recommendations should be practical, aimed at enhancing the paper's overall quality. The review should conclude with an explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+    "uploadedFile": null
+  },
+  {
     "id": "task1",
     "name": "Generate Presentation Script",
     "requiresUpload": false,
@@ -7,31 +28,10 @@
     "uploadedFile": null
   },
   {
-      "id": "task4",
-      "name": "Generate Podcast Script",
-      "requiresUpload": false,
-      "description": "Generate an engaging and informative podcast script based on a specified event or topic. The script should include a captivating introduction that immediately grabs listeners' attention, clear segments or discussion points structured logically throughout the podcast, and a strong closing summary or call to action. It should also suggest appropriate moments for incorporating interviews, guest experts, listener questions, or interactive elements if applicable. The generated script must be suitable for a defined target audience, maintaining an appropriate tone and style, ranging from casual and conversational to formal and informative. Additionally, the script overall length should be about five minutes, and should specify the ideal duration for each segment and the overall podcast length, ensuring the content flows naturally and maintains listener engagement throughout.",
-      "uploadedFile": null
-    },
-    {
-      "id": "task2",
-      "name": "Machine Learning Visualization",
-      "requiresUpload": true,
-      "description": "Visualize a given machine learning model.",
-      "uploadedFile": null
-    },
-    {
-      "id": "task3",
-      "name": "Travel Planning",
-      "requiresUpload": false,
-      "description": "Plan a travel itinerary for a given destination.",
-      "uploadedFile": null
-    },
-    {
-      "id": "task5",
-      "name": "Review a Paper",
-      "requiresUpload": false,
-      "description": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices, including an initial summary of the paper's objectives, methodology, findings, and conclusions. It must critically evaluate the paper's clarity, originality, and contribution to the field. Specific attention should be given to the soundness and rigor of the methodology, validity and significance of the results, coherence of arguments, and relevance of cited literature. Provide constructive feedback, highlighting strengths and clearly outlining areas needing improvement or further clarification. Recommendations should be practical, aimed at enhancing the paper's overall quality. The review should conclude with an explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
-      "uploadedFile": null
-      }
+    "id": "task2",
+    "name": "Machine Learning Visualization",
+    "requiresUpload": true,
+    "description": "Visualize a given machine learning model.",
+    "uploadedFile": null
+  }
 ]
