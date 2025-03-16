@@ -33,8 +33,8 @@ const SharedCanvas = () => {
       position: { x: 0, y: 0 },
       data: {
         stepName: "START",
-        inputText: taskFlowStart?.input.text || "",
-        inputFile: taskFlowStart?.input.file || "",
+        inputText: taskFlowStart.input?.text || "",
+        inputFile: taskFlowStart.input?.file || "",
       },
       deletable: false,
     };
@@ -74,7 +74,7 @@ const SharedCanvas = () => {
     //   .filter(Boolean);
 
     const edges = [];
-    taskFlowStart?.nextSteps.forEach((nextStepId, idx) => {
+    taskFlowStart.nextSteps.forEach((nextStepId, idx) => {
       edges.push({
         id: `step-0->${nextStepId}`,
         source: "step-0",
