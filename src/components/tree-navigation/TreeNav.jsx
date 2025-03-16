@@ -112,7 +112,7 @@ const TreeNav = () => {
       const config = Object.values(flowUserRating).find(
         (config) => config.compiledId === configId
       );
-      const rating = config.userRating || "-1";
+      const rating = config?.userRating || "-1";
       const label = `Compiled Config ${configId} (Rating: ${rating})`;
       g.setNode(`compiled-${configId}`, {
         label: label,

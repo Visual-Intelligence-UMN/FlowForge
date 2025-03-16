@@ -78,28 +78,24 @@ const Builder = () => {
             patternId: [],
             configId: [],
         });
-        }
-      OrganizeTaskFlows(
-        selectedTask,
-        setFlowsMap,
-        flowIds,
-        setFlowIds,
-        flowsCounter,
-        flowCounter,
-        setFlowCounter,
-        runRealtime
-      );
-      setTaskFlowsGenerate(1);
+        OrganizeTaskFlows(
+            selectedTask,
+            setFlowsMap,
+            flowIds,
+            setFlowIds,
+            flowsCounter,
+            flowCounter,
+            setFlowCounter,
+            runRealtime
+          );
+         setTaskFlowsGenerate(1);
+    }
+      
+     
   }, [taskFlowsGenerate]);
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      setCanvasPages({
-        type: "pattern-generating",
-        flowId: flowIds[0],
-        patternId: [],
-        configId: [],
-      });
       OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
@@ -132,7 +128,8 @@ const Builder = () => {
       // TODO, display new generated flow
       const randomFlow =
         flowsMap[flowIds[Math.floor(Math.random() * flowIds.length)]];
-        console.log("builder task flows generate", flowsMap);
+        // console.log("builder task flows generate", flowsMap);
+        console.log("builder task flows generate to set canvas", randomFlow);
       setCanvasPages({
         type: "flow",
         flowId: randomFlow.taskFlowId,
@@ -144,12 +141,14 @@ const Builder = () => {
 
   useEffect(() => {
     if (canvasPages.type === "flow" && designPatterns.length > 0) {
+      console.log("builder task flows generate to set canvas", canvasPages);
       const newAddedPatterns = designPatterns.filter(
         (pattern) =>
           pattern.patternId.split("-")[0] === canvasPages.flowId.toString()
       );
       const randomPattern =
         newAddedPatterns[Math.floor(Math.random() * newAddedPatterns.length)];
+        console.log("builder task flows generate to set canvas", randomPattern);
       setCanvasPages({
         type: "pattern",
         flowId: canvasPages.flowId,
@@ -157,7 +156,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [designPatterns]);
+  }, [designPatterns, patternsGenerate]);
 
   useEffect(() => {
     if (canvasPages.type === "pattern" && agentsConfig.length > 0) {
