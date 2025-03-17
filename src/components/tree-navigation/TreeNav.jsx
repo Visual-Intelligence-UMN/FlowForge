@@ -109,14 +109,10 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const config = Object.values(flowUserRating).find(
-        (config) => config.compiledId === configId
-      );
-      const rating = config?.userRating || "-1";
-      const label = `Compiled Config ${configId} (Rating: ${rating})`;
+      const configLabel = `Compiled Config ${configId}`;
       g.setNode(`compiled-${configId}`, {
-        label: label,
-        width: label.length * 8,
+        label: configLabel,
+        width: configLabel.length * 8,
         height: 30,
         data: {
           id: configId,
@@ -127,6 +123,26 @@ const TreeNav = () => {
       const patternId = `${flowId}-${patternPart}`;
       g.setEdge(`pattern-${patternId}`, `compiled-${configId}`, {
         label: `pattern-${patternId}-compiled-${configId}`,
+      });
+
+      const config = Object.values(flowUserRating).find(
+        (config) => config.compiledId === configId
+      );
+      const rating = config?.userRating || null;
+      const ratingLabel = rating
+        ? `User Rating: ${config?.userRating} ⭐`
+        : "User Rating: N/A";
+      g.setNode(`compiled-${configId}-rating`, {
+        label: ratingLabel,
+        width: ratingLabel.length * 8,
+        height: 30,
+        data: {
+          id: configId,
+          type: "rating",
+        },
+      });
+      g.setEdge(`compiled-${configId}`, `compiled-${configId}-rating`, {
+        label: `compiled-${configId}-rating`,
       });
     });
 
