@@ -77,9 +77,9 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);
         let tool_msg = null;
-        if (lastMsg[0].tool_calls) {
+        if (lastMsg[0]?.tool_calls) {
             // todo add tool msg 'tool_call_id'
-            const tool_name = lastMsg[0].tool_calls[0].name;
+            const tool_name = lastMsg[0].tool_calls[0]?.name;
             // console.log("tool_name", tool_name);
             switch (tool_name) {
                 case "PDFLoader":
@@ -94,13 +94,13 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     // return [lastMsg[0], tool_msg];
                     return lastMsg;
                 case "WebSearch":
-                    const result = await TavilySearchTool(lastMsg[0].tool_calls[0].args);
+                    const result = await TavilySearchTool(lastMsg[0].tool_calls[0]?.args);
                     // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
                     // const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
                     // console.log("result web", result);
                     tool_msg = new ToolMessage({
                         content: "Web search results: " + JSON.stringify(result),
-                        tool_call_id: lastMsg[0].tool_calls[0].id,
+                        tool_call_id: lastMsg[0].tool_calls[0]?.id,
                         name: tool_name,
                     });
                     // return [tool_msg];

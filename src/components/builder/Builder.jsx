@@ -94,7 +94,7 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
+      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -103,7 +103,8 @@ const Builder = () => {
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
-      OrganizeConfig(agentsConfigPattern, setAgentsConfig);
+    //   console.log("agentsConfig", agentsConfig);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
     }

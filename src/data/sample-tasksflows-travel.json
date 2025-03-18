@@ -118,17 +118,6 @@
         },
         {
           "stepId": "step-4",
-          "stepName": "Reserve Tickets",
-          "stepLabel": "Ticket Booking",
-          "stepDescription": "Reserve tickets for museums, concerts, and performances.",
-          "pattern": {
-            "name": "Single Agent",
-            "description": "Efficient single agent handles ticket booking."
-          },
-          "nextSteps": ["step-5"]
-        },
-        {
-          "stepId": "step-5",
           "stepName": "Review and Finalize Plan",
           "stepLabel": "Final Review",
           "stepDescription": "Ensure all bookings and plans align with personal interests and schedules.",

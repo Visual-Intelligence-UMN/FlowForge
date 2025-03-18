@@ -41,7 +41,10 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     dangerouslyAllowBrowser: true,
   });
 
-  const systemMessage_schema = promptTaskflow.systemMessage_schema;
+  const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
+    "{{FlowsNumber}}",
+    "THREE" // conditionally set as THREE or ONE
+  );
   const systemMessage = systemMessage_schema;
 
   const systemMessage_ideas = promptTaskflow.systemMessage_ideas.replace(
@@ -95,7 +98,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   // TODO: remove this after testing
   console.log("task", task);
   let sampleTaskFlowData;
-  if (task.name.includes("Travel Planning")) {
+  if (task.name.includes("Travel")) {
     sampleTaskFlowData = sampleTaskFlowsTravel;
   } else if (task.name.includes("Presentation")) {
     sampleTaskFlowData = sampleTaskFlowsPresentation;
@@ -140,7 +143,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     // return {taskFlows: taskFlows};
 
     const completion = await openai.beta.chat.completions.parse({
-      model: "gpt-4o-mini",
+      model: "gpt-4o",
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: taskDescription },

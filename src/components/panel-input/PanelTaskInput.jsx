@@ -62,10 +62,17 @@ function TaskPanel() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    // Check if the file is a PDF
+    if (file.type !== "application/pdf") {
+      alert("Please upload a PDF file.");
+      return;
+    }
     setFileName(file.name);
     const previewURL = URL.createObjectURL(file);
     setFilePreview(previewURL);
     setLocalSelectedTask((prev) => ({ ...prev, uploadedFile: file }));
+    // Load and log PDF text
+    // loadPdfText(file);
   };
 
   const handleFileDelete = () => {
