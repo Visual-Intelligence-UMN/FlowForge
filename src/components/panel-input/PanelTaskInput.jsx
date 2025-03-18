@@ -89,7 +89,7 @@ function TaskPanel() {
   const handleSubmit = () => {
     if (!localTaskDescription.trim()) {
       alert("Please provide the necessary input!");
-      setSelectedTask({});
+      // setSelectedTask({});
       setLocalSelectedTask({});
       return;
     }

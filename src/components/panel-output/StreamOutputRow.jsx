@@ -282,6 +282,7 @@ const StreamOutput = ({ runConfig }) => {
                   fullWidth
                   multiline
                   minRows={1}
+                  maxRows={3}
                   variant="outlined"
                   value={inputMessage}
                   onChange={handleInputChange}

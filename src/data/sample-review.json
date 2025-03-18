@@ -1,0 +1,784 @@
+{
+    "1": {
+        "taskFlowId": 1,
+        "taskFlowName": "Initial Evaluation Phase",
+        "taskFlowDescription": "This flow outlines the initial assessment tasks of the paper's content, relevance, and quality.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Example input text for initial evaluation",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Content Comprehension",
+                "stepLabel": "Understand Content",
+                "stepDescription": "Read through the paper to understand its key findings, methodologies, and arguments.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Relevance Evaluation",
+                "stepLabel": "Assess Relevance",
+                "stepDescription": "Evaluate if the paper's topic is relevant to the field or journal's focus area.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Quality Assessment",
+                "stepLabel": "Assess Quality",
+                "stepDescription": "Assess the quality of the writing, structure, and strength of arguments presented.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Determine Initial Feedback",
+                "stepLabel": "Provide Feedback",
+                "stepDescription": "Prepare initial feedback based on comprehension, relevance, and quality assessments.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Identify Major Concerns",
+                "stepLabel": "Identify Concerns",
+                "stepDescription": "Identify any major flaws or issues in methodology or arguments which need addressing.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Recommendation Formation",
+                "stepLabel": "Formulate Recommendation",
+                "stepDescription": "Decide on initial recommendation based on assessment results: accept, revise, or reject.",
+                "nextSteps": [
+                    "step-7"
+                ]
+            },
+            {
+                "stepId": "step-7",
+                "stepName": "Draft Review Report",
+                "stepLabel": "Draft Report",
+                "stepDescription": "Draft a comprehensive review report based on initial evaluation and responses to major concerns.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "2": {
+        "taskFlowId": 2,
+        "taskFlowName": "Analytical Review and Feedback",
+        "taskFlowDescription": "This flow focuses on a detailed analytical review leading to constructive feedback.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Detailed reading of analytical aspects of the paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Detailed Analysis of Arguments",
+                "stepLabel": "Analyze Arguments",
+                "stepDescription": "Analyze the strength and depth of the arguments presented within the paper.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodology Critique",
+                "stepLabel": "Critique Methodology",
+                "stepDescription": "Examine the methodologies used, checking for up-to-date and robust practices.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Results Evaluation",
+                "stepLabel": "Evaluate Results",
+                "stepDescription": "Critically analyze the results and their implications, assessing accuracy and relevance.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Develop Constructive Feedback",
+                "stepLabel": "Develop Feedback",
+                "stepDescription": "Formulate detailed and constructive feedback to address findings in the analysis.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Explore Broader Implications",
+                "stepLabel": "Explore Implications",
+                "stepDescription": "Discuss the broader implications of the results within the field.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Global Recommendation",
+                "stepLabel": "Conclude and Recommend",
+                "stepDescription": "Provide a structured recommendation on the paper's publication suitability.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "3": {
+        "taskFlowId": 3,
+        "taskFlowName": "Extended Peer Review Process",
+        "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Peer Review Coordination",
+                "stepLabel": "Coordinate Review",
+                "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Integrate Expert Opinions",
+                "stepLabel": "Integrate Opinions",
+                "stepDescription": "Integrate insights and critiques from various experts and discern consensual views.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Reviewer Consensus Building",
+                "stepLabel": "Build Consensus",
+                "stepDescription": "Build a consensus among reviewers about the paper’s strengths and weaknesses.",
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Author Revision Suggestions",
+                "stepLabel": "Suggest Revisions",
+                "stepDescription": "Draft revision suggestions for authors based on comprehensive peer insights.",
+                "nextSteps": [
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Second Round Evaluation",
+                "stepLabel": "Re-evaluate Post Revision",
+                "stepDescription": "Evaluate paper again after authors conduct suggested revisions.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Final Recommendation",
+                "stepLabel": "Finalize Recommendation",
+                "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "4": {
+        "taskFlowId": 4,
+        "taskFlowName": "Initial Evaluation Phase",
+        "taskFlowDescription": "This flow outlines the initial assessment tasks of the paper's content, relevance, and quality.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Example input text for initial evaluation",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Content Comprehension",
+                "stepLabel": "Understand Content",
+                "stepDescription": "Read through the paper to understand its key findings, methodologies, and arguments.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Relevance Evaluation",
+                "stepLabel": "Assess Relevance",
+                "stepDescription": "Evaluate if the paper's topic is relevant to the field or journal's focus area.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Quality Assessment",
+                "stepLabel": "Assess Quality",
+                "stepDescription": "Assess the quality of the writing, structure, and strength of arguments presented.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Determine Initial Feedback",
+                "stepLabel": "Provide Feedback",
+                "stepDescription": "Prepare initial feedback based on comprehension, relevance, and quality assessments.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Identify Major Concerns",
+                "stepLabel": "Identify Concerns",
+                "stepDescription": "Identify any major flaws or issues in methodology or arguments which need addressing.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Recommendation Formation",
+                "stepLabel": "Formulate Recommendation",
+                "stepDescription": "Decide on initial recommendation based on assessment results: accept, revise, or reject.",
+                "nextSteps": [
+                    "step-7"
+                ]
+            },
+            {
+                "stepId": "step-7",
+                "stepName": "Draft Review Report",
+                "stepLabel": "Draft Report",
+                "stepDescription": "Draft a comprehensive review report based on initial evaluation and responses to major concerns.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "5": {
+        "taskFlowId": 5,
+        "taskFlowName": "Analytical Review and Feedback",
+        "taskFlowDescription": "This flow focuses on a detailed analytical review leading to constructive feedback.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Detailed reading of analytical aspects of the paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Detailed Analysis of Arguments",
+                "stepLabel": "Analyze Arguments",
+                "stepDescription": "Analyze the strength and depth of the arguments presented within the paper.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodology Critique",
+                "stepLabel": "Critique Methodology",
+                "stepDescription": "Examine the methodologies used, checking for up-to-date and robust practices.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Results Evaluation",
+                "stepLabel": "Evaluate Results",
+                "stepDescription": "Critically analyze the results and their implications, assessing accuracy and relevance.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Develop Constructive Feedback",
+                "stepLabel": "Develop Feedback",
+                "stepDescription": "Formulate detailed and constructive feedback to address findings in the analysis.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Explore Broader Implications",
+                "stepLabel": "Explore Implications",
+                "stepDescription": "Discuss the broader implications of the results within the field.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Global Recommendation",
+                "stepLabel": "Conclude and Recommend",
+                "stepDescription": "Provide a structured recommendation on the paper's publication suitability.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "6": {
+        "taskFlowId": 6,
+        "taskFlowName": "Extended Peer Review Process",
+        "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Peer Review Coordination",
+                "stepLabel": "Coordinate Review",
+                "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Integrate Expert Opinions",
+                "stepLabel": "Integrate Opinions",
+                "stepDescription": "Integrate insights and critiques from various experts and discern consensual views.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Reviewer Consensus Building",
+                "stepLabel": "Build Consensus",
+                "stepDescription": "Build a consensus among reviewers about the paper’s strengths and weaknesses.",
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Author Revision Suggestions",
+                "stepLabel": "Suggest Revisions",
+                "stepDescription": "Draft revision suggestions for authors based on comprehensive peer insights.",
+                "nextSteps": [
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Second Round Evaluation",
+                "stepLabel": "Re-evaluate Post Revision",
+                "stepDescription": "Evaluate paper again after authors conduct suggested revisions.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Final Recommendation",
+                "stepLabel": "Finalize Recommendation",
+                "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "7": {
+        "taskFlowId": 7,
+        "taskFlowName": "Initial Evaluation Phase",
+        "taskFlowDescription": "This flow outlines the initial assessment tasks of the paper's content, relevance, and quality.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Example input text for initial evaluation",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Content Comprehension",
+                "stepLabel": "Understand Content",
+                "stepDescription": "Read through the paper to understand its key findings, methodologies, and arguments.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Relevance Evaluation",
+                "stepLabel": "Assess Relevance",
+                "stepDescription": "Evaluate if the paper's topic is relevant to the field or journal's focus area.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Quality Assessment",
+                "stepLabel": "Assess Quality",
+                "stepDescription": "Assess the quality of the writing, structure, and strength of arguments presented.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Determine Initial Feedback",
+                "stepLabel": "Provide Feedback",
+                "stepDescription": "Prepare initial feedback based on comprehension, relevance, and quality assessments.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Identify Major Concerns",
+                "stepLabel": "Identify Concerns",
+                "stepDescription": "Identify any major flaws or issues in methodology or arguments which need addressing.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Recommendation Formation",
+                "stepLabel": "Formulate Recommendation",
+                "stepDescription": "Decide on initial recommendation based on assessment results: accept, revise, or reject.",
+                "nextSteps": [
+                    "step-7"
+                ]
+            },
+            {
+                "stepId": "step-7",
+                "stepName": "Draft Review Report",
+                "stepLabel": "Draft Report",
+                "stepDescription": "Draft a comprehensive reivew report based on initial evaluation and responses to major concerns.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "8": {
+        "taskFlowId": 8,
+        "taskFlowName": "Analytical Review and Feedback",
+        "taskFlowDescription": "This flow focuses on a detailed analytical review leading to constructive feedback.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Detailed reading of analytical aspects of the paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Detailed Analysis of Arguments",
+                "stepLabel": "Analyze Arguments",
+                "stepDescription": "Analyze the strength and depth of the arguments presented within the paper.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodology Critique",
+                "stepLabel": "Critique Methodology",
+                "stepDescription": "Examine the methodologies used, checking for up-to-date and robust practices.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Results Evaluation",
+                "stepLabel": "Evaluate Results",
+                "stepDescription": "Critically analyze the results and their implications, assessing accuracy and relevance.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Develop Constructive Feedback",
+                "stepLabel": "Develop Feedback",
+                "stepDescription": "Formulate detailed and constructive feedback to address findings in the analysis.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Explore Broader Implications",
+                "stepLabel": "Explore Implications",
+                "stepDescription": "Discuss the broader implications of the results within the field.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Global Recommendation",
+                "stepLabel": "Conclude and Recommend",
+                "stepDescription": "Provide a structured recommendation on the paper's publication suitability.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "9": {
+        "taskFlowId": 9,
+        "taskFlowName": "Extended Peer Review Process",
+        "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Peer Review Coordination",
+                "stepLabel": "Coordinate Review",
+                "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Integrate Expert Opinions",
+                "stepLabel": "Integrate Opinions",
+                "stepDescription": "Integrate insights and critiques from various experts and discern consensual views.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Reviewer Consensus Building",
+                "stepLabel": "Build Consensus",
+                "stepDescription": "Build a consensus among reviewers about the paper’s strengths and weaknesses.",
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Author Revision Suggestions",
+                "stepLabel": "Suggest Revisions",
+                "stepDescription": "Draft revision suggestions for authors based on comprehensive peer insights.",
+                "nextSteps": [
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Second Round Evaluation",
+                "stepLabel": "Re-evaluate Post Revision",
+                "stepDescription": "Evaluate paper again after authors conduct suggested revisions.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Final Recommendation",
+                "stepLabel": "Finalize Recommendation",
+                "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "10": {
+        "taskFlowId": 10,
+        "taskFlowName": "Analytical Review and Feedback",
+        "taskFlowDescription": "This flow focuses on a detailed analytical review leading to constructive feedback.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Detailed reading of analytical aspects of the paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Detailed Analysis of Arguments",
+                "stepLabel": "Analyze Arguments",
+                "stepDescription": "Analyze the strength and depth of the arguments presented within the paper.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodology Critique",
+                "stepLabel": "Critique Methodology",
+                "stepDescription": "Examine the methodologies used, checking for up-to-date and robust practices.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Results Evaluation",
+                "stepLabel": "Evaluate Results",
+                "stepDescription": "Critically analyze the results and their implications, assessing accuracy and relevance.",
+                "nextSteps": [
+                    "step-4",
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Develop Constructive Feedback",
+                "stepLabel": "Develop Feedback",
+                "stepDescription": "Formulate detailed and constructive feedback to address findings in the analysis.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Explore Broader Implications",
+                "stepLabel": "Explore Implications",
+                "stepDescription": "Discuss the broader implications of the results within the field.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Global Recommendation",
+                "stepLabel": "Conclude and Recommend",
+                "stepDescription": "Provide a structured recommendation on the paper's publication suitability.",
+                "nextSteps": []
+            }
+        ]
+    },
+    "11": {
+        "taskFlowId": 11,
+        "taskFlowName": "Extended Peer Review Process",
+        "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
+        "taskFlowStart": {
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
+                "file": "academic_paper.pdf"
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Peer Review Coordination",
+                "stepLabel": "Coordinate Review",
+                "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Integrate Expert Opinions",
+                "stepLabel": "Integrate Opinions",
+                "stepDescription": "Integrate insights and critiques from various experts and discern consensual views.",
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Reviewer Consensus Building",
+                "stepLabel": "Build Consensus",
+                "stepDescription": "Build a consensus among reviewers about the paper’s strengths and weaknesses.",
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Author Revision Suggestions",
+                "stepLabel": "Suggest Revisions",
+                "stepDescription": "Draft revision suggestions for authors based on comprehensive peer insights.",
+                "nextSteps": [
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Second Round Evaluation",
+                "stepLabel": "Re-evaluate Post Revision",
+                "stepDescription": "Evaluate paper again after authors conduct suggested revisions.",
+                "nextSteps": [
+                    "step-6"
+                ]
+            },
+            {
+                "stepId": "step-6",
+                "stepName": "Final Recommendation",
+                "stepLabel": "Finalize Recommendation",
+                "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
+                "nextSteps": []
+            }
+        ]
+    }
+}
