@@ -44,7 +44,15 @@ export function ParallelForm({ data, onChange }) {
     });
   };
 
-
+  const handleAggregationChange = (field) => (e) => {
+    onChange({
+      ...data,
+      aggregation: {
+        ...data.aggregation,
+        [field]: e.target.value,
+      },
+    });
+  };
   const eachAgent = (agent, i) => {
     return (
       <Box
@@ -116,12 +124,12 @@ export function ParallelForm({ data, onChange }) {
         <PatternTextField
           label="Persona"
           value={data.aggregation?.persona || ""}
-          // onChange={handleAggregationChange("persona")}
+          onChange={handleAggregationChange("persona")}
         />
         <PatternTextField
           label="Goal"
           value={data.aggregation?.goal || ""}
-          // onChange={handleAggregationChange("goal")}
+          onChange={handleAggregationChange("goal")}
         />
     </Box>
     )
