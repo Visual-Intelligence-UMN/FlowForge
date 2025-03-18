@@ -12,6 +12,7 @@ function reassignConfigIds(patternId, agentsConfig, configs) {
       ...config,
       configId: `${patternId}-${nextCount}`,
       patternId,
+      taskFlowId: `${patternId}-${nextCount}`,
     };
   });
 }

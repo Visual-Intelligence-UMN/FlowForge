@@ -49,9 +49,9 @@ const CompileLanggraph = async (reactflowConfig) => {
         }
         // console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
-        const {inputNodes,  pattern, stepNodes, maxRound, runtime, nextSteps} = stepMetadata[key];
+        const {inputNodes,  pattern, stepNodes, maxRound, runtime, nextSteps, maxCalls} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
-        totalMaxRound = Number(totalMaxRound) + Number(maxRound);
+        totalMaxRound = Number(totalMaxRound) + Number(maxCalls);
 
         // TODO: deal with total runtime here
 

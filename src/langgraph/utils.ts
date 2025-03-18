@@ -69,11 +69,15 @@ function handle_agent_response(result: any, name: string) {
 async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string) {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
-  
+    const firstMsg = state.messages.slice(0, 1);
+    if (state.sender === "user") {
+        return state.messages;
+    }
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
         console.log("no stepMsgs");
         const lastMsg = state.messages.slice(-1);
+        // console.log("last lastMsg", state.messages[state.messages.length - 1])
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);
         let tool_msg = null;
@@ -92,7 +96,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     //     name: tool_name,
                     // });
                     // return [lastMsg[0], tool_msg];
-                    return lastMsg;
+                    return firstMsg.concat(lastMsg);
                 case "WebSearch":
                     const result = await TavilySearchTool(lastMsg[0].tool_calls[0]?.args);
                     // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
@@ -105,12 +109,12 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     });
                     // return [tool_msg];
                     // Note: the tool msg should be returned with the calling msg
-                    return [lastMsg[0], tool_msg];
+                    return firstMsg.concat(lastMsg[0], tool_msg);
                 default:
-                    return lastMsg;
+                    return firstMsg.concat(lastMsg);
             }
         } else {
-            return lastMsg;
+            return firstMsg.concat(lastMsg);
         }
     }
     return stepMsgs.slice(-1);
@@ -134,7 +138,7 @@ async function create_agent_node(props: {
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
     // let response = await agent.invoke(input_state, config);
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
-    console.log("invokePayload", invokePayload);
+    console.log("invokePayload for", name, invokePayload);
     let response = await agent.invoke(invokePayload, config);
     const response_msg = handle_agent_response(response, name);
     return {

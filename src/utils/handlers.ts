@@ -425,8 +425,8 @@ const handleSingleAgent = (step) => {
                 tools: [],
                 llm: "gpt-4o-mini",
                 taskPrompt: taskPrompt,
-                patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
-                systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal
+                patternPrompt: patternSystemPrompt,
+                systemPrompt: patternSystemPrompt + taskPrompt + "You have persona is " + persona + " and your goal is " + goal
             }
         ],
         edges: []

@@ -10,10 +10,11 @@ import { Command } from "@langchain/langgraph/web";
 const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
+    const firstMsg = state.messages.slice(0, 1);
   
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
-      return state.messages.slice(-1);
+      return firstMsg.concat(state.messages.slice(-1));
     }
     return stepMsgs.slice(-1);
   }
@@ -54,7 +55,7 @@ const makeAgentNode = (params: {
             },
             ...getInputMessagesForStep(state, currentStep),
         ]
-
+        console.log("invokePayload for", params.name, invokePayload);
 
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {

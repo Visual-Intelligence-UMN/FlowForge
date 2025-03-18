@@ -86,7 +86,7 @@ const compileParallel = async (workflow, nodesInfo, stepEdges, AgentsState) => {
             llmOption: node.data.llm,
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
-            accessStepMsgs: true,
+            accessStepMsgs: true, // Aggregator can have the access to the step msgs
         });
 
         const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {

@@ -21,26 +21,34 @@ const GenerateRunnableConfig = async (workflow) => {
            
             const { maxRound, type, nodes } = newConfig;
             let runtime = maxRound;
+            let maxCalls = 1;
             switch (type) {
                 case "reflection":
-                    runtime = `${maxRound} * 2`;
+                    runtime = maxRound * 2;
+                    maxCalls = runtime;
                     break;
                 case "discussion":
-                    runtime = `${maxRound} * ${nodes.length}`;
+                    runtime = maxRound * nodes.length;
+                    maxCalls = runtime;
                     break;
                 case "parallel":
-                    runtime = `1`;
+                    runtime = 1;
+                    maxCalls = nodes.length;
                     break;
                 case "voting":
-                    runtime = `${maxRound} * ${nodes.length} + 1`;
+                    runtime = maxRound * nodes.length + 1;
+                    maxCalls = runtime;
                     break;
                 case "supervision":
-                    runtime = `${maxRound} * 2`;
+                    runtime = maxRound * 2;
+                    maxCalls = runtime;
                     break;
                 default:
-                    runtime = `${maxRound} * ${nodes.length}`;
+                    runtime = maxRound * nodes.length;
+                    maxCalls = runtime;
             }
             newConfig.runtime = runtime;
+            newConfig.maxCalls = maxCalls;
             agentsConfig.taskFlowSteps.push({
                 stepId,
                 stepName,

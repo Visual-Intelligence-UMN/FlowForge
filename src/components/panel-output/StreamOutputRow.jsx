@@ -120,10 +120,14 @@ const StreamOutput = ({ runConfig }) => {
         let sender = value.sender;
         const messagesAll = value.messages;
         let messageContent = "";
+        console.log("output", output);
+        console.log("messagesAll", messagesAll, sender);
 
         if (Array.isArray(messagesAll) || sender === undefined) {
-          sender = messagesAll[0]?.name || "Unknown";
-          messageContent = messagesAll[0]?.content || "";
+          // console.log("messagesAll", messagesAll, sender);
+          sender = messagesAll?.slice(0, 1)?.[0]?.name || "Unknown";
+          messageContent = messagesAll?.slice(1)?.[0]?.content || "";
+
         } else {
           if (!messagesAll.tool_calls || messagesAll.tool_calls.length === 0) {
             messageContent = messagesAll?.content || "";
