@@ -112,7 +112,8 @@ const GenerateTemplatesInfo = async (flow) => {
 
         const userMessage = "pattern: " + pattern.name 
         + " description: " 
-        + pattern.description + " task: " + stepName 
+        + pattern.description + pattern.recommendationReason
+        + " task: " + stepName 
         + " task description: " + stepDescription;
 
         try {

@@ -14,7 +14,7 @@
     },
     "Supervision": {
         "confirm": false,
-        "maxRound": 6,
+        "maxRound": 3,
         "workers": [
             {
                 "persona": "Worker",
@@ -49,7 +49,7 @@
     },
     "Discussion": {
         "confirm": false,
-        "maxRound": 6,
+        "maxRound": 3,
         "withSummary": true,
         "agents": [
             {

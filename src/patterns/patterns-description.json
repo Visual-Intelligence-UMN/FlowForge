@@ -9,11 +9,11 @@
     },
     {
         "name": "Discussion",
-        "description": "Engages multiple agents with distinct personas and roles in a collaborative dialogue, fostering creativity, brainstorming, idea generation, debate, and consensus building. Best for tasks benefiting from diverse perspectives. Example use: collaborative creative writing or strategic decision-making discussions."
+        "description": "Engages multiple agents with distinct personas and roles in a collaborative dialogue, fostering creativity, brainstorming, idea generation, debate, and consensus building. Best for tasks benefiting from diverse perspectives. Example use: collaborative discussion, or strategic decision-making discussions."
     },
     {
         "name": "Parallel",
-        "description": "Deploys multiple agents simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: simultaneously translating documents into multiple languages or parallel processing of different chapters of a book."
+        "description": "Deploys multiple agents simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: reviewing the same input content simultaneously to generate more comprehensive and diverse insights."
     },
     {
         "name": "Supervision",
@@ -22,9 +22,5 @@
     {
         "name": "Web Search Agent",
         "description": "Utilizes a single agent equipped with web search capabilities to gather relevant information online. Ideal for tasks requiring extensive online research. Example use: conducting market research or gathering recent scientific findings."
-    },
-    {
-        "name": "PDF Loader Agent",
-        "description": "Employs a single agent capable of loading and analyzing PDF documents. Best suited for tasks involving reading, understanding, and extracting insights from PDF files. Example use: reviewing academic papers or extracting information from reports."
     }
 ]

@@ -152,7 +152,7 @@ export function DiscussionForm({ data, onChange }) {
             {eachAgent(agent, i)}
           </Grid2>
         ))}
-        {data.withSummary === "true" && summaryDisplay()}
+        {data.withSummary && summaryDisplay()}
       </Grid2>
       
 
@@ -185,8 +185,8 @@ export function DiscussionForm({ data, onChange }) {
             sx={{ maxWidth: "60%" }}
             className="nodrag nopan"
           >
-            <MenuItem value="true">With Summary</MenuItem>
-            <MenuItem value="false">No Summary</MenuItem>
+            <MenuItem value={true}>With Summary</MenuItem>
+            <MenuItem value={false}>No Summary</MenuItem>
           </Select>
       </Box>
      

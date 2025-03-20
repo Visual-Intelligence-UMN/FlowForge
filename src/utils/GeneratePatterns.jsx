@@ -20,12 +20,15 @@ const GeneratePatterns = async (taskFlow) => {
     }
 
     const designPatternSchema = z.object({
-        designPatterns: z.array(
+        designPattern_1: 
             z.object({
                 name: z.string(),
                 recommendationReason: z.string(),
+            }),
+        designPattern_2: z.object({
+                name: z.string(),
+                recommendationReason: z.string(),
             })
-        ),
     });
 
     const systemMessage = promptGeneratePatterns.systemMessage
@@ -54,7 +57,7 @@ const GeneratePatterns = async (taskFlow) => {
         });
             const res = completion.choices[0].message.parsed;
             console.log("Design pattern for subtask " + stepName + " is: " + res);
-            const designPatterns = res.designPatterns;
+            const designPatterns = [res.designPattern_1, res.designPattern_2];
             patternsFlow.taskFlowSteps.push({
                 stepId: stepId,
                 stepName: stepName,
