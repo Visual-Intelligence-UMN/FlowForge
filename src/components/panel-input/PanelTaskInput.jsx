@@ -142,7 +142,7 @@ function TaskPanel() {
           placeholder="Enter your task description, or select one from the examples provided."
           label="Task Description"
           size="small"
-          minRows={2}
+          minRows={5}
           sx={{ width: "550px" }}
         />
 

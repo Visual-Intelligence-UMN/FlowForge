@@ -1,5 +1,116 @@
 {
   "taskFlows": [
+        {
+            "taskFlowId": "4",
+            "taskFlowName": "Extended Peer Review Process",
+            "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
+                    "file": "academic_paper.pdf"
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepName": "Peer Review Coordination",
+                    "stepLabel": "Coordinate Review",
+                    "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
+                    "pattern": {
+                        "name": "Parallel",
+                        "recommendationReason": "The Discussion pattern engages multiple agents with distinct roles, which is essential for fostering collaboration among reviewers. It allows for diverse perspectives, ensuring a comprehensive approach to the peer review process."
+                    },
+                    "config": {
+                        "type": "none",
+                        "nodes": [],
+                        "edges": []
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 6,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "Reviewer in the background of communication ",
+                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
+                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Reviewer in the background of computer science",
+                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
+                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Reviewer in the background of social science",
+                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Editor",
+                            "goal": "To make a final decision regarding acceptance, revision, or rejection of the paper based on the updated review.",
+                            "patternPrompt": "You are a helpful assistant who can summarize the output of the agents."
+                        },
+                        "agentNum": 0,
+                        "aggregation": {
+                            "persona": "Chief Reviewer, better in summarizing reviews ",
+                            "goal": "Make the final decision to accept, revise, or reject the paper after considering the reviewers' recommendations."
+                        }
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "stepId": "step-1"
+                },
+                {
+                    "stepName": "Final Recommendation",
+                    "stepLabel": "Finalize Recommendation",
+                    "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Engaging various perspectives through discussions can enhance the deliberation process when making the final decision, ensuring all angles are considered before reaching a consensus on acceptance, revision, or rejection."
+                    },
+                    "config": {
+                        "type": "none",
+                        "nodes": [],
+                        "edges": []
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 4,
+                        "withSummary": "false",
+                        "agents": [
+                            {
+                                "persona": "Reviewer",
+                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
+                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Editor",
+                                "goal": "Make the final decision to accept, revise, or reject the paper after considering the reviewers' recommendations.",
+                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Editor",
+                                "goal": "To facilitate communication among reviewers and compile their feedback into a cohesive report."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Editor",
+                            "goal": "To make a final decision regarding acceptance, revision, or rejection of the paper based on the updated review.",
+                            "patternPrompt": "You are a helpful assistant who can summarize the output of the agents."
+                        },
+                        "agentNum": 0
+                    },
+                    "nextSteps": [],
+                    "stepId": "step-2"
+                }
+            ],
+            "patternId": "3-3"
+        },
       {
           "taskFlowId": "1",
           "taskFlowName": "Initial Paper Summary and Evaluation",

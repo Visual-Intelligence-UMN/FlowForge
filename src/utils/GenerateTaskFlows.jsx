@@ -108,10 +108,40 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     sampleTaskFlowData = sampleTaskFlowsReview;
   }
 
+  let returnData = {};
+
+  const oneStepFlow = {
+    taskFlowId: "0",
+    taskFlowName: "Baseline",
+    taskFlowDescription: "This is a baseline flow",
+    taskFlowStart: {
+      stepId: "step-0",
+      nextSteps: ["step-1"],
+      input: {
+        text: "",
+        file: "",
+      },
+    },
+    taskFlowSteps: [{ 
+      stepId: "step-1",
+      stepName: "Baseline flow", 
+      stepLabel: "Baseline flow", 
+      stepDescription: taskDescription,
+      nextSteps: [],
+    }],
+  };
+  returnData.taskFlows = [oneStepFlow];
+
+
   try {
     // TODO: remove this after testing the patterns generation
     if (!runRealtime) {
-      return sampleTaskFlowData;
+      if (sampleTaskFlowData.taskFlows.length > 3) {
+        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows.slice(0, 2));
+      } else {
+        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
+      }
+      return returnData;
     }
 
     // const taskFlows = [];
@@ -152,7 +182,24 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     });
     const res = completion.choices[0].message.parsed;
     console.log("Task flows response formatted:", res);
-    return res;
+
+    const generatedTaskFlows = res.taskFlows;
+
+    if (generatedTaskFlows.length > 3) {
+      const sortedTaskFlows = generatedTaskFlows.slice(0, 3).sort((a, b) => {
+        return a.taskFlowSteps.length - b.taskFlowSteps.length;
+      });
+      const shortest = sortedTaskFlows[0];  
+      const longest = sortedTaskFlows[sortedTaskFlows.length - 1];
+      const middle = sortedTaskFlows[Math.floor(sortedTaskFlows.length / 2)];
+      returnData.taskFlows.push(oneStepFlow, shortest, middle, longest);
+    } else {
+      returnData.taskFlows.push(oneStepFlow, ...generatedTaskFlows);
+    }
+
+    // returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
+    return returnData;
+
   } catch (error) {
     console.error("Error generating task flows:", error);
     throw error;
