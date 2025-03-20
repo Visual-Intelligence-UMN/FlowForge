@@ -42,14 +42,14 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   });
 
   const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
-    "{{FlowsNumber}}",
+    "{{flow_num}}",
     "THREE" // conditionally set as THREE or ONE
   );
   const systemMessage = systemMessage_schema;
 
   const systemMessage_ideas = promptTaskflow.systemMessage_ideas.replace(
     "{{flow_num}}",
-    3
+    "THREE"
   );
   const systemMessage_oneFlow = promptTaskflow.systemMessage_oneFlow;
 
@@ -58,18 +58,17 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   });
 
   const taskFlowSchema = z.object({
-    taskFlows: z.array(
-      z.object({
-        taskFlowId: z.string(),
-        taskFlowName: z.string(),
-        taskFlowDescription: z.string(),
-        taskFlowStart: z.object({
-          nextSteps: z.array(z.string()),
-          input: z.object({
-            text: z.string(),
-            file: z.string(),
-          }),
+    taskFlow_1: z.object({
+      taskFlowId: z.string(),
+      taskFlowName: z.string(),
+      taskFlowDescription: z.string(),
+      taskFlowStart: z.object({
+        nextSteps: z.array(z.string()),
+        input: z.object({
+          text: z.string(),
+          file: z.string(),
         }),
+      }),
         taskFlowSteps: z.array(
           z.object({
             stepId: z.string(),
@@ -79,15 +78,65 @@ const GenerateTaskFlows = async (task, runRealtime) => {
             nextSteps: z.array(z.string()),
           })
         ),
-      })
-    ),
+    }),
+    taskFlow_2: z.object({
+      taskFlowId: z.string(),
+      taskFlowName: z.string(),
+      taskFlowDescription: z.string(),
+      taskFlowStart: z.object({
+        nextSteps: z.array(z.string()),
+        input: z.object({
+          text: z.string(),
+          file: z.string(),
+        }),
+      }),
+      taskFlowSteps: z.array(
+        z.object({
+          stepId: z.string(),
+          stepName: z.string(),
+          stepLabel: z.string(),
+          stepDescription: z.string(),
+          nextSteps: z.array(z.string()),
+        })
+      ),
+    }),
+    taskFlow_3: z.object({
+      taskFlowId: z.string(),
+      taskFlowName: z.string(),
+      taskFlowDescription: z.string(),
+      taskFlowStart: z.object({
+        nextSteps: z.array(z.string()),
+        input: z.object({
+          text: z.string(),
+          file: z.string(),
+        }),
+      }),
+      taskFlowSteps: z.array(
+        z.object({
+          stepId: z.string(),
+          stepName: z.string(),
+          stepLabel: z.string(),
+          stepDescription: z.string(),
+          nextSteps: z.array(z.string()),
+        })
+      ),
+    }),
   });
 
   const oneTaskFlowSchema = z.object({
+    taskFlowId: z.string(),
     taskFlowName: z.string(),
     taskFlowDescription: z.string(),
+    taskFlowStart: z.object({
+      nextSteps: z.array(z.string()),
+      input: z.object({
+        text: z.string(),
+        file: z.string(),
+      }),
+    }),
     taskFlowSteps: z.array(
       z.object({
+        stepId: z.string(),
         stepName: z.string(),
         stepLabel: z.string(), // Short label for the step
         stepDescription: z.string(), // Detailed description of the step
@@ -183,7 +232,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     const res = completion.choices[0].message.parsed;
     console.log("Task flows response formatted:", res);
 
-    const generatedTaskFlows = res.taskFlows;
+    const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3];
 
     if (generatedTaskFlows.length > 3) {
       const sortedTaskFlows = generatedTaskFlows.slice(0, 3).sort((a, b) => {
@@ -192,9 +241,9 @@ const GenerateTaskFlows = async (task, runRealtime) => {
       const shortest = sortedTaskFlows[0];  
       const longest = sortedTaskFlows[sortedTaskFlows.length - 1];
       const middle = sortedTaskFlows[Math.floor(sortedTaskFlows.length / 2)];
-      returnData.taskFlows.push(oneStepFlow, shortest, middle, longest);
+      returnData.taskFlows.push(shortest, middle, longest);
     } else {
-      returnData.taskFlows.push(oneStepFlow, ...generatedTaskFlows);
+      returnData.taskFlows.push(...generatedTaskFlows);
     }
 
     // returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
