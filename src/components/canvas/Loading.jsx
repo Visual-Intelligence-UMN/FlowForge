@@ -1,53 +1,36 @@
-import { Box, Typography } from "@mui/material";
+import React from 'react';
+import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 
-const LoadingFlows = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          border: "1px solid #ddd",
-          width: "100%",
-          height: "70vh",
-          color: "grey",
-        }}
-      >
-        <Typography 
-            variant="h8" 
-            sx={{ 
-                pt: 2 
-            }}
-        >
-          Flows are generating...
+// Reusable overlay component for loading
+const LoadingOverlay = ({ message, open = true }) => {
+  return (
+    <Backdrop
+      open={open}
+      sx={{ 
+        zIndex: (theme) => theme.zIndex.modal + 1,
+        color: '#fff'
+      }}
+    >
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center' 
+      }}>
+        <CircularProgress color="inherit" />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          {message}
         </Typography>
       </Box>
-    );
-  };
+    </Backdrop>
+  );
+};
 
-  const LoadingPatterns = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          border: "1px solid #ddd",
-          width: "100%",
-          height: "70vh",
-          color: "grey",
-        }}
-      >
-        <Typography 
-            variant="h8" 
-            sx={{ 
-                pt: 2 
-            }}
-        >
-          Patterns are generating...
-        </Typography>
-      </Box>
-    );
-  };
+const LoadingFlows = () => (
+  <LoadingOverlay message="Flows are generating..." />
+);
 
-export default LoadingFlows;
+const LoadingPatterns = () => (
+  <LoadingOverlay message="Patterns are generating..." />
+);
+
+export { LoadingFlows, LoadingPatterns };
