@@ -3,6 +3,7 @@ import { OpenAI } from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import merge from "lodash/merge";
+import promptGenerateTemplates from "../models/prompt-generate-templates.json";
 
 const GenerateTemplatesInfo = async (flow) => {
     const {taskFlowSteps } = flow;
@@ -108,7 +109,8 @@ const GenerateTemplatesInfo = async (flow) => {
 
         const stepTemplateSchema = templateSchema[pattern.name] || templateSchema["Single Agent"];
 
-        const systemMessage = "You are a helpful assistant that generates the template information for a selected design pattern. Your task is to fill out a JSON pattern template matching the provided schema, using details from the following inputs: The stepName and stepDescription.The pattern name and description. The reason the pattern was recommended for this step. Requirements:The output must strictly follow the JSON schema provided (no additional or missing fields).Each field in the schema should be as detailed and specific to the stepDescription and pattern as possible: Tailor the agent's "persona" to fit the role they will play in this step; Tailor the "goal" to reflect the specific objectives or outcomes needed in this step; If the pattern requires multiple agents (e.g., "Discussion", "Parallel", "Supervision"), create agent entries that align with how you envision each agent contributing to the step’s success; For numerical or structural fields (e.g., "maxRound" for Reflection), pick a reasonable value based on how iterative or complex the step might be; If the pattern uses repeated agent fields (e.g., multiple “agents” arrays), ensure each one has a unique persona name and a goal that directly addresses a different aspect of the step. Remember, your output will be merged into an existing template, so make sure you fill each field thoughtfully and thoroughly."
+        const systemMessage = promptGenerateTemplates.systemMessage
+        
         const userMessage = "stepName: " + stepName + ". stepDescription: " 
         + stepDescription + ". pattern: " + pattern.name + ". patternDescription: " + pattern.description 
         + ". pattern recommendationReason: " + pattern.recommendationReason 
@@ -120,7 +122,7 @@ const GenerateTemplatesInfo = async (flow) => {
                     { role: "system", content: systemMessage },
                     { role: "user", content: userMessage },
                 ],
-                response_format: zodResponseFormat(stepTemplateSchema, "template"),
+                response_format: zodResponseFormat(stepTemplateSchema, "template")
             });
             const res = completion.choices[0].message.parsed;
             // console.log("Templates info:", res);
