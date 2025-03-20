@@ -132,7 +132,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   };
   returnData.taskFlows = [oneStepFlow];
 
-
+  console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     // TODO: remove this after testing the patterns generation
     if (!runRealtime) {

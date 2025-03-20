@@ -1,5 +1,6 @@
 {
-    "3": {
+    "taskFlows": [
+        {
         "taskFlowId": 3,
         "taskFlowName": "Extended Peer Review Process",
         "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
@@ -111,7 +112,7 @@
         "patternId": "3-3"
     },
 
-    "7": {
+ {
         "taskFlowId": 7,
         "taskFlowName": "Initial Evaluation Phase",
         "taskFlowDescription": "This flow outlines the initial assessment tasks of the paper's content, relevance, and quality.",
@@ -189,7 +190,7 @@
             }
         ]
     },
-    "11": {
+    {
         "taskFlowId": 11,
         "taskFlowName": "Extended Peer Review Process",
         "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
@@ -432,4 +433,5 @@
         ],
         "patternId": "11-2"
     }
+]
 }
