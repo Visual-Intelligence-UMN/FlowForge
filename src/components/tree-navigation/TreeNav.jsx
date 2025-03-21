@@ -502,7 +502,7 @@ const TreeNav = () => {
                   const pathData = buildEdgePath(edge.points);
                   return (
                     <path
-                      key={idx}
+                      key={`${edge.from}-${edge.to}`}
                       d={pathData}
                       stroke="black"
                       fill="none"
