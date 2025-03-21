@@ -51,6 +51,108 @@ function getNextIndex(currentIndex, maxIndex) {
   return currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
 }
 
+
+function ExploreButton() {
+  const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
+  const [flowsMap] = useAtom(flowsMapAtom);
+  const [flowsWithPatterns] = useAtom(patternsAtom);
+  const [agentsConfig] = useAtom(agentsConfigAtom);
+  const [compiledConfigs] = useAtom(compiledConfigsAtom);
+
+  const { type, flowId, patternId, configId } = canvasPages || {};
+
+  const handleButtonClick = () => {
+    if (type === "flow") {
+      const sortedFlowIds = getSortedFlowIds(flowsMap);
+      const currentIndex = sortedFlowIds.indexOf(flowId);
+      const newIndex = getNextIndex(currentIndex, sortedFlowIds.length - 1);
+      const newFlowId = sortedFlowIds[newIndex];
+
+      const sortedPatterns = getSortedPatternsForFlow(
+        flowsWithPatterns,
+        newFlowId
+      );
+      let newPatternId = "";
+      let newConfigId = "";
+
+      if (sortedPatterns.length > 0) {
+        newPatternId = sortedPatterns[0].patternId;
+        const sortedConfigs = getSortedConfigsForPattern(
+          agentsConfig,
+          newPatternId
+        );
+        if (sortedConfigs.length > 0) {
+          newConfigId = sortedConfigs[0].configId;
+        }
+      }
+
+      setCanvasPages({
+        type: "flow",
+        flowId: newFlowId,
+        patternId: newPatternId,
+        configId: newConfigId,
+      });
+    } else if (type === "pattern") {
+      const [flowPart, patternPart] = patternId.split("-");
+      const sortedPatterns = getSortedPatternsForFlow(
+        flowsWithPatterns,
+        flowPart
+      );
+      const currentIndex = sortedPatterns.findIndex(
+        (p) => p.patternId === patternId
+      );
+      const newIndex = getNextIndex(currentIndex, sortedPatterns.length - 1);
+      const newPatternId = sortedPatterns[newIndex].patternId;
+
+      const sortedConfigs = getSortedConfigsForPattern(
+        agentsConfig,
+        newPatternId
+      );
+      let newConfigId = "";
+      if (sortedConfigs.length > 0) {
+        newConfigId = sortedConfigs[0].configId;
+      }
+
+      setCanvasPages({
+        type: "pattern",
+        flowId: flowPart,
+        patternId: newPatternId,
+        configId: newConfigId,
+      });
+    } else if (type === "config") {
+      const [flowPart, patternPart, configPart] = configId.split("-");
+      const basePatternId = `${flowPart}-${patternPart}`;
+      const sortedConfigs = getSortedConfigsForPattern(
+        agentsConfig,
+        basePatternId
+      );
+      const currentIndex = sortedConfigs.findIndex(
+        (c) => c.configId === configId
+      );
+      const newIndex = getNextIndex(currentIndex, sortedConfigs.length - 1);
+      const newConfigId = sortedConfigs[newIndex].configId;
+
+      setCanvasPages({
+        type: "config",
+        flowId: flowPart,
+        patternId: basePatternId,
+        configId: newConfigId,
+      });
+    }
+  };
+
+  return (
+    <Button
+      variant="contained"
+      onClick={handleButtonClick}
+      size="small"
+      sx={{ mr: -2 }}
+    >
+      Try another one
+    </Button>
+  );
+}
+
 function ExploreLeftButton() {
   const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
   const [flowsMap] = useAtom(flowsMapAtom);
@@ -163,6 +265,8 @@ function ExploreLeftButton() {
   );
 }
 
+
+
 function ExploreRightButton() {
   const [canvasPages, setCanvasPages] = useAtom(canvasPagesAtom);
   const [flowsMap] = useAtom(flowsMapAtom);
@@ -259,4 +363,4 @@ function ExploreRightButton() {
   );
 }
 
-export { ExploreLeftButton, ExploreRightButton };
+export { ExploreLeftButton, ExploreRightButton, ExploreButton };

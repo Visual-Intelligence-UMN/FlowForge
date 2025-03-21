@@ -31,14 +31,15 @@ import {
 } from "../../patterns/GlobalStates";
 import isEqual from "lodash/isEqual";
 import {
-     getMultiLineLayoutedNodesAndEdges, 
-     zoomOutLayout,
-     getLayeredLayout
+  getMultiLineLayoutedNodesAndEdges,
+  zoomOutLayout,
+  getLayeredLayout
 } from "./layout";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
 import { Box, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import { ExploreButton } from "../canvas-buttons/ExploreButtons";
 
 import set from "lodash.set";
 
@@ -92,8 +93,8 @@ export function RflowComponent(props) {
     setEdges(layoutedEdges);
 
     setTimeout(() => {
-        if (nodes.length) {
-          fitView({ padding: 0.2, duration: 1000 });
+      if (nodes.length) {
+        fitView({ padding: 0.2, duration: 1000 });
         //   setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
         //   setCenter(0, 0, { duration: 1000 });
         //   zoomOut({ zoom: 1, duration: 1000 });
@@ -215,9 +216,8 @@ export function RflowComponent(props) {
       }}
     >
       <ReactFlow
-        key={`${canvasPages.type}-${canvasPages.flowId || ""}-${
-          canvasPages.patternId || ""
-        }-${canvasPages.configId || ""}`}
+        key={`${canvasPages.type}-${canvasPages.flowId || ""}-${canvasPages.patternId || ""
+          }-${canvasPages.configId || ""}`}
         nodes={nodeListWithHandlers}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -230,28 +230,36 @@ export function RflowComponent(props) {
         panOnScroll
         selectionMode={SelectionMode.Partial}
         minZoom={0.2}
-        // defaultZoom={0.1}
+      // defaultZoom={0.1}
       >
         {/* <MiniMap /> */}
         <Controls />
       </ReactFlow>
 
-      <Button
-        size="small"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleSave();
-        }}
-        sx={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          textTransform: "none",
-          p: 2,
+      <div className="buttongroup"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "5px",
+          gap: "10px" // spacing between buttons
         }}
       >
-        CONTINUE
-      </Button>
+
+
+        <Button
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSave();
+          }}
+          variant="contained"
+        >
+          Looks good, continue
+        </Button>
+
+        <ExploreButton />
+      </div>
     </div>
   );
 }

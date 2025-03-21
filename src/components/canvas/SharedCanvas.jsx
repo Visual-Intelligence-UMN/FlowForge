@@ -271,7 +271,7 @@ const SharedCanvas = () => {
         }}
       >
         <Typography variant="h8" sx={{ pt: 2 }}>
-          Canvas page waits for task to be selected
+          Please input your task first
         </Typography>
       </Box>
     );
@@ -283,13 +283,13 @@ const SharedCanvas = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: "1px solid #ddd",
+        border: "0px solid #ddd",
         width: "100%",
         // height
       }}
     >
       {/* Row with left button, canvas content, right button */}
-      <Box
+      {/* <Box
         sx={{
           display: "flex",
           alignItems: "center",
@@ -299,7 +299,9 @@ const SharedCanvas = () => {
         {enableButtons && <ExploreLeftButton />}
         {canvasPage()}
         {enableButtons && <ExploreRightButton />}
-      </Box>
+      </Box> */}
+
+      {canvasPage()}
 
       <Box sx={{ mt: 8 }}>
         <StageHighlight />

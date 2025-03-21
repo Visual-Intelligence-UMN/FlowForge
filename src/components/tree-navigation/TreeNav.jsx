@@ -478,7 +478,7 @@ const TreeNav = () => {
       }}
     >
       <Typography variant="h8" sx={{ p: 2 }}>
-        Navigation Tree waits for task to be selected
+        Please input your task first
       </Typography>
     </Box>
   );
