@@ -7,7 +7,8 @@ const NewConstruction = () => {
   return (
     <div className="main-container">
       <header style={headerStyle}>
-        <div style={{ padding: '10px 40px', fontSize: '30pt' }}>FlowForge</div></header>
+        <div style={{ padding: "10px 40px", fontSize: "24pt" }}>FlowForge</div>
+      </header>
       <div className="pre-construction section">
         <TaskPanel />
       </div>

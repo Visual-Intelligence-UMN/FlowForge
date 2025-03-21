@@ -256,7 +256,7 @@ const SharedCanvas = () => {
           color: "grey",
         }}
       >
-        <Typography variant="h3" sx={{ pt: 2, color: "lightgrey" }}>
+        <Typography variant="h5" sx={{ pt: 2, color: "lightgrey" }}>
           Please input your task first
         </Typography>
       </Box>
