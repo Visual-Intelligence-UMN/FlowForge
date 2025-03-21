@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useLayoutEffect, useState } from "react";
+import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   ReactFlow,
   Background,
@@ -54,11 +55,11 @@ export function FlowComponentAgent(props) {
   let { nodes: initialNodes, edges: initialEdges } =
     targetWorkflow.reactflowDisplay[0].graph;
 
-      // Keep local state for ReactFlow
+  // Keep local state for ReactFlow
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
-  const {fitView} = useReactFlow();
+  const { fitView } = useReactFlow();
   const [animation, setAnimation] = useState(true);
 
   useEffect(() => {
@@ -118,7 +119,7 @@ export function FlowComponentAgent(props) {
     //   }
     //   return edge;
     //   });
-    
+
     console.log("layout");
     const { nodes: layoutedNodes, edges: layoutedEdges } =
       layoutDagre(initialNodes, initialEdges);
@@ -203,7 +204,7 @@ export function FlowComponentAgent(props) {
   const panOnDrag = [1, 2];
 
   const handleNodeClick = useCallback((evt, node) => {
-    if (node){
+    if (node) {
       console.log("node", node);
     }
   }, []);
@@ -215,31 +216,44 @@ export function FlowComponentAgent(props) {
   // }, []);
 
   return (
-    <div
-      className="reactflow-wrapper"
-      style={{ height: "57vh", border: "1px solid #ddd", position: "relative" }}
-    >
-      <ReactFlow
-        nodes={modifiedNodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        onNodesChange={onNodesChange}
-        // onEdgesChange={onEdgesChange}
-        // onConnect={onConnect}
-        onNodeClick={handleNodeClick}
-        // onEdgeClick={handleEdgeClick}
-        selectionOnDrag
-        selectionMode={SelectionMode.Partial}
-        panOnScroll
-        panOnDrag={panOnDrag}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
-        minZoom={0.1}
+    <>
+      <div
+        className="reactflow-wrapper"
+        style={{ height: "57vh", border: "1px solid #ddd", position: "relative" }}
       >
-        <Background />
-        <Controls />
-        {/* <MiniMap /> */}
-      </ReactFlow>
-    </div>
+        <ReactFlow
+          nodes={modifiedNodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          // onEdgesChange={onEdgesChange}
+          // onConnect={onConnect}
+          onNodeClick={handleNodeClick}
+          // onEdgeClick={handleEdgeClick}
+          selectionOnDrag
+          selectionMode={SelectionMode.Partial}
+          panOnScroll
+          panOnDrag={panOnDrag}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+          minZoom={0.1}
+        >
+          <Background />
+          <Controls />
+          {/* <MiniMap /> */}
+
+        </ReactFlow>
+      </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "5px",
+        gap: "10px" // spacing between buttons
+      }}>
+
+        <StageHighlight />
+      </div>
+    </>
   );
 }

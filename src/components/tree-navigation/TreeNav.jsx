@@ -495,7 +495,7 @@ const TreeNav = () => {
             pr: 4,
           }}
         >
-          <svg width={treeNav.width} height={treeNav.height}>
+          <svg width={treeNav.width + 10} height={treeNav.height + 10}>
             {/* Edges */}
             <g className="tree" transform="translate(5, 5)">
               <g className="edge-group">
@@ -546,11 +546,11 @@ const TreeNav = () => {
                         fill={isHighlighted(node) ? "lightblue" : "white"}
                         stroke="black"
                         strokeWidth={2}
-
+                        opacity={node.label.includes("Running Results") ? 0 : 1}
                       />
                       <text
                         x={node.width / 2}
-                        y={node.height - 10}
+                        y={node.height - (node.label.includes("Running Results") ? 20 : 10)}
                         textAnchor="middle"
                         dominantBaseline="middle"
                         style={{ pointerEvents: "none" }}
