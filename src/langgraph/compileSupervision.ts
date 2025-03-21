@@ -7,14 +7,23 @@ import { BaseMessage } from "@langchain/core/messages";
 import { toolsMap } from "./tools";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
+const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
-  
+    let invokeMsg = firstMsg;
+
+    if (state.sender === "user") {
+        return state.messages;
+    }
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
-      return firstMsg.concat(state.messages.slice(-1));
+        console.log("stepMsgs is empty, use previous steps", previousSteps);
+        console.log("state", state);
+        for (const step of previousSteps) {
+            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+        }
+        return invokeMsg;
     }
     return stepMsgs.slice(-1);
   }
@@ -26,6 +35,7 @@ const makeAgentNode = (params: {
     llmOption: string,
     tools: string[],
     maxRound: number,
+    previousSteps: string[],
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -48,14 +58,15 @@ const makeAgentNode = (params: {
         }
         const currentStepNum = params.name.split("-")[1];
         const currentStep = 'step' + currentStepNum;
-        const nextStep = 'step-' + (parseInt(currentStepNum) + 1);
+        const currentStepId = 'step-' + currentStepNum;
+        const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const invokePayload = [
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep),
+            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
@@ -70,8 +81,12 @@ const makeAgentNode = (params: {
         if (state[currentStep].length  >= params.maxRound) {
             // one round of supervision means one call from the supervisor, and one response from the agent
             // but only the response is added to the state
-            response_goto = params.destinations.find((d) => d.includes(nextStep));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
         }
+        if (!response_goto.includes(currentStepId)) {
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+        }
+        // TODO: should go to next few steps
 
         return new Command({
             goto: response_goto,
@@ -84,12 +99,15 @@ const makeAgentNode = (params: {
     }
 }
 
-const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
-
+const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
+    console.log("nodesInfo in compileSupervision", nodesInfo);
+    console.log("stepEdges in compileSupervision", stepEdges);
+    const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
     // console.log("supervisorDestinations", supervisorDestinations);
+    console.log("destinations in compileSupervision", supervisorDestinations);
 
     const supervisorAgent = makeAgentNode({
         name: supervisorNode.id,
@@ -98,11 +116,13 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentsState, m
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
+        previousSteps: previousSteps,
     });
 
     workflow.addNode(supervisorNode.id, supervisorAgent, {
         ends: [...supervisorDestinations],
     });
+    // TODO: fix this, supervisor should be able to call next few nodes.
 
     for (const node of agentsNodes) {
         const createdAgent = async () => await createAgent({
@@ -110,6 +130,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentsState, m
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
             accessStepMsgs: false,
+            previousSteps: previousSteps,
         });
 
         const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {
@@ -118,6 +139,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, AgentsState, m
                 agent: await createdAgent(),
                 name: node.id,
                 config: config,
+                previousSteps: previousSteps,
             });
         }
         workflow.addNode(node.id, agentNode);

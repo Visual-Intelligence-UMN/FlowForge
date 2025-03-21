@@ -7,14 +7,20 @@ import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string) => {
+const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
-  
+    let invokeMsg = firstMsg;
+    if (state.sender === "user") {
+        return state.messages;
+    }
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
-      return firstMsg.concat(state.messages.slice(-1));
+        for (const step of previousSteps) {
+            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+        }
+        return invokeMsg;
     }
     return stepMsgs.slice(-1);
   }
@@ -26,6 +32,8 @@ const makeAgentNode = (params: {
     llmOption: string,
     tools: string[],
     maxRound: number,
+    previousSteps: string[],
+    summaryOrNot: boolean,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -48,12 +56,13 @@ const makeAgentNode = (params: {
         }
 
         const currentStep = 'step' + params.name.split("-")[1];
+        const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep),
+            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
 
@@ -65,11 +74,18 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length >= params.maxRound) {
+        if (state[currentStep].length >= params.maxRound ) {
             // random call, so one msg means one round
-            response_goto = params.destinations.find((d) => d.includes("Summary"));
+            if (params.summaryOrNot) {
+                response_goto = params.destinations.find((d) => d.includes("Summary"));
+            } else {
+                response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            }
+        } 
+        if (!response_goto.includes(currentStepId)) {
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
         }
-
+        console.log("response_goto in compileDiscussion", response_goto);
         // console.log("discussion response", response);
         // console.log("state", state);
         return new Command({
@@ -84,9 +100,10 @@ const makeAgentNode = (params: {
 }
 
 
-const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
+const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
     // console.log("nodesInfo in compileDiscussion", nodesInfo);
-    // console.log("stepEdges in compileDiscussion", stepEdges);
+    console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
+    const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
@@ -99,6 +116,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, ma
             tools: summaryNode.data.tools,
             systemMessage: summaryNode.data.systemPrompt,
             accessStepMsgs: true,
+            previousSteps: previousSteps,
         });
 
         const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
@@ -107,6 +125,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, ma
                 agent: await createdAgent(),
                 name: summaryNode.id,
                 config: config,
+                previousSteps: previousSteps,
             });
         }
         workflow.addNode(summaryNode.id, agentNode)
@@ -132,6 +151,8 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, AgentsState, ma
             llmOption: node.data.llm,
             tools: node.data.tools,
             maxRound: maxRound,
+            previousSteps: previousSteps,
+            summaryOrNot: summaryNode ? true : false,
         })
         if (node.data.label === "Summary") {
             continue;

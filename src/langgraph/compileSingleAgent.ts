@@ -1,9 +1,13 @@
 import { createAgent, create_agent_node } from "./utils";
 import { RunnableConfig } from "@langchain/core/runnables";
 
-const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentsState) => {
+const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState) => {
     // console.log("nodesInfo in compileSingleAgent", nodesInfo);
     // console.log("stepEdges in compileSingleAgent", stepEdges);
+    // console.log("nodesInfo in compileSingleAgent", nodesInfo, stepEdges);
+    const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    console.log("previousSteps in compileSingleAgent", previousSteps);
+
     for (const node of nodesInfo) {
         // console.log("node", node);
         const createdAgent = async () => await createAgent({
@@ -11,6 +15,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentsState) =
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
             accessStepMsgs: false,
+            previousSteps: previousSteps,
         });
 
         const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {
@@ -19,6 +24,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, AgentsState) =
                 agent: await createdAgent(),
                 name: node.id,
                 config: config,
+                previousSteps: previousSteps,
             });
         }
         workflow.addNode(node.id, agentNode);

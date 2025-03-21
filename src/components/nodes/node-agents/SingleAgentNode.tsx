@@ -96,7 +96,7 @@ const SingleAgentNode = ({ id, data }) => {
           <MenuItem value="gpt-4o-mini">GPT-4o Mini</MenuItem>
           <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
           <MenuItem value="gpt-4o">GPT-4o</MenuItem>
-          <MenuItem value="other">Other</MenuItem>
+          {/* <MenuItem value="other">Other</MenuItem> */}
         </Select>
       </FormControl>
     </Box>
@@ -132,17 +132,12 @@ const SingleAgentNode = ({ id, data }) => {
             value={data.tools}
             label="Tools"
             size="small"
-            onChange={onChange("tools")}
-            renderValue={(selected) => {
-              const displayedNames = selected.map((tool) => tool.split("_")[1]);
-              return displayedNames.join(", ");
-            }}
+            onChange={(e) => updateNodeFieldset(id, "tools", e.target.value)}
+            className="nodrag nopan" // set to prevent dragging and panning
           >
-            {data.tools.map((tool, index) => (
-              <MenuItem key={index} value={tool}>
-                {tool.split("_")[1]}
-              </MenuItem>
-            ))}
+
+            <MenuItem value="tool_WebSearch">Web Search</MenuItem>
+            <MenuItem value="none">No Tool</MenuItem>
           </Select>
         </FormControl>
       </Box>

@@ -30,10 +30,10 @@
           "stepLabel": "Accommodation Research",
           "stepDescription": "Research and compare hotels, Airbnb, hostels, or other lodging options.",
           "pattern": {
-            "name": "Parallel",
+            "name": "Supervision",
             "description": "Work simultaneously on a task and have their outputs aggregated programmatically. It is useful when the task has several focus points, and each focus point can be handled by a different worker agent."
           },
-          "nextSteps": ["step-3"]
+          "nextSteps": ["step-4", "step-3"]
         },
         {
           "stepId": "step-3",
@@ -44,7 +44,7 @@
             "name": "Discussion",
             "description": "This design pattern has multiple agents with different personas and roles, and they can debate, randomly discuss to generate diverse ideas, voting, brainstorming, and generating diverse perspectives. It is useful when the task requires creativity and diversity of perspectives."
           },
-          "nextSteps": ["step-4"]
+          "nextSteps": ["step-5"]
         },
         {
           "stepId": "step-4",
@@ -63,7 +63,7 @@
           "stepLabel": "Budget Planning",
           "stepDescription": "Estimate costs and manage expenses effectively.",
           "pattern": {
-            "name": "Supervision",
+            "name": "Parallel",
             "description": "A supervisor agent coordinates multiple specialized worker agents."
           },
           "nextSteps": []

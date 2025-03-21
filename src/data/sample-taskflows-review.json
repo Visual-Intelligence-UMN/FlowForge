@@ -1,256 +1,534 @@
 {
   "taskFlows": [
-        {
-            "taskFlowId": "4",
-            "taskFlowName": "Extended Peer Review Process",
-            "taskFlowDescription": "This flow ensures an exhaustive peer-review process with iterative review and responses.",
-            "patternsId": 3,
-            "taskFlowStart": {
-                "stepId": "step-0",
+    {
+        "taskFlowId": 1,
+        "taskFlowName": "Baseline",
+        "taskFlowDescription": "This is a baseline flow",
+        "patternsId": 1,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Review the paper",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Baseline flow",
+                "stepLabel": "Baseline flow",
+                "stepDescription": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                "pattern": {
+                    "name": "Supervision",
+                    "recommendationReason": "The Supervision design pattern is appropriate here as it allows for a supervisor agent to manage multiple specialized worker agents who can focus on different aspects of the paper—such as methodology, relevance, and originality. This hierarchical approach ensures an efficient and comprehensive review, tasked for specialization on various critical elements."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 6,
+                    "workers": [
+                        {
+                            "persona": "Methodology Specialist",
+                            "goal": "To analyze the research methods used in the paper, evaluating their appropriateness and rigor.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "Relevance Evaluator",
+                            "goal": "To assess the significance of the paper's topic and findings in relation to current literature and trends.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "Originality Examiner",
+                            "goal": "To determine the novelty of the research presented and its contribution to the field."
+                        }
+                    ],
+                    "supervisor": {
+                        "persona": "Lead Review Supervisor",
+                        "goal": "To oversee the review process, ensuring that all aspects of the paper are scrutinized and that the final recommendation is well-supported by the reviews of the worker agents.",
+                        "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                    },
+                    "persona": "Academic Paper Reviewer",
+                    "goal": "To conduct a thorough and systematic evaluation of the specified academic paper, ensuring all critical elements are assessed adequately."
+                }
+            }
+        ],
+        "patternId": "1-5"
+    },
+    {
+        "taskFlowId": 4,
+        "taskFlowName": "Quick Review with Focus on Key Aspects",
+        "taskFlowDescription": "A succinct review focused on the most critical aspects of academic quality and contribution for rapid decision-making.",
+        "patternsId": 4,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Review the article",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Initial check relevance",
+                "stepLabel": "Significance",
+                "stepDescription": "Review the paper in a high-level part to check generally the relevance, if topic reasonable. ",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "Utilizing a reflection agent allows for iterative feedback after the initial assessment, helping to refine the understanding of relevance. This pattern supports enhancing the evaluation process by enabling a review of the reasoning used to determine the relevance, which may lead to a more nuanced understanding."
+                },
                 "nextSteps": [
-                    "step-1"
+                    "step-2"
                 ],
-                "input": {
-                    "text": "Start with the co-authoring dissemination and outcomes of the academic paper",
-                    "file": "academic_paper.pdf"
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Chair Reviewer",
+                        "goal": "To assess and integrate feedback from previous reviewers, ensuring a balanced and thorough decision that reflects all perspectives.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "To facilitate the chair reviewer in contemplating the feedback and insights from the reviews, aiding in the iteration of the decision-making process to arrive at a well-founded conclusion.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
                 }
             },
-            "taskFlowSteps": [
-                {
-                    "stepName": "Peer Review Coordination",
-                    "stepLabel": "Coordinate Review",
-                    "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
-                    "pattern": {
-                        "name": "Parallel",
-                        "recommendationReason": "The Discussion pattern engages multiple agents with distinct roles, which is essential for fostering collaboration among reviewers. It allows for diverse perspectives, ensuring a comprehensive approach to the peer review process."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 6,
-                        "withSummary": true,
-                        "agents": [
-                            {
-                                "persona": "Reviewer in the background of communication ",
-                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
-                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
-                            },
-                            {
-                                "persona": "Reviewer in the background of computer science",
-                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
-                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
-                            },
-                            {
-                                "persona": "Reviewer in the background of social science",
-                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits."
-                            }
-                        ],
-                        "summary": {
-                            "persona": "Editor",
-                            "goal": "To make a final decision regarding acceptance, revision, or rejection of the paper based on the updated review.",
-                            "patternPrompt": "You are a helpful assistant who can summarize the output of the agents."
-                        },
-                        "agentNum": 0,
-                        "aggregation": {
-                            "persona": "Chief Reviewer, better in summarizing reviews ",
-                            "goal": "Make the final decision to accept, revise, or reject the paper after considering the reviewers' recommendations."
-                        }
-                    },
-                    "nextSteps": [
-                        "step-2"
-                    ],
-                    "stepId": "step-1"
+            {
+                "stepId": "step-2",
+                "stepName": "Holistic review by three reviewers",
+                "stepLabel": "Methods",
+                "stepDescription": "Three reviewers should review the paper independently in parallel, and based on their research knowledge, should have a summarization of this paper in terms of methods, contribution, novelty, and acceptance recommendation or fail reasons. Then an aggregator need to gather all reviewers output as one.",
+                "pattern": {
+                    "name": "Parallel",
+                    "recommendationReason": "This design pattern is ideal for the task as it allows multiple reviewers to work independently and simultaneously on the review of the paper. Each reviewer can focus on their own assessment, providing outputs that will be aggregated later. This structure aligns well with the need to gather diverse insights regarding methods, contributions, and novelty from different perspectives."
                 },
-                {
-                    "stepName": "Final Recommendation",
-                    "stepLabel": "Finalize Recommendation",
-                    "stepDescription": "Make a final decision regarding acceptance, revision, or rejection based on updated paper review.",
-                    "pattern": {
-                        "name": "Discussion",
-                        "recommendationReason": "Engaging various perspectives through discussions can enhance the deliberation process when making the final decision, ensuring all angles are considered before reaching a consensus on acceptance, revision, or rejection."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 4,
-                        "withSummary": "false",
-                        "agents": [
-                            {
-                                "persona": "Reviewer",
-                                "goal": "Evaluate the updated paper review and provide a recommendation based on its merits.",
-                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
-                            },
-                            {
-                                "persona": "Editor",
-                                "goal": "Make the final decision to accept, revise, or reject the paper after considering the reviewers' recommendations.",
-                                "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas"
-                            },
-                            {
-                                "persona": "Editor",
-                                "goal": "To facilitate communication among reviewers and compile their feedback into a cohesive report."
-                            }
-                        ],
-                        "summary": {
-                            "persona": "Editor",
-                            "goal": "To make a final decision regarding acceptance, revision, or rejection of the paper based on the updated review.",
-                            "patternPrompt": "You are a helpful assistant who can summarize the output of the agents."
+                "nextSteps": [
+                    "step-3"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "withAggregation": true,
+                    "agents": [
+                        {
+                            "persona": "Reviewer One",
+                            "goal": "Independently assess the paper's methods, contributions, and novelty and provide an acceptance recommendation or reasons for potential rejection.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
                         },
-                        "agentNum": 0
-                    },
-                    "nextSteps": [],
-                    "stepId": "step-2"
+                        {
+                            "persona": "Reviewer Two",
+                            "goal": "Conduct a thorough review of the paper, focusing on its unique contributions and innovations, and summarize findings with a recommendation.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "Reviewer Three",
+                            "goal": "Evaluate the paper comprehensively, pinpointing its strengths and weaknesses in terms of methodology and significance, culminating in an acceptance decision or rejection reasons."
+                        }
+                    ],
+                    "aggregation": {
+                        "persona": "Aggregator",
+                        "goal": "Compile and synthesize the individual reviews from all three reviewers into a cohesive summary that reflects the collective insights and recommendations.",
+                        "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                    }
                 }
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Chair reviewer finalize decision",
+                "stepLabel": "Quick Decision",
+                "stepDescription": "The chair reviewer should balance the reviews from the previous reviewers, and conclude a finalized decision with detailed explanation based on the reviews.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is suitable for this step as it involves the chair reviewer reflecting on the various reviews given by previous reviewers. By utilizing a reflection agent, the chair reviewer can iterate on their decision-making process, considering the feedback and insights provided in the reviews to enhance the final decision and ensuring a comprehensive explanation is included."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Chair Reviewer",
+                        "goal": "To assess and integrate feedback from previous reviewers, ensuring a balanced and thorough decision that reflects all perspectives.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "To facilitate the chair reviewer in contemplating the feedback and insights from the reviews, aiding in the iteration of the decision-making process to arrive at a well-founded conclusion.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            }
+        ],
+        "patternId": "4-3"
+    },
+    {
+        "taskFlowId": 2,
+        "taskFlowName": "Basic Academic Paper Review",
+        "taskFlowDescription": "A straightforward academic paper review process focusing on general criteria such as relevance, methodology, findings, and contribution.",
+        "patternsId": 2,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
             ],
-            "patternId": "3-3"
+            "input": {
+                "text": "Review the paper",
+                "file": ""
+            }
         },
-      {
-          "taskFlowId": "1",
-          "taskFlowName": "Initial Paper Summary and Evaluation",
-          "taskFlowDescription": "This flow outlines the steps to summarize and evaluate the academic paper's primary elements.",
-          "taskFlowStart": {
-              "nextSteps": [
-                  "step-1"
-              ],
-              "input": {
-                  "text": "Initial summary of the paper's objectives, methodology, and findings.",
-                  "file": ""
-              }
-          },
-          "taskFlowSteps": [
-              {
-                  "stepId": "step-1",
-                  "stepName": "Summarize Paper Objectives",
-                  "stepLabel": "Objectives Summary",
-                  "stepDescription": "Identify and summarize the primary objectives outlined in the paper.",
-                  "nextSteps": [
-                      "step-2"
-                  ]
-              },
-              {
-                  "stepId": "step-2",
-                  "stepName": "Outline Methodology",
-                  "stepLabel": "Methodology Overview",
-                  "stepDescription": "Detail the research methodology employed by the authors.",
-                  "nextSteps": [
-                      "step-3"
-                  ]
-              },
-              {
-                  "stepId": "step-3",
-                  "stepName": "Highlight Key Findings",
-                  "stepLabel": "Findings Highlight",
-                  "stepDescription": "Summarize the main findings reported in the paper.",
-                  "nextSteps": [
-                      "step-4"
-                  ]
-              },
-              {
-                  "stepId": "step-4",
-                  "stepName": "Conclude with Summary",
-                  "stepLabel": "Conclusion Summary",
-                  "stepDescription": "Provide a brief conclusion that encapsulates the objectives, methodology, and findings.",
-                  "nextSteps": []
-              }
-          ]
-      },
-      {
-          "taskFlowId": "2",
-          "taskFlowName": "Critical Evaluation of Methodology and Results",
-          "taskFlowDescription": "This flow focuses on critically evaluating the paper's methodological soundness and the significance of its results.",
-          "taskFlowStart": {
-              "nextSteps": [
-                  "step-1"
-              ],
-              "input": {
-                  "text": "Review the soundness of methodology and results significance.",
-                  "file": ""
-              }
-          },
-          "taskFlowSteps": [
-              {
-                  "stepId": "step-1",
-                  "stepName": "Evaluate Methodological Rigor",
-                  "stepLabel": "Methodology Evaluation",
-                  "stepDescription": "Critically assess the rigor and appropriateness of the research methodology used in the paper.",
-                  "nextSteps": [
-                      "step-2"
-                  ]
-              },
-              {
-                  "stepId": "step-2",
-                  "stepName": "Assess Result Validity",
-                  "stepLabel": "Results Validity",
-                  "stepDescription": "Evaluate the validity of the results presented in the paper.",
-                  "nextSteps": [
-                      "step-3"
-                  ]
-              },
-              {
-                  "stepId": "step-3",
-                  "stepName": "Determine Findings Significance",
-                  "stepLabel": "Significance Assessment",
-                  "stepDescription": "Analyze the significance of the findings and their contribution to the field.",
-                  "nextSteps": []
-              }
-          ]
-      },
-      {
-          "taskFlowId": "3",
-          "taskFlowName": "Constructive Feedback and Final Recommendation",
-          "taskFlowDescription": "This flow emphasizes providing constructive feedback along with a final recommendation regarding the paper's status.",
-          "taskFlowStart": {
-              "nextSteps": [
-                  "step-1"
-              ],
-              "input": {
-                  "text": "Provide feedback and a final recommendation for the paper.",
-                  "file": ""
-              }
-          },
-          "taskFlowSteps": [
-              {
-                  "stepId": "step-1",
-                  "stepName": "Identify Strengths",
-                  "stepLabel": "Strengths Identification",
-                  "stepDescription": "Highlight notable strengths of the paper, including clarity and originality.",
-                  "nextSteps": [
-                      "step-2"
-                  ]
-              },
-              {
-                  "stepId": "step-2",
-                  "stepName": "Outline Areas for Improvement",
-                  "stepLabel": "Improvements Suggestions",
-                  "stepDescription": "Clearly outline areas where the paper needs improvement or further clarification.",
-                  "nextSteps": [
-                      "step-3"
-                  ]
-              },
-              {
-                  "stepId": "step-3",
-                  "stepName": "Recommend Actions",
-                  "stepLabel": "Recommendations",
-                  "stepDescription": "Provide practical recommendations for enhancing the overall quality of the paper.",
-                  "nextSteps": [
-                      "step-4"
-                  ]
-              },
-              {
-                  "stepId": "step-4",
-                  "stepName": "Final Decision and Justification",
-                  "stepLabel": "Final Recommendation",
-                  "stepDescription": "Conclude with an explicit recommendation regarding acceptance, revision, or rejection, supported by detailed arguments.",
-                  "nextSteps": []
-              }
-          ]
-      }
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Initial Relevance Assessment",
+                "stepLabel": "Relevance Check",
+                "stepDescription": "Evaluate the paper's relevance to the field and intended journal or conference.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is suited for this step as it allows for an initial evaluation of the paper's relevance followed by iterative feedback on the assessment. Given that relevance can have subjective interpretations, incorporating a feedback loop will help refine the criteria used to assess relevance and ensure thoroughness."
+                },
+                "nextSteps": [
+                    "step-2",
+                    "step-3"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Methodology Assessor",
+                        "goal": "To critically evaluate the robustness and appropriateness of the methodologies used in the paper, ensuring they align with the research objectives and standards of the field.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Facilitator",
+                        "goal": "To provide constructive feedback on the evaluation process, suggesting improvements and adjustments based on the assessment findings.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodology Evaluation",
+                "stepLabel": "Method Review",
+                "stepDescription": "Assess the robustness and appropriateness of the methodologies used in the paper.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is well-suited for the Methodology Evaluation step as it involves assessing and refining the approach used in the paper. By having a main agent evaluate the methodologies and a reflection agent providing feedback, this pattern allows for a thorough review and iterative improvement of the assessment process."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Methodology Assessor",
+                        "goal": "To critically evaluate the robustness and appropriateness of the methodologies used in the paper, ensuring they align with the research objectives and standards of the field.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Facilitator",
+                        "goal": "To provide constructive feedback on the evaluation process, suggesting improvements and adjustments based on the assessment findings.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Findings and Interpretation Review",
+                "stepLabel": "Results Analysis",
+                "stepDescription": "Examine the clarity and significance of the findings and how well they are interpreted.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion design pattern fits well here as it encourages collaboration among multiple agents who can bring different perspectives to the analysis of the findings. Engaging diverse viewpoints can help stimulate ideas on the significance of the results and enhance the overall interpretation, fostering a deeper understanding."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Decision Maker",
+                            "goal": "To lead the discussion by facilitating the conversation and guiding it toward a consensus on the final recommendation regarding acceptance, revision, or rejection.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Data Analyst",
+                            "goal": "To provide detailed insights and data-driven evidence from previous steps that can inform the discussion and support evidence-based recommendations.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Stakeholder Representative",
+                            "goal": "To represent the interests and concerns of stakeholders, ensuring that their perspectives are considered in the final decision-making process.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Creative Thinker",
+                            "goal": "To propose alternative ideas or innovative approaches for revising the recommendation, encouraging out-of-the-box thinking."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Discussion Organizer",
+                        "goal": "To oversee the collaborative dialogue, ensuring that all voices are heard and managing the flow of the conversation towards a well-rounded final recommendation.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Final Recommendation Formulation",
+                "stepLabel": "Decision Making",
+                "stepDescription": "Synthesize findings from previous steps to recommend acceptance, revision, or rejection.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion design pattern is ideal for decision-making as it incorporates diverse perspectives which can lead to a more informed and holistic recommendation. Engaging different agents in collaborative dialogue will facilitate brainstorming on the implications of the acceptance, revision, or rejection, ultimately enhancing the robustness of the final recommendation."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Decision Maker",
+                            "goal": "To lead the discussion by facilitating the conversation and guiding it toward a consensus on the final recommendation regarding acceptance, revision, or rejection.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Data Analyst",
+                            "goal": "To provide detailed insights and data-driven evidence from previous steps that can inform the discussion and support evidence-based recommendations.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Stakeholder Representative",
+                            "goal": "To represent the interests and concerns of stakeholders, ensuring that their perspectives are considered in the final decision-making process.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Creative Thinker",
+                            "goal": "To propose alternative ideas or innovative approaches for revising the recommendation, encouraging out-of-the-box thinking."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Discussion Organizer",
+                        "goal": "To oversee the collaborative dialogue, ensuring that all voices are heard and managing the flow of the conversation towards a well-rounded final recommendation.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            }
+        ],
+        "patternId": "2-1"
+    },
+    {
+        "taskFlowId": 3,
+        "taskFlowName": "Detailed Methodological and Contribution Review",
+        "taskFlowDescription": "A review process emphasizing detailed analysis of the paper's methodology and its contribution to the field.",
+        "patternsId": 4,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Review paper on 'Machine Learning in Healthcare'.",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Contextual and Theoretical Evaluation",
+                "stepLabel": "Theory Context",
+                "stepDescription": "Assess whether the paper fits within the current landscape of research and theoretical frameworks.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "Utilizing the Discussion design pattern is beneficial in this context because it encourages collaboration and the exchange of diverse perspectives from multiple agents. Assessing the fit of the paper within existing theories can greatly benefit from brainstorming and debate, leading to a more comprehensive evaluation of how the paper aligns with or challenges current theoretical frameworks."
+                },
+                "nextSteps": [
+                    "step-2"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Research Analyst",
+                            "goal": "To analyze the existing research landscape and identify key theoretical frameworks that the paper may align with or challenge.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Subject Matter Expert",
+                            "goal": "To provide insights on specific theories and how the paper’s findings relate to existing literature.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Critic",
+                            "goal": "To argue potential weaknesses or oversights in the theoretical underpinnings of the paper, fostering a critical evaluation.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Collaborator",
+                            "goal": "To synthesize all perspectives into a cohesive evaluation of the paper's relevance within the current research landscape."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Facilitator",
+                        "goal": "To guide the discussion among agents, ensuring that all voices are heard and a comprehensive assessment is achieved.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Methodological Soundness Assessment",
+                "stepLabel": "Method Check",
+                "stepDescription": "Evaluate whether the research design, tools, and techniques are sound and reproducible.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is suitable here because the step involves assessing methodological soundness, which requires iterative evaluation and feedback on the research design. A main agent can perform the assessment, while a reflection agent can provide critical insights and suggestions for improvement, enhancing the soundness and reproducibility of the methods."
+                },
+                "nextSteps": [
+                    "step-3"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Reflection Agent",
+                        "goal": "To review and critique the initial analysis, identifying gaps, inconsistencies, and opportunities for improvement in the data quality and results.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Data Analyst",
+                        "goal": "To conduct a thorough and critical analysis of the data quality and results, ensuring that the analysis process is robust, transparent, and leads to clear insights.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Data and Results Analysis",
+                "stepLabel": "Data Review",
+                "stepDescription": "Critically analyze the data quality, data analysis process, and results presented.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection pattern is well-suited for this step as it involves a critical analysis of data quality and results, which benefits from iterative feedback loops. By employing a main agent to perform the initial analysis and a reflection agent to review and critique that analysis, the process can refine and improve the quality of the insights generated."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Reflection Agent",
+                        "goal": "To review and critique the initial analysis, identifying gaps, inconsistencies, and opportunities for improvement in the data quality and results.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Data Analyst",
+                        "goal": "To conduct a thorough and critical analysis of the data quality and results, ensuring that the analysis process is robust, transparent, and leads to clear insights.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Contribution to Knowledge Evaluation",
+                "stepLabel": "Contribution",
+                "stepDescription": "Determine whether the paper contributes novel insights or significant advancements within its field.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion design pattern facilitates collaborative viewpoints which are essential when determining a paper's contributions. Engaging multiple experts with various perspectives allows for a comprehensive analysis of the work’s potential impact and originality within its field."
+                },
+                "nextSteps": [
+                    "step-5"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Research Analyst",
+                            "goal": "To analyze the existing research landscape and identify key theoretical frameworks that the paper may align with or challenge.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Subject Matter Expert",
+                            "goal": "To provide insights on specific theories and how the paper’s findings relate to existing literature.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Critic",
+                            "goal": "To argue potential weaknesses or oversights in the theoretical underpinnings of the paper, fostering a critical evaluation.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Collaborator",
+                            "goal": "To synthesize all perspectives into a cohesive evaluation of the paper's relevance within the current research landscape."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Facilitator",
+                        "goal": "To guide the discussion among agents, ensuring that all voices are heard and a comprehensive assessment is achieved.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Comprehensive Recommendation",
+                "stepLabel": "Final Decision",
+                "stepDescription": "Compile a detailed recommendation based on previous evaluations for acceptance, revision, or rejection.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion design pattern is appropriate here as it engages multiple agents with unique perspectives. This can foster a collaborative dialogue to evaluate the recommendation comprehensively, considering diverse viewpoints on acceptance, revision, or rejection. Collaboration can enhance creativity and decision-making in finalizing the recommendation."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Research Analyst",
+                            "goal": "To analyze the existing research landscape and identify key theoretical frameworks that the paper may align with or challenge.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Subject Matter Expert",
+                            "goal": "To provide insights on specific theories and how the paper’s findings relate to existing literature.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Critic",
+                            "goal": "To argue potential weaknesses or oversights in the theoretical underpinnings of the paper, fostering a critical evaluation.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Collaborator",
+                            "goal": "To synthesize all perspectives into a cohesive evaluation of the paper's relevance within the current research landscape."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Facilitator",
+                        "goal": "To guide the discussion among agents, ensuring that all voices are heard and a comprehensive assessment is achieved.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            }
+        ],
+        "patternId": "3-8"
+    }
   ]
 }
