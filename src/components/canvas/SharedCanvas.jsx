@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Slider, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -174,21 +175,18 @@ const SharedCanvas = () => {
           return (
             <>
               <Typography variant="body1">{headerContent}</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <RfWithProvider
-                  nodes={initialNodes}
-                  edges={initialEdges}
-                  targetWorkflow={targetWorkflow}
-                />
-                <PatternsMap2 />
-              </Box>
+              <Grid container spacing={2} sx={{ width: "100%" }}>
+                <Grid item size={10}>
+                  <RfWithProvider
+                    nodes={initialNodes}
+                    edges={initialEdges}
+                    targetWorkflow={targetWorkflow}
+                  />
+                </Grid>
+                <Grid item size={2}>
+                  <PatternsMap2 />
+                </Grid>
+              </Grid>
               {/* {loading && <LoadingPatterns />} */}
             </>
           );
@@ -196,21 +194,18 @@ const SharedCanvas = () => {
           return (
             <>
               <Typography variant="body1">{headerContent}</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <TaskFlowWithProvider
-                  nodes={initialNodes}
-                  edges={initialEdges}
-                  targetWorkflow={targetWorkflow}
-                />
-                <PatternsMap1 />
-              </Box>
+              <Grid container spacing={2} sx={{ width: "100%" }}>
+                <Grid item size={10}>
+                  <TaskFlowWithProvider
+                    nodes={initialNodes}
+                    edges={initialEdges}
+                    targetWorkflow={targetWorkflow}
+                  />
+                </Grid>
+                <Grid item size={2}>
+                  <PatternsMap1 />
+                </Grid>
+              </Grid>
             </>
           );
         }
@@ -221,21 +216,18 @@ const SharedCanvas = () => {
         return (
           <>
             <Typography variant="body1">{headerContent}</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                justifyContent: "center",
-              }}
-            >
-              <FlowWithProviderAgent
-                nodes={initialNodes}
-                edges={initialEdges}
-                targetWorkflow={targetWorkflow}
-              />
-              <PatternsMap3 />
-            </Box>
+            <Grid container spacing={2} sx={{ width: "100%" }}>
+              <Grid item size={10}>
+                <FlowWithProviderAgent
+                  nodes={initialNodes}
+                  edges={initialEdges}
+                  targetWorkflow={targetWorkflow}
+                />
+              </Grid>
+              <Grid item size={2}>
+                <PatternsMap3 />
+              </Grid>
+            </Grid>
           </>
         );
       }

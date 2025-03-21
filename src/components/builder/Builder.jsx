@@ -1,6 +1,7 @@
 import TreeNav from "../tree-navigation/TreeNav";
 import SharedCanvas from "../canvas/SharedCanvas";
 import { Box } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import OrganizeTaskFlows from "../../utils/OrganizeTaskFlows";
 import OrganizePatterns from "../../utils/OrganizePatterns";
 import OrganizeConfig from "../../utils/OrganizeConfig";
@@ -220,62 +221,22 @@ const Builder = () => {
 
   return (
     <>
-      <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3 }}
-      >
-        <Box
-          sx={{
-            width: "30%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: 5,
-          }}
+      <Grid container spacing={1}>
+        <Grid item size={4} className="tree-nav grid-item"
         >
           <TreeNav />
-        </Box>
-        <Box
-          sx={{
-            width: "70%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingRight: 5,
-          }}
-        >
+        </Grid>
+        <Grid item size={8} className="canvas grid-item" sx={{ padding: 0 }}  >
           <SharedCanvas />
-        </Box>
-      </Box>
-      <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3 }}
-      >
-        <Box
-          sx={{
-            width: "30%",
-            height: "0",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: 5,
-          }}
-        >
-        </Box>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item size={4} className="empty" />
 
-        <Box
-          sx={{
-            width: "70%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 3,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <Grid item size={8} className="canvas grid-item" sx={{ padding: 0 }}  >
           <StreamOutputRow runConfig={langgraphRunSelected} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </>
   );
 };
