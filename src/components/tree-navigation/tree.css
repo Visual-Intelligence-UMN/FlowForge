@@ -1,6 +1,6 @@
 .edge-path {
   /* This defines the stroke style and sets it up for animation */
-  stroke: #333;
+  stroke: #aaa;
   stroke-width: 2;
   fill: none;
   stroke-dasharray: 1000;
@@ -19,8 +19,8 @@
 } */
 
 .node-rect {
-  stroke: #ccc;
-  stroke-width: 1;
+  stroke: #999;
+  stroke-width: 2;
   /* transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out; */
 }
 .node-text {
