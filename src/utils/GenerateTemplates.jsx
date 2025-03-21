@@ -3,6 +3,7 @@ import { OpenAI } from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import merge from "lodash/merge";
+import promptGenerateTemplates from "../models/prompt-generate-templates.json";
 
 const GenerateTemplatesInfo = async (flow) => {
     const {taskFlowSteps } = flow;
@@ -25,10 +26,10 @@ const GenerateTemplatesInfo = async (flow) => {
                 "persona": z.string(),
                 "goal": z.string(),
             }),
-            "PDF Loader Agent": z.object({
-                "persona": z.string(),
-                "goal": z.string(),
-            }),
+            // "PDF Loader Agent": z.object({
+            //     "persona": z.string(),
+            //     "goal": z.string(),
+            // }),
             // "Validator": z.object({
             //     "persona": z.string(),
             //     "goal": z.string(),
@@ -108,12 +109,11 @@ const GenerateTemplatesInfo = async (flow) => {
 
         const stepTemplateSchema = templateSchema[pattern.name] || templateSchema["Single Agent"];
 
-        const systemMessage = "You are a helpful assistant that generates the template information for the given pattern to useful for the task."
-
-        const userMessage = "pattern: " + pattern.name 
-        + " description: " 
-        + pattern.description + " task: " + stepName 
-        + " task description: " + stepDescription;
+        const systemMessage = promptGenerateTemplates.systemMessage
+        
+        const userMessage = "stepName: " + stepName + ". stepDescription: " 
+        + stepDescription + ". pattern: " + pattern.name + ". patternDescription: " + pattern.description 
+        + ". pattern recommendationReason: " + pattern.recommendationReason 
 
         try {
             const completion = await openai.beta.chat.completions.parse({
@@ -122,7 +122,7 @@ const GenerateTemplatesInfo = async (flow) => {
                     { role: "system", content: systemMessage },
                     { role: "user", content: userMessage },
                 ],
-                response_format: zodResponseFormat(stepTemplateSchema, "template"),
+                response_format: zodResponseFormat(stepTemplateSchema, "template")
             });
             const res = completion.choices[0].message.parsed;
             // console.log("Templates info:", res);

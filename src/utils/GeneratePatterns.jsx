@@ -20,20 +20,21 @@ const GeneratePatterns = async (taskFlow) => {
     }
 
     const designPatternSchema = z.object({
-        designPatterns: z.array(
+        designPattern_1: 
             z.object({
                 name: z.string(),
                 recommendationReason: z.string(),
+            }),
+        designPattern_2: z.object({
+                name: z.string(),
+                recommendationReason: z.string(),
             })
-        ),
     });
 
     const systemMessage = promptGeneratePatterns.systemMessage
-    .replace("{{taskFlowName}}", taskFlowName)
-    .replace("{{taskFlowDescription}}", taskFlowDescription)
-    .replace("{{stepsCount}}", taskFlowSteps.length)
-    .replace("{{stepsList}}", taskFlowSteps.map(step => step.stepName).join(", "))
     .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => pattern.name + ": " + pattern.description).join(", "));
+
+    console.log("System message to generate patterns:", systemMessage);
 
     for (const step of taskFlowSteps) {
         const stepId = step.stepId;
@@ -42,7 +43,7 @@ const GeneratePatterns = async (taskFlow) => {
         const stepLabel = step.stepLabel;
         const stepDescription = step.stepDescription;
 
-        const userMessage = "the subtask name is: " + stepName + " the subtask label is: " + stepLabel + " the subtask description is: " + stepDescription;
+        const userMessage = "stepName: " + stepName + " stepLabel: " + stepLabel + " stepDescription: " + stepDescription;
         try {
             const completion = await openai.beta.chat.completions.parse({
                 model: "gpt-4o-mini",
@@ -53,8 +54,8 @@ const GeneratePatterns = async (taskFlow) => {
             response_format: zodResponseFormat(designPatternSchema, "designPattern"),
         });
             const res = completion.choices[0].message.parsed;
-            console.log("Design pattern for subtask " + stepName + " is: " + res);
-            const designPatterns = res.designPatterns;
+            console.log("Design pattern for step " + stepName + " is: " + res);
+            const designPatterns = [res.designPattern_1, res.designPattern_2];
             patternsFlow.taskFlowSteps.push({
                 stepId: stepId,
                 stepName: stepName,

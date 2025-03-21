@@ -62,10 +62,17 @@ function TaskPanel() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    // Check if the file is a PDF
+    if (file.type !== "application/pdf") {
+      alert("Please upload a PDF file.");
+      return;
+    }
     setFileName(file.name);
     const previewURL = URL.createObjectURL(file);
     setFilePreview(previewURL);
     setLocalSelectedTask((prev) => ({ ...prev, uploadedFile: file }));
+    // Load and log PDF text
+    // loadPdfText(file);
   };
 
   const handleFileDelete = () => {
@@ -82,7 +89,7 @@ function TaskPanel() {
   const handleSubmit = () => {
     if (!localTaskDescription.trim()) {
       alert("Please provide the necessary input!");
-      setSelectedTask({});
+      // setSelectedTask({});
       setLocalSelectedTask({});
       return;
     }
@@ -135,7 +142,8 @@ function TaskPanel() {
           placeholder="Enter your task description, or select one from the examples provided."
           label="Task Description"
           size="small"
-          minRows={2}
+          multiline
+          rows={2}
           sx={{ width: "550px" }}
         />
 

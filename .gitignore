@@ -28,3 +28,5 @@ src/langgraph-test/
 src/reactflow-test/
 src/components/unused/
 src/nodes/unused/
+
+src/data/sampletext.txt

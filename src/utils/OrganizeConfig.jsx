@@ -2,8 +2,9 @@ import GenerateRunnableConfig from "./GenerateConfig";
 
 const patternIdToConfigCounter = {};
 
-function reassignConfigIds(patternId, configs) {
-  patternIdToConfigCounter[patternId] = 1;
+function reassignConfigIds(patternId, agentsConfig, configs) {
+  // console.log("agentsConfig", agentsConfig);
+  patternIdToConfigCounter[patternId] = agentsConfig?.filter(config => config.patternId === patternId).length + 1;
 
   return configs.map((config) => {
     const nextCount = patternIdToConfigCounter[patternId]++;
@@ -11,19 +12,23 @@ function reassignConfigIds(patternId, configs) {
       ...config,
       configId: `${patternId}-${nextCount}`,
       patternId,
+      taskFlowId: `${patternId}-${nextCount}`,
     };
   });
 }
 
-const OrganizeConfig = async (pattern, setAgentsConfig) => {
+const OrganizeConfig = async (pattern, agentsConfig, setAgentsConfig) => {
+  console.log("agentsConfig input", agentsConfig);
   console.log("pattern to organize", pattern);
   const generatedAgentsConfig = await GenerateRunnableConfig(pattern);
   // Reassign each config’s ID
   const assignedConfigs = reassignConfigIds(
     pattern.patternId,
+    agentsConfig,
     generatedAgentsConfig
   );
   console.log("new assignedConfigs", assignedConfigs);
+ 
 
   setAgentsConfig((previousAgentsConfig) => {
     const updatedAgentsConfig = [];

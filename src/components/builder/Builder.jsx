@@ -73,10 +73,11 @@ const Builder = () => {
   useEffect(() => {
     if (taskFlowsGenerate === 0) {
       setCanvasPages({
+        ...canvasPages,
         type: "flow-generating",
-        flowId: flowIds[0],
-        patternId: [],
-        configId: [],
+        // flowId: flowIds[0],
+        // patternId: [],
+        // configId: [],
       });
       OrganizeTaskFlows(
         selectedTask,
@@ -94,7 +95,11 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      OrganizePatterns(patternsFlow, setDesignPatterns, runRealtime);
+      setCanvasPages({
+        ...canvasPages,
+        type: "pattern-generating",
+      });
+      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -103,7 +108,8 @@ const Builder = () => {
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
-      OrganizeConfig(agentsConfigPattern, setAgentsConfig);
+    //   console.log("agentsConfig", agentsConfig);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
     }
@@ -137,7 +143,7 @@ const Builder = () => {
   }, [flowIds.length, taskFlowsGenerate]);
 
   useEffect(() => {
-    if (canvasPages.type === "flow" && designPatterns.length > 0) {
+    if (canvasPages.type === "pattern-generating" && designPatterns.length > 0) {
       console.log("builder task flows generate to set canvas", canvasPages);
       const newAddedPatterns = designPatterns.filter(
         (pattern) =>

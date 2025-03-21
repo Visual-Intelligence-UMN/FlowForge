@@ -17,7 +17,7 @@ import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
-import LoadingFlows from "./Loading";
+import { LoadingFlows, LoadingPatterns } from "./Loading";
 
 const SharedCanvas = () => {
   const [canvasPages] = useAtom(canvasPagesAtom);
@@ -27,6 +27,8 @@ const SharedCanvas = () => {
   const [compiledConfigs] = useAtom(compiledConfigsAtom);
 
   const { type, configId, patternId, flowId } = canvasPages || {};
+  let enableButtons = true;
+  let loading = false;
 
   const convertToReactFlowFormat = (taskflow, nodeType) => {
     const { taskFlowSteps = [], taskFlowStart } = taskflow;
@@ -135,6 +137,7 @@ const SharedCanvas = () => {
           break;
 
         case "flow":
+          // return <LoadingPatterns />
           targetWorkflow = flowsMap[flowId];
           if (!targetWorkflow) {
             return <Typography>Flow not found or deleted.</Typography>;
@@ -157,7 +160,13 @@ const SharedCanvas = () => {
           break;
 
         case "flow-generating":
+          enableButtons = false;
+          loading = true;
           return <LoadingFlows />;
+        case "pattern-generating":
+          enableButtons = false;
+          loading = true;
+          return <LoadingPatterns />;
         default:
           return <Typography>Canvas goes here</Typography>;
       }
@@ -192,6 +201,7 @@ const SharedCanvas = () => {
                 />
                 <PatternsMap />
               </Box>
+              {/* {loading && <LoadingPatterns />} */}
             </Box>
           );
         } else if (type === "flow") {
@@ -274,6 +284,8 @@ const SharedCanvas = () => {
         flexDirection: "column",
         alignItems: "center",
         border: "1px solid #ddd",
+        width: "100%",
+        // height
       }}
     >
       {/* Row with left button, canvas content, right button */}
@@ -284,9 +296,9 @@ const SharedCanvas = () => {
           gap: 2,
         }}
       >
-        <ExploreLeftButton />
+        {enableButtons && <ExploreLeftButton />}
         {canvasPage()}
-        <ExploreRightButton />
+        {enableButtons && <ExploreRightButton />}
       </Box>
 
       <Box sx={{ mt: 8 }}>

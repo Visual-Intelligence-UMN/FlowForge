@@ -17,7 +17,7 @@
     "id": "task5",
     "name": "[User Case] Review a Paper",
     "requiresUpload": false,
-    "description": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices, including an initial summary of the paper's objectives, methodology, findings, and conclusions. It must critically evaluate the paper's clarity, originality, and contribution to the field. Specific attention should be given to the soundness and rigor of the methodology, validity and significance of the results, coherence of arguments, and relevance of cited literature. Provide constructive feedback, highlighting strengths and clearly outlining areas needing improvement or further clarification. Recommendations should be practical, aimed at enhancing the paper's overall quality. The review should conclude with an explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+    "description": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
     "uploadedFile": null
   },
   {
