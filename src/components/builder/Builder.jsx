@@ -73,11 +73,10 @@ const Builder = () => {
   useEffect(() => {
     if (taskFlowsGenerate === 0) {
       setCanvasPages({
-        ...canvasPages,
         type: "flow-generating",
-        // flowId: flowIds[0],
-        // patternId: [],
-        // configId: [],
+        flowId: flowIds[0],
+        patternId: [],
+        configId: [],
       });
       OrganizeTaskFlows(
         selectedTask,
@@ -95,10 +94,14 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-      setCanvasPages({
-        ...canvasPages,
-        type: "pattern-generating",
-      });
+        console.log("generate pattern ing", canvasPages);
+        setCanvasPages({
+            type: "pattern-generating",
+            flowId: canvasPages.flowId,
+            patternId: canvasPages.patternId,
+            configId: canvasPages.configId,
+        });
+      console.log("builder pattern generating to set canvas", canvasPages);
       OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
       setPatternsFlow(null);
@@ -143,15 +146,15 @@ const Builder = () => {
   }, [flowIds.length, taskFlowsGenerate]);
 
   useEffect(() => {
-    if (canvasPages.type === "pattern-generating" && designPatterns.length > 0) {
-      console.log("builder task flows generate to set canvas", canvasPages);
+    if (canvasPages.type === "flow" && designPatterns.length > 0) {
+      console.log("builder task flows generate to set canvas after pattern generation", canvasPages);
       const newAddedPatterns = designPatterns.filter(
         (pattern) =>
           pattern.patternId.split("-")[0] === canvasPages.flowId.toString()
       );
       const randomPattern =
         newAddedPatterns[Math.floor(Math.random() * newAddedPatterns.length)];
-      console.log("builder task flows generate to set canvas", randomPattern);
+      console.log("builder task flows generate to set canvas after pattern generation 2", randomPattern);
       setCanvasPages({
         type: "pattern",
         flowId: canvasPages.flowId,
