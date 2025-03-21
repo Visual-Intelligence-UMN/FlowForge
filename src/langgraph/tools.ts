@@ -30,6 +30,7 @@ const search_tool = tool(async (input) => {
 const toolsMap = {
   "tool_PDFLoader": loader_tool,
   "tool_WebSearch": search_tool,
+  "none": null,
 }
 
 const TavilySearchTool = (async (input) => {

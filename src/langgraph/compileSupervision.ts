@@ -83,6 +83,9 @@ const makeAgentNode = (params: {
             // but only the response is added to the state
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
         }
+        if (!response_goto.includes(currentStepId)) {
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+        }
         // TODO: should go to next few steps
 
         return new Command({
