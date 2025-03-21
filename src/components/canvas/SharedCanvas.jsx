@@ -172,15 +172,7 @@ const SharedCanvas = () => {
         // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
         if (type === "pattern") {
           return (
-            <Box
-              sx={{
-                width: "100%",
-                height: "55vh",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <>
               <Typography variant="body1">{headerContent}</Typography>
               <Box
                 sx={{
@@ -198,26 +190,18 @@ const SharedCanvas = () => {
                 <PatternsMap />
               </Box>
               {/* {loading && <LoadingPatterns />} */}
-            </Box>
+            </>
           );
         } else if (type === "flow") {
           return (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "100%",
-                height: "55vh",
-              }}
-            >
+            <>
               <Typography variant="body1">{headerContent}</Typography>
               <TaskFlowWithProvider
                 nodes={initialNodes}
                 edges={initialEdges}
                 targetWorkflow={targetWorkflow}
               />
-            </Box>
+            </>
           );
         }
       } else {
@@ -225,32 +209,18 @@ const SharedCanvas = () => {
         initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
         // console.log("initialNodes", initialNodes);
         return (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-              height: "55vh",
-            }}
-          >
+          <>
             <Typography variant="body1">{headerContent}</Typography>
             <FlowWithProviderAgent
               nodes={initialNodes}
               edges={initialEdges}
               targetWorkflow={targetWorkflow}
             />
-          </Box>
+          </>
         );
       }
     };
-    return (
-      <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "left" }}
-      >
-        {renderCanvasContent()}
-      </Box>
-    );
+    return renderCanvasContent();
   };
 
   const emptyCanvas = () => {
@@ -275,33 +245,18 @@ const SharedCanvas = () => {
 
   return canvasPages.type ? (
     <Box
+      className="canvas"
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         border: "0px solid #ddd",
         width: "100%",
+        margin: '0px',
         // height
       }}
     >
-      {/* Row with left button, canvas content, right button */}
-      {/* <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        {enableButtons && <ExploreLeftButton />}
-        {canvasPage()}
-        {enableButtons && <ExploreRightButton />}
-      </Box> */}
-
       {canvasPage()}
-      {/* 
-      <Box sx={{ mt: 8 }}>
-        <StageHighlight />
-      </Box> */}
     </Box>
   ) : (
     emptyCanvas()
