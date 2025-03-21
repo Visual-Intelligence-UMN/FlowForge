@@ -19,7 +19,7 @@
           "stepLabel": "Dates Selection",
           "stepDescription": "Choose optimal travel dates considering weather, local events, and personal availability.",
           "pattern": {
-            "name": "Web Search Agent",
+            "name": "Single Agent",
             "description": "This design pattern has a single agent to perform the task, and have access to the web search tool to search for information. It is useful when the task requires the agent to search for information on the web."
           },
           "nextSteps": ["step-2"]
@@ -89,7 +89,7 @@
           "stepLabel": "Museum Selection",
           "stepDescription": "Identify and prioritize must-visit museums and art galleries in the destination.",
           "pattern": {
-            "name": "Web Search Agent",
+            "name": "Single Agent",
             "description": "Agent uses web searches to identify key cultural venues."
           },
           "nextSteps": ["step-2"]
