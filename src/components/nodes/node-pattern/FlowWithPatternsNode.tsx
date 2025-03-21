@@ -89,8 +89,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         className="nodrag nopan"
       >
         {designPatternsPool.map((pattern) => (
-          <MenuItem 
-            key={pattern.name} 
+          <MenuItem
+            key={pattern.name}
             value={pattern.name}
             sx={{
               cursor: "pointer",
@@ -155,7 +155,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           alignItems: "center",
           height: "100%",
           width: "100%",
-          border: "1px solid #ddd",
         }}
       >
         <PatternIcons pattern={data.pattern} template={data.template} />
@@ -201,11 +200,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const stepNumber = () => {
     return (
-      <Typography 
-        sx={{ 
-          fontWeight: "bold", 
+      <Typography
+        sx={{
+          fontWeight: "bold",
           fontSize: "22px",
-          m: 0 
+          m: 0
         }}
       >
         Step {id.split("-")[1]}
@@ -231,8 +230,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     const explanation = data.pattern.recommendationReason;
     const placeholder = "This pattern is suitable because it optimizes cost and efficiency.";
     return (
-      <Tooltip 
-        title={explanation || placeholder} 
+      <Tooltip
+        title={explanation || placeholder}
         arrow
         placement="right"
         componentsProps={{
@@ -471,95 +470,95 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   return (
     <Box
-    sx={{
-      padding: 2,
-      border: "1px solid #ddd",
-      borderRadius: 4,
-      backgroundColor: "#fff",
-      minWidth: patternWidthMap[patternName]?.[0] || 100,
-      textAlign: "center",
-      maxWidth: patternWidthMap[patternName]?.[1] || 100,
-      boxShadow: 2,
-      gap: 0,
-      transition: "all 0.3s ease-in-out",
-    }}
-  >
-    <Handle
-      type="target"
-      position={Position.Left}
-      id={`in-${id}`}
-      isConnectable={isConnectable}
-      style={{ top: "50%", background: "blue" }}
-    />
-    <Handle
-      type="source"
-      position={Position.Right}
-      id={`out-${id}`}
-      isConnectable={isConnectable}
-      style={{ top: "50%", background: "#555" }}
-    />
-
-    <Box
       sx={{
-        display: "flex",
-        flex: 1,
-        gap: 1,
-        padding: 1,
+        padding: 2,
+        border: "1px solid #ddd",
+        borderRadius: 4,
+        backgroundColor: "#fff",
+        minWidth: patternWidthMap[patternName]?.[0] || 100,
+        textAlign: "center",
+        maxWidth: patternWidthMap[patternName]?.[1] || 100,
+        boxShadow: 2,
+        gap: 0,
+        transition: "all 0.3s ease-in-out",
       }}
     >
+      <Handle
+        type="target"
+        position={Position.Left}
+        id={`in-${id}`}
+        isConnectable={isConnectable}
+        style={{ top: "50%", background: "blue" }}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        id={`out-${id}`}
+        isConnectable={isConnectable}
+        style={{ top: "50%", background: "#555" }}
+      />
+
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          maxWidth: "80%",
+          flex: 1,
+          gap: 1,
+          padding: 1,
         }}
       >
-        {stepNumber()}
-        {patternSelect()}
-        {/* {confirmButton()} */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: "80%",
+          }}
+        >
+          {stepNumber()}
+          {patternSelect()}
+          {/* {confirmButton()} */}
+        </Box>
+
+        {showContent ? taskDescription() : iconsDisplay()}
+
       </Box>
 
-      {showContent ? taskDescription() : iconsDisplay()}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 3,
+        }}
+      >
+        {showContent ? iconsDisplay() : null}
+        {computationCost()}
+        {explanation()}
+
+      </Box>
+
+      {showContent ? (
+        <Box
+          sx={{
+            maxWidth: "100%",
+            backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
+            transition: "all 0.3s ease-in-out",
+            opacity: 1,
+          }}
+        >
+          {patternForm()}
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            transition: "all 0.3s ease-in-out",
+            opacity: 1,
+          }}
+        >
+          {/* <PatternIcons pattern={data.pattern} template={data.template} /> */}
+        </Box>
+      )}
 
     </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 3,
-            }}
-          >
-            {showContent ? iconsDisplay() : null}
-            {computationCost()}
-            {explanation()}
-            
-          </Box>
-
-    {showContent ? (
-      <Box
-        sx={{
-          maxWidth: "100%",
-          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-          transition: "all 0.3s ease-in-out",
-          opacity: 1,
-        }}
-      >
-        {patternForm()}
-      </Box>
-    ) : (
-      <Box
-        sx={{
-          transition: "all 0.3s ease-in-out",
-          opacity: 1,
-        }}
-      >
-        {/* <PatternIcons pattern={data.pattern} template={data.template} /> */}
-      </Box>
-    )}
-
-  </Box>
     // <ZoomInZoomOut />
     // showContent ? <ZoomInLevel /> : <ZoomOutLevel />
   );

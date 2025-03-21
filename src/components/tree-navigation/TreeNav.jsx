@@ -471,15 +471,11 @@ const TreeNav = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: "1px solid #ddd",
         width: "100%",
         height: "70vh",
         color: "grey",
       }}
     >
-      <Typography variant="h8" sx={{ p: 2 }}>
-        Please input your task first
-      </Typography>
     </Box>
   );
 

@@ -16,6 +16,8 @@ import {
 import { ViewportPortal } from "@xyflow/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAtom, useAtomValue } from "jotai";
+
+import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   flowsMapAtom,
   canvasPagesAtom,
@@ -259,6 +261,16 @@ export function RflowComponent(props) {
         </Button>
 
         <ExploreButton />
+      </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "5px",
+        gap: "10px" // spacing between buttons
+      }}>
+
+        <StageHighlight />
       </div>
     </div>
   );

@@ -94,13 +94,13 @@ const Builder = () => {
 
   useEffect(() => {
     if (patternsGenerate === 0 && patternsFlow) {
-        console.log("generate pattern ing", canvasPages);
-        setCanvasPages({
-            type: "pattern-generating",
-            flowId: canvasPages.flowId,
-            patternId: canvasPages.patternId,
-            configId: canvasPages.configId,
-        });
+      console.log("generate pattern ing", canvasPages);
+      setCanvasPages({
+        type: "pattern-generating",
+        flowId: canvasPages.flowId,
+        patternId: canvasPages.patternId,
+        configId: canvasPages.configId,
+      });
       console.log("builder pattern generating to set canvas", canvasPages);
       OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
@@ -111,7 +111,7 @@ const Builder = () => {
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
-    //   console.log("agentsConfig", agentsConfig);
+      //   console.log("agentsConfig", agentsConfig);
       OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
@@ -221,7 +221,7 @@ const Builder = () => {
   return (
     <>
       <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 8 }}
+        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3 }}
       >
         <Box
           sx={{
@@ -237,7 +237,7 @@ const Builder = () => {
         </Box>
         <Box
           sx={{
-            width: "80%",
+            width: "70%",
             height: "100%",
             display: "flex",
             justifyContent: "center",
@@ -249,16 +249,32 @@ const Builder = () => {
         </Box>
       </Box>
       <Box
-        sx={{
-          width: "90%",
-          display: "flex",
-          flexDirection: "row",
-          gap: 3,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        sx={{ width: "100%", display: "flex", flexDirection: "row", gap: 3 }}
       >
-        <StreamOutputRow runConfig={langgraphRunSelected} />
+        <Box
+          sx={{
+            width: "30%",
+            height: "0",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingLeft: 5,
+          }}
+        >
+        </Box>
+
+        <Box
+          sx={{
+            width: "70%",
+            display: "flex",
+            flexDirection: "row",
+            gap: 3,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <StreamOutputRow runConfig={langgraphRunSelected} />
+        </Box>
       </Box>
     </>
   );

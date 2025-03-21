@@ -9,10 +9,6 @@ import {
   agentsConfigAtom,
   compiledConfigsAtom,
 } from "../../patterns/GlobalStates";
-import {
-  ExploreLeftButton,
-  ExploreRightButton,
-} from "../canvas-buttons/ExploreButtons";
 import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
@@ -270,7 +266,7 @@ const SharedCanvas = () => {
           color: "grey",
         }}
       >
-        <Typography variant="h8" sx={{ pt: 2 }}>
+        <Typography variant="h3" sx={{ pt: 2, color: "lightgrey" }}>
           Please input your task first
         </Typography>
       </Box>
@@ -302,10 +298,10 @@ const SharedCanvas = () => {
       </Box> */}
 
       {canvasPage()}
-
+      {/* 
       <Box sx={{ mt: 8 }}>
         <StageHighlight />
-      </Box>
+      </Box> */}
     </Box>
   ) : (
     emptyCanvas()

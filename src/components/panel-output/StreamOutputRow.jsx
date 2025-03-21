@@ -311,9 +311,6 @@ const StreamOutput = ({ runConfig }) => {
         width: "100%",
         margin: "auto",
         textAlign: "left",
-        ml: 5,
-        mt: 1,
-        mb: 6,
       }}
     >
       <Grid container spacing={2} alignItems="center">
