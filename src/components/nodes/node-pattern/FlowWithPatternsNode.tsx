@@ -147,6 +147,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const iconsDisplay = () => {
     return (
       <Box
+        className='level2-patterns inside'
         sx={{
           transition: "opacity 0.3s ease-in-out",
           opacity: 1,

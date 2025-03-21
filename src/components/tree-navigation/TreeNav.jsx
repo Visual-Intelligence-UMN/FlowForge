@@ -131,8 +131,8 @@ const TreeNav = () => {
       );
       const rating = config?.userRating || null;
       const ratingLabel = rating
-        ? `User Rating: ${config?.userRating} ⭐`
-        : "User Rating: N/A";
+        ? `Running Results: ${config?.userRating} ⭐`
+        : "Running Results: N/A";
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
         width: ratingLabel.length * 8,

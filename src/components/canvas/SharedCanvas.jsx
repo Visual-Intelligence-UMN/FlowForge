@@ -9,7 +9,7 @@ import {
   agentsConfigAtom,
   compiledConfigsAtom,
 } from "../../patterns/GlobalStates";
-import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
+import { PatternsMap1, PatternsMap2, PatternsMap3 } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
@@ -187,7 +187,7 @@ const SharedCanvas = () => {
                   edges={initialEdges}
                   targetWorkflow={targetWorkflow}
                 />
-                <PatternsMap />
+                <PatternsMap2 />
               </Box>
               {/* {loading && <LoadingPatterns />} */}
             </>
@@ -196,11 +196,21 @@ const SharedCanvas = () => {
           return (
             <>
               <Typography variant="body1">{headerContent}</Typography>
-              <TaskFlowWithProvider
-                nodes={initialNodes}
-                edges={initialEdges}
-                targetWorkflow={targetWorkflow}
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  justifyContent: "center",
+                }}
+              >
+                <TaskFlowWithProvider
+                  nodes={initialNodes}
+                  edges={initialEdges}
+                  targetWorkflow={targetWorkflow}
+                />
+                <PatternsMap1 />
+              </Box>
             </>
           );
         }
@@ -211,11 +221,21 @@ const SharedCanvas = () => {
         return (
           <>
             <Typography variant="body1">{headerContent}</Typography>
-            <FlowWithProviderAgent
-              nodes={initialNodes}
-              edges={initialEdges}
-              targetWorkflow={targetWorkflow}
-            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <FlowWithProviderAgent
+                nodes={initialNodes}
+                edges={initialEdges}
+                targetWorkflow={targetWorkflow}
+              />
+              <PatternsMap3 />
+            </Box>
           </>
         );
       }
