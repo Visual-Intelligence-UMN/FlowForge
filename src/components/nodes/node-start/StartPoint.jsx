@@ -3,7 +3,7 @@ import { Handle, Position } from '@xyflow/react';
 import { TextField, Box, Typography } from '@mui/material';
 
 export const StartPoint = ({ data, isConnectable, id }) => {
-  const updateNodeFieldset = data.updateNodeFieldset;
+  const updateNodeFieldset = data.updateNodeFieldset ? data.updateNodeFieldset : data.updateNodeField;
   return (
     <Box sx={{ 
       p: 2, 
