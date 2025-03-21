@@ -2,11 +2,8 @@ import { useCallback } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { TextField, Box, Typography } from '@mui/material';
 
-export const StartPoint = ({ data, isConnectable }) => {
-  const onChange = useCallback((evt) => {
-    // console.log(evt.target.value);
-  }, []);
-
+export const StartPoint = ({ data, isConnectable, id }) => {
+  const updateNodeFieldset = data.updateNodeFieldset ? data.updateNodeFieldset : data.updateNodeField;
   return (
     <Box sx={{ 
       p: 2, 
@@ -36,7 +33,10 @@ export const StartPoint = ({ data, isConnectable }) => {
         label="START"
         variant="outlined"
         size="small"
-        onChange={onChange}
+        onChange={(e) => {
+          console.log("e.target.value", e.target.value);
+          updateNodeFieldset(id, "inputText", e.target.value)}
+        }
         sx={{ 
           mt: 1, 
           mb: 1,

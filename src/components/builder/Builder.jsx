@@ -79,6 +79,7 @@ const Builder = () => {
         patternId: [],
         configId: [],
       });
+      console.log("generate flow ing", canvasPages);
       OrganizeTaskFlows(
         selectedTask,
         setFlowsMap,
@@ -94,41 +95,7 @@ const Builder = () => {
   }, [taskFlowsGenerate]);
 
   useEffect(() => {
-    if (patternsGenerate === 0 && patternsFlow) {
-      console.log("generate pattern ing", canvasPages);
-      setCanvasPages({
-        type: "pattern-generating",
-        flowId: canvasPages.flowId,
-        patternId: canvasPages.patternId,
-        configId: canvasPages.configId,
-      });
-      console.log("builder pattern generating to set canvas", canvasPages);
-      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
-      setPatternsGenerate(1);
-      setPatternsFlow(null);
-    }
-  }, [patternsGenerate, patternsFlow]);
 
-  useEffect(() => {
-    if (agentsConfigGenerate === 0 && agentsConfigPattern) {
-      // console.log("builder config to set up", agentsConfigPattern);
-      //   console.log("agentsConfig", agentsConfig);
-      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
-      setAgentsConfigGenerate(1);
-      setAgentsConfigPattern(null);
-    }
-  }, [agentsConfigGenerate, agentsConfigPattern]);
-
-  useEffect(() => {
-    if (compliedGenerate === 0 && selectedConfig) {
-      // console.log("builder config to compile", selectedConfig);
-      OrganizeReactflow(selectedConfig, setCompiledConfigs);
-      setCompliedGenerate(1);
-      setSelectedConfig(null);
-    }
-  }, [compliedGenerate, selectedConfig]);
-
-  useEffect(() => {
     // console.log("builder task flows generate", taskFlowsGenerate);
     // console.log("builder flows map", flowsMap.length, flowIds.length, flowIds, flowsMap);
     if (taskFlowsGenerate === 1 && flowIds.length > 0) {
@@ -147,7 +114,24 @@ const Builder = () => {
   }, [flowIds.length, taskFlowsGenerate]);
 
   useEffect(() => {
-    if (canvasPages.type === "flow" && designPatterns.length > 0) {
+    console.log("generate pattern ing", canvasPages);
+    if (patternsGenerate === 0 && patternsFlow) {
+        console.log("generate pattern ing", canvasPages);
+            setCanvasPages({
+                type: "pattern-generating",
+                flowId: canvasPages.flowId,
+                patternId: canvasPages.patternId,
+                configId: canvasPages.configId,
+            });
+      console.log("builder pattern generating to set canvas", canvasPages);
+      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
+      setPatternsGenerate(1);
+      setPatternsFlow(null);
+    }
+  }, [patternsGenerate, patternsFlow]);
+
+  useEffect(() => {
+    if (canvasPages.type === "pattern-generating" && designPatterns.length > 0) {
       console.log("builder task flows generate to set canvas after pattern generation", canvasPages);
       const newAddedPatterns = designPatterns.filter(
         (pattern) =>
@@ -163,7 +147,30 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [designPatterns]);
+  }, [designPatterns, patternsGenerate]);
+
+  useEffect(() => {
+    if (agentsConfigGenerate === 0 && agentsConfigPattern) {
+      // console.log("builder config to set up", agentsConfigPattern);
+    //   console.log("agentsConfig", agentsConfig);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
+      setAgentsConfigGenerate(1);
+      setAgentsConfigPattern(null);
+    }
+  }, [agentsConfigGenerate, agentsConfigPattern]);
+
+  useEffect(() => {
+    if (compliedGenerate === 0 && selectedConfig) {
+      // console.log("builder config to compile", selectedConfig);
+      OrganizeReactflow(selectedConfig, setCompiledConfigs);
+      setCompliedGenerate(1);
+      setSelectedConfig(null);
+    }
+  }, [compliedGenerate, selectedConfig]);
+
+
+
+
 
   useEffect(() => {
     if (canvasPages.type === "pattern" && agentsConfig.length > 0) {

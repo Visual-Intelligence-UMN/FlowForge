@@ -3,6 +3,7 @@ import "./langGraphNode.css";
 import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, List, ListItem, ListItemText} from "@mui/material";
 
 const SingleAgentNode = ({ id, data }) => {
+  const updateNodeFieldset = data.updateNodeFieldset;
   return (
     <Box className="single-agent-node" sx={{p: 2, width: "260px"}}>
       {/* Input Handle (for connecting incoming edges) */}
@@ -21,13 +22,13 @@ const SingleAgentNode = ({ id, data }) => {
             id={`llm-select-${id}`}
             value={data.llm}
             label="LLM Model"
-            onChange={(e) => data.updateNode(id, "llm", e.target.value)}
+            onChange={(e) => updateNodeFieldset(id, "llm", e.target.value)}
             size="small"
             className="nodrag nopan" // set to prevent dragging and panning
           >
             <MenuItem value="gpt-4o-mini">GPT-4o Mini</MenuItem>
             <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-            <MenuItem value="other">Other</MenuItem>
+            {/* <MenuItem value="other">Other</MenuItem> */}
           </Select>
         </FormControl>
       </Box>
@@ -41,7 +42,7 @@ const SingleAgentNode = ({ id, data }) => {
           maxRows={6}       // If you'd like to cap the max rows
           fullWidth
           value={data.systemPrompt}
-          onChange={(e) => data.updateNode(id, "systemPrompt", e.target.value)}
+          onChange={(e) => updateNodeFieldset(id, "systemPrompt", e.target.value)}
           className="nodrag nopan nowheel"
         />
 
@@ -57,21 +58,13 @@ const SingleAgentNode = ({ id, data }) => {
             value={data.tools}
             label="Tools"
             size="small"
-            onChange={(e) => data.updateNode(id, "tools", e.target.value)}
+            onChange={(e) => updateNodeFieldset(id, "tools", e.target.value)}
             // If you only need to display them (no editing), consider `disabled`:
             // disabled
-            renderValue={(selected) => {
-              // 'selected' is an array of the currently selected tool values
-              // e.g., ["someTool_ChatGPT", "anotherTool_Search"]
-              const displayedNames = selected.map((tool) => tool.split("_")[1]);
-              return displayedNames.join(", ");
-            }}
+            className="nodrag nopan" // set to prevent dragging and panning
           >
-            {data.tools.map((tool, index) => (
-              <MenuItem key={index} value={tool}>
-                {tool.split("_")[1]}
-              </MenuItem>
-            ))}
+            <MenuItem value="tool_WebSearch">Web Search</MenuItem>
+            <MenuItem value="none">No Tool</MenuItem>
           </Select>
         </FormControl>
       </Box>
