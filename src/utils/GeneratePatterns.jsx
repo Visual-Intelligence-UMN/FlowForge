@@ -43,7 +43,9 @@ const GeneratePatterns = async (taskFlow) => {
         const stepLabel = step.stepLabel;
         const stepDescription = step.stepDescription;
 
-        const userMessage = "stepName: " + stepName + " stepLabel: " + stepLabel + " stepDescription: " + stepDescription;
+        const userMessage = "This step is part of the workflow: " + taskFlowDescription + ". " 
+        + "This specifc stepName is : " + stepName + " The stepLabel: " 
+        + stepLabel + " The stepDescription: " + stepDescription;
         try {
             const completion = await openai.beta.chat.completions.parse({
                 model: "gpt-4o-mini",

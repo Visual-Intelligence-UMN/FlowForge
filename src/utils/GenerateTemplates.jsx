@@ -6,7 +6,7 @@ import merge from "lodash/merge";
 import promptGenerateTemplates from "../models/prompt-generate-templates.json";
 
 const GenerateTemplatesInfo = async (flow) => {
-    const {taskFlowSteps } = flow;
+    const {taskFlowSteps, taskFlowDescription } = flow;
     const openai = new OpenAI({
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
@@ -111,7 +111,8 @@ const GenerateTemplatesInfo = async (flow) => {
 
         const systemMessage = promptGenerateTemplates.systemMessage
         
-        const userMessage = "stepName: " + stepName + ". stepDescription: " 
+        const userMessage = "This step is part of the workflow: " + taskFlowDescription + ". " 
+        + "This specifc stepName is : " + stepName + " The stepDescription: " 
         + stepDescription + ". pattern: " + pattern.name + ". patternDescription: " + pattern.description 
         + ". pattern recommendationReason: " + pattern.recommendationReason 
 
