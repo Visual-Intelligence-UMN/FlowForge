@@ -119,7 +119,7 @@ const StreamOutput = ({ langgraphRun }) => {
   const [canvasPages] = useAtom(canvasPagesAtom);
   const { type } = canvasPages || {};
 
-  if (type == 'pattern' || type == 'flow') {
+  if (type == 'pattern' || type == 'flow' || !type) {
     return null;
   }
 
