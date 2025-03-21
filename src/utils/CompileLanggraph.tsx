@@ -49,34 +49,37 @@ const CompileLanggraph = async (reactflowConfig) => {
         }
         // console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
+        const inputEdges = edges.filter(edge => edge.id.includes("->"+key));
         const {inputNodes,  pattern, stepNodes, maxRound, runtime, nextSteps, maxCalls} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
+        // const passEdges = stepEdges.filter((edge) => edge.source === "step-0");
         totalMaxRound = Number(totalMaxRound) + Number(maxCalls);
+        console.log("inputEdges for ", key, inputEdges);
 
         // TODO: deal with total runtime here
 
         switch (pattern) {
             case "singleAgent":
                 // handle single agent with tools or without tools
-                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
                 break;
             case "reflection":
-                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
                 break;
             case "supervision":
-                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
                 break;
             case "discussion":
-                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
                 break;
             case "voting":
                 compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "parallel":
-                compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
                 break;
             default:
-                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState);
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
                 console.log("pattern not supported", pattern);
                 break;
         }

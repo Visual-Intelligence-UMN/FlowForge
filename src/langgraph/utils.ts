@@ -14,12 +14,14 @@ async function createAgent({
     llmOption,
     tools,
     systemMessage,
-    accessStepMsgs
+    accessStepMsgs,
+    previousSteps
   }: {
     llmOption: string;
     tools: string[];
     systemMessage: string;
     accessStepMsgs: boolean;
+    previousSteps: string[];
   }): Promise<Runnable> {
 
     const llm = new ChatOpenAI({
@@ -66,17 +68,27 @@ function handle_agent_response(result: any, name: string) {
     return result;
 }
 
-async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string) {
+async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string, previousSteps: string[]) {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
+    let invokeMsg = firstMsg;
+    // const firstMsg = [] 
+    // add inital msg or not?
+    let inputMsgs = [];
     if (state.sender === "user") {
         return state.messages;
     }
-    // If the step has no messages yet, use last message from the global messages array.
+    // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
         console.log("no stepMsgs");
         const lastMsg = state.messages.slice(-1);
+        console.log("lastMsg", lastMsg);
+        console.log("previousSteps", previousSteps);
+        for (const step of previousSteps) {
+            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+        }
+        console.log("invokeMsg", invokeMsg);
         // console.log("last lastMsg", state.messages[state.messages.length - 1])
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);
@@ -114,9 +126,10 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     return firstMsg.concat(lastMsg);
             }
         } else {
-            return firstMsg.concat(lastMsg);
+            return invokeMsg;
         }
     }
+    // if stepMsgs is not empty, return the last message
     return stepMsgs.slice(-1);
   }
   
@@ -126,13 +139,14 @@ async function create_agent_node(props: {
     agent: Runnable,
     name: string,
     config?: RunnableConfig,
+    previousSteps?: string[],
 }) {
-    const {state, agent, name, config} = props;
+    const {state, agent, name, config, previousSteps} = props;
     const current_step = 'step' + name.split("-")[1];
 
     const step_state = state[current_step] ?? [];
 
-    const inputMsgs = await getInputMessagesForStep(state, current_step);
+    const inputMsgs = await getInputMessagesForStep(state, current_step, previousSteps);
 
     const invokePayload = {messages: inputMsgs, sender: state.sender, stepMsgs: step_state};
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
