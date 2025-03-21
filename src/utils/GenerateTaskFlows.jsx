@@ -177,6 +177,10 @@ const GenerateTaskFlows = async (task, runRealtime) => {
       stepLabel: "Baseline flow", 
       stepDescription: taskDescription,
       nextSteps: [],
+      pattern: {
+        name: "Single Agent",
+        description: "This design pattern has a single agent to perform the task."
+      }
     }],
   };
   returnData.taskFlows = [oneStepFlow];
