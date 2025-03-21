@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
+import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import {
   Box,
   Button,
@@ -304,6 +305,13 @@ const StreamOutput = ({ runConfig }) => {
       </Grid>
     );
   };
+
+  const [canvasPages] = useAtom(canvasPagesAtom);
+  const { type } = canvasPages || {};
+
+  if (type == 'pattern' || type == 'flow') {
+    return null;
+  }
 
   return (
     <Box
