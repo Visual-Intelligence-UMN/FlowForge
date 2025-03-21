@@ -3,9 +3,10 @@
   stroke: #aaa;
   stroke-width: 2;
   fill: none;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: draw-path 3s ease forwards;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw-path 5s ease forwards; /* animation when showing the path */
+  transition: all 1s ease-in; /* transition when same path moving */
 }
 
 @keyframes draw-path {
@@ -14,19 +15,32 @@
   }
 }
 
-/* .node-group {
-  transition: transform 0.3s ease-in;
-} */
+.node-group {
+  transition: transform 1s ease-in;
+}
 
 .node-rect {
   stroke: #999;
   stroke-width: 2;
-  /* transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out; */
+  opacity: 0;
+  animation: show-node 1.5s ease-in forwards;
+  transition: all 1.5s ease; /* transition when same path moving */
 }
+
+@keyframes show-node {
+  from {
+    opacity: 0; /* Start with opacity 0 */
+  }
+  to {
+    opacity: 1; /* End with opacity 1 (fully visible) */
+  }
+}
+
 .node-text {
   fill: #333;
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
     Arial, sans-serif;
   pointer-events: none;
+  transition: all 1.5s ease; /* transition when same path moving */
 }

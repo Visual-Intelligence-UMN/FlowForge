@@ -486,13 +486,12 @@ const TreeNav = () => {
     <>
       {treeNav.nodes?.length > 0 ? (
         <Box
+          className="tree-nav"
           sx={{
             width: "100%",
             height: "70vh",
             justifyContent: "center",
             overflow: "auto",
-            pl: 4,
-            pr: 4,
           }}
         >
           <svg width={treeNav.width + 10} height={treeNav.height + 10}>
