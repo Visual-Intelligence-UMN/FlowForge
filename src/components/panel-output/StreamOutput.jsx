@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { HumanMessage } from "@langchain/core/messages";
+import { useAtom } from "jotai";
+import { canvasPagesAtom } from "../../patterns/GlobalStates";
 
 const WORD_LIMIT = 30; // Global parameter for word limit
 
@@ -70,9 +72,9 @@ const StreamOutput = ({ langgraphRun }) => {
             const calledTool = messagesAll.tool_calls?.[0].name || "";
             messageContent =
               "Call Tool:" +
-                calledTool +
-                " with args:" +
-                messagesAll.tool_calls?.[0].args.input || "";
+              calledTool +
+              " with args:" +
+              messagesAll.tool_calls?.[0].args.input || "";
           }
         }
 
@@ -113,6 +115,13 @@ const StreamOutput = ({ langgraphRun }) => {
     }
     return content?.split(" ").slice(0, WORD_LIMIT).join(" ") + "...";
   };
+
+  const [canvasPages] = useAtom(canvasPagesAtom);
+  const { type } = canvasPages || {};
+
+  if (type == 'pattern' || type == 'flow' || !type) {
+    return null;
+  }
 
   return (
     <div>
@@ -177,9 +186,8 @@ const StreamOutput = ({ langgraphRun }) => {
               // console.log("msg", msg),
               <div
                 key={index}
-                className={`chat-bubble ${
-                  msg.sender === "User" ? "user" : "system"
-                }`}
+                className={`chat-bubble ${msg.sender === "User" ? "user" : "system"
+                  }`}
               >
                 <strong>{msg.sender}</strong>
                 <p>{getPreviewContent(msg.content, msg.showFullContent)}</p>
@@ -198,9 +206,8 @@ const StreamOutput = ({ langgraphRun }) => {
           <div className="final-output">
             <h2>Final Output</h2>
             <div
-              className={`chat-bubble final ${
-                finalMessage.sender === "User" ? "user" : "system"
-              }`}
+              className={`chat-bubble final ${finalMessage.sender === "User" ? "user" : "system"
+                }`}
             >
               <strong>{finalMessage.sender}</strong>
               <p>

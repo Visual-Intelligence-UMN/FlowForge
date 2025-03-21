@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
+import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import {
   Box,
   Button,
@@ -305,15 +306,19 @@ const StreamOutput = ({ runConfig }) => {
     );
   };
 
+  const [canvasPages] = useAtom(canvasPagesAtom);
+  const { type } = canvasPages || {};
+
+  if (type == 'pattern' || type == 'flow' || !type) {
+    return null;
+  }
+
   return (
     <Box
       sx={{
         width: "100%",
         margin: "auto",
         textAlign: "left",
-        ml: 5,
-        mt: 1,
-        mb: 6,
       }}
     >
       <Grid container spacing={2} alignItems="center">

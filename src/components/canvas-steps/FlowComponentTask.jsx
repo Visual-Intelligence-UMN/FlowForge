@@ -10,6 +10,8 @@ import {
   SelectionMode,
 } from "@xyflow/react";
 import { useAtom } from "jotai";
+
+import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   flowsMapAtom,
   canvasPagesAtom,
@@ -24,6 +26,10 @@ import {
 } from "./layout-steps";
 import { nodeTypes } from "../nodes";
 import Button from "@mui/material/Button";
+
+import {
+  ExploreButton
+} from "../canvas-buttons/ExploreButtons";
 
 function convertToReactFlowFormat(taskflow) {
   const { taskFlowStart, taskFlowSteps = [] } = taskflow;
@@ -299,12 +305,12 @@ export function FlowComponentTask(props) {
       const updatedNodes = prevNodes.map((node) =>
         node.id === nodeId
           ? {
-              ...node,
-              data: {
-                ...node.data,
-                [fieldName]: newValue,
-              },
-            }
+            ...node,
+            data: {
+              ...node.data,
+              [fieldName]: newValue,
+            },
+          }
           : node
       );
       //   updateTargetWorkflow(updatedNodes, edges);
@@ -334,7 +340,6 @@ export function FlowComponentTask(props) {
     <div
       className="reactflow-wrapper"
       style={{
-        height: "57vh",
         border: "1px solid #ddd",
         position: "relative",
       }}
@@ -348,9 +353,8 @@ export function FlowComponentTask(props) {
       </Button>
 
       <ReactFlow
-        key={`${canvasPages.type}-${canvasPages.flowId || ""}-${
-          canvasPages.patternId || ""
-        }-${canvasPages.configId || ""}`}
+        key={`${canvasPages.type}-${canvasPages.flowId || ""}-${canvasPages.patternId || ""
+          }-${canvasPages.configId || ""}`}
         nodes={nodeListWithHandlers}
         edges={edges}
         nodeTypes={nodeTypes}
@@ -369,22 +373,44 @@ export function FlowComponentTask(props) {
         <Controls />
       </ReactFlow>
 
-      <Button
-        size="small"
-        onClick={(e) => {
-          e.stopPropagation();
-          handleSave();
-        }}
-        sx={{
-          position: "absolute",
-          left: "50%",
-          transform: "translateX(-50%)",
-          textTransform: "none",
-          p: 2,
-        }}
-      >
-        CONTINUE
-      </Button>
+      <div className="buttongroup" style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "5px",
+        gap: "10px" // spacing between buttons
+      }}>
+
+        <Button
+          size="small"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSave();
+          }}
+          variant="contained"
+        // sx={{
+        //   position: "absolute",
+        //   left: "50%",
+        //   transform: "translateX(-50%)",
+        //   textTransform: "none",
+        //   p: 2,
+        // }}
+        >
+          Looks good, continue
+        </Button>
+
+        <ExploreButton />
+      </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "5px",
+        gap: "10px" // spacing between buttons
+      }}>
+
+        <StageHighlight />
+      </div>
     </div>
   );
 }

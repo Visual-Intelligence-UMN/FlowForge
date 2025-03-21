@@ -27,9 +27,10 @@ const TreeNav = () => {
 
   const handleTreeNav = () => {
     const g = new Graph();
+    const NodeHeight = 40;
     g.setGraph({
       rankdir: "TB", // top to bottom
-      nodesep: 30, // node spacing
+      nodesep: NodeHeight, // node spacing
       ranksep: 30, // level spacing
     });
 
@@ -43,7 +44,7 @@ const TreeNav = () => {
       g.setNode(`task-${selectedTask.id}`, {
         label: selectedTask.name,
         width: selectedTask.name.length * 8,
-        height: 30,
+        height: NodeHeight,
         data: {
           type: "task",
         },
@@ -64,7 +65,7 @@ const TreeNav = () => {
           type: "flow",
         },
         width: label.length * 8,
-        height: 30,
+        height: NodeHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
         label: `task-${selectedTask.id}-flow-${flowId}`,
@@ -78,7 +79,7 @@ const TreeNav = () => {
       g.setNode(`pattern-${patternID}`, {
         label: label,
         width: label.length * 8,
-        height: 30,
+        height: NodeHeight,
         data: {
           id: patternID,
           type: "pattern",
@@ -93,7 +94,7 @@ const TreeNav = () => {
     // agentsConfig.forEach((config) => {
     //     if (!config?.configId) return;
     //     const configId = config.configId;npm install -g npm@11.2.0
-    //           height: 30,
+    //           height: NodeHeight,
     //           data: {
     //             id: configId,
     //             type: "config",
@@ -113,7 +114,7 @@ const TreeNav = () => {
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
-        height: 30,
+        height: NodeHeight,
         data: {
           id: configId,
           type: "compiled",
@@ -130,12 +131,12 @@ const TreeNav = () => {
       );
       const rating = config?.userRating || null;
       const ratingLabel = rating
-        ? `User Rating: ${config?.userRating} ⭐`
-        : "User Rating: N/A";
+        ? `Running Results: ${config?.userRating} ⭐`
+        : "Running Results: N/A";
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
         width: ratingLabel.length * 8,
-        height: 30,
+        height: NodeHeight,
         data: {
           id: configId,
           type: "rating",
@@ -278,9 +279,11 @@ const TreeNav = () => {
     if (!points || points.length === 0) return "";
     const [first, ...rest] = points;
     return (
-      `M${first.x},${first.y} ` + rest.map((p) => `L${p.x},${p.y}`).join(" ")
+      `M${first.x},${first.y} Q` + rest.map((p) => `${p.x},${p.y}`).join(" ")
     );
   };
+
+
 
   // Example node click handler
   const handleNodeClick = (node) => {
@@ -471,15 +474,11 @@ const TreeNav = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: "1px solid #ddd",
         width: "100%",
         height: "70vh",
         color: "grey",
       }}
     >
-      <Typography variant="h8" sx={{ p: 2 }}>
-        Navigation Tree waits for task to be selected
-      </Typography>
     </Box>
   );
 
@@ -487,64 +486,82 @@ const TreeNav = () => {
     <>
       {treeNav.nodes?.length > 0 ? (
         <Box
+          className="tree-nav"
           sx={{
             width: "100%",
             height: "70vh",
             justifyContent: "center",
             overflow: "auto",
-            pl: 4,
-            pr: 4,
           }}
         >
-          <svg width={treeNav.width} height={treeNav.height}>
+          <svg width={treeNav.width + 10} height={treeNav.height + 10}>
             {/* Edges */}
-            {treeNav.edges?.map((edge, idx) => {
-              const pathData = buildEdgePath(edge.points);
-              return (
-                <path
-                  key={idx}
-                  d={pathData}
-                  stroke="black"
-                  fill="none"
-                  style={{ pointerEvents: "none" }}
-                  className="edge-path"
-                />
-              );
-            })}
+            <g className="tree" transform="translate(5, 5)">
+              <g className="edge-group">
+                {treeNav.edges?.map((edge, idx) => {
+                  const pathData = buildEdgePath(edge.points);
+                  return (
+                    <path
+                      key={`${edge.from}-${edge.to}`}
+                      d={pathData}
+                      stroke="black"
+                      fill="none"
+                      style={{ pointerEvents: "none" }}
+                      className="edge-path"
+                    />
+                  );
+                })}
+              </g>
 
-            {/* Nodes */}
-            {treeNav.nodes?.map((node) => {
-              const nodeX = node.x - node.width / 2;
-              const nodeY = node.y - node.height / 2;
+              {/* Nodes */}
+              <g className="node-group">
+                {treeNav.nodes?.map((node) => {
+                  const nodeX = node.x - node.width / 2;
+                  const nodeY = node.y - node.height / 2;
 
-              return (
-                <g
-                  key={node.id}
-                  transform={`translate(${nodeX}, ${nodeY})`}
-                  className="node-group"
-                  onContextMenu={(event) => handleRightClick(event, node)}
-                >
-                  <rect
+                  return (
+                    <g
+                      key={node.id}
+                      transform={`translate(${nodeX}, ${nodeY})`}
+                      className="node-group"
+                      onContextMenu={(event) => handleRightClick(event, node)}
+                      onClick={() => handleNodeClick(node)}
+                    >
+                      {/* <rect
                     className="node-rect"
                     width={node.width}
                     height={node.height}
                     fill={isHighlighted(node) ? "lightblue" : "white"}
                     stroke="black"
                     onClick={() => handleNodeClick(node)}
-                  />
-                  <text
-                    x={node.width / 2}
-                    y={node.height / 2}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{ pointerEvents: "none" }}
-                    className="node-text"
-                  >
-                    {node.label}
-                  </text>
-                </g>
-              );
-            })}
+                  /> */}
+                      <circle
+                        className="node-rect"
+                        // width={node.width}
+                        // height={node.height}
+                        r={(node.height - 20) / 2}
+                        cx={node.width / 2}
+                        cy={node.height / 2 - 10}
+                        fill={isHighlighted(node) ? "lightblue" : "white"}
+                        stroke="black"
+                        strokeWidth={2}
+                        opacity={node.label.includes("Running Results") ? 0 : 1}
+                      />
+                      <text
+                        x={node.width / 2}
+                        y={node.height - (node.label.includes("Running Results") ? 20 : 10)}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ pointerEvents: "none" }}
+                        className="node-text"
+                      >
+                        {node.label}
+                      </text>
+                    </g>
+                  );
+                })}
+              </g>
+            </g>
           </svg>
         </Box>
       ) : (

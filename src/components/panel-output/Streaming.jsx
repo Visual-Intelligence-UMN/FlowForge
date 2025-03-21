@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { HumanMessage } from "@langchain/core/messages";
+import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import {
   Box,
   Button,
@@ -266,20 +267,25 @@ const Streaming = ({ runConfig }) => {
   };
 
   /* ------------------------ Render UI ------------------------ */
+  const [canvasPages] = useAtom(canvasPagesAtom);
+  const { type } = canvasPages || {};
+
+  if (type == 'pattern' || type == 'flow' || !type) {
+    return null;
+  }
 
   return (
     <Box
+      className="streaming-panel"
       sx={{
         width: "100%",
         margin: "auto",
         textAlign: "left",
-        mt: 2,
-        pt: 6,
-        mb: 6,
+        ml: 0,
       }}
     >
       {/* Top row: toggle visibility & optional graphImage */}
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={2} alignItems="center" sx={{ ml: 0 }} className="streaming-panel">
         <Grid item xs={1}>
           <Button variant="contained" onClick={toggleVisibility}>
             {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}

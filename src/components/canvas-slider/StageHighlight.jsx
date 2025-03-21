@@ -43,10 +43,10 @@ const StageHighlight = () => {
   }, [type]);
 
   const steps = [
-    { value: 1, label: "Task Split" },
-    { value: 2, label: "Subtask-Pattern" },
-    { value: 3, label: "Agents Config" },
-    { value: 4, label: "Compile" },
+    { value: 1, label: "Task Planning" },
+    { value: 2, label: "Assign Agents" },
+    { value: 3, label: "Config Agents" },
+    // { value: 4, label: "Compile" },
   ];
 
   const handleSliderChange = (event, newValue) => {
@@ -73,7 +73,7 @@ const StageHighlight = () => {
         onChange={handleSliderChange}
         step={1}
         min={1}
-        max={4}
+        max={3}
         marks={steps.map((s) => ({ value: s.value, label: s.label }))}
         disabled={true} //  Disable manual user interaction
         valueLabelDisplay="off"
@@ -99,7 +99,7 @@ const StageHighlight = () => {
             backgroundColor: "navy",
           },
           "& .MuiSlider-markLabel": {
-            fontSize: "0.7rem",
+            fontSize: "1rem",
           },
         }}
       />

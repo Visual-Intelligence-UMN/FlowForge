@@ -1,4 +1,10 @@
-import React, { useEffect, useCallback, useLayoutEffect, useState } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from "react";
+import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   ReactFlow,
   Background,
@@ -13,7 +19,7 @@ import {
   OnConnect,
   SelectionMode,
   useStore,
-  useStoreApi
+  useStoreApi,
 } from "@xyflow/react";
 import { nodeTypes } from "../nodes";
 import { edgeTypes } from "../edges";
@@ -51,18 +57,17 @@ export function FlowComponentAgent(props) {
   const { targetWorkflow } = props;
 
   // We assume data is in targetWorkflow.reactflowDisplay[0].graph
-  let { nodes: initialNodes, edges: initialEdges } =
+  const { nodes: initialNodes, edges: initialEdges } =
     targetWorkflow.reactflowDisplay[0].graph;
 
-      // Keep local state for ReactFlow
+  // Keep local state for ReactFlow
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
-  const {fitView} = useReactFlow();
+  const { fitView } = useReactFlow();
   const [animation, setAnimation] = useState(true);
 
   useEffect(() => {
-
     // const edgesWithHandles = initialEdges.map(edge => {
 
     //   if (edge.id.includes("Supervisor->Worker")) {
@@ -118,10 +123,12 @@ export function FlowComponentAgent(props) {
     //   }
     //   return edge;
     //   });
-    
+
     console.log("layout");
-    const { nodes: layoutedNodes, edges: layoutedEdges } =
-      layoutDagre(initialNodes, initialEdges);
+    const { nodes: layoutedNodes, edges: layoutedEdges } = layoutDagre(
+      initialNodes,
+      initialEdges
+    );
 
     const reorderedNodes = reorderNodesForReactFlow(layoutedNodes);
     setNodes(reorderedNodes);
@@ -134,7 +141,6 @@ export function FlowComponentAgent(props) {
       setAnimation(false);
     }, 500);
   }, [props.nodes, props.edges, fitView]);
-
 
   const onNodesChange = useCallback(
     (changes) => {
@@ -191,7 +197,7 @@ export function FlowComponentAgent(props) {
     ...node,
     style: {
       ...(node.style || {}),
-      transition: animation ? "transform 0.5s ease" : "none"
+      transition: animation ? "transform 0.5s ease" : "none",
     },
     data: {
       ...node.data,
@@ -203,7 +209,7 @@ export function FlowComponentAgent(props) {
   const panOnDrag = [1, 2];
 
   const handleNodeClick = useCallback((evt, node) => {
-    if (node){
+    if (node) {
       console.log("node", node);
     }
   }, []);
@@ -215,31 +221,44 @@ export function FlowComponentAgent(props) {
   // }, []);
 
   return (
-    <div
-      className="reactflow-wrapper"
-      style={{ height: "57vh", border: "1px solid #ddd", position: "relative" }}
-    >
-      <ReactFlow
-        nodes={modifiedNodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        onNodesChange={onNodesChange}
-        // onEdgesChange={onEdgesChange}
-        // onConnect={onConnect}
-        onNodeClick={handleNodeClick}
-        // onEdgeClick={handleEdgeClick}
-        selectionOnDrag
-        selectionMode={SelectionMode.Partial}
-        panOnScroll
-        panOnDrag={panOnDrag}
-        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
-        minZoom={0.1}
+    <>
+      <div
+        className="reactflow-wrapper"
+        style={{ border: "1px solid #ddd", position: "relative" }}
       >
-        <Background />
-        <Controls />
-        {/* <MiniMap /> */}
-      </ReactFlow>
-    </div>
+        <ReactFlow
+          nodes={modifiedNodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          // onEdgesChange={onEdgesChange}
+          // onConnect={onConnect}
+          onNodeClick={handleNodeClick}
+          // onEdgeClick={handleEdgeClick}
+          selectionOnDrag
+          selectionMode={SelectionMode.Partial}
+          panOnScroll
+          panOnDrag={panOnDrag}
+          defaultViewport={{ x: 0, y: 0, zoom: 0.5 }}
+          minZoom={0.1}
+        >
+          <Background />
+          <Controls />
+          {/* <MiniMap /> */}
+        </ReactFlow>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "5px",
+          gap: "10px", // spacing between buttons
+        }}
+      >
+        <StageHighlight />
+      </div>
+    </>
   );
 }

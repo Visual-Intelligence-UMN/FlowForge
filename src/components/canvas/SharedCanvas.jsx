@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Slider, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -9,11 +10,7 @@ import {
   agentsConfigAtom,
   compiledConfigsAtom,
 } from "../../patterns/GlobalStates";
-import {
-  ExploreLeftButton,
-  ExploreRightButton,
-} from "../canvas-buttons/ExploreButtons";
-import { PatternsMap } from "../canvas-sidebar/PatternsPoolSidebar";
+import { PatternsMap1, PatternsMap2, PatternsMap3 } from "../canvas-sidebar/PatternsPoolSidebar";
 import { TaskFlowWithProvider } from "../canvas-provider/FlowWithProvider";
 import { RfWithProvider } from "../canvas-provider/FlowWithProvider";
 import { FlowWithProviderAgent } from "../canvas-provider/FlowWithProvider";
@@ -176,52 +173,40 @@ const SharedCanvas = () => {
         // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
         if (type === "pattern") {
           return (
-            <Box
-              sx={{
-                width: "100%",
-                height: "55vh",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <>
               <Typography variant="body1">{headerContent}</Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <RfWithProvider
-                  nodes={initialNodes}
-                  edges={initialEdges}
-                  targetWorkflow={targetWorkflow}
-                />
-                <PatternsMap />
-              </Box>
+              <Grid container spacing={2} sx={{ width: "100%" }}>
+                <Grid item size={10}>
+                  <RfWithProvider
+                    nodes={initialNodes}
+                    edges={initialEdges}
+                    targetWorkflow={targetWorkflow}
+                  />
+                </Grid>
+                <Grid item size={2}>
+                  <PatternsMap2 />
+                </Grid>
+              </Grid>
               {/* {loading && <LoadingPatterns />} */}
-            </Box>
+            </>
           );
         } else if (type === "flow") {
           return (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: "100%",
-                height: "55vh",
-              }}
-            >
+            <>
               <Typography variant="body1">{headerContent}</Typography>
-              <TaskFlowWithProvider
-                nodes={initialNodes}
-                edges={initialEdges}
-                targetWorkflow={targetWorkflow}
-              />
-            </Box>
+              <Grid container spacing={2} sx={{ width: "100%" }}>
+                <Grid item size={10}>
+                  <TaskFlowWithProvider
+                    nodes={initialNodes}
+                    edges={initialEdges}
+                    targetWorkflow={targetWorkflow}
+                  />
+                </Grid>
+                <Grid item size={2}>
+                  <PatternsMap1 />
+                </Grid>
+              </Grid>
+            </>
           );
         }
       } else {
@@ -229,32 +214,25 @@ const SharedCanvas = () => {
         initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
         // console.log("initialNodes", initialNodes);
         return (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-              height: "55vh",
-            }}
-          >
+          <>
             <Typography variant="body1">{headerContent}</Typography>
-            <FlowWithProviderAgent
-              nodes={initialNodes}
-              edges={initialEdges}
-              targetWorkflow={targetWorkflow}
-            />
-          </Box>
+            <Grid container spacing={2} sx={{ width: "100%" }}>
+              <Grid item size={10}>
+                <FlowWithProviderAgent
+                  nodes={initialNodes}
+                  edges={initialEdges}
+                  targetWorkflow={targetWorkflow}
+                />
+              </Grid>
+              <Grid item size={2}>
+                <PatternsMap3 />
+              </Grid>
+            </Grid>
+          </>
         );
       }
     };
-    return (
-      <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "left" }}
-      >
-        {renderCanvasContent()}
-      </Box>
-    );
+    return renderCanvasContent();
   };
 
   const emptyCanvas = () => {
@@ -270,8 +248,8 @@ const SharedCanvas = () => {
           color: "grey",
         }}
       >
-        <Typography variant="h8" sx={{ pt: 2 }}>
-          Canvas page waits for task to be selected
+        <Typography variant="h5" sx={{ pt: 2, color: "lightgrey" }}>
+          Please input your task first
         </Typography>
       </Box>
     );
@@ -279,31 +257,18 @@ const SharedCanvas = () => {
 
   return canvasPages.type ? (
     <Box
+      className="canvas"
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: "1px solid #ddd",
+        border: "0px solid #ddd",
         width: "100%",
+        margin: '0px',
         // height
       }}
     >
-      {/* Row with left button, canvas content, right button */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        {enableButtons && <ExploreLeftButton />}
-        {canvasPage()}
-        {enableButtons && <ExploreRightButton />}
-      </Box>
-
-      <Box sx={{ mt: 8 }}>
-        <StageHighlight />
-      </Box>
+      {canvasPage()}
     </Box>
   ) : (
     emptyCanvas()

@@ -147,6 +147,58 @@ function TaskPanel() {
           sx={{ width: "550px" }}
         />
 
+        {/* Submit Button */}
+
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Button
+          onClick={handleSubmit}
+          color="primary"
+          variant="contained"
+          size="small"
+          sx={{ height: "30px" }}
+        >
+          Submit Task
+        </Button>
+
+        {/* Example Task Selector */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <InputLabel id="task-select-label">Example Tasks</InputLabel>
+          <Select
+            value={localSelectedTask.index ?? ""}
+            sx={{ width: "140px", height: "30px", color: "#777" }}
+            variant="standard"
+            onChange={handleTaskSelect}
+            size="small"
+          >
+            {taskList.map((task, index) => (
+              <MenuItem key={task.id} value={index} style={{ fontSize: "14px" }}>
+                {task.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Box>
+      </Box>
+      <Box sx={{ gap: 2 }}>
+        <input
+          type="checkbox"
+          id="run-realtime"
+          checked={runRealtime}
+          onChange={handleRealtimeToggle}
+        />
+        <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
+      </Box>
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Typography
+          sx={{ fontSize: "14px", color: "#333" }}
+          onChange={(e) => setWorkflowInput(e.target.value)}
+        >
+          Example Input (Optional)
+        </Typography>
+
+        <TextField size="small" sx={{ width: "200px" }} />
         {/* File Upload Button */}
         <Button
           component={fileName ? undefined : "label"}
@@ -166,54 +218,6 @@ function TaskPanel() {
             />
           )}
         </Button>
-
-        {/* Submit Button */}
-        <Button
-          onClick={handleSubmit}
-          color="primary"
-          variant="contained"
-          size="small"
-        >
-          Submit Task
-        </Button>
-        <Box sx={{ gap: 2 }}>
-          <input
-            type="checkbox"
-            id="run-realtime"
-            checked={runRealtime}
-            onChange={handleRealtimeToggle}
-          />
-          <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
-        </Box>
-      </Box>
-
-      {/* Example Task Selector */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <InputLabel id="task-select-label">Example Tasks</InputLabel>
-        <Select
-          value={localSelectedTask.index ?? ""}
-          sx={{ width: "100px", height: "50px", color: "#777" }}
-          variant="standard"
-          onChange={handleTaskSelect}
-          size="small"
-        >
-          {taskList.map((task, index) => (
-            <MenuItem key={task.id} value={index} style={{ fontSize: "14px" }}>
-              {task.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </Box>
-
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography
-          sx={{ fontSize: "14px", color: "#333" }}
-          onChange={(e) => setWorkflowInput(e.target.value)}
-        >
-          Example Input (Optional)
-        </Typography>
-
-        <TextField size="small" sx={{ width: "200px" }} />
       </Box>
     </Box>
   );
