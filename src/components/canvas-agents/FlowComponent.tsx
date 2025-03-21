@@ -65,14 +65,14 @@ export function FlowPanelComponent(props) {
     // screenToFlowPosition.fitView();
   }, [props.nodes, props.edges]);
 
-  // --- on drag over --- 
+  // --- on drag over ---
   // const onDragOver = useCallback((event: any) => {
   //   event.preventDefault();
   //   event.dataTransfer.dropEffect = "move";
   // }, []);
-  // --- on drag over --- 
+  // --- on drag over ---
 
-  // --- on drop --- 
+  // --- on drop ---
   // const onDrop = useCallback(
   //   (event: any) => {
   //     event.preventDefault();
@@ -92,7 +92,7 @@ export function FlowPanelComponent(props) {
   //   },
   //   [type, screenToFlowPosition]
   // );
-  // --- on drop --- 
+  // --- on drop ---
 
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) =>
@@ -116,10 +116,7 @@ export function FlowPanelComponent(props) {
   const panOnDrag = [1, 2];
 
   return (
-    <div
-      className="reactflow-wrapper"
-      style={{ width: "100%", border: "1px solid #ddd" }}
-    >
+    <div className="reactflow-wrapper" style={{ border: "1px solid #ddd" }}>
       <ReactFlow
         // id = {props.id}
         nodes={modifiedNodes}

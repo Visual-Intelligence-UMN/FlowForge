@@ -212,8 +212,6 @@ export function RflowComponent(props) {
     <div
       className="reactflow-wrapper"
       style={{
-        width: "100%",
-        height: "57vh",
         border: "1px solid #ddd",
         position: "relative",
       }}

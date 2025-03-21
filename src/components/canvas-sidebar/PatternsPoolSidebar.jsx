@@ -9,6 +9,7 @@ const PatternsMap2 = () => {
         mb: 1,
         ml: 1,
         backgroundColor: "#f5f5f5",
+        height: "100%",
       }}
     >
       {Object.keys(iconMap2).map((pattern, index) => {
@@ -29,7 +30,8 @@ const PatternsMap2 = () => {
                   ml: 1.5,
                   mr: 1.5,
                   mt: 1,
-                  width: "17vh",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
                 <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
@@ -68,6 +70,7 @@ const PatternsMap1 = () => {
         mb: 1,
         ml: 1,
         backgroundColor: "#f5f5f5",
+        height: "100%",
       }}
     >
       {Object.keys(iconMap1).map((pattern, index) => {
@@ -88,7 +91,8 @@ const PatternsMap1 = () => {
                   ml: 1.5,
                   mr: 1.5,
                   mt: 1,
-                  width: "17vh",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
                 <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
@@ -127,6 +131,7 @@ const PatternsMap3 = () => {
         mb: 1,
         ml: 1,
         backgroundColor: "#f5f5f5",
+        height: "100%",
       }}
     >
       {Object.keys(iconMap3).map((pattern, index) => {
@@ -147,7 +152,8 @@ const PatternsMap3 = () => {
                   ml: 1.5,
                   mr: 1.5,
                   mt: 1,
-                  width: "17vh",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
                 <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
