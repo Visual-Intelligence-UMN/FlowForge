@@ -59,13 +59,13 @@ const TreeNav = () => {
     [1, 3, 4, 2, 2],
   ]
   const agentXScale = d3.scaleBand()
-    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)))) // change to true number of agent steps later
+    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
     .range([0, config.maxStepNodeWidth])
     .padding(0.1);
 
   const agentYScale = d3.scaleLinear()
     .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
-    .range([0, NodeHeight]);
+    .range([0, NodeHeight - 2]); // 2px padding
 
 
   const handleTreeNav = () => {
@@ -73,7 +73,7 @@ const TreeNav = () => {
     g.setGraph({
       rankdir: "TB", // top to bottom
       nodesep: NodeHeight, // node spacing
-      ranksep: 30, // level spacing
+      ranksep: NodeHeight / 2, // level spacing
     });
 
     // TESTING ONLY
@@ -102,15 +102,17 @@ const TreeNav = () => {
       );
       const steps = Object.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId} (${steps} Steps)`;
+      const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
           ...flow.taskFlowSteps, // keep original data for easy access
           id: flowId,
           type: "flow",
-          taskSteps: Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2),// TODO: replace with actual steps
+          taskSteps
         },
-        width: label.length * 8,
+        // width: label.length * 8,
+        width: stepRScale(steps) * 6,
         height: NodeHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
@@ -122,15 +124,17 @@ const TreeNav = () => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
       const label = `Patterns ${patternID}`;
+      const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       g.setNode(`pattern-${patternID}`, {
         label: label,
-        width: label.length * 8,
+        // width: label.length * 8,
+        width: agentXScale(agentSteps.length) + agentXScale.bandwidth(),
         height: NodeHeight,
         data: {
           ...pattern, // keep original data for easy access
           id: patternID,
           type: "pattern",
-          agentSteps: dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)], //TODO: replace with actual agent steps
+          agentSteps,
         },
       });
       const flowId = patternID.split("-")[0];
@@ -539,6 +543,8 @@ const TreeNav = () => {
             width: "100%",
             height: "70vh",
             justifyContent: "center",
+            display: "flex",
+            alignItems: "flex-start",
             overflow: "auto",
           }}
         >
@@ -552,10 +558,10 @@ const TreeNav = () => {
                     <path
                       key={`${edge.from}-${edge.to}`}
                       d={pathData}
-                      stroke="black"
+                      strokeWidth={1}
                       fill="none"
                       style={{ pointerEvents: "none" }}
-                      className="edge-path"
+                      className="tree edge-path"
                     />
                   );
                 })}
@@ -581,7 +587,7 @@ const TreeNav = () => {
                       {(node.data.type === "task" || node.label.includes("Running Results")) &&
                         <text
                           x={node.width / 2}
-                          y={- 10}
+                          y={node.label.includes("Running Results") ? - 10 : 0}
                           textAnchor="middle"
                           dominantBaseline="middle"
                           style={{ pointerEvents: "none" }}

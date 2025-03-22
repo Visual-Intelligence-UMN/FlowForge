@@ -29,7 +29,7 @@ const PatternNode = ({ node, isHighlighted, agentXScale, agentYScale }) => {
     return (
         <g className="tree-node level2" transform={`translate(${node.width / 2 - agentXScale(node.data.agentSteps.length) / 2}, 0)`} >
             {node.data.agentSteps.map((step, index) => {
-                return <rect x={agentXScale(index)} width={agentXScale.bandwidth()} y={-agentYScale(step) / 2} height={agentYScale(step)} fill="#999" />
+                return <rect x={agentXScale(index)} width={agentXScale.bandwidth()} y={-agentYScale(step) / 2} height={agentYScale(step)} fill={isHighlighted ? "lightblue" : "#999"} />
             })}
         </g>)
 }

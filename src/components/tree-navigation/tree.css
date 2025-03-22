@@ -1,7 +1,7 @@
 .edge-path {
   /* This defines the stroke style and sets it up for animation */
   stroke: #aaa;
-  stroke-width: 2;
+  stroke-width: 1;
   fill: none;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
