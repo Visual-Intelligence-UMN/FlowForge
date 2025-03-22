@@ -14,6 +14,9 @@ import * as dagre from "dagre";
 import { useEffect } from "react";
 import "./tree.css";
 import { Typography, Box } from "@mui/material";
+import TreeNode from "./TreeNode";
+import * as d3 from "d3";
+
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -25,9 +28,32 @@ const TreeNav = () => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [flowUserRating, setFlowUserRating] = useAtom(flowUserRatingAtom);
 
+
+
+  const config = {
+    minStepRadius: 5,
+    maxStepRadius: 15,
+  }
+  const NodeHeight = 40;
+
+  let maxStepNum = 0
+  Object.keys(flowsMap).forEach((flowId) => {
+    if (!flowId) return;
+    const flow = Object.values(flowsMap).find(
+      (flow) => flow.taskFlowId.toString() === flowId
+    );
+    const steps = Object.keys(flow.taskFlowSteps).length;
+    maxStepNum = Math.max(maxStepNum, steps);
+  });
+
+  const stepRScale = d3.scalePow().exponent(1 / 2)
+    .domain([0, maxStepNum]) // [TODO: REMOVE] Dummy data for testing
+    .range([0, config.maxStepRadius]);
+
+
+
   const handleTreeNav = () => {
     const g = new Graph();
-    const NodeHeight = 40;
     g.setGraph({
       rankdir: "TB", // top to bottom
       nodesep: NodeHeight, // node spacing
@@ -51,6 +77,8 @@ const TreeNav = () => {
       });
     }
 
+
+
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
       const flow = Object.values(flowsMap).find(
@@ -61,8 +89,10 @@ const TreeNav = () => {
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
+          ...flow.taskFlowSteps, // keep original data for easy access
           id: flowId,
           type: "flow",
+          steps: Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2),// TODO: replace with actual steps
         },
         width: label.length * 8,
         height: NodeHeight,
@@ -481,7 +511,7 @@ const TreeNav = () => {
     >
     </Box>
   );
-
+  console.info(treeNav)
   return (
     <>
       {treeNav.nodes?.length > 0 ? (
@@ -522,48 +552,33 @@ const TreeNav = () => {
                   return (
                     <g
                       key={node.id}
-                      transform={`translate(${nodeX}, ${nodeY})`}
+                      transform={`translate(${nodeX}, ${nodeY + NodeHeight / 2})`}
                       className="node-group"
                       onContextMenu={(event) => handleRightClick(event, node)}
                       onClick={() => handleNodeClick(node)}
                     >
-                      {/* <rect
-                    className="node-rect"
-                    width={node.width}
-                    height={node.height}
-                    fill={isHighlighted(node) ? "lightblue" : "white"}
-                    stroke="black"
-                    onClick={() => handleNodeClick(node)}
-                  /> */}
-                      <circle
-                        className="node-rect"
-                        // width={node.width}
-                        // height={node.height}
-                        r={(node.height - 20) / 2}
-                        cx={node.width / 2}
-                        cy={node.height / 2 - 10}
-                        fill={isHighlighted(node) ? "lightblue" : "white"}
-                        stroke="black"
-                        strokeWidth={2}
-                        opacity={node.label.includes("Running Results") ? 0 : 1}
-                      />
-                      <text
-                        x={node.width / 2}
-                        y={node.height - (node.label.includes("Running Results") ? 20 : 10)}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        style={{ pointerEvents: "none" }}
-                        className="node-text"
-                      >
-                        {node.label}
-                      </text>
+                      {node.data.type != 'task' && !node.label.includes("Running Results") &&
+                        <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} />}
+
+                      {(node.data.type === "task" || node.label.includes("Running Results")) &&
+                        <text
+                          x={node.width / 2}
+                          y={- 10}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                          style={{ pointerEvents: "none" }}
+                          className="node-text"
+                        >
+                          {node.label}
+                        </text>
+                      }
                     </g>
                   );
                 })}
               </g>
             </g>
           </svg>
-        </Box>
+        </Box >
       ) : (
         emptyTreeNav()
       )}
