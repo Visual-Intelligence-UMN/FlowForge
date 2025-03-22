@@ -33,6 +33,7 @@ const TreeNav = () => {
   const config = {
     minStepRadius: 5,
     maxStepRadius: 15,
+    maxStepNodeWidth: 40
   }
   const NodeHeight = 40;
 
@@ -47,9 +48,24 @@ const TreeNav = () => {
   });
 
   const stepRScale = d3.scalePow().exponent(1 / 2)
-    .domain([0, maxStepNum]) // [TODO: REMOVE] Dummy data for testing
+    .domain([0, maxStepNum])
     .range([0, config.maxStepRadius]);
 
+  //TODO: remove dummy data later
+  const dummyAgentSteps = [
+    [1, 2, 1],
+    [1, 4, 1, 2],
+    [1, 2, 3, 2, 1],
+    [1, 3, 4, 2, 2],
+  ]
+  const agentXScale = d3.scaleBand()
+    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)))) // change to true number of agent steps later
+    .range([0, config.maxStepNodeWidth])
+    .padding(0.1);
+
+  const agentYScale = d3.scaleLinear()
+    .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    .range([0, NodeHeight]);
 
 
   const handleTreeNav = () => {
@@ -92,7 +108,7 @@ const TreeNav = () => {
           ...flow.taskFlowSteps, // keep original data for easy access
           id: flowId,
           type: "flow",
-          steps: Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2),// TODO: replace with actual steps
+          taskSteps: Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2),// TODO: replace with actual steps
         },
         width: label.length * 8,
         height: NodeHeight,
@@ -111,8 +127,10 @@ const TreeNav = () => {
         width: label.length * 8,
         height: NodeHeight,
         data: {
+          ...pattern, // keep original data for easy access
           id: patternID,
           type: "pattern",
+          agentSteps: dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)], //TODO: replace with actual agent steps
         },
       });
       const flowId = patternID.split("-")[0];
@@ -551,14 +569,14 @@ const TreeNav = () => {
 
                   return (
                     <g
-                      key={node.id}
+                      key={node.label}
                       transform={`translate(${nodeX}, ${nodeY + NodeHeight / 2})`}
                       className="node-group"
                       onContextMenu={(event) => handleRightClick(event, node)}
                       onClick={() => handleNodeClick(node)}
                     >
                       {node.data.type != 'task' && !node.label.includes("Running Results") &&
-                        <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} />}
+                        <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
 
                       {(node.data.type === "task" || node.label.includes("Running Results")) &&
                         <text
