@@ -76,7 +76,7 @@ const GenerateTemplatesInfo = async (flow) => {
                     "goal": z.string(),
                 }),
             }),
-            "Parallel": z.object({
+            "Redundant": z.object({
                 "agents": z.array(z.object({
                     "persona": z.string(),
                     "goal": z.string(),

@@ -106,7 +106,7 @@
                 "stepLabel": "Methods",
                 "stepDescription": "Three reviewers should review the paper independently in parallel, and based on their research knowledge, should have a summarization of this paper in terms of methods, contribution, novelty, and acceptance recommendation or fail reasons. Then an aggregator need to gather all reviewers output as one.",
                 "pattern": {
-                    "name": "Parallel",
+                    "name": "Redundant",
                     "recommendationReason": "This design pattern is ideal for the task as it allows multiple reviewers to work independently and simultaneously on the review of the paper. Each reviewer can focus on their own assessment, providing outputs that will be aggregated later. This structure aligns well with the need to gather diverse insights regarding methods, contributions, and novelty from different perspectives."
                 },
                 "nextSteps": [

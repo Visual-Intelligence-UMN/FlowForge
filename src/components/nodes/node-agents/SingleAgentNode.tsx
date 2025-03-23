@@ -23,7 +23,7 @@ const SingleAgentNode = ({ id, data }) => {
         <Handle type="target" position={Position.Top} id={`top-${id}`} />
         </>
       )
-    } else if (data.label.includes("Agent") && data.pattern.includes("parallel")) {
+    } else if (data.label.includes("Agent") && data.pattern.includes("Redundant")) {
       return (
         <>
         <Handle type="target" position={Position.Left} id={`in-left-${id}`} />

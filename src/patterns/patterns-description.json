@@ -12,7 +12,7 @@
         "description": "Engages multiple agents with distinct personas and roles in a collaborative dialogue, fostering creativity, brainstorming, idea generation, debate, and consensus building. Best for tasks benefiting from diverse perspectives. Example use: collaborative discussion, or strategic decision-making discussions."
     },
     {
-        "name": "Parallel",
+        "name": "Redundant",
         "description": "Deploys multiple agents simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: reviewing the same input content simultaneously to generate more comprehensive and diverse insights."
     },
     {

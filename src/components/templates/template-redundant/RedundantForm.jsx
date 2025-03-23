@@ -9,7 +9,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import { PatternTextField } from "../textfield/patternText";
 
-export function ParallelForm({ data, onChange }) {
+export function RedundantForm({ data, onChange }) {
   // console.log("data", data)
   const agents = data.agents || [];
 

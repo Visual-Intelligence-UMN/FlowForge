@@ -348,7 +348,7 @@ const handleVoting = (step) => {
     }
 }
 
-const handleParallel = (step) => {
+const handleRedundant = (step) => {
     const { stepDescription, template} = step;
     const { agents = [], aggregation = {}, maxRound } = template;
 
@@ -403,7 +403,7 @@ const handleParallel = (step) => {
     })
     
     return {
-        type: "parallel",
+        type: "redundant",
         nodes: [...agentsNodes],
         edges: agentsEdges,
         maxRound: maxRound,
@@ -465,7 +465,7 @@ const handlersMap = {
     "Discussion": handleDiscussion,
     "Single Agent": handleSingleAgent,
     "Voting": handleVoting,
-    "Parallel": handleParallel,
+    "Redundant": handleRedundant,
     "Validator": handleValidator,
 };
 

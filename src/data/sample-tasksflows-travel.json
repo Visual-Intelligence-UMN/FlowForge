@@ -63,7 +63,7 @@
           "stepLabel": "Budget Planning",
           "stepDescription": "Estimate costs and manage expenses effectively.",
           "pattern": {
-            "name": "Parallel",
+            "name": "Redundant",
             "description": "A supervisor agent coordinates multiple specialized worker agents."
           },
           "nextSteps": []
@@ -111,7 +111,7 @@
           "stepLabel": "Music Planning",
           "stepDescription": "Research and select music concerts, operas, and performances.",
           "pattern": {
-            "name": "Parallel",
+            "name": "Redundant",
             "description": "Agents simultaneously research diverse musical events."
           },
           "nextSteps": ["step-4"]

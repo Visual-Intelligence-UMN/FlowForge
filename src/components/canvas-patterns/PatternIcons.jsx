@@ -405,7 +405,7 @@ export const PatternIcons = ({ pattern, template }) => {
   }
 
 
-    case "Parallel": {
+    case "Redundant": {
       const agents = template?.agents || [];
 
       // If 3 or fewer, show all

@@ -21,8 +21,8 @@
                 "stepLabel": "Coordinate Review",
                 "stepDescription": "Coordinate among reviewers to ensure comprehensive coverage of the paper’s contents.",
                 "pattern": {
-                    "name": "Parallel",
-                    "recommendationReason": "The Discussion pattern engages multiple agents with distinct roles, which is essential for fostering collaboration among reviewers. It allows for diverse perspectives, ensuring a comprehensive approach to the peer review process."
+                    "name": "Redundant",
+                    "recommendationReason": "The Redundant pattern engages multiple agents with distinct roles, which is essential for fostering collaboration among reviewers. It allows for diverse perspectives, ensuring a comprehensive approach to the peer review process."
                 },
                 "config": {
                     "type": "none",

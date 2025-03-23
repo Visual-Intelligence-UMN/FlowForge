@@ -109,7 +109,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                 {nodes.map(node => {
                     const x = node.data.dims[axis['x']] ? xScale(node.data.dims[axis['x']]) : config.nanSpace / 2 + config.margin.left;
                     const y = node.data.dims[axis['y']] ? yScale(node.data.dims[axis['y']]) : svgHeight - config.margin.bottom - config.nanSpace / 2;
-                    console.info(node, node.data.dims[axis['x']], node.data.dims[axis['y']])
+                    // console.info(node, node.data.dims[axis['x']], node.data.dims[axis['y']])
                     return <g key={node.label} className={node.label} transform={`translate(${x}, ${y})`}  >
                         <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />
                     </g>

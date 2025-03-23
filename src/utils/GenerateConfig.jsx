@@ -31,7 +31,7 @@ const GenerateRunnableConfig = async (workflow) => {
                     runtime = maxRound * nodes.length;
                     maxCalls = runtime;
                     break;
-                case "parallel":
+                case "redundant":
                     runtime = 1;
                     maxCalls = nodes.length;
                     break;

@@ -172,22 +172,27 @@ const SharedCanvas = () => {
         // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
         if (type === "pattern") {
           return (
-            <>
-              <Typography variant="body1">{headerContent}</Typography>
-              <Grid container spacing={2} sx={{ width: "100%" }}>
-                <Grid item size={10}>
-                  <RfWithProvider
-                    nodes={initialNodes}
-                    edges={initialEdges}
-                    targetWorkflow={targetWorkflow}
-                  />
-                </Grid>
-                <Grid item size={2}>
-                  <PatternsMap2 />
-                </Grid>
-              </Grid>
-              {/* {loading && <LoadingPatterns />} */}
-            </>
+            <PatternsLayout
+              initialNodes={initialNodes}
+              initialEdges={initialEdges}
+              targetWorkflow={targetWorkflow}
+            />
+            // <>
+            //   <Typography variant="body1">{headerContent}</Typography>
+            //   <Grid container spacing={2} sx={{ width: "100%" }}>
+            //     <Grid item size={10}>
+            //       <RfWithProvider
+            //         nodes={initialNodes}
+            //         edges={initialEdges}
+            //         targetWorkflow={targetWorkflow}
+            //       />
+            //     </Grid>
+            //     <Grid item size={2}>
+            //       <PatternsMap2 />
+            //     </Grid>
+            //   </Grid>
+            //   {/* {loading && <LoadingPatterns />} */}
+            // </>
           );
         } else if (type === "flow") {
           return (
@@ -232,6 +237,29 @@ const SharedCanvas = () => {
       }
     };
     return renderCanvasContent();
+  };
+
+  const PatternsLayout = ({initialNodes, initialEdges, targetWorkflow}) => {
+    const [hoveredPattern, setHoveredPattern] = useState(null);
+    // console.log("hoveredPattern", hoveredPattern);
+    return (
+      <>
+        <Typography variant="body1">{headerContent}</Typography>
+          <Grid container spacing={2} sx={{ width: "100%" }}>
+            <Grid item size={10}>
+              <RfWithProvider
+                nodes={initialNodes}
+                edges={initialEdges}
+                targetWorkflow={targetWorkflow}
+                hoveredPattern={hoveredPattern}
+              />
+            </Grid>
+            <Grid item size={2}>
+              <PatternsMap2 onPatternHover={setHoveredPattern} />
+            </Grid>
+        </Grid>
+      </>
+    );
   };
 
   const emptyCanvas = () => {

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Single Agent",
+        "description": "The basic building block of multi-agent workflows. A single LLM enhanced with augmentations such as retrieval, tools and memory. Example: Summarizing documents."
+    },
+    {
+        "name": "Reflection",
+        "description": "A feedback loop where one agent generates and optimizes the response while another evaluates it, until criterion is met (quality or max iteration). Example: Refining drafts."
+    },
+    {
+        "name": "Discussion",
+        "description": "A group of agents engage in a conversation, where they take turns speaking in a round-robin, random manner, or simultaneously. Extra agent to summarize is optional Example: Brainstorming ideas."
+    },
+    {
+        "name": "Redundant",
+        "description": "Multiple agents simultaneously attempt on the same input, but adopting different personas, or perspectives, yielding diverse outputs that can be aggregated. Example: Comprehensive content reviews."
+    },
+    {
+        "name": "Supervision",
+        "description": "A hierarchical structure where a central agent dynamically decide which worker agents to act based on the current generated output. Example: Content refinement."
+    },
+    {
+        "name": "Web Search Agent",
+        "description": "Agent equipped with web search capabilities. Example: Conducting market research."
+    }
+]

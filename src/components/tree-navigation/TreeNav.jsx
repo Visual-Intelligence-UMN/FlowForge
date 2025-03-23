@@ -8,6 +8,7 @@ import {
   canvasPagesAtom,
   compiledConfigsAtom,
   flowUserRatingAtom,
+  multiStreamOutputAtom,
 } from "../../patterns/GlobalStates";
 import { Graph } from "graphlib";
 import * as dagre from "dagre";
@@ -29,7 +30,7 @@ const TreeNav = () => {
   const [compiledConfigs, setCompiledConfigs] = useAtom(compiledConfigsAtom);
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [flowUserRating, setFlowUserRating] = useAtom(flowUserRatingAtom);
-
+  const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
 
 
   const config = {
@@ -98,7 +99,7 @@ const TreeNav = () => {
     }
 
 
-
+    
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
       const flow = Object.values(flowsMap).find(
