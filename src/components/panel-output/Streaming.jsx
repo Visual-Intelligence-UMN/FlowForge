@@ -286,11 +286,11 @@ const Streaming = ({ runConfig }) => {
     >
       {/* Top row: toggle visibility & optional graphImage */}
       <Grid container spacing={2} alignItems="center" sx={{ ml: 0 }} className="streaming-panel">
-        {/* <Grid item xs={1}>
+        <Grid item xs={1}>
           <Button variant="contained" onClick={toggleVisibility}>
             {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
           </Button>
-        </Grid> */}
+        </Grid>
         {graphImage && (
           <Grid item xs={11}>
             <img

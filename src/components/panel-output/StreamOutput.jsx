@@ -11,7 +11,7 @@ const StreamOutput = ({ langgraphRun }) => {
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
   const [finalMessage, setFinalMessage] = useState("");
   const [isThreadActive, setIsThreadActive] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
@@ -125,9 +125,9 @@ const StreamOutput = ({ langgraphRun }) => {
 
   return (
     <div>
-      {/* <button onClick={toggleVisibility} className="toggle-panel-button">
+      <button onClick={toggleVisibility} className="toggle-panel-button">
         {isVisible ? "Hide Panel" : "Show Panel"}
-      </button> */}
+      </button>
 
 
       <div className="chat-panel">
