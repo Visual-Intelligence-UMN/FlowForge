@@ -19,7 +19,10 @@ import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
 import DimScatter from "./DimScatter";
-import { getTaskSteps } from "./helpers";
+import { 
+  getTaskSteps,
+  getAgentSteps
+ } from "./helpers";
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -106,7 +109,8 @@ const TreeNav = () => {
       // if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
       const steps = Object.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId}`;
-      const taskSteps = getTaskSteps(flow)// TODO: replace with actual steps
+      const taskSteps = getTaskSteps(flow)
+      // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps
       console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
@@ -132,7 +136,10 @@ const TreeNav = () => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
       const label = `Agents ${patternID}`;
-      const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
+      // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
+      const taskSteps = getTaskSteps(pattern)
+      const agentSteps = getAgentSteps(pattern)
+      const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
@@ -146,7 +153,7 @@ const TreeNav = () => {
           agentSteps,
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
-            'taskStepNum': Math.floor(Math.random() * 4) + 1, //TODO: replace with actual task step number
+            'taskStepNum': taskSteps.length, 
             'agentStepNum': agentSteps.length
           }
         },
