@@ -116,13 +116,13 @@ const Builder = () => {
   useEffect(() => {
     console.log("generate pattern ing", canvasPages);
     if (patternsGenerate === 0 && patternsFlow) {
-        console.log("generate pattern ing", canvasPages);
-            setCanvasPages({
-                type: "pattern-generating",
-                flowId: canvasPages.flowId,
-                patternId: canvasPages.patternId,
-                configId: canvasPages.configId,
-            });
+      console.log("generate pattern ing", canvasPages);
+      setCanvasPages({
+        type: "pattern-generating",
+        flowId: canvasPages.flowId,
+        patternId: canvasPages.patternId,
+        configId: canvasPages.configId,
+      });
       console.log("builder pattern generating to set canvas", canvasPages);
       OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
       setPatternsGenerate(1);
@@ -152,7 +152,7 @@ const Builder = () => {
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
-    //   console.log("agentsConfig", agentsConfig);
+      //   console.log("agentsConfig", agentsConfig);
       OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
@@ -235,12 +235,6 @@ const Builder = () => {
         </Grid>
         <Grid item size={8} className="canvas grid-item" sx={{ padding: 0 }}  >
           <SharedCanvas />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item size={4} className="empty" />
-
-        <Grid item size={8} className="canvas grid-item" sx={{ padding: 0 }}  >
           <StreamOutputRow runConfig={langgraphRunSelected} />
         </Grid>
       </Grid>
