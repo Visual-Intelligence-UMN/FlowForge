@@ -7,7 +7,7 @@ import { SupervisionForm } from "../../templates/template-supervision/Supervisio
 import { ValidatorForm } from "../../templates/template-validator/ValidatorForm";
 import { ReflectionForm } from "../../templates/template-reflection/ReflectionForm";
 import { DiscussionForm } from "../../templates/template-discussion/DiscussionForm";
-import { ParallelForm } from "../../templates/template-parallel/ParallelForm";
+import { RedundantForm } from "../../templates/template-redundant/RedundantForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
 import { PatternIcons } from "../../canvas-patterns/PatternIcons";
 import { calculateCost } from "./helpers";
@@ -46,8 +46,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         return <ReflectionForm data={data.template} onChange={onChangeTemplate} />;
       case "Discussion":
         return <DiscussionForm data={data.template} onChange={onChangeTemplate} />;
-      case "Parallel":
-        return <ParallelForm data={data.template} onChange={onChangeTemplate} />;
+      case "Redundant":
+        return <RedundantForm data={data.template} onChange={onChangeTemplate} />;
       // case "Voting":
       //   return <VotingForm data={data.template} onChange={onChangeTemplate} />;
       default:
@@ -61,7 +61,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     "Validator": showContent ? [450, 450] : [230, 450],
     "Reflection": showContent ? [666, 600] : [333, 450],
     "Discussion": showContent ? [300, 700] : [200, 450],
-    "Parallel": showContent ? [500, 700] : [300, 450],
+    "Redundant": showContent ? [500, 700] : [300, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],

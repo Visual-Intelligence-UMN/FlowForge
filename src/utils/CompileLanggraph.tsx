@@ -8,7 +8,8 @@ import { compileReflection } from "../langgraph/compileReflection";
 import { compileSupervision } from "../langgraph/compileSupervision";
 import { compileDiscussion } from "../langgraph/compileDiscussion";
 import { compileVoting } from "../langgraph/compileVoting";
-import {compileParallel} from "../langgraph/compileParallel";
+import { compileRedundant } from "../langgraph/compileRedundant";
+import { compileParallel } from "../langgraph/compileParallel";
 import { AgentsState } from "../langgraph/states";
 
 
@@ -75,7 +76,7 @@ const CompileLanggraph = async (reactflowConfig) => {
             case "voting":
                 compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
-            case "parallel":
+            case "redundant":
                 compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
                 break;
             default:

@@ -75,7 +75,7 @@
             "patternPrompt": "Helpful assistant who can summarize the output of the agents."
         }
     },
-    "Parallel": {
+    "Redundant": {
         "confirm": false,
         "maxRound": 1,
         "withAggregation": true,
