@@ -54,6 +54,15 @@ const TreeNav = () => {
     maxStepNum = Math.max(maxStepNum, steps);
   });
 
+
+  let maxAgentSteps = 0
+  patterns.forEach((pattern) => {
+    if (!pattern?.patternId) return;
+    const agentSteps = getAgentSteps(pattern)
+    maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+  });
+ 
+
   const stepRScale = d3.scalePow().exponent(1 / 2)
     .domain([0, maxStepNum])
     .range([0, config.maxStepRadius]);
@@ -72,7 +81,8 @@ const TreeNav = () => {
     .padding(0.1);
 
   const agentYScale = d3.scaleLinear()
-    .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    // .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    .domain([0, maxAgentSteps + 1])
     .range([0, NodeHeight - 2]); // 2px padding
 
 
