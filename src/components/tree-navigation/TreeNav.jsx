@@ -38,6 +38,7 @@ const TreeNav = () => {
     maxStepNodeWidth: 40
   }
   const NodeHeight = 40;
+  const TextHeight = 15
 
   let maxStepNum = 0
   Object.keys(flowsMap).forEach((flowId) => {
@@ -88,7 +89,7 @@ const TreeNav = () => {
       g.setNode(`task-${selectedTask.id}`, {
         label: selectedTask.name,
         width: selectedTask.name.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           type: "task",
         },
@@ -103,7 +104,7 @@ const TreeNav = () => {
         (flow) => flow.taskFlowId.toString() === flowId
       );
       const steps = Object.keys(flow.taskFlowSteps).length;
-      const label = `Flow ${flowId} (${steps} Steps)`;
+      const label = `Flow ${flowId}`;
       const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
       g.setNode(`flow-${flowId}`, {
         label: label,
@@ -118,7 +119,7 @@ const TreeNav = () => {
         },
         // width: label.length * 8,
         width: stepRScale(steps) * 6,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
         label: `task-${selectedTask.id}-flow-${flowId}`,
@@ -128,13 +129,13 @@ const TreeNav = () => {
     patterns.forEach((pattern) => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
-      const label = `Patterns ${patternID}`;
+      const label = `Agents ${patternID}`;
       const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
-        width: agentXScale(agentSteps.length) + agentXScale.bandwidth(),
-        height: NodeHeight,
+        width: Math.max(label.length * 8, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        height: NodeHeight + TextHeight,
         data: {
           ...pattern, // keep original data for easy access
           id: patternID,
@@ -157,7 +158,7 @@ const TreeNav = () => {
     // agentsConfig.forEach((config) => {
     //     if (!config?.configId) return;
     //     const configId = config.configId;npm install -g npm@11.2.0
-    //           height: NodeHeight,
+    //           height: NodeHeight + TextHeight,
     //           data: {
     //             id: configId,
     //             type: "config",
@@ -173,11 +174,11 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const configLabel = `Compiled Config ${configId}`;
+      const configLabel = `Config ${configId}`;
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           id: configId,
           type: "compiled",
@@ -206,7 +207,7 @@ const TreeNav = () => {
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
         width: ratingLabel.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           id: configId,
           type: "rating",
@@ -545,7 +546,6 @@ const TreeNav = () => {
         className="tree-nav"
         sx={{
           width: "100%",
-          height: "40vh",
           justifyContent: "center",
           display: "flex",
           alignItems: "flex-start",
@@ -588,18 +588,18 @@ const TreeNav = () => {
                     {node.data.type != 'task' && !node.label.includes("Running Results") &&
                       <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
 
-                    {(node.data.type === "task" || node.label.includes("Running Results")) &&
-                      <text
-                        x={0}
-                        y={node.label.includes("Running Results") ? - 10 : 0}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        style={{ pointerEvents: "none" }}
-                        className="node-text"
-                      >
-                        {node.label}
-                      </text>
-                    }
+
+                    <text
+                      x={0}
+                      y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      style={{ pointerEvents: "none" }}
+                      className="node-text"
+                    >
+                      {node.label}
+                    </text>
+
                   </g>
                 );
               })}
