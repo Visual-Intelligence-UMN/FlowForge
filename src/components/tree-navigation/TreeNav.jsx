@@ -45,9 +45,8 @@ const TreeNav = () => {
   let maxStepNum = 0
   Object.keys(flowsMap).forEach((flowId) => {
     if (!flowId) return;
-    const flow = Object.values(flowsMap).find(
-      (flow) => flow.taskFlowId.toString() === flowId
-    );
+    const flow = flowsMap[flowId];
+    if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
     const steps = Object.keys(flow.taskFlowSteps).length;
     maxStepNum = Math.max(maxStepNum, steps);
   });
@@ -64,7 +63,8 @@ const TreeNav = () => {
     [1, 3, 4, 2, 2],
   ]
   const agentXScale = d3.scaleBand()
-    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
+    // .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
+    .domain(d3.range(0, maxStepNum + 1))
     .range([0, config.maxStepNodeWidth])
     .padding(0.1);
 
@@ -102,12 +102,12 @@ const TreeNav = () => {
     
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
-      const flow = Object.values(flowsMap).find(
-        (flow) => flow.taskFlowId.toString() === flowId
-      );
+      const flow = flowsMap[flowId];
+      // if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
       const steps = Object.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId}`;
       const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
+      console.log("taskSteps", taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
