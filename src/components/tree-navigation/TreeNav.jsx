@@ -19,7 +19,7 @@ import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
 import DimScatter from "./DimScatter";
-
+import { getTaskSteps } from "./helpers";
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -106,8 +106,8 @@ const TreeNav = () => {
       // if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
       const steps = Object.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId}`;
-      const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
-      console.log("taskSteps", taskSteps)
+      const taskSteps = getTaskSteps(flow)// TODO: replace with actual steps
+      console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {

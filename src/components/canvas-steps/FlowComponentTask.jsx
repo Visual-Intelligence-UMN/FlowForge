@@ -224,7 +224,7 @@ export function FlowComponentTask(props) {
   // Add a new step at the end
   const addStep = useCallback(() => {
     setNodes((prevNodes) => {
-      const newIndex = prevNodes.length + 1;
+      const newIndex = prevNodes.length;
       const newNodeId = `step-${newIndex}`;
       const newNode = {
         id: newNodeId,
