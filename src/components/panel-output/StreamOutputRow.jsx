@@ -11,6 +11,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Rating
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
@@ -37,7 +38,6 @@ const StreamOutput = ({ runConfig }) => {
   const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
 
   // Pull out or initialize the data object for the current configId:
-  // Feel free to include userRating, timeUsed, etc. in the default structure
   const defaultData = {
     inputMessage: {
       sender: "User",
@@ -52,16 +52,17 @@ const StreamOutput = ({ runConfig }) => {
     },
     isThreadActive: false,
     isVisible: true,
-    // userRating: null,
-    // timeUsed: null,
+    // New additions:
+    userRating: 0,     // store user rating
+    timeUsed: null,    // store time used for streaming in ms (or seconds)
   };
 
-  const streamData = multiStreamOutput[runConfig.configId] || defaultData;
+  const streamData = multiStreamOutput[runConfig?.configId] || defaultData;
 
   // Helper: use functional updates so we don’t clobber concurrent changes
   const updateStreamData = (updateOrFn) => {
     setMultiStreamOutput((prevAllConfigs) => {
-      const prevConfigData = prevAllConfigs[runConfig.configId] || defaultData;
+      const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
 
       // If caller passed a function, invoke it with the old data
       const newConfigData =
@@ -71,7 +72,7 @@ const StreamOutput = ({ runConfig }) => {
 
       return {
         ...prevAllConfigs,
-        [runConfig.configId]: newConfigData,
+        [runConfig?.configId]: newConfigData,
       };
     });
   };
@@ -95,102 +96,28 @@ const StreamOutput = ({ runConfig }) => {
     return content.split(" ").slice(0, WORD_LIMIT).join(" ") + "...";
   };
 
-  // UI Handlers
-  const handleInputChange = (event) => {
-    const value = event.target.value;
+
+  const runStreaming = async (compiledLanggraph, totalMaxRound) => {
+    // Mark the start time
+    const startTime = Date.now();
+
+    // Clear existing messages, set thread active
     updateStreamData((prev) => ({
       ...prev,
-      inputMessage: { ...prev.inputMessage, content: value },
-    }));
-  };
-
-  const toggleVisibility = () => {
-    updateStreamData((prev) => ({
-      ...prev,
-      isVisible: !prev.isVisible,
-    }));
-  };
-
-  const startNewThread = () => {
-    // Clears out old messages, sets new blank input
-    updateStreamData({
-      inputMessage: { sender: "User", content: "", showFullContent: false },
-      intermediaryMessages: [],
-      finalMessage: { sender: "", content: "", showFullContent: false },
-      isThreadActive: true,
-    });
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    const inputMessageContent = streamData.inputMessage.content || "";
-
-    // If we have an uploaded file, process it
-    if (selectedTask.uploadedFile) {
-      console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
-
-      // Convert to Blob and load via PDF loader
-      const pdfBlob = new Blob([selectedTask.uploadedFile], {
-        type: "application/pdf",
-      });
-      console.log("pdfBlob", pdfBlob);
-
-      const pdfjs = await import("pdfjs-dist/build/pdf.min.mjs");
-      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
-      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
-
-      const loader = new WebPDFLoader(pdfBlob, {
-        splitPages: false,
-        parsedItemSeparator: "",
-        pdfjs: pdfjs,
-      });
-
-      const docs = await loader.load();
-      const fileContent = docs.map((doc) => doc.pageContent).join("\n");
-
-      console.log("docs", docs);
-      console.log("fileContent", fileContent);
-
-      // Append file content to the input
-      const combinedInput = inputMessageContent + "\n" + fileContent;
-      updateStreamData((prev) => ({
-        ...prev,
-        inputMessage: { ...prev.inputMessage, content: combinedInput },
-      }));
-    }
-
-    console.log("Recompile runConfig for new langgraph run", runConfig);
-    // const configId = runConfig.configId;
-
-    // Example: compile the flow or do your logic
-    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
-      runConfig.reactflowDisplay
-    );
-
-    // If you want to store/ generate an image
-    // const graphImage = await generateGraphImage(compiledLanggraph);
-
-    // Reset the thread messages in the store
-    updateStreamData((prev) => ({
-      ...prev,
-      inputMessage: {
-        ...prev.inputMessage,
-        sender: "User",
-      },
       intermediaryMessages: [],
       finalMessage: { sender: "", content: "", showFullContent: false },
       isThreadActive: true,
     }));
 
-    // Start streaming
     const streamResults = compiledLanggraph.stream(
       { messages: [new HumanMessage({ content: streamData.inputMessage.content })] },
-      { recursionLimit: totalMaxRound + 1}
+      { recursionLimit: totalMaxRound + 1 }
     );
 
     let lastSender = "";
     let lastContent = "";
 
+    // For a *blocking* approach, we simply wait for the entire loop to finish.
     for await (const output of await streamResults) {
       for (const [key, value] of Object.entries(output)) {
         let sender = value.sender;
@@ -232,12 +159,95 @@ const StreamOutput = ({ runConfig }) => {
       }
     }
 
-    // When streaming is done, set final
+    const endTime = Date.now();
+
     updateStreamData((prev) => ({
       ...prev,
       finalMessage: { sender: lastSender, content: lastContent },
       isThreadActive: false,
+      timeUsed: endTime - startTime, // in ms
     }));
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    const inputMessageContent = streamData.inputMessage.content || "";
+
+    // If we have an uploaded file, process it
+    if (selectedTask.uploadedFile) {
+      console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
+
+      // Convert to Blob and load via PDF loader
+      const pdfBlob = new Blob([selectedTask.uploadedFile], {
+        type: "application/pdf",
+      });
+
+      const pdfjs = await import("pdfjs-dist/build/pdf.min.mjs");
+      const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
+      pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
+      const loader = new WebPDFLoader(pdfBlob, {
+        splitPages: false,
+        parsedItemSeparator: "",
+        pdfjs: pdfjs,
+      });
+
+      const docs = await loader.load();
+      const fileContent = docs.map((doc) => doc.pageContent).join("\n");
+
+      // Append file content to the input
+      const combinedInput = inputMessageContent + "\n" + fileContent;
+      updateStreamData((prev) => ({
+        ...prev,
+        inputMessage: { ...prev.inputMessage, content: combinedInput },
+      }));
+    }
+
+    console.log("Recompile runConfig for new langgraph run", runConfig);
+
+    const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
+      runConfig.reactflowDisplay
+    );
+
+    // If you want to store/generate an image
+    // const graphImage = await generateGraphImage(compiledLanggraph);
+    // updateStreamData({ graphImage });
+
+    await runStreaming(compiledLanggraph, totalMaxRound);
+
+    console.log("Done streaming. streamData is now:", streamData);
+  };
+
+  // UI Handlers
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    updateStreamData((prev) => ({
+      ...prev,
+      inputMessage: { ...prev.inputMessage, content: value },
+    }));
+  };
+
+  const handleUserRatingChange = (event, newValue) => {
+    updateStreamData({ userRating: newValue });
+  };
+
+  const toggleVisibility = () => {
+    updateStreamData((prev) => ({
+      ...prev,
+      isVisible: !prev.isVisible,
+    }));
+  };
+
+  const startNewThread = () => {
+    // Clears out old messages, sets new blank input
+    updateStreamData({
+      inputMessage: { sender: "User", content: "", showFullContent: false },
+      intermediaryMessages: [],
+      finalMessage: { sender: "", content: "", showFullContent: false },
+      isThreadActive: true,
+      userRating: 0,
+      timeUsed: null,
+    });
   };
 
   // Helper for rendering intermediate steps
@@ -307,7 +317,8 @@ const StreamOutput = ({ runConfig }) => {
       <Grid item xs={12}>
         <form onSubmit={handleFormSubmit}>
           <Grid container spacing={3} alignItems="center">
-            <Grid item xs={11}>
+            {/* TEXT INPUT */}
+            <Grid item xs={10} sm={8}>
               <TextField
                 fullWidth
                 multiline
@@ -320,7 +331,21 @@ const StreamOutput = ({ runConfig }) => {
                 sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
               />
             </Grid>
-            <Grid item xs={1}>
+
+            {/* USER RATING */}
+            <Grid item xs={2} sm={2}>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                Rating:
+              </Typography>
+              <Rating
+                name="userRating"
+                value={streamData.userRating || 0}
+                onChange={handleUserRatingChange}
+              />
+            </Grid>
+
+            {/* SUBMIT BUTTON */}
+            <Grid item xs={12} sm={2}>
               <Button type="submit" variant="contained" fullWidth>
                 Start
               </Button>
@@ -341,21 +366,7 @@ const StreamOutput = ({ runConfig }) => {
   return (
     <Box sx={{ width: "100%", margin: "auto", textAlign: "left" }}>
       <Grid container spacing={2} alignItems="center">
-        {/* If you want a toggle to hide or show the entire panel:
-        <Grid item xs={1}>
-          <Button variant="contained" onClick={toggleVisibility}>
-            {streamData.isVisible ? "Hide Panel" : "Show Panel"}
-          </Button>
-        </Grid> */}
-        {/* Graph image example (if you store it in streamData) */}
-        {/* {streamData.graphImage && (
-          <img
-            src={streamData.graphImage}
-            alt="workflow graph"
-            style={{ width: "50%", height: "50%" }}
-          />
-        )} */}
-        <Grid item xs={11}>
+        <Grid item xs={12}>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button variant="outlined" onClick={startNewThread}>
               Start New Thread
@@ -365,33 +376,53 @@ const StreamOutput = ({ runConfig }) => {
       </Grid>
 
       {/* Only show the input form if isThreadActive */}
-      <Box sx={{ gap: 1, mt: 1 }}>
+      <Box container spacing={2} alignItems="center">
         {streamData.isThreadActive && displayInputMessage()}
 
         {/* The user’s initial input message */}
-        {streamData.inputMessage?.content && (
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Start Message</Typography>
-              <Typography variant="subtitle2" color="textSecondary">
-                {streamData.inputMessage.sender}
-              </Typography>
-              <Typography variant="body1">
-                {getPreviewContent(
-                  streamData.inputMessage.content,
-                  streamData.inputMessage.showFullContent
-                )}
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
+        <Grid container spacing={2} alignItems="center" p={2}>
+          
+          {streamData.inputMessage?.content && (
+              // <Grid container spacing={2} alignItems="center">
+              <Grid item size={6}>
+                <Typography variant="h6">Start Message: </Typography>
+                {/* <Typography variant="subtitle2" color="textSecondary">
+                  {streamData.inputMessage.sender}
+                </Typography> */}
+                <Typography variant="h6">
+                  {getPreviewContent(
+                    streamData.inputMessage.content,
+                    streamData.inputMessage.showFullContent
+                  )}
+                </Typography>
+              </Grid>
+            )}
+          {/* </Grid> */}
+          <Grid item size={6}>
+            {/* {streamData.userRating && (
+              <Typography variant="h6">User Rating: {streamData.userRating} ⭐</Typography>
+            )}
+                         */}
+            <Grid item xs={2} sm={2}>
+              <Rating
+                name="userRating"
+                value={streamData.userRating || 0}
+                onChange={handleUserRatingChange}
+              />
+            </Grid>
+            
+            {streamData.timeUsed && (
+              <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
+            )}
+          </Grid>
+        </Grid>
 
         {/* Intermediate messages */}
         {streamData.intermediaryMessages.length > 0 && displayIntermediaryMessages()}
 
         {/* Final output */}
         {streamData.finalMessage.content && (
-          <Card sx={{ backgroundColor: "#f5f5f5" }}>
+          <Card sx={{ backgroundColor: "#f5f5f5", mt: 1 }}>
             <CardContent>
               <Typography variant="h6">Final Output</Typography>
               <Typography variant="subtitle2" color="textSecondary">
@@ -403,6 +434,13 @@ const StreamOutput = ({ runConfig }) => {
                   streamData.finalMessage.showFullContent
                 )}
               </Typography>
+
+              {/* Time usage display */}
+              {streamData.timeUsed !== null && (
+                <Typography variant="caption" color="textSecondary">
+                  Time used: {streamData.timeUsed} ms
+                </Typography>
+              )}
             </CardContent>
           </Card>
         )}
