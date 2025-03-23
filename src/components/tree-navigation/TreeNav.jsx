@@ -17,6 +17,8 @@ import { Typography, Box } from "@mui/material";
 import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
+import DimScatter from "./DimScatter";
+
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -109,7 +111,10 @@ const TreeNav = () => {
           ...flow.taskFlowSteps, // keep original data for easy access
           id: flowId,
           type: "flow",
-          taskSteps
+          taskSteps,
+          dims: {
+            'taskStepNum': taskSteps.length
+          }
         },
         // width: label.length * 8,
         width: stepRScale(steps) * 6,
@@ -134,7 +139,13 @@ const TreeNav = () => {
           ...pattern, // keep original data for easy access
           id: patternID,
           type: "pattern",
+          //TODO: these dim info should be available in the pattern data (...pattern ), ideally no need to calculate again here
           agentSteps,
+          //TODO: the pattern node should be able to access the task step number from the flow node
+          dims: {
+            'taskStepNum': Math.floor(Math.random() * 4), //TODO: replace with actual task step number
+            'agentStepNum': agentSteps.length
+          }
         },
       });
       const flowId = patternID.split("-")[0];
@@ -171,6 +182,13 @@ const TreeNav = () => {
           id: configId,
           type: "compiled",
         },
+        //TODO: replace with actual data
+        dims: {
+          'taskStepNum': Math.floor(Math.random() * 4),
+          'agentStepNum': Math.floor(Math.random() * 5),
+          'rating': flowUserRating[configId]?.userRating ?? Math.floor(Math.random() * 4),
+          //TODO: other metrics can be added
+        }
       });
       const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
@@ -520,94 +538,78 @@ const TreeNav = () => {
     return false;
   };
 
-  const emptyTreeNav = () => (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-        height: "70vh",
-        color: "grey",
-      }}
-    >
-    </Box>
-  );
-  console.info(treeNav)
-  return (
+  console.info('treeNav', treeNav)
+  return treeNav.nodes?.length > 0 &&
     <>
-      {treeNav.nodes?.length > 0 ? (
-        <Box
-          className="tree-nav"
-          sx={{
-            width: "100%",
-            height: "70vh",
-            justifyContent: "center",
-            display: "flex",
-            alignItems: "flex-start",
-            overflow: "auto",
-          }}
-        >
-          <svg width={treeNav.width + 10} height={treeNav.height + 10}>
-            {/* Edges */}
-            <g className="tree" transform="translate(5, 5)">
-              <g className="edge-group">
-                {treeNav.edges?.map((edge, idx) => {
-                  const pathData = buildEdgePath(edge.points);
-                  return (
-                    <path
-                      key={`${edge.from}-${edge.to}`}
-                      d={pathData}
-                      strokeWidth={1}
-                      fill="none"
-                      style={{ pointerEvents: "none" }}
-                      className="tree edge-path"
-                    />
-                  );
-                })}
-              </g>
-
-              {/* Nodes */}
-              <g className="node-group">
-                {treeNav.nodes?.map((node) => {
-                  const nodeX = node.x - node.width / 2;
-                  const nodeY = node.y - node.height / 2;
-
-                  return (
-                    <g
-                      key={node.label}
-                      transform={`translate(${nodeX}, ${nodeY + NodeHeight / 2})`}
-                      className="node-group"
-                      onContextMenu={(event) => handleRightClick(event, node)}
-                      onClick={() => handleNodeClick(node)}
-                    >
-                      {node.data.type != 'task' && !node.label.includes("Running Results") &&
-                        <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
-
-                      {(node.data.type === "task" || node.label.includes("Running Results")) &&
-                        <text
-                          x={node.width / 2}
-                          y={node.label.includes("Running Results") ? - 10 : 0}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                          style={{ pointerEvents: "none" }}
-                          className="node-text"
-                        >
-                          {node.label}
-                        </text>
-                      }
-                    </g>
-                  );
-                })}
-              </g>
+      <Box
+        className="tree-nav"
+        sx={{
+          width: "100%",
+          height: "40vh",
+          justifyContent: "center",
+          display: "flex",
+          alignItems: "flex-start",
+          overflow: "auto",
+        }}
+      >
+        <svg width={treeNav.width + 10} height={treeNav.height + 10}>
+          {/* Edges */}
+          <g className="tree" transform="translate(5, 5)">
+            <g className="edge-group">
+              {treeNav.edges?.map((edge, idx) => {
+                const pathData = buildEdgePath(edge.points);
+                return (
+                  <path
+                    key={`${edge.from}-${edge.to}`}
+                    d={pathData}
+                    strokeWidth={1}
+                    fill="none"
+                    style={{ pointerEvents: "none" }}
+                    className="tree edge-path"
+                  />
+                );
+              })}
             </g>
-          </svg>
-        </Box >
-      ) : (
-        emptyTreeNav()
-      )}
+
+            {/* Nodes */}
+            <g className="node-group">
+              {treeNav.nodes?.map((node) => {
+                const nodeX = node.x - node.width / 2;
+                const nodeY = node.y - node.height / 2;
+
+                return (
+                  <g
+                    key={node.label}
+                    transform={`translate(${nodeX}, ${nodeY + NodeHeight / 2})`}
+                    className="node-group"
+                    onContextMenu={(event) => handleRightClick(event, node)}
+                    onClick={() => handleNodeClick(node)}
+                  >
+                    {node.data.type != 'task' && !node.label.includes("Running Results") &&
+                      <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
+
+                    {(node.data.type === "task" || node.label.includes("Running Results")) &&
+                      <text
+                        x={node.width / 2}
+                        y={node.label.includes("Running Results") ? - 10 : 0}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ pointerEvents: "none" }}
+                        className="node-text"
+                      >
+                        {node.label}
+                      </text>
+                    }
+                  </g>
+                );
+              })}
+            </g>
+          </g>
+        </svg>
+      </Box >
+      <DimScatter treeNav={treeNav} />
     </>
-  );
+
 };
 
 export default TreeNav;
