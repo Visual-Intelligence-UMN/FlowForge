@@ -261,7 +261,7 @@ export function RflowComponent(props) {
 
         <ExploreButton />
       </div>
-      <div style={{
+      {/* <div style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -270,7 +270,7 @@ export function RflowComponent(props) {
       }}>
 
         <StageHighlight />
-      </div>
+      </div> */}
     </div>
   );
 }
