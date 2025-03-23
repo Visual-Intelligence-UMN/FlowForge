@@ -27,7 +27,7 @@ export default function TreeNode({ node, isHighlighted, stepRScale, agentXScale,
 
 const PatternNode = ({ node, isHighlighted, agentXScale, agentYScale }) => {
     return (
-        <g className="tree-node level2" transform={`translate(${node.width / 2 - agentXScale(node.data.agentSteps.length) / 2}, 0)`} >
+        <g className="tree-node level2" transform={`translate(${- agentXScale(node.data.agentSteps.length) / 2}, 0)`} >
             {node.data.agentSteps.map((step, index) => {
                 return <rect x={agentXScale(index)} width={agentXScale.bandwidth()} y={-agentYScale(step) / 2} height={agentYScale(step)} fill={isHighlighted ? "lightblue" : "#999"} />
             })}
@@ -42,7 +42,7 @@ const StepNode = ({ node, isHighlighted, stepRScale }) => {
         .domain([0, node.data.taskSteps.length])
         .range([0, 2 * Math.PI]); // angles in radians
     return (
-        <g className="tree-node level1" transform={`translate(${node.width / 2}, 0)`} >
+        <g className="tree-node level1"  >
             <circle
                 className="tree-node level1"
                 // width={node.width}

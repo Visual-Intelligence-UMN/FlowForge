@@ -143,7 +143,7 @@ const TreeNav = () => {
           agentSteps,
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
-            'taskStepNum': Math.floor(Math.random() * 4), //TODO: replace with actual task step number
+            'taskStepNum': Math.floor(Math.random() * 4) + 1, //TODO: replace with actual task step number
             'agentStepNum': agentSteps.length
           }
         },
@@ -580,7 +580,7 @@ const TreeNav = () => {
                 return (
                   <g
                     key={node.label}
-                    transform={`translate(${nodeX}, ${nodeY + NodeHeight / 2})`}
+                    transform={`translate(${nodeX + node.width / 2}, ${nodeY + NodeHeight / 2})`}
                     className="node-group"
                     onContextMenu={(event) => handleRightClick(event, node)}
                     onClick={() => handleNodeClick(node)}
@@ -590,7 +590,7 @@ const TreeNav = () => {
 
                     {(node.data.type === "task" || node.label.includes("Running Results")) &&
                       <text
-                        x={node.width / 2}
+                        x={0}
                         y={node.label.includes("Running Results") ? - 10 : 0}
                         textAnchor="middle"
                         dominantBaseline="middle"
@@ -607,7 +607,7 @@ const TreeNav = () => {
           </g>
         </svg>
       </Box >
-      <DimScatter treeNav={treeNav} />
+      <DimScatter treeNav={treeNav} isHighlighted={isHighlighted} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />
     </>
 
 };
