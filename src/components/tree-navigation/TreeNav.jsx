@@ -39,6 +39,7 @@ const TreeNav = () => {
   }
   const NodeHeight = 40;
   const TextHeight = 15
+  const RankSep = 40;
 
   let maxStepNum = 0
   Object.keys(flowsMap).forEach((flowId) => {
@@ -76,7 +77,7 @@ const TreeNav = () => {
     g.setGraph({
       rankdir: "TB", // top to bottom
       nodesep: NodeHeight, // node spacing
-      ranksep: NodeHeight / 2, // level spacing
+      ranksep: RankSep, // level spacing
     });
 
     // TESTING ONLY
@@ -500,9 +501,6 @@ const TreeNav = () => {
     handleDeleteNode(selectedNode);
   };
 
-  useEffect(() => {
-    // console.log("canvasPages", canvasPages);
-  }, [canvasPages]);
 
   const isHighlighted = (node) => {
     // console.log("node", node);
@@ -547,6 +545,7 @@ const TreeNav = () => {
         sx={{
           width: "100%",
           justifyContent: "center",
+          height: (NodeHeight + TextHeight) * 5 + RankSep * 4,
           display: "flex",
           alignItems: "flex-start",
           overflow: "auto",

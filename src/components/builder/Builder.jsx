@@ -229,8 +229,7 @@ const Builder = () => {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item size={4} className="tree-nav grid-item"
-        >
+        <Grid item size={4} className="tree-nav grid-item">
           <TreeNav />
         </Grid>
         <Grid item size={8} className="canvas grid-item" sx={{ padding: 0 }}  >

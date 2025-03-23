@@ -129,10 +129,14 @@ function TaskPanel() {
       sx={{
         width: "100%",
         padding: 2,
+        marginBottom: 2,
         display: "flex",
         alignItems: "center",
         gap: 6,
+        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.2)',
+        boxSizing: "border-box",
       }}
+      className="task-panel"
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <TextField
