@@ -184,6 +184,14 @@ const TreeNav = () => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
       const configLabel = `Config ${configId}`;
+
+      const flowWithConfig = agentsConfig.find(item => item.configId === configId)
+      console.log("flowWithConfig", flowWithConfig)
+      const taskSteps = getTaskSteps(flowWithConfig)
+      const agentSteps = getAgentSteps(flowWithConfig)
+
+      const userRating = multiStreamOutput[configId]?.userRating ?? 0
+      const timeUsed = multiStreamOutput[configId]?.timeUsed ?? 0
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
@@ -194,9 +202,10 @@ const TreeNav = () => {
         },
         //TODO: replace with actual data
         dims: {
-          'taskStepNum': Math.floor(Math.random() * 4),
-          'agentStepNum': Math.floor(Math.random() * 5),
-          'rating': flowUserRating[configId]?.userRating ?? Math.floor(Math.random() * 4),
+          'taskStepNum': taskSteps.length,
+          'agentStepNum': agentSteps.length,
+          'userRating': userRating,
+          'timeUsed': timeUsed,
           //TODO: other metrics can be added
         }
       });
