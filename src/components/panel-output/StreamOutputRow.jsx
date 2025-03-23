@@ -323,11 +323,11 @@ const StreamOutput = ({ runConfig }) => {
     >
       <Grid container spacing={2} alignItems="center">
         {/* Button to Toggle Visibility */}
-        <Grid item xs={1}>
+        {/* <Grid item xs={1}>
           <Button variant="contained" onClick={toggleVisibility}>
             {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
           </Button>
-        </Grid>
+        </Grid> */}
         {/* Conditional Panel */}
         {graphImage && (
           <img
