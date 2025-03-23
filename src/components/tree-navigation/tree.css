@@ -1,7 +1,7 @@
 .edge-path {
   /* This defines the stroke style and sets it up for animation */
   stroke: #aaa;
-  stroke-width: 2;
+  stroke-width: 1;
   fill: none;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
@@ -19,9 +19,7 @@
   transition: transform 1s ease-in;
 }
 
-.node-rect {
-  stroke: #999;
-  stroke-width: 2;
+.tree-node {
   opacity: 0;
   animation: show-node 1.5s ease-in forwards;
   transition: all 1.5s ease; /* transition when same path moving */

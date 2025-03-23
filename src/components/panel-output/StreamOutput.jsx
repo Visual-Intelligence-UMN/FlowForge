@@ -11,7 +11,7 @@ const StreamOutput = ({ langgraphRun }) => {
   const [intermediaryMessages, setIntermediaryMessages] = useState([]);
   const [finalMessage, setFinalMessage] = useState("");
   const [isThreadActive, setIsThreadActive] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
@@ -129,105 +129,104 @@ const StreamOutput = ({ langgraphRun }) => {
         {isVisible ? "Hide Panel" : "Show Panel"}
       </button>
 
-      {isVisible && (
-        <div className="chat-panel">
-          <div className="thread-control">
-            <button onClick={startNewThread} className="thread-button">
-              Start New Thread
+
+      <div className="chat-panel">
+        <div className="thread-control">
+          <button onClick={startNewThread} className="thread-button">
+            Start New Thread
+          </button>
+        </div>
+
+        {isThreadActive && (
+          <form onSubmit={handleFormSubmit} className="message-form">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={handleInputChange}
+              placeholder="Type your message here"
+              className="message-input"
+            />
+            <button type="submit" className="submit-button">
+              Submit
             </button>
-          </div>
+          </form>
+        )}
 
-          {isThreadActive && (
-            <form onSubmit={handleFormSubmit} className="message-form">
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={handleInputChange}
-                placeholder="Type your message here"
-                className="message-input"
-              />
-              <button type="submit" className="submit-button">
-                Submit
-              </button>
-            </form>
-          )}
-
-          {/* Separate Section for User's Input Message */}
-          {submittedInput && (
-            <div className="input-message">
-              <h2>Start Message</h2>
-              <div className={`chat-bubble user`}>
-                <strong>{submittedInput.sender}</strong>
-                <p>
-                  {getPreviewContent(
-                    submittedInput.content,
-                    submittedInput.showFullContent
-                  )}
-                </p>
-                {submittedInput.content &&
-                  submittedInput.content.split(" ").length > WORD_LIMIT && (
-                    <button
-                      onClick={() => toggleContent("input")}
-                      className="toggle-content-button"
-                    >
-                      {submittedInput.showFullContent
-                        ? "Show Less"
-                        : "Show More"}
-                    </button>
-                  )}
-              </div>
-            </div>
-          )}
-
-          {/* Intermediate Messages */}
-          <div className="chat-messages">
-            <h2>Intermediary Messages</h2>
-            {intermediaryMessages.map((msg, index) => (
-              // console.log("msg", msg),
-              <div
-                key={index}
-                className={`chat-bubble ${msg.sender === "User" ? "user" : "system"
-                  }`}
-              >
-                <strong>{msg.sender}</strong>
-                <p>{getPreviewContent(msg.content, msg.showFullContent)}</p>
-                {msg.content && msg.content.split(" ").length > WORD_LIMIT && (
-                  <button
-                    onClick={() => toggleContent(index)}
-                    className="toggle-content-button"
-                  >
-                    {msg.showFullContent ? "Show Less" : "Show More"}
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="final-output">
-            <h2>Final Output</h2>
-            <div
-              className={`chat-bubble final ${finalMessage.sender === "User" ? "user" : "system"
-                }`}
-            >
-              <strong>{finalMessage.sender}</strong>
+        {/* Separate Section for User's Input Message */}
+        {submittedInput && (
+          <div className="input-message">
+            <h2>Start Message</h2>
+            <div className={`chat-bubble user`}>
+              <strong>{submittedInput.sender}</strong>
               <p>
                 {getPreviewContent(
-                  finalMessage.content,
-                  finalMessage.showFullContent
+                  submittedInput.content,
+                  submittedInput.showFullContent
                 )}
               </p>
-              {finalMessage.content?.split(" ").length > WORD_LIMIT && (
+              {submittedInput.content &&
+                submittedInput.content.split(" ").length > WORD_LIMIT && (
+                  <button
+                    onClick={() => toggleContent("input")}
+                    className="toggle-content-button"
+                  >
+                    {submittedInput.showFullContent
+                      ? "Show Less"
+                      : "Show More"}
+                  </button>
+                )}
+            </div>
+          </div>
+        )}
+
+        {/* Intermediate Messages */}
+        <div className="chat-messages">
+          <h2>Intermediary Messages</h2>
+          {intermediaryMessages.map((msg, index) => (
+            // console.log("msg", msg),
+            <div
+              key={index}
+              className={`chat-bubble ${msg.sender === "User" ? "user" : "system"
+                }`}
+            >
+              <strong>{msg.sender}</strong>
+              <p>{getPreviewContent(msg.content, msg.showFullContent)}</p>
+              {msg.content && msg.content.split(" ").length > WORD_LIMIT && (
                 <button
-                  onClick={() => toggleContent(0, true)}
+                  onClick={() => toggleContent(index)}
                   className="toggle-content-button"
                 >
-                  {finalMessage.showFullContent ? "Show Less" : "Show More"}
+                  {msg.showFullContent ? "Show Less" : "Show More"}
                 </button>
               )}
             </div>
+          ))}
+        </div>
+
+        <div className="final-output">
+          <h2>Final Output</h2>
+          <div
+            className={`chat-bubble final ${finalMessage.sender === "User" ? "user" : "system"
+              }`}
+          >
+            <strong>{finalMessage.sender}</strong>
+            <p>
+              {getPreviewContent(
+                finalMessage.content,
+                finalMessage.showFullContent
+              )}
+            </p>
+            {finalMessage.content?.split(" ").length > WORD_LIMIT && (
+              <button
+                onClick={() => toggleContent(0, true)}
+                className="toggle-content-button"
+              >
+                {finalMessage.showFullContent ? "Show Less" : "Show More"}
+              </button>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

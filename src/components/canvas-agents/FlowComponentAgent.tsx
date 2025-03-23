@@ -248,7 +248,7 @@ export function FlowComponentAgent(props) {
           {/* <MiniMap /> */}
         </ReactFlow>
       </div>
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "center",
@@ -258,7 +258,7 @@ export function FlowComponentAgent(props) {
         }}
       >
         <StageHighlight />
-      </div>
+      </div> */}
     </>
   );
 }

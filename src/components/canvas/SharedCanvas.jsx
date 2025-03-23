@@ -3,7 +3,6 @@ import { Slider, Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useAtom } from "jotai";
 import { canvasPagesAtom } from "../../patterns/GlobalStates";
-import StageHighlight from "../canvas-slider/StageHighlight";
 import {
   flowsMapAtom,
   patternsAtom,

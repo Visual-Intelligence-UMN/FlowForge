@@ -401,7 +401,7 @@ export function FlowComponentTask(props) {
 
         <ExploreButton />
       </div>
-      <div style={{
+      {/* <div style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -410,7 +410,7 @@ export function FlowComponentTask(props) {
       }}>
 
         <StageHighlight />
-      </div>
+      </div> */}
     </div>
   );
 }

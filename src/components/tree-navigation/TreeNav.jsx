@@ -14,6 +14,11 @@ import * as dagre from "dagre";
 import { useEffect } from "react";
 import "./tree.css";
 import { Typography, Box } from "@mui/material";
+import TreeNode from "./TreeNode";
+import * as d3 from "d3";
+
+import DimScatter from "./DimScatter";
+
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -25,13 +30,54 @@ const TreeNav = () => {
   const [selectedTask, setSelectedTask] = useAtom(selectedTaskAtom);
   const [flowUserRating, setFlowUserRating] = useAtom(flowUserRatingAtom);
 
+
+
+  const config = {
+    minStepRadius: 5,
+    maxStepRadius: 15,
+    maxStepNodeWidth: 40
+  }
+  const NodeHeight = 40;
+  const TextHeight = 15
+  const RankSep = 40;
+
+  let maxStepNum = 0
+  Object.keys(flowsMap).forEach((flowId) => {
+    if (!flowId) return;
+    const flow = Object.values(flowsMap).find(
+      (flow) => flow.taskFlowId.toString() === flowId
+    );
+    const steps = Object.keys(flow.taskFlowSteps).length;
+    maxStepNum = Math.max(maxStepNum, steps);
+  });
+
+  const stepRScale = d3.scalePow().exponent(1 / 2)
+    .domain([0, maxStepNum])
+    .range([0, config.maxStepRadius]);
+
+  //TODO: remove dummy data later
+  const dummyAgentSteps = [
+    [1, 2, 1],
+    [1, 4, 1, 2],
+    [1, 2, 3, 2, 1],
+    [1, 3, 4, 2, 2],
+  ]
+  const agentXScale = d3.scaleBand()
+    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
+    .range([0, config.maxStepNodeWidth])
+    .padding(0.1);
+
+  const agentYScale = d3.scaleLinear()
+    .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    .range([0, NodeHeight - 2]); // 2px padding
+
+
   const handleTreeNav = () => {
     const g = new Graph();
-    const NodeHeight = 40;
     g.setGraph({
       rankdir: "TB", // top to bottom
       nodesep: NodeHeight, // node spacing
-      ranksep: 30, // level spacing
+      ranksep: RankSep, // level spacing
     });
 
     // TESTING ONLY
@@ -44,12 +90,14 @@ const TreeNav = () => {
       g.setNode(`task-${selectedTask.id}`, {
         label: selectedTask.name,
         width: selectedTask.name.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           type: "task",
         },
       });
     }
+
+
 
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
@@ -57,15 +105,22 @@ const TreeNav = () => {
         (flow) => flow.taskFlowId.toString() === flowId
       );
       const steps = Object.keys(flow.taskFlowSteps).length;
-      const label = `Flow ${flowId} (${steps} Steps)`;
+      const label = `Flow ${flowId}`;
+      const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
+          ...flow.taskFlowSteps, // keep original data for easy access
           id: flowId,
           type: "flow",
+          taskSteps,
+          dims: {
+            'taskStepNum': taskSteps.length
+          }
         },
-        width: label.length * 8,
-        height: NodeHeight,
+        // width: label.length * 8,
+        width: stepRScale(steps) * 6,
+        height: NodeHeight + TextHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
         label: `task-${selectedTask.id}-flow-${flowId}`,
@@ -75,14 +130,24 @@ const TreeNav = () => {
     patterns.forEach((pattern) => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
-      const label = `Patterns ${patternID}`;
+      const label = `Agents ${patternID}`;
+      const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       g.setNode(`pattern-${patternID}`, {
         label: label,
-        width: label.length * 8,
-        height: NodeHeight,
+        // width: label.length * 8,
+        width: Math.max(label.length * 8, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        height: NodeHeight + TextHeight,
         data: {
+          ...pattern, // keep original data for easy access
           id: patternID,
           type: "pattern",
+          //TODO: these dim info should be available in the pattern data (...pattern ), ideally no need to calculate again here
+          agentSteps,
+          //TODO: the pattern node should be able to access the task step number from the flow node
+          dims: {
+            'taskStepNum': Math.floor(Math.random() * 4) + 1, //TODO: replace with actual task step number
+            'agentStepNum': agentSteps.length
+          }
         },
       });
       const flowId = patternID.split("-")[0];
@@ -94,7 +159,7 @@ const TreeNav = () => {
     // agentsConfig.forEach((config) => {
     //     if (!config?.configId) return;
     //     const configId = config.configId;npm install -g npm@11.2.0
-    //           height: NodeHeight,
+    //           height: NodeHeight + TextHeight,
     //           data: {
     //             id: configId,
     //             type: "config",
@@ -110,15 +175,22 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const configLabel = `Compiled Config ${configId}`;
+      const configLabel = `Config ${configId}`;
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           id: configId,
           type: "compiled",
         },
+        //TODO: replace with actual data
+        dims: {
+          'taskStepNum': Math.floor(Math.random() * 4),
+          'agentStepNum': Math.floor(Math.random() * 5),
+          'rating': flowUserRating[configId]?.userRating ?? Math.floor(Math.random() * 4),
+          //TODO: other metrics can be added
+        }
       });
       const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
@@ -136,7 +208,7 @@ const TreeNav = () => {
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
         width: ratingLabel.length * 8,
-        height: NodeHeight,
+        height: NodeHeight + TextHeight,
         data: {
           id: configId,
           type: "rating",
@@ -429,9 +501,6 @@ const TreeNav = () => {
     handleDeleteNode(selectedNode);
   };
 
-  useEffect(() => {
-    // console.log("canvasPages", canvasPages);
-  }, [canvasPages]);
 
   const isHighlighted = (node) => {
     // console.log("node", node);
@@ -468,107 +537,78 @@ const TreeNav = () => {
     return false;
   };
 
-  const emptyTreeNav = () => (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-        height: "70vh",
-        color: "grey",
-      }}
-    >
-    </Box>
-  );
-
-  return (
+  console.info('treeNav', treeNav)
+  return treeNav.nodes?.length > 0 &&
     <>
-      {treeNav.nodes?.length > 0 ? (
-        <Box
-          className="tree-nav"
-          sx={{
-            width: "100%",
-            height: "70vh",
-            justifyContent: "center",
-            overflow: "auto",
-          }}
-        >
-          <svg width={treeNav.width + 10} height={treeNav.height + 10}>
-            {/* Edges */}
-            <g className="tree" transform="translate(5, 5)">
-              <g className="edge-group">
-                {treeNav.edges?.map((edge, idx) => {
-                  const pathData = buildEdgePath(edge.points);
-                  return (
-                    <path
-                      key={`${edge.from}-${edge.to}`}
-                      d={pathData}
-                      stroke="black"
-                      fill="none"
-                      style={{ pointerEvents: "none" }}
-                      className="edge-path"
-                    />
-                  );
-                })}
-              </g>
-
-              {/* Nodes */}
-              <g className="node-group">
-                {treeNav.nodes?.map((node) => {
-                  const nodeX = node.x - node.width / 2;
-                  const nodeY = node.y - node.height / 2;
-
-                  return (
-                    <g
-                      key={node.id}
-                      transform={`translate(${nodeX}, ${nodeY})`}
-                      className="node-group"
-                      onContextMenu={(event) => handleRightClick(event, node)}
-                      onClick={() => handleNodeClick(node)}
-                    >
-                      {/* <rect
-                    className="node-rect"
-                    width={node.width}
-                    height={node.height}
-                    fill={isHighlighted(node) ? "lightblue" : "white"}
-                    stroke="black"
-                    onClick={() => handleNodeClick(node)}
-                  /> */}
-                      <circle
-                        className="node-rect"
-                        // width={node.width}
-                        // height={node.height}
-                        r={(node.height - 20) / 2}
-                        cx={node.width / 2}
-                        cy={node.height / 2 - 10}
-                        fill={isHighlighted(node) ? "lightblue" : "white"}
-                        stroke="black"
-                        strokeWidth={2}
-                        opacity={node.label.includes("Running Results") ? 0 : 1}
-                      />
-                      <text
-                        x={node.width / 2}
-                        y={node.height - (node.label.includes("Running Results") ? 20 : 10)}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        style={{ pointerEvents: "none" }}
-                        className="node-text"
-                      >
-                        {node.label}
-                      </text>
-                    </g>
-                  );
-                })}
-              </g>
+      <Box
+        className="tree-nav"
+        sx={{
+          width: "100%",
+          justifyContent: "center",
+          height: (NodeHeight + TextHeight) * 5 + RankSep * 4,
+          display: "flex",
+          alignItems: "flex-start",
+          overflow: "auto",
+        }}
+      >
+        <svg width={treeNav.width + 10} height={treeNav.height + 10}>
+          {/* Edges */}
+          <g className="tree" transform="translate(5, 5)">
+            <g className="edge-group">
+              {treeNav.edges?.map((edge, idx) => {
+                const pathData = buildEdgePath(edge.points);
+                return (
+                  <path
+                    key={`${edge.from}-${edge.to}`}
+                    d={pathData}
+                    strokeWidth={1}
+                    fill="none"
+                    style={{ pointerEvents: "none" }}
+                    className="tree edge-path"
+                  />
+                );
+              })}
             </g>
-          </svg>
-        </Box>
-      ) : (
-        emptyTreeNav()
-      )}
+
+            {/* Nodes */}
+            <g className="node-group">
+              {treeNav.nodes?.map((node) => {
+                const nodeX = node.x - node.width / 2;
+                const nodeY = node.y - node.height / 2;
+
+                return (
+                  <g
+                    key={node.label}
+                    transform={`translate(${nodeX + node.width / 2}, ${nodeY + NodeHeight / 2})`}
+                    className="node-group"
+                    onContextMenu={(event) => handleRightClick(event, node)}
+                    onClick={() => handleNodeClick(node)}
+                  >
+                    {node.data.type != 'task' && !node.label.includes("Running Results") &&
+                      <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
+
+
+                    <text
+                      x={0}
+                      y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      style={{ pointerEvents: "none" }}
+                      className="node-text"
+                    >
+                      {node.label}
+                    </text>
+
+                  </g>
+                );
+              })}
+            </g>
+          </g>
+        </svg>
+      </Box >
+      <DimScatter treeNav={treeNav} isHighlighted={isHighlighted} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />
     </>
-  );
+
 };
 
 export default TreeNav;

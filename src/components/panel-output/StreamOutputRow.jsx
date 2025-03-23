@@ -323,11 +323,11 @@ const StreamOutput = ({ runConfig }) => {
     >
       <Grid container spacing={2} alignItems="center">
         {/* Button to Toggle Visibility */}
-        <Grid item xs={1}>
+        {/* <Grid item xs={1}>
           <Button variant="contained" onClick={toggleVisibility}>
             {streamOutput.isVisible ? "Hide Panel" : "Show Panel"}
           </Button>
-        </Grid>
+        </Grid> */}
         {/* Conditional Panel */}
         {graphImage && (
           <img
@@ -336,62 +336,59 @@ const StreamOutput = ({ runConfig }) => {
             style={{ width: "50%", height: "50%" }}
           />
         )}
-        {streamOutput.isVisible && (
-          <Grid item xs={11}>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Button variant="outlined" onClick={startNewThread}>
-                Start New Thread
-              </Button>
-            </Box>
-          </Grid>
-        )}
+        <Grid item xs={11}>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button variant="outlined" onClick={startNewThread}>
+              Start New Thread
+            </Button>
+          </Box>
+        </Grid>
       </Grid>
 
-      {streamOutput.isVisible && (
-        <Box sx={{ gap: 1, mt: 1 }}>
-          {streamOutput.isThreadActive && displayInputMessage()}
 
-          {/* User's Input Message */}
-          {streamOutput.inputMessage && (
-            <Card>
-              <CardContent>
-                <Typography variant="h6">Start Message</Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {streamOutput.inputMessage.sender}
-                </Typography>
-                <Typography variant="body1">
-                  {getPreviewContent(
-                    streamOutput.inputMessage.content,
-                    streamOutput.inputMessage.showFullContent
-                  )}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
+      <Box sx={{ gap: 1, mt: 1 }}>
+        {streamOutput.isThreadActive && displayInputMessage()}
 
-          {/* Intermediate Messages */}
-          {streamOutput.intermediaryMessages.length > 0 &&
-            displayIntermediaryMessages()}
+        {/* User's Input Message */}
+        {streamOutput.inputMessage && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Start Message</Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {streamOutput.inputMessage.sender}
+              </Typography>
+              <Typography variant="body1">
+                {getPreviewContent(
+                  streamOutput.inputMessage.content,
+                  streamOutput.inputMessage.showFullContent
+                )}
+              </Typography>
+            </CardContent>
+          </Card>
+        )}
 
-          {/* Final Output */}
-          {streamOutput.finalMessage && (
-            <Card sx={{ backgroundColor: "#f5f5f5" }}>
-              <CardContent>
-                <Typography variant="h6">Final Output</Typography>
-                <Typography variant="subtitle2" color="textSecondary">
-                  {streamOutput.finalMessage.sender}
-                </Typography>
-                <Typography variant="body1">
-                  {getPreviewContent(
-                    streamOutput.finalMessage.content,
-                    streamOutput.finalMessage.showFullContent
-                  )}
-                </Typography>
-              </CardContent>
-            </Card>
-          )}
-        </Box>
-      )}
+        {/* Intermediate Messages */}
+        {streamOutput.intermediaryMessages.length > 0 &&
+          displayIntermediaryMessages()}
+
+        {/* Final Output */}
+        {streamOutput.finalMessage && (
+          <Card sx={{ backgroundColor: "#f5f5f5" }}>
+            <CardContent>
+              <Typography variant="h6">Final Output</Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {streamOutput.finalMessage.sender}
+              </Typography>
+              <Typography variant="body1">
+                {getPreviewContent(
+                  streamOutput.finalMessage.content,
+                  streamOutput.finalMessage.showFullContent
+                )}
+              </Typography>
+            </CardContent>
+          </Card>
+        )}
+      </Box>
     </Box>
   );
 };
