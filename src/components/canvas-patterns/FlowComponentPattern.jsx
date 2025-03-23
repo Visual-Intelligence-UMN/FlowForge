@@ -46,6 +46,7 @@ import { ExploreButton } from "../canvas-buttons/ExploreButtons";
 import set from "lodash.set";
 
 export function RflowComponent(props) {
+  const hoveredPattern = props.hoveredPattern;
   const targetWorkflow = props.targetWorkflow;
 
   // const { nodes: initialNodes, edges: initialEdges } =
@@ -168,6 +169,7 @@ export function RflowComponent(props) {
       ...node.data,
       updateNodeFieldset,
       showContent,
+      hoveredPattern,
     },
   }));
 

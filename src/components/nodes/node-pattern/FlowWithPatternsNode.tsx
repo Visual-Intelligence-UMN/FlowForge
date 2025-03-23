@@ -19,6 +19,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   }
   const { updateNodeFieldset } = data;
   const showContent = data.showContent;
+  const hovered = data.hoveredPattern === data.pattern.name ? true : false;
   // const showContent = false;
   const patternName = data.pattern?.name || "";
 
@@ -78,7 +79,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           fontSize: "16px",
           marginBottom: 1,
           maxWidth: 150,
-          backgroundColor: "#e3f2fd",
+          backgroundColor: hovered ? "#e3f2fd" : "#fff",
           "& .MuiOutlinedInput-notchedOutline": {
             borderColor: "#90caf9",
           },
@@ -156,6 +157,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           alignItems: "center",
           height: "100%",
           width: "100%",
+          backgroundColor: hovered ? "#e3f2fd" : "#fff",
         }}
       >
         <PatternIcons pattern={data.pattern} template={data.template} />
@@ -473,15 +475,16 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     <Box
       sx={{
         padding: 2,
-        border: "1px solid #ddd",
+        // border: "1px solid #ddd",
         borderRadius: 4,
-        backgroundColor: "#fff",
+        backgroundColor: hovered ? "#fff" : "#fff",
         minWidth: patternWidthMap[patternName]?.[0] || 100,
         textAlign: "center",
         maxWidth: patternWidthMap[patternName]?.[1] || 100,
         boxShadow: 2,
         gap: 0,
         transition: "all 0.3s ease-in-out",
+        
       }}
     >
       <Handle

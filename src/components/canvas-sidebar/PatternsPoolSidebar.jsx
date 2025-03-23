@@ -2,7 +2,8 @@ import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { iconMap1, iconMap2, iconMap3 } from "../../images/iconsMap";
 import { designPatternsPool } from "../../patterns/patternsData";
-const PatternsMap2 = () => {
+
+const PatternsMap2 = ({ onPatternHover }) => {
   return (
     <Box
       sx={{
@@ -33,6 +34,13 @@ const PatternsMap2 = () => {
                   width: "100%",
                   height: "100%",
                 }}
+                // Highlight logic:
+                onMouseEnter={() => {
+                  if (onPatternHover) onPatternHover(pattern);
+                }}
+                onMouseLeave={() => {
+                  if (onPatternHover) onPatternHover(null);
+                }}
               >
                 <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
                   <Box
@@ -43,7 +51,6 @@ const PatternsMap2 = () => {
                       height: "100%",
                     }}
                   >
-                    {/* Render the dynamic icon */}
                     <IconComponent />
                     <Typography
                       variant="subtitle1"
