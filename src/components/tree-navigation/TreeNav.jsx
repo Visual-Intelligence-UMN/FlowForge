@@ -23,7 +23,8 @@ import {
   getTaskSteps,
   getAgentSteps,
   getCallsCountForStep,
-  getAgentMaxCalls
+  getAgentMaxCalls,
+  getAgentRuntime
  } from "./helpers";
 
 const TreeNav = () => {
@@ -152,8 +153,8 @@ const TreeNav = () => {
       const taskSteps = getTaskSteps(pattern)
       const agentSteps = getAgentSteps(pattern)
       const agentMaxCalls = getAgentMaxCalls(pattern)
-      const {runtime} = getCallsCountForStep(pattern)
-      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, runtime)
+      const agentRuntime = getAgentRuntime(pattern)
+      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
@@ -171,7 +172,7 @@ const TreeNav = () => {
             'taskStepNum': taskSteps.length, 
             'agentStepNum': agentSteps.length,
             'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
-            'runtime': runtime
+            'runtime': agentRuntime.reduce((acc, curr) => acc + curr, 0)
           }
         },
       });
