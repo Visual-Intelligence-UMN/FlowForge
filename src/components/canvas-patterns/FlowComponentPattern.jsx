@@ -142,7 +142,9 @@ export function RflowComponent(props) {
     );
     setAgentsConfigPattern(updatedTaskflow);
     setAgentsConfigGenerate(0);
+    // handleForward();
   };
+
 
   const updateNodeFieldset = (nodeId, fieldName, newValue) => {
     setNodes((prevNodes) =>
@@ -153,6 +155,7 @@ export function RflowComponent(props) {
         return { ...node, data: newData };
       })
     );
+    // handleSave();
   };
 
   const zoomSelector = (s) => s.transform[2] >= 0.5;
@@ -209,6 +212,10 @@ export function RflowComponent(props) {
     },
     [setCenter]
   );
+//   useEffect(() => {
+//     handleSave();
+//     console.log("onNodesChange", onNodesChange);
+//   }, [onNodesChange]);
 
   return (
     <div

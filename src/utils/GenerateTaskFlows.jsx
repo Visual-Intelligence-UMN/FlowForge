@@ -187,10 +187,9 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
-    // TODO: remove this after testing the patterns generation
     if (!runRealtime) {
-      if (sampleTaskFlowData.taskFlows.length > 3) {
-        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows.slice(0, 2));
+      if (sampleTaskFlowData.taskFlows.length > 10) {
+        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows.slice(0, 10));
       } else {
         returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
       }

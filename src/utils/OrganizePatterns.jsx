@@ -7,12 +7,13 @@ const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
   console.log("reassignPatternIds", flowId);
-  flowIdToPatternCounter[flowId] = designPatterns.filter(p => p.taskFlowId.startsWith(flowId)).length + 1;
+  flowIdToPatternCounter[flowId] = designPatterns.filter(p => p.taskFlowId.toString().startsWith(flowId)).length + 1;
   // flowIdToPatternCounter[flowId] = 1;
   return patterns.map((pattern) => {
     const nextCount = flowIdToPatternCounter[flowId]++;
     return {
       ...pattern,
+      taskFlowId: `${flowId}-${nextCount}`,
       patternId: `${flowId}-${nextCount}`,
     };
   });
@@ -28,7 +29,7 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
         taskId: flow.taskFlowId,
         taskFlowId: flow.taskFlowId + "-1",
         taskFlowName: flow.taskFlowName,
-        patternId: flow.taskFlowId + "-A",
+        patternId: flow.patternId,
         taskFlowDescription: flow.taskFlowDescription,
         taskFlowSteps: flow.taskFlowSteps,
         taskFlowStart: flow.taskFlowStart,
@@ -37,7 +38,7 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
         taskId: flow.taskFlowId,
         taskFlowId: flow.taskFlowId + "-2",
         taskFlowName: flow.taskFlowName,
-        patternId: flow.taskFlowId + "-B",
+        patternId: flow.patternId,
         taskFlowDescription: flow.taskFlowDescription,
         taskFlowSteps: flow.taskFlowSteps,
         taskFlowStart: flow.taskFlowStart,

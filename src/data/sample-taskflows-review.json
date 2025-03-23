@@ -1,20 +1,757 @@
 {
   "taskFlows": [
     {
-        "taskFlowId": 1,
-        "taskFlowName": "Baseline",
-        "taskFlowDescription": "This is a baseline flow",
-        "patternsId": 1,
+        "taskFlowId": "4-1-1",
+        "taskFlowName": "Final Recommendation Decision",
+        "taskFlowDescription": "This flow leads to the final decision regarding the paper’s acceptance, revision, or rejection, based on the review results.",
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Review Feedback",
+                "stepLabel": "Feedback Review",
+                "stepDescription": "Review the compiled feedback to assess overall paper quality and completeness.",
+                "pattern": {
+                    "name": "Supervision",
+                    "recommendationReason": "The Supervision pattern is effective in this context as it allows a supervisory agent to manage multiple specialized reviewers who can independently evaluate different aspects of the feedback. This dynamic routing ensures a thorough examination of various factors related to paper quality and completeness, resulting in a more comprehensive assessment."
+                },
+                "config": {
+                    "type": "supervision",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "supervisor",
+                            "description": "Supervisor",
+                            "persona": "Chief Editor",
+                            "goal": "To coordinate the review process and make the final decision on the paper’s acceptance, revision, or rejection based on reviewer assessments.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for the team isReview the compiled feedback to assess overall paper quality and completeness.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent.",
+                            "systemPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent.The task for the team isReview the compiled feedback to assess overall paper quality and completeness."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Worker1",
+                            "persona": "Content Reviewer",
+                            "goal": "To evaluate the feedback focusing on the academic content, argument strength, and the clarity of the paper.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for the team isReview the compiled feedback to assess overall paper quality and completeness.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                            "systemPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.The task for the team isReview the compiled feedback to assess overall paper quality and completeness."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Worker2",
+                            "persona": "Methodology Reviewer",
+                            "goal": "To assess the feedback related to the research methods used in the paper, ensuring they meet the required standards.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for the team isReview the compiled feedback to assess overall paper quality and completeness.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                            "systemPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.The task for the team isReview the compiled feedback to assess overall paper quality and completeness."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Worker3",
+                            "persona": "Presentation Reviewer",
+                            "goal": "To analyze the feedback concerning the presentation, formatting, and overall readability of the paper.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for the team isReview the compiled feedback to assess overall paper quality and completeness.",
+                            "patternPrompt": "You are a helpful worker who can complete the task.",
+                            "systemPrompt": "undefinedThe task for the team isReview the compiled feedback to assess overall paper quality and completeness."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Supervisor",
+                            "label": "start"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Supervisor",
+                            "target": "__end__",
+                            "label": "finish"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Supervisor",
+                            "target": "Worker1",
+                            "label": "route task"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Worker1",
+                            "target": "Supervisor",
+                            "label": "respond"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Supervisor",
+                            "target": "Worker2",
+                            "label": "route task"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Worker2",
+                            "target": "Supervisor",
+                            "label": "respond"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Supervisor",
+                            "target": "Worker3",
+                            "label": "route task"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Worker3",
+                            "target": "Supervisor",
+                            "label": "respond"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "workers": [
+                        {
+                            "persona": "Content Reviewer",
+                            "goal": "To evaluate the feedback focusing on the academic content, argument strength, and the clarity of the paper.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "Methodology Reviewer",
+                            "goal": "To assess the feedback related to the research methods used in the paper, ensuring they meet the required standards.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "Presentation Reviewer",
+                            "goal": "To analyze the feedback concerning the presentation, formatting, and overall readability of the paper."
+                        }
+                    ],
+                    "supervisor": {
+                        "persona": "Chief Editor",
+                        "goal": "To coordinate the review process and make the final decision on the paper’s acceptance, revision, or rejection based on reviewer assessments.",
+                        "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                    },
+                    "persona": "Lead Supervisor",
+                    "goal": "To oversee the feedback review process, ensuring all aspects of the paper's quality and completeness are thoroughly assessed based on the reviewers' inputs."
+                },
+                "nextSteps": [
+                    "step-2"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Make Decision",
+                "stepLabel": "Decision Making",
+                "stepDescription": "Decide based on feedback whether the paper should be accepted, revised, or rejected.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Decision Making step benefits from collaboratively engaging different viewpoints. Utilizing the Discussion pattern encourages diverse agents to debate and provide insights based on their distinct personas. This collaborative dialogue can lead to a more informed and consensus-based decision, ensuring that all angles are considered before deciding on acceptance, revision, or rejection."
+                },
+                "config": {
+                    "type": "discussion",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent1",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer 1",
+                            "goal": "Present a critical analysis of the paper based on its strengths and weaknesses.",
+                            "taskPrompt": "The task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.Your persona is Reviewer 1 and your goal is Present a critical analysis of the paper based on its strengths and weaknesses."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent2",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer 2",
+                            "goal": "Provide supplementary feedback and success stories from similar research to support the discussions.",
+                            "taskPrompt": "The task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.Your persona is Reviewer 2 and your goal is Provide supplementary feedback and success stories from similar research to support the discussions."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent3",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Editor",
+                            "goal": "Facilitate the discussion and synthesize the feedback from reviewers to guide the final decision.",
+                            "taskPrompt": "The task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.Your persona is Editor and your goal is Facilitate the discussion and synthesize the feedback from reviewers to guide the final decision."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent4",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Stakeholder Representative",
+                            "goal": "Express the implications of acceptance or rejection based on stakeholder interests and expectations.",
+                            "taskPrompt": "The task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.Your persona is Stakeholder Representative and your goal is Express the implications of acceptance or rejection based on stakeholder interests and expectations."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Summary",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Decision Maker",
+                            "goal": "Make an informed decision regarding the paper's acceptance, revision, or rejection based on the collected feedback and discussions.",
+                            "taskPrompt": "The task for the team isDecide based on feedback whether the paper should be accepted, revised, or rejected.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents.",
+                            "systemPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent1",
+                            "label": "start"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Summary",
+                            "target": "__end__",
+                            "label": "finish"
+                        }
+                    ],
+                    "runtime": 15,
+                    "maxCalls": 15
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Reviewer 1",
+                            "goal": "Present a critical analysis of the paper based on its strengths and weaknesses.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer 2",
+                            "goal": "Provide supplementary feedback and success stories from similar research to support the discussions.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Editor",
+                            "goal": "Facilitate the discussion and synthesize the feedback from reviewers to guide the final decision.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Stakeholder Representative",
+                            "goal": "Express the implications of acceptance or rejection based on stakeholder interests and expectations."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Decision Maker",
+                        "goal": "Make an informed decision regarding the paper's acceptance, revision, or rejection based on the collected feedback and discussions.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                },
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Communicate Decision",
+                "stepLabel": "Decision Communication",
+                "stepDescription": "Communicate the decision to the author with justified recommendations based on the review.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is suitable here as it involves a primary agent (the decision communicator) delivering the decision and a secondary reflection agent that reviews the communication for clarity, coherence, and thorough justification. This aids in ensuring that the recommendations provided are well-articulated and constructive for the author."
+                },
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 2,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Communicate the decision to the author with justified recommendations based on the review.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Communicate the decision to the author with justified recommendations based on the review."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Communicate the decision to the author with justified recommendations based on the review.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Communicate the decision to the author with justified recommendations based on the review."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 4,
+                    "maxCalls": 4
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 2,
+                    "evaluator": {
+                        "persona": "Decision Communicator",
+                        "goal": "To effectively communicate the decision regarding the paper’s acceptance, revision, or rejection, ensuring clarity and justification in the recommendations presented to the author.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "To review and enhance the clarity, coherence, and thorough justification of the communication, ensuring it provides constructive feedback to the author.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                },
+                "nextSteps": []
+            }
+        ],
+        "patternId": "4-1",
         "taskFlowStart": {
             "stepId": "step-0",
             "nextSteps": [
                 "step-1"
             ],
             "input": {
-                "text": "Review the paper",
+                "text": "Finalize the review decision for an economics research paper.",
                 "file": ""
             }
         },
+        "configId": "4-1-1"
+    },
+    {
+        "taskFlowId": "2-2-1",
+        "taskFlowName": "Initial Evaluation of Paper",
+        "taskFlowDescription": "Conduct an initial assessment of the paper's relevance and originality.",
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Review Abstract and Introduction",
+                "stepLabel": "Initial Review",
+                "stepDescription": "Examine the abstract and introduction to understand the paper's objectives and scope.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "This step could benefit from a reflective process where the initial review is done by one agent and then assessed by a reflection agent. This would allow for iterating on the evaluation to ensure thoroughness in understanding the paper's objectives and scope."
+                },
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Examine the abstract and introduction to understand the paper's objectives and scope.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Examine the abstract and introduction to understand the paper's objectives and scope."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Examine the abstract and introduction to understand the paper's objectives and scope.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Examine the abstract and introduction to understand the paper's objectives and scope."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Main Evaluator",
+                        "goal": "Assess the novelty of ideas presented in the paper by comparing them against existing literature and determining originality.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "Provide insights and benchmarks for assessing originality, helping the evaluator refine their judgment on the paper's contribution to its field.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                },
+                "nextSteps": [
+                    "step-2",
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Evaluate Relevance",
+                "stepLabel": "Relevance Check",
+                "stepDescription": "Assess whether the paper fits the journal or conference scope.",
+                "pattern": {
+                    "name": "Single Agent",
+                    "recommendationReason": "The relevance check is a straightforward task that requires a clear analysis of whether the paper's content aligns with the journal or conference's scope. Using a single agent can efficiently assess this without complex interactions or responses."
+                },
+                "config": {
+                    "type": "singleAgent",
+                    "maxRound": 1,
+                    "nodes": [
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task description for you is Assess whether the paper fits the journal or conference scope.",
+                            "patternPrompt": "You are a helpful assistant who can efficiently solve the task.",
+                            "systemPrompt": "You are a helpful assistant who can efficiently solve the task.The task description for you is Assess whether the paper fits the journal or conference scope.You have persona is Single Reviewer and your goal is To thoroughly assess and analyze the abstract and introduction of the paper to determine its relevance and originality in relation to its stated objectives and scope."
+                        }
+                    ],
+                    "edges": [],
+                    "runtime": 1,
+                    "maxCalls": 1
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "persona": "Single Reviewer",
+                    "goal": "To thoroughly assess and analyze the abstract and introduction of the paper to determine its relevance and originality in relation to its stated objectives and scope.",
+                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                },
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Check Originality",
+                "stepLabel": "Originality Check",
+                "stepDescription": "Determine if the paper presents novel ideas or insights.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is well-suited for checking originality because it incorporates a feedback loop where the main agent evaluates the paper's novelty and a reflection agent can provide insights on originality metrics or relevant benchmarks. This iterative review can help refine the assessment of whether the paper presents truly novel ideas or simply reiterates existing concepts."
+                },
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Determine if the paper presents novel ideas or insights.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Determine if the paper presents novel ideas or insights."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Determine if the paper presents novel ideas or insights.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Determine if the paper presents novel ideas or insights."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Main Evaluator",
+                        "goal": "Assess the novelty of ideas presented in the paper by comparing them against existing literature and determining originality.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "Provide insights and benchmarks for assessing originality, helping the evaluator refine their judgment on the paper's contribution to its field.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                },
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Make Initial Assessment",
+                "stepLabel": "Initial Determination",
+                "stepDescription": "Based on the evaluation, decide if the paper proceeds to full review.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection design pattern is pertinent because this step requires critical evaluation and feedback on the assessment performed. Engaging a reflection agent can help refine the assessment process, providing insights into the decision made about the paper's suitability for full review. This iterative feedback is essential for improving the rigor of the evaluation and enhancing the overall quality of the selection process."
+                },
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Based on the evaluation, decide if the paper proceeds to full review.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Based on the evaluation, decide if the paper proceeds to full review."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Based on the evaluation, decide if the paper proceeds to full review.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Based on the evaluation, decide if the paper proceeds to full review."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Main Evaluator",
+                        "goal": "Assess the novelty of ideas presented in the paper by comparing them against existing literature and determining originality.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reflection Agent",
+                        "goal": "Provide insights and benchmarks for assessing originality, helping the evaluator refine their judgment on the paper's contribution to its field.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                },
+                "nextSteps": []
+            }
+        ],
+        "patternId": "2-2",
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Review the abstract and introduction for initial understanding",
+                "file": ""
+            }
+        },
+        "configId": "2-2-1"
+    },
+    {
+        "taskFlowId": "1-2-1",
+        "taskFlowName": "Baseline",
+        "taskFlowDescription": "This is a baseline flow",
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
@@ -22,150 +759,1177 @@
                 "stepLabel": "Baseline flow",
                 "stepDescription": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
                 "pattern": {
-                    "name": "Supervision",
-                    "recommendationReason": "The Supervision design pattern is appropriate here as it allows for a supervisor agent to manage multiple specialized worker agents who can focus on different aspects of the paper—such as methodology, relevance, and originality. This hierarchical approach ensures an efficient and comprehensive review, tasked for specialization on various critical elements."
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion design pattern allows for the engagement of multiple agents with different perspectives, which is beneficial in the peer-review process. By simulating a collaborative dialogue, this pattern can enhance the review quality, as it fosters diverse viewpoints and insights regarding the academic paper in question. Each agent can represent various reviewer personas, contributing to a richer, more nuanced understanding of the paper's strengths and weaknesses."
                 },
-                "nextSteps": [],
-                "template": {
-                    "confirm": false,
-                    "maxRound": 6,
-                    "workers": [
+                "config": {
+                    "type": "discussion",
+                    "maxRound": 3,
+                    "nodes": [
                         {
-                            "persona": "Methodology Specialist",
-                            "goal": "To analyze the research methods used in the paper, evaluating their appropriateness and rigor.",
-                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            "type": "singleAgent",
+                            "description": "Agent1",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer A - Methodology Expert",
+                            "goal": "To evaluate the paper's research design and methodology, ensuring that the methods used are appropriate and rigorously applied.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.Your persona is Reviewer A - Methodology Expert and your goal is To evaluate the paper's research design and methodology, ensuring that the methods used are appropriate and rigorously applied."
                         },
                         {
-                            "persona": "Relevance Evaluator",
-                            "goal": "To assess the significance of the paper's topic and findings in relation to current literature and trends.",
-                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            "type": "singleAgent",
+                            "description": "Agent2",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer B - Theoretical Framework Analyst",
+                            "goal": "To critique the theoretical foundations of the paper, assessing whether the conceptual underpinnings are sound and relevant to the research topic.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.Your persona is Reviewer B - Theoretical Framework Analyst and your goal is To critique the theoretical foundations of the paper, assessing whether the conceptual underpinnings are sound and relevant to the research topic."
                         },
                         {
-                            "persona": "Originality Examiner",
-                            "goal": "To determine the novelty of the research presented and its contribution to the field."
+                            "type": "singleAgent",
+                            "description": "Agent3",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer C - Statistical Reviewer",
+                            "goal": "To analyze the statistical analysis presented in the paper, making sure that the data interpretations are valid and justified.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.Your persona is Reviewer C - Statistical Reviewer and your goal is To analyze the statistical analysis presented in the paper, making sure that the data interpretations are valid and justified."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent4",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer D - Literature Review Specialist",
+                            "goal": "To review the literature cited in the paper, ensuring it is comprehensive and relevant to the study’s claims.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.Your persona is Reviewer D - Literature Review Specialist and your goal is To review the literature cited in the paper, ensuring it is comprehensive and relevant to the study’s claims."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent5",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.Your persona is Reviewer E - Ethical Considerations Adviser and your goal is To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Summary",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Lead Reviewer",
+                            "goal": "To synthesize the feedback from all reviewers into a comprehensive evaluation of the paper, providing a final recommendation for acceptance, revision, or rejection, backed by detailed justification and arguments.",
+                            "taskPrompt": "The task for the team isConduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. The output should include explicit recommendation regarding acceptance, revision, or rejection, clearly justifying this decision with detailed and supportive arguments.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents.",
+                            "systemPrompt": "Helpful assistant who can summarize the output of the agents."
                         }
                     ],
-                    "supervisor": {
-                        "persona": "Lead Review Supervisor",
-                        "goal": "To oversee the review process, ensuring that all aspects of the paper are scrutinized and that the final recommendation is well-supported by the reviews of the worker agents.",
-                        "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
-                    },
-                    "persona": "Academic Paper Reviewer",
-                    "goal": "To conduct a thorough and systematic evaluation of the specified academic paper, ensuring all critical elements are assessed adequately."
-                }
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent1",
+                            "label": "start"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Summary",
+                            "target": "__end__",
+                            "label": "finish"
+                        }
+                    ],
+                    "runtime": 18,
+                    "maxCalls": 18
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Reviewer A - Methodology Expert",
+                            "goal": "To evaluate the paper's research design and methodology, ensuring that the methods used are appropriate and rigorously applied.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer B - Theoretical Framework Analyst",
+                            "goal": "To critique the theoretical foundations of the paper, assessing whether the conceptual underpinnings are sound and relevant to the research topic.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer C - Statistical Reviewer",
+                            "goal": "To analyze the statistical analysis presented in the paper, making sure that the data interpretations are valid and justified.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer D - Literature Review Specialist",
+                            "goal": "To review the literature cited in the paper, ensuring it is comprehensive and relevant to the study’s claims."
+                        },
+                        {
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Lead Reviewer",
+                        "goal": "To synthesize the feedback from all reviewers into a comprehensive evaluation of the paper, providing a final recommendation for acceptance, revision, or rejection, backed by detailed justification and arguments.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                },
+                "nextSteps": []
             }
         ],
-        "patternId": "1-5"
-    },
-    {
-        "taskFlowId": 4,
-        "taskFlowName": "Quick Review with Focus on Key Aspects",
-        "taskFlowDescription": "A succinct review focused on the most critical aspects of academic quality and contribution for rapid decision-making.",
-        "patternsId": 4,
+        "patternId": "1-2",
         "taskFlowStart": {
             "stepId": "step-0",
             "nextSteps": [
                 "step-1"
             ],
             "input": {
-                "text": "Review the article",
+                "text": "",
                 "file": ""
             }
         },
+        "configId": "1-2-1"
+    },
+    {
+        "taskFlowId": "3-1-1",
+        "taskFlowName": "Detailed Content Review",
+        "taskFlowDescription": "Perform a thorough content analysis focusing on methodology, results, and discussion sections.",
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
-                "stepName": "Initial check relevance",
-                "stepLabel": "Significance",
-                "stepDescription": "Review the paper in a high-level part to check generally the relevance, if topic reasonable. ",
-                "pattern": {
-                    "name": "Reflection",
-                    "recommendationReason": "Utilizing a reflection agent allows for iterative feedback after the initial assessment, helping to refine the understanding of relevance. This pattern supports enhancing the evaluation process by enabling a review of the reasoning used to determine the relevance, which may lead to a more nuanced understanding."
-                },
-                "nextSteps": [
-                    "step-2"
-                ],
-                "template": {
-                    "confirm": false,
-                    "maxRound": 3,
-                    "evaluator": {
-                        "persona": "Chair Reviewer",
-                        "goal": "To assess and integrate feedback from previous reviewers, ensuring a balanced and thorough decision that reflects all perspectives.",
-                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
-                    },
-                    "optimizer": {
-                        "persona": "Reflection Agent",
-                        "goal": "To facilitate the chair reviewer in contemplating the feedback and insights from the reviews, aiding in the iteration of the decision-making process to arrive at a well-founded conclusion.",
-                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
-                    }
-                }
-            },
-            {
-                "stepId": "step-2",
-                "stepName": "Holistic review by three reviewers",
-                "stepLabel": "Methods",
-                "stepDescription": "Three reviewers should review the paper independently in parallel, and based on their research knowledge, should have a summarization of this paper in terms of methods, contribution, novelty, and acceptance recommendation or fail reasons. Then an aggregator need to gather all reviewers output as one.",
+                "stepName": "Examine Methodology",
+                "stepLabel": "Methodology Check",
+                "stepDescription": "Evaluate the robustness and appropriateness of the methods used.",
                 "pattern": {
                     "name": "Redundant",
-                    "recommendationReason": "This design pattern is ideal for the task as it allows multiple reviewers to work independently and simultaneously on the review of the paper. Each reviewer can focus on their own assessment, providing outputs that will be aggregated later. This structure aligns well with the need to gather diverse insights regarding methods, contributions, and novelty from different perspectives."
+                    "recommendationReason": "The Redundant design pattern can enhance the evaluation of methodology by deploying multiple agents to analyze different aspects of the methodology simultaneously. This approach ensures a more comprehensive assessment as each agent can focus on specific criteria or elements of the methodology."
                 },
-                "nextSteps": [
-                    "step-3"
-                ],
+                "config": {
+                    "type": "redundant",
+                    "nodes": [
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent1",
+                            "persona": "Methodology Expert",
+                            "goal": "Analyze the robustness of the methods used in the study, focusing on the design, sampling, and data collection procedures.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                            "systemPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.Helpful assistant who finish the task. You should not ask questions, just execute the task.Your persona is Methodology Expert and your goal is Analyze the robustness of the methods used in the study, focusing on the design, sampling, and data collection procedures."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent2",
+                            "persona": "Statistical Analyst",
+                            "goal": "Evaluate the appropriateness of the statistical methods used, ensuring they align with the research questions and data types.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                            "systemPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.Helpful assistant who finish the task. You should not ask questions, just execute the task.Your persona is Statistical Analyst and your goal is Evaluate the appropriateness of the statistical methods used, ensuring they align with the research questions and data types."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent3",
+                            "persona": "Domain Specialist",
+                            "goal": "Assess the relevance of the chosen methodologies in relation to the specific field of study and best practices in that domain.",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.",
+                            "patternPrompt": "You can complete the task independently.",
+                            "systemPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.undefinedYour persona is Domain Specialist and your goal is Assess the relevance of the chosen methodologies in relation to the specific field of study and best practices in that domain."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Aggregator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation.",
+                            "systemPrompt": "The task isEvaluate the robustness and appropriateness of the methods used.Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent1",
+                            "label": "start"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Agent1",
+                            "target": "Aggregator",
+                            "label": "direct"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent2",
+                            "label": "start"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Agent2",
+                            "target": "Aggregator",
+                            "label": "direct"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent3",
+                            "label": "start"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Agent3",
+                            "target": "Aggregator",
+                            "label": "direct"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Aggregator",
+                            "target": "__end__",
+                            "label": "finish"
+                        }
+                    ],
+                    "maxRound": 1,
+                    "runtime": 1,
+                    "maxCalls": 4
+                },
                 "template": {
                     "confirm": false,
                     "maxRound": 1,
                     "withAggregation": true,
                     "agents": [
                         {
-                            "persona": "Reviewer One",
-                            "goal": "Independently assess the paper's methods, contributions, and novelty and provide an acceptance recommendation or reasons for potential rejection.",
+                            "persona": "Methodology Expert",
+                            "goal": "Analyze the robustness of the methods used in the study, focusing on the design, sampling, and data collection procedures.",
                             "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
                         },
                         {
-                            "persona": "Reviewer Two",
-                            "goal": "Conduct a thorough review of the paper, focusing on its unique contributions and innovations, and summarize findings with a recommendation.",
+                            "persona": "Statistical Analyst",
+                            "goal": "Evaluate the appropriateness of the statistical methods used, ensuring they align with the research questions and data types.",
                             "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
                         },
                         {
-                            "persona": "Reviewer Three",
-                            "goal": "Evaluate the paper comprehensively, pinpointing its strengths and weaknesses in terms of methodology and significance, culminating in an acceptance decision or rejection reasons."
+                            "persona": "Domain Specialist",
+                            "goal": "Assess the relevance of the chosen methodologies in relation to the specific field of study and best practices in that domain."
                         }
                     ],
                     "aggregation": {
-                        "persona": "Aggregator",
-                        "goal": "Compile and synthesize the individual reviews from all three reviewers into a cohesive summary that reflects the collective insights and recommendations.",
+                        "persona": "Lead Evaluator",
+                        "goal": "Synthesize insights from all agents' analyses to form a comprehensive view of the methodology's strengths and weaknesses.",
                         "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
                     }
-                }
+                },
+                "nextSteps": [
+                    "step-2"
+                ]
             },
             {
-                "stepId": "step-3",
-                "stepName": "Chair reviewer finalize decision",
-                "stepLabel": "Quick Decision",
-                "stepDescription": "The chair reviewer should balance the reviews from the previous reviewers, and conclude a finalized decision with detailed explanation based on the reviews.",
+                "stepId": "step-2",
+                "stepName": "Analyze Results",
+                "stepLabel": "Results Evaluation",
+                "stepDescription": "Assess the clarity and validity of the results presented.",
                 "pattern": {
                     "name": "Reflection",
-                    "recommendationReason": "The Reflection design pattern is suitable for this step as it involves the chair reviewer reflecting on the various reviews given by previous reviewers. By utilizing a reflection agent, the chair reviewer can iterate on their decision-making process, considering the feedback and insights provided in the reviews to enhance the final decision and ensuring a comprehensive explanation is included."
+                    "recommendationReason": "Reflection is suitable because it allows for the primary agent to analyze the results while a secondary agent provides feedback on the clarity and validity. This iterative process will enable the evaluator to refine their assessment based on insights, enhancing the quality of the evaluation."
                 },
-                "nextSteps": [],
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Assess the clarity and validity of the results presented.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Assess the clarity and validity of the results presented."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Assess the clarity and validity of the results presented.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Assess the clarity and validity of the results presented."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
                 "template": {
                     "confirm": false,
                     "maxRound": 3,
                     "evaluator": {
-                        "persona": "Chair Reviewer",
-                        "goal": "To assess and integrate feedback from previous reviewers, ensuring a balanced and thorough decision that reflects all perspectives.",
+                        "persona": "Quality Assurance Agent",
+                        "goal": "To meticulously review the quality of each citation for credibility and relevance to the research topic.",
                         "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
                     },
                     "optimizer": {
-                        "persona": "Reflection Agent",
-                        "goal": "To facilitate the chair reviewer in contemplating the feedback and insights from the reviews, aiding in the iteration of the decision-making process to arrive at a well-founded conclusion.",
+                        "persona": "Reference Validation Agent",
+                        "goal": "To analyze the relevance of each referenced work in the context of the paper's methodology, results, and discussion sections.",
                         "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
                     }
-                }
+                },
+                "nextSteps": [
+                    "step-3"
+                ]
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Review Discussion",
+                "stepLabel": "Discussion Review",
+                "stepDescription": "Evaluate the interpretation of results and their alignment with hypotheses.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion pattern is highly relevant for this step as it engages multiple agents in a collaborative dialogue. This allows for diverse perspectives on the interpretation of results and their alignment with hypotheses, fostering creativity and critical analysis that can lead to more robust conclusions."
+                },
+                "config": {
+                    "type": "discussion",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent1",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer A",
+                            "goal": "Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isEvaluate the interpretation of results and their alignment with hypotheses.Your persona is Reviewer A and your goal is Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent2",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer B",
+                            "goal": "Analyze the results section to determine the clarity and significance of the findings in relation to the research questions.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isEvaluate the interpretation of results and their alignment with hypotheses.Your persona is Reviewer B and your goal is Analyze the results section to determine the clarity and significance of the findings in relation to the research questions."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent3",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer C",
+                            "goal": "Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isEvaluate the interpretation of results and their alignment with hypotheses.Your persona is Reviewer C and your goal is Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent4",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Mediator",
+                            "goal": "Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isEvaluate the interpretation of results and their alignment with hypotheses.Your persona is Mediator and your goal is Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent5",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isEvaluate the interpretation of results and their alignment with hypotheses.Your persona is Reviewer E - Ethical Considerations Adviser and your goal is To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Summary",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Lead Evaluator",
+                            "goal": "Make an informed decision on whether to accept, revise, or reject the submission based on the collective insights gathered from the detailed content analysis.",
+                            "taskPrompt": "The task for the team isEvaluate the interpretation of results and their alignment with hypotheses.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents.",
+                            "systemPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent1",
+                            "label": "start"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Summary",
+                            "target": "__end__",
+                            "label": "finish"
+                        }
+                    ],
+                    "runtime": 18,
+                    "maxCalls": 18
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Reviewer A",
+                            "goal": "Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer B",
+                            "goal": "Analyze the results section to determine the clarity and significance of the findings in relation to the research questions.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer C",
+                            "goal": "Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Mediator",
+                            "goal": "Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation."
+                        },
+                        {
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Lead Evaluator",
+                        "goal": "Make an informed decision on whether to accept, revise, or reject the submission based on the collective insights gathered from the detailed content analysis.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                },
+                "nextSteps": [
+                    "step-4"
+                ]
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Check References",
+                "stepLabel": "References Review",
+                "stepDescription": "Verify the quality and relevance of references cited in the paper.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The 'Reflection' design pattern is suitable for this step because it allows for a dual-agent approach where one agent performs the reference checking while another reviews the quality and relevance of the citations. This iterative feedback loop can help refine the analysis of references and ensure that only high-quality, relevant works are included."
+                },
+                "config": {
+                    "type": "reflection",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "optimizer",
+                            "description": "Optimizer",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Verify the quality and relevance of references cited in the paper.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.",
+                            "systemPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output.The task for you is Verify the quality and relevance of references cited in the paper."
+                        },
+                        {
+                            "type": "evaluator",
+                            "description": "Evaluator",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "taskPrompt": "The task for you is Verify the quality and relevance of references cited in the paper.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.",
+                            "systemPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response.The task for you is Verify the quality and relevance of references cited in the paper."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "Optimizer",
+                            "label": "Feedback"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Optimizer",
+                            "target": "Evaluator",
+                            "label": "Submit"
+                        },
+                        {
+                            "type": "conditional",
+                            "source": "Evaluator",
+                            "target": "__end__",
+                            "label": "Approve"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Optimizer",
+                            "label": "Start"
+                        }
+                    ],
+                    "runtime": 6,
+                    "maxCalls": 6
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "Quality Assurance Agent",
+                        "goal": "To meticulously review the quality of each citation for credibility and relevance to the research topic.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "Reference Validation Agent",
+                        "goal": "To analyze the relevance of each referenced work in the context of the paper's methodology, results, and discussion sections.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                },
+                "nextSteps": [
+                    "step-5"
+                ]
+            },
+            {
+                "stepId": "step-5",
+                "stepName": "Conclude Detailed Review",
+                "stepLabel": "Final Decision",
+                "stepDescription": "Decide on accept, revise, or reject based on comprehensive content analysis.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion pattern is ideal for this step because it engages multiple perspectives, ensuring that the decision made—accept, revise, or reject—benefits from diverse viewpoints. This collaborative dialogue can facilitate thorough examination and debate over the content analysis, enhancing the final decision-making process by incorporating insights from multiple agents."
+                },
+                "config": {
+                    "type": "discussion",
+                    "maxRound": 3,
+                    "nodes": [
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent1",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer A",
+                            "goal": "Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.Your persona is Reviewer A and your goal is Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent2",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer B",
+                            "goal": "Analyze the results section to determine the clarity and significance of the findings in relation to the research questions.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.Your persona is Reviewer B and your goal is Analyze the results section to determine the clarity and significance of the findings in relation to the research questions."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent3",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer C",
+                            "goal": "Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideasThe task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.Your persona is Reviewer C and your goal is Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent4",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Mediator",
+                            "goal": "Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.Your persona is Mediator and your goal is Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Agent5",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "You are a helpful assistant who can discuss with other agents to brainstorm and generate ideas",
+                            "systemPrompt": "undefinedThe task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.Your persona is Reviewer E - Ethical Considerations Adviser and your goal is To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        },
+                        {
+                            "type": "singleAgent",
+                            "description": "Summary",
+                            "tools": [],
+                            "llm": "gpt-4o-mini",
+                            "persona": "Lead Evaluator",
+                            "goal": "Make an informed decision on whether to accept, revise, or reject the submission based on the collective insights gathered from the detailed content analysis.",
+                            "taskPrompt": "The task for the team isDecide on accept, revise, or reject based on comprehensive content analysis.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents.",
+                            "systemPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    ],
+                    "edges": [
+                        {
+                            "type": "direct",
+                            "source": "START",
+                            "target": "Agent1",
+                            "label": "start"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Agent5",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent1",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent2",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent3",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Agent4",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent1",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent2",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent3",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent4",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "network",
+                            "source": "Agent5",
+                            "target": "Summary",
+                            "label": "goto"
+                        },
+                        {
+                            "type": "direct",
+                            "source": "Summary",
+                            "target": "__end__",
+                            "label": "finish"
+                        }
+                    ],
+                    "runtime": 18,
+                    "maxCalls": 18
+                },
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "Reviewer A",
+                            "goal": "Provide a critical evaluation of the methodology section to assess the rigor and appropriateness of the research approach.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer B",
+                            "goal": "Analyze the results section to determine the clarity and significance of the findings in relation to the research questions.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Reviewer C",
+                            "goal": "Examine the discussion section to evaluate how well the implications of the results are articulated and how they relate to existing literature.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "Mediator",
+                            "goal": "Facilitate a balanced dialogue among reviewers, ensuring all perspectives are considered and synthesizing differing opinions into a cohesive recommendation."
+                        },
+                        {
+                            "persona": "Reviewer E - Ethical Considerations Adviser",
+                            "goal": "To assess the ethical implications of the research, ensuring that required ethical standards are met in the study."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "Lead Evaluator",
+                        "goal": "Make an informed decision on whether to accept, revise, or reject the submission based on the collective insights gathered from the detailed content analysis.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                },
+                "nextSteps": []
             }
         ],
-        "patternId": "4-3"
+        "patternId": "3-1",
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "Ensure detailed evaluation of core content sections",
+                "file": ""
+            }
+        },
+        "configId": "3-1-1"
     },
     {
         "taskFlowId": 2,
