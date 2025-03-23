@@ -19,7 +19,13 @@ import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
 import DimScatter from "./DimScatter";
-
+import { 
+  getTaskSteps,
+  getAgentSteps,
+  getCallsCountForStep,
+  getAgentMaxCalls,
+  getAgentRuntime
+ } from "./helpers";
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -45,12 +51,20 @@ const TreeNav = () => {
   let maxStepNum = 0
   Object.keys(flowsMap).forEach((flowId) => {
     if (!flowId) return;
-    const flow = Object.values(flowsMap).find(
-      (flow) => flow.taskFlowId.toString() === flowId
-    );
+    const flow = flowsMap[flowId];
+    if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
     const steps = Object.keys(flow.taskFlowSteps).length;
     maxStepNum = Math.max(maxStepNum, steps);
   });
+
+
+  let maxAgentSteps = 0
+  patterns.forEach((pattern) => {
+    if (!pattern?.patternId) return;
+    const agentSteps = getAgentSteps(pattern)
+    maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+  });
+ 
 
   const stepRScale = d3.scalePow().exponent(1 / 2)
     .domain([0, maxStepNum])
@@ -64,12 +78,14 @@ const TreeNav = () => {
     [1, 3, 4, 2, 2],
   ]
   const agentXScale = d3.scaleBand()
-    .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
+    // .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
+    .domain(d3.range(0, maxStepNum + 1))
     .range([0, config.maxStepNodeWidth])
     .padding(0.1);
 
   const agentYScale = d3.scaleLinear()
-    .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    // .domain([0, Math.max(...dummyAgentSteps.flat())]) // change to true number of agent steps later
+    .domain([0, maxAgentSteps + 1])
     .range([0, NodeHeight - 2]); // 2px padding
 
 
@@ -102,12 +118,13 @@ const TreeNav = () => {
     
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
-      const flow = Object.values(flowsMap).find(
-        (flow) => flow.taskFlowId.toString() === flowId
-      );
+      const flow = flowsMap[flowId];
+      // if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
       const steps = Object.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId}`;
-      const taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2)// TODO: replace with actual steps
+      const taskSteps = getTaskSteps(flow)
+      // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps
+      console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
@@ -132,7 +149,13 @@ const TreeNav = () => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
       const label = `Agents ${patternID}`;
-      const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
+      // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
+      const taskSteps = getTaskSteps(pattern)
+      const agentSteps = getAgentSteps(pattern)
+      const agentMaxCalls = getAgentMaxCalls(pattern)
+      const agentRuntime = getAgentRuntime(pattern)
+      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
+      // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
@@ -146,8 +169,10 @@ const TreeNav = () => {
           agentSteps,
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
-            'taskStepNum': Math.floor(Math.random() * 4) + 1, //TODO: replace with actual task step number
-            'agentStepNum': agentSteps.length
+            'taskStepNum': taskSteps.length, 
+            'agentStepNum': agentSteps.length,
+            'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
+            'runtime': agentRuntime.reduce((acc, curr) => acc + curr, 0)
           }
         },
       });
@@ -177,6 +202,19 @@ const TreeNav = () => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
       const configLabel = `Config ${configId}`;
+
+      const flowWithConfig = agentsConfig.find(item => item.configId === configId)
+      console.log("flowWithConfig", flowWithConfig)
+      const taskSteps = getTaskSteps(flowWithConfig)
+      const agentSteps = getAgentSteps(flowWithConfig)
+      // const {maxCalls, runtime} = getCallsCountForStep(flowWithConfig)
+
+      console.log("multiStreamOutput", multiStreamOutput)
+      const configOutput = multiStreamOutput[String(configId)]
+      const userRating = configOutput?.userRating ?? 0
+      const timeUsed = configOutput?.timeUsed ?? 0
+      console.log("configOutput", configOutput)
+
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
@@ -187,9 +225,12 @@ const TreeNav = () => {
         },
         //TODO: replace with actual data
         dims: {
-          'taskStepNum': Math.floor(Math.random() * 4),
-          'agentStepNum': Math.floor(Math.random() * 5),
-          'rating': flowUserRating[configId]?.userRating ?? Math.floor(Math.random() * 4),
+          'taskStepNum': taskSteps.length,
+          'agentStepNum': agentSteps.length,
+          'userRating': userRating,
+          'timeUsed': timeUsed,
+          // 'maxCalls': maxCalls,
+          // 'runtime': runtime,
           //TODO: other metrics can be added
         }
       });
@@ -199,12 +240,8 @@ const TreeNav = () => {
         label: `pattern-${patternId}-compiled-${configId}`,
       });
 
-      const config = Object.values(flowUserRating).find(
-        (config) => config.compiledId === configId
-      );
-      const rating = config?.userRating || null;
-      const ratingLabel = rating
-        ? `Running Results: ${config?.userRating} ⭐`
+      const ratingLabel = userRating
+        ? `Running Results: ${userRating} ⭐`
         : "Running Results: N/A";
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
@@ -257,7 +294,7 @@ const TreeNav = () => {
 
   useEffect(() => {
     handleTreeNav();
-  }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask]);
+  }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, multiStreamOutput]);
 
   const handleDeleteNode = (selected) => {
     if (!selected || !selected.type) return;

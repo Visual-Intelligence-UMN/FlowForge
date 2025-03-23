@@ -17,6 +17,7 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { taskList } from "../../patterns/GlobalStates";
@@ -125,7 +126,7 @@ function TaskPanel() {
 
   return (
     // <<<<<<< nick-work
-    <Box
+    <Grid
       sx={{
         width: "100%",
         padding: 2,
@@ -138,7 +139,7 @@ function TaskPanel() {
       }}
       className="task-panel"
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+      <Grid sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <TextField
           variant="filled"
           value={localTaskDescription}
@@ -153,9 +154,9 @@ function TaskPanel() {
 
         {/* Submit Button */}
 
-      </Box>
+      </Grid>
 
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+      <Grid sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
         <Button
           onClick={handleSubmit}
           color="primary"
@@ -167,7 +168,7 @@ function TaskPanel() {
         </Button>
 
         {/* Example Task Selector */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Grid sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <InputLabel id="task-select-label">Example Tasks</InputLabel>
           <Select
             value={localSelectedTask.index ?? ""}
@@ -182,9 +183,9 @@ function TaskPanel() {
               </MenuItem>
             ))}
           </Select>
-        </Box>
-      </Box>
-      <Box sx={{ gap: 2 }}>
+        </Grid>
+      </Grid>
+      <Grid sx={{ gap: 2 }}>
         <input
           type="checkbox"
           id="run-realtime"
@@ -192,9 +193,9 @@ function TaskPanel() {
           onChange={handleRealtimeToggle}
         />
         <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
-      </Box>
+      </Grid>
 
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+      <Grid sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Typography
           sx={{ fontSize: "14px", color: "#333" }}
           onChange={(e) => setWorkflowInput(e.target.value)}
@@ -222,8 +223,8 @@ function TaskPanel() {
             />
           )}
         </Button>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
 

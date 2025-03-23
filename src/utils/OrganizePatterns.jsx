@@ -6,7 +6,8 @@ import GenerateTemplatesInfo from "./GenerateTemplates";
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
-  flowIdToPatternCounter[flowId] = designPatterns.length + 1;
+  console.log("reassignPatternIds", flowId);
+  flowIdToPatternCounter[flowId] = designPatterns.filter(p => p.taskFlowId.startsWith(flowId)).length + 1;
   // flowIdToPatternCounter[flowId] = 1;
   return patterns.map((pattern) => {
     const nextCount = flowIdToPatternCounter[flowId]++;
