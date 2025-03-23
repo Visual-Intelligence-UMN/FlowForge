@@ -1,11 +1,11 @@
 
 import { AppNode } from "../components/nodes/types";
 import { Edge } from "@xyflow/react";
-const CompileReactflow = async (config) => {
-    const { taskFlowSteps, taskFlowStart, configId } = config;
+const CompileReactflow = async (FlowWithConfig) => {
+    const { taskFlowSteps, taskFlowStart, configId } = FlowWithConfig;
     // const configId = [taskId, taskFlowId, patternId].join("_");
 
-    console.log("config to compile for reactflow", config);
+    console.log("config to compile for reactflow", FlowWithConfig);
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
@@ -22,7 +22,7 @@ const CompileReactflow = async (config) => {
         const { config, nextSteps, stepId } = step;
         if (!config) return;
 
-        const { nodes, edges, type, maxRound, runtime } = config;
+        const { nodes, edges, type, maxRound, runtime, maxCalls } = config;
         const pattern = type;
         let stepNodeIds = [];
         let firstNodeIds = [];
@@ -105,6 +105,7 @@ const CompileReactflow = async (config) => {
             outputMode: outputMode,
             pattern: pattern,
             maxRound: maxRound,
+            maxCalls: maxCalls,
             runtime: runtime,
             stepNodes: Array.from(nodeMap.values()), 
             nextSteps: nextSteps,

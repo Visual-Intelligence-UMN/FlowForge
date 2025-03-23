@@ -92,6 +92,8 @@ const StreamOutput = ({ runConfig }) => {
       console.log("inputMessage", inputMessage);
     }
     console.log("recompile runConfig for new langgraph run", runConfig);
+    const configId = runConfig.configId;
+    return;
     const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
       runConfig.reactflowDisplay
     );
