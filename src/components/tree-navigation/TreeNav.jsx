@@ -190,8 +190,11 @@ const TreeNav = () => {
       const taskSteps = getTaskSteps(flowWithConfig)
       const agentSteps = getAgentSteps(flowWithConfig)
 
-      const userRating = multiStreamOutput[configId]?.userRating ?? 0
-      const timeUsed = multiStreamOutput[configId]?.timeUsed ?? 0
+      console.log("multiStreamOutput", multiStreamOutput)
+      const configOutput = multiStreamOutput[String(configId)]
+      const userRating = configOutput?.userRating ?? 0
+      const timeUsed = configOutput?.timeUsed ?? 0
+      console.log("configOutput", configOutput)
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
@@ -215,12 +218,8 @@ const TreeNav = () => {
         label: `pattern-${patternId}-compiled-${configId}`,
       });
 
-      const config = Object.values(flowUserRating).find(
-        (config) => config.compiledId === configId
-      );
-      const rating = config?.userRating || null;
-      const ratingLabel = rating
-        ? `Running Results: ${config?.userRating} ⭐`
+      const ratingLabel = userRating
+        ? `Running Results: ${userRating} ⭐`
         : "Running Results: N/A";
       g.setNode(`compiled-${configId}-rating`, {
         label: ratingLabel,
@@ -273,7 +272,7 @@ const TreeNav = () => {
 
   useEffect(() => {
     handleTreeNav();
-  }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask]);
+  }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, multiStreamOutput]);
 
   const handleDeleteNode = (selected) => {
     if (!selected || !selected.type) return;

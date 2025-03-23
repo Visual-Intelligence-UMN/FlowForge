@@ -403,13 +403,13 @@ const StreamOutput = ({ runConfig }) => {
               <Typography variant="h6">User Rating: {streamData.userRating} ⭐</Typography>
             )}
                          */}
-            <Grid item xs={2} sm={2}>
+            {/* <Grid item xs={2} sm={2}>
               <Rating
                 name="userRating"
                 value={streamData.userRating || 0}
                 onChange={handleUserRatingChange}
               />
-            </Grid>
+            </Grid> */}
             
             {streamData.timeUsed && (
               <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
