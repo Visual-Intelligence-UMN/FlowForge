@@ -15,7 +15,7 @@ export default function TreeNode({ node, isHighlighted, stepRScale, agentXScale,
         className="tree-node level2"
         // width={node.width}
         // height={node.height}
-        cx={node.width / 2}
+        cx={0}
         r={node.height / 2 - 10}
         fill={isHighlighted ? "lightblue" : "white"}
         stroke="black"
