@@ -139,7 +139,7 @@ const TreeNav = () => {
       // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       const taskSteps = getTaskSteps(pattern)
       const agentSteps = getAgentSteps(pattern)
-      const agentStepNum = Math.max(...agentSteps)
+      // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,

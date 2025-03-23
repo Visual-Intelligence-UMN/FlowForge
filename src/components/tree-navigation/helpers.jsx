@@ -18,6 +18,45 @@ function getAgentCountForStep(step) {
     }
     return 0;
 }
+
+function getCallsCountForStep(step) {
+    const template = step.template;
+    const pattern = step.pattern;
+    const maxRound = step.maxRound;
+    let runtime = maxRound;
+    let calls = null;
+    let agentCount = 0;
+    switch (pattern.name) {
+        case "Reflection":
+          calls = maxRound * 2;
+          runtime = maxRound * 2;
+          agentCount = 2;
+          break;
+        case "Discussion":
+          const {withSummary, agents} = template;
+          calls = maxRound * agents.length + (withSummary ? 1 : 0);
+          runtime = maxRound * agents.length + (withSummary ? 1 : 0);
+          agentCount = agents.length + (withSummary ? 1 : 0);
+          break;
+        case "Redundant":
+          const {agents: agentsRedundant} = template;
+          calls = agentsRedundant.length * 1 + 1;
+          runtime = 1 + 1;
+          agentCount = agentsRedundant.length + 1;
+          break;
+        case "Supervision":
+          const {workers} = template;
+          calls = maxRound * 2;
+          runtime = maxRound * 2;
+          agentCount = workers.length + 1;
+          break;
+        default:
+          runtime = 1;
+          agentCount = 1;
+          calls = 1;
+      }
+      return {calls, runtime};
+}
   
 export function getTaskSteps(flow) {
     const stepNums = [];
