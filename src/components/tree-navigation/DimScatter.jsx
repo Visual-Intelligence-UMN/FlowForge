@@ -60,6 +60,8 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
+        <MenuItem value="maxCalls">Max Calls</MenuItem>
+        <MenuItem value="runtime">Runtime</MenuItem>
     </Select>
 
     const ySelector = <Select
@@ -69,6 +71,8 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
+        <MenuItem value="maxCalls">Max Calls</MenuItem>
+        <MenuItem value="runtime">Runtime</MenuItem>
     </Select>
 
     return <Box

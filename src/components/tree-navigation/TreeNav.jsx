@@ -21,7 +21,9 @@ import * as d3 from "d3";
 import DimScatter from "./DimScatter";
 import { 
   getTaskSteps,
-  getAgentSteps
+  getAgentSteps,
+  getCallsCountForStep,
+  getAgentMaxCalls
  } from "./helpers";
 
 const TreeNav = () => {
@@ -149,6 +151,9 @@ const TreeNav = () => {
       // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       const taskSteps = getTaskSteps(pattern)
       const agentSteps = getAgentSteps(pattern)
+      const agentMaxCalls = getAgentMaxCalls(pattern)
+      const {runtime} = getCallsCountForStep(pattern)
+      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, runtime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
@@ -164,7 +169,9 @@ const TreeNav = () => {
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
             'taskStepNum': taskSteps.length, 
-            'agentStepNum': agentSteps.length
+            'agentStepNum': agentSteps.length,
+            'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
+            'runtime': runtime
           }
         },
       });
@@ -199,12 +206,14 @@ const TreeNav = () => {
       console.log("flowWithConfig", flowWithConfig)
       const taskSteps = getTaskSteps(flowWithConfig)
       const agentSteps = getAgentSteps(flowWithConfig)
+      // const {maxCalls, runtime} = getCallsCountForStep(flowWithConfig)
 
       console.log("multiStreamOutput", multiStreamOutput)
       const configOutput = multiStreamOutput[String(configId)]
       const userRating = configOutput?.userRating ?? 0
       const timeUsed = configOutput?.timeUsed ?? 0
       console.log("configOutput", configOutput)
+
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
         width: configLabel.length * 8,
@@ -219,6 +228,8 @@ const TreeNav = () => {
           'agentStepNum': agentSteps.length,
           'userRating': userRating,
           'timeUsed': timeUsed,
+          // 'maxCalls': maxCalls,
+          // 'runtime': runtime,
           //TODO: other metrics can be added
         }
       });

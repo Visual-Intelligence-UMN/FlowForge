@@ -19,43 +19,44 @@ function getAgentCountForStep(step) {
     return 0;
 }
 
-function getCallsCountForStep(step) {
+export function getCallsCountForStep(step) {
     const template = step.template;
     const pattern = step.pattern;
-    const maxRound = step.maxRound;
+    const maxRound = template?.maxRound;
     let runtime = maxRound;
-    let calls = null;
+    let maxCalls = 1;
     let agentCount = 0;
-    switch (pattern.name) {
+    switch (pattern?.name) {
         case "Reflection":
-          calls = maxRound * 2;
+          maxCalls = maxRound * 2;
           runtime = maxRound * 2;
           agentCount = 2;
+          console.log("Reflection", maxCalls, runtime, agentCount)
           break;
         case "Discussion":
           const {withSummary, agents} = template;
-          calls = maxRound * agents.length + (withSummary ? 1 : 0);
+          maxCalls = maxRound * agents.length + (withSummary ? 1 : 0);
           runtime = maxRound * agents.length + (withSummary ? 1 : 0);
           agentCount = agents.length + (withSummary ? 1 : 0);
           break;
         case "Redundant":
           const {agents: agentsRedundant} = template;
-          calls = agentsRedundant.length * 1 + 1;
+          maxCalls = agentsRedundant.length * 1 + 1;
           runtime = 1 + 1;
           agentCount = agentsRedundant.length + 1;
           break;
         case "Supervision":
           const {workers} = template;
-          calls = maxRound * 2;
+          maxCalls = maxRound * 2;
           runtime = maxRound * 2;
           agentCount = workers.length + 1;
           break;
         default:
           runtime = 1;
           agentCount = 1;
-          calls = 1;
+          maxCalls = 1;
       }
-      return {calls, runtime};
+      return {maxCalls, runtime};
 }
   
 export function getTaskSteps(flow) {
@@ -107,3 +108,34 @@ export function getAgentSteps(flow) {
 
     return agentCounts;
 }
+
+export function getAgentMaxCalls(flow) {
+    const agentMaxCalls = [];
+    let currentSteps = flow.taskFlowStart.nextSteps;
+
+    while (currentSteps && currentSteps.length > 0) {
+        const uniqueSteps = [...new Set(currentSteps)];
+        let levelMaxCalls = 0;
+
+        uniqueSteps.forEach(stepId => {
+        const step = flow.taskFlowSteps.find(s => s.stepId === stepId);
+        if (step) {
+            const {maxCalls} = getCallsCountForStep(step);
+            levelMaxCalls += maxCalls;
+        }
+        });
+        agentMaxCalls.push(levelMaxCalls);
+
+        const nextStepsSet = new Set();
+        uniqueSteps.forEach(stepId => {
+        const step = flow.taskFlowSteps.find(s => s.stepId === stepId);
+        if (step && step.nextSteps && step.nextSteps.length > 0) {
+            step.nextSteps.forEach(nextStep => nextStepsSet.add(nextStep));
+        }
+        });
+        currentSteps = Array.from(nextStepsSet);
+    }
+
+    return agentMaxCalls;
+}
+
