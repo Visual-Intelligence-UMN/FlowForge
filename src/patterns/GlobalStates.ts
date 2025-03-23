@@ -54,7 +54,7 @@ export const streamOutputAtom = atomWithReset({
   isThreadActive: false,
   isVisible: false,
 });
-
+export const multiStreamOutputAtom = atomWithReset({});
 // tree nav
 export const treeNavAtom = atomWithReset({
   nodes: [],
