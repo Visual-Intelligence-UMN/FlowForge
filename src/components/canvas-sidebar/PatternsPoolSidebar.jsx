@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { iconMap1, iconMap2, iconMap3 } from "../../images/iconsMap";
 import { designPatternsPool } from "../../patterns/patternsData";
+import { designPatternsTooltip } from "../../patterns/patternsData";
 
 const PatternsMap2 = ({ onPatternHover }) => {
   return (
@@ -29,8 +30,8 @@ const PatternsMap2 = ({ onPatternHover }) => {
           }}
           >
             <Tooltip
-              title={designPatternsPool[index].description}
-              sx={{ width: "240px", fontSize: "26px" }}
+              title={designPatternsTooltip[index].description}
+              sx={{ width: "200px", fontSize: "16px" }}
               arrow
             >
                   <Grid

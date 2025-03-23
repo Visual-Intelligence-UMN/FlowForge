@@ -1,26 +1,26 @@
 [
     {
         "name": "Single Agent",
-        "description": "Features a single agent designed to handle straightforward tasks efficiently without additional complexity. Ideal for simple, clearly defined tasks. Example use: summarizing short documents or answering basic questions."
+        "description": "The basic building block of multi-agent workflows. A single LLM enhanced with augmentations such as retrieval, tools and memory. Example: Summarizing documents."
     },
     {
         "name": "Reflection",
-        "description": "Consists of two agents—a main agent performing the primary task and a reflection agent that reviews performance and provides iterative feedback to improve performance. Suitable for tasks requiring refinement through feedback loops. Example use: iteratively improving a text draft or refining a strategic plan."
+        "description": "A feedback loop where one agent generates and optimizes the response while another evaluates it, until criterion is met (quality or max iteration). Example: Refining drafts."
     },
     {
         "name": "Discussion",
-        "description": "Engages multiple agents with distinct personas and roles in a collaborative dialogue, fostering creativity, brainstorming, idea generation, debate, and consensus building. Best for tasks benefiting from diverse perspectives. Example use: collaborative discussion, or strategic decision-making discussions."
+        "description": "A group of agents engage in a conversation, where they take turns speaking in a round-robin, random manner, or simultaneously. Extra agent to summarize is optional Example: Brainstorming ideas."
     },
     {
         "name": "Redundant",
-        "description": "Deploys multiple agents simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: reviewing the same input content simultaneously to generate more comprehensive and diverse insights."
+        "description": "Multiple agents simultaneously attempt on the same input, but adopting different personas, or perspectives, yielding diverse outputs that can be aggregated. Example: Comprehensive content reviews."
     },
     {
         "name": "Supervision",
-        "description": "Combines a supervisor agent overseeing multiple specialized worker agents. The supervisor dynamically routes requests based on varying requirements, efficiently managing and coordinating workers. Suitable for tasks with diverse and shifting focuses. Example use: diagnosing and classifying input to delegate them to specialized worker agents, such as refining content in aspects of creativity, clarity, or accuracy."
-    },    
+        "description": "A hierarchical structure where a central agent dynamically decide which worker agents to act based on the current generated output. Example: Content refinement."
+    },
     {
         "name": "Web Search Agent",
-        "description": "Utilizes a single agent equipped with web search capabilities to gather relevant information online. Ideal for tasks requiring extensive online research. Example use: conducting market research or gathering recent scientific findings."
+        "description": "Agent equipped with web search capabilities. Example: Conducting market research."
     }
 ]
