@@ -52,7 +52,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.8,
+            temperature: 0.4,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 

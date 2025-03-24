@@ -22,7 +22,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-1);
+    return stepMsgs.slice(-3);
   }
   
 const makeAgentNode = (params: {
@@ -46,7 +46,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 1,
+            temperature: 0.5,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 

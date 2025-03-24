@@ -26,7 +26,7 @@ async function createAgent({
 
     const llm = new ChatOpenAI({
         modelName: llmOption,
-        temperature: 1,
+        temperature: 0.3,
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
 
     });
@@ -87,9 +87,9 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log("lastMsg", lastMsg);
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 2));
         }
-        console.log("invokeMsg", invokeMsg);
+        console.log("invokeMsg for step", invokeMsg);
         // console.log("last lastMsg", state.messages[state.messages.length - 1])
         console.log(lastMsg)
         console.log("lastMsg", lastMsg);

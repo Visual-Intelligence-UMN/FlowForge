@@ -59,7 +59,7 @@ const handleReflection = (step) => {
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: optimizer.patternPrompt,
-                systemPrompt: "Your persona: " + optimizer.persona + " and your goal: " + optimizer.goal + optimizer.patternPrompt + taskPrompt
+                systemPrompt: "Your persona: " + optimizer.persona + " and your goal: " + optimizer.goal + taskPrompt
             },
             {
                 type: "evaluator",
@@ -70,7 +70,7 @@ const handleReflection = (step) => {
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: evaluator.patternPrompt,
-                systemPrompt: "Your persona: " + evaluator.persona + " and your goal: " + evaluator.goal + evaluator.patternPrompt + taskPrompt
+                systemPrompt: "Your persona: " + evaluator.persona + " and your goal: " + evaluator.goal + taskPrompt
             }
         ],
         edges: [
@@ -106,7 +106,7 @@ const handleSupervision = (step) => {
     const { stepDescription, pattern, template } = step;
     const { maxRound, workers = [], supervisor = {} } = template;
 
-    const taskPrompt = 'The task for the team is' + stepDescription;    
+    const taskPrompt = 'The task is: ' + stepDescription;    
 
     const supervisorPatternPrompt = 
     `You are a helpful supervisor who can coordinate the workers to complete the task \
