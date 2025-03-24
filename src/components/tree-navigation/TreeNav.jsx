@@ -124,7 +124,7 @@ const TreeNav = () => {
       const label = `Flow ${flowId}`;
       const taskSteps = getTaskSteps(flow)
       // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps
-      console.log("taskSteps for flow", flow, taskSteps)
+      // console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
@@ -154,7 +154,7 @@ const TreeNav = () => {
       const agentSteps = getAgentSteps(pattern)
       const agentMaxCalls = getAgentMaxCalls(pattern)
       const agentRuntime = getAgentRuntime(pattern)
-      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
+      // console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,

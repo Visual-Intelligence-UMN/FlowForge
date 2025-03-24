@@ -2,6 +2,7 @@ import GeneratePatterns from "./GeneratePatterns";
 import randomCombinePatterns from "./CombinePatterns";
 import { designPatternsTemplate } from "../patterns/patternsData";
 import GenerateTemplatesInfo from "./GenerateTemplates";
+import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
@@ -24,26 +25,30 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
   // TODO: remove the hardcoded patterns
   let exampleFlowsWithPatterns;
   if (!runRealtime) {
-    exampleFlowsWithPatterns = [
-      {
-        taskId: flow.taskFlowId,
-        taskFlowId: flow.taskFlowId + "-1",
-        taskFlowName: flow.taskFlowName,
-        patternId: flow.patternId,
-        taskFlowDescription: flow.taskFlowDescription,
-        taskFlowSteps: flow.taskFlowSteps,
-        taskFlowStart: flow.taskFlowStart,
-      },
-      {
-        taskId: flow.taskFlowId,
-        taskFlowId: flow.taskFlowId + "-2",
-        taskFlowName: flow.taskFlowName,
-        patternId: flow.patternId,
-        taskFlowDescription: flow.taskFlowDescription,
-        taskFlowSteps: flow.taskFlowSteps,
-        taskFlowStart: flow.taskFlowStart,
-      },
-    ];
+    const flowId = flow.taskFlowId;
+    console.log("flowId", flowId);
+    exampleFlowsWithPatterns = sampleTaskFlowsReview
+    .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+    // exampleFlowsWithPatterns = [
+    //   {
+    //     taskId: flow.taskFlowId,
+    //     taskFlowId: flow.taskFlowId + "-1",
+    //     taskFlowName: flow.taskFlowName,
+    //     patternId: flow.patternId,
+    //     taskFlowDescription: flow.taskFlowDescription,
+    //     taskFlowSteps: flow.taskFlowSteps,
+    //     taskFlowStart: flow.taskFlowStart,
+    //   },
+    //   {
+    //     taskId: flow.taskFlowId,
+    //     taskFlowId: flow.taskFlowId + "-2",
+    //     taskFlowName: flow.taskFlowName,
+    //     patternId: flow.patternId,
+    //     taskFlowDescription: flow.taskFlowDescription,
+    //     taskFlowSteps: flow.taskFlowSteps,
+    //     taskFlowStart: flow.taskFlowStart,
+    //   },
+    // ];
   } else {
     const flowWithPatterns = await GeneratePatterns(flow);
     exampleFlowsWithPatterns = randomCombinePatterns(flowWithPatterns, 2);
@@ -53,17 +58,17 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
 
   let exampleFlowsWithTemplates;
   if (!runRealtime) {
-    exampleFlowsWithTemplates = await Promise.all(
-      exampleFlowsWithPatterns.map(async (flow) => {
-        flow.taskFlowSteps.forEach((step) => {
-          const templatesInfo = designPatternsTemplate[step.pattern.name];
-          step.template = templatesInfo;
-        });
-        return flow;
-      })
-    );
+    exampleFlowsWithTemplates = exampleFlowsWithPatterns;
+    // exampleFlowsWithTemplates = await Promise.all(
+    //   exampleFlowsWithPatterns.map(async (flow) => {
+    //     flow.taskFlowSteps.forEach((step) => {
+    //       const templatesInfo = designPatternsTemplate[step.pattern.name];
+    //       step.template = templatesInfo;
+    //     });
+    //     return flow;
+    //   })
+    // );
   } else {
-    // TODO: remove the below comment for production
     exampleFlowsWithTemplates = await Promise.all(
       exampleFlowsWithPatterns.map(async (flow) => {
         const templatesInfo = await GenerateTemplatesInfo(flow);
@@ -104,6 +109,7 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
 
     return updatedPatterns;
   });
+  // console.log("updatedPatterns all", updatedPatterns);
 };
 
 export default OrganizePatterns;

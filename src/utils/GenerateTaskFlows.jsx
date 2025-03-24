@@ -188,12 +188,17 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (sampleTaskFlowData.taskFlows.length > 10) {
-        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows.slice(0, 10));
+      if (task.name.includes("Review a Paper")) {
+        const sampleRes = sampleTaskFlowData.taskFlows;
+        const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
+        returnData.taskFlows.push(...sampleflows);
+        return returnData;
       } else {
         returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
+        return returnData;
       }
-      return returnData;
+    } else {
+      // returnData.taskFlows = [oneStepFlow];
     }
 
     // const taskFlows = [];
