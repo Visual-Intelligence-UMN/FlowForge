@@ -584,7 +584,7 @@ const TreeNav = () => {
         sx={{
           width: "100%",
           justifyContent: "center",
-          height: treeNav.height - NodeHeight,
+          height: (NodeHeight + TextHeight) * 4 + RankSep * 3,
           display: "flex",
           alignItems: "flex-start",
           overflow: "auto",

@@ -1,5 +1,12 @@
 import { Handle, Position } from "@xyflow/react";
-import { Box, Typography, Select, MenuItem, Button, Tooltip } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  Tooltip,
+} from "@mui/material";
 import { designPatternsPool } from "../../../patterns/patternsData";
 import { designPatternsTemplate } from "../../../patterns/patternsData";
 import { SingleAgentForm } from "../../templates/template-agent/SingleAgentForm";
@@ -10,8 +17,10 @@ import { DiscussionForm } from "../../templates/template-discussion/DiscussionFo
 import { RedundantForm } from "../../templates/template-redundant/RedundantForm";
 import { VotingForm } from "../../templates/template-voting/VotingForm";
 import { PatternIcons } from "../../canvas-patterns/PatternIcons";
+import Icon from "@mui/material/Icon";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
-import Grow from '@mui/material/Grow';
+import Grow from "@mui/material/Grow";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
@@ -39,31 +48,45 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const patternForm = () => {
     switch (patternName) {
       case "Single Agent":
-        return <SingleAgentForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <SingleAgentForm data={data.template} onChange={onChangeTemplate} />
+        );
       case "Supervision":
-        return <SupervisionForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <SupervisionForm data={data.template} onChange={onChangeTemplate} />
+        );
       case "Validator":
-        return <ValidatorForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <ValidatorForm data={data.template} onChange={onChangeTemplate} />
+        );
       case "Reflection":
-        return <ReflectionForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <ReflectionForm data={data.template} onChange={onChangeTemplate} />
+        );
       case "Discussion":
-        return <DiscussionForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <DiscussionForm data={data.template} onChange={onChangeTemplate} />
+        );
       case "Redundant":
-        return <RedundantForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <RedundantForm data={data.template} onChange={onChangeTemplate} />
+        );
       // case "Voting":
       //   return <VotingForm data={data.template} onChange={onChangeTemplate} />;
       default:
-        return <SingleAgentForm data={data.template} onChange={onChangeTemplate} />;
+        return (
+          <SingleAgentForm data={data.template} onChange={onChangeTemplate} />
+        );
     }
   };
 
   const patternWidthMap = {
     "Single Agent": showContent ? [200, 450] : [200, 450],
-    "Supervision": showContent ? [230, 700] : [100, 450],
-    "Validator": showContent ? [450, 450] : [230, 450],
-    "Reflection": showContent ? [666, 600] : [333, 450],
-    "Discussion": showContent ? [300, 700] : [200, 450],
-    "Redundant": showContent ? [500, 700] : [300, 450],
+    Supervision: showContent ? [230, 700] : [100, 450],
+    Validator: showContent ? [450, 450] : [230, 450],
+    Reflection: showContent ? [666, 600] : [333, 450],
+    Discussion: showContent ? [300, 700] : [200, 450],
+    Redundant: showContent ? [500, 700] : [300, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
@@ -126,39 +149,29 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const taskDescription = () => {
     return (
-      <Box
+      <Typography
+        variant="body1"
         sx={{
-          flex: 1,
-          display: "flex",
-          transition: "all 0.3s ease-in-out",
+          fontSize: "18px",
+          mb: 1,
+          ml: 2,
+          textAlign: "left",
         }}
       >
-        <Typography
-          variant="body1"
-          sx={{
-            fontSize: "18px",
-            mb: 1,
-            alignSelf: "flex-start",
-          }}
-        >
-          <b>Task Description:</b> {data.stepDescription}
-        </Typography>
-      </Box>
+        <b>Task Description:</b> {data.stepDescription}
+      </Typography>
     );
   };
 
   const iconsDisplay = () => {
     return (
       <Box
-        className='level2-patterns inside'
+        className="level2-patterns inside icon"
         sx={{
-          transition: "opacity 0.3s ease-in-out",
           opacity: 1,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100%",
-          width: "100%",
           backgroundColor: hovered ? "#e3f2fd" : "#fff",
         }}
       >
@@ -209,7 +222,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         sx={{
           fontWeight: "bold",
           fontSize: "22px",
-          m: 0
+          m: 0,
         }}
       >
         Step {id.split("-")[1]}
@@ -233,13 +246,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const explanation = () => {
     const explanation = data.pattern.recommendationReason;
-    const placeholder = "This pattern is suitable because it optimizes cost and efficiency.";
+    const placeholder =
+      "This pattern is suitable because it optimizes cost and efficiency.";
     return (
       <Tooltip
         title={explanation || placeholder}
         arrow
         placement="right"
-        componentsProps={{
+        slotProps={{
           tooltip: {
             sx: {
               maxWidth: "150px",
@@ -247,231 +261,10 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           },
         }}
       >
-        <Button
-          size="small"
-          variant="outlined"
-        >
-          ?
-        </Button>
+        <InfoOutlinedIcon />
       </Tooltip>
     );
   };
-
-  // Existing ZoomOutLevel remains intact
-  const ZoomOutLevel = () => {
-    return (
-      <Box
-        sx={{
-          padding: 2,
-          border: "1px solid #ddd",
-          borderRadius: 4,
-          backgroundColor: "#fff",
-          minWidth: patternWidthMap[patternName]?.[0] || 100,
-          textAlign: "center",
-          maxWidth: patternWidthMap[patternName]?.[1] || 100,
-          boxShadow: 2,
-          gap: 0,
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
-        {nodeHandles()}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            padding: 1,
-          }}
-        >
-          {/* Top row: step number and pattern select centered */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            {stepNumber()}
-            {patternSelect()}
-          </Box>
-
-          {/* Second row: menu */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 3,
-            }}
-          >
-            {computationCost()}
-            {explanation()}
-            {/* <Button size="small" variant="outlined">
-              +
-            </Button> */}
-          </Box>
-
-          {/* Icons display row */}
-          <Box sx={{ marginTop: 1 }}>
-            {iconsDisplay()}
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
-
-  // New ZoomInLevel as per request
-  const ZoomInLevel = () => {
-    return (
-      <Box
-        sx={{
-          padding: 2,
-          border: "1px solid #ddd",
-          borderRadius: 4,
-          backgroundColor: "#fff",
-          minWidth: patternWidthMap[patternName]?.[0] || 100,
-          maxWidth: patternWidthMap[patternName]?.[1] || 100,
-          boxShadow: 2,
-          transition: "all 0.3s ease-in-out",
-        }}
-      >
-        {nodeHandles()}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-          }}
-        >
-          {/* Top row: left side shows step number and pattern select; right side shows task description */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-              }}
-            >
-              {stepNumber()}
-              {patternSelect()}
-            </Box>
-            {taskDescription()}
-          </Box>
-
-          {/* Second row: cost and explanation */}
-          <Box
-            sx={{
-              display: "flex",
-              gap: 3,
-              alignItems: "center",
-            }}
-          >
-            {computationCost()}
-            {explanation()}
-          </Box>
-
-          {/* Third row: detailed template */}
-          <Box>
-            {detailedTemplate()}
-          </Box>
-        </Box>
-      </Box>
-    );
-  };
-
-
-  // const ZoomInZoomOut = () => {
-  //   return (
-  //     <Box
-  //     sx={{
-  //       padding: 2,
-  //       border: "1px solid #ddd",
-  //       borderRadius: 4,
-  //       backgroundColor: "#fff",
-  //       minWidth: patternWidthMap[patternName]?.[0] || 100,
-  //       textAlign: "center",
-  //       maxWidth: patternWidthMap[patternName]?.[1] || 100,
-  //       boxShadow: 2,
-  //       gap: 0,
-  //       transition: "all 0.5s ease-in-out",
-  //     }}
-  //   >
-  //     <Handle
-  //       type="target"
-  //       position={Position.Left}
-  //       id={`in-${id}`}
-  //       isConnectable={isConnectable}
-  //       style={{ top: "50%", background: "blue" }}
-  //     />
-  //     <Handle
-  //       type="source"
-  //       position={Position.Right}
-  //       id={`out-${id}`}
-  //       isConnectable={isConnectable}
-  //       style={{ top: "50%", background: "#555" }}
-  //     />
-
-  //     <Box
-  //       sx={{
-  //         display: "flex",
-  //         flex: 1,
-  //         gap: 1,
-  //         padding: 1,
-  //       }}
-  //     >
-  //       <Box
-  //         sx={{
-  //           display: "flex",
-  //           flexDirection: "column",
-  //           maxWidth: "80%",
-  //         }}
-  //       >
-  //         <Typography variant="subtitle1" sx={{ fontWeight: "bold", m: 0 }}>
-  //           {id}
-  //         </Typography>
-  //         {patternSelect()}
-  //         {confirmButton()}
-  //       </Box>
-
-  //       {taskDescription()}
-
-  //       <Box sx={{ maxWidth: "30%", border: "1px solid #ddd" }}>
-  //         {/* You can place an icon here if you like */}
-  //       </Box>
-  //     </Box>
-
-  //     {showContent ? (
-  //       <Box
-  //         sx={{
-  //           maxWidth: "100%",
-  //           backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-  //           transition: "opacity 0.3s ease-in-out",
-  //           opacity: 1,
-  //         }}
-  //       >
-  //         {patternForm()}
-  //       </Box>
-  //     ) : (
-  //       <Box
-  //         sx={{
-  //           transition: "opacity 0.5s ease-in-out",
-  //           opacity: 1,
-  //         }}
-  //       >
-  //         <PatternIcons pattern={data.pattern} template={data.template} />
-  //       </Box>
-  //     )}
-
-  //   </Box>
-  //   )
-  // }
 
   return (
     <Box
@@ -486,7 +279,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         boxShadow: 2,
         gap: 0,
         transition: "all 0.3s ease-in-out",
-        
       }}
     >
       <Handle
@@ -508,25 +300,18 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         sx={{
           display: "flex",
           flex: 1,
-          gap: 1,
+          gap: 2,
           padding: 1,
+          // justifyContent: "space-between", // Evenly distribute elements horizontally
+          alignItems: "center", // Align items vertically
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "80%",
-          }}
-        >
-          {stepNumber()}
-          {patternSelect()}
-          {/* {confirmButton()} */}
-        </Box>
-
-        {showContent ? taskDescription() : iconsDisplay()}
-
+        {stepNumber()}
+        {patternSelect()}
+        {explanation()}
       </Box>
+
+      {showContent && taskDescription()}
 
       <Box
         sx={{
@@ -534,12 +319,13 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           justifyContent: "center",
           alignItems: "center",
           gap: 3,
+          pl: 2,
+          pr: 2,
         }}
       >
-        {showContent ? iconsDisplay() : null}
+        {iconsDisplay()}
         {computationCost()}
-        {explanation()}
-
+        {/* {explanation()} */}
       </Box>
 
       {showContent ? (
@@ -563,9 +349,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           {/* <PatternIcons pattern={data.pattern} template={data.template} /> */}
         </Box>
       )}
-
     </Box>
-    // <ZoomInZoomOut />
-    // showContent ? <ZoomInLevel /> : <ZoomOutLevel />
   );
 };
