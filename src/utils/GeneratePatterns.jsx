@@ -48,7 +48,7 @@ const GeneratePatterns = async (taskFlow) => {
         + stepLabel + " The stepDescription: " + stepDescription;
         try {
             const completion = await openai.beta.chat.completions.parse({
-                model: "gpt-4o-mini",
+                model: "gpt-4o",
                 messages: [
                 { role: "system", content: systemMessage },
                 { role: "user", content: userMessage },

@@ -406,20 +406,30 @@ const StreamOutput = ({ runConfig }) => {
             )}
           {/* </Grid> */}
           <Grid item size={6}>
+          {/* {streamData.isThreadActive && (
+            <Rating
+                name="userRating"
+                value={streamData.userRating || 0}
+                onChange={handleUserRatingChange}
+              />
+            )} */}
             {/* {streamData.userRating && (
               <Typography variant="h6">User Rating: {streamData.userRating} ⭐</Typography>
             )}
                          */}
             {/* <Grid item xs={2} sm={2}>
-              <Rating
-                name="userRating"
-                value={streamData.userRating || 0}
-                onChange={handleUserRatingChange}
-              />
+              
             </Grid> */}
             
             {streamData.timeUsed && (
-              <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
+              <>
+                <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
+                <Rating
+                  name="userRating"
+                value={streamData.userRating || 0}
+                onChange={handleUserRatingChange}
+              />
+              </>
             )}
           </Grid>
         </Grid>

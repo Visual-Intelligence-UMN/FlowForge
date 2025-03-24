@@ -9,7 +9,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
                 type: "singleAgent",
                 description: "Agent_tool_search",
                 tools: ["tool_WebSearch"],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 systemPrompt: patternSystemPrompt + taskPrompt 
             }
         ],
@@ -29,7 +29,7 @@ const handleSingleAgentWithPDFLoaderTool = (step) => {
                 type: "singleAgent",
                 description: "Agent_tool_pdf_loader",
                 tools: ["tool_PDFLoader"],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 systemPrompt: taskPrompt + patternSystemPrompt 
             }
         ],
@@ -53,7 +53,7 @@ const handleReflection = (step) => {
                 type: "optimizer",
                 description: "Optimizer",
                 tools: [],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: optimizerPatternPrompt,
                 systemPrompt: optimizerPatternPrompt + taskPrompt
@@ -62,7 +62,7 @@ const handleReflection = (step) => {
                 type: "evaluator",
                 description: "Evaluator",
                 tools: [],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: evaluatorPatternPrompt,
                 systemPrompt: evaluatorPatternPrompt + taskPrompt
@@ -119,7 +119,7 @@ const handleSupervision = (step) => {
           persona: worker.persona,
           goal: worker.goal,
           tools: [],
-          llm: "gpt-4o-mini",
+          llm: "gpt-4o",
           taskPrompt: taskPrompt,
           patternPrompt: worker.patternPrompt?.trim() || workerPatternPrompt,
           systemPrompt: worker.patternPrompt?.trim() + taskPrompt
@@ -132,7 +132,7 @@ const handleSupervision = (step) => {
         persona: supervisor.persona || "Supervisor",
         goal: supervisor.goal || "Supervisor",
         tools: [],
-        llm: "gpt-4o-mini",
+        llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: supervisor.patternPrompt?.trim() || supervisorPatternPrompt,
         systemPrompt: supervisor.patternPrompt?.trim() + taskPrompt,
@@ -190,7 +190,7 @@ const handleDiscussion = (step) => {
             type: "singleAgent",
             description: `Agent${index + 1}`,
             tools: [],
-            llm: "gpt-4o-mini",
+            llm: "gpt-4o",
             persona: agent.persona,
             goal: agent.goal,
             taskPrompt: taskPrompt,
@@ -226,7 +226,7 @@ const handleDiscussion = (step) => {
             type: "singleAgent",
             description: "Summary",
             tools: [],
-            llm: "gpt-4o-mini",
+            llm: "gpt-4o",
             persona: summary.persona || "Summary",
             goal: summary.goal || "Summary",
             taskPrompt: taskPrompt,
@@ -285,7 +285,7 @@ const handleVoting = (step) => {
             persona: agent.persona,
             rubric: agent.rubric,
             tools: [],
-            llm: "gpt-4o-mini",
+            llm: "gpt-4o",
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
             systemPrompt:  taskPrompt + agent.patternPrompt?.trim() + "Your persona is " + agent.persona + " and your rubric is " + agent.rubric
@@ -296,7 +296,7 @@ const handleVoting = (step) => {
         type: "singleAgent",
         description: "Aggregator",
         tools: [],
-        llm: "gpt-4o-mini",
+        llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
         systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
@@ -363,7 +363,7 @@ const handleRedundant = (step) => {
             persona: agent.persona,
             goal: agent.goal,
             tools: [],
-            llm: "gpt-4o-mini",
+            llm: "gpt-4o",
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
             systemPrompt: taskPrompt + agent.patternPrompt?.trim() + "Your persona is " + agent.persona + " and your goal is " + agent.goal
@@ -373,7 +373,7 @@ const handleRedundant = (step) => {
         type: "singleAgent",
         description: "Aggregator",
         tools: [],
-        llm: "gpt-4o-mini",
+        llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
         systemPrompt: taskPrompt + aggregation.patternPrompt?.trim()
@@ -423,7 +423,7 @@ const handleSingleAgent = (step) => {
                 type: "singleAgent",
                 description: "Agent",
                 tools: [],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: patternSystemPrompt,
                 systemPrompt: patternSystemPrompt + taskPrompt + "You have persona is " + persona + " and your goal is " + goal
@@ -446,7 +446,7 @@ const handleValidator = (step) => {
                 type: "singleAgent",
                 description: "Agent",
                 tools: [],
-                llm: "gpt-4o-mini",
+                llm: "gpt-4o",
                 taskPrompt: taskPrompt,
                 patternPrompt: patternPrompt?.trim() || patternSystemPrompt,
                 systemPrompt: patternPrompt + taskPrompt + "Your persona is " + persona + " and your goal is " + goal

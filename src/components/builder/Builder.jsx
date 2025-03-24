@@ -153,7 +153,7 @@ const Builder = () => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
       //   console.log("agentsConfig", agentsConfig);
-      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig, runRealtime);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig, runRealtime, selectedTask);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
     }

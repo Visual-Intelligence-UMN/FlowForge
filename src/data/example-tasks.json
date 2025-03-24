@@ -9,8 +9,8 @@
   {
     "id": "task2",
     "name": "[Use Case] Machine Learning Visualization",
-    "requiresUpload": true,
-    "description": "Generate insightful, interactive visualizations based on a dataset provided as a CSV file in plain text format. The visualizations should help uncover patterns or trends in the data and may include any suitable chart or graph type. Ensure the result is executable first, then try to make it interactive based on runnable solutions.",
+    "requiresUpload": false,
+    "description": "Task is to generate insightful, decent and / or interactive visualization Python Codes based on a CSV dataset provided in plain text format, please always first transform it into a rich, concise, and informative natural language summary that clearly describes the contents, attributes,  in the data, prepared for the visualization goals analysis and generation. Then, generate insightful and interactive visualizations designed to highlight important trends, correlations, or anomalies. The expected output of visualizations should be executable Python codes for the dataset, utilizing appropriate chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final Python codes should be runnable, informative and engaging.",
     "uploadedFile": null
   },
   {

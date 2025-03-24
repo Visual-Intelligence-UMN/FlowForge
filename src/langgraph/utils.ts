@@ -71,7 +71,8 @@ function handle_agent_response(result: any, name: string) {
 async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string, previousSteps: string[]) {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
-    const firstMsg = state.messages.slice(0, 1);
+    let firstMsg = state.messages.slice(0, 1);
+    firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
     // add inital msg or not?

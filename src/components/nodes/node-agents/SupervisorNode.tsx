@@ -32,6 +32,8 @@ const SingleAgentNode = ({ id, data }) => {
           >
             <MenuItem value="gpt-4o-mini">GPT-4o Mini</MenuItem>
             <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+            <MenuItem value="gpt-4o">GPT-4o</MenuItem>
+            <MenuItem value="gpt-o3-mini-high">GPT-o3-mini-high</MenuItem>
             {/* <MenuItem value="other">Other</MenuItem> */}
           </Select>
         </FormControl>

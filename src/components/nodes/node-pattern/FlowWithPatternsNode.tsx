@@ -28,6 +28,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     const chosenTemplate = designPatternsTemplate[chosenName] || {};
+    
     updateNodeFieldset(id, "pattern.name", chosenName);
     updateNodeFieldset(id, "template", chosenTemplate);
   };
@@ -62,7 +63,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     "Supervision": showContent ? [230, 700] : [100, 450],
     "Validator": showContent ? [450, 450] : [230, 450],
     "Reflection": showContent ? [666, 600] : [333, 450],
-    "Discussion": showContent ? [300, 700] : [200, 450],
+    "Discussion": showContent ? [500, 720] : [200, 450],
     "Redundant": showContent ? [500, 700] : [300, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
