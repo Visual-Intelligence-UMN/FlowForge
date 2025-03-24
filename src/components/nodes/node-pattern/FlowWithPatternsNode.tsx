@@ -93,42 +93,40 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     default: [100, 100],
   };
 
-  const patternSelect = () => {
-    return (
-      <Select
-        label="Pattern"
-        value={patternName}
-        onChange={handleSelectPattern}
-        size="small"
-        sx={{
-          fontSize: "16px",
-          marginBottom: 1,
-          maxWidth: 150,
-          backgroundColor: hovered ? "#e3f2fd" : "#fff",
-          "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#90caf9",
-          },
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#42a5f5",
-          },
-        }}
-        className="nodrag nopan"
-      >
-        {designPatternsPool.map((pattern) => (
-          <MenuItem
-            key={pattern.name}
-            value={pattern.name}
-            sx={{
-              cursor: "pointer",
-              fontSize: "12px",
-            }}
-          >
-            {pattern.name}
-          </MenuItem>
-        ))}
-      </Select>
-    );
-  };
+  const patternSelect = (
+    <Select
+      label="Pattern"
+      value={patternName}
+      onChange={handleSelectPattern}
+      size="small"
+      sx={{
+        fontSize: "16px",
+        marginBottom: 1,
+        maxWidth: 150,
+        backgroundColor: hovered ? "#e3f2fd" : "#fff",
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#90caf9",
+        },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#42a5f5",
+        },
+      }}
+      className="nodrag nopan"
+    >
+      {designPatternsPool.map((pattern) => (
+        <MenuItem
+          key={pattern.name}
+          value={pattern.name}
+          sx={{
+            cursor: "pointer",
+            fontSize: "12px",
+          }}
+        >
+          {pattern.name}
+        </MenuItem>
+      ))}
+    </Select>
+  );
 
   const confirmButton = () => {
     return (
@@ -147,38 +145,34 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-  const taskDescription = () => {
-    return (
-      <Typography
-        variant="body1"
-        sx={{
-          fontSize: "18px",
-          mb: 1,
-          ml: 2,
-          textAlign: "left",
-        }}
-      >
-        <b>Task Description:</b> {data.stepDescription}
-      </Typography>
-    );
-  };
+  const taskDescription = (
+    <Typography
+      variant="body1"
+      sx={{
+        fontSize: "18px",
+        mb: 1,
+        ml: 2,
+        textAlign: "left",
+      }}
+    >
+      <b>Task Description:</b> {data.stepDescription}
+    </Typography>
+  );
 
-  const iconsDisplay = () => {
-    return (
-      <Box
-        className="level2-patterns inside icon"
-        sx={{
-          opacity: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: hovered ? "#e3f2fd" : "#fff",
-        }}
-      >
-        <PatternIcons pattern={data.pattern} template={data.template} />
-      </Box>
-    );
-  };
+  const iconsDisplay = (
+    <Box
+      className="level2-patterns inside icon"
+      sx={{
+        opacity: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: hovered ? "#e3f2fd" : "#fff",
+      }}
+    >
+      <PatternIcons pattern={data.pattern} template={data.template} />
+    </Box>
+  );
 
   const detailedTemplate = () => {
     return (
@@ -216,55 +210,52 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     );
   };
 
-  const stepNumber = () => {
-    return (
-      <Typography
-        sx={{
-          fontWeight: "bold",
-          fontSize: "22px",
-          m: 0,
-        }}
-      >
-        Step {id.split("-")[1]}
-      </Typography>
-    );
-  };
+  const stepLabel = (
+    <Typography
+      sx={{
+        fontWeight: "bold",
+        fontSize: "22px",
+        m: 0,
+      }}
+    >
+      {data.stepLabel}
+    </Typography>
+  );
 
-  const computationCost = () => {
-    const { calls, runtime } = calculateCost(data.pattern, data.template);
-    return (
-      <Typography
-        sx={{
-          fontSize: "18px",
-          fontWeight: "bold",
-        }}
-      >
-        {calls} LLM calls
-      </Typography>
-    );
-  };
+  const { calls, runtime, calls_number } = calculateCost(
+    data.pattern,
+    data.template
+  );
+  const computationCost = (
+    <Typography
+      sx={{
+        fontSize: "18px",
+      }}
+    >
+      {showContent
+        ? `${calls} = ${calls_number} LLM calls`
+        : `${calls_number} LLM calls`}
+    </Typography>
+  );
 
-  const explanation = () => {
-    const explanation = data.pattern.recommendationReason;
-    const placeholder =
-      "This pattern is suitable because it optimizes cost and efficiency.";
-    return (
-      <Tooltip
-        title={explanation || placeholder}
-        arrow
-        placement="right"
-        slotProps={{
-          tooltip: {
-            sx: {
-              maxWidth: "150px",
-            },
+  const placeholder =
+    "This pattern is suitable because it optimizes cost and efficiency.";
+  const explanation = (
+    <Tooltip
+      title={data.pattern.recommendationReason || placeholder}
+      arrow
+      placement="right"
+      slotProps={{
+        tooltip: {
+          sx: {
+            maxWidth: "150px",
           },
-        }}
-      >
-        <InfoOutlinedIcon />
-      </Tooltip>
-    );
-  };
+        },
+      }}
+    >
+      <InfoOutlinedIcon color="primary" />
+    </Tooltip>
+  );
 
   return (
     <Box
@@ -296,6 +287,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
+      {stepLabel}
       <Box
         sx={{
           display: "flex",
@@ -304,14 +296,14 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           padding: 1,
           // justifyContent: "space-between", // Evenly distribute elements horizontally
           alignItems: "center", // Align items vertically
+          justifyContent: "center",
         }}
       >
-        {stepNumber()}
-        {patternSelect()}
-        {explanation()}
+        {patternSelect}
+        {explanation}
       </Box>
 
-      {showContent && taskDescription()}
+      {showContent && taskDescription}
 
       <Box
         sx={{
@@ -323,8 +315,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
           pr: 2,
         }}
       >
-        {iconsDisplay()}
-        {computationCost()}
+        {iconsDisplay}
+        {computationCost}
         {/* {explanation()} */}
       </Box>
 
