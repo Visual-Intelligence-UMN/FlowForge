@@ -1,14 +1,7 @@
 [
   {
-    "id": "task3",
-    "name": "[Dev Test] Travel Planning",
-    "requiresUpload": false,
-    "description": "Plan a travel itinerary for a given destination.",
-    "uploadedFile": null
-  },
-  {
     "id": "task5",
-    "name": "[Use Case] Review a Paper",
+    "name": "[Dev & Use Case] Review a Paper",
     "requiresUpload": false,
     "description": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. Multiple, distinct peer-review workflows for the provided academic paper. Each workflow should illustrate a unique but comprehensive and systematic process, adhering to established scholarly standards. For every workflow, explicitly address: Actionable Improvement Suggestions. Provide clear, specific feedback on how to enhance the manuscript, such as reworking arguments, refining analyses, or improving clarity and structure. Strengths and Weaknesses: Pinpoint the paper’s most notable contributions as well as areas requiring further development or clarification. Additional Literature, Experiments, or Analyses: Suggest relevant references, new data collection, or alternative methodological approaches if needed. Explicit Recommendation: Conclude with a recommendation (accept, minor revision, major revision, or reject) and a concise statement that justifies your decision using detailed evidence from your analysis. Scholarly Rigor and Relevance: Evaluate the relevance of the research objectives, the appropriateness of the methodology, its rigor and validity, and the originality of the findings. The goal is to generate a range of possible strategies, each offering a clear, thorough path to reviewing and enhancing the paper.",
     "uploadedFile": null
@@ -32,6 +25,13 @@
     "name": "Generate Presentation Script",
     "requiresUpload": false,
     "description": "Generate a detailed and well-structured presentation script based on a specified topic. The script should feature an engaging opening to immediately capture the audience's attention, clearly outlined key points that align logically with visual elements (such as slides or graphics), smooth transitions between sections, and a concise, impactful conclusion. It should incorporate suggestions for visual aids or multimedia content to enhance understanding and retention of information. The generated script must cater to the intended audience, appropriately balancing technical detail with accessibility and maintaining a tone suitable for professional, educational, or casual settings as required. Additionally, the script should recommend an ideal presentation duration, with timing allocated effectively for each key segment to ensure clarity and audience engagement.",
+    "uploadedFile": null
+  },
+  {
+    "id": "task3",
+    "name": "Travel Planning",
+    "requiresUpload": false,
+    "description": "Plan a travel itinerary for a given destination.",
     "uploadedFile": null
   }
 ]

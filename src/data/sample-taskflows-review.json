@@ -570,8 +570,8 @@
                     "stepLabel": "Solo review",
                     "stepDescription": "Each reviewer reads the paper independently, noting down important observations and potential improvements.",
                     "pattern": {
-                        "name": "Discussion",
-                        "recommendationReason": "The Discussion design pattern allows for engagement in a collaborative dialogue after the individual reviews are done. While the initial review is solo, the subsequent phases can benefit from diverse perspectives during discussions about the noted observations, thus enriching the synthesis of feedback and fostering comprehensive development of ideas for the paper."
+                        "name": "Redundant",
+                        "recommendationReason": "The Redundant design pattern allows for independent review and feedback before reviews aggregated. While the initial review is solo, the subsequent phases can benefit from diverse perspectives during discussions about the noted observations, thus enriching the synthesis of feedback and fostering comprehensive development of ideas for the paper."
                     },
                     "nextSteps": [
                         "step-2"
@@ -584,27 +584,27 @@
                             {
                                 "persona": "Reviewer A",
                                 "goal": "Conduct a detailed analysis of the paper, identifying key strengths and weaknesses while taking notes on potential improvements.",
-                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                                "patternPrompt": "Helpful assistant who can finsh the task"
                             },
                             {
                                 "persona": "Reviewer B",
                                 "goal": "Read the paper independently, focusing on clarity and coherence, and record observations that could enhance the overall quality.",
-                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                                "patternPrompt": "Helpful assistant who can finsh the task"
                             },
                             {
                                 "persona": "Reviewer C",
                                 "goal": "Evaluate the paper's methodology and results, making note of any gaps or areas for clarification.",
-                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                                "patternPrompt": "Helpful assistant who can finsh the task"
                             },
                             {
                                 "persona": "Reviewer D",
                                 "goal": "Critique the paper's argument structure and evidence presentation, jotting down suggestions for enhancement."
                             }
                         ],
-                        "summary": {
-                            "persona": "Facilitator",
-                            "goal": "Guide the subsequent discussion phase by synthesizing individual reviews, encouraging dialogue, and ensuring all perspectives are considered.",
-                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        "aggregation": {
+                            "persona": "Aggregator Reviewer",
+                            "goal": "Summarize and aggregate all the independent reviews from all the previous reviewers, maintian the comprehensive and detailed feedbacks.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
                         }
                     }
                 },

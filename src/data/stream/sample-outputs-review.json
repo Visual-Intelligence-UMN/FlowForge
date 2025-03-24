@@ -1,0 +1,19 @@
+{
+    "1-1-1":{
+        "inputMessage": {
+            "sender": "User",
+            "content": "",
+            "showFullContent": false
+        },
+        "intermediaryMessages": [],
+        "finalMessage": {
+            "sender": "",
+            "content": "",
+            "showFullContent": false
+        },
+        "isThreadActive": true,
+        "isVisible": true,
+        "userRating": 3,
+        "timeUsed": null
+    }
+}

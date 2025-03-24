@@ -47,7 +47,7 @@ const OrganizeConfig = async (pattern, agentsConfig, setAgentsConfig, runRealtim
     // console.log("newly updatedAgentsConfig list", updatedAgentsConfig);
     return updatedAgentsConfig;
   });
-  console.log("updatedAgentsConfig all", updatedAgentsConfig);
+  // console.log("updatedAgentsConfig all", updatedAgentsConfig);
 };
 
 export default OrganizeConfig;
