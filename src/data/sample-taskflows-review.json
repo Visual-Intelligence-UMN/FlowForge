@@ -578,8 +578,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 3,
-                        "withSummary": true,
+                        "maxRound": 1,
                         "agents": [
                             {
                                 "persona": "Reviewer A",
@@ -978,14 +977,13 @@
                     "stepLabel": "Baseline flow",
                     "stepDescription": "Conduct a comprehensive and systematic review of a specified academic paper. The review process should emulate standard peer-review practices or other review processes. Multiple, distinct peer-review workflows for the provided academic paper. Each workflow should illustrate a unique but comprehensive and systematic process, adhering to established scholarly standards. For every workflow, explicitly address: Actionable Improvement Suggestions. Provide clear, specific feedback on how to enhance the manuscript, such as reworking arguments, refining analyses, or improving clarity and structure. Strengths and Weaknesses: Pinpoint the paper’s most notable contributions as well as areas requiring further development or clarification. Additional Literature, Experiments, or Analyses: Suggest relevant references, new data collection, or alternative methodological approaches if needed. Explicit Recommendation: Conclude with a recommendation (accept, minor revision, major revision, or reject) and a concise statement that justifies your decision using detailed evidence from your analysis. Scholarly Rigor and Relevance: Evaluate the relevance of the research objectives, the appropriateness of the methodology, its rigor and validity, and the originality of the findings. The goal is to generate a range of possible strategies, each offering a clear, thorough path to reviewing and enhancing the paper.",
                     "pattern": {
-                        "name": "Discussion",
-                        "recommendationReason": "The Discussion pattern is ideal for this step as it promotes collaborative dialogue among multiple agents with distinct perspectives. Given the requirement for multiple peer-review workflows, engaging different agents to explore unique and comprehensive review approaches will enrich the review process. This fosters creativity in generating diverse feedback, discussing methodological appropriateness, and debating the relevance and rigor of the scholarly work, aligning it directly with the task goals."
+                        "name": "Redundant",
+                        "recommendationReason": "The Redundant pattern is ideal for this step as it promotes independent review and feedback before reviews aggregated. While the initial review is solo, the subsequent phases can benefit from diverse perspectives during discussions about the noted observations, thus enriching the synthesis of feedback and fostering comprehensive development of ideas for the paper."
                     },
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 3,
-                        "withSummary": true,
+                        "maxRound": 1,
                         "agents": [
                             {
                                 "persona": "Peer Reviewer A",
@@ -1011,10 +1009,10 @@
                                 "goal": "Ensure that all reviews adhere to established scholarly standards and provide critical insight into the relevance and rigor of the research objectives."
                             }
                         ],
-                        "summary": {
-                            "persona": "Lead Reviewer",
-                            "goal": "Synthesize feedback from all agents, ensuring holistic and coherent final recommendations are presented, and verify that all aspects of the review requirements are met.",
-                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        "aggregation": {
+                            "persona": "Aggregator Reviewer",
+                            "goal": "Aggregate the reviews from all agents, ensuring holistic and coherent final recommendations are presented, and verify that all aspects of the review requirements are met.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
                         }
                     }
                 }

@@ -172,10 +172,10 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                         ref={xAxisRef}
                         transform={`translate(0, ${svgHeight - config.margin.bottom - config.nanSpace})`}
                     />
-                    <g
+                    {/* <g
                         ref={yAxisRef}
                         transform={`translate(${config.margin.left + config.nanSpace}, 0)`}
-                    />
+                    /> */}
 
             </svg>
         </Box>
