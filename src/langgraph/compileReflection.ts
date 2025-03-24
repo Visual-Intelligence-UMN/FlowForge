@@ -86,7 +86,7 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
         }
-        if (response_goto.length === 0) {
+        if (response_goto === undefined) {
             response_goto = "__end__";
             // console.log("response_goto in compileReflection next steps", response_goto);
         }

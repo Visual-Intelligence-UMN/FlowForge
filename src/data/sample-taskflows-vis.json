@@ -59,8 +59,7 @@
         "taskFlowDescription": "A concise task flow that transforms data into summaries and visual codes in parallel streams.",
         "taskFlowStart": {
             "nextSteps": [
-                "step-1",
-                "step-2"
+                "step-1"
             ],
             "input": {
                 "text": "CSV data consisting of customer demographics and purchase behavior.",
@@ -74,7 +73,7 @@
                 "stepLabel": "Summarize in Language",
                 "stepDescription": "Develop a natural language overview of the dataset, capturing key features like demographics and behavioral trends.",
                 "nextSteps": [
-                    "step-3"
+                    "step-2"
                 ]
             },
             {
@@ -410,8 +409,7 @@
             "taskFlowStart": {
                 "stepId": "step-0",
                 "nextSteps": [
-                    "step-1",
-                    "step-2"
+                    "step-1"
                 ],
                 "input": {
                     "text": "CSV data consisting of customer demographics and purchase behavior.",
@@ -429,7 +427,7 @@
                         "recommendationReason": "The Single Agent pattern is effective for generating a clear and straightforward natural language summary of the dataset, maintaining focus on key features without introducing complexity."
                     },
                     "nextSteps": [
-                        "step-3"
+                        "step-2"
                     ],
                     "template": {
                         "confirm": false,
@@ -523,8 +521,7 @@
             "taskFlowStart": {
                 "stepId": "step-0",
                 "nextSteps": [
-                    "step-1",
-                    "step-2"
+                    "step-1"
                 ],
                 "input": {
                     "text": "CSV data consisting of customer demographics and purchase behavior.",
@@ -542,7 +539,7 @@
                         "recommendationReason": "The Redundant pattern allows multiple agents to work in parallel on different aspects of the data overview, ensuring comprehensive coverage of demographics and behavioral trends."
                     },
                     "nextSteps": [
-                        "step-3"
+                        "step-2"
                     ],
                     "template": {
                         "confirm": false,

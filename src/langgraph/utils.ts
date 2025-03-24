@@ -72,7 +72,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     let firstMsg = state.messages.slice(0, 1);
-    firstMsg = [] // ? 
+    // firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
     // add inital msg or not?
