@@ -21,7 +21,7 @@ import {
   workflowInputAtom,
   canvasPagesAtom,
   multiStreamOutputAtom,
-  runRealtimeAtom
+  runRealtimeAtom,
 } from "../../patterns/GlobalStates";
 
 import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
@@ -29,6 +29,8 @@ import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+import sampleOutputsVis from "../../data/stream/sample-outputs-vis.json";
+
 
 const WORD_LIMIT = 30; // For showing short content previews
 
@@ -60,11 +62,12 @@ const StreamOutput = ({ runConfig }) => {
     timeUsed: 0,    // store time used for streaming in ms (or seconds)
   };
   let streamData;
-  if (runRealtime){
-    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  if (selectedTask?.name?.includes("Visualization")){
+    streamData = sampleOutputsVis[runConfig?.configId] || defaultData;
   } else {
     streamData = multiStreamOutput[runConfig?.configId] || defaultData;
   }
+  
 
   // Helper: use functional updates so we don’t clobber concurrent changes
   const updateStreamData = (updateOrFn) => {
@@ -384,7 +387,7 @@ const StreamOutput = ({ runConfig }) => {
 
       {/* Only show the input form if isThreadActive */}
       <Box container spacing={2} alignItems="center">
-        {streamData.isThreadActive && displayInputMessage()}
+        {streamData?.isThreadActive && displayInputMessage()}
 
         {/* The user’s initial input message */}
         <Grid container spacing={2} alignItems="center" p={2}>

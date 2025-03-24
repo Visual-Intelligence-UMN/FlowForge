@@ -32,8 +32,8 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
       exampleFlowsWithPatterns = sampleTaskFlowsReview
       .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Visualization")) {
-      exampleFlowsWithPatterns = sampleTaskFlowsVis
-      .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
+      exampleFlowsWithPatterns = sampleTaskFlowsVis.flowsWtihPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     }
     // exampleFlowsWithPatterns = [
     //   {
