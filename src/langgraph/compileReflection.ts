@@ -21,7 +21,8 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-1);
+    return stepMsgs.slice(-2);
+    // get two previous msg
   }
   
 const makeAgentNode = (params: {
@@ -84,6 +85,10 @@ const makeAgentNode = (params: {
             console.log ("next steps")
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
+        }
+        if (response_goto.length === 0) {
+            response_goto = "__end__";
+            // console.log("response_goto in compileReflection next steps", response_goto);
         }
         
         // console.log("response_goto in compileReflection", response_goto);
