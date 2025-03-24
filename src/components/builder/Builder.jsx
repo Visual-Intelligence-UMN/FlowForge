@@ -124,7 +124,7 @@ const Builder = () => {
         configId: canvasPages.configId,
       });
       console.log("builder pattern generating to set canvas", canvasPages);
-      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime);
+      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime, selectedTask);
       setPatternsGenerate(1);
       setPatternsFlow(null);
     }
@@ -153,7 +153,8 @@ const Builder = () => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
       //   console.log("agentsConfig", agentsConfig);
-      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig, runRealtime, selectedTask);
+      console.log("selectedTask in builder", selectedTask);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig, runRealtime);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
     }

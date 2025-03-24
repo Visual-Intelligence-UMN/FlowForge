@@ -27,6 +27,7 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
   if (!runRealtime) {
     const flowId = flow.taskFlowId;
     console.log("flowId", flowId);
+    console.log("selectedTask", selectedTask);
     if (selectedTask.name.includes("Review a Paper")) {
       exampleFlowsWithPatterns = sampleTaskFlowsReview
       .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
