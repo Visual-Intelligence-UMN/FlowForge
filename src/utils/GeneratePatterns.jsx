@@ -32,9 +32,9 @@ const GeneratePatterns = async (taskFlow) => {
     });
 
     const systemMessage = promptGeneratePatterns.systemMessage
-    .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => pattern.name + ": " + pattern.description).join(", "));
+    .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => ` - ${pattern.name}: ${pattern.description}`).join("\n"));
 
-    console.log("System message to generate patterns:", systemMessage);
+    // console.log("System message to generate patterns:", systemMessage);
 
     for (const step of taskFlowSteps) {
         const stepId = step.stepId;
@@ -43,7 +43,7 @@ const GeneratePatterns = async (taskFlow) => {
         const stepLabel = step.stepLabel;
         const stepDescription = step.stepDescription;
 
-        const userMessage = "This step is part of the workflow: " + taskFlowDescription + ". " 
+        const userMessage = "Please recommend patterns for this step as part of the workflow: " + taskFlowDescription + ". " 
         + "This specifc stepName is : " + stepName + " The stepLabel: " 
         + stepLabel + " The stepDescription: " + stepDescription;
         try {
