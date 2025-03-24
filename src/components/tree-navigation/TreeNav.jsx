@@ -124,7 +124,7 @@ const TreeNav = () => {
       const label = `Flow ${flowId}`;
       const taskSteps = getTaskSteps(flow)
       // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps
-      console.log("taskSteps for flow", flow, taskSteps)
+      // console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
@@ -154,7 +154,7 @@ const TreeNav = () => {
       const agentSteps = getAgentSteps(pattern)
       const agentMaxCalls = getAgentMaxCalls(pattern)
       const agentRuntime = getAgentRuntime(pattern)
-      console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
+      // console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
@@ -170,7 +170,8 @@ const TreeNav = () => {
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
             'taskStepNum': taskSteps.length, 
-            'agentStepNum': agentSteps.length,
+            // 'agentStepNum': agentSteps.length,
+            'agentStepNum': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
             'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
             'runtime': agentRuntime.reduce((acc, curr) => acc + curr, 0)
           }
@@ -223,7 +224,6 @@ const TreeNav = () => {
           id: configId,
           type: "compiled",
         },
-        //TODO: replace with actual data
         dims: {
           'taskStepNum': taskSteps.length,
           'agentStepNum': agentSteps.length,
@@ -231,7 +231,6 @@ const TreeNav = () => {
           'timeUsed': timeUsed,
           // 'maxCalls': maxCalls,
           // 'runtime': runtime,
-          //TODO: other metrics can be added
         }
       });
       const [flowId, patternPart] = configId.split("-");
@@ -467,9 +466,11 @@ const TreeNav = () => {
     } else if (layer === "compiled") {
       // console.log("compiled node clicked", compiledConfigs);
       const configId = node.data.id;
+      const flowWithConfig = agentsConfig.find((item) => item.configId === configId)
       console.log(
-        "compiled node clicked",
-        compiledConfigs.find((item) => item.configId === configId)
+        "compiled node clicked (with config)",
+        compiledConfigs.find((item) => item.configId === configId),
+        flowWithConfig
       );
       setCanvasPages({
         type: "compiled",
@@ -575,7 +576,7 @@ const TreeNav = () => {
     return false;
   };
 
-  console.info('treeNav', treeNav)
+  // console.info('treeNav', treeNav)
   return treeNav.nodes?.length > 0 &&
     <>
       <Box

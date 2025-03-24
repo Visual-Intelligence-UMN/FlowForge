@@ -1,6 +1,6 @@
 import { handlersMap } from "./handlers";
 
-const GenerateRunnableConfig = async (workflow) => {
+const GenerateRunnableConfig = async (workflow, runRealtime) => {
     const { taskId, taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, taskFlowStart, patternId } = workflow;
     const agentsConfigs = [];
     const agentsConfig = {
@@ -16,9 +16,10 @@ const GenerateRunnableConfig = async (workflow) => {
     for (const step of taskFlowSteps) {
         console.log("step in generate config", step);
         const { stepId, stepName, stepLabel, stepDescription, pattern, config, template, nextSteps } = step;
+        let newConfig = {};
         if (handlersMap[pattern.name]) {
-            let newConfig = handlersMap[pattern.name](step);
-           
+            newConfig = handlersMap[pattern.name](step);
+        
             const { maxRound, type, nodes } = newConfig;
             let runtime = maxRound;
             let maxCalls = 1;
@@ -49,6 +50,7 @@ const GenerateRunnableConfig = async (workflow) => {
             }
             newConfig.runtime = runtime;
             newConfig.maxCalls = maxCalls;
+            
             agentsConfig.taskFlowSteps.push({
                 stepId,
                 stepName,

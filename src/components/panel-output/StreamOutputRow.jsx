@@ -20,8 +20,11 @@ import {
   selectedTaskAtom,
   workflowInputAtom,
   canvasPagesAtom,
+  multiStreamOutputAtom,
+  runRealtimeAtom
 } from "../../patterns/GlobalStates";
-import { multiStreamOutputAtom } from "../../patterns/GlobalStates";
+
+import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
 
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
@@ -33,7 +36,7 @@ const StreamOutput = ({ runConfig }) => {
   const [selectedTask] = useAtom(selectedTaskAtom);
   const [workflowInput] = useAtom(workflowInputAtom);
   const [canvasPages] = useAtom(canvasPagesAtom);
-
+  const [runRealtime] = useAtom(runRealtimeAtom);
   // This single global store holds *all* configs, keyed by configId.
   const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
 
@@ -54,10 +57,14 @@ const StreamOutput = ({ runConfig }) => {
     isVisible: true,
     // New additions:
     userRating: 0,     // store user rating
-    timeUsed: null,    // store time used for streaming in ms (or seconds)
+    timeUsed: 0,    // store time used for streaming in ms (or seconds)
   };
-
-  const streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  let streamData;
+  if (runRealtime){
+    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  } else {
+    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  }
 
   // Helper: use functional updates so we don’t clobber concurrent changes
   const updateStreamData = (updateOrFn) => {

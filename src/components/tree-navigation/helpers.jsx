@@ -31,7 +31,7 @@ export function getCallsCountForStep(step) {
           maxCalls = maxRound * 2;
           runtime = maxRound * 2;
           agentCount = 2;
-          console.log("Reflection", maxCalls, runtime, agentCount)
+        //   console.log("Reflection", maxCalls, runtime, agentCount)
           break;
         case "Discussion":
           const {withSummary, agents} = template;

@@ -143,7 +143,7 @@ const Builder = () => {
       setCanvasPages({
         type: "pattern",
         flowId: canvasPages.flowId,
-        patternId: randomPattern.patternId,
+        patternId: randomPattern?.patternId,
         configId: [],
       });
     }
@@ -153,7 +153,7 @@ const Builder = () => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {
       // console.log("builder config to set up", agentsConfigPattern);
       //   console.log("agentsConfig", agentsConfig);
-      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig);
+      OrganizeConfig(agentsConfigPattern, agentsConfig, setAgentsConfig, runRealtime);
       setAgentsConfigGenerate(1);
       setAgentsConfigPattern(null);
     }
