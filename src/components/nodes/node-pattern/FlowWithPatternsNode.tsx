@@ -22,6 +22,8 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const hovered = data.hoveredPattern === data.pattern.name ? true : false;
   // const showContent = false;
   const patternName = data.pattern?.name || "";
+  const template = data.template || {};
+  // console.log("template", template);
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;

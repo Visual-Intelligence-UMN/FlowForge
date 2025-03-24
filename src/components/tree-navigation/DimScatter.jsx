@@ -66,7 +66,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
 
     const ySelector = <Select
         value={axis.y}
-        onChange={e => setAxis({ ...axis, x: e.target.value })}
+        onChange={e => setAxis({ ...axis, y: e.target.value })}
         sx={{ width: '45%', height: '30px' }}
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
@@ -115,6 +115,9 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                     const y = node.data.dims[axis['y']] ? yScale(node.data.dims[axis['y']]) : svgHeight - config.margin.bottom - config.nanSpace / 2;
                     // console.info(node, node.data.dims[axis['x']], node.data.dims[axis['y']])
                     return <g key={node.label} className={node.label} transform={`translate(${x}, ${y})`}  >
+                        {/* <text x={20} y={-10} textAnchor="middle" dominantBaseline="middle" style={{ pointerEvents: "none" }} className="node-text">
+                            x: {node.data.dims[axis['x']]} y: {node.data.dims[axis['y']]}
+                        </text> */}
                         <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />
                     </g>
                 }
