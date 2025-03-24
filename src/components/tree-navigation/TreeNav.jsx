@@ -19,13 +19,13 @@ import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
 import DimScatter from "./DimScatter";
-import { 
+import {
   getTaskSteps,
   getAgentSteps,
   getCallsCountForStep,
   getAgentMaxCalls,
   getAgentRuntime
- } from "./helpers";
+} from "./helpers";
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -64,7 +64,7 @@ const TreeNav = () => {
     const agentSteps = getAgentSteps(pattern)
     maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
   });
- 
+
 
   const stepRScale = d3.scalePow().exponent(1 / 2)
     .domain([0, maxStepNum])
@@ -115,7 +115,7 @@ const TreeNav = () => {
     }
 
 
-    
+
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
       const flow = flowsMap[flowId];
@@ -136,8 +136,8 @@ const TreeNav = () => {
             'taskStepNum': taskSteps.length
           }
         },
-        // width: label.length * 8,
-        width: stepRScale(steps) * 6,
+        width: label.length * 8,
+        // width: stepRScale(steps) * 6,
         height: NodeHeight + TextHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
@@ -159,7 +159,7 @@ const TreeNav = () => {
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
-        width: Math.max(label.length * 8, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        width: Math.max(label.length * 6, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
         height: NodeHeight + TextHeight,
         data: {
           ...pattern, // keep original data for easy access
@@ -169,7 +169,7 @@ const TreeNav = () => {
           agentSteps,
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
-            'taskStepNum': taskSteps.length, 
+            'taskStepNum': taskSteps.length,
             // 'agentStepNum': agentSteps.length,
             'agentStepNum': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
             'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
@@ -584,15 +584,15 @@ const TreeNav = () => {
         sx={{
           width: "100%",
           justifyContent: "center",
-          height: (NodeHeight + TextHeight) * 5 + RankSep * 4,
+          height: treeNav.height - NodeHeight,
           display: "flex",
           alignItems: "flex-start",
           overflow: "auto",
         }}
       >
-        <svg width={treeNav.width + 10} height={treeNav.height + 10}>
+        <svg width={treeNav.width + 10} height={treeNav.height - NodeHeight}>
           {/* Edges */}
-          <g className="tree" transform="translate(5, 5)">
+          <g className="tree" transform={`translate(5, -${NodeHeight})`}>
             <g className="edge-group">
               {treeNav.edges?.map((edge, idx) => {
                 const pathData = buildEdgePath(edge.points);
