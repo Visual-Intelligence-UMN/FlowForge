@@ -61,15 +61,37 @@ const StreamOutput = ({ runConfig }) => {
     userRating: 0,     // store user rating
     timeUsed: 0,    // store time used for streaming in ms (or seconds)
   };
-  let streamData;
-  if (selectedTask?.name?.includes("Visualization")){
-    streamData = sampleOutputsVis[runConfig?.configId] || defaultData;
-  } else {
-    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
-  }
-  
+  // let streamData;
+  // if (selectedTask?.name?.includes("Visualization")){
+  //   streamData = sampleOutputsVis[runConfig?.configId] || defaultData;
+  // } else {
+  //   streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  // }
 
-  // Helper: use functional updates so we don’t clobber concurrent changes
+  useEffect(() => {
+    if (!runConfig?.configId) return; // no config yet
+    if (!selectedTask?.name?.includes("Visualization")) return;
+
+    const sampleData = sampleOutputsVis[runConfig.configId];
+    if (sampleData) {
+      setMultiStreamOutput((prev) => {
+        const alreadyHasData = prev[runConfig.configId];
+        if (alreadyHasData) return prev; // keep existing if you prefer
+
+        return {
+          ...prev,
+          [runConfig.configId]: {
+            ...defaultData,
+            ...sampleData,
+          },
+        };
+      });
+    }
+  }, [runConfig?.configId, selectedTask?.name, setMultiStreamOutput]);
+
+  const streamData =
+    multiStreamOutput[runConfig?.configId] || defaultData;
+  
   const updateStreamData = (updateOrFn) => {
     setMultiStreamOutput((prevAllConfigs) => {
       const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
@@ -87,7 +109,6 @@ const StreamOutput = ({ runConfig }) => {
     });
   };
 
-  // Optionally, if you still want to override input from workflowInput externally:
   useEffect(() => {
     if (workflowInput && workflowInput !== streamData.inputMessage.content) {
       updateStreamData((prev) => ({
@@ -249,6 +270,7 @@ const StreamOutput = ({ runConfig }) => {
   };
 
   const startNewThread = () => {
+    console.log("startNewThread", streamData);
     // Clears out old messages, sets new blank input
     updateStreamData({
       inputMessage: { sender: "User", content: "", showFullContent: false },
