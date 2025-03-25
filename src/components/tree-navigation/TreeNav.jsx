@@ -99,8 +99,10 @@ const TreeNav = () => {
 
     if (Object.keys(selectedTask).length > 0) {
       g.setNode(`task-${selectedTask.id}`, {
-        label: selectedTask.name,
-        width: selectedTask.name.length * 8,
+        // label: selectedTask.name,
+        // width: selectedTask.name.length * 8,
+        label: 'Design Space Overview',
+        width: 0,
         height: NodeHeight + TextHeight,
         data: {
           type: "task",
@@ -622,16 +624,21 @@ const TreeNav = () => {
                       <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
 
 
-                    <text
-                      x={0}
-                      y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      style={{ pointerEvents: "none" }}
-                      className="node-text"
-                    >
-                      {node.label}
-                    </text>
+                    <g className="node=label">
+                      <rect className="node-background"
+                        width={Math.max(node.width, 20) + 6}
+                        height={TextHeight} x={-Math.max(node.width, 20) / 2 - 3} y={TextHeight + 5} fill='white' />
+                      <text
+                        x={0}
+                        y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ pointerEvents: "none" }}
+                        className="node-text"
+                      >
+                        {node.label}
+                      </text>
+                    </g>
 
                   </g>
                 );
