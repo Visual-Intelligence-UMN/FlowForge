@@ -62,7 +62,8 @@ const TreeNav = () => {
   patterns.forEach((pattern) => {
     if (!pattern?.patternId) return;
     const agentSteps = getAgentSteps(pattern)
-    maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+    // maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+    maxAgentSteps = Math.max(...agentSteps.flat(), maxAgentSteps);
   });
 
 
@@ -70,13 +71,6 @@ const TreeNav = () => {
     .domain([0, maxStepNum])
     .range([0, config.maxStepRadius]);
 
-  //TODO: remove dummy data later
-  const dummyAgentSteps = [
-    [1, 2, 1],
-    [1, 4, 1, 2],
-    [1, 2, 3, 2, 1],
-    [1, 3, 4, 2, 2],
-  ]
   const agentXScale = d3.scaleBand()
     // .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
     .domain(d3.range(0, maxStepNum + 1))
@@ -387,8 +381,11 @@ const TreeNav = () => {
   const buildEdgePath = (points) => {
     if (!points || points.length === 0) return "";
     const [first, ...rest] = points;
+    // return (
+    //   `M${first.x},${first.y} Q` + rest.map((p) => `${p.x},${p.y}`).join(" ")
+    // );
     return (
-      `M${first.x},${first.y} Q` + rest.map((p) => `${p.x},${p.y}`).join(" ")
+      `M${first.x},${first.y}  L ${first.x},${rest[0].y} L ${rest[0].x},${rest[0].y}  L ${rest[1].x},${rest[1].y}`
     );
   };
 
