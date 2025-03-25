@@ -175,7 +175,8 @@ const StreamOutput = ({ runConfig }) => {
         }
 
         // Only add if new content
-        if (messagesAll && messageContent !== lastContent) {
+
+        if (messagesAll) { //&& messageContent !== lastContent
           updateStreamData((prev) => ({
             ...prev,
             intermediaryMessages: [

@@ -234,6 +234,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
     const completion = await openai.beta.chat.completions.parse({
       model: "gpt-4o",
+      temperature: 0.7,
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: taskDescription },
