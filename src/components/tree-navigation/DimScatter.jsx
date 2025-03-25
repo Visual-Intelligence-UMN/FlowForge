@@ -119,60 +119,60 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
 
         <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
             <svg className="dim-scatter" width="100%" height="100%" ref={svgRef}>
-                <rect 
-                    className="background" 
-                    x={config.margin.left} 
-                    y={config.margin.top} 
-                    width={svgWidth - config.margin.left - config.margin.right} 
-                    height={svgHeight - config.margin.bottom - config.margin.top} 
-                    fill="#fff" 
-                    stroke="lightgray" 
-                    />
-                <rect 
-                    className="nonspace x" 
-                    x={config.margin.left} 
-                    width={config.nanSpace} 
-                    y={config.margin.top} 
-                    height={svgHeight - config.margin.bottom - config.margin.top} 
-                    fill="#aaa" 
-                    opacity={0.3} 
-                />
-                <rect 
-                    className="nonspace y" 
-                    x={config.margin.left} 
+                <rect
+                    className="background"
+                    x={config.margin.left}
+                    y={config.margin.top}
                     width={svgWidth - config.margin.left - config.margin.right}
-                    y={svgHeight - config.margin.bottom - config.nanSpace} 
-                    height={config.nanSpace} 
-                    fill="#aaa" 
-                    opacity={0.3} 
+                    height={svgHeight - config.margin.bottom - config.margin.top}
+                    fill="#fff"
+                    stroke="lightgray"
+                />
+                <rect
+                    className="nonspace x"
+                    x={config.margin.left}
+                    width={config.nanSpace}
+                    y={config.margin.top}
+                    height={svgHeight - config.margin.bottom - config.margin.top}
+                    fill="#ddd"
+                    opacity={0.3}
+                />
+                <rect
+                    className="nonspace y"
+                    x={config.margin.left}
+                    width={svgWidth - config.margin.left - config.margin.right}
+                    y={svgHeight - config.margin.bottom - config.nanSpace}
+                    height={config.nanSpace}
+                    fill="#ddd"
+                    opacity={0.3}
                 />
                 {nodes.map(node => {
-                    const x = node.data.dims[axis['x']] 
-                            ? xScale(node.data.dims[axis['x']]) 
-                            : config.nanSpace / 2 + config.margin.left;
-                    const y = node.data.dims[axis['y']] 
-                            ? yScale(node.data.dims[axis['y']]) 
-                            : svgHeight - config.margin.bottom - config.nanSpace / 2;
+                    const x = node.data.dims[axis['x']]
+                        ? xScale(node.data.dims[axis['x']])
+                        : config.nanSpace / 2 + config.margin.left;
+                    const y = node.data.dims[axis['y']]
+                        ? yScale(node.data.dims[axis['y']])
+                        : svgHeight - config.margin.bottom - config.nanSpace / 2;
                     // console.info(node, node.data.dims[axis['x']], node.data.dims[axis['y']])
                     return <g key={node.label} className={node.label} transform={`translate(${x}, ${y})`}  >
                         {/* <text x={20} y={-10} textAnchor="middle" dominantBaseline="middle" style={{ pointerEvents: "none" }} className="node-text">
                             x: {node.data.dims[axis['x']]} y: {node.data.dims[axis['y']]}
                         </text> */}
-                        <TreeNode 
-                            node={node} 
-                            isHighlighted={isHighlighted(node)} 
-                            stepRScale={stepRScale} 
-                            agentXScale={agentXScale} 
-                            agentYScale={agentYScale} 
+                        <TreeNode
+                            node={node}
+                            isHighlighted={isHighlighted(node)}
+                            stepRScale={stepRScale}
+                            agentXScale={agentXScale}
+                            agentYScale={agentYScale}
                         />
                     </g>
-                    }
+                }
                 )}
-                    <g
+                {/* <g
                         ref={xAxisRef}
                         transform={`translate(0, ${svgHeight - config.margin.bottom - config.nanSpace})`}
-                    />
-                    {/* <g
+                    /> */}
+                {/* <g
                         ref={yAxisRef}
                         transform={`translate(${config.margin.left + config.nanSpace}, 0)`}
                     /> */}
