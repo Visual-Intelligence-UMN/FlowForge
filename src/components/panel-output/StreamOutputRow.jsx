@@ -97,9 +97,6 @@ const StreamOutput = ({ runConfig }) => {
     }
   }, [runConfig?.configId, selectedTask?.name, setMultiStreamOutput]);
 
-  const streamData =
-    multiStreamOutput[runConfig?.configId] || defaultData;
-  
   const updateStreamData = (updateOrFn) => {
     setMultiStreamOutput((prevAllConfigs) => {
       const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
@@ -440,7 +437,7 @@ const StreamOutput = ({ runConfig }) => {
           )}
           {/* </Grid> */}
           <Grid item size={6} className='time'>
-          <Grid item size={6}>
+          {/* <Grid item size={6}> */}
           {/* {streamData.isThreadActive && (
             <Rating
                 name="userRating"
@@ -456,7 +453,7 @@ const StreamOutput = ({ runConfig }) => {
               
             </Grid> */}
             
-            {streamData.timeUsed && (
+            {/* {streamData.timeUsed && (
               <>
                 <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
                 <Rating
@@ -468,7 +465,6 @@ const StreamOutput = ({ runConfig }) => {
 
             {streamData.timeUsed > 0 && (
               <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
-              </>
             )}
           </Grid>
         </Grid>
