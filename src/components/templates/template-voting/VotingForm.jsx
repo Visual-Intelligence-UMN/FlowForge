@@ -6,7 +6,8 @@ import {
   Grid2,
 } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+// import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 import { PatternTextField } from "../textfield/patternText";
 
 export function VotingForm({ data, onChange }) {
@@ -63,44 +64,44 @@ export function VotingForm({ data, onChange }) {
           p: 1,
           borderRadius: 2,
           boxShadow: 1,
-          minHeight: 120, 
+          minHeight: 120,
         }}
       >
-    
-      <IconButton
-        onClick={() => removeAgent(i)}
-        size="small"
-        color="error"
-        sx={{
-          position: "absolute",
-          top: 1,
-          right: 9,
-        }}
-      >
-        <RemoveOutlinedIcon 
-            size="small" 
+
+        <IconButton
+          onClick={() => removeAgent(i)}
+          size="small"
+          color="default"
+          sx={{
+            position: "absolute",
+            top: 1,
+            right: 9,
+          }}
+        >
+          <RemoveOutlinedIcon
+            size="small"
+          />
+        </IconButton>
+
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
+          Agent #{i + 1}
+        </Typography>
+
+        <PatternTextField
+          label="Rubric"
+          value={agent.rubric || ""}
+          onChange={handleAgentChange(i, "rubric")}
+          maxRows={4}
         />
-      </IconButton>
-
-      <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
-        Agent #{i + 1}
-      </Typography>
-
-      <PatternTextField
-        label="Rubric"
-        value={agent.rubric || ""}
-        onChange={handleAgentChange(i, "rubric")}
-        maxRows={4}
-      />
-    </Box>
+      </Box>
     )
   }
 
   return (
-    <Box 
-      sx={{ 
-        display: "flex", 
-        flexDirection: "column", 
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
         gap: 2,
         width: "100%",
       }}
@@ -112,30 +113,30 @@ export function VotingForm({ data, onChange }) {
           </Grid2>
         ))}
       </Grid2>
-      
+
 
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-        
-          <IconButton 
-            onClick={addAgent} 
-            size="small" 
-            color="primary"
-            sx={{width: "10%"}}
-            >
-            <AddCircleOutlineIcon fontSize="large" />
-          </IconButton>
 
-          <TextField
-            label="Max Round"
-            type="number"
-            value={data.maxRound || ""}
-            onChange={handleSimpleFieldChange("maxRound")}
-            size="small"
-            sx={{ maxWidth: "20%", justifyContent: "center" }}
-            className={`nodrag nopan nowheel`}
-          />
+        <IconButton
+          onClick={addAgent}
+          size="small"
+          color="primary"
+          sx={{ width: "10%" }}
+        >
+          <AddCircleOutlineIcon fontSize="large" />
+        </IconButton>
+
+        <TextField
+          label="Max Round"
+          type="number"
+          value={data.maxRound || ""}
+          onChange={handleSimpleFieldChange("maxRound")}
+          size="small"
+          sx={{ maxWidth: "20%", justifyContent: "center" }}
+          className={`nodrag nopan nowheel`}
+        />
       </Box>
-     
+
     </Box>
   );
 }

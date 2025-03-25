@@ -1,6 +1,7 @@
 import { Box, TextField, IconButton, Typography, Grid2 } from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+// import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 import { PatternTextField } from "../textfield/patternText";
 export function SupervisionForm({ data, onChange }) {
   // data = { workerNum, maxRound, workers: [...], supervisor: {...} }
@@ -56,7 +57,7 @@ export function SupervisionForm({ data, onChange }) {
 
   const supervisorDisplay = () => {
     return (
-      <Box 
+      <Box
         sx={{
           position: "relative",
           display: "flex",
@@ -66,7 +67,7 @@ export function SupervisionForm({ data, onChange }) {
           p: 1,
           borderRadius: 2,
           boxShadow: 1,
-          minHeight: 130, 
+          minHeight: 130,
         }}
       >
         <Typography variant="subtitle2">Supervisor</Typography>
@@ -80,13 +81,13 @@ export function SupervisionForm({ data, onChange }) {
           value={data.supervisor?.goal || ""}
           onChange={handleSupervisorChange("goal")}
         />
-    </Box>
+      </Box>
     )
   }
 
   const eachWorker = (w, i) => {
     return (
-      <Box 
+      <Box
         sx={{
           position: "relative",
           display: "flex",
@@ -98,24 +99,24 @@ export function SupervisionForm({ data, onChange }) {
           p: 1,
           borderRadius: 2,
           boxShadow: 1,
-          minHeight: 130, 
+          minHeight: 130,
         }}
       >
-            
-      <IconButton
-        onClick={() => removeWorker(i)}
-        size="small"
-        color="error"
-        sx={{
-          position: "absolute",
-          top: 4,
-          right: 12,
-        }}
-      >
-        <RemoveOutlinedIcon 
-            size="small" 
-        />
-      </IconButton>
+
+        <IconButton
+          onClick={() => removeWorker(i)}
+          size="small"
+          color="error"
+          sx={{
+            position: "absolute",
+            top: 4,
+            right: 12,
+          }}
+        >
+          <RemoveOutlinedIcon
+            size="small"
+          />
+        </IconButton>
 
         <Typography variant="subtitle2">Worker #{i + 1}</Typography>
         <PatternTextField
@@ -137,15 +138,15 @@ export function SupervisionForm({ data, onChange }) {
   }
 
   return (
-    <Box 
-      sx={{ 
-        display: "flex", 
-        flexDirection: "column", 
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
         gap: 3,
         width: "100%"
       }}
     >
-     
+
       <Grid2
         container
         spacing={1}
@@ -161,12 +162,13 @@ export function SupervisionForm({ data, onChange }) {
         ))}
       </Grid2>
 
-      <Box 
-        sx={{ 
-          display: "flex", 
-          gap: 2, 
-          flexWrap: "wrap", 
-          justifyContent: "left" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          justifyContent: "left"
+        }}>
 
         <IconButton onClick={addWorker} size="small" color="primary">
           <AddCircleOutlineIcon fontSize="large" />

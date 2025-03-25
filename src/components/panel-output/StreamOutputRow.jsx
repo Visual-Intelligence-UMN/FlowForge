@@ -61,6 +61,14 @@ const StreamOutput = ({ runConfig }) => {
     userRating: 0,     // store user rating
     timeUsed: 0,    // store time used for streaming in ms (or seconds)
   };
+  let streamData;
+  if (runRealtime) {
+    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  } else {
+    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  }
+
+  // Helper: use functional updates so we don’t clobber concurrent changes
   // let streamData;
   // if (selectedTask?.name?.includes("Visualization")){
   //   streamData = sampleOutputsVis[runConfig?.configId] || defaultData;
@@ -398,7 +406,7 @@ const StreamOutput = ({ runConfig }) => {
   // Render main
   return (
     <Box sx={{ width: "100%", margin: "auto", textAlign: "left" }}>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={2} alignItems="center" clasName='thread-button'>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button variant="outlined" onClick={startNewThread}>
@@ -409,28 +417,29 @@ const StreamOutput = ({ runConfig }) => {
       </Grid>
 
       {/* Only show the input form if isThreadActive */}
-      <Box container spacing={2} alignItems="center">
+      <Box className='workflow-input' container spacing={2} alignItems="center">
         {streamData?.isThreadActive && displayInputMessage()}
 
         {/* The user’s initial input message */}
-        <Grid container spacing={2} alignItems="center" p={2}>
-          
+        <Grid className='input message' container spacing={2} alignItems="center" p={2}>
+
           {streamData.inputMessage?.content && (
-              // <Grid container spacing={2} alignItems="center">
-              <Grid item size={6}>
-                <Typography variant="h6">Start Message: </Typography>
-                {/* <Typography variant="subtitle2" color="textSecondary">
+            // <Grid container spacing={2} alignItems="center">
+            <Grid item size={6} className='start-message'>
+              <Typography variant="h6">Start Message: </Typography>
+              {/* <Typography variant="subtitle2" color="textSecondary">
                   {streamData.inputMessage.sender}
                 </Typography> */}
-                <Typography variant="h6">
-                  {getPreviewContent(
-                    streamData.inputMessage.content,
-                    streamData.inputMessage.showFullContent
-                  )}
-                </Typography>
-              </Grid>
-            )}
+              <Typography variant="h6">
+                {getPreviewContent(
+                  streamData.inputMessage.content,
+                  streamData.inputMessage.showFullContent
+                )}
+              </Typography>
+            </Grid>
+          )}
           {/* </Grid> */}
+          <Grid item size={6} className='time'>
           <Grid item size={6}>
           {/* {streamData.isThreadActive && (
             <Rating
@@ -455,6 +464,10 @@ const StreamOutput = ({ runConfig }) => {
                 value={streamData.userRating || 0}
                 onChange={handleUserRatingChange}
               />
+            </Grid> */}
+
+            {streamData.timeUsed > 0 && (
+              <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
               </>
             )}
           </Grid>

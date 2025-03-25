@@ -19,13 +19,13 @@ import TreeNode from "./TreeNode";
 import * as d3 from "d3";
 
 import DimScatter from "./DimScatter";
-import { 
+import {
   getTaskSteps,
   getAgentSteps,
   getCallsCountForStep,
   getAgentMaxCalls,
   getAgentRuntime
- } from "./helpers";
+} from "./helpers";
 
 const TreeNav = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
@@ -62,21 +62,15 @@ const TreeNav = () => {
   patterns.forEach((pattern) => {
     if (!pattern?.patternId) return;
     const agentSteps = getAgentSteps(pattern)
-    maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+    // maxAgentSteps = Math.max(maxAgentSteps, agentSteps.length);
+    maxAgentSteps = Math.max(...agentSteps.flat(), maxAgentSteps);
   });
- 
+
 
   const stepRScale = d3.scalePow().exponent(1 / 2)
     .domain([0, maxStepNum])
     .range([0, config.maxStepRadius]);
 
-  //TODO: remove dummy data later
-  const dummyAgentSteps = [
-    [1, 2, 1],
-    [1, 4, 1, 2],
-    [1, 2, 3, 2, 1],
-    [1, 3, 4, 2, 2],
-  ]
   const agentXScale = d3.scaleBand()
     // .domain(d3.range(0, Math.max(...dummyAgentSteps.map(d => d.length)) + 1)) // change to true number of agent steps later
     .domain(d3.range(0, maxStepNum + 1))
@@ -115,7 +109,7 @@ const TreeNav = () => {
     }
 
 
-    
+
     Object.keys(flowsMap).forEach((flowId) => {
       if (!flowId) return;
       const flow = flowsMap[flowId];
@@ -136,8 +130,8 @@ const TreeNav = () => {
             'taskStepNum': taskSteps.length
           }
         },
-        // width: label.length * 8,
-        width: stepRScale(steps) * 6,
+        width: label.length * 8,
+        // width: stepRScale(steps) * 6,
         height: NodeHeight + TextHeight,
       });
       g.setEdge(`task-${selectedTask.id}`, `flow-${flowId}`, {
@@ -159,7 +153,7 @@ const TreeNav = () => {
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
-        width: Math.max(label.length * 8, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        width: Math.max(label.length * 6, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
         height: NodeHeight + TextHeight,
         data: {
           ...pattern, // keep original data for easy access
@@ -169,7 +163,7 @@ const TreeNav = () => {
           agentSteps,
           //TODO: the pattern node should be able to access the task step number from the flow node
           dims: {
-            'taskStepNum': taskSteps.length, 
+            'taskStepNum': taskSteps.length,
             // 'agentStepNum': agentSteps.length,
             'agentStepNum': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
             'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
@@ -205,16 +199,13 @@ const TreeNav = () => {
       const configLabel = `Config ${configId}`;
 
       const flowWithConfig = agentsConfig.find(item => item.configId === configId)
-      console.log("flowWithConfig", flowWithConfig)
       const taskSteps = getTaskSteps(flowWithConfig)
       const agentSteps = getAgentSteps(flowWithConfig)
       // const {maxCalls, runtime} = getCallsCountForStep(flowWithConfig)
 
-      console.log("multiStreamOutput", multiStreamOutput)
       const configOutput = multiStreamOutput[String(configId)]
       const userRating = configOutput?.userRating ?? 0
       const timeUsed = configOutput?.timeUsed ?? 0
-      console.log("configOutput", configOutput)
 
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
@@ -223,15 +214,16 @@ const TreeNav = () => {
         data: {
           id: configId,
           type: "compiled",
+          dims: {
+            'taskStepNum': taskSteps.length,
+            'agentStepNum': agentSteps.length,
+            'userRating': userRating,
+            'timeUsed': timeUsed,
+            // 'maxCalls': maxCalls,
+            // 'runtime': runtime,
+          }
         },
-        dims: {
-          'taskStepNum': taskSteps.length,
-          'agentStepNum': agentSteps.length,
-          'userRating': userRating,
-          'timeUsed': timeUsed,
-          // 'maxCalls': maxCalls,
-          // 'runtime': runtime,
-        }
+
       });
       const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
@@ -239,21 +231,21 @@ const TreeNav = () => {
         label: `pattern-${patternId}-compiled-${configId}`,
       });
 
-      const ratingLabel = userRating
-        ? `Running Results: ${userRating} ⭐`
-        : "Running Results: N/A";
-      g.setNode(`compiled-${configId}-rating`, {
-        label: ratingLabel,
-        width: ratingLabel.length * 8,
-        height: NodeHeight + TextHeight,
-        data: {
-          id: configId,
-          type: "rating",
-        },
-      });
-      g.setEdge(`compiled-${configId}`, `compiled-${configId}-rating`, {
-        label: `compiled-${configId}-rating`,
-      });
+      // const ratingLabel = userRating
+      //   ? `Running Results: ${userRating} ⭐`
+      //   : "Running Results: N/A";
+      // g.setNode(`compiled-${configId}-rating`, {
+      //   label: ratingLabel,
+      //   width: ratingLabel.length * 8,
+      //   height: NodeHeight + TextHeight,
+      //   data: {
+      //     id: configId,
+      //     type: "rating",
+      //   },
+      // });
+      // g.setEdge(`compiled-${configId}`, `compiled-${configId}-rating`, {
+      //   label: `compiled-${configId}-rating`,
+      // });
     });
 
     dagre.layout(g);
@@ -387,8 +379,11 @@ const TreeNav = () => {
   const buildEdgePath = (points) => {
     if (!points || points.length === 0) return "";
     const [first, ...rest] = points;
+    // return (
+    //   `M${first.x},${first.y} Q` + rest.map((p) => `${p.x},${p.y}`).join(" ")
+    // );
     return (
-      `M${first.x},${first.y} Q` + rest.map((p) => `${p.x},${p.y}`).join(" ")
+      `M${first.x},${first.y}  L ${first.x},${rest[0].y} L ${rest[0].x},${rest[0].y}  L ${rest[1].x},${rest[1].y}`
     );
   };
 
@@ -584,15 +579,15 @@ const TreeNav = () => {
         sx={{
           width: "100%",
           justifyContent: "center",
-          height: (NodeHeight + TextHeight) * 5 + RankSep * 4,
+          height: (NodeHeight + TextHeight) * 4 + RankSep * 3,
           display: "flex",
           alignItems: "flex-start",
           overflow: "auto",
         }}
       >
-        <svg width={treeNav.width + 10} height={treeNav.height + 10}>
+        <svg width={treeNav.width + 10} height={treeNav.height - NodeHeight}>
           {/* Edges */}
-          <g className="tree" transform="translate(5, 5)">
+          <g className="tree" transform={`translate(5, -${NodeHeight})`}>
             <g className="edge-group">
               {treeNav.edges?.map((edge, idx) => {
                 const pathData = buildEdgePath(edge.points);
