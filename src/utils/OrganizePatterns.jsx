@@ -3,7 +3,7 @@ import randomCombinePatterns from "./CombinePatterns";
 import { designPatternsTemplate } from "../patterns/patternsData";
 import GenerateTemplatesInfo from "./GenerateTemplates";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
-
+import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
@@ -20,15 +20,21 @@ function reassignPatternIds(flowId, designPatterns, patterns) {
   });
 }
 
-const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runRealtime) => {
+const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runRealtime, selectedTask) => {
   // console.log("flow to organize patterns", flow);
   // TODO: remove the hardcoded patterns
   let exampleFlowsWithPatterns;
   if (!runRealtime) {
     const flowId = flow.taskFlowId;
     console.log("flowId", flowId);
-    exampleFlowsWithPatterns = sampleTaskFlowsReview
-    .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+    console.log("selectedTask", selectedTask);
+    if (selectedTask.name.includes("Review a Paper")) {
+      exampleFlowsWithPatterns = sampleTaskFlowsReview
+      .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+    } else if (selectedTask.name.includes("Visualization")) {
+      console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
+      exampleFlowsWithPatterns = sampleTaskFlowsVis.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+    }
     // exampleFlowsWithPatterns = [
     //   {
     //     taskId: flow.taskFlowId,

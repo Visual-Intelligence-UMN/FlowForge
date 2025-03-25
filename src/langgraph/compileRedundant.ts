@@ -36,8 +36,12 @@ const compileRedundant = async (workflow, nodesInfo, stepEdges, inputEdges, Agen
             workflow.addEdge(edge.source, edge.target);
         }
     }
+    console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
     if (aggregatorTarget.length > 0) {
-        workflow.addEdge(aggregatorNode.id, aggregatorTarget[0])
+        // console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
+        for (const target of aggregatorTarget) {
+            workflow.addEdge(aggregatorNode.id, target)
+        }
     } else {
         workflow.addEdge(aggregatorNode.id, "__end__")
     }

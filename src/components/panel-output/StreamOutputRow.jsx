@@ -21,7 +21,7 @@ import {
   workflowInputAtom,
   canvasPagesAtom,
   multiStreamOutputAtom,
-  runRealtimeAtom
+  runRealtimeAtom,
 } from "../../patterns/GlobalStates";
 
 import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
@@ -29,6 +29,8 @@ import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
 import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
+import sampleOutputsVis from "../../data/stream/sample-outputs-vis.json";
+
 
 const WORD_LIMIT = 30; // For showing short content previews
 
@@ -67,6 +69,34 @@ const StreamOutput = ({ runConfig }) => {
   }
 
   // Helper: use functional updates so we don’t clobber concurrent changes
+  // let streamData;
+  // if (selectedTask?.name?.includes("Visualization")){
+  //   streamData = sampleOutputsVis[runConfig?.configId] || defaultData;
+  // } else {
+  //   streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+  // }
+
+  useEffect(() => {
+    if (!runConfig?.configId) return; // no config yet
+    if (!selectedTask?.name?.includes("Visualization")) return;
+
+    const sampleData = sampleOutputsVis[runConfig.configId];
+    if (sampleData) {
+      setMultiStreamOutput((prev) => {
+        const alreadyHasData = prev[runConfig.configId];
+        if (alreadyHasData) return prev; // keep existing if you prefer
+
+        return {
+          ...prev,
+          [runConfig.configId]: {
+            ...defaultData,
+            ...sampleData,
+          },
+        };
+      });
+    }
+  }, [runConfig?.configId, selectedTask?.name, setMultiStreamOutput]);
+
   const updateStreamData = (updateOrFn) => {
     setMultiStreamOutput((prevAllConfigs) => {
       const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
@@ -84,7 +114,6 @@ const StreamOutput = ({ runConfig }) => {
     });
   };
 
-  // Optionally, if you still want to override input from workflowInput externally:
   useEffect(() => {
     if (workflowInput && workflowInput !== streamData.inputMessage.content) {
       updateStreamData((prev) => ({
@@ -151,7 +180,8 @@ const StreamOutput = ({ runConfig }) => {
         }
 
         // Only add if new content
-        if (messagesAll && messageContent !== lastContent) {
+
+        if (messagesAll) { //&& messageContent !== lastContent
           updateStreamData((prev) => ({
             ...prev,
             intermediaryMessages: [
@@ -246,6 +276,7 @@ const StreamOutput = ({ runConfig }) => {
   };
 
   const startNewThread = () => {
+    console.log("startNewThread", streamData);
     // Clears out old messages, sets new blank input
     updateStreamData({
       inputMessage: { sender: "User", content: "", showFullContent: false },
@@ -384,7 +415,7 @@ const StreamOutput = ({ runConfig }) => {
 
       {/* Only show the input form if isThreadActive */}
       <Box className='workflow-input' container spacing={2} alignItems="center">
-        {streamData.isThreadActive && displayInputMessage()}
+        {streamData?.isThreadActive && displayInputMessage()}
 
         {/* The user’s initial input message */}
         <Grid className='input message' container spacing={2} alignItems="center" p={2}>
@@ -406,13 +437,27 @@ const StreamOutput = ({ runConfig }) => {
           )}
           {/* </Grid> */}
           <Grid item size={6} className='time'>
+          {/* <Grid item size={6}> */}
+          {/* {streamData.isThreadActive && (
+            <Rating
+                name="userRating"
+                value={streamData.userRating || 0}
+                onChange={handleUserRatingChange}
+              />
+            )} */}
             {/* {streamData.userRating && (
               <Typography variant="h6">User Rating: {streamData.userRating} ⭐</Typography>
             )}
                          */}
             {/* <Grid item xs={2} sm={2}>
-              <Rating
-                name="userRating"
+              
+            </Grid> */}
+            
+            {/* {streamData.timeUsed && (
+              <>
+                <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
+                <Rating
+                  name="userRating"
                 value={streamData.userRating || 0}
                 onChange={handleUserRatingChange}
               />

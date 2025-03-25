@@ -13,7 +13,7 @@
     },
     {
         "name": "Redundant",
-        "description": "Redundant pattern can be seem as Parallel with multiple agents executing simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for complex tasks segmented into distinct sub-tasks. Example use: reviewing the same input content simultaneously to generate more comprehensive and diverse insights."
+        "description": "Redundant pattern can be seem as Parallel with multiple agents executing simultaneously, each addressing a specific aspect of the task, with outputs aggregated programmatically. Effective for parallel working on the task with slightly different aspects. Example use: reviewing the same input content simultaneously to aggregate diverse insights."
     },
     {
         "name": "Supervision",

@@ -84,9 +84,10 @@ const makeAgentNode = (params: {
     }
 }
 
-const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState, maxRound) => {
+const compileVoting = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
     // console.log("nodesInfo in compileVoting", nodesInfo);
     // console.log("stepEdges in compileVoting", stepEdges);
+    const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const votingNode = nodesInfo.filter((node) => node.data.label.includes("Voting"));
     const aggregatorNode = nodesInfo.find((node) => node.data.label.includes("Aggregator"));
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
@@ -100,6 +101,7 @@ const compileVoting = async (workflow, nodesInfo, stepEdges, AgentsState, maxRou
         tools: aggregatorNode.data.tools,
         systemMessage: aggregatorNode.data.systemPrompt,
         accessStepMsgs: votingNode.length,
+        previousSteps: previousSteps,
     });
 
     const aggregatorAgentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {

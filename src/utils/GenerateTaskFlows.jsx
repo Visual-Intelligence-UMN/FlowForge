@@ -6,6 +6,7 @@ import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.j
 import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
 import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
+import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 
 import promptTaskflow from "../models/prompt-generate-taskflows.json";
 
@@ -155,6 +156,8 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     sampleTaskFlowData = sampleTaskFlowsPodcast;
   } else if (task.name.includes("Review a Paper")) {
     sampleTaskFlowData = sampleTaskFlowsReview;
+  } else if (task.name.includes("Visualization")) {
+    sampleTaskFlowData = sampleTaskFlowsVis;
   }
 
   let returnData = {};
@@ -188,13 +191,13 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (task.name.includes("Review a Paper")) {
+      if (task.name.includes("Review a Paper") || task.name.includes("Visualization")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
         returnData.taskFlows.push(...sampleflows);
         return returnData;
       } else {
-        returnData.taskFlows.push(...sampleTaskFlowData.taskFlows);
+        returnData.taskFlows.push(...sampleTaskFlowData?.taskFlows);
         return returnData;
       }
     } else {
@@ -231,6 +234,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
     const completion = await openai.beta.chat.completions.parse({
       model: "gpt-4o",
+      temperature: 0.7,
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: taskDescription },

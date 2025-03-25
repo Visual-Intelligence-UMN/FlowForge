@@ -51,7 +51,7 @@ const CompileReactflow = async (FlowWithConfig) => {
                 const data = {
                     label: node.description,
                     tools: node.tools || [],
-                    llm: node.llm || "gpt-4o-mini",
+                    llm: node.llm || "gpt-4o",
                     systemPrompt: node.systemPrompt || "",
                     maxRound: maxRound,
                     pattern: pattern+"-"+node.description,

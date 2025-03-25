@@ -37,6 +37,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     const chosenTemplate = designPatternsTemplate[chosenName] || {};
+    
     updateNodeFieldset(id, "pattern.name", chosenName);
     updateNodeFieldset(id, "template", chosenTemplate);
   };

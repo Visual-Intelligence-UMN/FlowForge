@@ -48,7 +48,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 1,
+            temperature: 0.1,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -129,7 +129,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
             llmOption: node.data.llm,
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
-            accessStepMsgs: false,
+            accessStepMsgs: true,
             previousSteps: previousSteps,
         });
 

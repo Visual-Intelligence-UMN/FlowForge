@@ -61,7 +61,7 @@ export function getCallsCountForStep(step) {
   
 export function getTaskSteps(flow) {
     const stepNums = [];
-    let currentSteps = flow.taskFlowStart.nextSteps;
+    let currentSteps = flow?.taskFlowStart.nextSteps;
 
     while (currentSteps && currentSteps.length > 0) {
         const uniqueSteps = [...new Set(currentSteps)];
