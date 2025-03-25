@@ -134,7 +134,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                     width={config.nanSpace}
                     y={config.margin.top}
                     height={svgHeight - config.margin.bottom - config.margin.top}
-                    fill="#aaa"
+                    fill="#ddd"
                     opacity={0.3}
                 />
                 <rect
@@ -143,7 +143,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                     width={svgWidth - config.margin.left - config.margin.right}
                     y={svgHeight - config.margin.bottom - config.nanSpace}
                     height={config.nanSpace}
-                    fill="#aaa"
+                    fill="#ddd"
                     opacity={0.3}
                 />
                 {nodes.map(node => {

@@ -199,16 +199,13 @@ const TreeNav = () => {
       const configLabel = `Config ${configId}`;
 
       const flowWithConfig = agentsConfig.find(item => item.configId === configId)
-      console.log("flowWithConfig", flowWithConfig)
       const taskSteps = getTaskSteps(flowWithConfig)
       const agentSteps = getAgentSteps(flowWithConfig)
       // const {maxCalls, runtime} = getCallsCountForStep(flowWithConfig)
 
-      console.log("multiStreamOutput", multiStreamOutput)
       const configOutput = multiStreamOutput[String(configId)]
       const userRating = configOutput?.userRating ?? 0
       const timeUsed = configOutput?.timeUsed ?? 0
-      console.log("configOutput", configOutput)
 
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
@@ -217,15 +214,16 @@ const TreeNav = () => {
         data: {
           id: configId,
           type: "compiled",
+          dims: {
+            'taskStepNum': taskSteps.length,
+            'agentStepNum': agentSteps.length,
+            'userRating': userRating,
+            'timeUsed': timeUsed,
+            // 'maxCalls': maxCalls,
+            // 'runtime': runtime,
+          }
         },
-        dims: {
-          'taskStepNum': taskSteps.length,
-          'agentStepNum': agentSteps.length,
-          'userRating': userRating,
-          'timeUsed': timeUsed,
-          // 'maxCalls': maxCalls,
-          // 'runtime': runtime,
-        }
+
       });
       const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
@@ -233,21 +231,21 @@ const TreeNav = () => {
         label: `pattern-${patternId}-compiled-${configId}`,
       });
 
-      const ratingLabel = userRating
-        ? `Running Results: ${userRating} ⭐`
-        : "Running Results: N/A";
-      g.setNode(`compiled-${configId}-rating`, {
-        label: ratingLabel,
-        width: ratingLabel.length * 8,
-        height: NodeHeight + TextHeight,
-        data: {
-          id: configId,
-          type: "rating",
-        },
-      });
-      g.setEdge(`compiled-${configId}`, `compiled-${configId}-rating`, {
-        label: `compiled-${configId}-rating`,
-      });
+      // const ratingLabel = userRating
+      //   ? `Running Results: ${userRating} ⭐`
+      //   : "Running Results: N/A";
+      // g.setNode(`compiled-${configId}-rating`, {
+      //   label: ratingLabel,
+      //   width: ratingLabel.length * 8,
+      //   height: NodeHeight + TextHeight,
+      //   data: {
+      //     id: configId,
+      //     type: "rating",
+      //   },
+      // });
+      // g.setEdge(`compiled-${configId}`, `compiled-${configId}-rating`, {
+      //   label: `compiled-${configId}-rating`,
+      // });
     });
 
     dagre.layout(g);
