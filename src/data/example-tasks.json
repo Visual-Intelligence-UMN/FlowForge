@@ -10,7 +10,7 @@
     "id": "task2",
     "name": "[Use Case] Machine Learning Visualization",
     "requiresUpload": false,
-    "description": "Generate executable, diverse, insightful and interactive visualization Python Codes for the given partial dataset. The expected output should be executable Python codes, utilizing appropriate chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final Python codes should be runnable, informative and engaging.",
+    "description": "Generate executable, diverse, insightful and interactive visualization JavaScript Codes for the given partial dataset. The input is a partial dataset with potential missing values. The expected output should be executable JavaScript codes, utilizing appropriate chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final JavaScript codes should be appropriate for the input dataset, runnable, informative and engaging.",
     "uploadedFile": null
   },
   {
