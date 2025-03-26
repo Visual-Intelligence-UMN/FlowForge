@@ -1,5 +1,6 @@
 import { RunnableConfig } from "@langchain/core/runnables";
 import { createAgent, create_agent_node } from "./utils";
+
 const compileRedundant = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState) => {
     console.log("nodesInfo in compileRedundant", nodesInfo);
     console.log("stepEdges in compileRedundant", stepEdges);

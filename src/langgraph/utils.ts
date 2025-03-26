@@ -72,6 +72,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     let firstMsg = state.messages.slice(0, 1);
+    console.log("firstMsg", firstMsg);
     // firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
@@ -87,12 +88,12 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log("lastMsg", lastMsg);
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 2));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
-        console.log("invokeMsg for step", invokeMsg);
+        // console.log("invokeMsg for step", invokeMsg);
         // console.log("last lastMsg", state.messages[state.messages.length - 1])
-        console.log(lastMsg)
-        console.log("lastMsg", lastMsg);
+        // console.log(lastMsg)
+        // console.log("lastMsg", lastMsg);
         let tool_msg = null;
         if (lastMsg[0]?.tool_calls) {
             // todo add tool msg 'tool_call_id'

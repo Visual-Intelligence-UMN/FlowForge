@@ -6,6 +6,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
     // console.log("stepEdges in compileSingleAgent", stepEdges);
     // console.log("nodesInfo in compileSingleAgent", nodesInfo, stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     console.log("previousSteps in compileSingleAgent", previousSteps);
 
     for (const node of nodesInfo) {
@@ -15,7 +16,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
             tools: node.data.tools,
             systemMessage: node.data.systemPrompt,
             accessStepMsgs: false,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
         });
 
         const agentNode = async (state:typeof AgentsState.State, config?:RunnableConfig) => {

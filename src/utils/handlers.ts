@@ -438,7 +438,7 @@ const handleRedundant = (step) => {
         aggregation.persona 
         // + "\n" + aggregation.goal 
         + "\n" + taskPrompt
-        + "\n Please aggregate all the outputs and produce the final deliverable that meets the step description"
+        + "\n Please aggregate all the previous and produce the final deliverable that meets the step description, concatenate and organize the previous deliverable with yours."
     })
 
     let agentsEdges = []

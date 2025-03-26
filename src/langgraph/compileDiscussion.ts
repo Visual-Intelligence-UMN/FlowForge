@@ -18,7 +18,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
@@ -104,6 +104,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     // console.log("nodesInfo in compileDiscussion", nodesInfo);
     console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
@@ -116,7 +117,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             tools: summaryNode.data.tools,
             systemMessage: summaryNode.data.systemPrompt,
             accessStepMsgs: true,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
         });
 
         const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
@@ -125,7 +126,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
                 agent: await createdAgent(),
                 name: summaryNode.id,
                 config: config,
-                previousSteps: previousSteps,
+                previousSteps: uniquePreviousSteps as string[],
             });
         }
         workflow.addNode(summaryNode.id, agentNode)
@@ -151,7 +152,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             llmOption: node.data.llm,
             tools: node.data.tools,
             maxRound: maxRound,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
             summaryOrNot: summaryNode ? true : false,
         })
         if (node.data.label === "Summary") {

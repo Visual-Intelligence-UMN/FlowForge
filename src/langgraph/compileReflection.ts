@@ -17,7 +17,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
@@ -113,6 +113,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     console.log("previousSteps in compileReflection", previousSteps);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
@@ -141,7 +142,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             tools: node.data.tools,
             responsePrompt: responsePrompt,
             maxRound: maxRound,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

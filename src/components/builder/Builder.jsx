@@ -114,7 +114,7 @@ const Builder = () => {
   }, [flowIds.length, taskFlowsGenerate]);
 
   useEffect(() => {
-    console.log("generate pattern ing", canvasPages);
+    // console.log("generate pattern ing", canvasPages);
     if (patternsGenerate === 0 && patternsFlow) {
       console.log("generate pattern ing", canvasPages);
       setCanvasPages({

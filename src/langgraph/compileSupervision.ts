@@ -21,7 +21,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
         console.log("stepMsgs is empty, use previous steps", previousSteps);
         console.log("state", state);
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
@@ -103,6 +103,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
     console.log("nodesInfo in compileSupervision", nodesInfo);
     console.log("stepEdges in compileSupervision", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
@@ -116,7 +117,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
-        previousSteps: previousSteps,
+        previousSteps: uniquePreviousSteps,
     });
 
     workflow.addNode(supervisorNode.id, supervisorAgent, {
