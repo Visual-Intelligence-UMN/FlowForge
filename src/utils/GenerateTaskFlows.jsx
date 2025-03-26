@@ -191,7 +191,9 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (task.name.includes("Review a Paper") || task.name.includes("Visualization")) {
+      if (task.name.includes("Review a Paper") 
+        || task.name.includes("Visualization")
+        || task.name.includes("Presentation")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
         returnData.taskFlows.push(...sampleflows);

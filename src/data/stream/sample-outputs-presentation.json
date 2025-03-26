@@ -1,0 +1,1011 @@
+{
+    "taskFlows": 
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Narrative-driven Script",
+            "taskFlowDescription": "This flow focuses on creating a script that tells a story, engaging the audience by weaving key points into a narrative structure.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Analyze the abstract of the paper and extract key points.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience's Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Start with an intriguing question or bold statement related to the paper's topic to hook viewers immediately.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Introduce the Story",
+                    "stepLabel": "Story Setup",
+                    "stepDescription": "Briefly outline the background or problem that the paper addresses, setting the stage for the story.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Introduction",
+                    "stepLabel": "Visual Cues",
+                    "stepDescription": "Use graphics or animations to visually introduce the main concept, enhancing understanding and engagement.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Deliver Key Points",
+                    "stepLabel": "Narrative Delivery",
+                    "stepDescription": "Integrate the paper's key findings into the narrative, using a conversational tone to make complex information accessible.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Memorable Conclusion",
+                    "stepDescription": "Wrap up with a thought-provoking question or a call to action that invites viewers to explore more on the topic.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Analytical Overview Script",
+            "taskFlowDescription": "This flow focuses on delivering a concise, analytical overview of the paper, emphasizing clarity and precision.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Identify the core findings and implications from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Direct Introduction",
+                    "stepLabel": "Straight-to-Point Start",
+                    "stepDescription": "Start with a brief overview of the paper's objective and significance to establish context quickly.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Highlight Key Findings",
+                    "stepLabel": "Focused Delivery",
+                    "stepDescription": "Present the main findings and their implications using clear, straightforward language, supported by relevant visuals such as charts or bullet points.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with Clarity",
+                    "stepLabel": "Concise Ending",
+                    "stepDescription": "Summarize the importance of the findings in a concise manner, leaving the audience with a clear understanding of the paper's contribution.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Creative Visualization Script",
+            "taskFlowDescription": "This flow uses creative visualization techniques to engage viewers, making the abstract's content visually compelling.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Extract visual elements and metaphors from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Visual Metaphor Introduction",
+                    "stepLabel": "Metaphoric Start",
+                    "stepDescription": "Begin with a strong visual metaphor or animated graphic that symbolizes the paper's main theme.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Dynamic Key Points",
+                    "stepLabel": "Visual Key Points",
+                    "stepDescription": "Animate the key points of the abstract with creative, dynamic visuals that emphasize their significance and interconnectedness.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Engaging Conclusion",
+                    "stepLabel": "Visual Wrap-up",
+                    "stepDescription": "Close with a creative visual summary that reinforces the paper's impact, leaving a lasting impression on the audience.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    }, 
+    "flowsWithPatterns": 
+    [
+        {
+            "taskFlowId": "2-1",
+            "taskFlowName": "Narrative-driven Script",
+            "taskFlowDescription": "This flow focuses on creating a script that tells a story, engaging the audience by weaving key points into a narrative structure.",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Analyze the abstract of the paper and extract key points.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience's Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Start with an intriguing question or bold statement related to the paper's topic to hook viewers immediately.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Beneficial for generating diverse intriguing opening ideas through brainstorming among multiple agents."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Introduce the Story",
+                    "stepLabel": "Story Setup",
+                    "stepDescription": "Briefly outline the background or problem that the paper addresses, setting the stage for the story.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "This step requires a clear and concise presentation of background information, which is best handled by a single agent to maintain focus and coherence."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Introduction",
+                    "stepLabel": "Visual Cues",
+                    "stepDescription": "Use graphics or animations to visually introduce the main concept, enhancing understanding and engagement.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is ideal for iteratively refining visual concepts with feedback, enhancing the effectiveness and clarity of the visuals to engage the audience."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Deliver Key Points",
+                    "stepLabel": "Narrative Delivery",
+                    "stepDescription": "Integrate the paper's key findings into the narrative, using a conversational tone to make complex information accessible.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern allows for multiple perspectives to enhance the narrative delivery, fostering creativity and making the information more accessible by exploring various ways to present the key findings effectively."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Memorable Conclusion",
+                    "stepDescription": "Wrap up with a thought-provoking question or a call to action that invites viewers to explore more on the topic.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Engaging diverse perspectives through the Discussion pattern can generate memorable and thought-provoking conclusions that resonate well with the audience."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-1"
+        },
+        {
+            "taskFlowId": "2-2",
+            "taskFlowName": "Narrative-driven Script",
+            "taskFlowDescription": "This flow focuses on creating a script that tells a story, engaging the audience by weaving key points into a narrative structure.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Analyze the abstract of the paper and extract key points.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience's Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Start with an intriguing question or bold statement related to the paper's topic to hook viewers immediately.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Optimal for crafting a direct and attention-grabbing opening statement quickly and efficiently."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Introduce the Story",
+                    "stepLabel": "Story Setup",
+                    "stepDescription": "Briefly outline the background or problem that the paper addresses, setting the stage for the story.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Incorporating a feedback loop can help refine the introductory setup, ensuring that it effectively sets the stage and captures the audience’s attention."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Introduction",
+                    "stepLabel": "Visual Cues",
+                    "stepDescription": "Use graphics or animations to visually introduce the main concept, enhancing understanding and engagement.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is ideal for iteratively refining visual concepts with feedback, enhancing the effectiveness and clarity of the visuals to engage the audience."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Deliver Key Points",
+                    "stepLabel": "Narrative Delivery",
+                    "stepDescription": "Integrate the paper's key findings into the narrative, using a conversational tone to make complex information accessible.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern allows for multiple perspectives to enhance the narrative delivery, fostering creativity and making the information more accessible by exploring various ways to present the key findings effectively."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Memorable Conclusion",
+                    "stepDescription": "Wrap up with a thought-provoking question or a call to action that invites viewers to explore more on the topic.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Engaging diverse perspectives through the Discussion pattern can generate memorable and thought-provoking conclusions that resonate well with the audience."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-2"
+        },
+        {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Analytical Overview Script",
+            "taskFlowDescription": "This flow focuses on delivering a concise, analytical overview of the paper, emphasizing clarity and precision.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Identify the core findings and implications from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Direct Introduction",
+                    "stepLabel": "Straight-to-Point Start",
+                    "stepDescription": "Start with a brief overview of the paper's objective and significance to establish context quickly.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is ideal for delivering a concise and straightforward introduction, quickly establishing the context without unnecessary complexity."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Highlight Key Findings",
+                    "stepLabel": "Focused Delivery",
+                    "stepDescription": "Present the main findings and their implications using clear, straightforward language, supported by relevant visuals such as charts or bullet points.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The Supervision pattern effectively coordinates agents to emphasize clarity and precision, ensuring relevant visuals and straightforward language are used to support the main findings."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "The Animator is a creative specialist focused on bringing static content to life through motion graphics and dynamic effects.",
+                                "goal": "Create visually dynamic animations that highlight and connect each key point of the abstract, ensuring each animation segment is engaging and clear.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "The Visual Designer is a detail-oriented artist who ensures all animations adhere to the visual style guidelines, enhancing the overall aesthetic.",
+                                "goal": "Ensure the animations are visually appealing and consistent with the project's design standards, making abstract content visually compelling.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "I am the technical animator who implements the creative designs using animation software, ensuring smooth transitions and effects.",
+                                "goal": "Execute the animation designs using appropriate software, focusing on smooth transitions and dynamic effects that enhance the storytelling."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                            "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                        "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with Clarity",
+                    "stepLabel": "Concise Ending",
+                    "stepDescription": "Summarize the importance of the findings in a concise manner, leaving the audience with a clear understanding of the paper's contribution.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "This step involves straightforward summarization, which suits the Single Agent pattern's strength in efficiently delivering clear and precise information."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Analytical Overview Script",
+            "taskFlowDescription": "This flow focuses on delivering a concise, analytical overview of the paper, emphasizing clarity and precision.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Identify the core findings and implications from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Direct Introduction",
+                    "stepLabel": "Straight-to-Point Start",
+                    "stepDescription": "Start with a brief overview of the paper's objective and significance to establish context quickly.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is ideal for delivering a concise and straightforward introduction, quickly establishing the context without unnecessary complexity."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Highlight Key Findings",
+                    "stepLabel": "Focused Delivery",
+                    "stepDescription": "Present the main findings and their implications using clear, straightforward language, supported by relevant visuals such as charts or bullet points.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is ideal for delivering a concise overview of the paper's key findings with clarity and precision, as it involves straightforward task execution."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with Clarity",
+                    "stepLabel": "Concise Ending",
+                    "stepDescription": "Summarize the importance of the findings in a concise manner, leaving the audience with a clear understanding of the paper's contribution.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Incorporating feedback to iteratively refine the summary ensures clarity and precision, aligning with Reflection's iterative improvement strengths."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        },
+        {
+            "taskFlowId": "4-1",
+            "taskFlowName": "Creative Visualization Script",
+            "taskFlowDescription": "This flow uses creative visualization techniques to engage viewers, making the abstract's content visually compelling.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Extract visual elements and metaphors from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Visual Metaphor Introduction",
+                    "stepLabel": "Metaphoric Start",
+                    "stepDescription": "Begin with a strong visual metaphor or animated graphic that symbolizes the paper's main theme.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "A single agent can efficiently focus on crafting a clear and compelling visual metaphor to ensure simplicity and directness in conveying the paper’s main theme."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Dynamic Key Points",
+                    "stepLabel": "Visual Key Points",
+                    "stepDescription": "Animate the key points of the abstract with creative, dynamic visuals that emphasize their significance and interconnectedness.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "Employs a supervisory role to coordinate specialized agents, ensuring that different aspects of the animation are managed effectively, maintaining creativity, clarity, and cohesion."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "The Animator is a creative specialist focused on bringing static content to life through motion graphics and dynamic effects.",
+                                "goal": "Create visually dynamic animations that highlight and connect each key point of the abstract, ensuring each animation segment is engaging and clear.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "The Visual Designer is a detail-oriented artist who ensures all animations adhere to the visual style guidelines, enhancing the overall aesthetic.",
+                                "goal": "Ensure the animations are visually appealing and consistent with the project's design standards, making abstract content visually compelling.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "I am the technical animator who implements the creative designs using animation software, ensuring smooth transitions and effects.",
+                                "goal": "Execute the animation designs using appropriate software, focusing on smooth transitions and dynamic effects that enhance the storytelling."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                            "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                        "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Engaging Conclusion",
+                    "stepLabel": "Visual Wrap-up",
+                    "stepDescription": "Close with a creative visual summary that reinforces the paper's impact, leaving a lasting impression on the audience.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a Reflection pattern allows iterative feedback to refine the visual elements, ensuring the final output is both engaging and impactful to leave a lasting impression."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-1"
+        },
+        {
+            "taskFlowId": "4-2",
+            "taskFlowName": "Creative Visualization Script",
+            "taskFlowDescription": "This flow uses creative visualization techniques to engage viewers, making the abstract's content visually compelling.",
+            "patternsId": 5,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Extract visual elements and metaphors from the abstract.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Visual Metaphor Introduction",
+                    "stepLabel": "Metaphoric Start",
+                    "stepDescription": "Begin with a strong visual metaphor or animated graphic that symbolizes the paper's main theme.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "A single agent can efficiently focus on crafting a clear and compelling visual metaphor to ensure simplicity and directness in conveying the paper’s main theme."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "The Visual Metaphor Specialist is a creative and detail-oriented designer, skilled in translating abstract concepts into engaging visual representations. They have a keen eye for aesthetics and a strong understanding of how to communicate complex ideas through simple, yet powerful imagery.",
+                        "goal": "Create an animated graphic or visual metaphor that clearly and effectively encapsulates the main theme of the paper, ensuring it captures the viewer's attention and enhances their understanding of the abstract content.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Dynamic Key Points",
+                    "stepLabel": "Visual Key Points",
+                    "stepDescription": "Animate the key points of the abstract with creative, dynamic visuals that emphasize their significance and interconnectedness.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "Employs a supervisory role to coordinate specialized agents, ensuring that different aspects of the animation are managed effectively, maintaining creativity, clarity, and cohesion."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "The Animator is a creative specialist focused on bringing static content to life through motion graphics and dynamic effects.",
+                                "goal": "Create visually dynamic animations that highlight and connect each key point of the abstract, ensuring each animation segment is engaging and clear.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "The Visual Designer is a detail-oriented artist who ensures all animations adhere to the visual style guidelines, enhancing the overall aesthetic.",
+                                "goal": "Ensure the animations are visually appealing and consistent with the project's design standards, making abstract content visually compelling.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "I am the technical animator who implements the creative designs using animation software, ensuring smooth transitions and effects.",
+                                "goal": "Execute the animation designs using appropriate software, focusing on smooth transitions and dynamic effects that enhance the storytelling."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                            "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "The Supervisor is an experienced animation director, responsible for overseeing the entire visualization process, ensuring that each animated segment effectively communicates the abstract's key points with creativity and clarity.",
+                        "goal": "Coordinate the specialized agents to ensure all key points are animated dynamically, emphasizing their significance and interconnectedness while maintaining a cohesive visual style."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Engaging Conclusion",
+                    "stepLabel": "Visual Wrap-up",
+                    "stepDescription": "Close with a creative visual summary that reinforces the paper's impact, leaving a lasting impression on the audience.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a Reflection pattern allows iterative feedback to refine the visual elements, ensuring the final output is both engaging and impactful to leave a lasting impression."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "A critical art reviewer who focuses on assessing the impact and engagement level of visual elements.",
+                            "goal": "To provide detailed feedback on the visual summary, highlighting areas that effectively reinforce the paper's impact and suggesting improvements for elements that fail to leave a lasting impression.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "A creative designer focused on enhancing and refining visual elements to maximize audience engagement.",
+                            "goal": "To iteratively adjust and enhance the visual summary based on feedback to ensure it effectively conveys the paper's impact and leaves a strong, lasting impression on the audience.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-2"
+        }
+    ,
+    
+        {
+            "taskFlowId": "1-1",
+            "taskFlowName": "Baseline",
+            "taskFlowDescription": "This is a baseline flow",
+            "patternsId": 1,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Baseline flow",
+                    "stepLabel": "Baseline flow",
+                    "stepDescription": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach, but consistently include: a captivating opening, a concise outline of key points that align with visual cues, smooth transitions between sections, approximate duration for each part, and a memorable conclusion. Focus on viewer engagement by including different voice tones, pacing, and creative storytelling techniques. Each workflow should guide the user on constructing the script, specifying how to integrate key points and visuals in a way that keeps the audience engaged and ensures logical flow from start to finish. Deliver the scripts as cohesive step-by-step guides covering narrative flow, voice direction, and visual elements, ensuring that each proposed approach stands out from the others in style and perspective.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Parallel execution by multiple agents allows for the creation of varied script perspectives simultaneously, ensuring diverse storytelling techniques and pacing are developed for each script."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "Creative Scriptwriter",
+                                "goal": "Develop a 25-second video script that includes a captivating opening, a concise outline of key points from the academic paper's abstract, smooth transitions, and a memorable conclusion. Ensure the script employs a unique storytelling technique with varied voice tones and pacing to engage the viewer effectively.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Visual Storyboard Artist",
+                                "goal": "Create a storyboard that visually aligns with the script's narrative flow. Integrate visual cues corresponding to each key point mentioned in the script, ensuring that the visuals enhance the storytelling and maintain viewer engagement.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Voice Director",
+                                "goal": "Provide direction on voice modulation, tone, and pacing for the script to enhance viewer engagement. Specify how different voice tones and pacing should be used to emphasize key points and transitions within the video script."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "Script Coordinator",
+                            "goal": "Compile the varied scripts and storyboards from the agents into a cohesive collection, ensuring each script stands out with its distinct narrative style and visual approach. Validate that each approach maintains viewer engagement through logical flow and creative storytelling techniques.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                }
+            ],
+            "patternId": "1-1"
+        },
+        {
+            "taskFlowId": "1-2",
+            "taskFlowName": "Baseline",
+            "taskFlowDescription": "This is a baseline flow",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Baseline flow",
+                    "stepLabel": "Baseline flow",
+                    "stepDescription": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach, but consistently include: a captivating opening, a concise outline of key points that align with visual cues, smooth transitions between sections, approximate duration for each part, and a memorable conclusion. Focus on viewer engagement by including different voice tones, pacing, and creative storytelling techniques. Each workflow should guide the user on constructing the script, specifying how to integrate key points and visuals in a way that keeps the audience engaged and ensures logical flow from start to finish. Deliver the scripts as cohesive step-by-step guides covering narrative flow, voice direction, and visual elements, ensuring that each proposed approach stands out from the others in style and perspective.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The task requires creative brainstorming to generate multiple video scripts with varied storytelling approaches, making the collaborative dialogue of diverse agents ideal for fostering distinct angles and styles."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "The Creative Storyteller, known for imaginative and engaging narrative crafting. They bring a vibrant and dynamic approach to scriptwriting, ensuring each script captivates the audience from start to finish.",
+                                "goal": "Develop a script that opens with a compelling hook, integrates key points from the academic abstract, and utilizes creative storytelling techniques such as varied pacing and tone to maintain engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Analytical Strategist, focused on logical structure and clarity. They excel at organizing content to ensure a smooth flow and coherence, making complex ideas accessible and relatable.",
+                                "goal": "Create a script that outlines key points clearly, aligning them with visual cues and ensuring smooth transitions and logical flow. They will specify the approximate duration for each section to maintain viewer interest.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "The Visual Director, with an eye for aligning visuals with narrative. They ensure that each script integrates visual elements effectively, enhancing the storytelling and aiding viewer comprehension.",
+                                "goal": "Design visual elements that correspond with the script's key points and transitions, ensuring that visuals complement the narrative and enhance engagement through creative integration.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
+                            "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "1-2"
+        }
+    ]
+}

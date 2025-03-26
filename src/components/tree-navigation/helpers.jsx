@@ -82,7 +82,7 @@ export function getTaskSteps(flow) {
 
 export function getAgentSteps(flow) {
     const agentCounts = [];
-    let currentSteps = flow.taskFlowStart.nextSteps;
+    let currentSteps = flow?.taskFlowStart.nextSteps;
 
     while (currentSteps && currentSteps.length > 0) {
         const uniqueSteps = [...new Set(currentSteps)];

@@ -286,6 +286,7 @@ const TreeNav = () => {
   useEffect(() => {
     handleTreeNav();
   }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, multiStreamOutput]);
+  console.log("multiStreamOutput", multiStreamOutput)
 
   const handleDeleteNode = (selected) => {
     if (!selected || !selected.type) return;

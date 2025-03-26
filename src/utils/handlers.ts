@@ -1,8 +1,18 @@
 const handleSingleAgentWithWebSearchTool = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt , maxRound} = template;
-    const taskPrompt = `your task description is ${stepDescription}`;
-    const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
+    // const taskPrompt = `your task description is ${stepDescription}`;
+    // const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
+      // Emphasize final deliverable from stepDescription
+    const taskPrompt = `The step description is: ${stepDescription}.
+    Please produce the final expected output aligned with your goal and the step description.
+    If you need online information, use the web search tool. 
+    Provide a direct and complete solution without asking for clarifications.`;
+
+    const patternSystemPrompt = `
+    You can (and should) use the web search tool to gather information necessary 
+    for fulfilling the final deliverable specified in the step description.
+    `;
     return {
         type: "singleAgent",
         nodes: [
@@ -11,7 +21,11 @@ const handleSingleAgentWithWebSearchTool = (step) => {
                 description: "Agent_tool_search",
                 tools: ["tool_WebSearch"],
                 llm: "gpt-4o",
-                systemPrompt: "Your persona: " + persona + " and your goal: " + goal + patternSystemPrompt + taskPrompt 
+                systemPrompt:  
+                persona 
+                + patternSystemPrompt
+                + "\n and your goal is: " + goal  
+                + taskPrompt
             }
         ],
         edges: [],
@@ -44,7 +58,11 @@ const handleReflection = (step) => {
     const { evaluator, optimizer, maxRound } = template;
     const optimizerPatternPrompt = optimizer.patternPrompt.trim() 
     const evaluatorPatternPrompt = evaluator.patternPrompt.trim() 
-    const taskPrompt =  'The task for you is ' + stepDescription;
+
+    const taskPrompt =  `The step description is ${stepDescription}. 
+    You (optimizer and evaluator) must iteratively produce the final expected output aligned with the step description.`;
+
+
 
     return {
         type: "reflection",
@@ -58,8 +76,12 @@ const handleReflection = (step) => {
                 tools: [],
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
-                patternPrompt: optimizer.patternPrompt,
-                systemPrompt: "Your persona: " + optimizer.persona + " and your goal: " + optimizer.goal + taskPrompt
+                patternPrompt: "Follow the step description and your goal, carefully to draft and refine the deliverable.",
+                systemPrompt: 
+                optimizer.persona 
+                + "\n Follow the step description and your goal, carefully to draft and refine the deliverable."
+                + "\n Your goal is: " + optimizer.goal 
+                + taskPrompt
             },
             {
                 type: "evaluator",
@@ -69,8 +91,14 @@ const handleReflection = (step) => {
                 tools: [],
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
-                patternPrompt: evaluator.patternPrompt,
-                systemPrompt: "Your persona: " + evaluator.persona + " and your goal: " + evaluator.goal + taskPrompt
+                patternPrompt: "Follow the step description and your goal, carefully to draft and refine the deliverable.",
+                systemPrompt: 
+                evaluator.persona 
+                + "\n Analyze and refine the Optimizer's output."
+                + "If it meets the step description's requirements, must output it and contain the whole final deliverable explicitly without feedbacks."
+                + "Otherwise, provide precise feedbacks along with the Optimizer's output"
+                + "\n Your goal is: " + evaluator.goal 
+                + taskPrompt
             }
         ],
         edges: [
@@ -106,10 +134,10 @@ const handleSupervision = (step) => {
     const { stepDescription, pattern, template } = step;
     const { maxRound, workers = [], supervisor = {} } = template;
 
-    const taskPrompt = 'The task is: ' + stepDescription;    
+    const taskPrompt = 'The step description is: ' + stepDescription;    
 
     const supervisorPatternPrompt = 
-    `You are a helpful supervisor who can coordinate the workers to complete the task \
+    `You are a helpful supervisor who can coordinate the workers to complete the task.
     You manage the conversation among other workers agents.  \
     Given the request and conversation history, respond with the worker to act next. 
     Each agent will perform a subtask and respond with their restuls and status.`;
@@ -126,7 +154,11 @@ const handleSupervision = (step) => {
           llm: "gpt-4o",
           taskPrompt: taskPrompt,
           patternPrompt: worker.patternPrompt?.trim() || workerPatternPrompt,
-          systemPrompt: "Your persona: " + worker.persona + " and your goal: " + worker.goal + worker.patternPrompt?.trim() + taskPrompt
+          systemPrompt: 
+          worker.persona 
+          + "\n Produce the deliverable aligned with your goal and the step description."
+          + "\n Your goal is: " + worker.goal 
+          + taskPrompt
         };
       });
 
@@ -139,7 +171,11 @@ const handleSupervision = (step) => {
         llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: supervisor.patternPrompt?.trim() || supervisorPatternPrompt,
-        systemPrompt: "Your persona: " + supervisor.persona + " and your goal: " + supervisor.goal + supervisor.patternPrompt?.trim() + taskPrompt,
+        systemPrompt: 
+        supervisor.persona 
+        + "\n Coordinate workers to fulfill the step description's expected output."
+        + "\n Your goal is: " + supervisor.goal 
+        + taskPrompt,
       };
 
       const agentEdges = [
@@ -185,7 +221,7 @@ const handleDiscussion = (step) => {
     const { stepDescription, template} = step;
     const { withSummary, maxRound, agents = [], summary = {} } = template;
 
-    const taskPrompt = 'The task is: ' + stepDescription;
+    const taskPrompt = `The step description is: ${stepDescription}`
     const agentsPatternSystemPrompt = 'You are a helpful assistant who can solve the task.';
     const summaryPatternSystemPrompt = 'You are a helpful assistant who can summarize the discussion';
     
@@ -199,7 +235,11 @@ const handleDiscussion = (step) => {
             goal: agent.goal,
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
-            systemPrompt: "Your persona: " + agent.persona + " and your goal: " + agent.goal + agent.patternPrompt + taskPrompt
+            systemPrompt: 
+            agent.persona 
+            + "\n Contribute your ideas and aim to produce the deliverable that aligns with your goal and the step description."
+            + "\n Your goal is: " + agent.goal 
+            + taskPrompt
         }
     })
 
@@ -235,7 +275,11 @@ const handleDiscussion = (step) => {
             goal: summary.goal || "Summary",
             taskPrompt: taskPrompt,
             patternPrompt: summary.patternPrompt?.trim() || summaryPatternSystemPrompt,
-            systemPrompt: "Your persona: " + summary.persona + " and your goal: " + summary.goal + summary.patternPrompt?.trim() + taskPrompt
+            systemPrompt: 
+            summary.persona 
+            + "\n Summarize all agents' contributions and ensure the final output meets the step description"
+            + "\n Your goal is: " + summary.goal 
+            + taskPrompt
         })
     }
 
@@ -358,7 +402,9 @@ const handleRedundant = (step) => {
     const { stepDescription, template} = step;
     const { agents = [], aggregation = {}, maxRound } = template;
 
-    const taskPrompt = 'The task is' + stepDescription;
+    const taskPrompt = `The step description is: ${stepDescription}, 
+    The final deliverable should align with the step description.`;
+
     const agentsPatternSystemPrompt = 'You can complete the task independently.';
     const aggregatorPatternSystemPrompt = 'You should aggregate the previous agents outputs.';
 
@@ -372,7 +418,11 @@ const handleRedundant = (step) => {
             llm: "gpt-4o",
             taskPrompt: taskPrompt,
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
-            systemPrompt: "Your persona: " + agent.persona + " and your goal: " + agent.goal + agent.patternPrompt?.trim() + taskPrompt
+            systemPrompt: 
+            agent.persona 
+            + "\n Produce a complete solution that satisfies the step description, and aligns with your persona and goal. No need to ask for clarifications."
+            + "\n Your goal is: " + agent.goal 
+            + taskPrompt
         }
     })
     agentsNodes.push({
@@ -382,7 +432,11 @@ const handleRedundant = (step) => {
         llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
-        systemPrompt: "Your persona: " + aggregation.persona + " and your goal: " + aggregation.goal + aggregation.patternPrompt?.trim() + taskPrompt
+        systemPrompt: 
+        aggregation.persona 
+        + "\n Aggregate all the outputs and ensure the final deliverable meets the step description"
+        + "\n Your goal is: " + aggregation.goal 
+        + taskPrompt
     })
 
     let agentsEdges = []

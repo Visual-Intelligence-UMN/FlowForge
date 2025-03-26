@@ -112,13 +112,15 @@ const GenerateTemplatesInfo = async (flow) => {
         const systemMessage = promptGenerateTemplates.systemMessage
         
         const userMessage = "This step is part of the workflow: " + taskFlowDescription + ". " 
-        + "This specifc stepName is : " + stepName + " The stepDescription: " 
-        + stepDescription + ". pattern: " + pattern.name + ". patternDescription: " + pattern.description 
+        + "This stepName is : " + stepName + " The stepDescription: " 
+        + stepDescription + ". This pattern is: " + pattern.name + ". patternDescription: " + pattern.description 
         + ". pattern recommendationReason: " + pattern.recommendationReason 
 
+        console.log("stepDescription for template generation: ", stepDescription);
         try {
             const completion = await openai.beta.chat.completions.parse({
                 model: "gpt-4o",
+                temperature: 0.7,
                 messages: [
                     { role: "system", content: systemMessage },
                     { role: "user", content: userMessage },
