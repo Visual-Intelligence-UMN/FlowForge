@@ -37,8 +37,12 @@ const CompileLanggraph = async (reactflowConfig) => {
             default: () => [],
             reducer: (x,y) => x.concat(y),
         });
+        AgentsState.spec[step.split("-").join("")+"-status"] = Annotation<string>({
+            default: () => "pending",
+            reducer: (x,y) => y ?? x ?? "pending",
+        });
     });
-    // console.log("AgentsState", AgentsState);
+    console.log("AgentsState", AgentsState);
 
     let compiledWorkflow = new StateGraph(AgentsState);
 

@@ -7,7 +7,29 @@ import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 30, interval = 500 } = {}
+) {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          resolve(true);
+        } else if (attempts < retries) {
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -15,14 +37,26 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     if (state.sender === "user") {
         return state.messages;
     }
-    // If the step has no messages yet, use last message from the global messages array.
+
+    // Check each previous step's status before proceeding
+    for (const step of previousSteps) {
+        if (step === "step0") {
+            continue;
+        }
+        const statusKey = `${step}-status`;
+        try {
+            await waitForStepStatus(state, statusKey);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     if (!stepMsgs || stepMsgs.length === 0) {
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-3);
+    return stepMsgs.slice(-1);
   }
   
 const makeAgentNode = (params: {
@@ -46,7 +80,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.5,
+            temperature: 0.7,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -58,11 +92,11 @@ const makeAgentNode = (params: {
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
 
@@ -72,7 +106,7 @@ const makeAgentNode = (params: {
             content: response.response,
             name: params.name,
         }
-        
+        let status = "pending";
         let response_goto = response.goto;
         if (state[currentStep].length >= params.maxRound ) {
             // random call, so one msg means one round
@@ -80,10 +114,12 @@ const makeAgentNode = (params: {
                 response_goto = params.destinations.find((d) => d.includes("Summary"));
             } else {
                 response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+                status = "done";
             }
         } 
         if (!response_goto.includes(currentStepId)) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            status = "done";
         }
         console.log("response_goto in compileDiscussion", response_goto);
         // console.log("discussion response", response);
@@ -94,6 +130,7 @@ const makeAgentNode = (params: {
                 messages: aiMessage,
                 sender: params.name,
                 [currentStep]: aiMessage,
+                [currentStep+"-status"]: status,
             }
         })
     }
@@ -104,6 +141,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     // console.log("nodesInfo in compileDiscussion", nodesInfo);
     console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
@@ -116,7 +154,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             tools: summaryNode.data.tools,
             systemMessage: summaryNode.data.systemPrompt,
             accessStepMsgs: true,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
         });
 
         const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
@@ -125,7 +163,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
                 agent: await createdAgent(),
                 name: summaryNode.id,
                 config: config,
-                previousSteps: previousSteps,
+                previousSteps: uniquePreviousSteps as string[],
             });
         }
         workflow.addNode(summaryNode.id, agentNode)
@@ -151,7 +189,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             llmOption: node.data.llm,
             tools: node.data.tools,
             maxRound: maxRound,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
             summaryOrNot: summaryNode ? true : false,
         })
         if (node.data.label === "Summary") {

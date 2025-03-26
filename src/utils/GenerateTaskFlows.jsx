@@ -44,8 +44,11 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
   const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
     "{{flow_num}}",
-    "THREE" // conditionally set as THREE or ONE
-  );
+    "FOUR" // conditionally set as THREE or ONE
+  ).replace("{{TASK}}", taskDescription);
+
+  // console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
+
   const systemMessage = systemMessage_schema;
 
   const systemMessage_ideas = promptTaskflow.systemMessage_ideas.replace(
@@ -102,6 +105,27 @@ const GenerateTaskFlows = async (task, runRealtime) => {
       ),
     }),
     taskFlow_3: z.object({
+      taskFlowId: z.string(),
+      taskFlowName: z.string(),
+      taskFlowDescription: z.string(),
+      taskFlowStart: z.object({
+        nextSteps: z.array(z.string()),
+        input: z.object({
+          text: z.string(),
+          file: z.string(),
+        }),
+      }),
+      taskFlowSteps: z.array(
+        z.object({
+          stepId: z.string(),
+          stepName: z.string(),
+          stepLabel: z.string(),
+          stepDescription: z.string(),
+          nextSteps: z.array(z.string()),
+        })
+      ),
+    }),
+    taskFlow_4: z.object({
       taskFlowId: z.string(),
       taskFlowName: z.string(),
       taskFlowDescription: z.string(),
@@ -191,9 +215,11 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (task.name.includes("Review a Paper") || task.name.includes("Visualization")) {
+      if (task.name.includes("Review a Paper") 
+        || task.name.includes("Visualization")
+        || task.name.includes("Presentation")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
-        const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
+        const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
         returnData.taskFlows.push(...sampleflows);
         return returnData;
       } else {
@@ -234,20 +260,19 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
     const completion = await openai.beta.chat.completions.parse({
       model: "gpt-4o",
-      temperature: 0.7,
+      temperature: 0.8,
       messages: [
-        { role: "system", content: systemMessage },
-        { role: "user", content: taskDescription },
+        { role: "system", content: systemMessage }
       ],
       response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
     });
     const res = completion.choices[0].message.parsed;
     console.log("Task flows response formatted:", res);
 
-    const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3];
+    const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3, res?.taskFlow_4];
 
-    if (generatedTaskFlows.length > 3) {
-      const sortedTaskFlows = generatedTaskFlows.slice(0, 3).sort((a, b) => {
+    if (generatedTaskFlows.length > 10) {
+      const sortedTaskFlows = generatedTaskFlows.slice(0, 5).sort((a, b) => {
         return a.taskFlowSteps.length - b.taskFlowSteps.length;
       });
       const shortest = sortedTaskFlows[0];  

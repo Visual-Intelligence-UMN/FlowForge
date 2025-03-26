@@ -7,24 +7,24 @@
     "uploadedFile": null
   },
   {
-    "id": "task2",
-    "name": "[Use Case] Machine Learning Visualization",
+    "id": "task1",
+    "name": "Generate Presentation Script",
     "requiresUpload": false,
-    "description": "Generate executable, diverse, insightful and interactive visualization JavaScript Codes for the given partial dataset. The input is a partial dataset with potential missing values. The expected output should be executable JavaScript codes, utilizing appropriate chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final JavaScript codes should be appropriate for the input dataset, runnable, informative and engaging.",
+    "description": "Create a series of 25-second video scripts based on the abstract of an academic paper, ensuring each script stands out with a distinct angle (style, tone, and narrative structure) while maintaining a professional and engaging presentation of the research. Requirements: 1. Captivating Opening Immediately hook viewers by referencing the paper’s key topic in an intriguing manner. 2. Specific Content & Visual Guidance. - Provide concise verbal content for each part of the script. - Offer visual direction (e.g., relevant figures, graphics) that complement the narration and logically flow with the script’s structure. 3. Smooth Transitions. Ensure cohesive narrative and visual continuity between parts, guiding viewers seamlessly from one section to the next. 4. Precise Timing. Specify exact durations for each section (how many seconds). 5. Compelling Conclusion. End with a professional yet memorable closing, reinforcing the core insight or takeaway from the academic paper. 6. Fresh, Professional Approach. Each task flow must present a unique thinking process, yet maintain accessibility and engagement for a broad audience. Deliverable: A set of short video scripts (one per task flow), each: script with time allocation for each part, 25 seconds in total. Includes detailed verbal narration and explicit visual guidance. Conveys the academic content in a succinct, compelling, and distinctly styled manner, ensuring professional quality throughout.",
+        "uploadedFile": null
+  },
+  {
+    "id": "task2",
+    "name": "Machine Learning Visualization",
+    "requiresUpload": false,
+    "description": "Craft a set of taskflows that generate fully executable, diverse, and interactive Python visualizations to tell a compelling data story. The input dataset may contain missing values and multiple attributes, allowing flexibility in selecting and emphasizing specific columns to create engaging narratives. Key Requirements: 1. Visualization Variety: Include at least four and no more than six distinct chart types (e.g., line charts, bar charts, scatter plots, histograms, heat maps, distribution plots, area charts, circular chats, interaction plots, customized plots, etc). 2. Attribute Focus: Deliberately choose and combine attributes (including handling missing data) to highlight unique angles in the narrative.  3. Narrative Integration: Accompany each visualization with clear, insightful text explaining the visual output, its context, and key insights. 4. Cohesive Story Flow: Ensure visual elements and their accompanying text seamlessly connect to form a unified, engaging storyline. 5. Fully Executable Output: Provide structurally sound Python code that can run as-is, delivering an interactive experience and revealing meaningful insights from the dataset. These taskflows should culminate in a polished storytelling experience that leverages both visual and textual components to convey the hidden patterns and takeaways within the partial dataset.",
     "uploadedFile": null
   },
   {
     "id": "task4",
-    "name": "[Use Case] Generate Podcast Script",
+    "name": "Generate Podcast Script",
     "requiresUpload": false,
     "description": "Generate an engaging and informative podcast script based on a specified event or topic. The script should include a captivating introduction that immediately grabs listeners' attention, clear segments or discussion points structured logically throughout the podcast, and a strong closing summary or call to action. It should also suggest appropriate moments for incorporating interviews, guest experts, listener questions, or interactive elements if applicable. The generated script must be suitable for a defined target audience, maintaining an appropriate tone and style, ranging from casual and conversational to formal and informative. Additionally, the script overall length should be about five minutes, and should specify the ideal duration for each segment and the overall podcast length, ensuring the content flows naturally and maintains listener engagement throughout.",
-    "uploadedFile": null
-  },
-  {
-    "id": "task1",
-    "name": "Generate Presentation Script",
-    "requiresUpload": false,
-    "description": "Generate a detailed and well-structured presentation script based on a specified topic. The script should feature an engaging opening to immediately capture the audience's attention, clearly outlined key points that align logically with visual elements (such as slides or graphics), smooth transitions between sections, and a concise, impactful conclusion. It should incorporate suggestions for visual aids or multimedia content to enhance understanding and retention of information. The generated script must cater to the intended audience, appropriately balancing technical detail with accessibility and maintaining a tone suitable for professional, educational, or casual settings as required. Additionally, the script should recommend an ideal presentation duration, with timing allocated effectively for each key segment to ensure clarity and audience engagement.",
     "uploadedFile": null
   },
   {

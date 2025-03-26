@@ -5,7 +5,31 @@ import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 import toolsMap from "./utils";
 import { Command } from "@langchain/langgraph/web";
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 30, interval = 500 } = {}
+) {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          resolve(true);
+        } else if (attempts < retries) {
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
+
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -13,15 +37,26 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     if (state.sender === "user") {
         return state.messages;
     }
-    
+
+    for (const step of previousSteps) {
+        if (step === "step0") {
+            continue;
+        }
+        const statusKey = `${step}-status`;
+        try {
+            await waitForStepStatus(state, statusKey);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-2);
+    return stepMsgs.slice(-1);
     // get two previous msg
   }
   
@@ -49,10 +84,11 @@ const makeAgentNode = (params: {
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt),
         });
+        console.log("params destination null or not", params.destinations);
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.4,
+            temperature: 0.7,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -62,11 +98,11 @@ const makeAgentNode = (params: {
         }
 
         const invokePayload = [
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
@@ -77,19 +113,24 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
-        if (state[currentStep].length / 2 >= params.maxRound) {
+        let status = "pending";
+        console.log("direct response_goto in compileReflection", response_goto);
+
+        if (response_goto === undefined) {
+            response_goto = "__end__";
+            console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
+            status = "done";
+        } else if (state[currentStep].length / 2 >= params.maxRound) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
-        }
-        if (!response_goto.includes(currentStepId)) {
+            status = "done";
+        } else if (!response_goto.includes(currentStepId)) {
             console.log ("next steps")
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
+            status = "done";
         }
-        if (response_goto === undefined) {
-            response_goto = "__end__";
-            // console.log("response_goto in compileReflection next steps", response_goto);
-        }
+
         
         // console.log("response_goto in compileReflection", response_goto);
         // console.log("reflection response", params.name, response);
@@ -101,6 +142,7 @@ const makeAgentNode = (params: {
                 messages: aiMessage,
                 sender: params.name,
                 [currentStep]: aiMessage,
+                [currentStep+"-status"]: status,
             }
         })
     }
@@ -111,8 +153,13 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
+    console.log("previousSteps in compileReflection", previousSteps);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
+    const evaluatorNode = nodesInfo.find((n: any) => n.data.label === "Evaluator");
+
+    const evaluatorTarget = stepEdges.filter((edge) => edge.source === evaluatorNode.id).map((edge) => edge.target);
     for (const node of nodesInfo) {
         const destinations = Array.from(
             new Set(
@@ -124,9 +171,10 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         let responsePrompt = "";
         if (node.type === "evaluator") {
             const nextOne = destinations.find((d: string) => d.includes(nextStep));
-            responsePrompt = "You should call " + optimizerName + " with your feedbacks if NOT GOOD, otherwise organize your response and call for " + nextOne
+            responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
+            + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description without feedbacks and call for " + nextOne
         } else {
-            responsePrompt = "You should always call the Evaluator to get the feedbacks. "
+            responsePrompt = "You should always organize and concatenate your deliverable with the previous one, and call the Evaluator to get the feedbacks. "
         }
         // console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
@@ -137,11 +185,14 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             tools: node.data.tools,
             responsePrompt: responsePrompt,
             maxRound: maxRound,
-            previousSteps: previousSteps,
+            previousSteps: uniquePreviousSteps as string[],
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]
         })
+    }
+    if (evaluatorTarget.length <= 1) {
+        workflow.addEdge(evaluatorNode.id, "__end__")
     }
     return workflow;
 };

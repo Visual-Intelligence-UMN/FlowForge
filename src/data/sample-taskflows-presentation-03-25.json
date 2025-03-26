@@ -1,0 +1,985 @@
+{
+    "taskFlows":
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Sequential and Parallel Processing Flow",
+            "taskFlowDescription": "This flow breaks down the task of generating a video script into sequential and parallel steps for efficient processing.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on machine learning models",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Create an engaging opening that immediately captures the audience's attention with a compelling hook.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Key Points Outline",
+                    "stepDescription": "Clearly outline key points that align logically with visual elements such as slides or graphics.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Suggest Visual Aids",
+                    "stepLabel": "Visual Aid Suggestions",
+                    "stepDescription": "Incorporate suggestions for visual aids or multimedia content to enhance understanding and retention.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Impactful Conclusion",
+                    "stepDescription": "Craft a concise and impactful conclusion that summarizes the script and leaves a lasting impression.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Condensed Dual-Step Approach",
+            "taskFlowDescription": "This flow condenses the script creation into two major steps, emphasizing content creation and multimedia integration.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on quantum computing",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Develop Content Structure",
+                    "stepLabel": "Content Structuring",
+                    "stepDescription": "Develop a structured outline for the video script, ensuring a balance between technical detail and accessibility.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Integrate Multimedia",
+                    "stepLabel": "Multimedia Integration",
+                    "stepDescription": "Integrate multimedia elements such as graphics and animations to reinforce key points and enhance engagement.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Iterative Script Enhancement Flow",
+            "taskFlowDescription": "This flow involves iterative refinement of the script focusing on audience engagement, technical content, and visual elements.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on the impact of climate change on biodiversity",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Script Draft",
+                    "stepLabel": "Drafting Phase",
+                    "stepDescription": "Create an initial draft of the script focusing on core content and logical flow.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Audience Engagement Revision",
+                    "stepLabel": "Engagement Revision",
+                    "stepDescription": "Revise the script to enhance audience engagement by incorporating interactive elements and questions.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Elements Integration",
+                    "stepLabel": "Visual Integration",
+                    "stepDescription": "Integrate visual elements such as charts and infographics to complement the script and aid comprehension.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    },
+    "flowsWithPatterns":
+    [
+        {
+            "taskFlowId": "4-1",
+            "taskFlowName": "Iterative Script Enhancement Flow",
+            "taskFlowDescription": "This flow involves iterative refinement of the script focusing on audience engagement, technical content, and visual elements.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on the impact of climate change on biodiversity",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Script Draft",
+                    "stepLabel": "Drafting Phase",
+                    "stepDescription": "Create an initial draft of the script focusing on core content and logical flow.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern complements the initial drafting process by allowing iterative improvement through feedback, ensuring that core content and logical flow are precisely aligned with the script's objectives."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Audience Engagement Revision",
+                    "stepLabel": "Engagement Revision",
+                    "stepDescription": "Revise the script to enhance audience engagement by incorporating interactive elements and questions.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection is ideal for revising scripts as it allows for iterative improvement with feedback loops, focusing on interactive elements to enhance audience engagement."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Elements Integration",
+                    "stepLabel": "Visual Integration",
+                    "stepDescription": "Integrate visual elements such as charts and infographics to complement the script and aid comprehension.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection allows for iterative improvement through feedback, suitable for refining visual elements to enhance audience engagement and comprehension."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-1"
+        },
+        {
+            "taskFlowId": "4-2",
+            "taskFlowName": "Iterative Script Enhancement Flow",
+            "taskFlowDescription": "This flow involves iterative refinement of the script focusing on audience engagement, technical content, and visual elements.",
+            "patternsId": 5,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on the impact of climate change on biodiversity",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Script Draft",
+                    "stepLabel": "Drafting Phase",
+                    "stepDescription": "Create an initial draft of the script focusing on core content and logical flow.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is well-suited for creating an initial draft by efficiently handling the straightforward task of organizing core content and ensuring a logical flow."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "Content Architect - An individual who excels in organizing and structuring information, ensuring clarity and accessibility while maintaining technical accuracy.",
+                        "goal": "Create a comprehensive outline for the video script that balances technical detail with accessibility to engage a wide audience.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Audience Engagement Revision",
+                    "stepLabel": "Engagement Revision",
+                    "stepDescription": "Revise the script to enhance audience engagement by incorporating interactive elements and questions.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Discussion supports collaborative idea generation, essential for creatively incorporating interactive elements and questions to boost audience engagement."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "Technical Analyst responsible for ensuring all relevant technical details are covered in the outline while making them understandable to a non-technical audience.",
+                                "goal": "Identify and list key technical concepts that need to be included in the script, ensuring they are simplified for accessibility.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Creative Writer who focuses on structuring the narrative to be engaging without losing technical accuracy.",
+                                "goal": "Develop a narrative that naturally incorporates the technical details provided by the Technical Analyst, ensuring it remains accessible and engaging to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate representing the target viewer's perspective to ensure the script is balanced and clear.",
+                                "goal": "Evaluate the outline for clarity and balance between technical detail and accessibility, providing feedback to refine the content structure.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate",
+                                "goal": "Represent the target audience's perspective, ensuring that the script outline addresses common questions and is comprehensible to non-technical viewers."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Project Lead facilitating the discussion to ensure all perspectives are harmonized in the final script outline.",
+                            "goal": "Synthesize contributions from all agents to finalize a balanced and accessible script structure for the video.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Elements Integration",
+                    "stepLabel": "Visual Integration",
+                    "stepDescription": "Integrate visual elements such as charts and infographics to complement the script and aid comprehension.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Redundant is effective in parallelizing tasks, allowing simultaneous exploration of different visual element styles, with the best outcomes integrated into the final product."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "Innovative Designer",
+                                "goal": "Generate a list of creative and artistic visual aids that will make the video script more engaging.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Data-driven Analyst",
+                                "goal": "Analyze the script content to suggest data visualizations and infographics that enhance understanding.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Educational Specialist",
+                                "goal": "Propose multimedia elements that align with educational principles to improve retention and comprehension."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "Chief Visual Coordinator",
+                            "goal": "Aggregate all visual aid suggestions, ensuring a balanced and comprehensive selection that meets the script's purpose and audience needs.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-2"
+        },
+        {
+            "taskFlowId": "2-1",
+            "taskFlowName": "Sequential and Parallel Processing Flow",
+            "taskFlowDescription": "This flow breaks down the task of generating a video script into sequential and parallel steps for efficient processing.",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on machine learning models",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Create an engaging opening that immediately captures the audience's attention with a compelling hook.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Iterative feedback from a reflection agent can refine the opening script, enhancing its engagement potential through continuous improvement."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Key Points Outline",
+                    "stepDescription": "Clearly outline key points that align logically with visual elements such as slides or graphics.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task of outlining key points is straightforward and can be efficiently handled by a single agent focusing on organizing content logically."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "Content Architect - An individual who excels in organizing and structuring information, ensuring clarity and accessibility while maintaining technical accuracy.",
+                        "goal": "Create a comprehensive outline for the video script that balances technical detail with accessibility to engage a wide audience.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Suggest Visual Aids",
+                    "stepLabel": "Visual Aid Suggestions",
+                    "stepDescription": "Incorporate suggestions for visual aids or multimedia content to enhance understanding and retention.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Redundant allows multiple agents to generate a variety of visual aid suggestions in parallel, covering different aspects and ideas to enhance the final selection."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "Innovative Designer",
+                                "goal": "Generate a list of creative and artistic visual aids that will make the video script more engaging.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Data-driven Analyst",
+                                "goal": "Analyze the script content to suggest data visualizations and infographics that enhance understanding.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Educational Specialist",
+                                "goal": "Propose multimedia elements that align with educational principles to improve retention and comprehension."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "Chief Visual Coordinator",
+                            "goal": "Aggregate all visual aid suggestions, ensuring a balanced and comprehensive selection that meets the script's purpose and audience needs.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Impactful Conclusion",
+                    "stepDescription": "Craft a concise and impactful conclusion that summarizes the script and leaves a lasting impression.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is ideal to iteratively refine the conclusion, ensuring its impact is maximized through feedback loops and improvements."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-1"
+        },
+        {
+            "taskFlowId": "2-2",
+            "taskFlowName": "Sequential and Parallel Processing Flow",
+            "taskFlowDescription": "This flow breaks down the task of generating a video script into sequential and parallel steps for efficient processing.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on machine learning models",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Capture Audience Attention",
+                    "stepLabel": "Engaging Opening",
+                    "stepDescription": "Create an engaging opening that immediately captures the audience's attention with a compelling hook.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Utilizing multiple agents with distinct perspectives can foster creative ideas and debate, leading to an innovative and compelling hook."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "Technical Analyst responsible for ensuring all relevant technical details are covered in the outline while making them understandable to a non-technical audience.",
+                                "goal": "Identify and list key technical concepts that need to be included in the script, ensuring they are simplified for accessibility.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Creative Writer who focuses on structuring the narrative to be engaging without losing technical accuracy.",
+                                "goal": "Develop a narrative that naturally incorporates the technical details provided by the Technical Analyst, ensuring it remains accessible and engaging to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate representing the target viewer's perspective to ensure the script is balanced and clear.",
+                                "goal": "Evaluate the outline for clarity and balance between technical detail and accessibility, providing feedback to refine the content structure.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate",
+                                "goal": "Represent the target audience's perspective, ensuring that the script outline addresses common questions and is comprehensible to non-technical viewers."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Project Lead facilitating the discussion to ensure all perspectives are harmonized in the final script outline.",
+                            "goal": "Synthesize contributions from all agents to finalize a balanced and accessible script structure for the video.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Key Points Outline",
+                    "stepDescription": "Clearly outline key points that align logically with visual elements such as slides or graphics.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Incorporating a reflection agent allows the main agent to iteratively refine the key points to ensure they align with visual elements and maintain logical coherence."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "The Evaluator is a diligent academic with a keen eye for narrative coherence and audience engagement. They are meticulous, feedback-oriented, and prioritize ensuring that each segment of the script is both informative and engaging while maintaining clarity for diverse audiences.",
+                            "goal": "Thoroughly assess the script to ensure that it captures the audience's attention from the opening, logically aligns key points with their respective visual elements, and maintains a consistent narrative flow with appropriate tone and language. Provide detailed feedback on areas for improvement, especially in engaging the opening and concluding segments and the effective use of media.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "The Optimizer is a creative script consultant, driven by the goal of enhancing content delivery through innovative presentation techniques. They are practical, solutions-focused, and adept at refining materials to better captivate diverse audiences through strategic multimedia integration.",
+                            "goal": "Refine the script based on feedback to optimize for both content clarity and engagement. Enhance transitions, integrate appropriate suggestions for visual aids, and ensure a balanced presentation duration with clear time allocation per segment. Ensure the script not only conveys the key points effectively but also resonates with the intended audience, maintaining technical accuracy where necessary.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Suggest Visual Aids",
+                    "stepLabel": "Visual Aid Suggestions",
+                    "stepDescription": "Incorporate suggestions for visual aids or multimedia content to enhance understanding and retention.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Redundant allows multiple agents to generate a variety of visual aid suggestions in parallel, covering different aspects and ideas to enhance the final selection."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "Innovative Designer",
+                                "goal": "Generate a list of creative and artistic visual aids that will make the video script more engaging.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Data-driven Analyst",
+                                "goal": "Analyze the script content to suggest data visualizations and infographics that enhance understanding.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Educational Specialist",
+                                "goal": "Propose multimedia elements that align with educational principles to improve retention and comprehension."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "Chief Visual Coordinator",
+                            "goal": "Aggregate all visual aid suggestions, ensuring a balanced and comprehensive selection that meets the script's purpose and audience needs.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Impactful Conclusion",
+                    "stepDescription": "Craft a concise and impactful conclusion that summarizes the script and leaves a lasting impression.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The simplicity and clarity required in crafting a concise and impactful conclusion align well with the strengths of the Single Agent design pattern."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "Content Architect - An individual who excels in organizing and structuring information, ensuring clarity and accessibility while maintaining technical accuracy.",
+                        "goal": "Create a comprehensive outline for the video script that balances technical detail with accessibility to engage a wide audience.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                }
+            ],
+            "patternId": "2-2"
+        },
+        {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Condensed Dual-Step Approach",
+            "taskFlowDescription": "This flow condenses the script creation into two major steps, emphasizing content creation and multimedia integration.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on quantum computing",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Develop Content Structure",
+                    "stepLabel": "Content Structuring",
+                    "stepDescription": "Develop a structured outline for the video script, ensuring a balance between technical detail and accessibility.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern facilitates collaborative brainstorming and ensures diverse perspectives are considered when balancing technical detail and accessibility in the outline."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "Technical Analyst responsible for ensuring all relevant technical details are covered in the outline while making them understandable to a non-technical audience.",
+                                "goal": "Identify and list key technical concepts that need to be included in the script, ensuring they are simplified for accessibility.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Creative Writer who focuses on structuring the narrative to be engaging without losing technical accuracy.",
+                                "goal": "Develop a narrative that naturally incorporates the technical details provided by the Technical Analyst, ensuring it remains accessible and engaging to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate representing the target viewer's perspective to ensure the script is balanced and clear.",
+                                "goal": "Evaluate the outline for clarity and balance between technical detail and accessibility, providing feedback to refine the content structure.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate",
+                                "goal": "Represent the target audience's perspective, ensuring that the script outline addresses common questions and is comprehensible to non-technical viewers."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Project Lead facilitating the discussion to ensure all perspectives are harmonized in the final script outline.",
+                            "goal": "Synthesize contributions from all agents to finalize a balanced and accessible script structure for the video.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Integrate Multimedia",
+                    "stepLabel": "Multimedia Integration",
+                    "stepDescription": "Integrate multimedia elements such as graphics and animations to reinforce key points and enhance engagement.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "Supervision can efficiently manage the integration of diverse multimedia elements, coordinating specialized agents for graphics and animations to ensure cohesive output."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "Script Writer, who creatively crafts the narrative focusing on engaging openings, coherent key points, and smooth transitions. Known for attention to detail, ensuring the tone is suitable for the intended audience.",
+                                "goal": "Generate a compelling and coherent script that effectively communicates the core concepts of the academic paper to the target audience, balancing technicalities and accessibility.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Visual Designer, responsible for conceptualizing and recommending multimedia elements such as slides or graphics. Detail-oriented with a knack for enhancing script comprehension through engaging visuals.",
+                                "goal": "Design and recommend multimedia content that complements the script, improving audience understanding and retention through strategic visual alignment.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Timing Specialist, focused on managing the script's pacing to maximize engagement and comprehension. Efficient in allocating time effectively to each script section.",
+                                "goal": "Develop a timing plan for the script that ensures each segment is well-timed, enhancing audience engagement and script clarity throughout the video."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "Project Manager, possessing an overarching view and ensuring each aspect harmonizes into a cohesive final product. Has strong leadership skills and a strategic mindset.",
+                            "goal": "Coordinate and oversee the entire scripting process, ensuring alignment with the project goals, and delivering a final script that meets quality standards and audience expectations.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "Oversee and coordinate the creation of the fast forward video script ensuring balance between technical detail and accessibility, while managing the integration of multimedia content and ensuring clarity of key points, transitions, and timing.",
+                        "goal": "To deliver a well-structured video script that captivates the audience, aligns content with visuals effectively, and fits within the recommended duration, catering to diverse professional, educational, or casual settings."
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Condensed Dual-Step Approach",
+            "taskFlowDescription": "This flow condenses the script creation into two major steps, emphasizing content creation and multimedia integration.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on quantum computing",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Develop Content Structure",
+                    "stepLabel": "Content Structuring",
+                    "stepDescription": "Develop a structured outline for the video script, ensuring a balance between technical detail and accessibility.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern facilitates collaborative brainstorming and ensures diverse perspectives are considered when balancing technical detail and accessibility in the outline."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "Technical Analyst responsible for ensuring all relevant technical details are covered in the outline while making them understandable to a non-technical audience.",
+                                "goal": "Identify and list key technical concepts that need to be included in the script, ensuring they are simplified for accessibility.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Creative Writer who focuses on structuring the narrative to be engaging without losing technical accuracy.",
+                                "goal": "Develop a narrative that naturally incorporates the technical details provided by the Technical Analyst, ensuring it remains accessible and engaging to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate representing the target viewer's perspective to ensure the script is balanced and clear.",
+                                "goal": "Evaluate the outline for clarity and balance between technical detail and accessibility, providing feedback to refine the content structure.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "Audience Advocate",
+                                "goal": "Represent the target audience's perspective, ensuring that the script outline addresses common questions and is comprehensible to non-technical viewers."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "Project Lead facilitating the discussion to ensure all perspectives are harmonized in the final script outline.",
+                            "goal": "Synthesize contributions from all agents to finalize a balanced and accessible script structure for the video.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Integrate Multimedia",
+                    "stepLabel": "Multimedia Integration",
+                    "stepDescription": "Integrate multimedia elements such as graphics and animations to reinforce key points and enhance engagement.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "Supervision can efficiently manage the integration of diverse multimedia elements, coordinating specialized agents for graphics and animations to ensure cohesive output."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "Script Writer, who creatively crafts the narrative focusing on engaging openings, coherent key points, and smooth transitions. Known for attention to detail, ensuring the tone is suitable for the intended audience.",
+                                "goal": "Generate a compelling and coherent script that effectively communicates the core concepts of the academic paper to the target audience, balancing technicalities and accessibility.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Visual Designer, responsible for conceptualizing and recommending multimedia elements such as slides or graphics. Detail-oriented with a knack for enhancing script comprehension through engaging visuals.",
+                                "goal": "Design and recommend multimedia content that complements the script, improving audience understanding and retention through strategic visual alignment.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Timing Specialist, focused on managing the script's pacing to maximize engagement and comprehension. Efficient in allocating time effectively to each script section.",
+                                "goal": "Develop a timing plan for the script that ensures each segment is well-timed, enhancing audience engagement and script clarity throughout the video."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "Project Manager, possessing an overarching view and ensuring each aspect harmonizes into a cohesive final product. Has strong leadership skills and a strategic mindset.",
+                            "goal": "Coordinate and oversee the entire scripting process, ensuring alignment with the project goals, and delivering a final script that meets quality standards and audience expectations.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "Oversee and coordinate the creation of the fast forward video script ensuring balance between technical detail and accessibility, while managing the integration of multimedia content and ensuring clarity of key points, transitions, and timing.",
+                        "goal": "To deliver a well-structured video script that captivates the audience, aligns content with visuals effectively, and fits within the recommended duration, catering to diverse professional, educational, or casual settings."
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        },
+        {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Condensed Dual-Step Approach",
+            "taskFlowDescription": "This flow condenses the script creation into two major steps, emphasizing content creation and multimedia integration.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on quantum computing",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Develop Content Structure",
+                    "stepLabel": "Content Structuring",
+                    "stepDescription": "Develop a structured outline for the video script, ensuring a balance between technical detail and accessibility.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Allows a streamlined and focused approach to create a clear and effective content structure for the script."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "Content Architect - An individual who excels in organizing and structuring information, ensuring clarity and accessibility while maintaining technical accuracy.",
+                        "goal": "Create a comprehensive outline for the video script that balances technical detail with accessibility to engage a wide audience.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Integrate Multimedia",
+                    "stepLabel": "Multimedia Integration",
+                    "stepDescription": "Integrate multimedia elements such as graphics and animations to reinforce key points and enhance engagement.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The supervision pattern can efficiently coordinate multiple specialized agents to handle different types of multimedia content, ensuring graphics and animations are integrated seamlessly."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "Script Writer, who creatively crafts the narrative focusing on engaging openings, coherent key points, and smooth transitions. Known for attention to detail, ensuring the tone is suitable for the intended audience.",
+                                "goal": "Generate a compelling and coherent script that effectively communicates the core concepts of the academic paper to the target audience, balancing technicalities and accessibility.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Visual Designer, responsible for conceptualizing and recommending multimedia elements such as slides or graphics. Detail-oriented with a knack for enhancing script comprehension through engaging visuals.",
+                                "goal": "Design and recommend multimedia content that complements the script, improving audience understanding and retention through strategic visual alignment.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Timing Specialist, focused on managing the script's pacing to maximize engagement and comprehension. Efficient in allocating time effectively to each script section.",
+                                "goal": "Develop a timing plan for the script that ensures each segment is well-timed, enhancing audience engagement and script clarity throughout the video."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "Project Manager, possessing an overarching view and ensuring each aspect harmonizes into a cohesive final product. Has strong leadership skills and a strategic mindset.",
+                            "goal": "Coordinate and oversee the entire scripting process, ensuring alignment with the project goals, and delivering a final script that meets quality standards and audience expectations.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "Oversee and coordinate the creation of the fast forward video script ensuring balance between technical detail and accessibility, while managing the integration of multimedia content and ensuring clarity of key points, transitions, and timing.",
+                        "goal": "To deliver a well-structured video script that captivates the audience, aligns content with visuals effectively, and fits within the recommended duration, catering to diverse professional, educational, or casual settings."
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Condensed Dual-Step Approach",
+            "taskFlowDescription": "This flow condenses the script creation into two major steps, emphasizing content creation and multimedia integration.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "Abstract on quantum computing",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Develop Content Structure",
+                    "stepLabel": "Content Structuring",
+                    "stepDescription": "Develop a structured outline for the video script, ensuring a balance between technical detail and accessibility.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Allows a streamlined and focused approach to create a clear and effective content structure for the script."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "Content Architect - An individual who excels in organizing and structuring information, ensuring clarity and accessibility while maintaining technical accuracy.",
+                        "goal": "Create a comprehensive outline for the video script that balances technical detail with accessibility to engage a wide audience.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Integrate Multimedia",
+                    "stepLabel": "Multimedia Integration",
+                    "stepDescription": "Integrate multimedia elements such as graphics and animations to reinforce key points and enhance engagement.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The supervision pattern can efficiently coordinate multiple specialized agents to handle different types of multimedia content, ensuring graphics and animations are integrated seamlessly."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "Script Writer, who creatively crafts the narrative focusing on engaging openings, coherent key points, and smooth transitions. Known for attention to detail, ensuring the tone is suitable for the intended audience.",
+                                "goal": "Generate a compelling and coherent script that effectively communicates the core concepts of the academic paper to the target audience, balancing technicalities and accessibility.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Visual Designer, responsible for conceptualizing and recommending multimedia elements such as slides or graphics. Detail-oriented with a knack for enhancing script comprehension through engaging visuals.",
+                                "goal": "Design and recommend multimedia content that complements the script, improving audience understanding and retention through strategic visual alignment.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "Timing Specialist, focused on managing the script's pacing to maximize engagement and comprehension. Efficient in allocating time effectively to each script section.",
+                                "goal": "Develop a timing plan for the script that ensures each segment is well-timed, enhancing audience engagement and script clarity throughout the video."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "Project Manager, possessing an overarching view and ensuring each aspect harmonizes into a cohesive final product. Has strong leadership skills and a strategic mindset.",
+                            "goal": "Coordinate and oversee the entire scripting process, ensuring alignment with the project goals, and delivering a final script that meets quality standards and audience expectations.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "Oversee and coordinate the creation of the fast forward video script ensuring balance between technical detail and accessibility, while managing the integration of multimedia content and ensuring clarity of key points, transitions, and timing.",
+                        "goal": "To deliver a well-structured video script that captivates the audience, aligns content with visuals effectively, and fits within the recommended duration, catering to diverse professional, educational, or casual settings."
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        }
+    ]
+}

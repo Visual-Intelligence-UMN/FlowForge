@@ -26,7 +26,7 @@ async function createAgent({
 
     const llm = new ChatOpenAI({
         modelName: llmOption,
-        temperature: 0.3,
+        temperature: 0.7,
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
 
     });
@@ -35,17 +35,17 @@ async function createAgent({
     console.log("formattedTools", formattedTools);
     if (tools.length === 0) {
         const prompt = ChatPromptTemplate.fromMessages([
-            ["system", systemMessage],
             new MessagesPlaceholder("messages"),
             ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
+            ["system", systemMessage],
         ]);
         // console.log("prompt", prompt);
         return prompt.pipe(llm);
     } else {
         let prompt = ChatPromptTemplate.fromMessages([
-            ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
-            new MessagesPlaceholder("messages"),
-            ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
+            // new MessagesPlaceholder("messages"),
+            ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : [new MessagesPlaceholder("messages")]),
+            ["system", " You have access to the following tools: {tool_names}.\n" + systemMessage],
         ]);
         prompt = await prompt.partial({
             tool_names: toolNames,
@@ -72,6 +72,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     let firstMsg = state.messages.slice(0, 1);
+    console.log("firstMsg", firstMsg);
     // firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
@@ -87,12 +88,12 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log("lastMsg", lastMsg);
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 2));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
-        console.log("invokeMsg for step", invokeMsg);
+        // console.log("invokeMsg for step", invokeMsg);
         // console.log("last lastMsg", state.messages[state.messages.length - 1])
-        console.log(lastMsg)
-        console.log("lastMsg", lastMsg);
+        // console.log(lastMsg)
+        // console.log("lastMsg", lastMsg);
         let tool_msg = null;
         if (lastMsg[0]?.tool_calls) {
             // todo add tool msg 'tool_call_id'
@@ -141,9 +142,11 @@ async function create_agent_node(props: {
     name: string,
     config?: RunnableConfig,
     previousSteps?: string[],
+    changeStatus?: boolean,
 }) {
-    const {state, agent, name, config, previousSteps} = props;
+    const {state, agent, name, config, previousSteps, changeStatus} = props;
     const current_step = 'step' + name.split("-")[1];
+    const current_step_status = `${current_step}-status`;
 
     const step_state = state[current_step] ?? [];
 
@@ -160,6 +163,7 @@ async function create_agent_node(props: {
         messages: response_msg,
         sender: name,
         [current_step]: response_msg,
+        [current_step_status]: changeStatus ? "done" : "pending",
     };
 };
 

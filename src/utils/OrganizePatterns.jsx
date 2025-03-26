@@ -4,6 +4,7 @@ import { designPatternsTemplate } from "../patterns/patternsData";
 import GenerateTemplatesInfo from "./GenerateTemplates";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
+import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
@@ -30,10 +31,13 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
     console.log("selectedTask", selectedTask);
     if (selectedTask.name.includes("Review a Paper")) {
       exampleFlowsWithPatterns = sampleTaskFlowsReview
-      .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      .flowsWithPatterns?.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Visualization")) {
       console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
-      exampleFlowsWithPatterns = sampleTaskFlowsVis.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      exampleFlowsWithPatterns = sampleTaskFlowsVis?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+    } else if (selectedTask.name.includes("Presentation")) {
+      console.log("sampleTaskFlowsPresentation", sampleTaskFlowsPresentation);
+      exampleFlowsWithPatterns = sampleTaskFlowsPresentation?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     }
     // exampleFlowsWithPatterns = [
     //   {

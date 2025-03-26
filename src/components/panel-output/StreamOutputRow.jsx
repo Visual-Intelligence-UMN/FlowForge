@@ -30,7 +30,7 @@ import CompileLanggraph from "../../utils/CompileLanggraph";
 import generateGraphImage from "../../langgraph/utils";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import sampleOutputsVis from "../../data/stream/sample-outputs-vis.json";
-
+import sampleOutputsPresentation from "../../data/stream/sample-outputs-presentation.json";
 
 const WORD_LIMIT = 30; // For showing short content previews
 
@@ -78,9 +78,16 @@ const StreamOutput = ({ runConfig }) => {
 
   useEffect(() => {
     if (!runConfig?.configId) return; // no config yet
-    if (!selectedTask?.name?.includes("Visualization")) return;
-
-    const sampleData = sampleOutputsVis[runConfig.configId];
+    // if (!selectedTask?.name?.includes("Visualization")) return;
+    let sampleData;
+    if (selectedTask?.name?.includes("Presentation")) {
+      sampleData = sampleOutputsPresentation[runConfig.configId];
+    } else if (selectedTask?.name?.includes("Review")) {
+      sampleData = sampleOutputsReview[runConfig.configId];
+    } else if (selectedTask?.name?.includes("Visualization")) {
+      sampleData = sampleOutputsVis[runConfig.configId];
+    }
+    console.log("sampleData in output panel", sampleData);
     if (sampleData) {
       setMultiStreamOutput((prev) => {
         const alreadyHasData = prev[runConfig.configId];

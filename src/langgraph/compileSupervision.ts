@@ -7,7 +7,29 @@ import { BaseMessage } from "@langchain/core/messages";
 import { toolsMap } from "./tools";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 30, interval = 500 } = {}
+) {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          resolve(true);
+        } else if (attempts < retries) {
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -16,12 +38,26 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     if (state.sender === "user") {
         return state.messages;
     }
+
+        // Check each previous step's status before proceeding
+    for (const step of previousSteps) {
+        if (step === "step0") {
+            continue;
+        }
+        const statusKey = `${step}-status`;
+        try {
+        await waitForStepStatus(state, statusKey);
+        } catch (error) {
+        console.error(error);
+        }
+    }
+
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
         console.log("stepMsgs is empty, use previous steps", previousSteps);
         console.log("state", state);
         for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(0, 1));
+            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
         return invokeMsg;
     }
@@ -62,11 +98,11 @@ const makeAgentNode = (params: {
         const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const invokePayload = [
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
@@ -78,18 +114,23 @@ const makeAgentNode = (params: {
         // console.log("response", response);
 
         let response_goto = response.goto;
+        let status = "pending";
         if (state[currentStep].length  >= params.maxRound) {
             // one round of supervision means one call from the supervisor, and one response from the agent
             // but only the response is added to the state
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
-        }
-        if (!response_goto.includes(currentStepId)) {
+            status = "done";
+        } else if (!response_goto.includes(currentStepId)) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            status = "done";
         }
         // TODO: should go to next few steps
 
         return new Command({
             goto: response_goto,
+            update: {
+                [currentStep+"-status"]: status,
+            }
             // update: {
             //     messages: aiMessage,
             //     sender: params.name,
@@ -103,6 +144,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
     console.log("nodesInfo in compileSupervision", nodesInfo);
     console.log("stepEdges in compileSupervision", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    const uniquePreviousSteps = [...new Set(previousSteps)];
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
@@ -116,7 +158,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
-        previousSteps: previousSteps,
+        previousSteps: uniquePreviousSteps as string[],
     });
 
     workflow.addNode(supervisorNode.id, supervisorAgent, {
@@ -140,6 +182,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
                 name: node.id,
                 config: config,
                 previousSteps: previousSteps,
+                changeStatus: false, // worker agents can not change status
             });
         }
         workflow.addNode(node.id, agentNode);
