@@ -77,6 +77,10 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
+        if (response_goto === undefined) {
+            response_goto = "__end__";
+            // console.log("response_goto in compileReflection next steps", response_goto);
+        }
         if (state[currentStep].length / 2 >= params.maxRound) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
@@ -86,10 +90,7 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
         }
-        if (response_goto === undefined) {
-            response_goto = "__end__";
-            // console.log("response_goto in compileReflection next steps", response_goto);
-        }
+
         
         // console.log("response_goto in compileReflection", response_goto);
         // console.log("reflection response", params.name, response);
@@ -111,6 +112,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+    console.log("previousSteps in compileReflection", previousSteps);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
     for (const node of nodesInfo) {

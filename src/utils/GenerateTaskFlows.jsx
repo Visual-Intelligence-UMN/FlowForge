@@ -45,7 +45,10 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
     "{{flow_num}}",
     "THREE" // conditionally set as THREE or ONE
-  );
+  ).replace("{{TASK}}", taskDescription);
+
+  console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
+
   const systemMessage = systemMessage_schema;
 
   const systemMessage_ideas = promptTaskflow.systemMessage_ideas.replace(
@@ -238,8 +241,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
       model: "gpt-4o",
       temperature: 0.7,
       messages: [
-        { role: "system", content: systemMessage },
-        { role: "user", content: taskDescription },
+        { role: "system", content: systemMessage }
       ],
       response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
     });

@@ -7,24 +7,24 @@
     "uploadedFile": null
   },
   {
+    "id": "task1",
+    "name": "Generate Presentation Script",
+    "requiresUpload": false,
+    "description": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach. Each workflow should have a final video script with cohesive step-by-step guides covering narrative flow, voice direction, captivating opening, what content and visual for each part, smooth video transitions, approximate seconds duration for each part, and conclusion, ensuring that each proposed approach stands out from the others in style and perspective",
+    "uploadedFile": null
+  },
+  {
     "id": "task2",
-    "name": "[Use Case] Machine Learning Visualization",
+    "name": "Machine Learning Visualization",
     "requiresUpload": false,
     "description": "Generate executable, diverse, insightful and interactive visualization JavaScript Codes for the given partial dataset. The input is a partial dataset with potential missing values. The expected output should be executable JavaScript codes, utilizing appropriate chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final JavaScript codes should be appropriate for the input dataset, runnable, informative and engaging.",
     "uploadedFile": null
   },
   {
     "id": "task4",
-    "name": "[Use Case] Generate Podcast Script",
+    "name": "Generate Podcast Script",
     "requiresUpload": false,
     "description": "Generate an engaging and informative podcast script based on a specified event or topic. The script should include a captivating introduction that immediately grabs listeners' attention, clear segments or discussion points structured logically throughout the podcast, and a strong closing summary or call to action. It should also suggest appropriate moments for incorporating interviews, guest experts, listener questions, or interactive elements if applicable. The generated script must be suitable for a defined target audience, maintaining an appropriate tone and style, ranging from casual and conversational to formal and informative. Additionally, the script overall length should be about five minutes, and should specify the ideal duration for each segment and the overall podcast length, ensuring the content flows naturally and maintains listener engagement throughout.",
-    "uploadedFile": null
-  },
-  {
-    "id": "task1",
-    "name": "Generate Presentation Script",
-    "requiresUpload": false,
-    "description": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach, but consistently include: a captivating opening, a concise outline of key points that align with visual cues, smooth transitions between sections, approximate duration for each part, and a memorable conclusion. Focus on viewer engagement by including different voice tones, pacing, and creative storytelling techniques. Each workflow should guide the user on constructing the script, specifying how to integrate key points and visuals in a way that keeps the audience engaged and ensures logical flow from start to finish. Deliver the scripts as cohesive step-by-step guides covering narrative flow, voice direction, and visual elements, ensuring that each proposed approach stands out from the others in style and perspective.",
     "uploadedFile": null
   },
   {

@@ -144,7 +144,7 @@
             ]
         }
     }, 
-    "flowsWithPatterns": 
+    "flowsWithPattern-0": 
     [
         {
             "taskFlowId": "2-1",
@@ -1000,6 +1000,754 @@
                         "summary": {
                             "persona": "The Collaborative Facilitator, who synthesizes ideas from diverse agents to produce cohesive and varied scripts. They ensure each script maintains a unique angle while adhering to the overall objective.",
                             "goal": "Compile and refine the multiple scripts into a cohesive collection that showcases varied storytelling approaches, ensuring each script is distinct in style and perspective while maintaining the core elements of engagement and logical flow.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "1-2"
+        }
+    ], 
+    "flowsWithPattern":
+    [
+        {
+            "taskFlowId": "2-1",
+            "taskFlowName": "Narrative Storytelling Approach",
+            "taskFlowDescription": "This flow creates a script using a narrative storytelling approach to engage the audience through a captivating story derived from the abstract.",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Craft Opening Hook",
+                    "stepLabel": "Opening Hook",
+                    "stepDescription": "Develop a compelling opening that introduces the protagonist of the story - a scientist or a pivotal discovery in renewable energy - to instantly grab attention. This should last around 5 seconds.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is well-suited here because crafting a short, specific opening hook is a focused task where a single agent can concentrate on delivering an impactful, succinct introduction without requiring additional collaboration."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a scriptwriter specializing in creating clear and concise educational content. Your role is to distill complex information into digestible key concepts, using your talent for simplifying technical content and integrating visuals effectively to aid understanding.",
+                        "goal": "Create a 21-second script segment that presents the key concepts from the abstract in a clear and concise manner. Incorporate visuals such as charts or diagrams to enhance the audience's comprehension and ensure smooth transitions between each point to maintain a steady and engaging narrative flow.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Key Points",
+                    "stepDescription": "Highlight the core innovations and breakthroughs in the paper. Use storytelling techniques to weave these points into the protagonist's journey. Allocate about 12 seconds for this section.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using iterative feedback can refine the storytelling by incorporating suggestions to enhance the clarity and engagement of the narrative."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Introduce Visuals",
+                    "stepLabel": "Visuals Introduction",
+                    "stepDescription": "Plan visuals that correspond with the narrative, such as animations of the scientific process or imagery of the energy sources. These should parallel the storytelling to enhance engagement.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Incorporating iterative feedback from a reflection agent will help refine the visual plans to ensure they effectively complement and enhance the storytelling aspect of the script."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Impact Conclusion",
+                    "stepDescription": "End the script with a memorable conclusion that highlights the significance of the research and its potential impact on the world, ensuring the viewer feels informed and inspired. Duration: 8 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection is suitable as it allows for iterative refinement by reviewing the memorability and impact of the conclusion, ensuring it effectively conveys the significance while inspiring the viewer."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-1"
+        },
+        {
+            "taskFlowId": "2-2",
+            "taskFlowName": "Narrative Storytelling Approach",
+            "taskFlowDescription": "This flow creates a script using a narrative storytelling approach to engage the audience through a captivating story derived from the abstract.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Craft Opening Hook",
+                    "stepLabel": "Opening Hook",
+                    "stepDescription": "Develop a compelling opening that introduces the protagonist of the story - a scientist or a pivotal discovery in renewable energy - to instantly grab attention. This should last around 5 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is beneficial for iteratively refining the opening hook, allowing performance reviews and feedback to ensure it maximally engages the audience within a brief timeframe."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Outline Key Points",
+                    "stepLabel": "Key Points",
+                    "stepDescription": "Highlight the core innovations and breakthroughs in the paper. Use storytelling techniques to weave these points into the protagonist's journey. Allocate about 12 seconds for this section.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This pattern is ideal for generating diverse, creative ideas on how to highlight and weave the core innovations into a compelling narrative, simulating a brainstorming session."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Introduce Visuals",
+                    "stepLabel": "Visuals Introduction",
+                    "stepDescription": "Plan visuals that correspond with the narrative, such as animations of the scientific process or imagery of the energy sources. These should parallel the storytelling to enhance engagement.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Incorporating iterative feedback from a reflection agent will help refine the visual plans to ensure they effectively complement and enhance the storytelling aspect of the script."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Conclude with Impact",
+                    "stepLabel": "Impact Conclusion",
+                    "stepDescription": "End the script with a memorable conclusion that highlights the significance of the research and its potential impact on the world, ensuring the viewer feels informed and inspired. Duration: 8 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection is suitable as it allows for iterative refinement by reviewing the memorability and impact of the conclusion, ensuring it effectively conveys the significance while inspiring the viewer."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-2"
+        },
+        {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Expository Style Approach",
+            "taskFlowDescription": "This flow constructs a script in an expository style, focusing on clarity and factual presentation of the abstract's content.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "State Opening Fact",
+                    "stepLabel": "Opening Fact",
+                    "stepDescription": "Begin with a striking fact or statistic from the abstract to captivate the audience's curiosity. This should take approximately 4 seconds.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Using multiple agents to extract different potential facts and aggregating them ensures the most striking and relevant fact is selected, enhancing the chance to captivate the audience effectively."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are Fact Finder Alpha, a diligent researcher with a keen eye for detail. Your role is to scan the abstract to identify a striking fact or statistic that has the potential to captivate an audience immediately.",
+                                "goal": "Identify one compelling fact or statistic from the abstract that can be used to grab the audience's attention at the start of the script.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are Fact Finder Beta, a critical analyst who complements the work of Fact Finder Alpha. Your purpose is to independently examine the abstract and uncover another significant fact or statistic that can captivate an audience.",
+                                "goal": "Select one distinct and impactful fact or statistic from the abstract that can be highlighted at the beginning of the script to engage the audience.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are the Aggregator, a decisive evaluator who synthesizes findings from multiple sources to determine the most effective opening fact for the script. Your personality is analytical and discerning, ensuring the final selection is the most engaging and relevant.",
+                            "goal": "Evaluate the facts identified by Fact Finder Alpha and Fact Finder Beta, and select the most striking and relevant fact or statistic to be used as the opening statement of the script, ensuring it captivates the audience within the first 4 seconds.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Explain Key Concepts",
+                    "stepLabel": "Key Concepts Explanation",
+                    "stepDescription": "Clearly and concisely present the key points from the abstract, using visuals such as charts or diagrams to enhance understanding. Transition smoothly between each point and maintain a steady pace. This segment should last 21 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The need for clarity and smooth transitions can benefit from a Reflection pattern, allowing iterative review and refinement to enhance the coherence and effectiveness of the explanation."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Expository Style Approach",
+            "taskFlowDescription": "This flow constructs a script in an expository style, focusing on clarity and factual presentation of the abstract's content.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "State Opening Fact",
+                    "stepLabel": "Opening Fact",
+                    "stepDescription": "Begin with a striking fact or statistic from the abstract to captivate the audience's curiosity. This should take approximately 4 seconds.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task involves extracting a straightforward and clearly defined fact from the abstract efficiently, making it well-suited for a Single Agent who can quickly identify and present it."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a scriptwriter specializing in creating clear and concise educational content. Your role is to distill complex information into digestible key concepts, using your talent for simplifying technical content and integrating visuals effectively to aid understanding.",
+                        "goal": "Create a 21-second script segment that presents the key concepts from the abstract in a clear and concise manner. Incorporate visuals such as charts or diagrams to enhance the audience's comprehension and ensure smooth transitions between each point to maintain a steady and engaging narrative flow.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Explain Key Concepts",
+                    "stepLabel": "Key Concepts Explanation",
+                    "stepDescription": "Clearly and concisely present the key points from the abstract, using visuals such as charts or diagrams to enhance understanding. Transition smoothly between each point and maintain a steady pace. This segment should last 21 seconds.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task requires a straightforward and clear presentation of key points, which suits a Single Agent designed to maintain clarity and focus in the exposition without additional complexity."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a scriptwriter specializing in creating clear and concise educational content. Your role is to distill complex information into digestible key concepts, using your talent for simplifying technical content and integrating visuals effectively to aid understanding.",
+                        "goal": "Create a 21-second script segment that presents the key concepts from the abstract in a clear and concise manner. Incorporate visuals such as charts or diagrams to enhance the audience's comprehension and ensure smooth transitions between each point to maintain a steady and engaging narrative flow.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        },
+        {
+            "taskFlowId": "4-1",
+            "taskFlowName": "Interactive and Engaging Approach",
+            "taskFlowDescription": "This flow creates a script designed to engage viewers interactively, using questions and prompts to maintain interest.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Pose Initial Question",
+                    "stepLabel": "Initial Question",
+                    "stepDescription": "Start by asking a thought-provoking question related to the abstract's topic to engage viewers immediately. This should take about 5 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a reflection agent can help refine the question to ensure it is optimally engaging and thought-provoking, enhancing the initial impact."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Explore Key Points",
+                    "stepLabel": "Key Points Exploration",
+                    "stepDescription": "Break down the abstract into engaging questions and answers. Use animations or graphics to illustrate concepts and stimulate viewer interaction. This should last around 15 seconds.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This step benefits from the use of a collaborative dialogue to brainstorm engaging questions and animations that promote interaction, utilizing diverse perspectives to enhance creativity."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with a Call to Action",
+                    "stepLabel": "Call to Action",
+                    "stepDescription": "End with a call to action, encouraging viewers to think further or explore additional resources, ensuring they feel motivated and connected to the topic. Duration: 5 seconds.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern fosters diverse perspectives which are valuable when crafting a compelling call to action that resonates broadly and engages viewers effectively."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-1"
+        },
+        {
+            "taskFlowId": "4-2",
+            "taskFlowName": "Interactive and Engaging Approach",
+            "taskFlowDescription": "This flow creates a script designed to engage viewers interactively, using questions and prompts to maintain interest.",
+            "patternsId": 5,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "The abstract of an academic paper on renewable energy innovations.",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Pose Initial Question",
+                    "stepLabel": "Initial Question",
+                    "stepDescription": "Start by asking a thought-provoking question related to the abstract's topic to engage viewers immediately. This should take about 5 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a reflection agent can help refine the question to ensure it is optimally engaging and thought-provoking, enhancing the initial impact."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Explore Key Points",
+                    "stepLabel": "Key Points Exploration",
+                    "stepDescription": "Break down the abstract into engaging questions and answers. Use animations or graphics to illustrate concepts and stimulate viewer interaction. This should last around 15 seconds.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This step benefits from the use of a collaborative dialogue to brainstorm engaging questions and animations that promote interaction, utilizing diverse perspectives to enhance creativity."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with a Call to Action",
+                    "stepLabel": "Call to Action",
+                    "stepDescription": "End with a call to action, encouraging viewers to think further or explore additional resources, ensuring they feel motivated and connected to the topic. Duration: 5 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern allows iterative improvement of the call to action, ensuring it effectively motivates and connects with viewers by incorporating continuous feedback."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an Evaluator tasked with assessing the engagement level and thought-provoking nature of the initial question posed in the script. You have a keen eye for detail and a deep understanding of viewer psychology, aiming to ensure the question captures attention immediately.",
+                            "goal": "Your goal is to review the initial question to determine if it is optimally engaging and thought-provoking. Provide feedback on its strengths and areas of improvement based on its ability to capture viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are an Optimizer focused on refining and enhancing the initial question to maximize viewer engagement. You are creative and insightful, with a talent for crafting questions that provoke thought and captivate attention.",
+                            "goal": "Your goal is to refine the initial question based on the Evaluator's feedback. Ensure the final version is concise, engaging, and effectively captures viewer interest within the first 5 seconds.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-2"
+        }
+    ,
+    
+        {
+            "taskFlowId": "1-1",
+            "taskFlowName": "Baseline",
+            "taskFlowDescription": "This is a baseline flow",
+            "patternsId": 1,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Baseline flow",
+                    "stepLabel": "Baseline flow",
+                    "stepDescription": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach, but consistently include: a captivating opening, a concise outline of key points that align with visual cues, smooth transitions between sections, approximate duration for each part, and a memorable conclusion. Focus on viewer engagement by including different voice tones, pacing, and creative storytelling techniques. Each workflow should guide the user on constructing the script, specifying how to integrate key points and visuals in a way that keeps the audience engaged and ensures logical flow from start to finish. Deliver the scripts as cohesive step-by-step guides covering narrative flow, voice direction, and visual elements, ensuring that each proposed approach stands out from the others in style and perspective.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern supports collaborative dialogue, fostering creativity and idea generation necessary for developing multiple distinct and engaging video scripts."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "1-1"
+        },
+        {
+            "taskFlowId": "1-2",
+            "taskFlowName": "Baseline",
+            "taskFlowDescription": "This is a baseline flow",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Baseline flow",
+                    "stepLabel": "Baseline flow",
+                    "stepDescription": "Create multiple, varied 25-second video scripts based on the abstract of an academic paper. Each script should take a distinct angle or storytelling approach, but consistently include: a captivating opening, a concise outline of key points that align with visual cues, smooth transitions between sections, approximate duration for each part, and a memorable conclusion. Focus on viewer engagement by including different voice tones, pacing, and creative storytelling techniques. Each workflow should guide the user on constructing the script, specifying how to integrate key points and visuals in a way that keeps the audience engaged and ensures logical flow from start to finish. Deliver the scripts as cohesive step-by-step guides covering narrative flow, voice direction, and visual elements, ensuring that each proposed approach stands out from the others in style and perspective.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern supports collaborative dialogue, fostering creativity and idea generation necessary for developing multiple distinct and engaging video scripts."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Scriptwriter, responsible for crafting engaging and varied 25-second video scripts based on an academic paper's abstract. You bring creativity and a unique storytelling perspective to each script.",
+                                "goal": "Your goal is to deliver multiple 25-second video scripts, each with a distinct angle, captivating opening, concise outline of key points, smooth transitions, and memorable conclusion. Ensure each script employs different voice tones, pacing, and storytelling techniques to enhance viewer engagement.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Director, focusing on aligning visual elements with the video scripts. Your role is to ensure that visuals complement and enhance the narrative flow.",
+                                "goal": "Your goal is to provide a detailed guide on how to integrate visual elements with the script, ensuring logical flow and viewer engagement. Specify visual cues that align with key points and transitions, supporting the script's narrative style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Narrative Flow Specialist, overseeing the coherence and engagement of the script's narrative structure. You focus on the logical progression and storytelling techniques used in each script.",
+                                "goal": "Your goal is to deliver a comprehensive narrative flow plan for each script, detailing voice direction, pacing, and creative storytelling techniques. Ensure each script's structure engages the audience and stands out in style and perspective.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, overseeing the entire process of creating multiple, distinct 25-second video scripts from an academic abstract. Your focus is on facilitating collaboration and ensuring all outputs meet the specified requirements.",
+                            "goal": "Your goal is to coordinate the efforts of the scriptwriter, visual director, and narrative flow specialist to produce cohesive, engaging scripts. Ensure that the scripts are distinct in style and perspective, and that all elements, from narrative to visuals, are aligned and enhance viewer engagement.",
                             "patternPrompt": "Helpful assistant who can summarize the output of the agents."
                         }
                     }

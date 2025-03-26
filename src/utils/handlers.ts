@@ -59,8 +59,7 @@ const handleReflection = (step) => {
     const optimizerPatternPrompt = optimizer.patternPrompt.trim() 
     const evaluatorPatternPrompt = evaluator.patternPrompt.trim() 
 
-    const taskPrompt =  `The step description is ${stepDescription}. 
-    You (optimizer and evaluator) must iteratively produce the final expected output aligned with the step description.`;
+    const taskPrompt =  `The step description is ${stepDescription}. `;
 
 
 
@@ -95,9 +94,9 @@ const handleReflection = (step) => {
                 systemPrompt: 
                 evaluator.persona 
                 + "\n Analyze and refine the Optimizer's output."
-                + "If it meets the step description's requirements, must output it and contain the whole final deliverable explicitly without feedbacks."
-                + "Otherwise, provide precise feedbacks along with the Optimizer's output"
-                + "\n Your goal is: " + evaluator.goal 
+                + " If it meets the step description's requirements, must output it and contain the whole final deliverable explicitly without feedbacks."
+                + " Otherwise, provide precise feedbacks along with the Optimizer's output"
+                + " " + evaluator.goal 
                 + taskPrompt
             }
         ],
