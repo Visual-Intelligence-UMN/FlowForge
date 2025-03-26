@@ -1,5 +1,5 @@
 {
-    "taskFlows": 
+    "taskFlows-0": 
     {
         "taskFlow_1": {
             "taskFlowId": "1",
@@ -1755,5 +1755,378 @@
             ],
             "patternId": "1-2"
         }
-    ]
+    ],
+    "taskFlows-1":
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Narrative Exploration",
+            "taskFlowDescription": "This flow leverages a narrative storytelling approach, transforming academic abstract content into a story-like script.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstract of an academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Identify Key Theme",
+                    "stepLabel": "Theme Identification",
+                    "stepDescription": "Extract the central theme or finding from the academic abstract to serve as the story's core.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Develop Story Arc",
+                    "stepLabel": "Story Arc Creation",
+                    "stepDescription": "Frame the key theme within a classic story arc structure, identifying the setup, conflict, and resolution stages.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Script Creation",
+                    "stepLabel": "Script Drafting",
+                    "stepDescription": "Draft a script that narrates the story based on the developed arc, ensuring a 25-second length.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Visual Storyboarding",
+                    "stepLabel": "Visuals Planning",
+                    "stepDescription": "Plan corresponding visuals for each script part, ensuring the narrative is visually engaging and coherent.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Illustrative Analogy",
+            "taskFlowDescription": "Using analogies to simplify and illustrate complex academic findings in a video script.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "academic paper abstract",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Extract Core Concepts",
+                    "stepLabel": "Concept Extraction",
+                    "stepDescription": "Break down the abstract into its essential concepts, focusing on the most complex or novel elements.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Find Analogies",
+                    "stepLabel": "Analogy Generation",
+                    "stepDescription": "Identify relatable analogies or metaphors that can simplify each core concept.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Visual Mapping",
+                    "stepLabel": "Visual Planning",
+                    "stepDescription": "Plan visual elements corresponding to the identified analogies, ensuring they are engaging and clear.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Script and Visual Integration",
+                    "stepLabel": "Integration",
+                    "stepDescription": "Integrate analogies and visuals into a cohesive script, ensuring timing and transitions are smooth.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Final Script Creation",
+                    "stepLabel": "Finalization",
+                    "stepDescription": "Finalize the script, ensuring it is concise, engaging, and fits within the 25-second duration.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Data Visualization",
+            "taskFlowDescription": "This workflow transforms academic abstracts into a data-driven visual experience.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "summary of academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Data Points Identification",
+                    "stepLabel": "Identify Data",
+                    "stepDescription": "Extract quantitative data points and significant statistics from the abstract for visualization.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Design Visual Elements",
+                    "stepLabel": "Visual Design",
+                    "stepDescription": "Design visual elements such as graphs, charts, or infographics to represent the data points.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Script and Visual Synchronization",
+                    "stepLabel": "Synchronization",
+                    "stepDescription": "Synchronize the narrative script with visual elements, ensuring a smooth, engaging delivery within the 25-second time frame.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_4": {
+            "taskFlowId": "4",
+            "taskFlowName": "Problem-Solution Journey",
+            "taskFlowDescription": "A workflow focused on presenting academic findings as a journey from problem to solution.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "academic paper abstract",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Problem Definition",
+                    "stepLabel": "Problem Focus",
+                    "stepDescription": "Identify and articulate the problem addressed by the paper, setting the stage for the solution journey.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Solution and Impact Presentation",
+                    "stepLabel": "Solution Impact",
+                    "stepDescription": "Present the solution and its impact, integrating visuals to emphasize the journey from problem identification to resolution.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    },
+    "taskFlows":
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Narrative Storytelling",
+            "taskFlowDescription": "This workflow uses narrative storytelling to create an engaging video script, transforming the academic abstract into a captivating short story.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstract of an academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Identify Key Themes",
+                    "stepLabel": "Extract Themes",
+                    "stepDescription": "Analyze the abstract to identify its central themes and main message. Create a list of these themes as potential story elements.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Craft Narrative Hook",
+                    "stepLabel": "Create Hook",
+                    "stepDescription": "Develop an intriguing story hook based on one of the identified themes, designed to capture the viewer's attention. Prepare a verbal description of this hook.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Outline Story Structure",
+                    "stepLabel": "Plan Structure",
+                    "stepDescription": "Craft a narrative arc using the themes, including an introduction, development, climax, and conclusion, ensuring all elements support the hook.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Assemble Script and Visuals",
+                    "stepLabel": "Finalize Script",
+                    "stepDescription": "Integrate the hook and narrative structure into a cohesive script, specifying verbal content and corresponding visual elements like animations or graphics for each part, and allocate precise timings for each section to fit within 25 seconds.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Visual Metaphor Approach",
+            "taskFlowDescription": "This method translates abstract concepts from the paper into vivid visual metaphors, making complex ideas accessible and engaging.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstract of an academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Extract Core Concepts",
+                    "stepLabel": "Identify Concepts",
+                    "stepDescription": "Analyze the abstract to extract core concepts and ideas that are pivotal to the research. Document these concepts for use in metaphor creation.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Develop Visual Metaphors",
+                    "stepLabel": "Create Metaphors",
+                    "stepDescription": "For each core concept, brainstorm and develop a corresponding visual metaphor that effectively communicates the idea in a simple and engaging way.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Script Visual Flow",
+                    "stepLabel": "Script Metaphors",
+                    "stepDescription": "Organize the visual metaphors into a logical sequence that tells a cohesive story. Draft a script that explains the metaphors verbally, aligning with the visuals.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Design Visual Elements",
+                    "stepLabel": "Design Visuals",
+                    "stepDescription": "Create or source visual elements (animations, graphics, text overlays) to illustrate each metaphor. Ensure they are visually engaging and align with the script.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Finalize Video Script",
+                    "stepLabel": "Complete Script",
+                    "stepDescription": "Combine the script with the designed visuals, adjusting timings to ensure each part fits into the 25-second limit, and ensure smooth transitions between segments to maintain narrative flow.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Data-Driven Animation",
+            "taskFlowDescription": "This approach uses data visualization to animate the abstract’s findings, making the paper’s insights visually compelling.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstract of an academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Identify Data Points",
+                    "stepLabel": "Extract Data",
+                    "stepDescription": "Extract key data points and quantitative findings from the abstract that can be visually represented. Prepare a list of these data elements for visualization.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Design Data Visualizations",
+                    "stepLabel": "Create Visuals",
+                    "stepDescription": "Develop preliminary designs for visualizing the extracted data points, choosing appropriate formats like graphs, charts, or animations that enhance understanding.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Compose Script with Visuals",
+                    "stepLabel": "Combine Elements",
+                    "stepDescription": "Draft the video script by integrating verbal explanations with the designed data visualizations, ensuring each visualization is well-timed and transitions smoothly to the next, culminating in a 25-second video that clearly communicates the abstract’s insights.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_4": {
+            "taskFlowId": "4",
+            "taskFlowName": "Abstract as a Dialogue",
+            "taskFlowDescription": "This workflow presents the abstract’s content as a dialogue between two characters, making the academic material more relatable and engaging.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstract of an academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Character Profiles",
+                    "stepLabel": "Character Profiles",
+                    "stepDescription": "Develop brief profiles for two characters who will discuss the paper's abstract. Determine their perspectives and the roles they play in explaining the content.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Write Scripted Dialogue",
+                    "stepLabel": "Dialogue Script",
+                    "stepDescription": "Write a dialogue script where characters discuss the abstract's key points, using everyday language to simplify complex ideas. Include directions for visual elements that enhance the conversation, and ensure the dialogue fits within the 25-second timeframe, concluding with a memorable take-away.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    }
+
 }
