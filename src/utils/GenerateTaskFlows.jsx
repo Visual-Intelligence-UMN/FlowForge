@@ -269,7 +269,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     const res = completion.choices[0].message.parsed;
     console.log("Task flows response formatted:", res);
 
-    const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3, res.taskFlow_4];
+    const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3, res?.taskFlow_4];
 
     if (generatedTaskFlows.length > 10) {
       const sortedTaskFlows = generatedTaskFlows.slice(0, 5).sort((a, b) => {

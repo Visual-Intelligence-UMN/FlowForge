@@ -157,6 +157,9 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     console.log("previousSteps in compileReflection", previousSteps);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
+    const evaluatorNode = nodesInfo.find((n: any) => n.data.label === "Evaluator");
+
+    const evaluatorTarget = stepEdges.filter((edge) => edge.source === evaluatorNode.id).map((edge) => edge.target);
     for (const node of nodesInfo) {
         const destinations = Array.from(
             new Set(
@@ -168,10 +171,10 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         let responsePrompt = "";
         if (node.type === "evaluator") {
             const nextOne = destinations.find((d: string) => d.includes(nextStep));
-            responsePrompt = "You should call " + optimizerName 
-            + " with the optimizer's response along with your feedbacks and suggestions, otherwise organize optimizer's response align with step description without feedbacks and call for " + nextOne
+            responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
+            + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description without feedbacks and call for " + nextOne
         } else {
-            responsePrompt = "You should always call the Evaluator to get the feedbacks. "
+            responsePrompt = "You should always organize and concatenate your deliverable with the previous one, and call the Evaluator to get the feedbacks. "
         }
         // console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
@@ -187,6 +190,9 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]
         })
+    }
+    if (evaluatorTarget.length <= 1) {
+        workflow.addEdge(evaluatorNode.id, "__end__")
     }
     return workflow;
 };

@@ -43,8 +43,8 @@ async function createAgent({
         return prompt.pipe(llm);
     } else {
         let prompt = ChatPromptTemplate.fromMessages([
-            new MessagesPlaceholder("messages"),
-            ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
+            // new MessagesPlaceholder("messages"),
+            ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : [new MessagesPlaceholder("messages")]),
             ["system", " You have access to the following tools: {tool_names}.\n" + systemMessage],
         ]);
         prompt = await prompt.partial({

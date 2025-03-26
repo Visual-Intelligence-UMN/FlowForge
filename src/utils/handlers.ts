@@ -79,7 +79,7 @@ const handleReflection = (step) => {
                 optimizer.persona 
                 // + "\n" + optimizer.goal 
                 + "\n" + taskPrompt
-                + "\n Please build on the previous conversation and produce the deliverable that follows the step description, and concatenate the previous deliverable with yours."
+                + "\n Please build on the previous conversation and produce the deliverable that follows the step description, and organize and concatenate the previous deliverable with yours."
             },
             {
                 type: "evaluator",
@@ -94,9 +94,9 @@ const handleReflection = (step) => {
                 evaluator.persona 
                 // + " " + evaluator.goal 
                 + " " + taskPrompt
-                + "\n Please analyze and refine the previous Optimizer's output."
-                + " If it meets the step description's requirements, must output it and contain the whole final deliverable explicitly without feedbacks."
-                + " Otherwise, provide precise feedbacks alongside with the Optimizer's output"
+                + "\n Please analyze the Optimizer's response."
+                + " If it meets the step description's requirements, must output it as the whole deliverable explicitly without feedbacks."
+                + " Otherwise, provide precise feedbacks alongside with the Optimizer's output for it to improve."
             }
         ],
         edges: [
