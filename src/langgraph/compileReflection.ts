@@ -5,7 +5,31 @@ import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 import toolsMap from "./utils";
 import { Command } from "@langchain/langgraph/web";
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 10, interval = 500 } = {}
+) {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          resolve(true);
+        } else if (attempts < retries) {
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
+
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -13,7 +37,15 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     if (state.sender === "user") {
         return state.messages;
     }
-    
+
+    for (const step of previousSteps) {
+        const statusKey = `${step}-status`;
+        try {
+            await waitForStepStatus(state, statusKey);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
         for (const step of previousSteps) {
@@ -63,7 +95,7 @@ const makeAgentNode = (params: {
         }
 
         const invokePayload = [
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
@@ -78,18 +110,22 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
+        let status = "pending";
         console.log("direct response_goto in compileReflection", response_goto);
 
         if (response_goto === undefined) {
             response_goto = "__end__";
             console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
+            status = "done";
         } else if (state[currentStep].length / 2 >= params.maxRound) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
+            status = "done";
         } else if (!response_goto.includes(currentStepId)) {
             console.log ("next steps")
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
+            status = "done";
         }
 
         
@@ -103,6 +139,7 @@ const makeAgentNode = (params: {
                 messages: aiMessage,
                 sender: params.name,
                 [currentStep]: aiMessage,
+                [currentStep+"-status"]: status,
             }
         })
     }

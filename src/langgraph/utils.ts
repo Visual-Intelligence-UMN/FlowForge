@@ -142,9 +142,11 @@ async function create_agent_node(props: {
     name: string,
     config?: RunnableConfig,
     previousSteps?: string[],
+    changeStatus?: boolean,
 }) {
-    const {state, agent, name, config, previousSteps} = props;
+    const {state, agent, name, config, previousSteps, changeStatus} = props;
     const current_step = 'step' + name.split("-")[1];
+    const current_step_status = `${current_step}-status`;
 
     const step_state = state[current_step] ?? [];
 
@@ -161,6 +163,7 @@ async function create_agent_node(props: {
         messages: response_msg,
         sender: name,
         [current_step]: response_msg,
+        [current_step_status]: changeStatus ? "done" : "pending",
     };
 };
 

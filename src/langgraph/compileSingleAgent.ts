@@ -26,6 +26,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
                 name: node.id,
                 config: config,
                 previousSteps: previousSteps,
+                changeStatus:  true,
             });
         }
         workflow.addNode(node.id, agentNode);

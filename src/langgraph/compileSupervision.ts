@@ -7,7 +7,29 @@ import { BaseMessage } from "@langchain/core/messages";
 import { toolsMap } from "./tools";
 import { Command } from "@langchain/langgraph/web";
 
-const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 10, interval = 500 } = {}
+) {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          resolve(true);
+        } else if (attempts < retries) {
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -16,6 +38,18 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
     if (state.sender === "user") {
         return state.messages;
     }
+
+        // Check each previous step's status before proceeding
+    for (const step of previousSteps) {
+        const statusKey = `${step}-status`;
+        try {
+        await waitForStepStatus(state, statusKey);
+        } catch (error) {
+        console.error(error);
+        // Optionally, handle the error (e.g., continue or break out)
+        }
+    }
+
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
         console.log("stepMsgs is empty, use previous steps", previousSteps);
@@ -62,7 +96,7 @@ const makeAgentNode = (params: {
         const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const invokePayload = [
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
@@ -78,18 +112,24 @@ const makeAgentNode = (params: {
         // console.log("response", response);
 
         let response_goto = response.goto;
+        let status = "pending";
         if (state[currentStep].length  >= params.maxRound) {
             // one round of supervision means one call from the supervisor, and one response from the agent
             // but only the response is added to the state
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            status = "done";
         }
         if (!response_goto.includes(currentStepId)) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            status = "done";
         }
         // TODO: should go to next few steps
 
         return new Command({
             goto: response_goto,
+            update: {
+                [currentStep+"-status"]: status,
+            }
             // update: {
             //     messages: aiMessage,
             //     sender: params.name,
@@ -117,7 +157,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
-        previousSteps: uniquePreviousSteps,
+        previousSteps: uniquePreviousSteps as string[],
     });
 
     workflow.addNode(supervisorNode.id, supervisorAgent, {
