@@ -22,7 +22,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-3);
+    return stepMsgs.slice(-1);
   }
   
 const makeAgentNode = (params: {
@@ -46,7 +46,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.5,
+            temperature: 0.7,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -58,11 +58,11 @@ const makeAgentNode = (params: {
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
+            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
 

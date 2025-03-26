@@ -62,11 +62,11 @@ const makeAgentNode = (params: {
         const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const invokePayload = [
+            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);

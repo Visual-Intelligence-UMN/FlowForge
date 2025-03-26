@@ -26,7 +26,7 @@ async function createAgent({
 
     const llm = new ChatOpenAI({
         modelName: llmOption,
-        temperature: 0.3,
+        temperature: 0.7,
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
 
     });
@@ -35,17 +35,17 @@ async function createAgent({
     console.log("formattedTools", formattedTools);
     if (tools.length === 0) {
         const prompt = ChatPromptTemplate.fromMessages([
-            ["system", systemMessage],
             new MessagesPlaceholder("messages"),
             ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
+            ["system", systemMessage],
         ]);
         // console.log("prompt", prompt);
         return prompt.pipe(llm);
     } else {
         let prompt = ChatPromptTemplate.fromMessages([
-            ["system", " You have access to the following tools: {tool_names}.\n{system_message}"],
             new MessagesPlaceholder("messages"),
             ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
+            ["system", " You have access to the following tools: {tool_names}.\n" + systemMessage],
         ]);
         prompt = await prompt.partial({
             tool_names: toolNames,

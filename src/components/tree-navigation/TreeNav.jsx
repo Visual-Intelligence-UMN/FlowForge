@@ -114,7 +114,7 @@ const TreeNav = () => {
       if (!flowId) return;
       const flow = flowsMap[flowId];
       // if (!flow || !Array.isArray(flow.taskFlowSteps)) return;  // ensure valid flow and steps array
-      const steps = Object.keys(flow.taskFlowSteps).length;
+      // const steps = Object?.keys(flow.taskFlowSteps).length;
       const label = `Flow ${flowId}`;
       const taskSteps = getTaskSteps(flow)
       // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps

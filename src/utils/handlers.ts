@@ -5,7 +5,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
     // const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
       // Emphasize final deliverable from stepDescription
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please build on the previous output and produce the final expected output aligned with your goal and the step description.
+    Please build on the previous conversation and produce the final expected output aligned with your goal and the step description, and concatenate the previous deliverable with yours.
     If you need online information, use the web search tool. 
     Provide a direct and complete solution without asking for clarifications.`;
 
@@ -74,12 +74,12 @@ const handleReflection = (step) => {
                 tools: [],
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
-                patternPrompt: "Follow the step description and your goal, draft and refine the deliverable.",
+                patternPrompt: "Follow the step description, draft and refine the deliverable.",
                 systemPrompt: 
                 optimizer.persona 
-                + "\n" + optimizer.goal 
+                // + "\n" + optimizer.goal 
                 + "\n" + taskPrompt
-                + "\n Please build on the previous conversation and produce the deliverable that follows the step description and your goal."
+                + "\n Please build on the previous conversation and produce the deliverable that follows the step description, and concatenate the previous deliverable with yours."
             },
             {
                 type: "evaluator",
@@ -89,12 +89,12 @@ const handleReflection = (step) => {
                 tools: [],
                 llm: "gpt-4o",
                 taskPrompt: taskPrompt,
-                patternPrompt: "Follow the step description and your goal, draft and refine the deliverable.",
+                patternPrompt: "Follow the step description, draft and refine the deliverable.",
                 systemPrompt: 
                 evaluator.persona 
-                + " " + evaluator.goal 
+                // + " " + evaluator.goal 
                 + " " + taskPrompt
-                + "\n Please analyze and refine the Optimizer's output."
+                + "\n Please analyze and refine the previous Optimizer's output."
                 + " If it meets the step description's requirements, must output it and contain the whole final deliverable explicitly without feedbacks."
                 + " Otherwise, provide precise feedbacks alongside with the Optimizer's output"
             }
@@ -154,9 +154,9 @@ const handleSupervision = (step) => {
           patternPrompt: worker.patternPrompt?.trim() || workerPatternPrompt,
           systemPrompt: 
           worker.persona 
-          + "\n" + worker.goal 
+        //   + "\n" + worker.goal 
           + "\n" + taskPrompt
-          + "\n Please build on the previous conversation and produce the deliverable aligned with your goal and the step description."
+          + "\n Please build on the previous conversation and produce the deliverable aligned with the step description, and concatenate the previous deliverable with yours."
         };
       });
 
@@ -171,7 +171,7 @@ const handleSupervision = (step) => {
         patternPrompt: supervisor.patternPrompt?.trim() || supervisorPatternPrompt,
         systemPrompt: 
         supervisor.persona 
-        + "\n" + supervisor.goal 
+        // + "\n" + supervisor.goal 
         + "\n" + taskPrompt
         + "\n Please analyze and examine the previous content, and coordinate workers to fulfill the step description's expected output."
       };
@@ -235,9 +235,9 @@ const handleDiscussion = (step) => {
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
             systemPrompt: 
             agent.persona 
-            + "\n" + agent.goal 
+            // + "\n" + agent.goal 
             + taskPrompt
-            + "\n Please build on the previous output and produce the deliverable that aligns with your goal and the step description."
+            + "\n Please build on the previous content and produce the deliverable that aligns with the step description, and concatenate the previous deliverable with yours."
 
         }
     })
@@ -276,9 +276,9 @@ const handleDiscussion = (step) => {
             patternPrompt: summary.patternPrompt?.trim() || summaryPatternSystemPrompt,
             systemPrompt: 
             summary.persona 
-            + "\n" + summary.goal 
+            // + "\n" + summary.goal 
             + taskPrompt
-            + "\n Summarize all agents' contributions and produce the final output that meets the step description"
+            + "\n Summarize all agents' contributions and produce the deliverable that meets the step description"
 
         })
     }
@@ -349,7 +349,10 @@ const handleVoting = (step) => {
         llm: "gpt-4o",
         taskPrompt: taskPrompt,
         patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
-        systemPrompt: "Your persona: " + aggregation.persona + " and your goal: " + aggregation.goal + aggregation.patternPrompt?.trim() + taskPrompt
+        systemPrompt: "Your persona: " + aggregation.persona 
+        // + "\n" + "Your goal: " + aggregation.goal 
+        + "\n" + aggregation.patternPrompt?.trim() 
+        + "\n" + taskPrompt
     })
 
     let agentsEdges = []
@@ -419,9 +422,9 @@ const handleRedundant = (step) => {
             patternPrompt: agent.patternPrompt?.trim() || agentsPatternSystemPrompt,
             systemPrompt: 
                 agent.persona 
-                + "\n" + agent.goal 
+                // + "\n" + agent.goal 
                 + taskPrompt
-                + "\n Please build on the previous output and produce a complete solution that satisfies the step description, and aligns with your persona and goal. No need to ask for clarifications."
+                + "\n Please build on the previous content and produce a complete solution that satisfies the step description, and aligns with your persona and step description, and concatenate the previous deliverable with yours. No need to ask for clarifications."
         }
     })
     agentsNodes.push({
@@ -433,7 +436,7 @@ const handleRedundant = (step) => {
         patternPrompt: aggregation.patternPrompt?.trim() || aggregatorPatternSystemPrompt,
         systemPrompt: 
         aggregation.persona 
-        + "\n" + aggregation.goal 
+        // + "\n" + aggregation.goal 
         + "\n" + taskPrompt
         + "\n Please aggregate all the outputs and produce the final deliverable that meets the step description"
     })
@@ -473,7 +476,7 @@ const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please build on the previous output and produce the final expected output aligned with your goal and the step description.`;
+    Please work upon the previous deliverable and produce the expected deliverable better aligned with the step description, concatenate the previous deliverable with yours.`;
 
     return {
         type: "singleAgent",
@@ -488,7 +491,7 @@ const handleSingleAgent = (step) => {
                 patternPrompt: patternPrompt,
                 systemPrompt: 
                 persona 
-                + "\n" + goal 
+                // + "\n" + goal 
                 + "\n" + taskPrompt
             }
         ],

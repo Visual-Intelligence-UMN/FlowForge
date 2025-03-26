@@ -31,11 +31,12 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
     console.log("selectedTask", selectedTask);
     if (selectedTask.name.includes("Review a Paper")) {
       exampleFlowsWithPatterns = sampleTaskFlowsReview
-      .flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      .flowsWithPatterns?.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Visualization")) {
       console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
       exampleFlowsWithPatterns = sampleTaskFlowsVis?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Presentation")) {
+      console.log("sampleTaskFlowsPresentation", sampleTaskFlowsPresentation);
       exampleFlowsWithPatterns = sampleTaskFlowsPresentation?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     }
     // exampleFlowsWithPatterns = [

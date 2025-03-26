@@ -21,7 +21,7 @@ const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: stri
         }
         return invokeMsg;
     }
-    return stepMsgs.slice(-2);
+    return stepMsgs.slice(-1);
     // get two previous msg
   }
   
@@ -53,7 +53,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.4,
+            temperature: 0.7,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -63,11 +63,11 @@ const makeAgentNode = (params: {
         }
 
         const invokePayload = [
+            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
             },
-            ...getInputMessagesForStep(state, currentStep, params.previousSteps),
         ]
         console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
@@ -128,7 +128,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         if (node.type === "evaluator") {
             const nextOne = destinations.find((d: string) => d.includes(nextStep));
             responsePrompt = "You should call " + optimizerName 
-            + " with the optimizer's response along with your feedbacks, otherwise organize optimizer's response align with step description without feedbacks and call for " + nextOne
+            + " with the optimizer's response along with your feedbacks and suggestions, otherwise organize optimizer's response align with step description without feedbacks and call for " + nextOne
         } else {
             responsePrompt = "You should always call the Evaluator to get the feedbacks. "
         }

@@ -47,7 +47,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     "FOUR" // conditionally set as THREE or ONE
   ).replace("{{TASK}}", taskDescription);
 
-  console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
+  // console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
 
   const systemMessage = systemMessage_schema;
 
@@ -260,7 +260,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
 
     const completion = await openai.beta.chat.completions.parse({
       model: "gpt-4o",
-      temperature: 0.7,
+      temperature: 0.8,
       messages: [
         { role: "system", content: systemMessage }
       ],

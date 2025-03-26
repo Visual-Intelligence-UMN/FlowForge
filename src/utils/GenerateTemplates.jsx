@@ -119,7 +119,7 @@ const GenerateTemplatesInfo = async (flow) => {
         try {
             const completion = await openai.beta.chat.completions.parse({
                 model: "gpt-4o",
-                temperature: 0.7,
+                temperature: 0.8,
                 messages: [
                     { role: "user", content: userMessage },
                     { role: "system", content: systemMessage }
