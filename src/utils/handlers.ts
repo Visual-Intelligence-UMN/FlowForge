@@ -11,7 +11,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
 
     const patternSystemPrompt = `
     You can (and should) use the web search tool to gather information necessary 
-    for fulfilling the final deliverable specified in the step description.
+    for fulfilling the final deliverable.
     `;
     return {
         type: "singleAgent",
@@ -24,7 +24,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
                 systemPrompt:  
                 persona 
                 + patternSystemPrompt
-                + "\n and your goal is: " + goal  
+                + "\n Your goal is: " + goal  
                 + taskPrompt
             }
         ],
