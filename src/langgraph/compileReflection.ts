@@ -10,7 +10,7 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 10, interval = 500 } = {}
+    { retries = 30, interval = 500 } = {}
 ) {
     return new Promise((resolve, reject) => {
       let attempts = 0;
@@ -39,6 +39,9 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     }
 
     for (const step of previousSteps) {
+        if (step === "step0") {
+            continue;
+        }
         const statusKey = `${step}-status`;
         try {
             await waitForStepStatus(state, statusKey);

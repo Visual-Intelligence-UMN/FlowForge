@@ -25,6 +25,7 @@ const compileParallel = async (workflow, nodesInfo, stepEdges, inputEdges, Agent
                 name: node.id,
                 config: config,
                 previousSteps: uniquePreviousSteps as string[],
+                changeStatus: node.data.label === "Aggregator" ? true : false,
             });
         }
 

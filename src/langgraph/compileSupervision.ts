@@ -11,7 +11,7 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 10, interval = 500 } = {}
+    { retries = 30, interval = 500 } = {}
 ) {
     return new Promise((resolve, reject) => {
       let attempts = 0;
@@ -41,12 +41,14 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
 
         // Check each previous step's status before proceeding
     for (const step of previousSteps) {
+        if (step === "step0") {
+            continue;
+        }
         const statusKey = `${step}-status`;
         try {
         await waitForStepStatus(state, statusKey);
         } catch (error) {
         console.error(error);
-        // Optionally, handle the error (e.g., continue or break out)
         }
     }
 
@@ -118,8 +120,7 @@ const makeAgentNode = (params: {
             // but only the response is added to the state
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
-        }
-        if (!response_goto.includes(currentStepId)) {
+        } else if (!response_goto.includes(currentStepId)) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
         }
@@ -181,6 +182,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, Ag
                 name: node.id,
                 config: config,
                 previousSteps: previousSteps,
+                changeStatus: false, // worker agents can not change status
             });
         }
         workflow.addNode(node.id, agentNode);
