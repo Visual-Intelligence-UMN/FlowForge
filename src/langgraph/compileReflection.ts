@@ -49,6 +49,7 @@ const makeAgentNode = (params: {
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt),
         });
+        console.log("params destination null or not", params.destinations);
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
@@ -77,15 +78,15 @@ const makeAgentNode = (params: {
         }
         
         let response_goto = response.goto;
+        console.log("direct response_goto in compileReflection", response_goto);
+
         if (response_goto === undefined) {
             response_goto = "__end__";
-            console.log("response_goto in compileReflection next steps", response_goto);
-        }
-        if (state[currentStep].length / 2 >= params.maxRound) {
+            console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
+        } else if (state[currentStep].length / 2 >= params.maxRound) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
-        }
-        if (!response_goto.includes(currentStepId)) {
+        } else if (!response_goto.includes(currentStepId)) {
             console.log ("next steps")
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection next steps", response_goto);
@@ -126,7 +127,8 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         let responsePrompt = "";
         if (node.type === "evaluator") {
             const nextOne = destinations.find((d: string) => d.includes(nextStep));
-            responsePrompt = "You should call " + optimizerName + " with your feedbacks if NOT GOOD, otherwise organize your response and call for " + nextOne
+            responsePrompt = "You should call " + optimizerName 
+            + " with the optimizer's response along with your feedbacks, otherwise organize optimizer's response align with step description without feedbacks and call for " + nextOne
         } else {
             responsePrompt = "You should always call the Evaluator to get the feedbacks. "
         }
