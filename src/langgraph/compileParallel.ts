@@ -78,7 +78,7 @@ function waitForStepStatus(
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response aligned with the step description."
+            "Complete deliverable response."
             ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call. Must be one of the specified values."),
         });
