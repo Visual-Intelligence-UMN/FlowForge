@@ -118,11 +118,13 @@ function waitForStepStatus(
         if (params.name.includes("Aggregator")) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
+            console.log("response_goto in compileParallel for aggregator", response_goto);
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {
                     continue;
                 }
                 if (state[parallelStep+"-status"] !== "done") {
+                    console.log("update status for parallel step as done as parallel step is pending", parallelStep);
                     return new Command({
                         // goto: response_goto,
                         update: {

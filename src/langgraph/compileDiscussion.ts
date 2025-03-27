@@ -73,6 +73,7 @@ const makeAgentNode = (params: {
     previousSteps: string[],
     summaryOrNot: boolean,
     parallelSteps: string[],
+    summaryNodeOrNot: boolean,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -81,6 +82,13 @@ const makeAgentNode = (params: {
             "A human readable response aligned with the step description."
             ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent or Summary to call. Must be one of the specified values."),
+            });
+
+        const responseSchemaSummary = z.object({
+            response: z.string().describe(
+            "A human readable response aligned with the step description."
+            ),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call. Must be one of the specified values."),
         });
 
         const agent = new ChatOpenAI({
@@ -94,6 +102,7 @@ const makeAgentNode = (params: {
             agent.bindTools(formattedTools);
         }
         console.log("try to get input messages for", params.name);
+        console.log("params.destinations for discussion", params.name, params.destinations);
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
@@ -105,7 +114,9 @@ const makeAgentNode = (params: {
         ]
         console.log("invokePayload for", params.name, invokePayload);
 
-        const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
+        const response = await agent.withStructuredOutput(
+            params.summaryNodeOrNot ? responseSchemaSummary : responseSchema, 
+            {name: params.name}).invoke(invokePayload);
         const aiMessage = {
             role: "assistant",
             content: response.response,
@@ -113,25 +124,39 @@ const makeAgentNode = (params: {
         }
         let status = "pending";
         let response_goto = response.goto;
+        console.log("intial goto for ", params.name, response_goto);
         // only summary can change the status to done if any
         // otherwise, the status is done when the round is over
-        if (state[currentStep].length >= params.maxRound ) {
-            // random call, so one msg means one round
-            if (params.summaryOrNot) {
+
+        if (params.summaryNodeOrNot && params.summaryOrNot) {
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            status = "done";
+        } else if (!params.summaryNodeOrNot && params.summaryOrNot) {
+            if (state[currentStep].length >= params.maxRound) {
                 response_goto = params.destinations.find((d) => d.includes("Summary"));
-            } else {
-                response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
-                status = "done";
-                console.log("status in compileDiscussion after summarization or no summary", status);
-            }
-        } else {
-            console.log("params.name", params.name);
-            if (params.name.includes("Summary")) {
-                response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
-                status = "done";
-                console.log("status in compileDiscussion with a summary node", status);
+                status = "pending";
             }
         }
+        // if (state[currentStep].length >= params.maxRound ) {
+        //     // random call, so one msg means one round
+        //     if (params.summaryOrNot) {
+        //         response_goto = params.destinations.find((d) => d.includes("Summary"));
+        //     } else {
+        //         response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+        //         status = "done";
+        //         console.log("status in compileDiscussion after summarization or no summary", status);
+        //     }
+        // } else {
+        //     console.log("params.name in compileDiscussion to summarize", params.name);
+        //     console.log("params.name.includes('Summary')", params.name.includes("Summary"));
+        //     if (params.name.includes("Summary")) {
+        //         console.log("params.destinations in compileDiscussion to summarize", params.destinations);
+        //         response_goto = params.destinations
+        //         status = "done";
+        //         console.log("status in compileDiscussion with a summary node", status);
+        //     }
+        // }
+        console.log("response_goto in compileDiscussion", response_goto);
         if (status === "done") {
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {
@@ -200,6 +225,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
             previousSteps: uniquePreviousSteps as string[],
             summaryOrNot: true,
             parallelSteps: parallelSteps,
+            summaryNodeOrNot: true,
         })
         workflow.addNode(summaryNode.id, agentNode, {
             ends: [...destinations]
@@ -253,6 +279,8 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
             maxRound: maxRound,
             previousSteps: uniquePreviousSteps as string[],
             summaryOrNot: summaryNode ? true : false,
+            parallelSteps: parallelSteps,
+            summaryNodeOrNot: false,
         })
         if (node.data.label === "Summary") {
             continue;
