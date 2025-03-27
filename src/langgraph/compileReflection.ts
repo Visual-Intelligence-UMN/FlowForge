@@ -41,18 +41,18 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
 
-        for (const step of previousSteps) {
-            if (step === "step0") {
-                continue;
-            }
-            const statusKey = `${step}-status`;
-            try {
-                await waitForStepStatus(state, statusKey);
-            } catch (error) {
-                console.error(error);
-                throw error;
-            }
-        }
+        // for (const step of previousSteps) {
+        //     if (step === "step0") {
+        //         continue;
+        //     }
+        //     const statusKey = `${step}-status`;
+        //     try {
+        //         await waitForStepStatus(state, statusKey);
+        //     } catch (error) {
+        //         console.error(error);
+        //         throw error;
+        //     }
+        // }
 
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
@@ -72,6 +72,7 @@ const makeAgentNode = (params: {
     responsePrompt: string,
     maxRound: number,
     previousSteps: string[],
+    parallelSteps: string[],
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -82,7 +83,7 @@ const makeAgentNode = (params: {
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response to the original input. Will be streamed back to the user."
+            "A human readable response aligned with the step description."
             ),
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt),
@@ -139,6 +140,25 @@ const makeAgentNode = (params: {
         // console.log("reflection response", params.name, response);
         // console.log("reflection response_goto", response_goto);
         console.log("state in compileReflection", state);
+
+        if (status === "done") {
+            for (const parallelStep of params.parallelSteps) {
+                if (parallelStep === currentStep) {
+                    continue;
+                }
+                if (state[parallelStep+"-status"] !== "done") {
+                    return new Command({
+                        // goto: response_goto,
+                        update: {
+                            messages: aiMessage,
+                            sender: params.name,
+                            [currentStep]: aiMessage,
+                            [currentStep+"-status"]: "done",
+                        }
+                    })
+                }
+            }
+        }   
         return new Command({
             goto: response_goto,
             update: {
@@ -152,7 +172,7 @@ const makeAgentNode = (params: {
 }
 
 
-const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
+const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
@@ -173,7 +193,10 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         );
         let responsePrompt = "";
         if (node.type === "evaluator") {
-            const nextOne = destinations.find((d: string) => d.includes(nextStep));
+            let nextOne = destinations.find((d: string) => d.includes(nextStep));
+            if (nextOne === undefined) {
+                nextOne = "__end__";
+            }
             responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
             + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description without feedbacks and call for " + nextOne
         } else {
@@ -189,6 +212,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             responsePrompt: responsePrompt,
             maxRound: maxRound,
             previousSteps: uniquePreviousSteps as string[],
+            parallelSteps: parallelSteps,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

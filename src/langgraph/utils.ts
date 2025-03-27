@@ -128,6 +128,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
+            console.log("invokeMsg plus step", step, invokeMsg);
         }
         // console.log("invokeMsg for step", invokeMsg);
         // console.log("last lastMsg", state.messages[state.messages.length - 1])

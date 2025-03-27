@@ -11,7 +11,7 @@ import { compileVoting } from "../langgraph/compileVoting";
 // import { compileRedundant } from "../langgraph/compileRedundant";
 import { compileParallel } from "../langgraph/compileParallel";
 import { AgentsState } from "../langgraph/states";
-
+import { computeParallelStepsForAll } from "./helpers";
 
 const CompileLanggraph = async (reactflowConfig) => {
     let totalMaxRound = 0;
@@ -47,6 +47,8 @@ const CompileLanggraph = async (reactflowConfig) => {
     let compiledWorkflow = new StateGraph(AgentsState);
 
     console.log("reactflow to compile to langgraph", reactflowConfig);
+    const parallelMap = computeParallelStepsForAll(stepMetadata);
+    console.log("parallelMap", parallelMap);
 
     for (const key of Object.keys(stepMetadata)) {
         if (key === "step-0") {
@@ -59,29 +61,32 @@ const CompileLanggraph = async (reactflowConfig) => {
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
         // const passEdges = stepEdges.filter((edge) => edge.source === "step-0");
         totalMaxRound = Number(totalMaxRound) + Number(maxCalls);
-        console.log("inputEdges for ", key, inputEdges);
+        // console.log("inputEdges for ", key, inputEdges);
+        // console.log("parallelSteps for ", key, parallelMap[key]);
+        const parallelSteps = parallelMap[key].map((step) => step.split("-").join(""));
+        console.log("parallelSteps for ", key, parallelSteps);
 
         // TODO: deal with total runtime here
 
         switch (pattern) {
             case "singleAgent":
                 // handle single agent with tools or without tools
-                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
                 break;
             case "reflection":
-                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileReflection(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound);
                 break;
             case "supervision":
-                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileSupervision(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound);
                 break;
             case "discussion":
-                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound);
                 break;
             case "voting":
                 compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
                 break;
             case "redundant":
-                compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
+                compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
                 break;
             default:
                 compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
