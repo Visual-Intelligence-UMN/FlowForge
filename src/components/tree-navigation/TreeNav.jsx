@@ -41,7 +41,7 @@ const TreeNav = () => {
 
   const config = {
     minStepRadius: 5,
-    maxStepRadius: 15,
+    maxStepRadius: 12,
     maxStepNodeWidth: 40
   }
   const NodeHeight = 40;
@@ -132,7 +132,7 @@ const TreeNav = () => {
             'taskStepNum': taskSteps.length
           }
         },
-        width: label.length * 8,
+        width: label.length * 6,
         // width: stepRScale(steps) * 6,
         height: NodeHeight + TextHeight,
       });
@@ -144,7 +144,8 @@ const TreeNav = () => {
     patterns.forEach((pattern) => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
-      const label = `Agents ${patternID}`;
+      // const label = `Agents ${patternID}`;
+      const label = patternID;
       // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       const taskSteps = getTaskSteps(pattern)
       const agentSteps = getAgentSteps(pattern)
@@ -155,7 +156,7 @@ const TreeNav = () => {
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
-        width: Math.max(label.length * 6, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        width: Math.max(label.length * 6, agentXScale(agentSteps.length)),
         height: NodeHeight + TextHeight,
         data: {
           ...pattern, // keep original data for easy access
@@ -198,7 +199,10 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const configLabel = `Config ${configId}`;
+      // const configLabel = `Config ${configId}`;
+      const [flowId, patternPart, configPart] = configId.split("-");
+
+      const configLabel = `${flowId}-${patternPart}${String.fromCharCode(96 + parseInt(configPart))}`;
 
       const flowWithConfig = agentsConfig.find(item => item.configId === configId)
       const taskSteps = getTaskSteps(flowWithConfig)
@@ -227,7 +231,6 @@ const TreeNav = () => {
         },
 
       });
-      const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
       g.setEdge(`pattern-${patternId}`, `compiled-${configId}`, {
         label: `pattern-${patternId}-compiled-${configId}`,
