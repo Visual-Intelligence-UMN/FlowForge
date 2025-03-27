@@ -102,7 +102,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             boxSizing: "border-box", // ensures padding doesn't affect width/height
         }}
     >
-        <Box sx={{ height: "1px", backgroundColor: "#ccc", width: "100%", marginBottom: 2 }} />
+        <Box sx={{ height: "1px", backgroundColor: "#eee", width: "100%", marginBottom: 2, boxShadow: "0 1px 4px rgba(0,0,0,0.1)" }} />
         <Box
             sx={{
                 display: "flex",

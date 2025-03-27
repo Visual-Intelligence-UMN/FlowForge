@@ -7,7 +7,11 @@ import {
     SupervisionIcon,
     ReflectionIcon,
     WebsearchIcon, 
-    AgentIcon
+    AgentIcon,
+    ParallelTaskIcon,
+    SequentialTaskIcon,
+    PromptIcon,
+    RagIcon
 } from "./Icons";
 
 
@@ -25,12 +29,13 @@ export const iconMap2 = {
   };
 
   export const iconMap1 = {
-    "Sequential": AgentIcon,
-    "Parallel": ParallelIcon
+    "Sequential": SequentialTaskIcon,
+    "Parallel": ParallelTaskIcon
   };
 
   export const iconMap3 = {
     "Tool Use": WebsearchIcon,
-   
+    "Prompting": PromptIcon,
+    "Data Retrieval": RagIcon,
   };
 

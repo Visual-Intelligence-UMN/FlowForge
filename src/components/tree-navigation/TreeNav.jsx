@@ -41,7 +41,7 @@ const TreeNav = () => {
 
   const config = {
     minStepRadius: 5,
-    maxStepRadius: 15,
+    maxStepRadius: 12,
     maxStepNodeWidth: 40
   }
   const NodeHeight = 40;
@@ -99,8 +99,10 @@ const TreeNav = () => {
 
     if (Object.keys(selectedTask).length > 0) {
       g.setNode(`task-${selectedTask.id}`, {
-        label: selectedTask.name,
-        width: selectedTask.name.length * 8,
+        // label: selectedTask.name,
+        // width: selectedTask.name.length * 8,
+        label: 'Design Space Overview',
+        width: 0,
         height: NodeHeight + TextHeight,
         data: {
           type: "task",
@@ -130,7 +132,7 @@ const TreeNav = () => {
             'taskStepNum': taskSteps.length
           }
         },
-        width: label.length * 8,
+        width: label.length * 6,
         // width: stepRScale(steps) * 6,
         height: NodeHeight + TextHeight,
       });
@@ -142,7 +144,8 @@ const TreeNav = () => {
     patterns.forEach((pattern) => {
       if (!pattern?.patternId) return;
       const patternID = pattern.patternId;
-      const label = `Agents ${patternID}`;
+      // const label = `Agents ${patternID}`;
+      const label = patternID;
       // const agentSteps = dummyAgentSteps[Math.floor(Math.random() * dummyAgentSteps.length)] //TODO: replace with actual agent steps
       const taskSteps = getTaskSteps(pattern)
       const agentSteps = getAgentSteps(pattern)
@@ -153,7 +156,7 @@ const TreeNav = () => {
       g.setNode(`pattern-${patternID}`, {
         label: label,
         // width: label.length * 8,
-        width: Math.max(label.length * 6, agentXScale(agentSteps.length) + agentXScale.bandwidth()),
+        width: Math.max(label.length * 6, agentXScale(agentSteps.length)),
         height: NodeHeight + TextHeight,
         data: {
           ...pattern, // keep original data for easy access
@@ -196,7 +199,10 @@ const TreeNav = () => {
     compiledConfigs.forEach((compiledConfig) => {
       if (!compiledConfig?.configId) return;
       const configId = compiledConfig.configId;
-      const configLabel = `Config ${configId}`;
+      // const configLabel = `Config ${configId}`;
+      const [flowId, patternPart, configPart] = configId.split("-");
+
+      const configLabel = `${flowId}-${patternPart}${String.fromCharCode(96 + parseInt(configPart))}`;
 
       const flowWithConfig = agentsConfig.find(item => item.configId === configId)
       const taskSteps = getTaskSteps(flowWithConfig)
@@ -225,7 +231,6 @@ const TreeNav = () => {
         },
 
       });
-      const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
       g.setEdge(`pattern-${patternId}`, `compiled-${configId}`, {
         label: `pattern-${patternId}-compiled-${configId}`,
@@ -623,16 +628,21 @@ const TreeNav = () => {
                       <TreeNode node={node} isHighlighted={isHighlighted(node)} stepRScale={stepRScale} agentXScale={agentXScale} agentYScale={agentYScale} />}
 
 
-                    <text
-                      x={0}
-                      y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      style={{ pointerEvents: "none" }}
-                      className="node-text"
-                    >
-                      {node.label}
-                    </text>
+                    <g className="node=label">
+                      <rect className="node-background"
+                        width={Math.max(node.width, 20) + 6}
+                        height={TextHeight} x={-Math.max(node.width, 20) / 2 - 3} y={TextHeight + 5} fill='white' />
+                      <text
+                        x={0}
+                        y={node.label.includes("Running Results") ? - 10 : NodeHeight / 2 + TextHeight / 2}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        style={{ pointerEvents: "none" }}
+                        className="node-text"
+                      >
+                        {node.label}
+                      </text>
+                    </g>
 
                   </g>
                 );
