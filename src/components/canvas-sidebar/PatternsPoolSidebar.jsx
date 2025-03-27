@@ -18,40 +18,40 @@ const PatternsMap2 = ({ onPatternHover }) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap2[pattern] || HomeIcon;
         return (
-          <Grid container item xs="auto" key={index} 
-          bgcolor="white"
-          sx={{
-            borderRadius: "10px",
-            border: "1px solid #e0e0e0",
-            cursor: "pointer",
-            "&:hover": { boxShadow: 2, backgroundColor: "#e3f2fd"},
-            p: 0.5,
-            m: 1
-          }}
+          <Grid container item xs="auto" key={index}
+            bgcolor="white"
+            sx={{
+              borderRadius: "10px",
+              border: "1px solid #e0e0e0",
+              cursor: "pointer",
+              "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
+              p: 0.5,
+              m: 1
+            }}
           >
             <Tooltip
               title={designPatternsTooltip[index].description}
               sx={{ width: "200px", fontSize: "16px" }}
               arrow
             >
-                  <Grid
-                    container
-                    onMouseEnter={() => {
-                      if (onPatternHover) onPatternHover(pattern);
-                    }}
-                    onMouseLeave={() => {
-                      if (onPatternHover) onPatternHover(null);
-                    }}
-                  >
-                      <Typography
-                        variant="subtitle1"
-                        textAlign="center"
-                        sx={{ fontSize: "10px"}}
-                    >
-                      {pattern}
-                    </Typography>
-                    <IconComponent />
-                  </Grid>
+              <Grid
+                container
+                onMouseEnter={() => {
+                  if (onPatternHover) onPatternHover(pattern);
+                }}
+                onMouseLeave={() => {
+                  if (onPatternHover) onPatternHover(null);
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  textAlign="center"
+                  sx={{ fontSize: "10px" }}
+                >
+                  {pattern}
+                </Typography>
+                <IconComponent />
+              </Grid>
             </Tooltip>
           </Grid>
         );
@@ -74,45 +74,33 @@ const PatternsMap1 = () => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap1[pattern] || HomeIcon;
         return (
-          <Grid container item xs="auto" key={index}>
+          <Grid xs="auto" key={index}
+            bgcolor="white"
+            sx={{
+              borderRadius: "10px",
+              border: "1px solid #e0e0e0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center", // <-- center horizontally
+              cursor: "pointer",
+              "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
+              p: 0.5,
+              m: 1
+            }}
+          >
             <Tooltip
-              title={designPatternsPool[index].description}
-              sx={{ width: "240px", fontSize: "26px" }}
+              title={designPatternsTooltip[index].description}
+              sx={{ width: "200px", fontSize: "16px" }}
               arrow
             >
-              <Card
-                sx={{
-                  cursor: "pointer",
-                  "&:hover": { boxShadow: 4 },
-                  p: 0.5,
-                  ml: 1.5,
-                  mr: 1.5,
-                  mt: 1,
-                  width: "100%",
-                  height: "100%",
-                }}
+              <Typography
+                variant="subtitle1"
+                textAlign="center"
+                sx={{ fontSize: "10px" }}
               >
-                <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "left",
-                      height: "100%",
-                    }}
-                  >
-                    {/* Render the dynamic icon */}
-                    <IconComponent />
-                    <Typography
-                      variant="subtitle1"
-                      textAlign="left"
-                      sx={{ fontSize: "12px", ml: 1 }}
-                    >
-                      {pattern}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Card>
+                {pattern}
+              </Typography>
+              <IconComponent />
             </Tooltip>
           </Grid>
         );
@@ -144,7 +132,7 @@ const PatternsMap3 = () => {
               <Card
                 sx={{
                   cursor: "pointer",
-                  "&:hover": { boxShadow: 4 },
+                  "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
                   p: 0.5,
                   ml: 1.5,
                   mr: 1.5,
