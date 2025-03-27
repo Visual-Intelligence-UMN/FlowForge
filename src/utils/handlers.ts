@@ -156,7 +156,7 @@ const handleSupervision = (step) => {
           worker.persona 
         //   + "\n" + worker.goal 
           + "\n" + taskPrompt
-          + "\n Please build on the previous conversation and produce the deliverable aligned with the step description, and merge the previous deliverable with yours to keep coherence."
+          + "\n Please build on the previous deliverable and produce the deliverable aligned with the step description, and merge the previous deliverable with yours to keep coherence."
         };
       });
 
@@ -173,7 +173,7 @@ const handleSupervision = (step) => {
         supervisor.persona 
         // + "\n" + supervisor.goal 
         + "\n" + taskPrompt
-        + "\n Please analyze and examine the previous content, and coordinate workers to fulfill the step description's expected output."
+        + "\n Please analyze and examine the previous content, and call the most appropriate worker to fulfill the step description's expected output."
       };
 
       const agentEdges = [

@@ -92,7 +92,7 @@ const makeAgentNode = (params: {
             response: z.string().describe(
                 "Complete deliverable response."
             ),
-            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next most appropriate Agent to call."),
         });
 
 
