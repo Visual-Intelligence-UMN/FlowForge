@@ -120,11 +120,10 @@ const makeAgentNode = (params: {
         let status = "pending";
         console.log("direct response_goto in compileReflection", response_goto);
 
-        if (response_goto === undefined) {
-            response_goto = "__end__";
+        if (response_goto === "__end__") {
             console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
             status = "done";
-        } else if (state[currentStep].length / 2 >= params.maxRound) {
+        } else if (state[currentStep].length / 2 >= params.maxRound+1) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
             status = "done";
@@ -194,6 +193,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, par
         let responsePrompt = "";
         if (node.type === "evaluator") {
             let nextOne = destinations.find((d: string) => d.includes(nextStep));
+            console.log("nextOne in compileReflection", nextOne);
             if (nextOne === undefined) {
                 nextOne = "__end__";
             }

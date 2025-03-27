@@ -327,6 +327,24 @@
                 "userRating": 0,
                 "timeUsed": 30567
             }
-        
+            ,
+                "1-2-1": {
+                    "inputMessage": {
+                        "sender": "User",
+                        "content": "The abstraction for video script generation is: “A growing number of longitudinal cohort studies are generating data with extensive patient observations across multiple timepoints. Such data offers promising opportunities to better understand the progression of diseases. However, these observations are usually treated as general events in existing visual analysis tools. As a result, their capabilities in modeling disease progression are not fully utilized. To fill this gap, we designed and implemented ThreadStates, an interactive visual analytics tool for the exploration of longitudinal patient cohort data. The focus of ThreadStates is to identify the states of disease progression by learning from observation data in a human-in-the-loop manner. We propose a novel Glyph Matrix design and combine it with a scatter plot to enable seamless identification, observation, and refinement of states. The disease progression patterns are then revealed in terms of state transitions using Sankey-based visualizations. We employ sequence clustering techniques to find patient groups with distinctive progression patterns, and to reveal the association between disease progression and patient-level features. The design and development were driven by a requirement analysis and iteratively refined based on feedback from domain experts over the course of a 10-month design study. Case studies and expert interviews demonstrate that ThreadStates can successively summarize disease states, reveal disease progression, and compare patient groups.” \n",
+                        "showFullContent": false
+                    },
+                    "intermediaryMessages": [],
+                    "finalMessage": {
+                        "sender": "",
+                        "content": "",
+                        "showFullContent": false
+                    },
+                    "isThreadActive": true,
+                    "isVisible": true,
+                    "userRating": 0,
+                    "timeUsed": null
+                }
+            
     
 }
