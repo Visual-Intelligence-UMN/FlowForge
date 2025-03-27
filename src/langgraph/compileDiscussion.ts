@@ -11,14 +11,16 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 30, interval = 500 } = {}
-) {
+    { retries = 100, interval = 500 } = {}
+): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
+            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
+            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -29,7 +31,7 @@ function waitForStepStatus(
     });
   }
 
-const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
+const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[], name: string) => {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     const firstMsg = state.messages.slice(0, 1);
@@ -37,20 +39,22 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     if (state.sender === "user") {
         return state.messages;
     }
-
-    // Check each previous step's status before proceeding
-    for (const step of previousSteps) {
-        if (step === "step0") {
-            continue;
-        }
-        const statusKey = `${step}-status`;
-        try {
-            await waitForStepStatus(state, statusKey);
-        } catch (error) {
-            console.error(error);
-        }
+    if (name.includes("Summary")) {
+        return stepMsgs
     }
     if (!stepMsgs || stepMsgs.length === 0) {
+        // for (const step of previousSteps) {
+        //     if (step === "step0") {
+        //         continue;
+        //     }
+        //     const statusKey = `${step}-status`;
+        //     try {
+        //         await waitForStepStatus(state, statusKey);
+        //     } catch (error) {
+        //         console.error(error);
+        //         throw error;
+        //     }
+        // }
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
@@ -68,14 +72,23 @@ const makeAgentNode = (params: {
     maxRound: number,
     previousSteps: string[],
     summaryOrNot: boolean,
+    parallelSteps: string[],
+    summaryNodeOrNot: boolean,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
+            "Complete deliverable response."
             ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent or Summary to call. Must be one of the specified values."),
+            });
+
+        const responseSchemaSummary = z.object({
+            response: z.string().describe(
+            "A human readable response aligned with the step description."
+            ),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call. Must be one of the specified values."),
         });
 
         const agent = new ChatOpenAI({
@@ -88,11 +101,12 @@ const makeAgentNode = (params: {
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-
+        console.log("try to get input messages for", params.name);
+        console.log("params.destinations for discussion", params.name, params.destinations);
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
-            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps, params.name),
             {
                 role:"system",
                 content: params.systemPrompt,
@@ -100,7 +114,9 @@ const makeAgentNode = (params: {
         ]
         console.log("invokePayload for", params.name, invokePayload);
 
-        const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
+        const response = await agent.withStructuredOutput(
+            params.summaryNodeOrNot ? responseSchemaSummary : responseSchema, 
+            {name: params.name}).invoke(invokePayload);
         const aiMessage = {
             role: "assistant",
             content: response.response,
@@ -108,19 +124,58 @@ const makeAgentNode = (params: {
         }
         let status = "pending";
         let response_goto = response.goto;
-        if (state[currentStep].length >= params.maxRound ) {
-            // random call, so one msg means one round
-            if (params.summaryOrNot) {
-                response_goto = params.destinations.find((d) => d.includes("Summary"));
-            } else {
-                response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
-                status = "done";
-            }
-        } 
-        if (!response_goto.includes(currentStepId)) {
+        console.log("intial goto for ", params.name, response_goto);
+        // only summary can change the status to done if any
+        // otherwise, the status is done when the round is over
+
+        if (params.summaryNodeOrNot && params.summaryOrNot) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
+        } else if (!params.summaryNodeOrNot && params.summaryOrNot) {
+            if (state[currentStep].length >= params.maxRound) {
+                response_goto = params.destinations.find((d) => d.includes("Summary"));
+                status = "pending";
+            }
         }
+        // if (state[currentStep].length >= params.maxRound ) {
+        //     // random call, so one msg means one round
+        //     if (params.summaryOrNot) {
+        //         response_goto = params.destinations.find((d) => d.includes("Summary"));
+        //     } else {
+        //         response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+        //         status = "done";
+        //         console.log("status in compileDiscussion after summarization or no summary", status);
+        //     }
+        // } else {
+        //     console.log("params.name in compileDiscussion to summarize", params.name);
+        //     console.log("params.name.includes('Summary')", params.name.includes("Summary"));
+        //     if (params.name.includes("Summary")) {
+        //         console.log("params.destinations in compileDiscussion to summarize", params.destinations);
+        //         response_goto = params.destinations
+        //         status = "done";
+        //         console.log("status in compileDiscussion with a summary node", status);
+        //     }
+        // }
+        console.log("response_goto in compileDiscussion", response_goto);
+        if (status === "done") {
+            for (const parallelStep of params.parallelSteps) {
+                if (parallelStep === currentStep) {
+                    continue;
+                }
+                if (state[parallelStep+"-status"] !== "done") {
+                    return new Command({
+                        // goto: response_goto,
+                        update: {
+                            messages: aiMessage,
+                            sender: params.name,
+                            [currentStep]: aiMessage,
+                            [currentStep+"-status"]: status,
+                        }
+                    })
+                }
+            }
+        }
+        console.log("status in compileDiscussion", status);
         console.log("response_goto in compileDiscussion", response_goto);
         // console.log("discussion response", response);
         // console.log("state", state);
@@ -137,7 +192,7 @@ const makeAgentNode = (params: {
 }
 
 
-const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
+const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
     // console.log("nodesInfo in compileDiscussion", nodesInfo);
     console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
@@ -145,43 +200,76 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
-    // console.log("summaryNode", summaryNode);
-    // console.log("summaryTarget", summaryTarget);
+    console.log("summaryNode", summaryNode);
+    console.log("summaryTarget", summaryTarget);
 
     if (summaryNode) {
-        const createdAgent = async () => await createAgent({
+        let destinations = Array.from(
+            new Set(
+              stepEdges
+                .filter(edge => edge.source === summaryNode.id)
+                .map(edge => edge.target)
+            )
+          );
+        console.log("summaryNode is not null");
+        if (destinations.length === 0) {
+            destinations = ["__end__"];
+        }
+        const agentNode = makeAgentNode({
+            name: summaryNode.id,
+            destinations: destinations as string[],
+            systemPrompt: summaryNode.data.systemPrompt,
             llmOption: summaryNode.data.llm,
             tools: summaryNode.data.tools,
-            systemMessage: summaryNode.data.systemPrompt,
-            accessStepMsgs: true,
+            maxRound: maxRound,
             previousSteps: uniquePreviousSteps as string[],
-        });
+            summaryOrNot: true,
+            parallelSteps: parallelSteps,
+            summaryNodeOrNot: true,
+        })
+        workflow.addNode(summaryNode.id, agentNode, {
+            ends: [...destinations]
+        })
 
-        const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
-            return create_agent_node({
-                state: state,
-                agent: await createdAgent(),
-                name: summaryNode.id,
-                config: config,
-                previousSteps: uniquePreviousSteps as string[],
-            });
-        }
-        workflow.addNode(summaryNode.id, agentNode)
-        if (summaryTarget.length > 0) {
-            workflow.addEdge(summaryNode.id, summaryTarget[0])
-        } else {
-            workflow.addEdge(summaryNode.id, "__end__")
-        }
+        // const createdAgent = async () => await createAgent({
+        //     llmOption: summaryNode.data.llm,
+        //     tools: summaryNode.data.tools,
+        //     systemMessage: summaryNode.data.systemPrompt,
+        //     accessStepMsgs: true,
+        //     previousSteps: uniquePreviousSteps as string[],
+        // });
+        // const agentNode = async (state: typeof AgentsState.State, config?: RunnableConfig) => {
+        //     return create_agent_node({
+        //         state: state,
+        //         agent: await createdAgent(),
+        //         name: summaryNode.id,
+        //         config: config,
+        //         previousSteps: uniquePreviousSteps as string[],
+        //         changeStatus: true,
+        //     });
+        // }
+        // workflow.addNode(summaryNode.id, agentNode)
+        // if (summaryTarget.length > 0) {
+        //     console.log("summaryTarget add edges", summaryTarget);
+        //     for (const target of summaryTarget) {
+        //         workflow.addEdge(summaryNode.id, target)
+        //     }
+        // } else {
+        //     workflow.addEdge(summaryNode.id, "__end__")
+        // }
     }
 
     for (const node of nodesInfo) {
-        const destinations = Array.from(
+        let destinations = Array.from(
             new Set(
               stepEdges
                 .filter(edge => edge.source === node.id)
                 .map(edge => edge.target)
             )
           );
+        if (destinations.length === 0) {
+            destinations = ["__end__"];
+        }
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations as string[],
@@ -191,6 +279,8 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             maxRound: maxRound,
             previousSteps: uniquePreviousSteps as string[],
             summaryOrNot: summaryNode ? true : false,
+            parallelSteps: parallelSteps,
+            summaryNodeOrNot: false,
         })
         if (node.data.label === "Summary") {
             continue;

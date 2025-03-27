@@ -10,7 +10,7 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 30, interval = 500 } = {}
+    { retries = 100, interval = 500 } = {}
 ) {
     return new Promise((resolve, reject) => {
       let attempts = 0;
@@ -37,20 +37,23 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     if (state.sender === "user") {
         return state.messages;
     }
-
-    for (const step of previousSteps) {
-        if (step === "step0") {
-            continue;
-        }
-        const statusKey = `${step}-status`;
-        try {
-            await waitForStepStatus(state, statusKey);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+   
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
+
+        // for (const step of previousSteps) {
+        //     if (step === "step0") {
+        //         continue;
+        //     }
+        //     const statusKey = `${step}-status`;
+        //     try {
+        //         await waitForStepStatus(state, statusKey);
+        //     } catch (error) {
+        //         console.error(error);
+        //         throw error;
+        //     }
+        // }
+
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
@@ -69,6 +72,7 @@ const makeAgentNode = (params: {
     responsePrompt: string,
     maxRound: number,
     previousSteps: string[],
+    parallelSteps: string[],
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -79,7 +83,7 @@ const makeAgentNode = (params: {
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response to the original input. Will be streamed back to the user."
+            "Complete deliverable response."
             ),
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt),
@@ -116,11 +120,10 @@ const makeAgentNode = (params: {
         let status = "pending";
         console.log("direct response_goto in compileReflection", response_goto);
 
-        if (response_goto === undefined) {
-            response_goto = "__end__";
+        if (response_goto === "__end__") {
             console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
             status = "done";
-        } else if (state[currentStep].length / 2 >= params.maxRound) {
+        } else if (state[currentStep].length / 2 >= params.maxRound+1) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
             status = "done";
@@ -135,7 +138,26 @@ const makeAgentNode = (params: {
         // console.log("response_goto in compileReflection", response_goto);
         // console.log("reflection response", params.name, response);
         // console.log("reflection response_goto", response_goto);
-        
+        console.log("state in compileReflection", state);
+
+        if (status === "done") {
+            for (const parallelStep of params.parallelSteps) {
+                if (parallelStep === currentStep) {
+                    continue;
+                }
+                if (state[parallelStep+"-status"] !== "done") {
+                    return new Command({
+                        // goto: response_goto,
+                        update: {
+                            messages: aiMessage,
+                            sender: params.name,
+                            [currentStep]: aiMessage,
+                            [currentStep+"-status"]: "done",
+                        }
+                    })
+                }
+            }
+        }   
         return new Command({
             goto: response_goto,
             update: {
@@ -149,7 +171,7 @@ const makeAgentNode = (params: {
 }
 
 
-const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
+const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
     console.log("nodesInfo in compileReflection", nodesInfo);
     console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
@@ -170,7 +192,11 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
         );
         let responsePrompt = "";
         if (node.type === "evaluator") {
-            const nextOne = destinations.find((d: string) => d.includes(nextStep));
+            let nextOne = destinations.find((d: string) => d.includes(nextStep));
+            console.log("nextOne in compileReflection", nextOne);
+            if (nextOne === undefined) {
+                nextOne = "__end__";
+            }
             responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
             + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description without feedbacks and call for " + nextOne
         } else {
@@ -186,6 +212,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, Age
             responsePrompt: responsePrompt,
             maxRound: maxRound,
             previousSteps: uniquePreviousSteps as string[],
+            parallelSteps: parallelSteps,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]
