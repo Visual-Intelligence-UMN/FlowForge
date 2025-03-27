@@ -11,14 +11,16 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 30, interval = 500 } = {}
-) {
+    { retries = 100, interval = 500 } = {}
+): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
+          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
+          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -39,21 +41,23 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         return state.messages;
     }
 
-        // Check each previous step's status before proceeding
-    for (const step of previousSteps) {
-        if (step === "step0") {
-            continue;
-        }
-        const statusKey = `${step}-status`;
-        try {
-        await waitForStepStatus(state, statusKey);
-        } catch (error) {
-        console.error(error);
-        }
-    }
-
+ 
     // If the step has no messages yet, use last message from the global messages array.
     if (!stepMsgs || stepMsgs.length === 0) {
+               // Check each previous step's status before proceeding
+        for (const step of previousSteps) {
+            if (step === "step0") {
+                continue;
+            }
+            const statusKey = `${step}-status`;
+            try {
+                await waitForStepStatus(state, statusKey);
+            } catch (error) {
+                console.error(error);
+                throw error;
+            }
+        }
+
         console.log("stepMsgs is empty, use previous steps", previousSteps);
         console.log("state", state);
         for (const step of previousSteps) {
@@ -125,7 +129,7 @@ const makeAgentNode = (params: {
             status = "done";
         }
         // TODO: should go to next few steps
-
+        console.log("state in compileSupervision", state);
         return new Command({
             goto: response_goto,
             update: {

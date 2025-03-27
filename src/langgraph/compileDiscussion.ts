@@ -11,14 +11,16 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 30, interval = 500 } = {}
-) {
+    { retries = 100, interval = 500 } = {}
+): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
+            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
+            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -38,19 +40,19 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         return state.messages;
     }
 
-    // Check each previous step's status before proceeding
-    for (const step of previousSteps) {
-        if (step === "step0") {
-            continue;
-        }
-        const statusKey = `${step}-status`;
-        try {
-            await waitForStepStatus(state, statusKey);
-        } catch (error) {
-            console.error(error);
-        }
-    }
     if (!stepMsgs || stepMsgs.length === 0) {
+        for (const step of previousSteps) {
+            if (step === "step0") {
+                continue;
+            }
+            const statusKey = `${step}-status`;
+            try {
+                await waitForStepStatus(state, statusKey);
+            } catch (error) {
+                console.error(error);
+                throw error;
+            }
+        }
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
@@ -115,12 +117,15 @@ const makeAgentNode = (params: {
             } else {
                 response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
                 status = "done";
+                console.log("status in compileDiscussion after summarization or no summary", status);
             }
         } 
         if (!response_goto.includes(currentStepId)) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
+            console.log("status in compileDiscussion after summarization or no summary", status);
         }
+        console.log("status in compileDiscussion", status);
         console.log("response_goto in compileDiscussion", response_goto);
         // console.log("discussion response", response);
         // console.log("state", state);
@@ -145,10 +150,11 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
 
-    // console.log("summaryNode", summaryNode);
-    // console.log("summaryTarget", summaryTarget);
+    console.log("summaryNode", summaryNode);
+    console.log("summaryTarget", summaryTarget);
 
     if (summaryNode) {
+        console.log("summaryNode is not null");
         const createdAgent = async () => await createAgent({
             llmOption: summaryNode.data.llm,
             tools: summaryNode.data.tools,
@@ -164,11 +170,15 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, Age
                 name: summaryNode.id,
                 config: config,
                 previousSteps: uniquePreviousSteps as string[],
+                changeStatus: true,
             });
         }
         workflow.addNode(summaryNode.id, agentNode)
         if (summaryTarget.length > 0) {
-            workflow.addEdge(summaryNode.id, summaryTarget[0])
+            console.log("summaryTarget add edges", summaryTarget);
+            for (const target of summaryTarget) {
+                workflow.addEdge(summaryNode.id, target)
+            }
         } else {
             workflow.addEdge(summaryNode.id, "__end__")
         }

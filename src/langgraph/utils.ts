@@ -68,6 +68,30 @@ function handle_agent_response(result: any, name: string) {
     return result;
 }
 
+// Example status check function using a promise-based wait
+function waitForStepStatus(
+    state: typeof AgentsState.State,
+    stepStatusKey: string,
+    { retries = 100, interval = 500 } = {}
+): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      function checkStatus() {
+        if (state[stepStatusKey] === 'done') {
+          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          resolve(true);
+        } else if (attempts < retries) {
+          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          attempts++;
+          setTimeout(checkStatus, interval);
+        } else {
+          reject(new Error(`Timeout waiting for ${stepStatusKey} to be done`));
+        }
+      }
+      checkStatus();
+    });
+  }
+
 async function getInputMessagesForStep(state: typeof AgentsState.State, stepName: string, previousSteps: string[]) {
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
@@ -81,8 +105,23 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
     if (state.sender === "user") {
         return state.messages;
     }
+   
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
+
+         // wait for the step to be done
+        for (const step of previousSteps) {
+            if (step === 'step0') {
+                continue;
+            }
+            const stepStatusKey = `${step}-status`;
+            try {
+                await waitForStepStatus(state, stepStatusKey);
+            } catch (error) {
+                console.error("Error waiting for step status", error);
+                throw error;
+            }
+        }
         console.log("no stepMsgs");
         const lastMsg = state.messages.slice(-1);
         console.log("lastMsg", lastMsg);
@@ -149,6 +188,7 @@ async function create_agent_node(props: {
     const current_step_status = `${current_step}-status`;
 
     const step_state = state[current_step] ?? [];
+    console.log("name", name, "changeStatus?", changeStatus);
 
     const inputMsgs = await getInputMessagesForStep(state, current_step, previousSteps);
 

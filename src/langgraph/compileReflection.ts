@@ -10,7 +10,7 @@ import { Command } from "@langchain/langgraph/web";
 function waitForStepStatus(
     state: typeof AgentsState.State,
     stepStatusKey: string,
-    { retries = 30, interval = 500 } = {}
+    { retries = 100, interval = 500 } = {}
 ) {
     return new Promise((resolve, reject) => {
       let attempts = 0;
@@ -37,20 +37,23 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     if (state.sender === "user") {
         return state.messages;
     }
-
-    for (const step of previousSteps) {
-        if (step === "step0") {
-            continue;
-        }
-        const statusKey = `${step}-status`;
-        try {
-            await waitForStepStatus(state, statusKey);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+   
     // If the step has no messages yet, use last message from the previous steps array.
     if (!stepMsgs || stepMsgs.length === 0) {
+
+        for (const step of previousSteps) {
+            if (step === "step0") {
+                continue;
+            }
+            const statusKey = `${step}-status`;
+            try {
+                await waitForStepStatus(state, statusKey);
+            } catch (error) {
+                console.error(error);
+                throw error;
+            }
+        }
+
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
         }
@@ -135,7 +138,7 @@ const makeAgentNode = (params: {
         // console.log("response_goto in compileReflection", response_goto);
         // console.log("reflection response", params.name, response);
         // console.log("reflection response_goto", response_goto);
-        
+        console.log("state in compileReflection", state);
         return new Command({
             goto: response_goto,
             update: {
