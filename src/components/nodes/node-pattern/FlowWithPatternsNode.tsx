@@ -37,7 +37,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
     const chosenTemplate = designPatternsTemplate[chosenName] || {};
-    
+
     updateNodeFieldset(id, "pattern.name", chosenName);
     updateNodeFieldset(id, "template", chosenTemplate);
   };
@@ -129,22 +129,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     </Select>
   );
 
-  const confirmButton = () => {
-    return (
-      <Button
-        color="primary"
-        onClick={() => {
-          if (data.template.confirm) {
-            updateNodeFieldset(id, "template.confirm", false);
-          } else {
-            updateNodeFieldset(id, "template.confirm", true);
-          }
-        }}
-      >
-        Confirm
-      </Button>
-    );
-  };
 
   const taskDescription = (
     <Typography
@@ -175,41 +159,6 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     </Box>
   );
 
-  const detailedTemplate = () => {
-    return (
-      <Box
-        sx={{
-          maxWidth: "100%",
-          backgroundColor: data.template.confirm ? "#e3f2fd" : "#fff",
-          transition: "opacity 0.3s ease-in-out",
-          opacity: 1,
-        }}
-      >
-        {patternForm()}
-      </Box>
-    );
-  };
-
-  const nodeHandles = () => {
-    return (
-      <>
-        <Handle
-          type="target"
-          position={Position.Left}
-          id={`in-${id}`}
-          isConnectable={isConnectable}
-          style={{ top: "50%", background: "blue" }}
-        />
-        <Handle
-          type="source"
-          position={Position.Right}
-          id={`out-${id}`}
-          isConnectable={isConnectable}
-          style={{ top: "50%", background: "#555" }}
-        />
-      </>
-    );
-  };
 
   const stepLabel = (
     <Typography
