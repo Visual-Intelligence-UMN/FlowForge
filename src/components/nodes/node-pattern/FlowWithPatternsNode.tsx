@@ -83,11 +83,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const patternWidthMap = {
     "Single Agent": showContent ? [200, 450] : [200, 450],
-    Supervision: showContent ? [230, 720] : [100, 450],
+    Supervision: showContent ? [230, 750] : [100, 450],
     Validator: showContent ? [450, 450] : [230, 450],
     Reflection: showContent ? [566, 600] : [333, 450],
-    Discussion: showContent ? [300, 720] : [200, 450],
-    Redundant: showContent ? [500, 720] : [300, 450],
+    Discussion: showContent ? [300, 750] : [200, 450],
+    Redundant: showContent ? [500, 750] : [300, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],

@@ -129,11 +129,11 @@ export function DiscussionForm({ data, onChange }) {
           value={data.summary?.persona || ""}
         // onChange={handleAggregationChange("persona")}
         />
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={data.summary?.goal || ""}
         // onChange={handleAggregationChange("goal")}
-        />
+        /> */}
       </Box>
     )
   }
