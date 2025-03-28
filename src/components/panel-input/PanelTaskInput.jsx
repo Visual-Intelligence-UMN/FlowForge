@@ -185,7 +185,7 @@ function TaskPanel() {
           </Select>
         </Grid>
       </Grid>
-      <Grid sx={{ gap: 2 }}>
+      {/* <Grid sx={{ gap: 2 }}>
         <input
           type="checkbox"
           id="run-realtime"
@@ -194,39 +194,41 @@ function TaskPanel() {
         />
 <<<<<<< Updated upstream
         <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
-=======
-        <label style={{ marginLeft: 5 }}>Check For Study</label>
->>>>>>> Stashed changes
-      </Grid>
+      </Grid> */}
 
-      <Grid sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography
-          sx={{ fontSize: "14px", color: "#333" }}
-          onChange={(e) => setWorkflowInput(e.target.value)}
-        >
-          Example Input (Optional)
-        </Typography>
+      <Grid sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 
+        <Grid sx={{ display: "flex", alignItems: "center" }}>
+
+          <Typography
+            sx={{ fontSize: "14px", color: "#333" }}
+            onChange={(e) => setWorkflowInput(e.target.value)}
+          >
+            Example Input (Optional)
+          </Typography>
+          <Button
+            component={fileName ? undefined : "label"}
+            color="primary"
+            size="small"
+            // variant={fileName ? "contained" : "outlined"}
+            role={undefined}
+            startIcon={fileName ? <DeleteIcon /> : <CloudUploadIcon />}
+            onClick={fileName ? handleFileDelete : undefined}
+          >
+            {fileName ?? (
+              <Input
+                type="file"
+                onChange={handleFileChange}
+                sx={{ display: "none" }}
+              />
+            )}
+          </Button>
+
+
+          {/* File Upload Button */}
+
+        </Grid>
         <TextField size="small" sx={{ width: "200px" }} />
-        {/* File Upload Button */}
-        <Button
-          component={fileName ? undefined : "label"}
-          color="primary"
-          size="small"
-          variant={fileName ? "contained" : "outlined"}
-          role={undefined}
-          startIcon={fileName ? <DeleteIcon /> : <CloudUploadIcon />}
-          onClick={fileName ? handleFileDelete : undefined}
-        >
-          {fileName || "Upload Files"}
-          {!fileName && (
-            <Input
-              type="file"
-              onChange={handleFileChange}
-              sx={{ display: "none" }}
-            />
-          )}
-        </Button>
       </Grid>
     </Grid>
   );

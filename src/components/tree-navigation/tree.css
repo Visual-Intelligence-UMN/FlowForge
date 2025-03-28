@@ -42,3 +42,7 @@
   pointer-events: none;
   transition: all 1.5s ease; /* transition when same path moving */
 }
+
+ .MuiMenuItem-root {
+  font-size: 12px !important;
+}
