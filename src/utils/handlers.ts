@@ -476,7 +476,7 @@ const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please work upon the previous deliverable and produce the expected deliverable better aligned with the step description, merge or concatenate the previous deliverable with yours.`;
+    Please produce the expected deliverable aligned with the step description, concatenate the previous deliverable with yours to keep coherence.`;
 
     return {
         type: "singleAgent",

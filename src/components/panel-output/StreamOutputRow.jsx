@@ -318,8 +318,8 @@ const StreamOutput = ({ runConfig }) => {
           {intermediaryMessages.map((msg, index) => {
             const isLastItem = index === intermediaryMessages.length - 1;
             return (
-              <Grid item key={index} sx={{ minWidth: 450, maxWidth: 500 }}>
-                <Card
+              // <Grid item key={index} sx={{ minWidth: 450, maxWidth: 500 }}>
+                /* <Card
                   elevation={3}
                   sx={{
                     width: "100%",
@@ -338,11 +338,9 @@ const StreamOutput = ({ runConfig }) => {
                     display: "flex", 
                     flexDirection: "column",
                     
-                  }}>
-                    <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
-                      {"Step" + Number(msg.sender.split("-")[1]) + " " + msg.sender.split("-")[3]}
-                    </Typography>
-                    {/* <Typography
+                  }}> */
+
+                    /* <Typography
                       variant="body1"
                       sx={{
                         whiteSpace: "normal",
@@ -352,14 +350,12 @@ const StreamOutput = ({ runConfig }) => {
                       }}
                     >
                       {msg.content}
-                    </Typography> */}
-                    {/* <div style={{ whiteSpace: 'pre-wrap' }}>
+                    </Typography> */
+                    /* <div style={{ whiteSpace: 'pre-wrap' }}>
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div> */}
-                    <ExpandableTextBox content={msg.content} />
-                  </CardContent>
-                </Card>
-              </Grid>
+                    </div> */
+                    <ExpandableTextBox msg={msg} index={index} isLastItem={isLastItem}/>
+              // </Grid>
             );
           })}
         </Grid>

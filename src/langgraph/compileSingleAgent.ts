@@ -106,7 +106,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response aligned with the step description."
+            "Complete deliverable response aligned with the step description."
             ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe("The next to call. Must be one of the specified values."),
         });
