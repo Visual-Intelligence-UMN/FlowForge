@@ -1,8 +1,6 @@
 import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { iconMap1, iconMap2, iconMap3 } from "../../images/iconsMap";
-import { designPatternsPool } from "../../patterns/patternsData";
-import { designPatternsTooltip } from "../../patterns/patternsData";
 
 const PatternsMap2 = ({ onPatternHover }) => {
   return (
@@ -16,7 +14,7 @@ const PatternsMap2 = ({ onPatternHover }) => {
     >
       {Object.keys(iconMap2).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
-        const IconComponent = iconMap2[pattern] || HomeIcon;
+        const IconComponent = iconMap2[pattern].icon || HomeIcon;
         return (
           <Grid container item xs="auto" key={index}
             bgcolor="white"
@@ -59,7 +57,7 @@ const PatternsMap2 = ({ onPatternHover }) => {
               </Typography>
               <IconComponent />
               <p className='hover-text'>
-                {designPatternsTooltip[index].description}
+                {iconMap2[pattern].description}
               </p>
             </Grid>
             {/* </Tooltip> */}
@@ -82,7 +80,7 @@ const PatternsMap1 = () => {
     >
       {Object.keys(iconMap1).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
-        const IconComponent = iconMap1[pattern] || HomeIcon;
+        const IconComponent = iconMap1[pattern].icon || HomeIcon;
         return (
           <Grid xs="auto" key={index}
             bgcolor="white"
@@ -120,7 +118,7 @@ const PatternsMap1 = () => {
             </Typography>
             <IconComponent />
             <p className='hover-text'>
-              {designPatternsTooltip[index].description}
+              {iconMap2[pattern].description}
             </p>
             {/* </Tooltip> */}
           </Grid>
@@ -143,7 +141,7 @@ const PatternsMap3 = () => {
     >
       {Object.keys(iconMap3).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
-        const IconComponent = iconMap3[pattern] || HomeIcon;
+        const IconComponent = iconMap3[pattern].icon || HomeIcon;
         return (
           <Grid container item xs="auto" key={index}>
 
@@ -191,7 +189,7 @@ const PatternsMap3 = () => {
 
               </Box>
               <p className='hover-text'>
-                {designPatternsTooltip[index].description}
+                {iconMap2[pattern].description}
               </p>
 
             </Grid>
