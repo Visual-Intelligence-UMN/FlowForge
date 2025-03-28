@@ -12,6 +12,7 @@ export function PatternTextField({ label, value, onChange, maxRows=5 }) {
       minRows={2}
       maxRows={5}
       className={`nodrag nopan nowheel`}
+      sx={{ p: 0.5}}
     />
   );
 }

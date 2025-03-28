@@ -98,12 +98,12 @@ export function DiscussionForm({ data, onChange }) {
           onChange={handleAgentChange(i, "persona")}
           maxRows={4}
         />
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={agent.goal || ""}
           onChange={handleAgentChange(i, "goal")}
           maxRows={4}
-        />
+        /> */}
       </Box>
     )
   }
@@ -145,9 +145,10 @@ export function DiscussionForm({ data, onChange }) {
         flexDirection: "column",
         gap: 2,
         width: "100%",
+        alignItems: "center",
       }}
     >
-      <Grid2 container spacing={2} columns={3}>
+      <Grid2 container spacing={3} columns={3}>
         {agents.map((agent, i) => (
           <Grid2 key={i} xs={12} md={12} lg={12}>
             {eachAgent(agent, i)}
