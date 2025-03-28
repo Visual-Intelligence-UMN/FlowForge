@@ -32,6 +32,8 @@ import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import sampleOutputsVis from "../../data/stream/sample-outputs-vis.json";
 import sampleOutputsPresentation from "../../data/stream/sample-outputs-presentation.json";
 import ReactMarkdown from 'react-markdown';
+
+import ExpandableTextBox from "./ExpandableText";
 const WORD_LIMIT = 30; // For showing short content previews
 
 const StreamOutput = ({ runConfig }) => {
@@ -351,9 +353,10 @@ const StreamOutput = ({ runConfig }) => {
                     >
                       {msg.content}
                     </Typography> */}
-                    <div style={{ whiteSpace: 'pre-wrap' }}>
+                    {/* <div style={{ whiteSpace: 'pre-wrap' }}>
                       <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
+                    </div> */}
+                    <ExpandableTextBox content={msg.content} />
                   </CardContent>
                 </Card>
               </Grid>

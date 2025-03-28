@@ -192,7 +192,11 @@ function TaskPanel() {
           checked={runRealtime}
           onChange={handleRealtimeToggle}
         />
+<<<<<<< Updated upstream
         <label style={{ marginLeft: 5 }}>Check to Run Real Time</label>
+=======
+        <label style={{ marginLeft: 5 }}>Check For Study</label>
+>>>>>>> Stashed changes
       </Grid>
 
       <Grid sx={{ display: "flex", alignItems: "center", gap: 2 }}>
