@@ -103,7 +103,7 @@ const PatternsMap1 = () => {
             </Typography>
             <IconComponent />
             <p className='hover-text'>
-              {iconMap2[pattern].description}
+              {iconMap1[pattern].description}
             </p>
             {/* </Tooltip> */}
           </Grid>
@@ -174,7 +174,7 @@ const PatternsMap3 = () => {
 
               </Box>
               <p className='hover-text'>
-                {iconMap2[pattern].description}
+                {iconMap3[pattern].description}
               </p>
 
             </Grid>
