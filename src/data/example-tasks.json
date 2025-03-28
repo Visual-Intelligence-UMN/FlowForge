@@ -8,7 +8,7 @@
   },
   {
     "id": "task1",
-    "name": "Generate Presentation Script",
+    "name": "Generate Video Script",
     "requiresUpload": false,
     "description": "Create a series of 25-second video scripts based on the abstract of an academic paper, ensuring each script stands out with a distinct angle (style, tone, and narrative structure) while maintaining a professional and engaging presentation of the research. Requirements: 1. Captivating Opening Immediately hook viewers by referencing the paper’s key topic in an intriguing manner. 2. Specific Content & Visual Guidance. - Provide concise verbal content for each part of the script. - Offer visual direction (e.g., relevant figures, graphics) that complement the narration and logically flow with the script’s structure. 3. Smooth Transitions. Ensure cohesive narrative and visual continuity between parts, guiding viewers seamlessly from one section to the next. 4. Precise Timing. Specify exact durations for each section (how many seconds). 5. Compelling Conclusion. End with a professional yet memorable closing, reinforcing the core insight or takeaway from the academic paper. 6. Fresh, Professional Approach. Each task flow must present a unique thinking process, yet maintain accessibility and engagement for a broad audience. Deliverable: A set of short video scripts (one per task flow), each: script with time allocation for each part, 25 seconds in total. Includes detailed verbal narration and explicit visual guidance. Conveys the academic content in a succinct, compelling, and distinctly styled manner, ensuring professional quality throughout.",
         "uploadedFile": null

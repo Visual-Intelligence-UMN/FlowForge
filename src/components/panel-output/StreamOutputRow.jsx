@@ -31,7 +31,7 @@ import generateGraphImage from "../../langgraph/utils";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import sampleOutputsVis from "../../data/stream/sample-outputs-vis.json";
 import sampleOutputsPresentation from "../../data/stream/sample-outputs-presentation.json";
-
+import ReactMarkdown from 'react-markdown';
 const WORD_LIMIT = 30; // For showing short content previews
 
 const StreamOutput = ({ runConfig }) => {
@@ -331,11 +331,16 @@ const StreamOutput = ({ runConfig }) => {
                     backgroundColor: isLastItem ? "#ffeb9b" : "white",
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+                  <CardContent sx={{ 
+                    flexGrow: 1, 
+                    display: "flex", 
+                    flexDirection: "column",
+                    
+                  }}>
                     <Typography variant="h6" gutterBottom sx={{ mb: 1 }}>
                       {"Step" + Number(msg.sender.split("-")[1]) + " " + msg.sender.split("-")[3]}
                     </Typography>
-                    <Typography
+                    {/* <Typography
                       variant="body1"
                       sx={{
                         whiteSpace: "normal",
@@ -345,7 +350,10 @@ const StreamOutput = ({ runConfig }) => {
                       }}
                     >
                       {msg.content}
-                    </Typography>
+                    </Typography> */}
+                    <div style={{ whiteSpace: 'pre-wrap' }}>
+                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    </div>
                   </CardContent>
                 </Card>
               </Grid>

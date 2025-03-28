@@ -48,7 +48,8 @@ function getPrevIndex(currentIndex) {
   return currentIndex > 0 ? currentIndex - 1 : 0;
 }
 function getNextIndex(currentIndex, maxIndex) {
-  return currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
+  // return currentIndex < maxIndex ? currentIndex + 1 : maxIndex;
+  return (currentIndex + 1) % maxIndex;
 }
 
 
@@ -65,7 +66,7 @@ function ExploreButton() {
     if (type === "flow") {
       const sortedFlowIds = getSortedFlowIds(flowsMap);
       const currentIndex = sortedFlowIds.indexOf(flowId);
-      const newIndex = getNextIndex(currentIndex, sortedFlowIds.length - 1);
+      const newIndex = getNextIndex(currentIndex, sortedFlowIds.length);
       const newFlowId = sortedFlowIds[newIndex];
 
       const sortedPatterns = getSortedPatternsForFlow(
@@ -101,7 +102,7 @@ function ExploreButton() {
       const currentIndex = sortedPatterns.findIndex(
         (p) => p.patternId === patternId
       );
-      const newIndex = getNextIndex(currentIndex, sortedPatterns.length - 1);
+      const newIndex = getNextIndex(currentIndex, sortedPatterns.length);
       const newPatternId = sortedPatterns[newIndex].patternId;
 
       const sortedConfigs = getSortedConfigsForPattern(
@@ -129,7 +130,7 @@ function ExploreButton() {
       const currentIndex = sortedConfigs.findIndex(
         (c) => c.configId === configId
       );
-      const newIndex = getNextIndex(currentIndex, sortedConfigs.length - 1);
+      const newIndex = getNextIndex(currentIndex, sortedConfigs.length);
       const newConfigId = sortedConfigs[newIndex].configId;
 
       setCanvasPages({
