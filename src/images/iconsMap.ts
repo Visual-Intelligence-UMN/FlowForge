@@ -16,7 +16,7 @@ import {
 
 
 export const iconMap2 = {
-    "Single Agent": AgentIcon,
+    // "Single Agent": AgentIcon,
     // "Web Search Agent": WebsearchIcon,
     // "PDF Loader Agent": PersonIcon,
     // "Validator": ValidatorIcon,

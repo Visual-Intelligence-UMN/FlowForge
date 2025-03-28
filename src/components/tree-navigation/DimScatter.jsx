@@ -36,7 +36,8 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
     }, []);
 
     const getPaddedExtent = (values, ratio) => {
-        const [min, max] = d3.extent(values);
+        let [min, max] = d3.extent(values);
+        min = 1
         const padding = (max - min) * ratio;
         return [min - padding, max + padding];
     }
