@@ -58,8 +58,10 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
 
     const xSelector = <Select
         value={axis.x}
+        variant="standard"
+        size="small"
         onChange={e => setAxis({ ...axis, x: e.target.value })}
-        sx={{ width: '45%', height: '30px' }}
+        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
@@ -69,8 +71,9 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
 
     const ySelector = <Select
         value={axis.y}
+        variant="standard"
         onChange={e => setAxis({ ...axis, y: e.target.value })}
-        sx={{ width: '45%', height: '30px' }}
+        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
@@ -104,17 +107,20 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
     >
         <Box sx={{ height: "1px", backgroundColor: "#eee", width: "100%", marginBottom: 2, boxShadow: "0 1px 4px rgba(0,0,0,0.1)" }} />
         <Box
+            className="dim-scatter-labels"
             sx={{
                 display: "flex",
-                justifyContent: "space-between",
-                gap: 2,
+                // justifyContent: "space-between",
+                alignItems: "center",
+                gap: 1,
                 marginBottom: 2,
                 width: "100%",
+                fontSize: "12px",
             }}
         >
 
-            X {xSelector}
-            Y {ySelector}
+            X-axis: {xSelector}
+            Y-axis: {ySelector}
         </Box>
 
         <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
