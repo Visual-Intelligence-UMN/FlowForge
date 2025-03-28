@@ -1,5 +1,5 @@
 {
-    "taskFlow": {
+    "taskFlows": {
         "taskFlow_1": {
             "taskFlowId": "1",
             "taskFlowName": "Visual Storytelling Approach",
@@ -184,7 +184,7 @@
             ]
         }
     }, 
-    "flowWithPatterns": 
+    "flowsWithPatterns": 
     [
         {
             "taskFlowId": "3-1",
