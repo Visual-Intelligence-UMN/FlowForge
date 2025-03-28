@@ -2,12 +2,12 @@ import { Box, Card, CardContent, Typography, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { iconMap1, iconMap2, iconMap3 } from "../../images/iconsMap";
 
-const PatternsMap2 = ({ onPatternHover }) => {
+const PatternsMap2 = () => {
   return (
     <Box
       sx={{
-        mb: 1,
-        ml: 1,
+        p: 1,
+        // m: 1,
         backgroundColor: "#f5f5f5",
         height: "100%",
       }}
@@ -34,33 +34,18 @@ const PatternsMap2 = ({ onPatternHover }) => {
               m: 1
             }}
           >
-            {/* <Tooltip
-              title={designPatternsTooltip[index].description}
-              sx={{ width: "200px", fontSize: "16px" }}
-              arrow
-            > */}
-            <Grid
-              container
-              onMouseEnter={() => {
-                if (onPatternHover) onPatternHover(pattern);
-              }}
-              onMouseLeave={() => {
-                if (onPatternHover) onPatternHover(null);
-              }}
+
+            <Typography
+              variant="subtitle1"
+              textAlign="center"
+              sx={{ fontSize: "14px" }}
             >
-              <Typography
-                variant="subtitle1"
-                textAlign="center"
-                sx={{ fontSize: "14px" }}
-              >
-                {pattern}
-              </Typography>
-              <IconComponent />
-              <p className='hover-text'>
-                {iconMap2[pattern].description}
-              </p>
-            </Grid>
-            {/* </Tooltip> */}
+              {pattern}
+            </Typography>
+            <IconComponent />
+            <p className='hover-text'>
+              {iconMap2[pattern].description}
+            </p>
           </Grid>
         );
       })}
