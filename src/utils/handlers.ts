@@ -5,7 +5,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
     // const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
       // Emphasize final deliverable from stepDescription
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please build on the previous conversation and produce the final expected output aligned with your goal and the step description, and concatenate the previous deliverable with yours.
+    Please produce the final expected output aligned with your goal and the step description, and concatenate the previous deliverable with yours.
     If you need online information, use the web search tool. 
     Provide a direct and complete solution without asking for clarifications.`;
 
@@ -79,7 +79,7 @@ const handleReflection = (step) => {
                 optimizer.persona 
                 // + "\n" + optimizer.goal 
                 + "\n" + taskPrompt
-                + "\n Please build on the previous conversation and produce the deliverable that follows the step description, and organize and concatenate the previous deliverable with yours."
+                + "\n Please produce the deliverable that follows the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
             },
             {
                 type: "evaluator",
@@ -95,7 +95,7 @@ const handleReflection = (step) => {
                 // + " " + evaluator.goal 
                 + " " + taskPrompt
                 + "\n Please analyze the Optimizer's response."
-                + " If it meets the step description's requirements, must output it as the whole deliverable explicitly without feedbacks."
+                + " If it meets the step description's requirements, must output it as the whole deliverable explicitly without feedbacks but with 'GOOD' in the beginning."
                 + " Otherwise, provide precise feedbacks alongside with the Optimizer's output for it to improve."
             }
         ],
@@ -156,7 +156,7 @@ const handleSupervision = (step) => {
           worker.persona 
         //   + "\n" + worker.goal 
           + "\n" + taskPrompt
-          + "\n Please build on the previous deliverable and produce the deliverable aligned with the step description, your persona and goal, and merge the previous deliverable with yours to keep coherence."
+          + "\n Please produce the deliverable aligned with the step Description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
         };
       });
 
@@ -279,7 +279,7 @@ const handleDiscussion = (step) => {
             summary.persona 
             // + "\n" + summary.goal 
             + taskPrompt
-            + "\n Merge and summarize all agents' contributions and produce the final deliverable that meets the step description, your persona and goal, keep distinct points and diversity and avoid too much redundancies."
+            + "\n Merge and summarize all agents' contributions and produce the final deliverable that aligns with the step description, your persona and goal, keep distinct points and diversity and avoid redundancies."
 
         })
     }
@@ -425,7 +425,7 @@ const handleRedundant = (step) => {
                 agent.persona 
                 // + "\n" + agent.goal 
                 + taskPrompt
-                + "\n Please build on the previous conversation and produce a complete deliverable that meets the step description, your persona and goal, and merge the previous deliverable with yours. No need to ask for clarifications."
+                + "\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
         }
     })
     agentsNodes.push({
@@ -477,7 +477,7 @@ const handleSingleAgent = (step) => {
     const { stepDescription, template } = step;
     const { persona, goal, patternPrompt , maxRound} = template;
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please produce the expected deliverable aligned with the step description, your persona and goal, and merge the previous deliverable with yours to keep coherence.`;
+    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.`;
 
     return {
         type: "singleAgent",

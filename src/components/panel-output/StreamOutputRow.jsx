@@ -82,7 +82,8 @@ const StreamOutput = ({ runConfig }) => {
     if (!runConfig?.configId) return; // no config yet
     // if (!selectedTask?.name?.includes("Visualization")) return;
     let sampleData;
-    if (selectedTask?.name?.includes("Presentation")) {
+    if (selectedTask?.name?.includes("Script")) {
+      console.log("sampleOutputsPresentation", sampleOutputsPresentation);
       sampleData = sampleOutputsPresentation[runConfig.configId];
     } else if (selectedTask?.name?.includes("Review")) {
       sampleData = sampleOutputsReview[runConfig.configId];
