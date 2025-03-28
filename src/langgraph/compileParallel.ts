@@ -5,7 +5,7 @@ import { AgentsState } from "./states";
 import { ChatOpenAI } from "@langchain/openai";
 import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 // Example status check function using a promise-based wait
 function waitForStepStatus(
     state: typeof AgentsState.State,
@@ -118,6 +118,9 @@ function waitForStepStatus(
         if (params.name.includes("Aggregator")) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
+            if (response_goto.includes("__end__")) {
+                response_goto = END;
+            }
             console.log("response_goto in compileParallel for aggregator", response_goto);
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {

@@ -5,7 +5,7 @@ import { AgentsState } from "./states";
 import { ChatOpenAI } from "@langchain/openai";
 import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 
 // Example status check function using a promise-based wait
 function waitForStepStatus(
@@ -136,6 +136,9 @@ const makeAgentNode = (params: {
                 response_goto = params.destinations.find((d) => d.includes("Summary"));
                 status = "pending";
             }
+        }
+        if (response_goto.includes("__end__")) {
+            response_goto = END;
         }
         // if (state[currentStep].length >= params.maxRound ) {
         //     // random call, so one msg means one round

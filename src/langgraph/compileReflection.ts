@@ -4,7 +4,7 @@ import { AgentsState } from "./states";
 import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 import toolsMap from "./utils";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 // import END from "@langchain/langgraph/web";
 // Example status check function using a promise-based wait
 function waitForStepStatus(
@@ -123,6 +123,7 @@ const makeAgentNode = (params: {
         if (response_goto === "__end__") {
             console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
             status = "done";
+            response_goto = END;
         } else if (state[currentStep].length / 2 >= params.maxRound+1) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             console.log("response_goto in compileReflection max round", response_goto);
@@ -149,15 +150,16 @@ const makeAgentNode = (params: {
                     return new Command({
                         // goto: response_goto,
                         update: {
-                            messages: aiMessage,
-                            sender: params.name,
-                            [currentStep]: aiMessage,
+                            // messages: aiMessage,
+                            // sender: params.name,
+                            // [currentStep]: aiMessage,
                             [currentStep+"-status"]: "done",
                         }
                     })
                 }
             }
         }   
+        // only optimizer will update msgs
         return new Command({
             goto: response_goto,
             update: {

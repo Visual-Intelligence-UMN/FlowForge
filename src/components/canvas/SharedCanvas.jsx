@@ -125,7 +125,7 @@ const SharedCanvas = () => {
             (pattern) => pattern.patternId === patternId
           );
           if (!targetWorkflow) {
-            return <Typography>Pattern not found or deleted.</Typography>;
+            return <Typography>Generating patterns for the taskflow...</Typography>;
           }
           headerContent = "Flow with Patterns " + targetWorkflow.patternId;
           nodeType = "patternsStep";

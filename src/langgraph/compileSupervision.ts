@@ -141,6 +141,9 @@ const makeAgentNode = (params: {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
             status = "done";
         }
+        if (response_goto.includes("__end__")) {
+            response_goto = END;
+        }
 
         console.log("state in compileSupervision", state);
         if (params.supervisorOrNot) {
@@ -225,7 +228,9 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
         supervisorOrNot: true,
         parallelSteps: parallelSteps,
     });
-
+    if (supervisorDestinations.length === 0) {
+        supervisorDestinations.push("__end__");
+    }
     workflow.addNode(supervisorNode.id, supervisorAgent, {
         ends: [...supervisorDestinations],
     });
