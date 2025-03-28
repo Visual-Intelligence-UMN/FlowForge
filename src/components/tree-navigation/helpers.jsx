@@ -49,7 +49,7 @@ export function getCallsCountForStep(step) {
           const {workers} = template;
           maxCalls = maxRound * 2;
           runtime = maxRound * 2;
-          agentCount = workers.length + 1;
+          agentCount = workers?.length + 1;
           break;
         default:
           runtime = 1;

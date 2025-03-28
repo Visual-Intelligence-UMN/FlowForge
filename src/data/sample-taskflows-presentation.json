@@ -332,7 +332,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -424,7 +424,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -451,7 +451,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -478,7 +478,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -551,7 +551,7 @@
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -663,7 +663,7 @@
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -709,7 +709,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -736,7 +736,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -846,7 +846,7 @@
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -892,7 +892,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -977,7 +977,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -1052,7 +1052,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -1077,7 +1077,7 @@
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
@@ -1288,7 +1288,7 @@
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 5,
+                        "maxRound": 3,
                         "evaluator": {
                             "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
                             "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",

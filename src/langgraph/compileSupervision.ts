@@ -78,14 +78,21 @@ const makeAgentNode = (params: {
     previousSteps: string[],
     supervisorOrNot: boolean,
     parallelSteps: string[],
+    workersDescriptions: string,
 }) => {
     return async (state: typeof AgentsState.State) => {
+
+        const currentStepNum = params.name.split("-")[1];
+        const currentStep = 'step' + currentStepNum;
+        const currentStepId = 'step-' + currentStepNum;
+        const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const responseSchema = z.object({
             // response: z.string().describe(
             // "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             // ),
-            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call or end. Must be one of the specified values."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe(
+                "The worker Agent to call or Next Step agent to call or end. " + params.workersDescriptions),
         });
 
         const workerResponseSchema = z.object({
@@ -106,10 +113,7 @@ const makeAgentNode = (params: {
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-        const currentStepNum = params.name.split("-")[1];
-        const currentStep = 'step' + currentStepNum;
-        const currentStepId = 'step-' + currentStepNum;
-        const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
+        
 
         const invokePayload = [
             ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
@@ -210,23 +214,28 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     console.log("nodesInfo in compileSupervision", nodesInfo);
     console.log("stepEdges in compileSupervision", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+
     const uniquePreviousSteps = [...new Set(previousSteps)];
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
+    const currentStepIdx = supervisorNode.id.split("->")[0];
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
     // console.log("supervisorDestinations", supervisorDestinations);
     console.log("destinations in compileSupervision", supervisorDestinations);
-
+    const workersDescriptions = "Here are the worker agents that can be called to get the deliverable: " + agentsNodes.map(node => node.id + "(" + node.data.description + ")").join(";");
+    const nextStepDestinations = supervisorDestinations.filter(d => !d?.includes(currentStepIdx));
+    const nextStepDestinationsDescription = "If the deliverable is good to pass to the next step, you should call one of the: " + nextStepDestinations.join(",");
     const supervisorAgent = makeAgentNode({
         name: supervisorNode.id,
         destinations: supervisorDestinations as string[],
-        systemPrompt: supervisorNode.data.systemPrompt,
+        systemPrompt: supervisorNode.data.systemPrompt + "\n" + workersDescriptions + "\n" + nextStepDestinationsDescription,
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
         previousSteps: uniquePreviousSteps as string[],
         supervisorOrNot: true,
         parallelSteps: parallelSteps,
+        workersDescriptions: workersDescriptions + " " + nextStepDestinationsDescription,
     });
     if (supervisorDestinations.length === 0) {
         supervisorDestinations.push("__end__");
@@ -234,7 +243,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     workflow.addNode(supervisorNode.id, supervisorAgent, {
         ends: [...supervisorDestinations],
     });
-    // TODO: fix this, supervisor should be able to call next few nodes.
+        // TODO: fix this, supervisor should be able to call next few nodes.
 
     for (const node of agentsNodes) {
         const destinations = Array.from(
@@ -254,6 +263,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
             previousSteps: uniquePreviousSteps as string[],
             supervisorOrNot: false,
             parallelSteps: parallelSteps,
+            workersDescriptions: workersDescriptions,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

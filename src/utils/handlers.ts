@@ -173,7 +173,8 @@ const handleSupervision = (step) => {
         supervisor.persona 
         // + "\n" + supervisor.goal 
         + "\n" + taskPrompt
-        + "\n Please analyze and examine the previous content, and call the most appropriate worker to fulfill the step description's expected output."
+        + "\n Please analyze and examine the previous content, \
+        and call the most appropriate worker to fulfill the step Description's expected output."
       };
 
       const agentEdges = [

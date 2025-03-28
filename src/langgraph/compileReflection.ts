@@ -202,7 +202,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, par
                 nextOne = "__end__";
             }
             responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
-            + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description without feedbacks and call for " + nextOne
+            + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description with 'GOOD' without feedbacks and call for " + nextOne
         } else {
             responsePrompt = "You should always organize and concatenate your deliverable with the previous one, and call the Evaluator to get the feedbacks. "
         }
