@@ -3,23 +3,23 @@
     {
         "taskFlow_1": {
             "taskFlowId": "1",
-            "taskFlowName": "Line and Bar Chart Visualization",
-            "taskFlowDescription": "This flow creates a line chart and a bar chart to visualize trends and comparisons in the dataset.",
+            "taskFlowName": "Exploratory Data Storytelling",
+            "taskFlowDescription": "This flow explores the dataset through a series of diverse visualizations, using parallel steps for efficiency and variety.",
             "taskFlowStart": {
                 "nextSteps": [
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with time series and categorical data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Load Data",
-                    "stepLabel": "Loading",
-                    "stepDescription": "Load the dataset from a CSV file into a DataFrame.",
+                    "stepName": "Load and Clean Data",
+                    "stepLabel": "Data Preparation",
+                    "stepDescription": "Load the movie dataset into the Python environment, addressing any missing values by either filling them with statistical means or dropping them, thus preparing the dataset for exploration.",
                     "nextSteps": [
                         "step-2",
                         "step-3"
@@ -27,111 +27,170 @@
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Create Line Chart",
-                    "stepLabel": "Line Chart",
-                    "stepDescription": "Generate a line chart to show trends over time.",
+                    "stepName": "Create Bar Chart",
+                    "stepLabel": "Visualize Genre Distribution",
+                    "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity.",
                     "nextSteps": [
                         "step-4"
                     ]
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Create Bar Chart",
-                    "stepLabel": "Bar Chart",
-                    "stepDescription": "Generate a bar chart to compare categorical data.",
+                    "stepName": "Generate Line Chart",
+                    "stepLabel": "Trend Over Time",
+                    "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production.",
                     "nextSteps": [
                         "step-4"
                     ]
                 },
                 {
                     "stepId": "step-4",
-                    "stepName": "Display Charts",
-                    "stepLabel": "Display",
-                    "stepDescription": "Display both charts side by side for comprehensive analysis.",
+                    "stepName": "Combine and Interpret",
+                    "stepLabel": "Synthesize Findings",
+                    "stepDescription": "Combine insights gained from the bar and line charts, providing a cohesive narrative on how movie genres have evolved over time and any notable patterns in release trends, finalizing the storytelling output.",
                     "nextSteps": []
                 }
             ]
         },
         "taskFlow_2": {
             "taskFlowId": "2",
-            "taskFlowName": "Scatter Plot and Histogram",
-            "taskFlowDescription": "This flow visualizes data distribution and relationships using a scatter plot and a histogram.",
+            "taskFlowName": "In-Depth Attribute Analysis",
+            "taskFlowDescription": "This task flow seeks to dive deep into specific attributes of the dataset, constructing a compelling narrative through detailed visualizations and analysis.",
             "taskFlowStart": {
                 "nextSteps": [
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with numerical data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Generate Scatter Plot",
-                    "stepLabel": "Scatter Plot",
-                    "stepDescription": "Create a scatter plot to visualize relationships between two numerical variables.",
+                    "stepName": "Initial Data Load",
+                    "stepLabel": "Load Data",
+                    "stepDescription": "Import the dataset and perform an initial inspection of its structure and content, assessing missing values and deciding on measures for handling them.",
                     "nextSteps": [
                         "step-2"
                     ]
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Generate Histogram",
-                    "stepLabel": "Histogram",
-                    "stepDescription": "Create a histogram to show the distribution of a single numerical variable.",
-                    "nextSteps": []
-                }
-            ]
-        },
-        "taskFlow_3": {
-            "taskFlowId": "3",
-            "taskFlowName": "Heat Map and Interactive Visualization",
-            "taskFlowDescription": "This flow creates a heat map and an interactive plot for enhanced data exploration.",
-            "taskFlowStart": {
-                "nextSteps": [
-                    "step-1"
-                ],
-                "input": {
-                    "text": "Dataset with correlation data",
-                    "file": "data.csv"
-                }
-            },
-            "taskFlowSteps": [
-                {
-                    "stepId": "step-1",
-                    "stepName": "Generate Heat Map",
-                    "stepLabel": "Heat Map",
-                    "stepDescription": "Create a heat map to visualize the correlation matrix of the dataset.",
-                    "nextSteps": [
-                        "step-2"
-                    ]
-                },
-                {
-                    "stepId": "step-2",
-                    "stepName": "Setup Interactive Plot",
-                    "stepLabel": "Interactive Plot",
-                    "stepDescription": "Use an interactive library to create a dynamic visualization for detailed exploration.",
+                    "stepName": "Focus on Ratings",
+                    "stepLabel": "Ratings Analysis",
+                    "stepDescription": "Utilize the ratings attribute to generate a histogram that reflects the distribution of movie ratings, providing insight into common rating trends.",
                     "nextSteps": [
                         "step-3"
                     ]
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Display Interactive Visualization",
-                    "stepLabel": "Display Interactive",
-                    "stepDescription": "Render the interactive plot for user engagement and deeper insight.",
+                    "stepName": "Explore Budget and Revenue",
+                    "stepLabel": "Financial Insights",
+                    "stepDescription": "Create a scatter plot comparing movie budgets to revenues, highlighting any correlations and outliers that suggest financial success or failure.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Detailed Genre-Performance",
+                    "stepLabel": "Performance by Genre",
+                    "stepDescription": "Generate a heatmap to explore the relationship between genres and average ratings, uncovering which genres tend to perform best.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Construct Narrative",
+                    "stepLabel": "Storytelling Synthesis",
+                    "stepDescription": "Integrate the insights from the histogram, scatter plot, and heatmap to form a comprehensive story that connects ratings, financial success, and genre performance, providing a holistic view of the dataset findings.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Interactive Visualization Creation",
+            "taskFlowDescription": "This task flow focuses on creating interactive visualizations that allow users to engage with data stories dynamically.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Import Libraries and Data",
+                    "stepLabel": "Initialization",
+                    "stepDescription": "Import necessary Python libraries such as pandas, numpy, and matplotlib, along with loading the dataset into the environment, preparing for visualization.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Create Interactive Scatter Plot",
+                    "stepLabel": "Dynamic Analysis",
+                    "stepDescription": "Develop an interactive scatter plot using libraries like Plotly, allowing users to explore relationships between budget, revenue, and ratings, with tooltips and filters for detailed insights.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Narrative Explanation",
+                    "stepLabel": "Convey Insights",
+                    "stepDescription": "Provide a narrative explanation to accompany the interactive plot, detailing how users can extract insights about the financial and critical success of movies, guiding them to recognize trends and correlations interactively.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_4": {
+            "taskFlowId": "4",
+            "taskFlowName": "Simplified Storytelling",
+            "taskFlowDescription": "This task flow streamlines the data storytelling process into two straightforward steps, focusing on efficiency and clarity.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Data Preparation and Visualization",
+                    "stepLabel": "Prep and Visualize",
+                    "stepDescription": "Load the dataset, handle missing values, and generate a set of basic visualizations including a bar chart and a pie chart that reflect key aspects of the data, such as genre distribution and market share.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Narrative Development",
+                    "stepLabel": "Create Story",
+                    "stepDescription": "Craft a concise narrative that interconnects the visualizations, explaining the significance of genre popularity and market share in context, concluding with key insights drawn from the dataset.",
                     "nextSteps": []
                 }
             ]
         }
     },
-    "flowsWithPatterns": 
+    "flowsWithPatterns":
     [
         {
             "taskFlowId": "3-1",
-            "taskFlowName": "Scatter Plot and Histogram",
-            "taskFlowDescription": "This flow visualizes data distribution and relationships using a scatter plot and a histogram.",
+            "taskFlowName": "Predictive Patterns",
+            "taskFlowDescription": "Use statistical and visualization tools to uncover predictive patterns in the dataset.",
             "patternsId": 3,
             "taskFlowStart": {
                 "stepId": "step-0",
@@ -139,19 +198,19 @@
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with numerical data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Generate Scatter Plot",
-                    "stepLabel": "Scatter Plot",
-                    "stepDescription": "Create a scatter plot to visualize relationships between two numerical variables.",
+                    "stepName": "Data Imputation",
+                    "stepLabel": "Handle Missing Data",
+                    "stepDescription": "Identify missing values in the dataset and apply imputation techniques, such as mean/mode filling or regression techniques, to prepare the data for analysis.",
                     "pattern": {
                         "name": "Single Agent",
-                        "recommendationReason": "Creating a scatter plot is a straightforward task that can be efficiently handled by a single agent focusing on the plotting mechanics without additional complexity."
+                        "recommendationReason": "The task is straightforward and involves applying known techniques like mean/mode filling, which are well-suited to a single agent approach."
                     },
                     "nextSteps": [
                         "step-2"
@@ -159,27 +218,94 @@
                     "template": {
                         "confirm": false,
                         "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
                         "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
                     }
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Generate Histogram",
-                    "stepLabel": "Histogram",
-                    "stepDescription": "Create a histogram to show the distribution of a single numerical variable.",
+                    "stepName": "Correlation Analysis",
+                    "stepLabel": "Correlation Heatmap",
+                    "stepDescription": "Create a heatmap to visualize correlations between numerical attributes, identifying potential predictors of box office success.",
                     "pattern": {
                         "name": "Single Agent",
-                        "recommendationReason": "Creating a histogram to illustrate the distribution of a single numerical variable is a straightforward task, well-suited to a single agent that can efficiently execute this clear and defined process."
+                        "recommendationReason": "Creating a correlation heatmap is a straightforward task that involves summarizing relationships between numerical attributes, which can effectively be handled by a Single Agent without added complexity."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Predictor Significance",
+                    "stepLabel": "Scatter Plot",
+                    "stepDescription": "Use scatter plots to delve deeper into significant predictors identified in the heatmap, such as budget versus box office revenue, and annotate with regression line for trend analysis.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "This step involves creating and analyzing scatter plots, a straightforward visualization task suitable for a single agent to efficiently handle."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Interactive Model",
+                    "stepLabel": "Interactive Plot",
+                    "stepDescription": "Develop an interactive plot to allow users to test how changes in predictors affect the predicted box office performance, enhancing the narrative with dynamic exploration.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is ideal for efficiently creating an interactive plot, as the task is straightforward and involves applying predefined statistical and visualization tools without the need for complex coordination."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Final Story Integration",
+                    "stepLabel": "Story Integration",
+                    "stepDescription": "Compile all visualizations and insights into a cohesive narrative, providing context and commentary on each visualization to elucidate predictive patterns.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection is ideal for iteratively reviewing and enhancing the narrative, ensuring clarity and cohesion in connecting the insights to the visualizations."
                     },
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                            "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                            "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
                     }
                 }
             ],
@@ -187,8 +313,8 @@
         },
         {
             "taskFlowId": "3-2",
-            "taskFlowName": "Scatter Plot and Histogram",
-            "taskFlowDescription": "This flow visualizes data distribution and relationships using a scatter plot and a histogram.",
+            "taskFlowName": "Predictive Patterns",
+            "taskFlowDescription": "Use statistical and visualization tools to uncover predictive patterns in the dataset.",
             "patternsId": 4,
             "taskFlowStart": {
                 "stepId": "step-0",
@@ -196,53 +322,179 @@
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with numerical data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Generate Scatter Plot",
-                    "stepLabel": "Scatter Plot",
-                    "stepDescription": "Create a scatter plot to visualize relationships between two numerical variables.",
+                    "stepName": "Data Imputation",
+                    "stepLabel": "Handle Missing Data",
+                    "stepDescription": "Identify missing values in the dataset and apply imputation techniques, such as mean/mode filling or regression techniques, to prepare the data for analysis.",
                     "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "Creating a scatter plot is a straightforward task that can be efficiently handled by a single agent focusing on the plotting mechanics without additional complexity."
+                        "name": "Supervision",
+                        "recommendationReason": "Overseeing multiple agents to apply different imputation techniques dynamically and selecting the best fit provides the necessary flexibility and efficiency for handling missing data."
                     },
                     "nextSteps": [
                         "step-2"
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "You are the Mean Imputer, a detail-oriented data analyst focused on simplicity and effectiveness in data imputation.",
+                                "goal": "The goal: Apply mean filling to numerical columns with missing data, ensuring a balanced and straightforward imputation outcome.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are the Mode Imputer, a statistics-savvy data specialist who thrives on identifying patterns and commonalities.",
+                                "goal": "The goal: Implement mode filling for categorical columns, ensuring that the most common category is used to replace missing values.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are the Regression Imputer, a mathematically inclined analyst with a focus on predictive accuracy.",
+                                "goal": "The goal: Utilize regression techniques to predict and fill in missing values based on other available data, enhancing the dataset's overall integrity."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "You are the Data Quality Supervisor, an efficiency-focused overseer who ensures all imputation strategies are correctly implemented and evaluated.",
+                            "goal": "The goal: Analyze the results from different imputation methods, compare their effectiveness, and select the best fit for the dataset's needs.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "You are the Project Lead responsible for overseeing the imputation process in a dataset preparation task.",
+                        "goal": "The goal: Coordinate the dynamic application and evaluation of various imputation techniques to ensure the most effective handling of missing data."
                     }
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Generate Histogram",
-                    "stepLabel": "Histogram",
-                    "stepDescription": "Create a histogram to show the distribution of a single numerical variable.",
+                    "stepName": "Correlation Analysis",
+                    "stepLabel": "Correlation Heatmap",
+                    "stepDescription": "Create a heatmap to visualize correlations between numerical attributes, identifying potential predictors of box office success.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Using the Redundant pattern would allow multiple agents to work in parallel to ensure different correlation methods or aspects are considered, facilitating comprehensive insight aggregation."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are an analytical statistician with a keen eye for identifying anomalies in data. Your methodical approach ensures no abnormal revenue trend goes unnoticed.",
+                                "goal": "The goal: Detect outliers in the box office revenue data for the selected genre by identifying significant deviations from the norm.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a data visualization expert who emphasizes clarity and storytelling through graphics. Your designs make data easy to understand at a glance.",
+                                "goal": "The goal: Create a clear and compelling histogram that displays the distribution of box office revenue, highlighting key patterns and deviations in the data.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a genre specialist with a focus on understanding trends within specific cinematic categories. Your insights help to contextualize revenue patterns against genre norms.",
+                                "goal": "The goal: Provide a detailed analysis of revenue trends in the selected genre, identifying how they compare to typical genre performance and highlighting any significant patterns."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a lead data scientist responsible for synthesizing insights from multiple data inputs and producing a comprehensive overview of revenue patterns.",
+                            "goal": "The goal: Aggregate the findings from various analyses to present a holistic view of box office revenue distribution, spotlighting both patterns and outliers effectively.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Predictor Significance",
+                    "stepLabel": "Scatter Plot",
+                    "stepDescription": "Use scatter plots to delve deeper into significant predictors identified in the heatmap, such as budget versus box office revenue, and annotate with regression line for trend analysis.",
                     "pattern": {
                         "name": "Reflection",
-                        "recommendationReason": "While generating the histogram is straightforward, applying the reflection pattern ensures the accuracy and clarity of the visualization through feedback, refining the output iteratively."
+                        "recommendationReason": "The Reflection pattern is useful here to iteratively assess the quality of the scatter plots and annotations, refining them with feedback for clearer trend and significance communication."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                            "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                            "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Interactive Model",
+                    "stepLabel": "Interactive Plot",
+                    "stepDescription": "Develop an interactive plot to allow users to test how changes in predictors affect the predicted box office performance, enhancing the narrative with dynamic exploration.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is suitable because developing interactive plots can benefit from iterative refinement, where feedback is used to enhance the user experience and accuracy of dynamic predictions."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                            "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                            "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Final Story Integration",
+                    "stepLabel": "Story Integration",
+                    "stepDescription": "Compile all visualizations and insights into a cohesive narrative, providing context and commentary on each visualization to elucidate predictive patterns.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Discussion is suitable for collaboratively integrating different perspectives to create a comprehensive and engaging story with diverse viewpoints enhancing the narrative richness."
                     },
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
                         "maxRound": 3,
-                        "evaluator": {
-                            "persona": "A meticulous data analyst focused on accuracy and clarity.",
-                            "goal": "To assess the histogram for accurate representation of data distribution, ensuring scales and bin widths are appropriately set for clear insights.",
-                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
-                        },
-                        "optimizer": {
-                            "persona": "A creative visual designer ensuring the aesthetic and functional quality of visualizations.",
-                            "goal": "To refine the histogram's design iteratively, enhancing both visual appeal and interpretability based on evaluator feedback.",
-                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are an Analytical Statistician who focuses on interpreting data through a logical and numbers-driven approach.",
+                                "goal": "The goal: Analyze the distribution plot to identify trends and anomalies, quantify their significance, and provide a data-driven interpretation of the visualized information.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Creative Storyteller who emphasizes weaving data insights into a compelling narrative.",
+                                "goal": "The goal: Craft a persuasive and engaging story around the observed trends and anomalies in the distribution plot, making it accessible and relatable to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Strategic Consultant who looks for practical applications and business insights from data.",
+                                "goal": "The goal: Highlight the key takeaways from the distribution plot's trends and anomalies, and suggest actionable insights or strategic decisions based on the analysis.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Concise Synthesizer who focuses on condensing information into a clear and succinct format.",
+                            "goal": "The goal: Provide a brief, cohesive summary that combines the analytical findings, storytelling elements, and strategic insights into a final concluding narrative.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
                         }
                     }
                 }
@@ -250,353 +502,9 @@
             "patternId": "3-2"
         },
         {
-            "taskFlowId": "2-1",
-            "taskFlowName": "Line and Bar Chart Visualization",
-            "taskFlowDescription": "This flow creates a line chart and a bar chart to visualize trends and comparisons in the dataset.",
-            "patternsId": 2,
-            "taskFlowStart": {
-                "stepId": "step-0",
-                "nextSteps": [
-                    "step-1"
-                ],
-                "input": {
-                    "text": "Dataset with time series and categorical data",
-                    "file": "data.csv"
-                }
-            },
-            "taskFlowSteps": [
-                {
-                    "stepName": "Load Data",
-                    "stepLabel": "Loading",
-                    "stepDescription": "Load the dataset from a CSV file into a DataFrame.",
-                    "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "The Single Agent pattern efficiently handles loading data from a file into a DataFrame as it's a straightforward task without requiring additional complexities."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
-                    },
-                    "nextSteps": [
-                        "step-2",
-                        "step-3"
-                    ],
-                    "stepId": "step-1"
-                },
-                {
-                    "stepName": "Create Line Chart",
-                    "stepLabel": "Line Chart",
-                    "stepDescription": "Generate a line chart to show trends over time.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Executing parallel processes can address specific aspects of visualization such as data accuracy verification and style adjustments, enhancing the final output."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent A: Specializes in creating line and bar charts. Analytical and detail-oriented, focused on trend analysis and comparison.",
-                                "goal": "Generate executable Python code for line charts and bar charts, focusing on trend analysis and comparison based on the given partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        },
-                        "agentNum": 0
-                    },
-                    "nextSteps": [
-                        "step-4"
-                    ],
-                    "stepId": "step-2"
-                },
-                {
-                    "stepName": "Create Bar Chart",
-                    "stepLabel": "Bar Chart",
-                    "stepDescription": "Generate a bar chart to compare categorical data.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Using multiple agents to concurrently process different data aspects in parallel ensures robustness and quick results when creating a bar chart."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        },
-                        "agentNum": 0
-                    },
-                    "nextSteps": [
-                        "step-4"
-                    ],
-                    "stepId": "step-3"
-                },
-                {
-                    "stepName": "Display Charts",
-                    "stepLabel": "Display",
-                    "stepDescription": "Display both charts side by side for comprehensive analysis.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "The redundant pattern allows for the simultaneous creation and display of both a line chart and a bar chart, enabling parallel processing for efficient visualization."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        },
-                        "agentNum": 0
-                    },
-                    "nextSteps": [],
-                    "stepId": "step-4"
-                }
-            ],
-            "patternId": "2-1"
-        },
-        {
-            "taskFlowId": "2-2",
-            "taskFlowName": "Line and Bar Chart Visualization",
-            "taskFlowDescription": "This flow creates a line chart and a bar chart to visualize trends and comparisons in the dataset.",
-            "patternsId": 3,
-            "taskFlowStart": {
-                "stepId": "step-0",
-                "nextSteps": [
-                    "step-1"
-                ],
-                "input": {
-                    "text": "Dataset with time series and categorical data",
-                    "file": "data.csv"
-                }
-            },
-            "taskFlowSteps": [
-                {
-                    "stepName": "Load Data",
-                    "stepLabel": "Loading",
-                    "stepDescription": "Load the dataset from a CSV file into a DataFrame.",
-                    "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "The Single Agent pattern efficiently handles loading data from a file into a DataFrame as it's a straightforward task without requiring additional complexities."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
-                    },
-                    "nextSteps": [
-                        "step-2",
-                        "step-3"
-                    ],
-                    "stepId": "step-1"
-                },
-                {
-                    "stepName": "Create Line Chart",
-                    "stepLabel": "Line Chart",
-                    "stepDescription": "Generate a line chart to show trends over time.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Executing parallel processes can address specific aspects of visualization such as data accuracy verification and style adjustments, enhancing the final output."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent A: Specializes in creating line and bar charts. Analytical and detail-oriented, focused on trend analysis and comparison.",
-                                "goal": "Generate executable Python code for line charts and bar charts, focusing on trend analysis and comparison based on the given partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent C: Adept at crafting heat maps and other advanced visualizations. Innovative and precise, targeting density and categorical data insights.",
-                                "goal": "Develop Python scripts for heat maps and any other relevant advanced visualizations to highlight density and categorical insights from the partial dataset."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        }
-                    },
-                    "nextSteps": [
-                        "step-4"
-                    ],
-                    "stepId": "step-2"
-                },
-                {
-                    "stepName": "Create Bar Chart",
-                    "stepLabel": "Bar Chart",
-                    "stepDescription": "Generate a bar chart to compare categorical data.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Using multiple agents to concurrently process different data aspects in parallel ensures robustness and quick results when creating a bar chart."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent A: Specializes in creating line and bar charts. Analytical and detail-oriented, focused on trend analysis and comparison.",
-                                "goal": "Generate executable Python code for line charts and bar charts, focusing on trend analysis and comparison based on the given partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent C: Adept at crafting heat maps and other advanced visualizations. Innovative and precise, targeting density and categorical data insights.",
-                                "goal": "Develop Python scripts for heat maps and any other relevant advanced visualizations to highlight density and categorical insights from the partial dataset."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        }
-                    },
-                    "nextSteps": [
-                        "step-4"
-                    ],
-                    "stepId": "step-3"
-                },
-                {
-                    "stepName": "Display Charts",
-                    "stepLabel": "Display",
-                    "stepDescription": "Display both charts side by side for comprehensive analysis.",
-                    "pattern": {
-                        "name": "Supervision",
-                        "recommendationReason": "The supervision pattern coordinates the display tasks by managing diverse visualization requirements, ensuring that the presentation of charts meets comprehensive analysis standards."
-                    },
-                    "config": {
-                        "type": "none",
-                        "nodes": [],
-                        "edges": []
-                    },
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 3,
-                        "workers": [
-                            {
-                                "persona": "A meticulous chart engineer focused on crafting user-friendly and informative interactive charts.",
-                                "goal": "To develop and implement interactive chart components that allow users to drill down into specific data points for in-depth exploration.",
-                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "A visualization specialist dedicated to enhancing the aesthetic and functional aspects of the plot.",
-                                "goal": "To enhance the plot's visual appeal, ensuring it is both engaging and intuitive, while maintaining data accuracy and clarity.",
-                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
-                            }
-                        ],
-                        "supervisor": {
-                            "persona": "A strategic supervisor ensuring all visualization components are aligned and functional for creating an interactive data exploration experience.",
-                            "goal": "To coordinate worker efforts and ensure all interactive and aesthetic elements are integrated seamlessly into a cohesive user experience.",
-                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
-                        },
-                        "persona": "The guiding force overseeing visualization tasks, ensuring the creation of an effective interactive plot.",
-                        "goal": "To supervise and manage the creation of a dynamic, cohesive interactive plot for detailed data exploration by coordinating visualization workers."
-                    },
-                    "nextSteps": [],
-                    "stepId": "step-4"
-                }
-            ],
-            "patternId": "2-2"
-        },
-        {
             "taskFlowId": "4-1",
-            "taskFlowName": "Heat Map and Interactive Visualization",
-            "taskFlowDescription": "This flow creates a heat map and an interactive plot for enhanced data exploration.",
+            "taskFlowName": "Focused Genre Analysis",
+            "taskFlowDescription": "Analyze and visualize genre-specific insights to provide a targeted narrative.",
             "patternsId": 4,
             "taskFlowStart": {
                 "stepId": "step-0",
@@ -604,19 +512,19 @@
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with correlation data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Generate Heat Map",
-                    "stepLabel": "Heat Map",
-                    "stepDescription": "Create a heat map to visualize the correlation matrix of the dataset.",
+                    "stepName": "Genre Selection",
+                    "stepLabel": "Select Genre",
+                    "stepDescription": "Filter the dataset for a specific genre with complete data, setting the stage for focused analysis and visualization.",
                     "pattern": {
                         "name": "Single Agent",
-                        "recommendationReason": "Creating a heat map based on a correlation matrix is a straightforward task that requires focused computation without the need for collaboration or supervision."
+                        "recommendationReason": "The task involves straightforward filtering of a dataset to select a specific genre, suitable for a single agent to perform efficiently."
                     },
                     "nextSteps": [
                         "step-2"
@@ -624,19 +532,19 @@
                     "template": {
                         "confirm": false,
                         "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
                         "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
                     }
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Setup Interactive Plot",
-                    "stepLabel": "Interactive Plot",
-                    "stepDescription": "Use an interactive library to create a dynamic visualization for detailed exploration.",
+                    "stepName": "Revenue Distribution",
+                    "stepLabel": "Histogram Plot",
+                    "stepDescription": "Create a histogram to show the distribution of box office revenue within the selected genre, identifying revenue patterns and outliers.",
                     "pattern": {
                         "name": "Single Agent",
-                        "recommendationReason": "Creating an interactive plot using a specific library is a straightforward task that a single agent can efficiently handle due to its well-defined nature."
+                        "recommendationReason": "This task involves straightforward data transformation and visualization, which the Single Agent pattern can handle efficiently without additional complexity."
                     },
                     "nextSteps": [
                         "step-3"
@@ -644,27 +552,34 @@
                     "template": {
                         "confirm": false,
                         "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
+                        "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                        "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
                         "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
                     }
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Display Interactive Visualization",
-                    "stepLabel": "Display Interactive",
-                    "stepDescription": "Render the interactive plot for user engagement and deeper insight.",
+                    "stepName": "Cohesive Insights",
+                    "stepLabel": "Cohesive Story",
+                    "stepDescription": "Integrate the histogram with descriptive text to highlight genre-specific trends, providing a tailored insight narrative for that genre.",
                     "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "The task of rendering an interactive plot is straightforward and well-defined, making it suitable for a Single Agent to handle efficiently without additional complexity."
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection allows iterative feedback, perfect for refining and ensuring the narrative accurately represents genre-specific trends."
                     },
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                            "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                            "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
                     }
                 }
             ],
@@ -672,8 +587,8 @@
         },
         {
             "taskFlowId": "4-2",
-            "taskFlowName": "Heat Map and Interactive Visualization",
-            "taskFlowDescription": "This flow creates a heat map and an interactive plot for enhanced data exploration.",
+            "taskFlowName": "Focused Genre Analysis",
+            "taskFlowDescription": "Analyze and visualize genre-specific insights to provide a targeted narrative.",
             "patternsId": 5,
             "taskFlowStart": {
                 "stepId": "step-0",
@@ -681,83 +596,113 @@
                     "step-1"
                 ],
                 "input": {
-                    "text": "Dataset with correlation data",
-                    "file": "data.csv"
+                    "text": "a dataset with movies data",
+                    "file": ""
                 }
             },
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Generate Heat Map",
-                    "stepLabel": "Heat Map",
-                    "stepDescription": "Create a heat map to visualize the correlation matrix of the dataset.",
+                    "stepName": "Genre Selection",
+                    "stepLabel": "Select Genre",
+                    "stepDescription": "Filter the dataset for a specific genre with complete data, setting the stage for focused analysis and visualization.",
                     "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "Since generating a visual representation like a heat map is a well-defined and systematic process, a single agent can efficiently handle this task alone."
+                        "name": "Reflection",
+                        "recommendationReason": "Implementing a refinement loop can help ensure the selected genre is most suitable for the subsequent analysis and visualization, enhancing the decision-making process."
                     },
                     "nextSteps": [
                         "step-2"
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                            "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                            "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
                     }
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Setup Interactive Plot",
-                    "stepLabel": "Interactive Plot",
-                    "stepDescription": "Use an interactive library to create a dynamic visualization for detailed exploration.",
+                    "stepName": "Revenue Distribution",
+                    "stepLabel": "Histogram Plot",
+                    "stepDescription": "Create a histogram to show the distribution of box office revenue within the selected genre, identifying revenue patterns and outliers.",
                     "pattern": {
-                        "name": "Supervision",
-                        "recommendationReason": "Implementing a dynamic visualization may require different visualization aspects to be coordinated, with a supervisor agent managing various visualization workers to ensure a cohesive outcome."
+                        "name": "Redundant",
+                        "recommendationReason": "Implementing multiple agents simultaneously to analyze specific revenue aspects could lead to capturing diverse insights on key features like main revenue patterns and outliers."
                     },
                     "nextSteps": [
                         "step-3"
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 3,
-                        "workers": [
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
                             {
-                                "persona": "A meticulous chart engineer focused on crafting user-friendly and informative interactive charts.",
-                                "goal": "To develop and implement interactive chart components that allow users to drill down into specific data points for in-depth exploration.",
-                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                                "persona": "You are an analytical statistician with a keen eye for identifying anomalies in data. Your methodical approach ensures no abnormal revenue trend goes unnoticed.",
+                                "goal": "The goal: Detect outliers in the box office revenue data for the selected genre by identifying significant deviations from the norm.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
                             },
                             {
-                                "persona": "A visualization specialist dedicated to enhancing the aesthetic and functional aspects of the plot.",
-                                "goal": "To enhance the plot's visual appeal, ensuring it is both engaging and intuitive, while maintaining data accuracy and clarity.",
-                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                                "persona": "You are a data visualization expert who emphasizes clarity and storytelling through graphics. Your designs make data easy to understand at a glance.",
+                                "goal": "The goal: Create a clear and compelling histogram that displays the distribution of box office revenue, highlighting key patterns and deviations in the data.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a genre specialist with a focus on understanding trends within specific cinematic categories. Your insights help to contextualize revenue patterns against genre norms.",
+                                "goal": "The goal: Provide a detailed analysis of revenue trends in the selected genre, identifying how they compare to typical genre performance and highlighting any significant patterns."
                             }
                         ],
-                        "supervisor": {
-                            "persona": "A strategic supervisor ensuring all visualization components are aligned and functional for creating an interactive data exploration experience.",
-                            "goal": "To coordinate worker efforts and ensure all interactive and aesthetic elements are integrated seamlessly into a cohesive user experience.",
-                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
-                        },
-                        "persona": "The guiding force overseeing visualization tasks, ensuring the creation of an effective interactive plot.",
-                        "goal": "To supervise and manage the creation of a dynamic, cohesive interactive plot for detailed data exploration by coordinating visualization workers."
+                        "aggregation": {
+                            "persona": "You are a lead data scientist responsible for synthesizing insights from multiple data inputs and producing a comprehensive overview of revenue patterns.",
+                            "goal": "The goal: Aggregate the findings from various analyses to present a holistic view of box office revenue distribution, spotlighting both patterns and outliers effectively.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
                     }
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Display Interactive Visualization",
-                    "stepLabel": "Display Interactive",
-                    "stepDescription": "Render the interactive plot for user engagement and deeper insight.",
+                    "stepName": "Cohesive Insights",
+                    "stepLabel": "Cohesive Story",
+                    "stepDescription": "Integrate the histogram with descriptive text to highlight genre-specific trends, providing a tailored insight narrative for that genre.",
                     "pattern": {
-                        "name": "Single Agent",
-                        "recommendationReason": "The task of rendering an interactive plot is straightforward and well-defined, making it suitable for a Single Agent to handle efficiently without additional complexity."
+                        "name": "Discussion",
+                        "recommendationReason": "Discussion fosters creativity and diverse perspectives, helping to construct a cohesive story by integrating different insights into the visual and textual elements."
                     },
                     "nextSteps": [],
                     "template": {
                         "confirm": false,
-                        "maxRound": 1,
-                        "persona": "Data Visualization Specialist",
-                        "goal": "Utilize a specialized interactive library such as Plotly or Bokeh to create a dynamic plot that allows users to explore the data in greater detail. This includes implementing features such as zoom, pan, hover tooltips, and filtering capabilities to enhance user interaction and insight discovery.",
-                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are an Analytical Statistician who focuses on interpreting data through a logical and numbers-driven approach.",
+                                "goal": "The goal: Analyze the distribution plot to identify trends and anomalies, quantify their significance, and provide a data-driven interpretation of the visualized information.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Creative Storyteller who emphasizes weaving data insights into a compelling narrative.",
+                                "goal": "The goal: Craft a persuasive and engaging story around the observed trends and anomalies in the distribution plot, making it accessible and relatable to the audience.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Strategic Consultant who looks for practical applications and business insights from data.",
+                                "goal": "The goal: Highlight the key takeaways from the distribution plot's trends and anomalies, and suggest actionable insights or strategic decisions based on the analysis.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Concise Synthesizer who focuses on condensing information into a clear and succinct format.",
+                            "goal": "The goal: Provide a brief, cohesive summary that combines the analytical findings, storytelling elements, and strategic insights into a final concluding narrative.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
                     }
                 }
             ],
@@ -765,125 +710,540 @@
         }
     ,
     
-        {
-            "taskFlowId": "1-1",
-            "taskFlowName": "Baseline",
-            "taskFlowDescription": "This is a baseline flow",
-            "patternsId": 1,
-            "taskFlowStart": {
-                "stepId": "step-0",
-                "nextSteps": [
-                    "step-1"
-                ],
-                "input": {
-                    "text": "",
-                    "file": ""
-                }
-            },
-            "taskFlowSteps": [
-                {
-                    "stepId": "step-1",
-                    "stepName": "Baseline flow",
-                    "stepLabel": "Baseline flow",
-                    "stepDescription": "Generate executable, diverse, insightful and interactive visualization Python Codes for the given partial dataset. The expected output should be executable Python codes, utilizing appropriate diverse chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final Python codes should be runnable, informative and engaging.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Using the Redundant pattern allows parallel creation of various visualizations, each focusing on a different aspect or chart type, ensuring comprehensive and diverse graphical representation from the partial dataset."
-                    },
-                    "nextSteps": [],
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent A: Specializes in creating line and bar charts. Analytical and detail-oriented, focused on trend analysis and comparison.",
-                                "goal": "Generate executable Python code for line charts and bar charts, focusing on trend analysis and comparison based on the given partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent C: Adept at crafting heat maps and other advanced visualizations. Innovative and precise, targeting density and categorical data insights.",
-                                "goal": "Develop Python scripts for heat maps and any other relevant advanced visualizations to highlight density and categorical insights from the partial dataset."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        }
-                    }
-                }
+    {
+        "taskFlowId": "5-1",
+        "taskFlowName": "Overall Distribution Exploration",
+        "taskFlowDescription": "Explore general distribution and attribute correlations to construct a holistic data story.",
+        "patternsId": 5,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
             ],
-            "patternId": "1-1"
+            "input": {
+                "text": "a dataset with movies data",
+                "file": ""
+            }
         },
-        {
-            "taskFlowId": "1-2",
-            "taskFlowName": "Baseline",
-            "taskFlowDescription": "This is a baseline flow",
-            "patternsId": 2,
-            "taskFlowStart": {
-                "stepId": "step-0",
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Distribution Overview",
+                "stepLabel": "Distribution Plot",
+                "stepDescription": "Create a distribution plot for a key attribute like box office revenue, providing a general overview of data spread and identifying central trends and anomalies.",
+                "pattern": {
+                    "name": "Single Agent",
+                    "recommendationReason": "The task of creating a distribution plot for a single attribute is straightforward and well-defined, making the Single Agent pattern ideal for efficiently completing the task without unnecessary complexity."
+                },
                 "nextSteps": [
-                    "step-1"
+                    "step-2"
                 ],
-                "input": {
-                    "text": "",
-                    "file": ""
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "persona": "You are a data analyst specializing in visualizing financial data, focusing on creating clear and insightful distribution plots to help understand the spread and central tendencies of monetary metrics such as box office revenue.",
+                    "goal": "The goal: Generate a distribution plot for the box office revenue dataset to provide a visual summary that highlights overall distribution, trends, and any anomalies, using appropriate plotting tools and techniques.",
+                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
                 }
             },
-            "taskFlowSteps": [
-                {
-                    "stepId": "step-1",
-                    "stepName": "Baseline flow",
-                    "stepLabel": "Baseline flow",
-                    "stepDescription": "Generate executable, diverse, insightful and interactive visualization Python Codes for the given partial dataset. The expected output should be executable Python codes, utilizing appropriate diverse chart types such as line charts, bar charts, scatter plots, histograms, heat maps, or other relevant graphical representations. The final Python codes should be runnable, informative and engaging.",
-                    "pattern": {
-                        "name": "Redundant",
-                        "recommendationReason": "Using the Redundant pattern allows parallel creation of various visualizations, each focusing on a different aspect or chart type, ensuring comprehensive and diverse graphical representation from the partial dataset."
+            {
+                "stepId": "step-2",
+                "stepName": "Conclusive Narrative",
+                "stepLabel": "Conclusive Insight",
+                "stepDescription": "Combine the distribution plot with a summary of observed trends and anomalies, providing a concluding narrative that offers insights into data patterns and key takeaways.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection pattern is suitable for iteratively refining the narrative based on performance reviews, ensuring that the final narrative accurately highlights key insights and patterns."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "You are an analytical reviewer with an eye for detail and a knack for identifying key data trends and patterns, focused on ensuring the clarity and effectiveness of the narrative.",
+                        "goal": "The goal: To evaluate the combined distribution plot and narrative, identify any gaps, and suggest necessary refinements to highlight significant insights and anomalies in the data.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
                     },
-                    "nextSteps": [],
-                    "template": {
-                        "confirm": false,
-                        "maxRound": 1,
-                        "withAggregation": true,
-                        "agents": [
-                            {
-                                "persona": "Agent A: Specializes in creating line and bar charts. Analytical and detail-oriented, focused on trend analysis and comparison.",
-                                "goal": "Generate executable Python code for line charts and bar charts, focusing on trend analysis and comparison based on the given partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent B: Expert in scatter plots and histograms. Creative and insightful, aimed at uncovering relationships and distributions.",
-                                "goal": "Produce Python code for scatter plots and histograms to explore relationships and data distributions within the partial dataset.",
-                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
-                            },
-                            {
-                                "persona": "Agent C: Adept at crafting heat maps and other advanced visualizations. Innovative and precise, targeting density and categorical data insights.",
-                                "goal": "Develop Python scripts for heat maps and any other relevant advanced visualizations to highlight density and categorical insights from the partial dataset."
-                            },
-                            {
-                                "persona": "Quality Checker - Reviews the final bar chart to ensure it meets the desired standards in terms of data representation, accuracy, and visual appeal.",
-                                "goal": "Conduct a final quality check to confirm that the bar chart is accurate, concise, and effectively conveys the comparison of categorical data."
-                            }
-                        ],
-                        "aggregation": {
-                            "persona": "Aggregation Agent: Synthesizes and optimizes visualization outputs into cohesive Python scripts. Systematic and integrative, ensures uniform style and adds interactivity.",
-                            "goal": "Combine the diverse Python visualization codes created by Agents A, B, and C into a single, executable script that maintains consistency in style and enhances user interactivity and engagement.",
-                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
-                        }
+                    "optimizer": {
+                        "persona": "You are a creative data storyteller, adept at weaving intricate data patterns into compelling narratives that captivate the audience and enhance understanding.",
+                        "goal": "The goal: To craft a cohesive narrative that incorporates observed trends and anomalies from the distribution plot, providing insightful conclusions and actionable takeaways.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
                     }
                 }
+            }
+        ],
+        "patternId": "5-1"
+    },
+    {
+        "taskFlowId": "5-2",
+        "taskFlowName": "Overall Distribution Exploration",
+        "taskFlowDescription": "Explore general distribution and attribute correlations to construct a holistic data story.",
+        "patternsId": 6,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
             ],
-            "patternId": "1-2"
-        }
-    ]
+            "input": {
+                "text": "a dataset with movies data",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Distribution Overview",
+                "stepLabel": "Distribution Plot",
+                "stepDescription": "Create a distribution plot for a key attribute like box office revenue, providing a general overview of data spread and identifying central trends and anomalies.",
+                "pattern": {
+                    "name": "Parallel",
+                    "recommendationReason": "Although a redundant pattern isn't explicitly listed, leveraging the idea of parallel execution can help by allowing multiple plots of different attributes simultaneously, if applicable, to compare distributions instantly."
+                },
+                "nextSteps": [
+                    "step-2"
+                ],
+                "template": {
+                    "persona": "You are a data visualization specialist with a keen eye for detail and a knack for uncovering hidden insights within datasets. You employ techniques that ensure clarity and accuracy, and you are skilled at identifying trends and anomalies within data distributions.",
+                    "goal": "The goal: To create a distribution plot for box office revenue that clearly illustrates the data spread, highlights central trends, and uncovers any anomalies present. This will involve using parallel execution to simultaneously generate multiple plots of different attributes, allowing for instant comparison of distributions."
+                }
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Conclusive Narrative",
+                "stepLabel": "Conclusive Insight",
+                "stepDescription": "Combine the distribution plot with a summary of observed trends and anomalies, providing a concluding narrative that offers insights into data patterns and key takeaways.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion pattern fosters collaboration among diverse agents, useful for brainstorming and debating how best to illustrate and communicate the observed data insights within the narrative."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "You are an Analytical Statistician who focuses on interpreting data through a logical and numbers-driven approach.",
+                            "goal": "The goal: Analyze the distribution plot to identify trends and anomalies, quantify their significance, and provide a data-driven interpretation of the visualized information.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a Creative Storyteller who emphasizes weaving data insights into a compelling narrative.",
+                            "goal": "The goal: Craft a persuasive and engaging story around the observed trends and anomalies in the distribution plot, making it accessible and relatable to the audience.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a Strategic Consultant who looks for practical applications and business insights from data.",
+                            "goal": "The goal: Highlight the key takeaways from the distribution plot's trends and anomalies, and suggest actionable insights or strategic decisions based on the analysis.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        }
+                    ],
+                    "summary": {
+                        "persona": "You are a Concise Synthesizer who focuses on condensing information into a clear and succinct format.",
+                        "goal": "The goal: Provide a brief, cohesive summary that combines the analytical findings, storytelling elements, and strategic insights into a final concluding narrative.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            }
+        ],
+        "patternId": "5-2"
+    }
+,
+    {
+        "taskFlowId": "2-1",
+        "taskFlowName": "Exploratory Data Visualizations",
+        "taskFlowDescription": "Create exploratory visualizations to provide an initial overview and uncover patterns within the dataset.",
+        "patternsId": 2,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "a dataset with movies data",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Load and Preprocess Data",
+                "stepLabel": "Data Preprocessing",
+                "stepDescription": "Load the dataset and handle missing values by filling them with the mean or removing incomplete rows, ensuring the data is ready for visualization.",
+                "pattern": {
+                    "name": "Single Agent",
+                    "recommendationReason": "The task of loading and preparing the data by handling missing values is straightforward and can be efficiently executed by a single agent without the need for additional complexity."
+                },
+                "nextSteps": [
+                    "step-2",
+                    "step-3"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "persona": "You are a data visualization specialist with a keen eye for understanding complex datasets through visual representation. Your expertise lies in identifying hidden patterns and correlations between numerical attributes, providing clear insights into relationships such as between budget and revenue.",
+                    "goal": "The goal: To generate precise and insightful scatter plots that effectively show the correlation between budget and revenue, thereby enabling stakeholders to understand potential associations and make informed decisions based on the visual data analysis.",
+                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                }
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Create Basic Visuals",
+                "stepLabel": "Basic Visuals",
+                "stepDescription": "Generate initial visualizations such as histograms and bar charts to examine the distribution of key attributes like ratings and genres.",
+                "pattern": {
+                    "name": "Single Agent",
+                    "recommendationReason": "A single agent can efficiently produce straightforward, basic visualizations such as histograms and bar charts without the need for complexity or multiple inputs."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "persona": "You are a data visualization specialist with a keen eye for understanding complex datasets through visual representation. Your expertise lies in identifying hidden patterns and correlations between numerical attributes, providing clear insights into relationships such as between budget and revenue.",
+                    "goal": "The goal: To generate precise and insightful scatter plots that effectively show the correlation between budget and revenue, thereby enabling stakeholders to understand potential associations and make informed decisions based on the visual data analysis.",
+                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                }
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Explore Correlations",
+                "stepLabel": "Correlation Analysis",
+                "stepDescription": "Create scatter plots to investigate relationships between numerical attributes such as budget and revenue.",
+                "pattern": {
+                    "name": "Single Agent",
+                    "recommendationReason": "Creating scatter plots for correlation analysis is a straightforward task that can be efficiently executed by a single agent handling plot generation without additional complexity."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "persona": "You are a data visualization specialist with a keen eye for understanding complex datasets through visual representation. Your expertise lies in identifying hidden patterns and correlations between numerical attributes, providing clear insights into relationships such as between budget and revenue.",
+                    "goal": "The goal: To generate precise and insightful scatter plots that effectively show the correlation between budget and revenue, thereby enabling stakeholders to understand potential associations and make informed decisions based on the visual data analysis.",
+                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                }
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Integrate Insights",
+                "stepLabel": "Insight Integration",
+                "stepDescription": "Combine visualizations and text to narrate initial findings, highlighting interesting patterns, trends, and potential areas for further analysis.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion pattern encourages collaboration and diverse perspectives, fostering creativity in combining visualizations and text for insightful narrative development."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "You are a data visualization expert, known for your keen eye for patterns and trends. Your style is analytical and detail-oriented, always seeking to uncover the story behind the numbers.",
+                            "goal": "The goal: To create compelling visualizations that highlight intriguing patterns and trends in the data, making the initial findings easily understandable and engaging for the audience.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a narrative storyteller with a knack for weaving data into compelling stories. Your style is creative and articulate, always aiming to engage and educate the audience.",
+                            "goal": "The goal: To develop an insightful narrative that combines visualizations with explanatory text, effectively communicating the initial findings and suggesting potential areas for deeper analysis.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a collaborative facilitator, skilled at bringing together various perspectives and inputs to enhance the analysis. Your style is inclusive and open-minded, fostering creativity and innovation.",
+                            "goal": "The goal: To coordinate discussions and gather diverse perspectives, encouraging creative integration of text and visualizations to provide a comprehensive view of the initial findings.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        }
+                    ],
+                    "summary": {
+                        "persona": "You are a synthesis expert, skilled at condensing complex information into clear, actionable insights. Your style is concise and strategic, focusing on delivering precise conclusions.",
+                        "goal": "The goal: To provide a concise summary that encapsulates the key patterns and trends identified in the initial findings, highlighting interesting areas for further exploration.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            }
+        ],
+        "patternId": "2-1"
+    },
+    {
+        "taskFlowId": "2-2",
+        "taskFlowName": "Exploratory Data Visualizations",
+        "taskFlowDescription": "Create exploratory visualizations to provide an initial overview and uncover patterns within the dataset.",
+        "patternsId": 3,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "a dataset with movies data",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Load and Preprocess Data",
+                "stepLabel": "Data Preprocessing",
+                "stepDescription": "Load the dataset and handle missing values by filling them with the mean or removing incomplete rows, ensuring the data is ready for visualization.",
+                "pattern": {
+                    "name": "Supervision",
+                    "recommendationReason": "The Supervision pattern can effectively oversee and coordinate specialized agents for different preprocessing tasks, such as filling missing values or removing rows, ensuring comprehensive data preparation."
+                },
+                "nextSteps": [
+                    "step-2",
+                    "step-3"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "workers": [
+                        {
+                            "persona": "You are a meticulous data analyst focusing on numerical accuracy and computational precision.",
+                            "goal": "The goal: To calculate and fill missing numerical values with the mean, ensuring data completeness without altering overall statistical trends.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are a quality-focused data cleaner with a knack for identifying incomplete records that could skew analysis.",
+                            "goal": "The goal: To identify and remove rows with excessive missing values, ensuring the dataset remains robust and reliable for visualization.",
+                            "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are the Regression Imputer, a mathematically inclined analyst with a focus on predictive accuracy.",
+                            "goal": "The goal: Utilize regression techniques to predict and fill in missing values based on other available data, enhancing the dataset's overall integrity."
+                        }
+                    ],
+                    "supervisor": {
+                        "persona": "You are the vigilant data supervisor ensuring all preprocessing tasks align with the overall data preparation strategy.",
+                        "goal": "The goal: To oversee the preprocessing workflow, ensuring missing values are addressed appropriately and the dataset is primed for visualization.",
+                        "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                    },
+                    "persona": "You are the overseer of a data preprocessing team, ensuring data integrity and readiness for visualization.",
+                    "goal": "The goal: To coordinate specialized agents to handle missing data by filling with the mean or removing incomplete rows, ensuring a clean dataset for visualization."
+                }
+            },
+            {
+                "stepId": "step-2",
+                "stepName": "Create Basic Visuals",
+                "stepLabel": "Basic Visuals",
+                "stepDescription": "Generate initial visualizations such as histograms and bar charts to examine the distribution of key attributes like ratings and genres.",
+                "pattern": {
+                    "name": "Redundant",
+                    "recommendationReason": "Using multiple agents to simultaneously create various basic visualizations can ensure comprehensive coverage and faster generation of insightful graphics."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "withAggregation": true,
+                    "agents": [
+                        {
+                            "persona": "You are an analytical data scientist focusing on financial aspects of movies, with a keen interest in the patterns between budget allocations and revenue outcomes.",
+                            "goal": "The goal: Generate a scatter plot that highlights the correlation between movie budgets and revenues, using a subset of data filtered by high-budget films.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are a creative data analyst with a passion for visual storytelling, aiming to uncover trends in data that reveal unexpected insights.",
+                            "goal": "The goal: Craft a scatter plot that explores the relationship between budget and revenue, focusing on independent films and smaller budget productions.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are a detail-oriented statistician, dedicated to uncovering subtle correlations and variances within movie financial data, providing precision in analysis.",
+                            "goal": "The goal: Develop a scatter plot that investigates the budget-revenue relationship, emphasizing films with moderate budgets to detect any non-linear trends."
+                        },
+                        {
+                            "persona": "You are a research-focused data enthusiast, driven by uncovering comprehensive insights into the financial success of films across genres.",
+                            "goal": "The goal: Create a scatter plot that examines budget and revenue across different genres, identifying patterns that might be genre-specific."
+                        }
+                    ],
+                    "aggregation": {
+                        "persona": "You are an integrative analyst, adept at synthesizing diverse data insights into a cohesive understanding of financial trends in the film industry.",
+                        "goal": "The goal: Aggregate the findings from various scatter plots to present a comprehensive view of the budget-revenue relationship, highlighting key trends and anomalies across different data subsets.",
+                        "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                    }
+                }
+            },
+            {
+                "stepId": "step-3",
+                "stepName": "Explore Correlations",
+                "stepLabel": "Correlation Analysis",
+                "stepDescription": "Create scatter plots to investigate relationships between numerical attributes such as budget and revenue.",
+                "pattern": {
+                    "name": "Redundant",
+                    "recommendationReason": "Employing multiple agents to simultaneously generate different scatter plots with different data subsets can provide diverse insights into correlations, which can be aggregated for a comprehensive view."
+                },
+                "nextSteps": [
+                    "step-4"
+                ],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 1,
+                    "withAggregation": true,
+                    "agents": [
+                        {
+                            "persona": "You are an analytical data scientist focusing on financial aspects of movies, with a keen interest in the patterns between budget allocations and revenue outcomes.",
+                            "goal": "The goal: Generate a scatter plot that highlights the correlation between movie budgets and revenues, using a subset of data filtered by high-budget films.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are a creative data analyst with a passion for visual storytelling, aiming to uncover trends in data that reveal unexpected insights.",
+                            "goal": "The goal: Craft a scatter plot that explores the relationship between budget and revenue, focusing on independent films and smaller budget productions.",
+                            "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                        },
+                        {
+                            "persona": "You are a detail-oriented statistician, dedicated to uncovering subtle correlations and variances within movie financial data, providing precision in analysis.",
+                            "goal": "The goal: Develop a scatter plot that investigates the budget-revenue relationship, emphasizing films with moderate budgets to detect any non-linear trends."
+                        },
+                        {
+                            "persona": "You are a research-focused data enthusiast, driven by uncovering comprehensive insights into the financial success of films across genres.",
+                            "goal": "The goal: Create a scatter plot that examines budget and revenue across different genres, identifying patterns that might be genre-specific."
+                        }
+                    ],
+                    "aggregation": {
+                        "persona": "You are an integrative analyst, adept at synthesizing diverse data insights into a cohesive understanding of financial trends in the film industry.",
+                        "goal": "The goal: Aggregate the findings from various scatter plots to present a comprehensive view of the budget-revenue relationship, highlighting key trends and anomalies across different data subsets.",
+                        "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                    }
+                }
+            },
+            {
+                "stepId": "step-4",
+                "stepName": "Integrate Insights",
+                "stepLabel": "Insight Integration",
+                "stepDescription": "Combine visualizations and text to narrate initial findings, highlighting interesting patterns, trends, and potential areas for further analysis.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "Reflection allows iterative refinement of the visualizations and narratives by incorporating feedback, enhancing the clarity and impact of the insights presented."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "You are a detail-oriented data analyst focused on unraveling intricate data stories. You're keen on identifying patterns and trends that are not immediately obvious.",
+                        "goal": "The goal: Carefully assess the visualizations and accompanying narrative to pinpoint any unclear or misleading elements, and propose adjustments to enhance understanding and impact.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "You are a creative data visualization specialist who thrives on transforming complex data into easily digestible formats. Your approach is innovative, emphasizing both clarity and aesthetic appeal.",
+                        "goal": "The goal: Refine the visualizations and narratives based on feedback, ensuring they are both informative and visually engaging, while also paving the way for deeper analysis.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            }
+        ],
+        "patternId": "2-2"
+    }
+,
+
+    {
+        "taskFlowId": "1-1",
+        "taskFlowName": "Baseline",
+        "taskFlowDescription": "This is a baseline flow",
+        "patternsId": 1,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Baseline flow",
+                "stepLabel": "Baseline flow",
+                "stepDescription": "Craft a set of taskflows that generate fully executable, diverse, and interactive Python visualizations to tell a compelling data story. The input dataset may contain missing values and multiple attributes, allowing flexibility in selecting and emphasizing specific columns to create engaging narratives. Key Requirements: 1. Visualization Variety: Include at least four and no more than six distinct chart types (e.g., line charts, bar charts, scatter plots, histograms, heat maps, distribution plots, area charts, circular chats, interaction plots, customized plots, etc). 2. Attribute Focus: Deliberately choose and combine attributes (including handling missing data) to highlight unique angles in the narrative.  3. Narrative Integration: Accompany each visualization with clear, insightful text explaining the visual output, its context, and key insights. 4. Cohesive Story Flow: Ensure visual elements and their accompanying text seamlessly connect to form a unified, engaging storyline. 5. Fully Executable Output: Provide structurally sound Python code that can run as-is, delivering an interactive experience and revealing meaningful insights from the dataset. These taskflows should culminate in a polished storytelling experience that leverages both visual and textual components, with at least four visualization plots to convey the hidden patterns and takeaways within the partial dataset.",
+                "pattern": {
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection pattern suits this step as it involves iterative feedback to refine the narrative and visualizations, ensuring they are compelling and insightful."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "evaluator": {
+                        "persona": "You are a Data Storyteller, skilled in evaluating the clarity, coherence, and narrative strength of visual data presentations, ensuring each visualization tells a compelling story beyond mere numbers.",
+                        "goal": "The goal: Critically evaluate each visualization and its accompanying narrative, providing feedback on their effectiveness in conveying key insights and how well they integrate into the overall story.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "You are a Visualization Architect, focused on crafting diverse and interactive Python visualizations that intelligently handle missing data to highlight unique data attributes and insights.",
+                        "goal": "The goal: Design and execute a set of fully executable Python taskflows that generate at least four distinct chart types, creating a cohesive and engaging data story with clear explanatory text for each visualization.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
+                }
+            }
+        ],
+        "patternId": "1-1"
+    },
+    {
+        "taskFlowId": "1-2",
+        "taskFlowName": "Baseline",
+        "taskFlowDescription": "This is a baseline flow",
+        "patternsId": 2,
+        "taskFlowStart": {
+            "stepId": "step-0",
+            "nextSteps": [
+                "step-1"
+            ],
+            "input": {
+                "text": "",
+                "file": ""
+            }
+        },
+        "taskFlowSteps": [
+            {
+                "stepId": "step-1",
+                "stepName": "Baseline flow",
+                "stepLabel": "Baseline flow",
+                "stepDescription": "Craft a set of taskflows that generate fully executable, diverse, and interactive Python visualizations to tell a compelling data story. The input dataset may contain missing values and multiple attributes, allowing flexibility in selecting and emphasizing specific columns to create engaging narratives. Key Requirements: 1. Visualization Variety: Include at least four and no more than six distinct chart types (e.g., line charts, bar charts, scatter plots, histograms, heat maps, distribution plots, area charts, circular chats, interaction plots, customized plots, etc). 2. Attribute Focus: Deliberately choose and combine attributes (including handling missing data) to highlight unique angles in the narrative.  3. Narrative Integration: Accompany each visualization with clear, insightful text explaining the visual output, its context, and key insights. 4. Cohesive Story Flow: Ensure visual elements and their accompanying text seamlessly connect to form a unified, engaging storyline. 5. Fully Executable Output: Provide structurally sound Python code that can run as-is, delivering an interactive experience and revealing meaningful insights from the dataset. These taskflows should culminate in a polished storytelling experience that leverages both visual and textual components, with at least four visualization plots to convey the hidden patterns and takeaways within the partial dataset.",
+                "pattern": {
+                    "name": "Discussion",
+                    "recommendationReason": "The Discussion pattern is ideal for fostering creativity and brainstorming different visualizations and storytelling approaches to enhance the diversity and engagement of the taskflows."
+                },
+                "nextSteps": [],
+                "template": {
+                    "confirm": false,
+                    "maxRound": 3,
+                    "withSummary": true,
+                    "agents": [
+                        {
+                            "persona": "You are a data analyst with a creative flair, focused on transforming raw data into captivating visual stories.",
+                            "goal": "The goal: Design visualizations that showcase a variety of chart types to highlight different data aspects, ensuring each visualization type is distinctly different yet complimentary.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are an exploratory data scientist, adept at uncovering hidden stories within complex datasets.",
+                            "goal": "The goal: Carefully select and clean the dataset attributes, managing missing values to craft a narrative that highlights unique data angles.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a narrative specialist who excels at weaving visual insights into a coherent and engaging storyline.",
+                            "goal": "The goal: Develop accompanying text that seamlessly integrates with each visualization, providing context, clarity, and insights to form a unified data story.",
+                            "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                        },
+                        {
+                            "persona": "You are a Python coding expert passionate about developing interactive, executable visual tools.",
+                            "goal": "The goal: Write robust Python code ensuring each visualization is interactive and executable, offering a smooth user experience and insightful data interpretation."
+                        }
+                    ],
+                    "summary": {
+                        "persona": "You are a project coordinator overseeing the integration of diverse data visualizations into a compelling story.",
+                        "goal": "The goal: Ensure the final output is a cohesive storytelling experience, combining varied visualizations and insightful narratives to reveal impactful insights from the partial dataset.",
+                        "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                    }
+                }
+            }
+        ],
+        "patternId": "1-2"
+    }
+]
 }

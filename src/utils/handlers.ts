@@ -5,7 +5,7 @@ const handleSingleAgentWithWebSearchTool = (step) => {
     // const patternSystemPrompt = 'You are a helpful assistant with access to the web, you can search the web for information';
       // Emphasize final deliverable from stepDescription
     const taskPrompt = `The step description is: ${stepDescription}.
-    Please produce the final expected output aligned with your goal and the step description, and concatenate the previous deliverable with yours.
+    Please produce the final expected output aligned with your goal and the step description, and concatenate and merge with the all previous deliverables or contents with yours.
     If you need online information, use the web search tool. 
     Provide a direct and complete solution without asking for clarifications.`;
 
@@ -79,7 +79,7 @@ const handleReflection = (step) => {
                 optimizer.persona 
                 // + "\n" + optimizer.goal 
                 + "\n" + taskPrompt
-                + "\n Please produce the deliverable that follows the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                + "\n Please produce the deliverable that follows the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
             },
             {
                 type: "evaluator",
@@ -93,7 +93,7 @@ const handleReflection = (step) => {
                 systemPrompt: 
                 evaluator.persona 
                 // + " " + evaluator.goal 
-                + " " + taskPrompt
+                + "\n" + taskPrompt
                 + "\n Please analyze the Optimizer's response."
                 + " If it meets the step description's requirements, must output it as the whole deliverable explicitly without feedbacks but with 'GOOD' in the beginning."
                 + " Otherwise, provide precise feedbacks alongside with the Optimizer's output for it to improve."
@@ -156,7 +156,7 @@ const handleSupervision = (step) => {
           worker.persona 
         //   + "\n" + worker.goal 
           + "\n" + taskPrompt
-          + "\n Please produce the deliverable aligned with the step Description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+          + "\n Please produce the deliverable aligned with the step Description, your persona and goal, and concatenate and merge with the all previous deliverables and conversation contents with yours to keep completion."
         };
       });
 
@@ -237,8 +237,9 @@ const handleDiscussion = (step) => {
             systemPrompt: 
             agent.persona 
             // + "\n" + agent.goal 
-            + taskPrompt
-            + "\n Please build on the previous content and produce the deliverable that aligns with the step description, your persona and goal, and merge the previous deliverable with yours to keep coherence."
+            + "\n" + taskPrompt
+            + "\n Please produce the deliverable that aligns with the step description, your persona and goal. \
+            Concatenate and merge with the all previous deliverables with yours to keep completion. And call the next appropriate agent if needed."
 
         }
     })
@@ -278,7 +279,7 @@ const handleDiscussion = (step) => {
             systemPrompt: 
             summary.persona 
             // + "\n" + summary.goal 
-            + taskPrompt
+            + "\n" + taskPrompt
             + "\n Merge and summarize all agents' contributions and produce the final deliverable that aligns with the step description, your persona and goal, keep distinct points and diversity and avoid redundancies."
 
         })
@@ -424,8 +425,8 @@ const handleRedundant = (step) => {
             systemPrompt: 
                 agent.persona 
                 // + "\n" + agent.goal 
-                + taskPrompt
-                + "\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                + "\n" + taskPrompt
+                + "\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
         }
     })
     agentsNodes.push({
@@ -439,7 +440,7 @@ const handleRedundant = (step) => {
         aggregation.persona 
         // + "\n" + aggregation.goal 
         + "\n" + taskPrompt
-        + "\n Please merge all the previous deliverables and produce the final deliverable that meets the step description, your persona and goal, merge to resolve redundancies and keep diversity."
+        + "\n Please merge all the previous deliverables and produce the final deliverable that aligns with the step description, your persona and goal, merge to keep diversity and completion."
     })
 
     let agentsEdges = []

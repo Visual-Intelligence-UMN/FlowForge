@@ -128,13 +128,15 @@ function waitForStepStatus(
                 }
                 if (state[parallelStep+"-status"] !== "done") {
                     console.log("update status for parallel step as done as parallel step is pending", parallelStep);
+                    console.log("state[parallelStep]", state);
+                    console.log("state[currentStep] mark as done", currentStep);
                     return new Command({
                         // goto: response_goto,
                         update: {
                             messages: aiMessage,
                             sender: params.name,
                             [currentStep]: aiMessage,
-                            [currentStep+"-status"]: status,
+                            [currentStep+"-status"]: "done",
                         }
                     })
                 }
@@ -145,7 +147,7 @@ function waitForStepStatus(
         console.log("status in compileParallel", status);
         console.log("response_goto in compileParallel", response_goto);
         // console.log("discussion response", response);
-        // console.log("state", state);
+        console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {

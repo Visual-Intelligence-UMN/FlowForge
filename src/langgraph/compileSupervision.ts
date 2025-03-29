@@ -57,13 +57,22 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         //         throw error;
         //     }
         // }
-
         console.log("stepMsgs is empty, use previous steps", previousSteps);
         console.log("state", state);
-        for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
+        const aiMessage = {
+            role: "assistant",
+            content: "Previous Deliverables: \n",
+            name: ""
         }
-        return invokeMsg;
+        for (const step of previousSteps) {
+            console.log("state[step]", state[step]?.slice(-1));
+            console.log("state[step]?.slice(-1).content", state[step]?.slice(-1)[0].content);
+            aiMessage.content += "[" + step + " Deliverable] " + state[step]?.slice(-1)[0].content + "\n";
+            // invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
+            console.log("aiMessage", aiMessage);
+            aiMessage.name = state[step]?.slice(-1)[0].name;
+        }
+        return invokeMsg.concat(aiMessage);
     }
     return stepMsgs.slice(-1);
   }
@@ -92,7 +101,7 @@ const makeAgentNode = (params: {
             // "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             // ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe(
-                "The worker Agent to call or Next Step agent to call or end. " + params.workersDescriptions),
+                "Next worker Agent to call if CONTINUE or Next Step agent to call if NEXT or end."),
         });
 
         const workerResponseSchema = z.object({
@@ -222,9 +231,12 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
     // console.log("supervisorDestinations", supervisorDestinations);
     console.log("destinations in compileSupervision", supervisorDestinations);
-    const workersDescriptions = "Here are the worker agents that can be called to get the deliverable: " + agentsNodes.map(node => node.id + "(" + node.data.description + ")").join(";");
+    const workersDescriptions = "Please decide CONTINUE or NEXT, if CONTINUE then call one of the most appropriate agent: " + agentsNodes.map(node => node.id + " (" + node.data.systemPrompt.split("\n")[0] + ")").join("; ");
     const nextStepDestinations = supervisorDestinations.filter(d => !d?.includes(currentStepIdx));
-    const nextStepDestinationsDescription = "If the deliverable is good to pass to the next step, you should call one of the: " + nextStepDestinations.join(",");
+    const nextStepDestinationsDescription = " If NEXT, call one of the: " + nextStepDestinations.join(",");
+    
+    console.log("nextStepDestinationsDescription", nextStepDestinationsDescription);
+    console.log("workersDescriptions", workersDescriptions);
     const supervisorAgent = makeAgentNode({
         name: supervisorNode.id,
         destinations: supervisorDestinations as string[],

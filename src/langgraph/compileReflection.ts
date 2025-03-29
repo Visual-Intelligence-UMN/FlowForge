@@ -92,7 +92,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.7,
+            temperature: 0.6,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -201,8 +201,8 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, par
             if (nextOne === undefined) {
                 nextOne = "__end__";
             }
-            responsePrompt = "You should carefully review the deliverable of optimizer, if it is not aligned with the step description, you should call " + optimizerName 
-            + " with the optimizer's deliverable along with your feedbacks and suggestions, otherwise organize optimizer's deliverable align with step description with 'GOOD' without feedbacks and call for " + nextOne
+            responsePrompt = "You should review the deliverable, if it is not aligned with the step description, you should call " + optimizerName 
+            + " with the optimizer's deliverable along with your FEEDBACKS and suggestions, otherwise organize optimizer's deliverable align with step description with 'GOOD' without feedbacks and call for " + nextOne
         } else {
             responsePrompt = "You should always organize and concatenate your deliverable with the previous one, and call the Evaluator to get the feedbacks. "
         }
