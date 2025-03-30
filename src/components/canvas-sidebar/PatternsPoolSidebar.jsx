@@ -97,7 +97,7 @@ const PatternsMap1 = () => {
             <Typography
               variant="subtitle1"
               textAlign="center"
-              sx={{ fontSize: "10px" }}
+              sx={{ fontSize: "14px" }}
             >
               {pattern}
             </Typography>
