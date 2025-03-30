@@ -1,12 +1,15 @@
 import { Handle, Position } from "@xyflow/react";
 import { Box, Typography, TextField } from "@mui/material";
+import { useState } from "react";
 
-export const FlowStepNode = ({ data, isConnectable,id }) => {
+export const FlowStepNode = ({ data, isConnectable, id }) => {
   // console.log("id", id);
   if (!id) {
     console.log("FlowStepNode id", id);
   }
+  console.info(data)
   const { updateNodeField } = data;
+  const [showContent, setShowContent] = useState(false);
 
   const onChange = (fieldName) => (event) => {
     updateNodeField(id, fieldName, event.target.value);
@@ -15,18 +18,23 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
   return (
     <Box
       sx={{
-        padding: 2,
+        padding: 1,
         border: "1px solid #ddd",
-        borderRadius: 4,
+        borderRadius: 1,
         backgroundColor: "#fff",
-        minWidth: 230,
+        minWidth: 200,
         textAlign: "center",
         boxShadow: 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2
+        gap: 2,
+        // animate the height when showContent changes
+        height: showContent ? 220 : 30,
+        overflow: "scroll",
+        transition: "height 0.5s ease-in-out",
       }}
+      onClick={() => setShowContent(!showContent)}
     >
 
       <Handle
@@ -38,10 +46,10 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
       />
 
       <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
-        {id} - {data.stepLabel}
+        {data.stepLabel}
       </Typography>
-    
-      <TextField
+
+      {/* <TextField
         label="Step Name"
         variant="outlined"
         value={data.stepName || ""}
@@ -58,7 +66,7 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         }}
         className="nodrag nopan nowheel"
         fullWidth
-      />
+      /> */}
 
       {/* <TextField
         label="Step Label"
@@ -79,26 +87,28 @@ export const FlowStepNode = ({ data, isConnectable,id }) => {
         fullWidth
       /> */}
 
-      <TextField
-        label="Step Description"
-        variant="outlined"
-        multiline
-        minRows={3}         
-        maxRows={7}     
-        value={data.stepDescription || ""}
-        onChange={onChange("stepDescription")}
-        sx={{ marginBottom: 1 ,
-          backgroundColor: "#e3f2fd",
-          "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#90caf9",
-          },
-          "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#42a5f5",
-          }
-        }}
-        className="nodrag nopan nowheel"
-        fullWidth
-      />
+      {showContent && (
+        <TextField
+          label="Step Description"
+          variant="outlined"
+          multiline
+          minRows={3}
+          maxRows={6}
+          value={data.stepDescription || ""}
+          onChange={onChange("stepDescription")}
+          sx={{
+            marginBottom: 1,
+            backgroundColor: "#e3f2fd",
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#90caf9",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "#42a5f5",
+            }
+          }}
+          className="nodrag nopan nowheel"
+          fullWidth
+        />)}
 
       <Handle
         type="source"
