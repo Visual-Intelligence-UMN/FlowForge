@@ -15,12 +15,15 @@ const PatternsMap2 = () => {
       {Object.keys(iconMap2).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap2[pattern].icon || HomeIcon;
+        const { color, description } = iconMap2[pattern];
         return (
           <Grid container item xs="auto" key={index}
             bgcolor="white"
             sx={{
-              borderRadius: "10px",
-              border: "1px solid #e0e0e0",
+              borderRadius: "3px",
+              // border: `1px solid ${color ? color : '#e0e0e0'}`,
+              border: `1px solid #e0e0e0`,
+              backgroundColor: color ? color : "white",
               fontSize: "10px",
               cursor: "pointer",
               "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
@@ -44,7 +47,7 @@ const PatternsMap2 = () => {
             </Typography>
             <IconComponent />
             <p className='hover-text'>
-              {iconMap2[pattern].description}
+              {description}
             </p>
           </Grid>
         );
@@ -57,8 +60,7 @@ const PatternsMap1 = () => {
   return (
     <Box
       sx={{
-        mb: 1,
-        ml: 1,
+        p: 1,
         backgroundColor: "#f5f5f5",
         height: "100%",
       }}
@@ -66,19 +68,21 @@ const PatternsMap1 = () => {
       {Object.keys(iconMap1).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap1[pattern].icon || HomeIcon;
+        const { color, description } = iconMap1[pattern];
         return (
-          <Grid xs="auto" key={index}
+          <Grid container item xs="auto" key={index}
             bgcolor="white"
             sx={{
-              borderRadius: "10px",
+              borderRadius: "3px",
               border: "1px solid #e0e0e0",
               alignItems: "center",
               justifyContent: "center",
+              backgroundColor: color ? color : "white",
               display: "flex",
               flexDirection: "column",
               fontSize: "10px",
               cursor: "pointer",
-              "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
+              "&:hover": { boxShadow: 2, },
               '&:hover .hover-text': {
                 display: 'block',
               },
@@ -103,7 +107,7 @@ const PatternsMap1 = () => {
             </Typography>
             <IconComponent />
             <p className='hover-text'>
-              {iconMap1[pattern].description}
+              {description}
             </p>
             {/* </Tooltip> */}
           </Grid>
@@ -127,6 +131,7 @@ const PatternsMap3 = () => {
       {Object.keys(iconMap3).map((pattern, index) => {
         // If the iconType isn't found in iconMap, use HomeIcon (or any fallback)
         const IconComponent = iconMap3[pattern].icon || HomeIcon;
+        const { color, description } = iconMap3[pattern];
         return (
           <Grid container item xs="auto" key={index}>
 
@@ -142,6 +147,7 @@ const PatternsMap3 = () => {
                 flexDirection: "column",
                 fontSize: "10px",
                 cursor: "pointer",
+                backgroundColor: color ? color : "white",
                 "&:hover": { boxShadow: 2, border: "2px solid #e0e0e0", },
                 '&:hover .hover-text': {
                   display: 'block',
@@ -174,7 +180,7 @@ const PatternsMap3 = () => {
 
               </Box>
               <p className='hover-text'>
-                {iconMap3[pattern].description}
+                {description}
               </p>
 
             </Grid>

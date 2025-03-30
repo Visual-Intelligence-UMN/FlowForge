@@ -18,6 +18,7 @@ import { RedundantForm } from "../../templates/template-redundant/RedundantForm"
 import { VotingForm } from "../../templates/template-voting/VotingForm";
 import { PatternIcons } from "../../canvas-patterns/PatternIcons";
 import Icon from "@mui/material/Icon";
+import { iconMap2 } from "../../../images/iconsMap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
 import Grow from "@mui/material/Grow";
@@ -210,9 +211,9 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   return (
     <Box
       sx={{
-        padding: 2,
+        padding: 0.5,
         // border: "1px solid #ddd",
-        borderRadius: 4,
+        borderRadius: 1,
         backgroundColor: hovered ? "#fff" : "#fff",
         minWidth: patternWidthMap[patternName]?.[0] || 100,
         textAlign: "center",
@@ -237,7 +238,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      {stepLabel}
+      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} > {stepLabel}</Typography>
       <Box
         sx={{
           display: "flex",

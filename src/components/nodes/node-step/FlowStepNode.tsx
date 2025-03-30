@@ -22,19 +22,21 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
         border: "1px solid #ddd",
         borderRadius: 1,
         backgroundColor: "#fff",
-        minWidth: 200,
+        minWidth: 170,
         textAlign: "center",
         boxShadow: 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 2,
+        gap: 0,
         // animate the height when showContent changes
-        height: showContent ? 220 : 30,
+        height: showContent ? 150 : 30,
         overflow: "scroll",
         transition: "height 0.5s ease-in-out",
       }}
       onClick={() => setShowContent(!showContent)}
+    //  onMouseEnter={() => setShowContent(true)}
+    // onMouseLeave={() => setShowContent(false)}
     >
 
       <Handle
@@ -93,11 +95,10 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
           variant="outlined"
           multiline
           minRows={3}
-          maxRows={6}
+          maxRows={4}
           value={data.stepDescription || ""}
           onChange={onChange("stepDescription")}
           sx={{
-            marginBottom: 1,
             backgroundColor: "#e3f2fd",
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: "#90caf9",
