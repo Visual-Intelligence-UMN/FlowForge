@@ -36,23 +36,27 @@ export const iconMap2 = {
     "Reflection": {
       'icon': ReflectionIcon, 
       description: "A feedback loop where one agent generates and optimizes the response while another evaluates it, until criterion is met (quality or max iteration). Example: Refining drafts.",
-      'color':ColorPalette[0]
+      'color':ColorPalette[0],
+      shortName: 'RF'
 },
     "Discussion": {
       'icon': DiscussionIcon,
       'color':ColorPalette[1], 
+       shortName: 'D',
       description: "A group of agents engage in a conversation, where they take turns speaking in a round-robin, random manner, or simultaneously. Extra agent to summarize is optional Example: Brainstorming ideas."
    },
     "Redundant": {
       description: "Multiple agents simultaneously attempt on the same input, but adopting different personas, or perspectives, yielding diverse outputs that can be aggregated. Example: Comprehensive content reviews.", 
       'icon': ParallelIcon,
-      'color':ColorPalette[2]
+      'color':ColorPalette[2],
+       shortName: 'RD'
     },
     // "Voting": VotingIcon,
     "Supervision": {
       description: "A hierarchical structure where a central agent dynamically decide which worker agents to act based on the current generated output. Example: Content refinement.",
       'icon':SupervisionIcon,
-      'color':ColorPalette[3]
+      'color':ColorPalette[3],
+       shortName: 'S'
     },
     // any other icons ...
   };

@@ -21,7 +21,6 @@ import Icon from "@mui/material/Icon";
 import { iconMap2 } from "../../../images/iconsMap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
-import Grow from "@mui/material/Grow";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
@@ -115,7 +114,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
       }}
       className="nodrag nopan"
     >
-      {designPatternsPool.map((pattern) => (
+      {/* {designPatternsPool.map((pattern) => (
         <MenuItem
           key={pattern.name}
           value={pattern.name}
@@ -124,7 +123,37 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
             fontSize: "12px",
           }}
         >
-          {pattern.name}
+          {pattern.name} <span>{}</span>
+        </MenuItem>
+      ))} */}
+      <MenuItem
+        key="Single Agent"
+        value="Single Agent"
+        sx={{
+          cursor: "pointer",
+          fontSize: "12px",
+        }}
+      >
+        Single Agent
+      </MenuItem>
+      {Object.keys(iconMap2).map((patternName) => (
+        <MenuItem
+          key={patternName}
+          value={patternName}
+          sx={{
+            cursor: "pointer",
+            fontSize: "12px",
+          }}
+        >
+          {patternName}
+          <span style={{
+            backgroundColor: iconMap2[patternName].color,
+            marginRight: '2px', marginLeft: '2px',
+            padding: '0px 4px',
+            width: '20px'
+          }}>
+            {iconMap2[patternName].shortName}
+          </span>
         </MenuItem>
       ))}
     </Select>
