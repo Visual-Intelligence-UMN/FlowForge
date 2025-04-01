@@ -65,7 +65,7 @@ export function getTaskSteps(flow) {
 
     while (currentSteps && currentSteps.length > 0) {
         const uniqueSteps = [...new Set(currentSteps)];
-        stepNums.push(uniqueSteps.length);
+        stepNums?.push(uniqueSteps.length);
 
         const nextStepsSet = new Set();
         uniqueSteps.forEach(stepId => {

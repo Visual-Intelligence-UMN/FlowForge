@@ -1,0 +1,1499 @@
+{
+    "taskflows": 
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Movie Genre Analysis",
+            "taskFlowDescription": "This workflow crafts a data narrative around the distribution and trends of movie genres over time.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Genre Bar Chart",
+                    "stepLabel": "Genre Distribution",
+                    "stepDescription": "Generate a bar chart to display the distribution of movies across different genres. This visualization helps identify which genres are most and least prevalent in the dataset, setting the foundation for deeper analysis of genre trends over time.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Genre Line Chart",
+                    "stepLabel": "Genre Over Time",
+                    "stepDescription": "Using the movie dataset, generate a line chart showing the trend of the most popular genres over the years. This visualization provides insights into how the popularity of each genre has changed, highlighting significant trends and potential shifts in consumer preferences.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Genre Scatter Plot",
+                    "stepLabel": "Genre Budget Popularity",
+                    "stepDescription": "Develop a scatter plot comparing the budget versus popularity for each genre. This scatter plot reveals the relationship and possible correlation between the investment in a genre and its popularity, providing a more detailed understanding of the genre dynamics.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Compile Final Data Story",
+                    "stepLabel": "Cohesive Narrative",
+                    "stepDescription": "Integrate the insights from the bar chart, line chart, and scatter plot to create a cohesive data story. This final narrative explores the genre distribution, historical trends, and budget-popularity correlations, offering a comprehensive view of the genre landscape in the movie industry.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Movie Rating Insights",
+            "taskFlowDescription": "This workflow investigates the distribution, trends, and factors affecting movie ratings, culminating in a comprehensive insight into ratings dynamics.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Ratings Histogram",
+                    "stepLabel": "Ratings Distribution",
+                    "stepDescription": "Generate a histogram to show the distribution of movie ratings in the dataset. This plot highlights how ratings are spread, identifying any skewness or clusters that may exist.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Yearly Ratings Line Chart",
+                    "stepLabel": "Ratings Trend",
+                    "stepDescription": "Create a line chart displaying the average movie ratings per year. This visualization helps in understanding how movie ratings have evolved over time, identifying any patterns or anomalies.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Ratings Scatter Plot",
+                    "stepLabel": "Ratings vs. Budget",
+                    "stepDescription": "Develop a scatter plot to analyze the relationship between movie budgets and ratings. This helps determine if higher budgets correlate with higher ratings or if there are outliers.",
+                    "nextSteps": [
+                        "step-4",
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Generate Ratings Heatmap",
+                    "stepLabel": "Genre-Quality Heatmap",
+                    "stepDescription": "Create a heatmap to examine the average ratings across different genres and production years. This provides insights into which genres and time periods tend to produce higher-rated movies.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Synthesize Ratings Story",
+                    "stepLabel": "Complete Ratings Narrative",
+                    "stepDescription": "Combine insights from the histogram, line chart, scatter plot, and heatmap to form a narrative that explains the dynamics of movie ratings, highlighting key findings about distribution, trends, and impactful factors.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Box Office Trends",
+            "taskFlowDescription": "This workflow focuses on the financial aspects, exploring box office revenues and related trends over time to provide financial insights.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Revenue Line Chart",
+                    "stepLabel": "Revenue Over Time",
+                    "stepDescription": "Generate a line chart to visualize box office revenues over time, identifying overall financial trends and highlighting peaks or downturns in the movie industry.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Budget Revenue Scatter Plot",
+                    "stepLabel": "Budget-Revenue Analysis",
+                    "stepDescription": "Develop a scatter plot to analyze the relationship between budget and revenue for movies. This visualization helps in understanding if higher budgets generally lead to higher revenues, or if there are exceptions to this trend.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Compile Financial Story",
+                    "stepLabel": "Complete Financial Narrative",
+                    "stepDescription": "Synthesize insights from the revenue trends and budget-revenue analysis to form a cohesive story about the financial dynamics of the movie industry, highlighting crucial findings and trends influencing box office success.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_4": {
+            "taskFlowId": "4",
+            "taskFlowName": "Actors' Impact",
+            "taskFlowDescription": "This workflow examines the influence of actors on movies' success, unraveling patterns and insights into star power.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Actor-Bar Chart",
+                    "stepLabel": "Actor Popularity",
+                    "stepDescription": "Generate a bar chart to display the frequency of actors appearing in top-rated movies. This visualization lays the groundwork for understanding which actors are most consistently associated with highly rated films.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Finalize Actors Narrative",
+                    "stepLabel": "Actors Influence Story",
+                    "stepDescription": "Integrate insights from the actor bar chart into a comprehensive narrative exploring the impact of star power on movie success, identifying key actors and trends in their influence on movie ratings.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    }, 
+    "flowsWithPatterns": 
+    [
+        {
+            "taskFlowId": "2-1",
+            "taskFlowName": "Movie Genre Analysis",
+            "taskFlowDescription": "This workflow crafts a data narrative around the distribution and trends of movie genres over time.",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Genre Bar Chart",
+                    "stepLabel": "Genre Distribution",
+                    "stepDescription": "Generate a bar chart to display the distribution of movies across different genres. This visualization helps identify which genres are most and least prevalent in the dataset, setting the foundation for deeper analysis of genre trends over time.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Creating a bar chart of genre distribution is a straightforward task that requires clear inputs and well-defined outputs, making it ideal for a Single Agent pattern."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Genre Line Chart",
+                    "stepLabel": "Genre Over Time",
+                    "stepDescription": "Using the movie dataset, generate a line chart showing the trend of the most popular genres over the years. This visualization provides insights into how the popularity of each genre has changed, highlighting significant trends and potential shifts in consumer preferences.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Creating a line chart from well-defined dataset parameters is a straightforward task that a single agent can handle efficiently without requiring complex collaboration."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Genre Scatter Plot",
+                    "stepLabel": "Genre Budget Popularity",
+                    "stepDescription": "Develop a scatter plot comparing the budget versus popularity for each genre. This scatter plot reveals the relationship and possible correlation between the investment in a genre and its popularity, providing a more detailed understanding of the genre dynamics.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "This step involves straightforward data visualization tasks suitable for a single agent to efficiently plot and correlate budget and popularity metrics for genres."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Compile Final Data Story",
+                    "stepLabel": "Cohesive Narrative",
+                    "stepDescription": "Integrate the insights from the bar chart, line chart, and scatter plot to create a cohesive data story. This final narrative explores the genre distribution, historical trends, and budget-popularity correlations, offering a comprehensive view of the genre landscape in the movie industry.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The Reflection pattern is suitable here as it allows for iterative feedback and refinement, ensuring the final data story is comprehensive and well-integrated with insights from various visualizations."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are the Insightful Critic who examines data narratives with a discerning eye, focusing on coherence and clarity.",
+                            "goal": "The goal: To meticulously review and provide feedback on the narrative derived from the histogram, line chart, scatter plot, and heatmap, ensuring it highlights key findings about movie rating distributions, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are the Data Synthesizer, keen on crafting engaging and insightful stories from diverse data sources.",
+                            "goal": "The goal: To refine and enhance the narrative by iteratively combining insights from the histogram, line chart, scatter plot, and heatmap, ensuring a cohesive explanation of the dynamics of movie ratings focusing on distribution, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-1"
+        },
+        {
+            "taskFlowId": "2-2",
+            "taskFlowName": "Movie Genre Analysis",
+            "taskFlowDescription": "This workflow crafts a data narrative around the distribution and trends of movie genres over time.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Genre Bar Chart",
+                    "stepLabel": "Genre Distribution",
+                    "stepDescription": "Generate a bar chart to display the distribution of movies across different genres. This visualization helps identify which genres are most and least prevalent in the dataset, setting the foundation for deeper analysis of genre trends over time.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "The Redundant pattern allows multiple agents to generate bar charts in parallel, each potentially focusing on different visual aspects, ensuring diverse representation and increasing reliability of the visualization."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Data Visualization Specialist exploring innovative ways to display data.",
+                                "goal": "The goal: To experiment with various histogram parameters such as bin sizes, color schemes, and axes scaling to identify the most effective way to illustrate the distribution of movie ratings.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a Statistical Analyst focused on understanding data patterns.",
+                                "goal": "The goal: To apply statistical analysis methods to assess the skewness and clustering of movie ratings, thus selecting a histogram configuration that best represents these statistical properties.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a User Experience Designer emphasizing accessibility and clarity in visualizations.",
+                                "goal": "The goal: To ensure the histogram design is user-friendly, with clear labeling, intuitive color use, and overall readability to enhance the viewer's understanding of the movie ratings distribution."
+                            },
+                            {
+                                "persona": "You are a detail-oriented quality assurance analyst who focuses on validation and consistency. Your role is to confirm the correctness of findings.",
+                                "goal": "The goal: Compare and verify the histograms produced by other agents, ensuring that all results are consistent and accurately reflect the dataset's rating distribution."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a Project Coordinator synthesizing insights from various visualization methods.",
+                            "goal": "The goal: To consolidate findings from the agents to recommend a histogram design in Vega-Lite JSON format that effectively communicates the distribution and nuances in movie ratings.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Genre Line Chart",
+                    "stepLabel": "Genre Over Time",
+                    "stepDescription": "Using the movie dataset, generate a line chart showing the trend of the most popular genres over the years. This visualization provides insights into how the popularity of each genre has changed, highlighting significant trends and potential shifts in consumer preferences.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a feedback loop helps iteratively refine the line chart to ensure accuracy and clarity in capturing significant genre trends over time."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are the Insightful Critic who examines data narratives with a discerning eye, focusing on coherence and clarity.",
+                            "goal": "The goal: To meticulously review and provide feedback on the narrative derived from the histogram, line chart, scatter plot, and heatmap, ensuring it highlights key findings about movie rating distributions, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are the Data Synthesizer, keen on crafting engaging and insightful stories from diverse data sources.",
+                            "goal": "The goal: To refine and enhance the narrative by iteratively combining insights from the histogram, line chart, scatter plot, and heatmap, ensuring a cohesive explanation of the dynamics of movie ratings focusing on distribution, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Genre Scatter Plot",
+                    "stepLabel": "Genre Budget Popularity",
+                    "stepDescription": "Develop a scatter plot comparing the budget versus popularity for each genre. This scatter plot reveals the relationship and possible correlation between the investment in a genre and its popularity, providing a more detailed understanding of the genre dynamics.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a reflection pattern allows iterative improvement and optimization of the scatter plot, ensuring clarity and accuracy in capturing the data relationship."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are the Insightful Critic who examines data narratives with a discerning eye, focusing on coherence and clarity.",
+                            "goal": "The goal: To meticulously review and provide feedback on the narrative derived from the histogram, line chart, scatter plot, and heatmap, ensuring it highlights key findings about movie rating distributions, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are the Data Synthesizer, keen on crafting engaging and insightful stories from diverse data sources.",
+                            "goal": "The goal: To refine and enhance the narrative by iteratively combining insights from the histogram, line chart, scatter plot, and heatmap, ensuring a cohesive explanation of the dynamics of movie ratings focusing on distribution, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Compile Final Data Story",
+                    "stepLabel": "Cohesive Narrative",
+                    "stepDescription": "Integrate the insights from the bar chart, line chart, and scatter plot to create a cohesive data story. This final narrative explores the genre distribution, historical trends, and budget-popularity correlations, offering a comprehensive view of the genre landscape in the movie industry.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The Discussion pattern fits well for consolidating diverse perspectives from the different visualizations, facilitating the creation of a well-rounded and insightful narrative."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a data analyst specializing in statistical distribution analysis.",
+                                "goal": "The goal: To interpret the histogram data to provide insights into the distribution patterns of movie ratings, identifying any skewness or outliers that may impact overall trends.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a trend analyst with a keen focus on time-series data interpretation.",
+                                "goal": "The goal: To analyze the line chart to identify and explain trends over time in movie ratings, highlighting temporal shifts in audience sentiment or preference.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a correlation expert with a focus on detecting relationships between variables.",
+                                "goal": "The goal: To examine the scatter plot data to uncover relationships or correlations between different factors affecting movie ratings, such as budget, genre, or release date.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a heatmap enthusiast proficient in visualizing complex data sets.",
+                                "goal": "The goal: To utilize the heatmap to spotlight areas of strong interaction or high density in factors impacting movie ratings, helping to elucidate the combined effects of multiple variables."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a narrative architect with a talent for synthesizing complex data stories.",
+                            "goal": "The goal: To collaboratively synthesize insights from the histogram, line chart, scatter plot, and heatmap into a cohesive narrative that explains the dynamics of movie ratings, highlighting key findings on distribution, trends, and impactful factors.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "2-2"
+        }
+    ,
+    
+        {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Movie Rating Insights",
+            "taskFlowDescription": "This workflow investigates the distribution, trends, and factors affecting movie ratings, culminating in a comprehensive insight into ratings dynamics.",
+            "patternsId": 1,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Ratings Histogram",
+                    "stepLabel": "Ratings Distribution",
+                    "stepDescription": "Generate a histogram to show the distribution of movie ratings in the dataset in Vega-lite json. This plot highlights how ratings are spread, identifying any skewness or clusters that may exist. ",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task of generating a histogram from a dataset is straightforward and well-defined, aligning ideally with the efficient and uncomplicated capabilities of a single agent."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Yearly Ratings Line Chart",
+                    "stepLabel": "Ratings Trend",
+                    "stepDescription": "Create a line chart displaying the average movie ratings per year in Vega-lite json. This visualization helps in understanding how movie ratings have evolved over time, identifying any patterns or anomalies.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Single Agent pattern is ideal for generating the straightforward task of creating a line chart in Vega-lite JSON format, as it requires precise input processing without additional complexity."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Ratings Scatter Plot",
+                    "stepLabel": "Ratings vs. Budget",
+                    "stepDescription": "Develop a scatter plot to analyze the relationship between movie budgets and ratings in Vega-lite json. This helps determine if higher budgets correlate with higher ratings or if there are outliers.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Developing a scatter plot is a straightforward task involving data visualization that can be efficiently handled by a single agent with clear instructions using Vega-lite json specifications."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Generate Ratings Heatmap",
+                    "stepLabel": "Genre-Quality Heatmap",
+                    "stepDescription": "Create a heatmap to examine the average ratings across different genres and production years in Vega-lite json. This provides insights into which genres and time periods tend to produce higher-rated movies.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "A Single Agent is ideal for generating a straightforward visualization task like creating a heatmap, as it requires converting existing data into a visual format without needing complex processing."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a proficient data visualization specialist, highly skilled in transforming datasets into compelling and insightful visuals using Vega-lite. Your expertise lies in discerning patterns and trends through graphical representations, making complex information easily understandable and engaging for audiences.",
+                        "goal": "The goal: Create a detailed heatmap visualization using Vega-lite JSON to analyze and display average movie ratings segmented by genre and production year. This visualization will highlight the trends and patterns in movie ratings, helping to identify which genres and time periods are associated with higher ratings.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Synthesize Ratings Story",
+                    "stepLabel": "Complete Ratings Narrative",
+                    "stepDescription": "Combine insights from the histogram, line chart, scatter plot, and heatmap to form a narrative that explains the dynamics of movie ratings, highlighting key findings about distribution, trends, and impactful factors.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This step benefits from collaborative dialogue to generate a cohesive narrative by engaging multiple agents to interpret and synthesize insights from various visual data sources."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a data analyst specializing in statistical distribution analysis.",
+                                "goal": "The goal: To interpret the histogram data to provide insights into the distribution patterns of movie ratings, identifying any skewness or outliers that may impact overall trends.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a trend analyst with a keen focus on time-series data interpretation.",
+                                "goal": "The goal: To analyze the line chart to identify and explain trends over time in movie ratings, highlighting temporal shifts in audience sentiment or preference.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a correlation expert with a focus on detecting relationships between variables.",
+                                "goal": "The goal: To examine the scatter plot data to uncover relationships or correlations between different factors affecting movie ratings, such as budget, genre, or release date.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a heatmap enthusiast proficient in visualizing complex data sets.",
+                                "goal": "The goal: To utilize the heatmap to spotlight areas of strong interaction or high density in factors impacting movie ratings, helping to elucidate the combined effects of multiple variables."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a narrative architect with a talent for synthesizing complex data stories.",
+                            "goal": "The goal: To collaboratively synthesize insights from the histogram, line chart, scatter plot, and heatmap into a cohesive narrative that explains the dynamics of movie ratings, highlighting key findings on distribution, trends, and impactful factors.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-3"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Movie Rating Insights",
+            "taskFlowDescription": "This workflow investigates the distribution, trends, and factors affecting movie ratings, culminating in a comprehensive insight into ratings dynamics.",
+            "patternsId": 2,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Ratings Histogram",
+                    "stepLabel": "Ratings Distribution",
+                    "stepDescription": "Generate a histogram to show the distribution of movie ratings in the dataset in Vega-lite json. This plot highlights how ratings are spread, identifying any skewness or clusters that may exist. ",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Using parallel agents to explore different visualization techniques simultaneously can offer diverse insights and identify the most effective way to display the ratings distribution in histogram form."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Data Visualization Specialist exploring innovative ways to display data.",
+                                "goal": "The goal: To experiment with various histogram parameters such as bin sizes, color schemes, and axes scaling to identify the most effective way to illustrate the distribution of movie ratings.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a Statistical Analyst focused on understanding data patterns.",
+                                "goal": "The goal: To apply statistical analysis methods to assess the skewness and clustering of movie ratings, thus selecting a histogram configuration that best represents these statistical properties.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a User Experience Designer emphasizing accessibility and clarity in visualizations.",
+                                "goal": "The goal: To ensure the histogram design is user-friendly, with clear labeling, intuitive color use, and overall readability to enhance the viewer's understanding of the movie ratings distribution."
+                            },
+                            {
+                                "persona": "You are a detail-oriented quality assurance analyst who focuses on validation and consistency. Your role is to confirm the correctness of findings.",
+                                "goal": "The goal: Compare and verify the histograms produced by other agents, ensuring that all results are consistent and accurately reflect the dataset's rating distribution."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a Project Coordinator synthesizing insights from various visualization methods.",
+                            "goal": "The goal: To consolidate findings from the agents to recommend a histogram design in Vega-Lite JSON format that effectively communicates the distribution and nuances in movie ratings.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Yearly Ratings Line Chart",
+                    "stepLabel": "Ratings Trend",
+                    "stepDescription": "Create a line chart displaying the average movie ratings per year in Vega-lite json. This visualization helps in understanding how movie ratings have evolved over time, identifying any patterns or anomalies.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The Supervision pattern can efficiently coordinate specialized agents to verify the accuracy of inputs and outputs, ensuring the resulting chart accurately reflects trends in the data."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "You are a meticulous data validator, focused on data integrity and accuracy.",
+                                "goal": "The goal: To thoroughly verify the accuracy of the input dataset to ensure it correctly reflects the average movie ratings per year, including detecting any anomalies or errors in the data.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a creative visualization expert, skilled in creating dynamic and insightful charts.",
+                                "goal": "The goal: To use Vega-lite JSON to design a clear and engaging line chart that precisely represents the verified data, highlighting trends over time.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a data scientist specializing in anomaly detection within large datasets.",
+                                "goal": "The goal: To identify and highlight any anomalies or outliers in the budget-revenue data, providing insights into unexpected trends or deviations."
+                            },
+                            {
+                                "persona": "You are a Narrative Weaver, a master storyteller who stitches together insights into a cohesive narrative. Your text adds depth and context to the visuals.",
+                                "goal": "The goal: To craft descriptive text that ties the visual and analytical data into a seamless story of the movie industry's evolution."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "You are an experienced project supervisor with a keen eye for detail and precision.",
+                            "goal": "The goal: To oversee the entire process, ensuring that both the data validation and visualization adhere to quality standards, resulting in an accurate and impactful final line chart.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "You are a diligent data analyst passionate about visual storytelling through data.",
+                        "goal": "The goal: To construct a compelling line chart using Vega-lite JSON, illustrating the evolution of movie ratings over time to reveal trends and significant changes."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Build Ratings Scatter Plot",
+                    "stepLabel": "Ratings vs. Budget",
+                    "stepDescription": "Develop a scatter plot to analyze the relationship between movie budgets and ratings in Vega-lite json. This helps determine if higher budgets correlate with higher ratings or if there are outliers.",
+                    "pattern": {
+                        "name": "Web Search Agent",
+                        "recommendationReason": "A web search agent can assist in retrieving data or insights on existing similar visualizations and techniques, ensuring the scatter plot is built with state-of-the-art approaches and data considerations."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "persona": "You are a data visualization specialist with a focus on innovative and effective graphical representations in the film industry.",
+                        "goal": "The goal: Create a scatter plot using Vega-lite that effectively visualizes the relationship between movie budgets and ratings, aiming to identify trends, correlations, and any significant outliers."
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Generate Ratings Heatmap",
+                    "stepLabel": "Genre-Quality Heatmap",
+                    "stepDescription": "Create a heatmap to examine the average ratings across different genres and production years in Vega-lite json. This provides insights into which genres and time periods tend to produce higher-rated movies.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Utilizing the Redundant pattern allows for parallel processing of different data aspects (genres and years) before aggregating them into the final heatmap, ensuring comprehensive coverage of the analyzed data."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Data Visualization Specialist exploring innovative ways to display data.",
+                                "goal": "The goal: To experiment with various histogram parameters such as bin sizes, color schemes, and axes scaling to identify the most effective way to illustrate the distribution of movie ratings.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a Statistical Analyst focused on understanding data patterns.",
+                                "goal": "The goal: To apply statistical analysis methods to assess the skewness and clustering of movie ratings, thus selecting a histogram configuration that best represents these statistical properties.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a User Experience Designer emphasizing accessibility and clarity in visualizations.",
+                                "goal": "The goal: To ensure the histogram design is user-friendly, with clear labeling, intuitive color use, and overall readability to enhance the viewer's understanding of the movie ratings distribution."
+                            },
+                            {
+                                "persona": "You are a detail-oriented quality assurance analyst who focuses on validation and consistency. Your role is to confirm the correctness of findings.",
+                                "goal": "The goal: Compare and verify the histograms produced by other agents, ensuring that all results are consistent and accurately reflect the dataset's rating distribution."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a Project Coordinator synthesizing insights from various visualization methods.",
+                            "goal": "The goal: To consolidate findings from the agents to recommend a histogram design in Vega-Lite JSON format that effectively communicates the distribution and nuances in movie ratings.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Synthesize Ratings Story",
+                    "stepLabel": "Complete Ratings Narrative",
+                    "stepDescription": "Combine insights from the histogram, line chart, scatter plot, and heatmap to form a narrative that explains the dynamics of movie ratings, highlighting key findings about distribution, trends, and impactful factors.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "The iterative improvement of the narrative requires feedback loops for refining key insights and ensuring coherence in the story being synthesized from diverse data representations."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are the Insightful Critic who examines data narratives with a discerning eye, focusing on coherence and clarity.",
+                            "goal": "The goal: To meticulously review and provide feedback on the narrative derived from the histogram, line chart, scatter plot, and heatmap, ensuring it highlights key findings about movie rating distributions, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are the Data Synthesizer, keen on crafting engaging and insightful stories from diverse data sources.",
+                            "goal": "The goal: To refine and enhance the narrative by iteratively combining insights from the histogram, line chart, scatter plot, and heatmap, ensuring a cohesive explanation of the dynamics of movie ratings focusing on distribution, trends, and impactful factors.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-4"
+        }
+    ], 
+    "taskflows-no-select": 
+    {
+        "taskFlow_1": {
+            "taskFlowId": "1",
+            "taskFlowName": "Exploration of Trend Patterns",
+            "taskFlowDescription": "This task flow uses multiple chart types to explore and narrate trends within a dataset, resulting in a comprehensive visualization story.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Line Chart Creation",
+                    "stepLabel": "Create Line Chart",
+                    "stepDescription": "Start by creating a line chart to show the trend in box office earnings over time. This chart will establish the baseline trend and temporal context for the data story. The deliverable will be a Vega-Lite JSON specification for the line chart.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Bar Chart for Genre Analysis",
+                    "stepLabel": "Add Bar Chart",
+                    "stepDescription": "Create a bar chart to compare average box office earnings across different movie genres. This will illustrate which genres are most profitable and can highlight changes over time when cross-referenced with the line chart. The deliverable will be a Vega-Lite JSON specification for the bar chart.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Scatter Plot for Budget vs. Earnings",
+                    "stepLabel": "Add Scatter Plot",
+                    "stepDescription": "Develop a scatter plot to examine the relationship between movie budgets and earnings. This visualization will reveal correlations or outliers that suggest patterns of fiscal success or inefficiency. The outcome will be a Vega-Lite JSON specification for the scatter plot.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Heat Map for Region Analysis",
+                    "stepLabel": "Add Heat Map",
+                    "stepDescription": "Create a heat map to show movie popularity across different geographical regions. This final visualization will add depth to the story by indicating regional preferences and potential market opportunities. The deliverable will be a completed Vega-Lite JSON specification for the heat map, concluding the data story by integrating insights from all previous visualizations.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Divergent Data Insights",
+            "taskFlowDescription": "This task flow focuses on extracting and narrating diverse insights by employing different visualization techniques in a sequence from overall trend to specific insights.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Overview Line Chart",
+                    "stepLabel": "Overview Line Chart",
+                    "stepDescription": "Begin with a line chart illustrating the general trend of movie productions over the years. This provides an introductory overview of the dataset's temporal dynamics. Deliver a Vega-Lite JSON specification for this line chart.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Detailed Bar Chart",
+                    "stepLabel": "Detailed Bar Chart",
+                    "stepDescription": "Next, create a bar chart that highlights the number of movies released each year by genre. This will offer a more detailed view following the overview, focusing on genre-specific trends. Deliver a Vega-Lite JSON specification for this bar chart.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Design Interactive Pie Chart",
+                    "stepLabel": "Interactive Pie Chart",
+                    "stepDescription": "Develop an interactive pie chart showing the market share of different genres in a selected year. This step enables interactivity, allowing users to select different years for comparison. The deliverable will be a Vega-Lite JSON specification for the interactive pie chart.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Develop Correlation Scatter Plot",
+                    "stepLabel": "Correlation Scatter Plot",
+                    "stepDescription": "Create a scatter plot to analyze the correlation between movie budget and return on investment. This plot will delve deeper into financial aspects, linking back to genre-specific and temporal trends. Deliver a Vega-Lite JSON specification for the scatter plot.",
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Finalize with Distribution Heat Map",
+                    "stepLabel": "Distribution Heat Map",
+                    "stepDescription": "Conclude with a heat map showing the distribution of movie ratings across different genres and years. This final visualization provides a comprehensive view of quality and audience reception trends, culminating the data story. Deliver a complete Vega-Lite JSON specification for the heat map.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_3": {
+            "taskFlowId": "3",
+            "taskFlowName": "Narrative of Financial Performance",
+            "taskFlowDescription": "This task flow constructs a cohesive narrative focusing on the financial performance of movies through different visualization techniques.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Box Plot Construction",
+                    "stepLabel": "Construct Box Plot",
+                    "stepDescription": "Construct a box plot to depict the distribution of box office earnings. This initial step sets the stage for understanding the overall financial landscape. Produce a Vega-Lite JSON specification for this box plot.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Develop Sequential Area Chart",
+                    "stepLabel": "Sequential Area Chart",
+                    "stepDescription": "Create an area chart illustrating cumulative box office earnings over time, segmented by genre. This adds a layered narrative to the financial story, revealing which genres contributed to earnings over time. Deliver a Vega-Lite JSON specification for the area chart.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with Profitability Heat Map",
+                    "stepLabel": "Profitability Heat Map",
+                    "stepDescription": "Finalize with a heat map showing profitability by budget range and genre. This visualization ties together earlier financial insights with a focus on profitability, concluding the financial narrative. Deliver a completed Vega-Lite JSON specification for the heat map.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_4": {
+            "taskFlowId": "4",
+            "taskFlowName": "Market Share and Audience Engagement",
+            "taskFlowDescription": "This task flow evaluates market share and audience engagement using specific visualizations that create a concise narrative.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Market Share Circular Chart",
+                    "stepLabel": "Market Share Chart",
+                    "stepDescription": "Design a circular chart to illustrate the market share of different movie production studios. This visualization provides a snapshot of competitive dynamics within the industry. Deliver a Vega-Lite JSON specification for the circular chart.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Engagement Analysis Interaction Plot",
+                    "stepLabel": "Engagement Interaction Plot",
+                    "stepDescription": "Develop an interaction plot to analyze audience engagement metrics such as rating and view counts. This step adds depth to the narrative by focusing on audience response and engagement trends. Deliver a final Vega-Lite JSON specification for the interaction plot, concluding the narrative with integrated insights on market share and audience engagement.",
+                    "nextSteps": []
+                }
+            ]
+        }
+    },
+    "flowsWithPatterns-no-select": 
+    [
+        {
+            "taskFlowId": "3-1-1",
+            "taskFlowName": "Divergent Data Insights",
+            "taskFlowDescription": "This task flow focuses on extracting and narrating diverse insights by employing different visualization techniques in a sequence from overall trend to specific insights.",
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Create Overview Line Chart",
+                    "stepLabel": "Overview Line Chart",
+                    "stepDescription": "Begin with a line chart illustrating the general trend of movie productions over the years. This provides an introductory overview of the dataset's temporal dynamics. Deliver a Vega-Lite JSON specification for this line chart.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task of creating an overview line chart with a clear specification is straightforward and well-structured, making it ideal for a Single Agent to efficiently generate the required Vega-Lite JSON without unnecessary complexity."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: Begin with a line chart illustrating the general trend of movie productions over the years. This provides an introductory overview of the dataset's temporal dynamics. Deliver a Vega-Lite JSON specification for this line chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.\nThe step description is: Begin with a line chart illustrating the general trend of movie productions over the years. This provides an introductory overview of the dataset's temporal dynamics. Deliver a Vega-Lite JSON specification for this line chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.",
+                        "goal": "The goal: To craft a comprehensive Vega-Lite JSON specification that encapsulates the market share distribution of various genres in a selected year. This specification will serve as the blueprint for an interactive pie chart, allowing users to compare market data across different years with ease.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Construct Detailed Bar Chart",
+                    "stepLabel": "Detailed Bar Chart",
+                    "stepDescription": "Next, create a bar chart that highlights the number of movies released each year by genre. This will offer a more detailed view following the overview, focusing on genre-specific trends. Deliver a Vega-Lite JSON specification for this bar chart.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "This step involves generating a specified bar chart from known data, which is straightforward and does not require collaboration or extensive deliberation."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: Next, create a bar chart that highlights the number of movies released each year by genre. This will offer a more detailed view following the overview, focusing on genre-specific trends. Deliver a Vega-Lite JSON specification for this bar chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.\nThe step description is: Next, create a bar chart that highlights the number of movies released each year by genre. This will offer a more detailed view following the overview, focusing on genre-specific trends. Deliver a Vega-Lite JSON specification for this bar chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.",
+                        "goal": "The goal: To craft a comprehensive Vega-Lite JSON specification that encapsulates the market share distribution of various genres in a selected year. This specification will serve as the blueprint for an interactive pie chart, allowing users to compare market data across different years with ease.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Design Interactive Pie Chart",
+                    "stepLabel": "Interactive Pie Chart",
+                    "stepDescription": "Develop an interactive pie chart showing the market share of different genres in a selected year. This step enables interactivity, allowing users to select different years for comparison. The deliverable will be a Vega-Lite JSON specification for the interactive pie chart.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The straightforward nature of converting market data into an interactive pie chart is well-suited for a Single Agent approach, as the task is clearly defined and focuses on a singular output."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: Develop an interactive pie chart showing the market share of different genres in a selected year. This step enables interactivity, allowing users to select different years for comparison. The deliverable will be a Vega-Lite JSON specification for the interactive pie chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.\nThe step description is: Develop an interactive pie chart showing the market share of different genres in a selected year. This step enables interactivity, allowing users to select different years for comparison. The deliverable will be a Vega-Lite JSON specification for the interactive pie chart..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.",
+                        "goal": "The goal: To craft a comprehensive Vega-Lite JSON specification that encapsulates the market share distribution of various genres in a selected year. This specification will serve as the blueprint for an interactive pie chart, allowing users to compare market data across different years with ease.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Develop Correlation Scatter Plot",
+                    "stepLabel": "Correlation Scatter Plot",
+                    "stepDescription": "Create a scatter plot to analyze the correlation between movie budget and return on investment. This plot will delve deeper into financial aspects, linking back to genre-specific and temporal trends. Deliver a Vega-Lite JSON specification for the scatter plot.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task is clearly defined as creating a specific type of scatter plot, which is straightforward and suitable for a single agent approach for efficient handling."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: Create a scatter plot to analyze the correlation between movie budget and return on investment. This plot will delve deeper into financial aspects, linking back to genre-specific and temporal trends. Deliver a Vega-Lite JSON specification for the scatter plot..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.\nThe step description is: Create a scatter plot to analyze the correlation between movie budget and return on investment. This plot will delve deeper into financial aspects, linking back to genre-specific and temporal trends. Deliver a Vega-Lite JSON specification for the scatter plot..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.",
+                        "goal": "The goal: To craft a comprehensive Vega-Lite JSON specification that encapsulates the market share distribution of various genres in a selected year. This specification will serve as the blueprint for an interactive pie chart, allowing users to compare market data across different years with ease.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": [
+                        "step-5"
+                    ]
+                },
+                {
+                    "stepId": "step-5",
+                    "stepName": "Finalize with Distribution Heat Map",
+                    "stepLabel": "Distribution Heat Map",
+                    "stepDescription": "Conclude with a heat map showing the distribution of movie ratings across different genres and years. This final visualization provides a comprehensive view of quality and audience reception trends, culminating the data story. Deliver a complete Vega-Lite JSON specification for the heat map.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "Creating a heat map based on well-defined data and specifications can be efficiently handled by a single agent, ensuring straightforward execution without additional complexity."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: Conclude with a heat map showing the distribution of movie ratings across different genres and years. This final visualization provides a comprehensive view of quality and audience reception trends, culminating the data story. Deliver a complete Vega-Lite JSON specification for the heat map..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.\nThe step description is: Conclude with a heat map showing the distribution of movie ratings across different genres and years. This final visualization provides a comprehensive view of quality and audience reception trends, culminating the data story. Deliver a complete Vega-Lite JSON specification for the heat map..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a Data Visualization Specialist, an expert in transforming complex datasets into engaging and informative visual representations. Your insights into market trends and proficiency with tools like Vega-Lite enable you to create dynamic, interactive charts that captivate audiences and facilitate deeper understanding.",
+                        "goal": "The goal: To craft a comprehensive Vega-Lite JSON specification that encapsulates the market share distribution of various genres in a selected year. This specification will serve as the blueprint for an interactive pie chart, allowing users to compare market data across different years with ease.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": []
+                }
+            ],
+            "patternId": "3-1",
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "configId": "3-1-1"
+        },
+        {
+            "taskFlowId": "4-2",
+            "taskFlowName": "Narrative of Financial Performance",
+            "taskFlowDescription": "This task flow constructs a cohesive narrative focusing on the financial performance of movies through different visualization techniques.",
+            "patternsId": 5,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Initial Box Plot Construction",
+                    "stepLabel": "Construct Box Plot",
+                    "stepDescription": "Construct a box plot to depict the distribution of box office earnings. This initial step sets the stage for understanding the overall financial landscape. Produce a Vega-Lite JSON specification for this box plot.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Utilizing a Reflection pattern allows for the initial box plot creation to be reviewed and refined, ensuring accuracy and clarity in representing financial data visually."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are a data storyteller focused on crafting a compelling narrative around audience engagement metrics. Your unique style emphasizes clarity and narrative coherence, ensuring each data point adds to the overarching story of market share and engagement trends.",
+                            "goal": "The goal: To assess the effectiveness of the interaction plot in delivering insights on audience engagement and market share, ensuring it is easy to understand and provides a clear narrative connection.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a data visualization specialist with a keen eye for detail and design, dedicated to refining visualization tools to capture intricate audience trends. Your approach is analytical and iterative, focusing on enhancing data storytelling through visual aids.",
+                            "goal": "The goal: To iteratively develop and refine a Vega-Lite JSON specification for the interaction plot, ensuring it effectively visualizes audience engagement metrics such as rating and view counts and integrates insights on market share trends.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Develop Sequential Area Chart",
+                    "stepLabel": "Sequential Area Chart",
+                    "stepDescription": "Create an area chart illustrating cumulative box office earnings over time, segmented by genre. This adds a layered narrative to the financial story, revealing which genres contributed to earnings over time. Deliver a Vega-Lite JSON specification for the area chart.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a reflection pattern can help refine the design of the area chart by iterating on feedback to ensure clarity and accuracy in the visualization."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are a data storyteller focused on crafting a compelling narrative around audience engagement metrics. Your unique style emphasizes clarity and narrative coherence, ensuring each data point adds to the overarching story of market share and engagement trends.",
+                            "goal": "The goal: To assess the effectiveness of the interaction plot in delivering insights on audience engagement and market share, ensuring it is easy to understand and provides a clear narrative connection.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a data visualization specialist with a keen eye for detail and design, dedicated to refining visualization tools to capture intricate audience trends. Your approach is analytical and iterative, focusing on enhancing data storytelling through visual aids.",
+                            "goal": "The goal: To iteratively develop and refine a Vega-Lite JSON specification for the interaction plot, ensuring it effectively visualizes audience engagement metrics such as rating and view counts and integrates insights on market share trends.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Conclude with Profitability Heat Map",
+                    "stepLabel": "Profitability Heat Map",
+                    "stepDescription": "Finalize with a heat map showing profitability by budget range and genre. This visualization ties together earlier financial insights with a focus on profitability, concluding the financial narrative. Deliver a completed Vega-Lite JSON specification for the heat map.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Utilizing a Reflection pattern can help iteratively refine the heat map to ensure accuracy in financial insights presentation, especially in the final stages of narrative construction."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are a data storyteller focused on crafting a compelling narrative around audience engagement metrics. Your unique style emphasizes clarity and narrative coherence, ensuring each data point adds to the overarching story of market share and engagement trends.",
+                            "goal": "The goal: To assess the effectiveness of the interaction plot in delivering insights on audience engagement and market share, ensuring it is easy to understand and provides a clear narrative connection.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are a data visualization specialist with a keen eye for detail and design, dedicated to refining visualization tools to capture intricate audience trends. Your approach is analytical and iterative, focusing on enhancing data storytelling through visual aids.",
+                            "goal": "The goal: To iteratively develop and refine a Vega-Lite JSON specification for the interaction plot, ensuring it effectively visualizes audience engagement metrics such as rating and view counts and integrates insights on market share trends.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "4-2"
+        },
+        {
+            "taskFlowId": "5-3-1",
+            "taskFlowName": "Market Share and Audience Engagement",
+            "taskFlowDescription": "This task flow evaluates market share and audience engagement using specific visualizations that create a concise narrative.",
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Explore questions ",
+                    "stepLabel": "Market Share Chart",
+                    "stepDescription": "List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The Discussion pattern facilitates the collaborative exploration of potential questions, leveraging diverse perspectives to uncover valuable insights about the movie dataset."
+                    },
+                    "config": {
+                        "type": "singleAgent",
+                        "maxRound": 1,
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a data analysist, and can analyze the dataset attributes to come up with a series of interesting questions for visualization story telling. \nThe step description is: List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                            }
+                        ],
+                        "edges": [],
+                        "runtime": 1,
+                        "maxCalls": 1
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a data analysist, and can analyze the dataset attributes to come up with a series of interesting questions for visualization story telling. ",
+                        "goal": "The goal: Choose a relevant question from the dataset and craft a Vega-lite JSON visualization that not only captures the necessary data attributes effectively but also includes an engaging narrative for interpretation. This ensures that viewers gain a deeper understanding of the depicted trends and insights.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "visualization and narratio",
+                    "stepLabel": "Engagement Interaction Plot",
+                    "stepDescription": "develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
+                    },
+                    "config": {
+                        "type": "redundant",
+                        "nodes": [
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent1",
+                                "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.",
+                                "goal": "The goal: Create a line chart to highlight trends over time in the dataset, providing a clear view of the progression of key variables.",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                            },
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent2",
+                                "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.",
+                                "goal": "The goal: Design a bar chart that compares categorical data across several dimensions, revealing distinct patterns and differences.",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                                "systemPrompt": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                            },
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent3",
+                                "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.",
+                                "goal": "The goal: Develop a scatter plot to showcase correlations and relative distributions, emphasizing intricate relationships between variables.",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                                "patternPrompt": "You can complete the task independently.",
+                                "systemPrompt": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                            },
+                            {
+                                "type": "singleAgent",
+                                "description": "Agent4",
+                                "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.",
+                                "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions.",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                                "patternPrompt": "You can complete the task independently.",
+                                "systemPrompt": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                            },
+                            {
+                                "type": "singleAgent",
+                                "description": "Aggregator",
+                                "tools": [],
+                                "llm": "gpt-4o",
+                                "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                                "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation.",
+                                "systemPrompt": "You are a Synthesis Specialist who integrates diverse insights into a unified data story.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please merge all the previous deliverables and produce the final deliverable that aligns with the step description, your persona and goal, merge to keep diversity and completion."
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "type": "direct",
+                                "source": "START",
+                                "target": "Agent1",
+                                "label": "start"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "Agent1",
+                                "target": "Aggregator",
+                                "label": "direct"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "START",
+                                "target": "Agent2",
+                                "label": "start"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "Agent2",
+                                "target": "Aggregator",
+                                "label": "direct"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "START",
+                                "target": "Agent3",
+                                "label": "start"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "Agent3",
+                                "target": "Aggregator",
+                                "label": "direct"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "START",
+                                "target": "Agent4",
+                                "label": "start"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "Agent4",
+                                "target": "Aggregator",
+                                "label": "direct"
+                            },
+                            {
+                                "type": "direct",
+                                "source": "Aggregator",
+                                "target": "__end__",
+                                "label": "finish"
+                            }
+                        ],
+                        "maxRound": 1,
+                        "runtime": 1,
+                        "maxCalls": 5
+                    },
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.",
+                                "goal": "The goal: Create a line chart to highlight trends over time in the dataset, providing a clear view of the progression of key variables.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.",
+                                "goal": "The goal: Design a bar chart that compares categorical data across several dimensions, revealing distinct patterns and differences.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.",
+                                "goal": "The goal: Develop a scatter plot to showcase correlations and relative distributions, emphasizing intricate relationships between variables."
+                            },
+                            {
+                                "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.",
+                                "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a Synthesis Specialist who integrates diverse insights into a unified data story.",
+                            "goal": "The goal: Compile all visualizations and narratives into a coherent, executable output, ensuring each Vega-Lite JSON specification is valid and runnable, and the story is impactful and informative.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    },
+                    "nextSteps": []
+                }
+            ],
+            "patternId": "5-3",
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "a dataset with movies data",
+                    "file": ""
+                }
+            },
+            "configId": "5-3-1"
+        }
+    ]
+}
