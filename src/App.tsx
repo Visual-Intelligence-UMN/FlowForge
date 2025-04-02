@@ -1,7 +1,20 @@
 import TaskPanel from "./components/panel-input/PanelTaskInput";
 import Builder from "./components/builder/Builder";
 import { headerStyle } from "./components/header/header";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import "./App.css";
+
+// Or Create your Own theme:
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    // secondary: {
+    //   main: '#dc004e',
+    // },
+  }
+});
 
 const NewConstruction = () => {
   return (
@@ -21,9 +34,11 @@ const NewConstruction = () => {
 
 function App() {
   return (
-    <div>
-      <NewConstruction />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <NewConstruction />
+      </div>
+    </ThemeProvider>
   );
 }
 
