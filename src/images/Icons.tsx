@@ -288,9 +288,9 @@ function AgentIcon() {
   );
 }
 
-const ParallelTaskIcon = () => <img src='./parallel-rect.png' alt="Parallel Task Icon" width="100" />;
+const ParallelTaskIcon = () => <img src='./parallel-rect.png' alt="Parallel Task Icon" width="140" />;
 
-const SequentialTaskIcon = () => <img src='./sequential-rect.png' alt="Sequential Task Icon" width="100" />;
+const SequentialTaskIcon = () => <img src='./sequential-rect.png' alt="Sequential Task Icon" width="140" />;
 
 const PromptIcon = () => <img src='./prompt.png' alt="Prompt Icon" width="30" />;
 
