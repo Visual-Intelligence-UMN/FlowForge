@@ -8,13 +8,19 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
     console.log("FlowStepNode id", id);
   }
   console.info(data)
-  const { updateNodeField } = data;
+  const { updateNodeField, updateNodeFieldset } = data;
   const [showContent, setShowContent] = useState(false);
 
   const onChange = (fieldName) => (event) => {
     updateNodeField(id, fieldName, event.target.value);
   };
 
+  const onChangeStep = (newData) => {
+    updateNodeFieldset(id, "task", newData);
+  };
+  const handleChange = (fieldName) => (event) => {
+    updateNodeFieldset(id, fieldName, event.target.value);
+  };
   return (
     <Box
       sx={{
@@ -34,7 +40,6 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
         overflow: "scroll",
         transition: "height 0.5s ease-in-out",
       }}
-      onClick={() => setShowContent(!showContent)}
     //  onMouseEnter={() => setShowContent(true)}
     // onMouseLeave={() => setShowContent(false)}
     >
@@ -47,8 +52,13 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 0.5 }}>
+      <Typography 
+        variant="subtitle1" 
+        sx={{ fontWeight: "bold", mb: 0.5 }}
+        onClick={() => setShowContent(!showContent)}
+      >
         {data.stepLabel}
+        
       </Typography>
 
       {/* <TextField
@@ -97,7 +107,7 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
           minRows={3}
           maxRows={4}
           value={data.stepDescription || ""}
-          onChange={onChange("stepDescription")}
+          onChange={handleChange("stepDescription")}
           sx={{
             backgroundColor: "#e3f2fd",
             "& .MuiOutlinedInput-notchedOutline": {
@@ -107,7 +117,7 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
               borderColor: "#42a5f5",
             }
           }}
-          className="nodrag nopan nowheel"
+          className={`nodrag nopan nowheel`}
           fullWidth
         />)}
 

@@ -219,6 +219,7 @@ const GenerateTaskFlows = async (task, runRealtime) => {
         || task.name.includes("Visualization")
         || task.name.includes("Script")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
+        console.log("sampleRes", sampleRes);  
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
         returnData.taskFlows.push(...sampleflows);
         return returnData;

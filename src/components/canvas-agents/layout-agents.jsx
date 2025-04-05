@@ -164,6 +164,26 @@ export const layoutDagre = (nodes, edges, direction = 'LR') => {
   // 7) Recombine potentially adjusted node positions
   layoutedNonGroupNodes = [...layoutedNonGroupNodes];
 
+  // === Final check: Adjust nodes that share the exact same position ===
+  // If two or more nodes have exactly the same x and y, adjust their y so that one is above and one is below.
+  const overlapOffset = 700;
+  const positionsMap = {};
+  layoutedNonGroupNodes.forEach((node) => {
+    // Normalize the positions to avoid floating point discrepancies
+    const key = `${node.position.x.toFixed(2)}_${node.position.y.toFixed(2)}`;
+    if (!positionsMap[key]) positionsMap[key] = [];
+    positionsMap[key].push(node);
+  });
+  Object.values(positionsMap).forEach((nodesAtSamePos) => {
+    if (nodesAtSamePos.length > 1) {
+      const count = nodesAtSamePos.length;
+      nodesAtSamePos.forEach((node, idx) => {
+        // Distribute nodes vertically around the original y position
+        node.position.y += (idx - (count - 1) / 2) * overlapOffset;
+      });
+    }
+  });
+
   // 8) Layout group nodes to encapsulate their children (same as your original logic)
   const layoutedGroupNodes = groupNodes.map((groupNode) => {
     const children = layoutedNonGroupNodes.filter(

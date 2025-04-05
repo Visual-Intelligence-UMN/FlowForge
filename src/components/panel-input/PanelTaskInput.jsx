@@ -185,7 +185,7 @@ function TaskPanel() {
           </Select>
         </Grid>
       </Grid>
-      <Grid sx={{ gap: 2 }}>
+      {/* <Grid sx={{ gap: 2 }}>
         <input
           type="checkbox"
           id="run-realtime"
@@ -193,7 +193,7 @@ function TaskPanel() {
           onChange={handleRealtimeToggle}
         />
         <label style={{ marginLeft: 5 }}>Check for User Study</label>
-      </Grid>
+      </Grid> */}
 
       <Grid sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 
@@ -205,6 +205,12 @@ function TaskPanel() {
           >
             Example Input (Optional)
           </Typography>
+                  <input
+                    type="checkbox"
+                    id="run-realtime"
+                    checked={runRealtime}
+                    onChange={handleRealtimeToggle}
+                  />
           <Button
             component={fileName ? undefined : "label"}
             color="primary"

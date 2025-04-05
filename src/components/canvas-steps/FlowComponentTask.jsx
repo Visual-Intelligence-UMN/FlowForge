@@ -30,7 +30,7 @@ import Button from "@mui/material/Button";
 import {
   ExploreButton
 } from "../canvas-buttons/ExploreButtons";
-
+import { set } from "lodash";
 function convertToReactFlowFormat(taskflow) {
   const { taskFlowStart, taskFlowSteps = [] } = taskflow;
   const startNode = {
@@ -318,6 +318,19 @@ export function FlowComponentTask(props) {
       return updatedNodes;
     });
   };
+
+  const updateNodeFieldset = (nodeId, fieldName, newValue) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) => {
+        if (node.id !== nodeId) return node;
+        const newData = { ...node.data };
+        set(newData, fieldName, newValue);
+        return { ...node, data: newData };
+      })
+    );
+    // handleSave();
+  };
+
   const nodeListWithHandlers = nodes.map((node) => ({
     ...node,
     style: {
@@ -327,6 +340,7 @@ export function FlowComponentTask(props) {
     data: {
       ...node.data,
       updateNodeField,
+      updateNodeFieldset,
     },
   }));
 
