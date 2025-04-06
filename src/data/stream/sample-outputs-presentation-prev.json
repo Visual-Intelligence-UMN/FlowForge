@@ -164,7 +164,7 @@
                 "content": "",
                 "showFullContent": false
             },
-            "isThreadActive": true,
+             "isThreadActive": false,
             "isVisible": false,
             "userRating": 0,
             "timeUsed": 10021
@@ -265,7 +265,7 @@
                     "content": "",
                     "showFullContent": false
                 },
-                "isThreadActive": true,
+                 "isThreadActive": false,
                 "isVisible": false,
                 "userRating": 0,
                 "timeUsed": null
@@ -350,7 +350,7 @@
                         "content": "",
                         "showFullContent": false
                     },
-                    "isThreadActive": true,
+                     "isThreadActive": false,
                     "isVisible": false,
                     "userRating": 0,
                     "timeUsed": null

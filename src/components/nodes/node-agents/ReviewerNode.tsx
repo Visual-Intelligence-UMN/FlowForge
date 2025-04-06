@@ -65,7 +65,7 @@ const SingleAgentNode = ({ id, data }) => {
             // disabled
             className="nodrag nopan" // set to prevent dragging and panning
           >
-            {/* <MenuItem value="tool_WebSearch">Web Search</MenuItem> */}
+            <MenuItem value="none">Web Search</MenuItem>
             <MenuItem value="none">No Tool</MenuItem>
           </Select>
         </FormControl>

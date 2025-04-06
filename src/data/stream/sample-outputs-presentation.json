@@ -64,7 +64,7 @@
             "content": "",
             "showFullContent": false
         },
-        "isThreadActive": true,
+         "isThreadActive": false,
         "isVisible": false,
         "userRating": 0,
         "timeUsed": null

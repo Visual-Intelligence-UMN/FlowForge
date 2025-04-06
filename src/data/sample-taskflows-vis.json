@@ -1072,7 +1072,7 @@
                 "stepDescription": "develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
                 "pattern": {
                     "name": "Redundant",
-                    "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
+                    "recommendationReason": "The Redundant pattern is ideal for simultaneously creating multiple visualizations and aggregating them into a cohesive story."
                 },
                 "config": {
                     "type": "redundant",
@@ -1278,7 +1278,7 @@
             "stepDescription": "develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
             "pattern": {
                 "name": "Redundant",
-                "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
+                "recommendationReason": "The Redundant pattern is ideal for simultaneously creating multiple visualizations and aggregating them into a cohesive story."
             },
             "config": {
                 "type": "redundant",
@@ -1485,7 +1485,7 @@
                 "stepId": "step-2",
                 "stepName": "Create Bar Chart",
                 "stepLabel": "Visualize Genre Distribution",
-                "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity.",
+                "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity. Make sure it's Vega-lite json format.",
                 "pattern": {
                     "name": "Single Agent",
                     "recommendationReason": "The task of generating a bar chart for genre distribution is straightforward, manageable by a single agent efficiently without needing extra complexity."
@@ -1505,7 +1505,7 @@
                 "stepId": "step-3",
                 "stepName": "Generate Line Chart",
                 "stepLabel": "Trend Over Time",
-                "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production.",
+                "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production. Make sure it's Vega-lite json format.",
                 "pattern": {
                     "name": "Single Agent",
                     "recommendationReason": "This design pattern is ideal for the straightforward task of generating a simple line chart, which doesn't require complex operations beyond data visualization."

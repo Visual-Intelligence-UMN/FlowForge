@@ -444,7 +444,7 @@ const StreamOutput = ({ runConfig }) => {
           <Grid item xs={4}>
             <TextField 
             size="small" 
-            label="Topic" 
+            label="Focus/Topic" 
             variant="outlined" 
             value={!test ? "" : streamData.topic} 
             onChange={handleTopicChange} 
