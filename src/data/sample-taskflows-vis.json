@@ -227,8 +227,8 @@
         },
         "taskFlow_4": {
             "taskFlowId": "4",
-            "taskFlowName": "Market Share and Audience Engagement",
-            "taskFlowDescription": "This task flow evaluates market share and audience engagement using specific visualizations that create a concise narrative.",
+            "taskFlowName": "Question-driven Visualization",
+            "taskFlowDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset first, then generate a series of interactive plots for each question and aggregate as a whole story",
             "taskFlowStart": {
                 "nextSteps": [
                     "step-1"
@@ -241,18 +241,18 @@
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Create Market Share Circular Chart",
-                    "stepLabel": "Market Share Chart",
-                    "stepDescription": "Design a circular chart to illustrate the market share of different movie production studios. This visualization provides a snapshot of competitive dynamics within the industry. Deliver a Vega-Lite JSON specification for the circular chart.",
+                    "stepName": "",
+                    "stepLabel": "Exploration for a series of questions",
+                    "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. All questions can focus on the topic of movie ratings. ",
                     "nextSteps": [
                         "step-2"
                     ]
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Engagement Analysis Interaction Plot",
-                    "stepLabel": "Engagement Interaction Plot",
-                    "stepDescription": "Develop an interaction plot to analyze audience engagement metrics such as rating and view counts. This step adds depth to the narrative by focusing on audience response and engagement trends. Deliver a final Vega-Lite JSON specification for the interaction plot, concluding the narrative with integrated insights on market share and audience engagement.",
+                    "stepName": "visualization and Narratio",
+                    "stepLabel": "visualization and Narration",
+                    "stepDescription": "From the previously listed questions, choose one compelling question and develop a detailed Vega-Lite visualization to explore it. Carefully select the most relevant attributes from the dataset to construct the plot. Present the Vega-Lite JSON specification. Then write a concise and engaging narrative that interprets the visualization and key highlights or surprising trends.",
                     "nextSteps": []
                 }
             ]
@@ -604,7 +604,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 3,
+                        "maxRound": 1,
                         "evaluator": {
                             "persona": "You are a data storyteller focused on crafting a compelling narrative around audience engagement metrics. Your unique style emphasizes clarity and narrative coherence, ensuring each data point adds to the overarching story of market share and engagement trends.",
                             "goal": "The goal: To assess the effectiveness of the interaction plot in delivering insights on audience engagement and market share, ensuring it is easy to understand and provides a clear narrative connection.",
@@ -631,7 +631,7 @@
                     ],
                     "template": {
                         "confirm": false,
-                        "maxRound": 3,
+                        "maxRound": 2,
                         "evaluator": {
                             "persona": "You are a data storyteller focused on crafting a compelling narrative around audience engagement metrics. Your unique style emphasizes clarity and narrative coherence, ensuring each data point adds to the overarching story of market share and engagement trends.",
                             "goal": "The goal: To assess the effectiveness of the interaction plot in delivering insights on audience engagement and market share, ensuring it is easy to understand and provides a clear narrative connection.",
@@ -1021,17 +1021,17 @@
     },
     {
         "taskFlowId": "5-1-1",
-        "taskFlowName": "Market Share and Audience Engagement",
-        "taskFlowDescription": "This task flow evaluates market share and audience engagement using specific visualizations that create a concise narrative.",
+        "taskFlowName": "Question-driven Visualization",
+        "taskFlowDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset first, then generate a series of interactive plots for each question and aggregate as a whole story",
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
-                "stepName": "Explore questions ",
-                "stepLabel": "Market Share Chart",
-                "stepDescription": "List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation.",
+                "stepName": "Exploration for a series of questions",
+                "stepLabel": "Question Exploration",
+                "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. The questions can focus on the movies rating.",
                 "pattern": {
-                    "name": "Single Agent",
-                    "recommendationReason": "The Discussion pattern facilitates the collaborative exploration of potential questions, leveraging diverse perspectives to uncover valuable insights about the movie dataset."
+                    "name": "Reflection",
+                    "recommendationReason": "The Reflection pattern facilitates the iteration of potential questions to uncover valuable insights about the movie dataset."
                 },
                 "config": {
                     "type": "singleAgent",
@@ -1053,10 +1053,17 @@
                 },
                 "template": {
                     "confirm": false,
-                    "maxRound": 1,
-                    "persona": "You are a data analysist, and can analyze the dataset attributes to come up with a series of interesting questions for visualization story telling. ",
-                    "goal": "The goal: Choose a relevant question from the dataset and craft a Vega-lite JSON visualization that not only captures the necessary data attributes effectively but also includes an engaging narrative for interpretation. This ensures that viewers gain a deeper understanding of the depicted trends and insights.",
-                    "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    "maxRound": 2,
+                   "evaluator": {
+                        "persona": "You are a meticulous reflection agent specializing in giving feedback and categorizing exploratory questions for data analysis.",
+                        "goal": "The goal: Critically evaluate each visualization and its accompanying narrative, providing feedback on their effectiveness in conveying key insights and how well they integrate into the overall story.",
+                        "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                    },
+                    "optimizer": {
+                        "persona": "You are an innovative optimizer focused on identifying patterns and relationships within the movie dataset to guide impactful visual storytelling.",
+                        "goal": "The goal: Design and execute a set of fully executable VEGA LITE taskflows that generate at least four distinct chart types, creating a cohesive and engaging data story with clear explanatory text for each visualization.",
+                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                    }
                 },
                 "nextSteps": [
                     "step-2"
@@ -1064,8 +1071,8 @@
             },
             {
                 "stepId": "step-2",
-                "stepName": "visualization and narratio",
-                "stepLabel": "Engagement Interaction Plot",
+                "stepName": "visualization and Narration",
+                "stepLabel": "visualization and Narration",
                 "stepDescription": "develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
                 "pattern": {
                     "name": "Redundant",
@@ -1077,7 +1084,7 @@
                         {
                             "type": "singleAgent",
                             "description": "Agent1",
-                            "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.",
+                            "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques. You should select the first question from the previous step.",
                             "goal": "The goal: Create a line chart to highlight trends over time in the dataset, providing a clear view of the progression of key variables.",
                             "tools": [],
                             "llm": "gpt-4o",
@@ -1088,7 +1095,7 @@
                         {
                             "type": "singleAgent",
                             "description": "Agent2",
-                            "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.",
+                            "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements. You should select the second question from the previous step.",
                             "goal": "The goal: Design a bar chart that compares categorical data across several dimensions, revealing distinct patterns and differences.",
                             "tools": [],
                             "llm": "gpt-4o",
@@ -1099,7 +1106,7 @@
                         {
                             "type": "singleAgent",
                             "description": "Agent3",
-                            "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.",
+                            "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.  You should select the third question from the previous step.",
                             "goal": "The goal: Develop a scatter plot to showcase correlations and relative distributions, emphasizing intricate relationships between variables.",
                             "tools": [],
                             "llm": "gpt-4o",
@@ -1110,7 +1117,7 @@
                         {
                             "type": "singleAgent",
                             "description": "Agent4",
-                            "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.",
+                            "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights. You should select the fourth question from the previous step.",
                             "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions.",
                             "tools": [],
                             "llm": "gpt-4o",

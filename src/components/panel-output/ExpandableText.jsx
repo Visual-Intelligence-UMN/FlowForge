@@ -5,13 +5,13 @@ import Grid from "@mui/material/Grid2";
 const ExpandableTextBox = ({ msg, collapsedHeight = 200, index, isLastItem }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const toggleExpand = () => setExpanded(prev => !prev);
+  // const toggleExpand = () => setExpanded(prev => !prev);
 
   const containerStyle = {
     whiteSpace: 'pre-wrap',
     overflowX: 'auto',
     wordWrap: 'break-word',
-    maxHeight: expanded ? 'none' : collapsedHeight,
+    // maxHeight: expanded ? 'none' : collapsedHeight,
     overflowY: 'hidden',
     backgroundColor: isLastItem ? "#ffeb9b" : "white",
     padding: 10,
@@ -28,9 +28,9 @@ const ExpandableTextBox = ({ msg, collapsedHeight = 200, index, isLastItem }) =>
         <Typography variant="h6" gutterBottom sx={{ mb: 0 }}>
             {"Step" + Number(msg.sender.split("-")[1]) + " " + msg.sender.split("-")[3]}
         </Typography>
-        <button onClick={toggleExpand}>
+        {/* <button onClick={toggleExpand}>
         {expanded ? 'Show Less' : 'Show More'}
-      </button>
+      </button> */}
       <div style={containerStyle}>
         <ReactMarkdown>{msg.content}</ReactMarkdown>
       </div>

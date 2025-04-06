@@ -319,44 +319,7 @@ const StreamOutput = ({ runConfig }) => {
           {intermediaryMessages.map((msg, index) => {
             const isLastItem = index === intermediaryMessages.length - 1;
             return (
-              // <Grid item key={index} sx={{ minWidth: 450, maxWidth: 500 }}>
-                /* <Card
-                  elevation={3}
-                  sx={{
-                    width: "100%",
-                    borderRadius: 2,
-                    border: "1px solid #ccc",
-                    cursor: "pointer",
-                    ":hover": { boxShadow: 3 },
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100%",
-                    backgroundColor: isLastItem ? "#ffeb9b" : "white",
-                  }}
-                >
-                  <CardContent sx={{ 
-                    flexGrow: 1, 
-                    display: "flex", 
-                    flexDirection: "column",
-                    
-                  }}> */
-
-                    /* <Typography
-                      variant="body1"
-                      sx={{
-                        whiteSpace: "normal",
-                        wordWrap: "break-word",
-                        overflowWrap: "break-word",
-                        flexGrow: 1,
-                      }}
-                    >
-                      {msg.content}
-                    </Typography> */
-                    /* <div style={{ whiteSpace: 'pre-wrap' }}>
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div> */
                     <ExpandableTextBox msg={msg} index={index} isLastItem={isLastItem}/>
-              // </Grid>
             );
           })}
         </Grid>
@@ -369,9 +332,8 @@ const StreamOutput = ({ runConfig }) => {
     <Grid container spacing={2} alignItems="flex-start">
       <Grid item xs={12}>
         <form onSubmit={handleFormSubmit}>
-          <Grid container spacing={3} alignItems="center">
-            {/* TEXT INPUT */}
-            <Grid item xs={10} sm={8}>
+          <Grid container spacing={5} alignItems="center">
+            <Grid item xs={10} sm={8} sx={{ width: '40%' }}>
               <TextField
                 fullWidth
                 multiline
@@ -384,7 +346,7 @@ const StreamOutput = ({ runConfig }) => {
                 sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
               />
             </Grid>
-
+  
             {/* USER RATING */}
             <Grid item xs={2} sm={2}>
               <Typography variant="body2" sx={{ mb: 1 }}>
@@ -395,20 +357,45 @@ const StreamOutput = ({ runConfig }) => {
                 value={streamData.userRating || 0}
                 onChange={handleUserRatingChange}
               />
+              
             </Grid>
-
+  
             {/* SUBMIT BUTTON */}
             <Grid item xs={12} sm={2}>
-              <Button type="submit" variant="contained" fullWidth>
-                Start
-              </Button>
+              {streamData?.isThreadActive ? (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{
+                    backgroundColor: 'grey.500',
+                    color: 'white',
+                    '&:hover': { backgroundColor: 'grey.700' },
+                  }}
+                >
+                  Loading...
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  fullWidth
+                  sx={{
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    '&:hover': { backgroundColor: 'primary.dark' },
+                  }}
+                >
+                  Start
+                </Button>
+              )}
             </Grid>
           </Grid>
         </form>
       </Grid>
     </Grid>
   );
-
+  
   // If the user is on certain pages, possibly hide
   const { type } = canvasPages || {};
   if (type === "pattern" || type === "flow" || !type) {
@@ -430,53 +417,13 @@ const StreamOutput = ({ runConfig }) => {
 
       {/* Only show the input form if isThreadActive */}
       <Box className='workflow-input' container spacing={2} alignItems="center">
-        {streamData?.isThreadActive && displayInputMessage()}
+        {streamData && displayInputMessage()}
 
         {/* The user’s initial input message */}
         <Grid className='input message' container spacing={2} alignItems="center" p={2}>
 
-          {streamData.inputMessage?.content && (
-            // <Grid container spacing={2} alignItems="center">
-            <Grid item size={6} className='start-message'>
-              <Typography variant="h6">Start Message: </Typography>
-              {/* <Typography variant="subtitle2" color="textSecondary">
-                  {streamData.inputMessage.sender}
-                </Typography> */}
-              <Typography variant="h6">
-                {getPreviewContent(
-                  streamData.inputMessage.content,
-                  streamData.inputMessage.showFullContent
-                )}
-              </Typography>
-            </Grid>
-          )}
-          {/* </Grid> */}
           <Grid item size={6} className='time'>
-          {/* <Grid item size={6}> */}
-          {/* {streamData.isThreadActive && (
-            <Rating
-                name="userRating"
-                value={streamData.userRating || 0}
-                onChange={handleUserRatingChange}
-              />
-            )} */}
-            {/* {streamData.userRating && (
-              <Typography variant="h6">User Rating: {streamData.userRating} ⭐</Typography>
-            )}
-                         */}
-            {/* <Grid item xs={2} sm={2}>
-              
-            </Grid> */}
-            
-            {/* {streamData.timeUsed && (
-              <>
-                <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
-                <Rating
-                  name="userRating"
-                value={streamData.userRating || 0}
-                onChange={handleUserRatingChange}
-              />
-            </Grid> */}
+         
 
             {streamData.timeUsed > 0 && (
               <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
