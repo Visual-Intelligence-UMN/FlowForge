@@ -329,71 +329,51 @@ const StreamOutput = ({ runConfig }) => {
 
   // Renders the form for user input
   const displayInputMessage = () => (
-    <Grid container spacing={2} alignItems="flex-start">
-      {/* <Grid item xs={12}> */}
-        <form onSubmit={handleFormSubmit}>
-          <Grid container spacing={5} width="100%">
-            <Grid item xs={10} sm={8} sx={{ width: '60%' }} container >
-              <TextField
-                fullWidth
-                multiline
-                minRows={1}
-                maxRows={3}
-                variant="outlined"
-                value={streamData.inputMessage.content}
-                onChange={handleInputChange}
-                placeholder={selectedTask.description}
-                sx={{ "& .MuiInputBase-root": { fontSize: "16px" }}}
-              />
-            </Grid>
-  
+      <Grid container spacing={5} >
+        <Grid item xs={8} sm={9} width="60%">
+          <TextField
+            fullWidth
+            multiline
+            minRows={1}
+            maxRows={3}
+            variant="outlined"
+            value={streamData.inputMessage.content}
+            onChange={handleInputChange}
+            placeholder={selectedTask.description}
+            sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
+          />
+        </Grid>
+        <Grid item xs={4} sm={3}>
+          {streamData?.isThreadActive ? (
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: 'grey.500',
+                color: 'white',
+                '&:hover': { backgroundColor: 'grey.700' },
+              }}
+            >
+              Loading...
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': { backgroundColor: 'primary.dark' },
+              }}
+            >
+              Start
+            </Button>
+          )}
+        </Grid>
+      </Grid>
 
-            {/* <Grid item xs={2} sm={2}>
-              <Typography variant="body2" sx={{ mb: 1 }}>
-                Rating:
-              </Typography>
-              <Rating
-                name="userRating"
-                value={streamData.userRating || 0}
-                onChange={handleUserRatingChange}
-              />
-              
-            </Grid> */}
-  
-            {/* SUBMIT BUTTON */}
-            <Grid item xs={12} sm={2}>
-              {streamData?.isThreadActive ? (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth
-                  sx={{
-                    backgroundColor: 'grey.500',
-                    color: 'white',
-                    '&:hover': { backgroundColor: 'grey.700' },
-                  }}
-                >
-                  Loading...
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  fullWidth
-                  sx={{
-                    backgroundColor: 'primary.main',
-                    color: 'white',
-                    '&:hover': { backgroundColor: 'primary.dark' },
-                  }}
-                >
-                  Start
-                </Button>
-              )}
-            </Grid>
-          </Grid>
-        </form>
-      {/* </Grid> */}
-    </Grid>
   );
   
   // If the user is on certain pages, possibly hide
@@ -404,20 +384,20 @@ const StreamOutput = ({ runConfig }) => {
 
   // Render main
   return (
-    <Box sx={{ width: "100%", margin: "auto", textAlign: "left" }}>
-      <Grid container spacing={2} alignItems="center" clasName='thread-button'>
+    <Grid sx={{ width: "100%", margin: "auto", textAlign: "left" }}>
+      <Grid container spacing={2} alignItems="center" >
         <Grid item xs={12}>
           <Box sx={{ display: "flex", gap: 2 }}>
-            <Button variant="outlined" onClick={startNewThread}>
+            <Button variant="outlined" onClick={startNewThread} sx={{ m: 1 }}>
               Start New Thread
             </Button>
           </Box>
         </Grid>
       </Grid>
-
+      {streamData && displayInputMessage()}
       {/* Only show the input form if isThreadActive */}
       <Box className='workflow-input' container spacing={2} alignItems="center">
-        {streamData && displayInputMessage()}
+        
 
         {/* The user’s initial input message */}
         <Grid container spacing={8} alignItems="center" p={1}>
@@ -472,7 +452,7 @@ const StreamOutput = ({ runConfig }) => {
           </Card>
         )}
       </Box>
-    </Box>
+    </Grid>
   );
 };
 
