@@ -330,10 +330,10 @@ const StreamOutput = ({ runConfig }) => {
   // Renders the form for user input
   const displayInputMessage = () => (
     <Grid container spacing={2} alignItems="flex-start">
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}> */}
         <form onSubmit={handleFormSubmit}>
-          <Grid container spacing={5} alignItems="center">
-            <Grid item xs={10} sm={8} sx={{ width: '40%' }}>
+          <Grid container spacing={5} width="100%">
+            <Grid item xs={10} sm={8} sx={{ width: '60%' }} container >
               <TextField
                 fullWidth
                 multiline
@@ -343,12 +343,12 @@ const StreamOutput = ({ runConfig }) => {
                 value={streamData.inputMessage.content}
                 onChange={handleInputChange}
                 placeholder={selectedTask.description}
-                sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
+                sx={{ "& .MuiInputBase-root": { fontSize: "16px" }}}
               />
             </Grid>
   
-            {/* USER RATING */}
-            <Grid item xs={2} sm={2}>
+
+            {/* <Grid item xs={2} sm={2}>
               <Typography variant="body2" sx={{ mb: 1 }}>
                 Rating:
               </Typography>
@@ -358,7 +358,7 @@ const StreamOutput = ({ runConfig }) => {
                 onChange={handleUserRatingChange}
               />
               
-            </Grid>
+            </Grid> */}
   
             {/* SUBMIT BUTTON */}
             <Grid item xs={12} sm={2}>
@@ -392,7 +392,7 @@ const StreamOutput = ({ runConfig }) => {
             </Grid>
           </Grid>
         </form>
-      </Grid>
+      {/* </Grid> */}
     </Grid>
   );
   
@@ -420,16 +420,29 @@ const StreamOutput = ({ runConfig }) => {
         {streamData && displayInputMessage()}
 
         {/* The user’s initial input message */}
-        <Grid className='input message' container spacing={2} alignItems="center" p={2}>
-
-          <Grid item size={6} className='time'>
-         
-
+        <Grid container spacing={8} alignItems="center" p={1}>
+          <Grid item xs={4}>
             {streamData.timeUsed > 0 && (
-              <Typography variant="h6">Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s</Typography>
+              <Typography variant="h6">
+                Time Used: {(streamData.timeUsed / 1000).toFixed(2)} s
+              </Typography>
             )}
           </Grid>
+          <Grid item xs={4}>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Rating:
+            </Typography>
+            <Rating
+              name="userRating"
+              value={streamData.userRating || 0}
+              onChange={handleUserRatingChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField size="small" label="Topic" variant="outlined" />
+          </Grid>
         </Grid>
+
 
         {/* Intermediate messages */}
         {streamData.intermediaryMessages.length > 0 && displayIntermediaryMessages()}
