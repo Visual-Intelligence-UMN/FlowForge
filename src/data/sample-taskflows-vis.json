@@ -243,7 +243,7 @@
                     "stepId": "step-1",
                     "stepName": "",
                     "stepLabel": "Exploration for a series of questions",
-                    "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. All questions can focus on the topic of movie ratings. ",
+                    "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration.",
                     "nextSteps": [
                         "step-2"
                     ]
@@ -1030,8 +1030,8 @@
                 "stepLabel": "Question Exploration",
                 "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. The questions can focus on the movies rating.",
                 "pattern": {
-                    "name": "Reflection",
-                    "recommendationReason": "The Reflection pattern facilitates the iteration of potential questions to uncover valuable insights about the movie dataset."
+                    "name": "Single Agent",
+                    "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
                 },
                 "config": {
                     "type": "singleAgent",
@@ -1054,16 +1054,12 @@
                 "template": {
                     "confirm": false,
                     "maxRound": 2,
-                   "evaluator": {
-                        "persona": "You are a meticulous reflection agent specializing in giving feedback and categorizing exploratory questions for data analysis.",
+                    "persona": "You are a meticulous reflection agent specializing in giving feedback and categorizing exploratory questions for data analysis.",
                         "goal": "The goal: Critically evaluate each visualization and its accompanying narrative, providing feedback on their effectiveness in conveying key insights and how well they integrate into the overall story.",
                         "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
-                    },
-                    "optimizer": {
-                        "persona": "You are an innovative optimizer focused on identifying patterns and relationships within the movie dataset to guide impactful visual storytelling.",
-                        "goal": "The goal: Design and execute a set of fully executable VEGA LITE taskflows that generate at least four distinct chart types, creating a cohesive and engaging data story with clear explanatory text for each visualization.",
-                        "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
-                    }
+
+
+                   
                 },
                 "nextSteps": [
                     "step-2"
@@ -1113,17 +1109,6 @@
                             "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
                             "patternPrompt": "You can complete the task independently.",
                             "systemPrompt": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
-                        },
-                        {
-                            "type": "singleAgent",
-                            "description": "Agent4",
-                            "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights. You should select the fourth question from the previous step.",
-                            "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions.",
-                            "tools": [],
-                            "llm": "gpt-4o",
-                            "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
-                            "patternPrompt": "You can complete the task independently.",
-                            "systemPrompt": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
                         },
                         {
                             "type": "singleAgent",

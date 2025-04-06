@@ -22,6 +22,7 @@ import {
   canvasPagesAtom,
   multiStreamOutputAtom,
   runRealtimeAtom,
+  testAtom,
 } from "../../patterns/GlobalStates";
 
 import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
@@ -41,10 +42,26 @@ const StreamOutput = ({ runConfig }) => {
   const [workflowInput] = useAtom(workflowInputAtom);
   const [canvasPages] = useAtom(canvasPagesAtom);
   const [runRealtime] = useAtom(runRealtimeAtom);
+  const [test, setTest] = useAtom(testAtom);
   // This single global store holds *all* configs, keyed by configId.
   const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
 
+  const updateStreamData = (updateOrFn) => {
+    setMultiStreamOutput((prevAllConfigs) => {
+      const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
 
+      // If caller passed a function, invoke it with the old data
+      const newConfigData =
+        typeof updateOrFn === "function"
+          ? updateOrFn(prevConfigData)
+          : { ...prevConfigData, ...updateOrFn };
+
+      return {
+        ...prevAllConfigs,
+        [runConfig?.configId]: newConfigData,
+      };
+    });
+  };
   // Pull out or initialize the data object for the current configId:
   const defaultData = {
     inputMessage: {
@@ -108,22 +125,7 @@ const StreamOutput = ({ runConfig }) => {
     }
   }, [runConfig?.configId, selectedTask?.name, setMultiStreamOutput]);
 
-  const updateStreamData = (updateOrFn) => {
-    setMultiStreamOutput((prevAllConfigs) => {
-      const prevConfigData = prevAllConfigs[runConfig?.configId] || defaultData;
 
-      // If caller passed a function, invoke it with the old data
-      const newConfigData =
-        typeof updateOrFn === "function"
-          ? updateOrFn(prevConfigData)
-          : { ...prevConfigData, ...updateOrFn };
-
-      return {
-        ...prevAllConfigs,
-        [runConfig?.configId]: newConfigData,
-      };
-    });
-  };
 
   useEffect(() => {
     if (workflowInput && workflowInput !== streamData.inputMessage.content) {
@@ -277,6 +279,7 @@ const StreamOutput = ({ runConfig }) => {
 
   const handleUserRatingChange = (event, newValue) => {
     updateStreamData({ userRating: newValue });
+    setTest(true);
   };
 
   const handleTopicChange = (event) => {
@@ -284,18 +287,21 @@ const StreamOutput = ({ runConfig }) => {
   };
 
 
-  const toggleVisibility = () => {
-    setTimeout(() => {
-      updateStreamData((prev) => ({
-        ...prev,
-        isVisible: !prev.isVisible,
-        isThreadActive: true,
-    }));
-    }, 5000);
+  const toggleVisibility = async () => {
     updateStreamData((prev) => ({
       ...prev,
-      isThreadActive: !prev.isThreadActive,
+      isThreadActive: true,
     }));
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    updateStreamData((prev) => ({
+      ...prev,
+      isVisible: true,
+    }));
+    updateStreamData((prev) => ({
+      ...prev,
+      isThreadActive: false,
+    }));
+
   };
 
   const startNewThread = () => {
@@ -305,9 +311,11 @@ const StreamOutput = ({ runConfig }) => {
       inputMessage: { sender: "User", content: "", showFullContent: false },
       intermediaryMessages: [],
       finalMessage: { sender: "", content: "", showFullContent: false },
-      isThreadActive: true,
+      isThreadActive: false,
       userRating: 0,
       timeUsed: null,
+      isVisible: false,
+      topic: "",
     });
   };
 
@@ -357,7 +365,7 @@ const StreamOutput = ({ runConfig }) => {
           />
         </Grid>
         <Grid item xs={4} sm={3}>
-          {(!streamData?.isVisible && streamData?.isThreadActive && streamData?.inputMessage?.content.length > 0) ? (
+          {(streamData?.isThreadActive === true) ? (
             <Button
               type="submit"
               variant="contained"
@@ -429,12 +437,19 @@ const StreamOutput = ({ runConfig }) => {
             </Typography>
             <Rating
               name="userRating"
-              value={streamData.userRating || 0}
+              value={!test ? 0 : streamData.userRating}
               onChange={handleUserRatingChange}
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField size="small" label="Topic" variant="outlined" value={streamData?.topic || ""} onChange={handleTopicChange} />
+            <TextField 
+            size="small" 
+            label="Topic" 
+            variant="outlined" 
+            value={!test ? "" : streamData.topic} 
+            onChange={handleTopicChange} 
+            sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
+            />
           </Grid>
         </Grid>
 

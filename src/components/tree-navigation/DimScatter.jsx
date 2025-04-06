@@ -70,7 +70,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         <MenuItem value="runtime">Runtime</MenuItem>
         <MenuItem value="timeUsed">Time Used</MenuItem>
         <MenuItem value="userRating">User Rating</MenuItem>
-        <MenuItem value="topic">Topic</MenuItem>
+        <MenuItem value="topic">Focus</MenuItem>
     </Select>
 
     const ySelector = <Select
@@ -85,7 +85,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         <MenuItem value="runtime">Runtime</MenuItem>
         <MenuItem value="timeUsed">Time Used</MenuItem>
         <MenuItem value="userRating">User Rating</MenuItem>
-        <MenuItem value="topic">Topic</MenuItem>
+        <MenuItem value="topic">Focus</MenuItem>
     </Select>
 
     // Render axes when svg dimensions or axis selection changes

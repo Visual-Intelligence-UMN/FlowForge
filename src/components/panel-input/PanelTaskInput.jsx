@@ -5,6 +5,7 @@ import {
   taskFlowsGenerateAtom,
   workflowInputAtom,
   runRealtimeAtom,
+  testAtom,
 } from "../../patterns/GlobalStates";
 
 import {
@@ -29,7 +30,7 @@ function TaskPanel() {
   const [filePreview, setFilePreview] = useState(null);
   const [exampleIndex, setExampleIndex] = useState(null);
   const [fileName, setFileName] = useState("");
-
+  const [test, setTest] = useAtom(testAtom);
   const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
 
   // Local state for description
@@ -205,11 +206,17 @@ function TaskPanel() {
           >
             Example Input (Optional)
           </Typography>
-                  <input
+                  {/* <input
                     type="checkbox"
                     id="run-realtime"
                     checked={runRealtime}
                     onChange={handleRealtimeToggle}
+                  /> */}
+                  <input
+                    type="checkbox"
+                    id="test"
+                    checked={test}
+                    onChange={() => setTest(!test)}
                   />
           <Button
             component={fileName ? undefined : "label"}
