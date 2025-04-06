@@ -385,7 +385,7 @@
             "patternId": "3-1"
         },
         {
-            "taskFlowId": "03-2",
+            "taskFlowId": "3-2",
             "taskFlowName": "Predictive Patterns",
             "taskFlowDescription": "Use statistical and visualization tools to uncover predictive patterns in the dataset.",
             "patternsId": 4,
@@ -757,7 +757,7 @@
             "patternId": "4-1"
         },
         {
-            "taskFlowId": "04-2",
+            "taskFlowId": "4-2",
             "taskFlowName": "Focused Genre Analysis",
             "taskFlowDescription": "Analyze and visualize genre-specific insights to provide a targeted narrative.",
             "patternsId": 5,
@@ -1242,6 +1242,222 @@
         "configId": "5-1-1"
     }
 ,
+{
+    "taskFlowId": "5-2-1",
+    "taskFlowName": "Question-driven Visualization",
+    "taskFlowDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset first, then generate a series of interactive plots for each question and aggregate as a whole story",
+    "taskFlowSteps": [
+        {
+            "stepId": "step-1",
+            "stepName": "Exploration for a series of questions",
+            "stepLabel": "Question Exploration",
+            "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. The questions can focus on the movies rating.",
+            "pattern": {
+                "name": "Single Agent",
+                "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
+            },
+            "config": {
+                "type": "singleAgent",
+                "maxRound": 1,
+                "nodes": [
+                    {
+                        "type": "singleAgent",
+                        "description": "Agent",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task.",
+                        "systemPrompt": "You are a data analysist, and can analyze the dataset attributes to come up with a series of interesting questions for visualization story telling. \nThe step description is: List a list of interesting and worth exploring questions about the movie dataset. and organize each question  prepared for later visualization generation..\n    Please produce the expected deliverable aligned with the step description, your persona and goal, and concatenate the previous deliverable with yours to keep completion."
+                    }
+                ],
+                "edges": [],
+                "runtime": 1,
+                "maxCalls": 1
+            },
+            "template": {
+                "confirm": false,
+                "maxRound": 1,
+                "persona": "You are a meticulous reflection agent specializing in giving feedback and categorizing exploratory questions for data analysis.",
+                "goal": "The goal: Critically evaluate each visualization and its accompanying narrative, providing feedback on their effectiveness in conveying key insights and how well they integrate into the overall story.",
+                "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                
+            },
+            "nextSteps": [
+                "step-2"
+            ]
+        },
+        {
+            "stepId": "step-2",
+            "stepName": "visualization and Narration",
+            "stepLabel": "visualization and Narration",
+            "stepDescription": "develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+            "pattern": {
+                "name": "Redundant",
+                "recommendationReason": "The Single Agent pattern is ideal for creating precise visualizations in Vega-lite and selecting dataset attributes, ensuring clarity without added complexity."
+            },
+            "config": {
+                "type": "redundant",
+                "nodes": [
+                    {
+                        "type": "singleAgent",
+                        "description": "Agent1",
+                        "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques. You should select the first question from the previous step.",
+                        "goal": "The goal: Create a line chart to highlight trends over time in the dataset, providing a clear view of the progression of key variables.",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                        "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                        "systemPrompt": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                    },
+                    {
+                        "type": "singleAgent",
+                        "description": "Agent2",
+                        "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements. You should select the second question from the previous step.",
+                        "goal": "The goal: Design a bar chart that compares categorical data across several dimensions, revealing distinct patterns and differences.",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                        "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task.",
+                        "systemPrompt": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                    },
+                    {
+                        "type": "singleAgent",
+                        "description": "Agent3",
+                        "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.  You should select the third question from the previous step.",
+                        "goal": "The goal: Develop a scatter plot to showcase correlations and relative distributions, emphasizing intricate relationships between variables.",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                        "patternPrompt": "You can complete the task independently.",
+                        "systemPrompt": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                    },
+                    {
+                        "type": "singleAgent",
+                        "description": "Agent4",
+                        "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights. You should select the fourth question from the previous step.",
+                        "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions.",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                        "patternPrompt": "You can complete the task independently.",
+                        "systemPrompt": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please produce a complete deliverable that aligns with the step description, your persona and goal, and concatenate and merge with the all previous deliverables or contents with yours to keep completion."
+                    },
+                    {
+                        "type": "singleAgent",
+                        "description": "Aggregator",
+                        "tools": [],
+                        "llm": "gpt-4o",
+                        "taskPrompt": "The step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.",
+                        "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation.",
+                        "systemPrompt": "You are a Synthesis Specialist who integrates diverse insights into a unified data story.\nThe step description is: develop a series of visualization for the previous question, pick one of the question to generation visualization in Vega-lite json, and carefully pick suitable attribute in the dataset to draw plot. for the plot, also have a interesting narrative to interprete it.\n Please merge all the previous deliverables and produce the final deliverable that aligns with the step description, your persona and goal, merge to keep diversity and completion."
+                    }
+                ],
+                "edges": [
+                    {
+                        "type": "direct",
+                        "source": "START",
+                        "target": "Agent1",
+                        "label": "start"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "Agent1",
+                        "target": "Aggregator",
+                        "label": "direct"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "START",
+                        "target": "Agent2",
+                        "label": "start"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "Agent2",
+                        "target": "Aggregator",
+                        "label": "direct"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "START",
+                        "target": "Agent3",
+                        "label": "start"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "Agent3",
+                        "target": "Aggregator",
+                        "label": "direct"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "START",
+                        "target": "Agent4",
+                        "label": "start"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "Agent4",
+                        "target": "Aggregator",
+                        "label": "direct"
+                    },
+                    {
+                        "type": "direct",
+                        "source": "Aggregator",
+                        "target": "__end__",
+                        "label": "finish"
+                    }
+                ],
+                "maxRound": 1,
+                "runtime": 1,
+                "maxCalls": 5
+            },
+            "template": {
+                "confirm": false,
+                "maxRound": 1,
+                "withAggregation": true,
+                "agents": [
+                    {
+                        "persona": "You are an Explorative Analyst who loves to dive into datasets, uncovering hidden details with diverse visualization techniques.",
+                        "goal": "The goal: Create a line chart to highlight trends over time in the dataset, providing a clear view of the progression of key variables.",
+                        "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                    },
+                    {
+                        "persona": "You are a Comparative Analyst who excels in identifying differences and similarities within datasets by utilizing contrasting visual elements.",
+                        "goal": "The goal: Design a bar chart that compares categorical data across several dimensions, revealing distinct patterns and differences.",
+                        "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                    },
+                    {
+                        "persona": "You are a Pattern Detector with a keen eye for recognizing relationships and correlations within data points.",
+                        "goal": "The goal: Develop a scatter plot to showcase correlations and relative distributions, emphasizing intricate relationships between variables."
+                    },
+                    {
+                        "persona": "You are a Trend Narrator whose strength lies in weaving a cohesive narrative through a sequence of visual insights.",
+                        "goal": "The goal: Draft a cohesive storyline that connects each visualization, guiding viewers through the data’s significant patterns and transitions."
+                    }
+                ],
+                "aggregation": {
+                    "persona": "You are a Synthesis Specialist who integrates diverse insights into a unified data story.",
+                    "goal": "The goal: Compile all visualizations and narratives into a coherent, executable output, ensuring each Vega-Lite JSON specification is valid and runnable, and the story is impactful and informative.",
+                    "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                }
+            },
+            "nextSteps": []
+        }
+    ],
+    "patternId": "5-1",
+    "taskFlowStart": {
+        "stepId": "step-0",
+        "nextSteps": [
+            "step-1"
+        ],
+        "input": {
+            "text": "a dataset with movies data",
+            "file": ""
+        }
+    },
+    "configId": "5-1-1"
+},
 
     {
         "taskFlowId": "2-1",

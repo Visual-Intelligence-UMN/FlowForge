@@ -62,24 +62,30 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         variant="standard"
         size="small"
         onChange={e => setAxis({ ...axis, x: e.target.value })}
-        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '12px' }}
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
         <MenuItem value="maxCalls">Max Calls</MenuItem>
         <MenuItem value="runtime">Runtime</MenuItem>
+        <MenuItem value="timeUsed">Time Used</MenuItem>
+        <MenuItem value="userRating">User Rating</MenuItem>
+        <MenuItem value="topic">Topic</MenuItem>
     </Select>
 
     const ySelector = <Select
         value={axis.y}
         variant="standard"
         onChange={e => setAxis({ ...axis, y: e.target.value })}
-        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '12px' }}
     >
         <MenuItem value="taskStepNum">Task Step Number</MenuItem>
         <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
         <MenuItem value="maxCalls">Max Calls</MenuItem>
         <MenuItem value="runtime">Runtime</MenuItem>
+        <MenuItem value="timeUsed">Time Used</MenuItem>
+        <MenuItem value="userRating">User Rating</MenuItem>
+        <MenuItem value="topic">Topic</MenuItem>
     </Select>
 
     // Render axes when svg dimensions or axis selection changes

@@ -44,6 +44,7 @@ const StreamOutput = ({ runConfig }) => {
   // This single global store holds *all* configs, keyed by configId.
   const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
 
+
   // Pull out or initialize the data object for the current configId:
   const defaultData = {
     inputMessage: {
@@ -58,7 +59,7 @@ const StreamOutput = ({ runConfig }) => {
       showFullContent: false,
     },
     isThreadActive: false,
-    isVisible: true,
+    isVisible: false,
     // New additions:
     userRating: 0,     // store user rating
     timeUsed: 0,    // store time used for streaming in ms (or seconds)
@@ -278,10 +279,22 @@ const StreamOutput = ({ runConfig }) => {
     updateStreamData({ userRating: newValue });
   };
 
+  const handleTopicChange = (event) => {
+    updateStreamData({ topic: event.target.value });
+  };
+
+
   const toggleVisibility = () => {
+    setTimeout(() => {
+      updateStreamData((prev) => ({
+        ...prev,
+        isVisible: !prev.isVisible,
+        isThreadActive: true,
+    }));
+    }, 5000);
     updateStreamData((prev) => ({
       ...prev,
-      isVisible: !prev.isVisible,
+      isThreadActive: !prev.isThreadActive,
     }));
   };
 
@@ -344,7 +357,7 @@ const StreamOutput = ({ runConfig }) => {
           />
         </Grid>
         <Grid item xs={4} sm={3}>
-          {streamData?.isThreadActive ? (
+          {(!streamData?.isVisible && streamData?.isThreadActive && streamData?.inputMessage?.content.length > 0) ? (
             <Button
               type="submit"
               variant="contained"
@@ -362,6 +375,8 @@ const StreamOutput = ({ runConfig }) => {
               type="submit"
               variant="contained"
               fullWidth
+              // onClick ={handleFormSubmit}
+              onClick={() => toggleVisibility()}
               sx={{
                 backgroundColor: 'primary.main',
                 color: 'white',
@@ -389,7 +404,7 @@ const StreamOutput = ({ runConfig }) => {
         <Grid item xs={12}>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button variant="outlined" onClick={startNewThread} sx={{ m: 1 }}>
-              Start New Thread
+              New Thread
             </Button>
           </Box>
         </Grid>
@@ -400,7 +415,7 @@ const StreamOutput = ({ runConfig }) => {
         
 
         {/* The user’s initial input message */}
-        <Grid container spacing={8} alignItems="center" p={1}>
+        <Grid container spacing={8} alignItems="center" p={1} sx={{display: streamData?.isVisible ? "flex" : "none"}}>
           <Grid item xs={4}>
             {streamData.timeUsed > 0 && (
               <Typography variant="h6">
@@ -419,16 +434,16 @@ const StreamOutput = ({ runConfig }) => {
             />
           </Grid>
           <Grid item xs={4}>
-            <TextField size="small" label="Topic" variant="outlined" />
+            <TextField size="small" label="Topic" variant="outlined" value={streamData?.topic || ""} onChange={handleTopicChange} />
           </Grid>
         </Grid>
 
 
         {/* Intermediate messages */}
-        {streamData.intermediaryMessages.length > 0 && displayIntermediaryMessages()}
+        {streamData.intermediaryMessages.length > 0 && streamData?.isVisible && displayIntermediaryMessages() }
 
         {/* Final output */}
-        {streamData.finalMessage.content && (
+        {streamData.finalMessage.content && streamData?.isVisible && (
           <Card sx={{ backgroundColor: "#f5f5f5", mt: 1 }}>
             <CardContent>
               <Typography variant="h6">Final Output</Typography>

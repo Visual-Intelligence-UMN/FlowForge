@@ -212,6 +212,8 @@ const TreeNav = () => {
       const configOutput = multiStreamOutput[String(configId)]
       const userRating = configOutput?.userRating ?? 0
       const timeUsed = configOutput?.timeUsed ?? 0
+      const topic = configOutput?.topic ?? ""
+      const topic_num = topic === "profitability" ? 2 : topic === "ratings" ? 3 : topic === "genre" ? 4 : topic === "mixed" ? 1 : 0
 
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
@@ -225,6 +227,7 @@ const TreeNav = () => {
             'agentStepNum': agentSteps.length,
             'userRating': userRating,
             'timeUsed': timeUsed,
+            'topic': topic_num,
             // 'maxCalls': maxCalls,
             // 'runtime': runtime,
           }
