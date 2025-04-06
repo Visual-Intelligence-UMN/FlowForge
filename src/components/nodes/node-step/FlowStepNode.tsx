@@ -24,7 +24,7 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
   return (
     <Box
       sx={{
-        padding: 1,
+        padding: 2,
         border: "1px solid #ddd",
         borderRadius: 1,
         backgroundColor: "#fff",

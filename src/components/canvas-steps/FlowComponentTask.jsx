@@ -123,7 +123,7 @@ export function FlowComponentTask(props) {
       convertToReactFlowFormat(targetWorkflow);
 
     let layoutedNodes, layoutedEdges;
-    if (newNodes.length > 3) {
+    if (newNodes.length > 2) {
       ({ nodes: layoutedNodes, edges: layoutedEdges } = getLayeredLayout(
         newNodes,
         newEdges
