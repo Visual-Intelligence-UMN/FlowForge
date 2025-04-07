@@ -17,9 +17,9 @@
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Load and Clean Data",
-                    "stepLabel": "Data Preparation",
-                    "stepDescription": "Perform initial data cleaning and handling of missing values. Identify and select key attributes like release year, genre, and box office revenue for further analysis and visualization.",
+                    "stepName": "Topic Selector",
+                    "stepLabel": "Topic Selector",
+                    "stepDescription": "Propose candidate story topics based on the given dataset. The topics should be interesting and engaging, and should be related to the dataset.",
                     "nextSteps": [
                         "step-2",
                         "step-3"
@@ -28,7 +28,7 @@
                 {
                     "stepId": "step-2",
                     "stepName": "Create Bar Chart",
-                    "stepLabel": "Visualize Genre Distribution",
+                    "stepLabel": "Visualize Distribution",
                     "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity.",
                     "nextSteps": [
                         "step-4"
@@ -37,7 +37,7 @@
                 {
                     "stepId": "step-3",
                     "stepName": "Generate Line Chart",
-                    "stepLabel": "Trend Over Time",
+                    "stepLabel": "Visualize Correlation",
                     "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production.",
                     "nextSteps": [
                         "step-4"
@@ -46,8 +46,8 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Combine and Interpret",
-                    "stepLabel": "Synthesize Findings",
-                    "stepDescription": "Combine insights gained from the bar and line charts, providing a cohesive narrative on how movie genres have evolved over time and any notable patterns in release trends, finalizing the storytelling output.",
+                    "stepLabel": "Insight Integration",
+                    "stepDescription": "Combine insights gained from previous visualization, providing a cohesive narrative on how movie genres have evolved over time and any notable patterns in release trends, finalizing the storytelling output.",
                     "nextSteps": []
                 }
             ]
@@ -1462,12 +1462,12 @@
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
-                "stepName": "Load and Clean Data",
-                "stepLabel": "Data Preparation",
-                "stepDescription": "Load the movie dataset into the VEGA LITE environment, addressing any missing values by either filling them with statistical means or dropping them, thus preparing the dataset for exploration.",
+                "stepName": "Topic Selector",
+                "stepLabel": "Topic Selector",
+                "stepDescription": "Propose candidate story topics based on the given dataset. The topics should be interesting and engaging, and should be related to the dataset.",
                 "pattern": {
                     "name": "Single Agent",
-                    "recommendationReason": "This task is straightforwardly defined and mainly involves loading and preprocessing data, which is efficiently handled by a single agent without needing collaborative input."
+                    "recommendationReason": "This task is straightforwardly defined and mainly involves selecting a topic based on the dataset, which is efficiently handled by a single agent."
                 },
                 "nextSteps": [
                     "step-2",
@@ -1484,7 +1484,7 @@
             {
                 "stepId": "step-2",
                 "stepName": "Create Bar Chart",
-                "stepLabel": "Visualize Genre Distribution",
+                "stepLabel": "Visualize Distribution",
                 "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity. Make sure it's Vega-lite json format.",
                 "pattern": {
                     "name": "Single Agent",
@@ -1504,7 +1504,7 @@
             {
                 "stepId": "step-3",
                 "stepName": "Generate Line Chart",
-                "stepLabel": "Trend Over Time",
+                "stepLabel": "Visualize Correlation",
                 "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production. Make sure it's Vega-lite json format.",
                 "pattern": {
                     "name": "Single Agent",
@@ -1524,8 +1524,8 @@
             {
                 "stepId": "step-4",
                 "stepName": "Combine and Interpret",
-                "stepLabel": "Synthesize Findings",
-                "stepDescription": "Combine insights gained from the bar and line charts, providing a cohesive narrative on how movie genres have evolved over time and any notable patterns in release trends, finalizing the storytelling output.",
+                "stepLabel": "Insight Integration",
+                "stepDescription": "Combine insights gained from previous visualization, providing a cohesive narrative on how movie genres have evolved over time and any notable patterns in release trends, finalizing the storytelling output.",
                 "pattern": {
                     "name": "Discussion",
                     "recommendationReason": "Discussion pattern will allow multiple agents to debate and integrate insights from different visualizations, leading to a cohesive storyline by synthesizing diverse viewpoints on movie genre evolution."
@@ -1580,9 +1580,9 @@
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
-                "stepName": "Load and Clean Data",
-                "stepLabel": "Data Preparation",
-                "stepDescription": "Load the movie dataset into the VEGA LITE environment, addressing any missing values by either filling them with statistical means or dropping them, thus preparing the dataset for exploration.",
+                "stepName": "Topic Selector",
+                "stepLabel": "Topic Selector",
+                "stepDescription": "Propose candidate story topics based on the given dataset. The topics should be interesting and engaging, and should be related to the dataset.",
                 "pattern": {
                     "name": "Redundant",
                     "recommendationReason": "Parallel data loading and cleaning tasks can be performed simultaneously on different parts of the dataset, enhancing efficiency and ensuring rapid preparation."
@@ -1625,7 +1625,7 @@
             {
                 "stepId": "step-2",
                 "stepName": "Create Bar Chart",
-                "stepLabel": "Visualize Genre Distribution",
+                "stepLabel": "Visualize Distribution",
                 "stepDescription": "Generate a bar chart that illustrates the distribution of movie genres, allowing an overview of the dataset's categorical diversity.",
                 "pattern": {
                     "name": "Redundant",
@@ -1668,7 +1668,7 @@
             {
                 "stepId": "step-3",
                 "stepName": "Generate Line Chart",
-                "stepLabel": "Trend Over Time",
+                "stepLabel": "Visualize Correlation",
                 "stepDescription": "Create a line chart showing the trend of movie releases over time, highlighting key years of increased or decreased production.",
                 "pattern": {
                     "name": "Redundant",

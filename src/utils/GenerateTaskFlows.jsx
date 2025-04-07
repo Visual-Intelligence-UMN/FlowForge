@@ -215,9 +215,12 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (task.name.includes("Review a Paper") 
-        || task.name.includes("Visualization")
-        || task.name.includes("Script")) {
+      if (task.name.includes("Review a Paper") || task.name.includes("Script")){
+        const sampleRes = sampleTaskFlowData.taskFlows;
+        const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
+        returnData.taskFlows.push(...sampleflows);
+        return returnData;
+      } else if (task.name.includes("Visualization")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
         console.log("sampleRes", sampleRes);  
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];

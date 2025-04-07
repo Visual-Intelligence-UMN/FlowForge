@@ -21,14 +21,16 @@ import Icon from "@mui/material/Icon";
 import { iconMap2 } from "../../../images/iconsMap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
+import { useState } from "react";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  const showContent = data.showContent;
+  const showContentZoom = data.showContent;
   const hovered = data.hoveredPattern === data.pattern.name ? true : false;
+  const [showContent, setShowContent] = useState(false);
   // const showContent = false;
   const patternName = data.pattern?.name || "";
   const template = data.template || {};
@@ -298,7 +300,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} > {stepLabel}</Typography>
+      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} onClick={() => setShowContent(!showContent)}> {stepLabel}</Typography>
       <Box
         sx={{
           display: "flex",

@@ -36,7 +36,7 @@
                 {
                     "stepId": "step-3",
                     "stepName": "Evaluation of Methodology and Data",
-                    "stepLabel": "Methods assessment",
+                    "stepLabel": "Method assessment",
                     "stepDescription": "Critically assess the methodology and data for adequacy, accuracy, and reproducibility.",
                     "nextSteps": [
                         "step-4"
@@ -45,7 +45,7 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Identification of Strengths and Weaknesses",
-                    "stepLabel": "Assessment results",
+                    "stepLabel": "Evaluate results",
                     "stepDescription": "Compile identified strengths and weaknesses, focusing on the paper's contributions and areas needing improvement.",
                     "nextSteps": [
                         "step-5"
@@ -54,7 +54,7 @@
                 {
                     "stepId": "step-5",
                     "stepName": "Draft Actionable Suggestions",
-                    "stepLabel": "Suggestions drafting",
+                    "stepLabel": "Draft review",
                     "stepDescription": "Formulate specific feedback on revisions to improve clarity, argumentation, or data presentation.",
                     "nextSteps": []
                 }

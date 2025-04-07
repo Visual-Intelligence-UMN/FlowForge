@@ -1,6 +1,6 @@
 {
     "taskFlows": {
-        "taskFlow_1": {
+        "taskFlow_01": {
             "taskFlowId": "1",
             "taskFlowName": "Visual Storytelling Approach",
             "taskFlowDescription": "This workflow uses a visual storytelling technique to create a compelling video script from an academic paper abstract.",
@@ -51,7 +51,58 @@
                 }
             ]
         },
-        "taskFlow_2": {
+        "taskFlow_1": {
+            "taskFlowId": "2",
+            "taskFlowName": "Parallel Insight Perspective",
+            "taskFlowDescription": "This flow uses parallel processes to explore different aspects of the paper, culminating in a unified conclusion.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Engaging Lead",
+                    "stepLabel": "Lead with Curiosity",
+                    "stepDescription": "Open with a compelling question related to the research topic, drawing viewers in. Visual: Text animation of the question over an intriguing background. Duration: 3 seconds.",
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Research Exploration",
+                    "stepLabel": "Explore Research",
+                    "stepDescription": "Delve into the research methods and objectives, explaining their uniqueness. Visual: Split-screen animation showing research process. Duration: 7 seconds.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Impact Discussion",
+                    "stepLabel": "Discuss Impact",
+                    "stepDescription": "Discuss the broader impact of the research findings on the field. Visual: Iconic representation of the potential applications or impact. Duration: 7 seconds.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Unite Insights",
+                    "stepLabel": "Unified Conclusion",
+                    "stepDescription": "Combine insights from the exploration and impact discussions to deliver a unified conclusion. Visual: Merging animation of previous visuals leading to a coherent ending slide. Duration: 5 seconds.",
+                    "nextSteps": []
+                }
+            ]
+        },
+        "taskFlow_02": {
             "taskFlowId": "2",
             "taskFlowName": "Narrative-Driven Approach",
             "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
@@ -110,6 +161,57 @@
                 }
             ]
         },
+        "taskFlow_2": {
+            "taskFlowId": "2",
+            "taskFlowName": "Narrative-Driven Approach",
+            "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
+            "taskFlowStart": {
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Extract Key Message",
+                    "stepLabel": "Message Extraction",
+                    "stepDescription": "Read through the abstract to extract the core message and findings that the video script will center around.",
+                    "nextSteps": [
+                        "step-2"
+                    ]
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Character Development",
+                    "stepLabel": "Character Creation",
+                    "stepDescription": "Develop a narrative framework, possibly introducing a character or scenario that represents the core message, making the academic content relatable.",
+                    "nextSteps": [
+                        "step-3"
+                    ]
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Plot Structuring",
+                    "stepLabel": "Plot Development",
+                    "stepDescription": "Create a plot outline that weaves the character or scenario into the core findings. Identify points in the abstract that align with this plot.",
+                    "nextSteps": [
+                        "step-4"
+                    ]
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Script Writing",
+                    "stepLabel": "Generate Script",
+                    "stepDescription": "Write the script following the plot structure, ensuring each part of the abstract is covered while maintaining engagement through the narrative.",
+                    "nextSteps": [
+                    ]
+                }
+            ]
+        },
         "taskFlow_3": {
             "taskFlowId": "3",
             "taskFlowName": "Infographic Style Approach",
@@ -126,27 +228,27 @@
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Abstract Analysis",
-                    "stepLabel": "Analyze Abstract",
-                    "stepDescription": "Analyze the academic abstract to pinpoint data points and key takeaways that can be visually represented as infographics.",
+                    "stepName": "Surprising Opener",
+                    "stepLabel": "Surprising Opener",
+                    "stepDescription": "Analyze the academic abstract to pinpoint data points and key takeaways that can be used to create a surprising opener.",
                     "nextSteps": [
                         "step-2"
                     ]
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Design Infographic Elements",
-                    "stepLabel": "Design Elements",
-                    "stepDescription": "Design infographic elements that visually convey data and key points identified. Choose simple graphics that clearly represent complex ideas.",
+                    "stepName": "Highlight Results",
+                    "stepLabel": "Highlight Results",
+                    "stepDescription": "Highlight the results of the research paper in a way that is engaging and surprising.",
                     "nextSteps": [
                         "step-3"
                     ]
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Script Integration",
-                    "stepLabel": "Script Finalization",
-                    "stepDescription": "Integrate the infographic visuals into a succinct script that aligns with the abstract, ensuring an intriguing opening and a compelling conclusion that highlights the abstract's core insights.",
+                    "stepName": "Memorable Close",
+                    "stepLabel": "Memorable Close",
+                    "stepDescription": "Summarize the significance of the findings and suggest a call to action for future research or application. Visual: Closing slide with a call to action and contact information. Duration: 5 seconds.",
                     "nextSteps": []
                 }
             ]
@@ -187,7 +289,7 @@
     "flowsWithPatterns": 
     [
         {
-            "taskFlowId": "3-1",
+            "taskFlowId": "03-1",
             "taskFlowName": "Narrative-Driven Approach",
             "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
             "patternsId": 3,
@@ -395,7 +497,7 @@
             "patternId": "3-1"
         },
         {
-            "taskFlowId": "3-2",
+            "taskFlowId": "03-2",
             "taskFlowName": "Narrative-Driven Approach",
             "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
             "patternsId": 4,
@@ -568,6 +670,314 @@
             "patternId": "3-2"
         },
         {
+            "taskFlowId": "3-1",
+            "taskFlowName": "Narrative-Driven Approach",
+            "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Extract Key Message",
+                    "stepLabel": "Message Extraction",
+                    "stepDescription": "Read through the abstract to extract the core message and findings that the video script will center around.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task of reading through an abstract and extracting the core message is straightforward, making it well-suited for a Single Agent who can efficiently summarize the key points without added complexity."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are An analytical thinker with a keen eye for detail and clarity, focused on distilling complex research abstracts into their core themes and concepts to construct a coherent visual narrative.",
+                        "goal": "Your task is to swiftly extract and organize the main themes from the research abstract, transforming them into a structured visual narrative blueprint for video content creation.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Character Development",
+                    "stepLabel": "Character Creation",
+                    "stepDescription": "Develop a narrative framework, possibly introducing a character or scenario that represents the core message, making the academic content relatable.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This pattern supports generating diverse perspectives and creative ideas, which is essential when conceptualizing and developing relatable characters or scenarios."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are The Storyteller - A captivating narrator who excels at weaving narratives with a compelling plot.",
+                                "goal": "Create a 25-second video script that tells the story of the research paper through a dramatic narrative arc. Open with a gripping hook about the paper's key topic, develop the story with clear, engaging visual cues, and conclude with a memorable takeaway that wraps up the narrative.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Analyst - A logical thinker who presents data and insights with clarity and precision.",
+                                "goal": "Draft a 25-second script that systematically breaks down the paper's findings. Start with an intriguing statistic or fact, use visual aids like graphs or charts for clarity, and end with a succinct summary of the research implications.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Visionary - An imaginative thinker who presents content with an innovative and futuristic perspective.",
+                                "goal": "Create a 25-second video script that explores the research paper with a forward-thinking angle. Begin with a thought-provoking question, incorporate futuristic visuals, and close with a visionary statement about the potential impact of the research.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Skeptic - A critical thinker who challenges assumptions and looks at research through a discerning lens.",
+                                "goal": "Compose a 25-second script that questions and analyzes the research paper's conclusions. Start with a provocative statement, highlight key arguments with visual representation, and finish with a reflective conclusion on the study's broader implications."
+                            },
+                            {
+                                "persona": "You are The Educator - A clear communicator who simplifies complex ideas for a general audience.",
+                                "goal": "Develop a 25-second script that breaks down the research paper in an accessible manner. Open with a relatable analogy or example, use simple visuals to illustrate points, and conclude with a clear, concise summary of the main takeaway."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are The Synthesizer - A versatile communicator who combines multiple perspectives into a cohesive narrative.",
+                            "goal": "Deliver a comprehensive overview of the research paper through a 25-second video script that blends storytelling, analysis, visionary thinking, skepticism, and education. Start with a universal theme, integrate diverse visual styles, and end with an insightful synthesis of the paper's core message.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Plot Structuring",
+                    "stepLabel": "Plot Development",
+                    "stepDescription": "Create a plot outline that weaves the character or scenario into the core findings. Identify points in the abstract that align with this plot.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "This step benefits from diverse perspectives to creatively weave the character or scenario into the core findings, fostering idea generation and refinement."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are The Storyteller - A captivating narrator who excels at weaving narratives with a compelling plot.",
+                                "goal": "Create a 25-second video script that tells the story of the research paper through a dramatic narrative arc. Open with a gripping hook about the paper's key topic, develop the story with clear, engaging visual cues, and conclude with a memorable takeaway that wraps up the narrative.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Analyst - A logical thinker who presents data and insights with clarity and precision.",
+                                "goal": "Draft a 25-second script that systematically breaks down the paper's findings. Start with an intriguing statistic or fact, use visual aids like graphs or charts for clarity, and end with a succinct summary of the research implications.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Visionary - An imaginative thinker who presents content with an innovative and futuristic perspective.",
+                                "goal": "Create a 25-second video script that explores the research paper with a forward-thinking angle. Begin with a thought-provoking question, incorporate futuristic visuals, and close with a visionary statement about the potential impact of the research.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Skeptic - A critical thinker who challenges assumptions and looks at research through a discerning lens.",
+                                "goal": "Compose a 25-second script that questions and analyzes the research paper's conclusions. Start with a provocative statement, highlight key arguments with visual representation, and finish with a reflective conclusion on the study's broader implications."
+                            },
+                            {
+                                "persona": "You are The Educator - A clear communicator who simplifies complex ideas for a general audience.",
+                                "goal": "Develop a 25-second script that breaks down the research paper in an accessible manner. Open with a relatable analogy or example, use simple visuals to illustrate points, and conclude with a clear, concise summary of the main takeaway."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are The Synthesizer - A versatile communicator who combines multiple perspectives into a cohesive narrative.",
+                            "goal": "Deliver a comprehensive overview of the research paper through a 25-second video script that blends storytelling, analysis, visionary thinking, skepticism, and education. Start with a universal theme, integrate diverse visual styles, and end with an insightful synthesis of the paper's core message.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Script Writing",
+                    "stepLabel": "Generate Script",
+                    "stepDescription": "Write the script following the plot structure, ensuring each part of the abstract is covered while maintaining engagement through the narrative.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Reflection is ideal for enhancing script quality by iterating over the draft, allowing improvements through feedback focusing on narrative flow and engagement."
+                    },
+                    "nextSteps": [
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "evaluator": {
+                            "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
+                            "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are The Creative Innovator. Full of fresh ideas and innovative thinking, you strive to infuse each video script with distinct style and energy while staying true to the academic content.",
+                            "goal": "Craft a series of unique, engaging 25-second video scripts inspired by an academic paper's abstract, each exhibiting a different style and narrative structure. Ensure precise timing and seamlessly integrate visual directions with verbal content.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "3-2",
+            "taskFlowName": "Narrative-Driven Approach",
+            "taskFlowDescription": "This workflow constructs a video script using a narrative-driven approach, embedding a storytelling element to engage the audience.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Extract Key Message",
+                    "stepLabel": "Message Extraction",
+                    "stepDescription": "Read through the abstract to extract the core message and findings that the video script will center around.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using Reflection allows for initial message extraction followed by iterative feedback, refining the core message to ensure it accurately captures the essential findings before script integration."
+                    },
+                    "nextSteps": [
+                        "step-2"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
+                            "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are The Creative Innovator. Full of fresh ideas and innovative thinking, you strive to infuse each video script with distinct style and energy while staying true to the academic content.",
+                            "goal": "Craft a series of unique, engaging 25-second video scripts inspired by an academic paper's abstract, each exhibiting a different style and narrative structure. Ensure precise timing and seamlessly integrate visual directions with verbal content.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Character Development",
+                    "stepLabel": "Character Creation",
+                    "stepDescription": "Develop a narrative framework, possibly introducing a character or scenario that represents the core message, making the academic content relatable.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "This pattern enables iterative refinement of the character's narrative, enhancing the character or scenario to ensure alignment with the core message and relatability."
+                    },
+                    "nextSteps": [
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
+                            "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are The Creative Innovator. Full of fresh ideas and innovative thinking, you strive to infuse each video script with distinct style and energy while staying true to the academic content.",
+                            "goal": "Craft a series of unique, engaging 25-second video scripts inspired by an academic paper's abstract, each exhibiting a different style and narrative structure. Ensure precise timing and seamlessly integrate visual directions with verbal content.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Plot Structuring",
+                    "stepLabel": "Plot Development",
+                    "stepDescription": "Create a plot outline that weaves the character or scenario into the core findings. Identify points in the abstract that align with this plot.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using iterative feedback loops helps refine the plot outline, ensuring alignment with the core findings and strengthening narrative coherence."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are The Critical Analyzer. Detail-oriented and insightful, you focus on the clarity, coherence, and engagement level of the video scripts. Your approach is objective, aiming to uphold academic integrity while ensuring accessibility to a broad audience.",
+                            "goal": "Evaluate each video script for its ability to maintain a professional tone, ensure clarity in presenting the paper's key topics, and utilize compelling visual directions. Provide feedback for iterative improvements.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are The Creative Innovator. Full of fresh ideas and innovative thinking, you strive to infuse each video script with distinct style and energy while staying true to the academic content.",
+                            "goal": "Craft a series of unique, engaging 25-second video scripts inspired by an academic paper's abstract, each exhibiting a different style and narrative structure. Ensure precise timing and seamlessly integrate visual directions with verbal content.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Script Writing",
+                    "stepLabel": "Generate Script",
+                    "stepDescription": "Write the script following the plot structure, ensuring each part of the abstract is covered while maintaining engagement through the narrative.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "Discussion facilitates diverse inputs and creativity essential for a narrative-driven script, ensuring coverage of plot structure and engagement checks from multiple perspectives."
+                    },
+                    "nextSteps": [
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are The Storyteller - A captivating narrator who excels at weaving narratives with a compelling plot.",
+                                "goal": "Create a 25-second video script that tells the story of the research paper through a dramatic narrative arc. Open with a gripping hook about the paper's key topic, develop the story with clear, engaging visual cues, and conclude with a memorable takeaway that wraps up the narrative.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Analyst - A logical thinker who presents data and insights with clarity and precision.",
+                                "goal": "Draft a 25-second script that systematically breaks down the paper's findings. Start with an intriguing statistic or fact, use visual aids like graphs or charts for clarity, and end with a succinct summary of the research implications.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Visionary - An imaginative thinker who presents content with an innovative and futuristic perspective.",
+                                "goal": "Create a 25-second video script that explores the research paper with a forward-thinking angle. Begin with a thought-provoking question, incorporate futuristic visuals, and close with a visionary statement about the potential impact of the research.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are The Skeptic - A critical thinker who challenges assumptions and looks at research through a discerning lens.",
+                                "goal": "Compose a 25-second script that questions and analyzes the research paper's conclusions. Start with a provocative statement, highlight key arguments with visual representation, and finish with a reflective conclusion on the study's broader implications."
+                            },
+                            {
+                                "persona": "You are The Educator - A clear communicator who simplifies complex ideas for a general audience.",
+                                "goal": "Develop a 25-second script that breaks down the research paper in an accessible manner. Open with a relatable analogy or example, use simple visuals to illustrate points, and conclude with a clear, concise summary of the main takeaway."
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are The Synthesizer - A versatile communicator who combines multiple perspectives into a cohesive narrative.",
+                            "goal": "Deliver a comprehensive overview of the research paper through a 25-second video script that blends storytelling, analysis, visionary thinking, skepticism, and education. Start with a universal theme, integrate diverse visual styles, and end with an insightful synthesis of the paper's core message.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        },
+        {
             "taskFlowId": "4-1",
             "taskFlowName": "Infographic Style Approach",
             "taskFlowDescription": "This workflow focuses on creating a concise infographic-style video script to present the abstract's information in a clear and engaging manner.",
@@ -585,9 +995,9 @@
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Abstract Analysis",
-                    "stepLabel": "Analyze Abstract",
-                    "stepDescription": "Analyze the academic abstract to pinpoint data points and key takeaways that can be visually represented as infographics.",
+                    "stepName": "Surprising Opener",
+                    "stepLabel": "Surprising Opener",
+                    "stepDescription": "Create a surprising opener for the video script that captivates the audience and hooks them into the video.",
                     "pattern": {
                         "name": "Single Agent",
                         "recommendationReason": "The task of identifying key data points and takeaways from an abstract is straightforward and benefits from a focused approach without the need for complexity."
@@ -605,9 +1015,9 @@
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Design Infographic Elements",
-                    "stepLabel": "Design Elements",
-                    "stepDescription": "Design infographic elements that visually convey data and key points identified. Choose simple graphics that clearly represent complex ideas.",
+                    "stepName": "Highlight Results",
+                    "stepLabel": "Highlight Results",
+                    "stepDescription": "Highlight the results of the research paper in a way that is engaging and surprising.",
                     "pattern": {
                         "name": "Discussion",
                         "recommendationReason": "Engaging multiple agents with different perspectives can foster creative ideas for visually representing complex information in a clear manner."
@@ -653,9 +1063,9 @@
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Script Integration",
-                    "stepLabel": "Script Finalization",
-                    "stepDescription": "Integrate the infographic visuals into a succinct script that aligns with the abstract, ensuring an intriguing opening and a compelling conclusion that highlights the abstract's core insights.",
+                    "stepName": "Memorable Close",
+                    "stepLabel": "Memorable Close",
+                    "stepDescription": "Summarize the significance of the findings and suggest a call to action for future research or application. Visual: Closing slide with a call to action and contact information. Duration: 5 seconds.",
                     "pattern": {
                         "name": "Reflection",
                         "recommendationReason": "The Reflection pattern is ideal for refining the script by integrating iterative feedback to ensure the script effectively aligns with the abstract and captivates the audience with an engaging opening and conclusion."
@@ -697,9 +1107,9 @@
             "taskFlowSteps": [
                 {
                     "stepId": "step-1",
-                    "stepName": "Abstract Analysis",
-                    "stepLabel": "Analyze Abstract",
-                    "stepDescription": "Analyze the academic abstract to pinpoint data points and key takeaways that can be visually represented as infographics.",
+                    "stepName": "Surprising Opener",
+                    "stepLabel": "Surprising Opener",
+                    "stepDescription": "Create a surprising opener for the video script that captivates the audience and hooks them into the video.",
                     "pattern": {
                         "name": "Reflection",
                         "recommendationReason": "Incorporating a feedback loop can ensure that the identification of data points is refined and improved, enhancing the selection's accuracy and relevance."
@@ -724,9 +1134,9 @@
                 },
                 {
                     "stepId": "step-2",
-                    "stepName": "Design Infographic Elements",
-                    "stepLabel": "Design Elements",
-                    "stepDescription": "Design infographic elements that visually convey data and key points identified. Choose simple graphics that clearly represent complex ideas.",
+                    "stepName": "Highlight Results",
+                    "stepLabel": "Highlight Results",
+                    "stepDescription": "Highlight the results of the research paper in a way that is engaging and surprising.",
                     "pattern": {
                         "name": "Reflection",
                         "recommendationReason": "Utilizing iterative feedback helps refine the visual design and ensure it effectively conveys the intended data and key points."
@@ -751,9 +1161,9 @@
                 },
                 {
                     "stepId": "step-3",
-                    "stepName": "Script Integration",
-                    "stepLabel": "Script Finalization",
-                    "stepDescription": "Integrate the infographic visuals into a succinct script that aligns with the abstract, ensuring an intriguing opening and a compelling conclusion that highlights the abstract's core insights.",
+                    "stepName": "Memorable Close",
+                    "stepLabel": "Memorable Close",
+                    "stepDescription": "Summarize the significance of the findings and suggest a call to action for future research or application. Visual: Closing slide with a call to action and contact information. Duration: 5 seconds.",
                     "pattern": {
                         "name": "Discussion",
                         "recommendationReason": "Discussion pattern facilitates the collaboration of multiple agents, enabling creativity and consensus building to effectively integrate visuals and ensure the script's alignment with the abstract's insights."
@@ -948,6 +1358,321 @@
         },
         {
             "taskFlowId": "2-1",
+            "taskFlowName": "Parallel Insight Perspective",
+            "taskFlowDescription": "This flow uses parallel processes to explore different aspects of the paper, culminating in a unified conclusion.",
+            "patternsId": 3,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Engaging Lead",
+                    "stepLabel": "Lead with Curiosity",
+                    "stepDescription": "Open with a compelling question related to the research topic, drawing viewers in. Visual: Text animation of the question over an intriguing background. Duration: 3 seconds.",
+                    "pattern": {
+                        "name": "Single Agent",
+                        "recommendationReason": "The task involves creating a straightforward engaging introduction, which a single agent can handle efficiently without complexity."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "persona": "You are a skilled visual designer responsible for creating impactful graphics.",
+                        "goal": "Design a 10-second visual featuring a dark background with a spotlight effect highlighting key words that hint at the surprising findings of the paper.",
+                        "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Research Exploration",
+                    "stepLabel": "Explore Research",
+                    "stepDescription": "Delve into the research methods and objectives, explaining their uniqueness. Visual: Split-screen animation showing research process. Duration: 7 seconds.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "Given the need to explore multiple aspects of research methods and objectives simultaneously, a Redundant pattern leverages parallel processing to effectively manage distinct research focuses, providing a comprehensive view."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a visual designer focused on creating impactful and engaging visuals.",
+                                "goal": "Create a 10-second animation with a dark background and spotlight effects on key words like 'surprising findings,' 'dramatic,' and 'unveiling.'",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a voiceover artist with a knack for captivating audiences.",
+                                "goal": "Deliver a voiceover that matches the tone of mystery and intrigue, emphasizing key phrases to align with the visual impact.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a multimedia coordinator ensuring seamless integration of visual and audio elements.",
+                                "goal": "Coordinate the timing of the visual effects and voiceover to ensure they complement each other perfectly throughout the 10-second intro."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a project manager overseeing the completion of a compelling opening sequence.",
+                            "goal": "Ensure that the combination of visuals and voiceovers captures the essence of the paper's surprising findings, creating anticipation for the audience.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Impact Discussion",
+                    "stepLabel": "Discuss Impact",
+                    "stepDescription": "Discuss the broader impact of the research findings on the field. Visual: Iconic representation of the potential applications or impact. Duration: 7 seconds.",
+                    "pattern": {
+                        "name": "Discussion",
+                        "recommendationReason": "The need for a broad examination of the research's impact naturally requires a variety of perspectives and ideas, which can be effectively generated through collaborative dialogue."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "withSummary": true,
+                        "agents": [
+                            {
+                                "persona": "You are a Creative Narrator, focused on engaging storytelling.",
+                                "goal": "Develop a 25-second script that opens with an intriguing hook about the paper's main topic, incorporates a narrative style, and concludes with a memorable insight.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Visual Designer, focused on visual coherence and aesthetics.",
+                                "goal": "Create a visual storyboard that aligns with the script, ensuring smooth transitions and that each visual element complements the verbal narrative.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            },
+                            {
+                                "persona": "You are a Timing Specialist, focused on precise content pacing.",
+                                "goal": "Divide the script into sections with specific time allocations, ensuring each transition is seamless and the entire presentation fits within 25 seconds.",
+                                "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
+                            }
+                        ],
+                        "summary": {
+                            "persona": "You are a Project Coordinator, ensuring collaborative synergy among creative agents.",
+                            "goal": "Oversee the creation of a set of distinct, professionally styled 25-second video scripts that effectively present academic research, each with a unique angle.",
+                            "patternPrompt": "Helpful assistant who can summarize the output of the agents."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Unite Insights",
+                    "stepLabel": "Unified Conclusion",
+                    "stepDescription": "Combine insights from the exploration and impact discussions to deliver a unified conclusion. Visual: Merging animation of previous visuals leading to a coherent ending slide. Duration: 5 seconds.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "The Redundant pattern is ideal for parallel exploration tasks, allowing different agents to process various aspects simultaneously and then combine their findings into a cohesive insight."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a voiceover artist with a knack for captivating audiences.",
+                                "goal": "Deliver a voiceover that matches the tone of mystery and intrigue, emphasizing key phrases to align with the visual impact.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a multimedia coordinator ensuring seamless integration of visual and audio elements.",
+                                "goal": "Coordinate the timing of the visual effects and voiceover to ensure they complement each other perfectly throughout the 10-second intro."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a project manager overseeing the completion of a compelling opening sequence.",
+                            "goal": "Ensure that the combination of visuals and voiceovers captures the essence of the paper's surprising findings, creating anticipation for the audience.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                }
+            ],
+            "patternId": "3-1"
+        },
+        {
+            "taskFlowId": "2-2",
+            "taskFlowName": "Parallel Insight Perspective",
+            "taskFlowDescription": "This flow uses parallel processes to explore different aspects of the paper, culminating in a unified conclusion.",
+            "patternsId": 4,
+            "taskFlowStart": {
+                "stepId": "step-0",
+                "nextSteps": [
+                    "step-1"
+                ],
+                "input": {
+                    "text": "abstraction of the academic paper",
+                    "file": ""
+                }
+            },
+            "taskFlowSteps": [
+                {
+                    "stepId": "step-1",
+                    "stepName": "Engaging Lead",
+                    "stepLabel": "Lead with Curiosity",
+                    "stepDescription": "Open with a compelling question related to the research topic, drawing viewers in. Visual: Text animation of the question over an intriguing background. Duration: 3 seconds.",
+                    "pattern": {
+                        "name": "Reflection",
+                        "recommendationReason": "Using a feedback loop ensures the introduction is compelling and refined, benefiting from iterative improvements based on feedback."
+                    },
+                    "nextSteps": [
+                        "step-2",
+                        "step-3"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "evaluator": {
+                            "persona": "You are the evaluator, responsible for assessing the quality of each video script.",
+                            "goal": "Ensure each script meets the criteria for captivating openings, smooth transitions, and compelling conclusions. Provide feedback to enhance clarity, engagement, and professional presentation.",
+                            "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
+                        },
+                        "optimizer": {
+                            "persona": "You are the optimizer, tasked with refining scripts based on feedback.",
+                            "goal": "Iteratively improve each script, focusing on delivering a unique and engaging narrative while maintaining accessibility and ensuring precise timing.",
+                            "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-2",
+                    "stepName": "Research Exploration",
+                    "stepLabel": "Explore Research",
+                    "stepDescription": "Delve into the research methods and objectives, explaining their uniqueness. Visual: Split-screen animation showing research process. Duration: 7 seconds.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The Supervision pattern suits the dynamic allocation of different types of research-focused tasks, ensuring each element of the research process is adequately addressed through specialized agents under a coordinated framework."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "You are a meticulous research analyst focused on qualitative methods.",
+                                "goal": "Your task is to explore and explain the uniqueness of qualitative research methods and objectives, highlighting their importance in understanding nuanced behaviors.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a detail-oriented statistician specializing in quantitative research.",
+                                "goal": "Your task is to detail the quantitative research methods and objectives, emphasizing their role in providing measurable and statistically significant data.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are an adaptive mixed-methods researcher.",
+                                "goal": "Your task is to integrate both qualitative and quantitative research methods, showcasing their combined uniqueness in delivering comprehensive insights."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "You are a strategic thinker managing the research process.",
+                            "goal": "Your goal is to ensure all research methods are uniquely represented and seamlessly integrated into the animation, coordinating the distinct efforts of each research agent.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "You are an innovative supervisor overseeing the dynamic allocation of diverse research-focused tasks.",
+                        "goal": "Your aim is to coordinate the research process, ensuring that each element is addressed by specialized agents, effectively demonstrating their unique methodologies and objectives."
+                    }
+                },
+                {
+                    "stepId": "step-3",
+                    "stepName": "Impact Discussion",
+                    "stepLabel": "Discuss Impact",
+                    "stepDescription": "Discuss the broader impact of the research findings on the field. Visual: Iconic representation of the potential applications or impact. Duration: 7 seconds.",
+                    "pattern": {
+                        "name": "Redundant",
+                        "recommendationReason": "By running parallel discussions, this pattern allows for simultaneous exploration of diverse implications and potential impacts, leading to a comprehensive aggregated understanding."
+                    },
+                    "nextSteps": [
+                        "step-4"
+                    ],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 1,
+                        "withAggregation": true,
+                        "agents": [
+                            {
+                                "persona": "You are a visual designer focused on creating impactful and engaging visuals.",
+                                "goal": "Create a 10-second animation with a dark background and spotlight effects on key words like 'surprising findings,' 'dramatic,' and 'unveiling.'",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a voiceover artist with a knack for captivating audiences.",
+                                "goal": "Deliver a voiceover that matches the tone of mystery and intrigue, emphasizing key phrases to align with the visual impact.",
+                                "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a multimedia coordinator ensuring seamless integration of visual and audio elements.",
+                                "goal": "Coordinate the timing of the visual effects and voiceover to ensure they complement each other perfectly throughout the 10-second intro."
+                            }
+                        ],
+                        "aggregation": {
+                            "persona": "You are a project manager overseeing the completion of a compelling opening sequence.",
+                            "goal": "Ensure that the combination of visuals and voiceovers captures the essence of the paper's surprising findings, creating anticipation for the audience.",
+                            "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
+                        }
+                    }
+                },
+                {
+                    "stepId": "step-4",
+                    "stepName": "Unite Insights",
+                    "stepLabel": "Unified Conclusion",
+                    "stepDescription": "Combine insights from the exploration and impact discussions to deliver a unified conclusion. Visual: Merging animation of previous visuals leading to a coherent ending slide. Duration: 5 seconds.",
+                    "pattern": {
+                        "name": "Supervision",
+                        "recommendationReason": "The Supervision pattern ensures efficient coordination and integration of diverse insights from multiple parallel processes, culminating in a unified conclusion managed by the supervisor agent."
+                    },
+                    "nextSteps": [],
+                    "template": {
+                        "confirm": false,
+                        "maxRound": 3,
+                        "workers": [
+                            {
+                                "persona": "You are a meticulous research analyst focused on qualitative methods.",
+                                "goal": "Your task is to explore and explain the uniqueness of qualitative research methods and objectives, highlighting their importance in understanding nuanced behaviors.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are a detail-oriented statistician specializing in quantitative research.",
+                                "goal": "Your task is to detail the quantitative research methods and objectives, emphasizing their role in providing measurable and statistically significant data.",
+                                "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
+                            },
+                            {
+                                "persona": "You are an adaptive mixed-methods researcher.",
+                                "goal": "Your task is to integrate both qualitative and quantitative research methods, showcasing their combined uniqueness in delivering comprehensive insights."
+                            }
+                        ],
+                        "supervisor": {
+                            "persona": "You are a strategic thinker managing the research process.",
+                            "goal": "Your goal is to ensure all research methods are uniquely represented and seamlessly integrated into the animation, coordinating the distinct efforts of each research agent.",
+                            "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
+                        },
+                        "persona": "You are an innovative supervisor overseeing the dynamic allocation of diverse research-focused tasks.",
+                        "goal": "Your aim is to coordinate the research process, ensuring that each element is addressed by specialized agents, effectively demonstrating their unique methodologies and objectives."
+                    }
+                }
+            ],
+            "patternId": "3-2"
+        },
+        {
+            "taskFlowId": "02-1",
             "taskFlowName": "Visual Storytelling Approach",
             "taskFlowDescription": "This workflow uses a visual storytelling technique to create a compelling video script from an academic paper abstract.",
             "patternsId": 2,
@@ -1094,7 +1819,7 @@
             "patternId": "2-1"
         },
         {
-            "taskFlowId": "2-2",
+            "taskFlowId": "02-2",
             "taskFlowName": "Visual Storytelling Approach",
             "taskFlowDescription": "This workflow uses a visual storytelling technique to create a compelling video script from an academic paper abstract.",
             "patternsId": 3,

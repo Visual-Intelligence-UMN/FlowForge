@@ -47,7 +47,7 @@
         "isVisible": false,
         "userRating": 3,
         "timeUsed": 33435,
-        "topic":"mixed"
+        "topic":"Mixed"
     },
     "1-2-1": {
         "inputMessage": {
@@ -82,7 +82,7 @@
         "isVisible": false,
         "userRating": 1,
         "timeUsed": 12367,
-        "topic":"genre"
+        "topic":"Genres"
     },
     "2-2-1": {
         "inputMessage": {
@@ -132,7 +132,7 @@
         "isVisible": false,
         "userRating": 3,
         "timeUsed": 33435,
-        "topic":"genre"
+        "topic":"Genres"
     },
     "2-1-1": {
         "inputMessage": {
@@ -175,7 +175,7 @@
         "isVisible": false,
         "userRating": 5,
         "timeUsed": 12367,
-        "topic": "genre"
+        "topic": "Genres"
     },
     "3-1-1": {
         "inputMessage": {
@@ -217,7 +217,7 @@
         "isVisible": false,
         "userRating": 2,
         "timeUsed": 80258,
-        "topic":"ratings"
+        "topic":"IMDB Rating"
     },
     
         "4-2-1": {
@@ -256,7 +256,7 @@
             "isVisible": false,
             "userRating": 4,
             "timeUsed": 60442,
-            "topic":"profitability"
+            "topic":"Profits"
         },
         
             "3-2-1": {
@@ -295,7 +295,7 @@
                 "isVisible": false,
                 "userRating": 2,
                 "timeUsed": 60442,
-                "topic": "profitability"
+                "topic": "Profits"
             },
 
             "4-1-1":{
@@ -347,7 +347,7 @@
                 "isVisible": false,
                 "userRating": 5,
                 "timeUsed": 21562,
-                "topic":"profitability"
+                "topic":"Profits"
             },
             "02-1-1": {
                 "inputMessage": {
@@ -428,7 +428,7 @@
                 "isVisible": false,
                 "userRating": 5,
                 "timeUsed": 15580,
-                "topic":"ratings"
+                "topic":"IMDB Rating"
             },
             
             "5-2-1":{
@@ -456,6 +456,6 @@
                 "isVisible": false,
                 "userRating": 1,
                 "timeUsed": 8367,
-                "topic":"mixed"
+                "topic":"Mixed"
             }
 }

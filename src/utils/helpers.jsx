@@ -15,7 +15,7 @@ export function computeParallelStepsForAll(stepMetadata) {
     const levels = [];
     let currentQueue = Object.keys(inDegree).filter((s) => inDegree[s] === 0);
   
-    while (currentQueue.length > 0) {
+    while (currentQueue?.length > 0) {
       levels.push(currentQueue);
       const nextQueue = [];
       for (const s of currentQueue) {

@@ -186,6 +186,7 @@ export function RflowComponent(props) {
           console.log("Clicked the same node. View remains unchanged.");
           return; // Do nothing if it's the same node.
         }
+        return;
 
         previousNodeRef.current = node;
 
