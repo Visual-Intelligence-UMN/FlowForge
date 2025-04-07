@@ -36,7 +36,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
     nodes = nodes.filter(node => node.data.dims);
     const config = {
         margin: { top: 5, right: 10, bottom: 20, left: 0 },
-        nanSpace: 60,
+        nanSpace: 62,
     }
     const [axis, setAxis] = useState({ x: 'taskStepNum', y: 'agentStepNum' });
 
@@ -102,13 +102,13 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             config.margin.top,
         ],
     });
-
+    console.log(axis.y)     
     const xSelector = <Select
         value={axis.x}
         variant="standard"
         size="small"
         onChange={e => setAxis({ ...axis, x: e.target.value })}
-        sx={{ width: '35%', height: '20px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '15px' }}
     >
         {Object.keys(dimensionConfigs).map(key => (
             <MenuItem key={key} value={key}>
@@ -121,7 +121,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         value={axis.y}
         variant="standard"
         onChange={e => setAxis({ ...axis, y: e.target.value })}
-        sx={{ width: '35%', height: '20px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '15px' }}
     >
         {Object.keys(dimensionConfigs).map(key => (
             <MenuItem key={key} value={key}>
@@ -219,16 +219,16 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         if (svgWidth && svgHeight) {
             let xAxis = d3.axisBottom(xScale);
             let yAxis = d3.axisLeft(yScale);
-            // if (dimensionConfigs[axis.x].type === "numeric") {
-            //     xAxis = xAxis.ticks(5).tickFormat(d3.format("d")); 
-            //   } else {
-            //     xAxis = xAxis.tickSize(0);
-            //   }
-            //   if (dimensionConfigs[axis.y].type === "numeric") {
-            //     yAxis = yAxis.ticks(5).tickFormat(d3.format("d"));
-            //   } else {
-            //     yAxis = yAxis.tickSize(0);
-            //   }
+            if (dimensionConfigs[axis.x].type === "numeric") {
+                xAxis = xAxis.ticks(5).tickFormat(d3.format("d")); 
+              } else {
+                xAxis = xAxis.tickSize(0);
+              }
+              if (dimensionConfigs[axis.y].type === "numeric") {
+                yAxis = yAxis.ticks(5).tickFormat(d3.format("d"));
+              } else {
+                yAxis = yAxis.tickSize(0);
+              }
             d3.select(xAxisRef.current).call(xAxis);
             d3.select(yAxisRef.current).call(yAxis);
         }
@@ -268,7 +268,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         </Box>
 
         <Box sx={{ display: "flex", width: "100%", height: "100%", flexDirection: "row" }}>
-            {axis.y === 'runtime' || axis.y === 'agentStepNum' && <Box sx={{ width: "6%"}}>
+            {(axis.y === 'runtime' || axis.y === 'agentStepNum') && <Box sx={{ width: "6%"}}>
                 {patternColumn}
             </Box>}
             <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
@@ -324,16 +324,16 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                 }
                 )}
 
-                    {/* <g
+                    {axis.x === "userRating" && <g
                         ref={xAxisRef}
                         transform={`translate(0, ${svgHeight - config.margin.bottom - config.nanSpace})`}
-                    />
+                    />}
                 
                 {axis.y === "topic" && <g
                         ref={yAxisRef}
                         transform={`translate(${config.margin.left + config.nanSpace}, 0)`}
                     />
-                } */}
+                }
 
             </svg>
             </Box>
