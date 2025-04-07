@@ -242,7 +242,7 @@
                 {
                     "stepId": "step-1",
                     "stepName": "",
-                    "stepLabel": "Exploration for a series of questions",
+                    "stepLabel": " Explore questions",
                     "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration.",
                     "nextSteps": [
                         "step-2"
@@ -1026,7 +1026,7 @@
         "taskFlowSteps": [
             {
                 "stepId": "step-1",
-                "stepName": "Exploration for a series of questions",
+                "stepName": " Explore questions",
                 "stepLabel": "Question Exploration",
                 "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. The questions can focus on the movies rating.",
                 "pattern": {
@@ -1234,7 +1234,7 @@
     "taskFlowSteps": [
         {
             "stepId": "step-1",
-            "stepName": "Exploration for a series of questions",
+            "stepName": " Explore questions",
             "stepLabel": "Question Exploration",
             "stepDescription": "Generate a well-organized list of insightful and exploratory questions based on the movie dataset. Each question should be clearly phrased and categorized based on the type of analysis it supports (trend analysis, comparison, correlation, distribution, etc.). These questions should be framed with the intent of guiding future data visualization and storytelling. Focus on questions that reveal patterns, relationship, or surprising findings that could be uncovered through visual exploration. The questions can focus on the movies rating.",
             "pattern": {

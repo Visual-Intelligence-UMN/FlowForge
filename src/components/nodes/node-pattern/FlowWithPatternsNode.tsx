@@ -219,7 +219,10 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     return parts.filter(p => p.length > 0);
   }
 
-  let [A, B, C] = decomposeCalls(calls);
+  let [A_, B_, C_] = decomposeCalls(calls);
+  let A = A_ ? parseInt(A_) : 1;
+  let B = B_ ? parseInt(B_) : 1;
+  let C = C_ ? parseInt(C_) : 0;
 
   const callCharts = <svg width={15 * A + 15} height={B * 15}>
     {Array.from({ length: A }, (_, i) => (
