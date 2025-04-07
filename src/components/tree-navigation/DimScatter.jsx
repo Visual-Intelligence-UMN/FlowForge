@@ -8,7 +8,7 @@ const dimensionConfigs = {
     taskStepNum: { type: "numeric", label: "Task Step Number" },
     agentStepNum: { type: "numeric", label: "Agent Step Number" },
     maxCalls: { type: "numeric", label: "Max Calls" },
-    runtime: { type: "numeric", label: "Runtime" },
+    runtime: { type: "numeric", label: "Latency" },
     timeUsed: { type: "numeric", label: "Time Used" },
     userRating: { type: "numeric", label: "User Rating" },
     topic: { type: "categorical", label: "Topic" },
@@ -130,6 +130,66 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         ))}
     </Select>
 
+    let sortedKeys = ["Reflection", "Discussion", "Redundant", "Supervision"];
+    if (axis.y === 'runtime') {
+        sortedKeys = [ ["Supervision", "Discussion"], "Reflection", "Redundant"];
+    } else if (axis.y === 'agentStepNum') {
+        sortedKeys = [["Supervision",  "Discussion"], "Redundant","Reflection"];
+    }
+    const patternColumn = (
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between', 
+            height: '70%' 
+          }}
+        >
+          {sortedKeys.map((item, index) => {
+            if (Array.isArray(item)) {
+              return (
+                <Box key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                  {item.map((key) => (
+                    <span
+                      key={key}
+                      style={{
+                        backgroundColor: iconMap2[key].color,
+                        margin: '1px',
+                        padding: '0px 1px',
+                        width: '15px',
+                        borderRadius: '5px',
+                        fontSize: '15px',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {iconMap2[key].shortName}
+                    </span>
+                  ))}
+                </Box>
+              );
+            } else {
+              return (
+                <span
+                  key={item}
+                  style={{
+                    backgroundColor: iconMap2[item].color,
+                    margin: '2px',
+                    padding: '0px 4px',
+                    width: '18px',
+                    borderRadius: '5px',
+                    fontSize: '15px',
+                    textAlign: 'center'
+                  }}
+                >
+                  {iconMap2[item].shortName}
+                </span>
+              );
+            }
+          })}
+        </Box>
+      );
+      
+  
     // Render axes when svg dimensions or axis selection changes
     useEffect(() => {
         if (svgWidth && svgHeight) {
@@ -183,7 +243,11 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             Y-axis: {ySelector}
         </Box>
 
-        <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
+        <Box sx={{ display: "flex", width: "100%", height: "100%", flexDirection: "row" }}>
+            {axis.y === 'runtime' || axis.y === 'agentStepNum' && <Box sx={{ width: "6%"}}>
+                {patternColumn}
+            </Box>}
+            <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
             <svg className="dim-scatter" width="100%" height="100%" ref={svgRef}>
                 <rect
                     className="background"
@@ -248,6 +312,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                 } */}
 
             </svg>
+            </Box>
         </Box>
     </Box>
 }
