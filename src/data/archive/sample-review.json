@@ -176,7 +176,7 @@
                 "stepId": "step-6",
                 "stepName": "Recommendation Formation",
                 "stepLabel": "Formulate Recommendation",
-                "stepDescription": "Decide on initial recommendation based on assessment results: accept, revise, or reject.",
+                "stepDescription": "Decide on initial recommendation based on Evaluate results: accept, revise, or reject.",
                 "nextSteps": [
                     "step-7"
                 ]

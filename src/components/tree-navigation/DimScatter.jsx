@@ -12,6 +12,7 @@ const dimensionConfigs = {
     timeUsed: { type: "numeric", label: "Time Used" },
     userRating: { type: "numeric", label: "User Rating" },
     topic: { type: "categorical", label: "Topic" },
+    creativity: { type: "numeric", label: "Creativity" },
 };
 
 function buildScale({ nodes, axisKey, dimension, range }) {
@@ -135,6 +136,8 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         sortedKeys = [ ["Supervision", "Discussion"], "Reflection", "Redundant"];
     } else if (axis.y === 'agentStepNum') {
         sortedKeys = [["Supervision",  "Discussion"], "Redundant","Reflection"];
+    } else if (axis.y === 'creativity') {
+        sortedKeys = [["Redundant",  "Discussion"], "Reflection","Supervision"];
     }
     const patternColumn = (
        <> 
@@ -178,7 +181,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                         backgroundColor: iconMap2[key].color,
                         margin: '1px',
                         padding: '0px 1px',
-                        width: '15px',
+                        width: '20px',
                         borderRadius: '5px',
                         fontSize: '15px',
                         textAlign: 'center'
@@ -268,7 +271,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         </Box>
 
         <Box sx={{ display: "flex", width: "100%", height: "100%", flexDirection: "row" }}>
-            {(axis.y === 'runtime' || axis.y === 'agentStepNum') && <Box sx={{ width: "6%"}}>
+            {(axis.y === 'runtime' || axis.y === 'agentStepNum' || axis.y === 'creativity') && <Box sx={{ width: "6%"}}>
                 {patternColumn}
             </Box>}
             <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
