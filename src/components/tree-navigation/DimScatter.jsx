@@ -137,18 +137,40 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         sortedKeys = [["Supervision",  "Discussion"], "Redundant","Reflection"];
     }
     const patternColumn = (
+       <> 
+        <span
+            style={{
+            writingMode: 'vertical-rl',
+            textAlign: 'center',
+            marginBottom: '0px',
+            transform: 'rotate(180deg)',
+            fontSize: '12px',
+            }}
+        >
+           {axis.y === 'runtime' ? '#latency' : '#Agent'}
+        </span>
         <Box
           style={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between', 
-            height: '70%' 
+            justifyContent: 'space-between',
+            height: '60%'
           }}
         >
+          {/* Vertical text added at the top */}
+          
+      
           {sortedKeys.map((item, index) => {
             if (Array.isArray(item)) {
               return (
-                <Box key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Box
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                  }}
+                >
                   {item.map((key) => (
                     <span
                       key={key}
@@ -187,7 +209,9 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             }
           })}
         </Box>
+      </>
       );
+      
       
   
     // Render axes when svg dimensions or axis selection changes
