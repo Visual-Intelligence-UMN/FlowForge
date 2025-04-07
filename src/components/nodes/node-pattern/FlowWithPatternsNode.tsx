@@ -206,12 +206,43 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     data.pattern,
     data.template
   );
+
+  const decomposeCalls = (calls: string) => {
+
+    // Remove whitespace
+    const cleanExpr = calls.replace(/\s+/g, '');
+    // Split by operators (+, -, *, /, parentheses, etc.)
+    const parts = cleanExpr.split(/[\+\-\*\/\(\)]+/);
+    // Filter out empty strings
+    return parts.filter(p => p.length > 0);
+  }
+
+  let [A, B, C] = decomposeCalls(calls);
+
+  const callCharts = <svg width={15 * A + 15} height={B * 15}>
+    {Array.from({ length: A }, (_, i) => (
+      <g key={i} transform={`translate(${i * 15}, 0)`}>
+        {Array.from({ length: B }, (_, j) => (
+          <rect key={`${i}-${j}`} x={0} y={B * 15 - (j + 1) * 15} width="12" height="12" fill={iconMap2[patternName] ? iconMap2[patternName].color : 'lightgray'} />
+        ))}
+      </g>
+    ))}
+    <g transform={`translate(${A * 15}, 0)`}>
+      {Array.from({ length: C }, (_, i) => (
+        <rect key={`C-${i}`} width={12} height={12} x={0} y={B * 15 - (i + 1) * 15} fill={iconMap2[patternName] ? iconMap2[patternName].color : 'lightgray'} />
+
+      ))}
+    </g>
+  </svg>
+
   const computationCost = (
     <Typography
       sx={{
         fontSize: "18px",
       }}
     >
+      {showContent && callCharts}
+      <br />
       {showContent
         ? `${calls} = ${calls_number} LLM calls`
         : `${calls_number} LLM calls`}
