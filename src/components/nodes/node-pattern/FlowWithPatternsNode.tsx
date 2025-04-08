@@ -21,7 +21,7 @@ import Icon from "@mui/material/Icon";
 import { iconMap2 } from "../../../images/iconsMap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
@@ -31,10 +31,32 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const showContentZoom = data.showContent;
   const hovered = data.hoveredPattern === data.pattern.name ? true : false;
   const [showContent, setShowContent] = useState(false);
+  const [showContentClick, setShowContentClick] = useState(false);
   // const showContent = false;
   const patternName = data.pattern?.name || "";
   const template = data.template || {};
   // console.log("template", template);
+
+  useEffect(() => {
+    if (showContentZoom && showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(false);
+    } else if (!showContentZoom && showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    } else if (!showContentZoom && !showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    } else if (showContentZoom && !showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    }
+  }, [showContentZoom, showContentClick]);
+
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
@@ -303,7 +325,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} onClick={() => setShowContent(!showContent)}> {stepLabel}</Typography>
+      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} onClick={() => setShowContentClick(!showContentClick)}> {stepLabel}</Typography>
       <Box
         sx={{
           display: "flex",
