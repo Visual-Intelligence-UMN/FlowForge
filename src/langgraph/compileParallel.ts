@@ -116,7 +116,7 @@ function waitForStepStatus(
         let response_goto = response.goto;
        
         if (params.name.includes("Aggregator")) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
             console.log("response_goto in compileParallel for aggregator", response_goto);
             for (const parallelStep of params.parallelSteps) {

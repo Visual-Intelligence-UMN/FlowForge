@@ -135,10 +135,10 @@ const makeAgentNode = (params: {
         if (state[currentStep].length  >= params.maxRound && params.supervisorOrNot) {
             // one round of supervision means one call from the supervisor, and one response from the agent
             // but only the response is added to the state
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
         } else if (!response_goto.includes(currentStepId) && params.supervisorOrNot) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
         }
 
