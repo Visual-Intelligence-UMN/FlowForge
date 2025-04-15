@@ -19,13 +19,15 @@ export function SingleAgentForm({ data, onChange }) {
       p: 1,
     }}>
       <TextField
-        label="Persona"
+        label="Persona / Goal"
         value={data.persona || ""}
         onChange={handleFieldChange("persona")}
         size="small"
         className="nodrag nopan"
+        multiline
+        minRows={3}
       />
-      <TextField
+      {/* <TextField
         label="Goal"
         value={data.goal || ""}
         onChange={handleFieldChange("goal")}
@@ -33,7 +35,7 @@ export function SingleAgentForm({ data, onChange }) {
         className="nodrag nopan"
         multiline
         minRows={3}
-      />
+      /> */}
     </Box>
   );
 }

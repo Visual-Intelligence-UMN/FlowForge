@@ -2,7 +2,7 @@
     "Single Agent": {
         "confirm": false,
         "maxRound": 1,
-        "persona": "Single Agent",
+        "persona": "Efficient agent can solve the task to meet requirements.",
         "goal": "Complete the task successfully.",
         "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
     }, 
@@ -18,18 +18,18 @@
         "maxRound": 3,
         "workers": [
             {
-                "persona": "Worker",
+                "persona": "Efficient worker can contribute to the task to meet requirements.",
                 "goal": "Worker",
                 "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
             },
             {
-                "persona": "Worker",
+                "persona": "Efficient worker can contribute to the task to meet requirements.",
                 "goal": "Worker",
                 "patternPrompt": "Helpful assistant who can finish the task. You should not ask questions, just execute the task."
             }
         ],
         "supervisor": {
-            "persona": "Supervisor",
+            "persona": "Supervisor can coordinate the workers to complete the task efficiently.",
             "goal": "Supervisor",
             "patternPrompt": "You are a helpful supervisor who can coordinate the workers to complete the task. Given the user request and conversation history, respond with the WORKER agent to act next for this task. Each agent will perform a subtask and respond with their restuls and status. When the task is done, you should select next steps agent."
         }
@@ -38,12 +38,12 @@
         "confirm": false,
         "maxRound": 3,
         "evaluator": {
-            "persona": "Critical evaluator with logical rigor",
+            "persona": "Critical evaluator with logical rigor can evaluate if meets the requirements.",
             "goal": "Evaluator",
             "patternPrompt": "You are a helpful evaluator who can analyze the output of optimizer agent. You work with optimizer agent to solve the task and iterate on the output. You should always include the final output from the optimizer agent in your response. Then, If the output is not good enough, you should add with feedbacks and suggestions for improvement with the output from the optimizer agent, and ask the agent to improve the output. If the output is good enough, you should respond the final output from the optimizer agent, and add APPROVED at the end of your response. "
         },
         "optimizer": {
-            "persona": "Efficient problem optimizer",
+            "persona": "Efficient problem optimizer can iterate the output better.",
             "goal": "Draft an initial solution and iterate on it based on the feedbacks",
             "patternPrompt": "You are a helpful optimizer who can work with evaluator agent. You can efficiently work from the previous deliverable and improve the output based on the feedbacks and suggestions provided by the evaluator. You work with the evaluator and iterate on the output until it is good enough. You should not ask extra questions, just produce and optimize the output." 
         }
@@ -54,23 +54,23 @@
         "withSummary": true,
         "agents": [
             {
-                "persona": "scientist",
+                "persona": "Scientist can offer more logical and scientific insights.",
                 "goal": "Offer more logical and scientific insights",
                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
             },
             {
-                "persona": "journalist",
+                "persona": "Journalist can offer more realistic and relevant insights.",
                 "goal": "Offer more realistic and relevant insights",
                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
             },
             {
-                "persona": "artist",
+                "persona": "Artist can offer more artistic and innovative branding angles and insights.",
                 "goal": "Offer artistic and innovative branding angles and insights",
                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
             }
         ],
         "summary": {
-            "persona": "Summary",
+            "persona": "Summary agent can summarize the conversation of the agents.",
             "goal": "Listen to the entire discussion and produce a final summary.",
             "patternPrompt": "Helpful assistant who can summarize the output of the agents."
         }
@@ -81,19 +81,19 @@
         "withAggregation": true,
         "agents": [
             {
-                "persona": "scientist",
+                "persona": "Scientist can solve the task to offer more logical and scientific insights.",
                 "goal": "more logical and scientific",
                 "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
             },
             {
-                "persona": "journalist",
+                "persona": "Journalist can solve the task to offer more realistic and engaging insights.",
                 "goal": "more realistic and engaging",
                 "patternPrompt": "Helpful assistant who finish the task. You should not ask questions, just execute the task."
             }
             
         ],
         "aggregation": {
-            "persona": "Aggregator",
+            "persona": "Aggregator can aggregate all responses of the previous agents.",
             "goal": "Aggregator of the output of the previous agents conversation.",
             "patternPrompt": "Helpful assistant who can aggregate the output of the previous agents conversation."
         }

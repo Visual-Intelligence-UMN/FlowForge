@@ -5,7 +5,7 @@ import { AgentsState } from "./states";
 import { ChatOpenAI } from "@langchain/openai";
 import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 // Example status check function using a promise-based wait
 function waitForStepStatus(
     state: typeof AgentsState.State,
@@ -118,6 +118,9 @@ function waitForStepStatus(
         if (params.name.includes("Aggregator")) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
+            if (response_goto.includes("__end__")) {
+                response_goto = END;
+            }
             console.log("response_goto in compileParallel for aggregator", response_goto);
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {
@@ -125,13 +128,15 @@ function waitForStepStatus(
                 }
                 if (state[parallelStep+"-status"] !== "done") {
                     console.log("update status for parallel step as done as parallel step is pending", parallelStep);
+                    console.log("state[parallelStep]", state);
+                    console.log("state[currentStep] mark as done", currentStep);
                     return new Command({
                         // goto: response_goto,
                         update: {
                             messages: aiMessage,
                             sender: params.name,
                             [currentStep]: aiMessage,
-                            [currentStep+"-status"]: status,
+                            [currentStep+"-status"]: "done",
                         }
                     })
                 }
@@ -142,7 +147,7 @@ function waitForStepStatus(
         console.log("status in compileParallel", status);
         console.log("response_goto in compileParallel", response_goto);
         // console.log("discussion response", response);
-        // console.log("state", state);
+        console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {

@@ -64,7 +64,7 @@ const SingleAgentNode = ({ id, data }) => {
             onChange={(e) => updateNodeFieldset(id, "tools", e.target.value)}
             className="nodrag nopan" // set to prevent dragging and panning
           >
-            <MenuItem value="tool_WebSearch">Web Search</MenuItem>
+            {/* <MenuItem value="tool_WebSearch">Web Search</MenuItem> */}
             <MenuItem value="none">No Tool</MenuItem>
           </Select>
         </FormControl>

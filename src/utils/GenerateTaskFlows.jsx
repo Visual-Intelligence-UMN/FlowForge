@@ -3,8 +3,8 @@ import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 
 import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
-import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
-import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
+// import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
+// import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 
@@ -215,10 +215,14 @@ const GenerateTaskFlows = async (task, runRealtime) => {
   console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
-      if (task.name.includes("Review a Paper") 
-        || task.name.includes("Visualization")
-        || task.name.includes("Script")) {
+      if (task.name.includes("Review a Paper") ){
         const sampleRes = sampleTaskFlowData.taskFlows;
+        const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
+        returnData.taskFlows.push(...sampleflows);
+        return returnData;
+      } else if (task.name.includes("Script") || task.name.includes("Visualization")) {
+        const sampleRes = sampleTaskFlowData.taskFlows;
+        console.log("sampleRes", sampleRes);  
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
         returnData.taskFlows.push(...sampleflows);
         return returnData;

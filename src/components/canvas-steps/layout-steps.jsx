@@ -7,7 +7,7 @@ const getLayoutedNodesAndEdges = (nodes, edges, direction = 'LR') => {
     const dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-    const nodeWidth = 700; // Set your node width
+    const nodeWidth = 600; // Set your node width
     const nodeHeight = 100; // Set your node height
     
     dagreGraph.setGraph({ 
@@ -65,7 +65,7 @@ const getMultiLineLayoutedNodesAndEdges = (nodes, edges, nodesPerRow = 3) => {
   return { nodes: layoutedNodes, edges };
 };
 
-const getLayeredLayout = (nodes, edges, direction = 'LR', verticalSpacing = 400, horizontalSpacing = 400) => {
+const getLayeredLayout = (nodes, edges, direction = 'LR', verticalSpacing = 280, horizontalSpacing = 200) => {
     const g = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
     g.setGraph({ rankdir: direction, ranksep: verticalSpacing, nodesep: horizontalSpacing });
    

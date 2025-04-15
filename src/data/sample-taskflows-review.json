@@ -36,7 +36,7 @@
                 {
                     "stepId": "step-3",
                     "stepName": "Evaluation of Methodology and Data",
-                    "stepLabel": "Methods assessment",
+                    "stepLabel": "Method assessment",
                     "stepDescription": "Critically assess the methodology and data for adequacy, accuracy, and reproducibility.",
                     "nextSteps": [
                         "step-4"
@@ -45,7 +45,7 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Identification of Strengths and Weaknesses",
-                    "stepLabel": "Assessment results",
+                    "stepLabel": "Evaluate results",
                     "stepDescription": "Compile identified strengths and weaknesses, focusing on the paper's contributions and areas needing improvement.",
                     "nextSteps": [
                         "step-5"
@@ -54,7 +54,7 @@
                 {
                     "stepId": "step-5",
                     "stepName": "Draft Actionable Suggestions",
-                    "stepLabel": "Suggestions drafting",
+                    "stepLabel": "Draft review",
                     "stepDescription": "Formulate specific feedback on revisions to improve clarity, argumentation, or data presentation.",
                     "nextSteps": []
                 }
@@ -205,7 +205,7 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Identification of Strengths and Weaknesses",
-                    "stepLabel": "Assessment results",
+                    "stepLabel": "Evaluate results",
                     "stepDescription": "Compile identified strengths and weaknesses, focusing on the paper's contributions and areas needing improvement.",
                     "nextSteps": [
                         "step-5"
@@ -214,7 +214,7 @@
                 {
                     "stepId": "step-5",
                     "stepName": "Draft Actionable Suggestions",
-                    "stepLabel": "Suggestions drafting",
+                    "stepLabel": "Draft review",
                     "stepDescription": "Formulate specific feedback on revisions to improve clarity, argumentation, or data presentation.",
                     "nextSteps": []
                 }
@@ -258,27 +258,27 @@
                         "withSummary": true,
                         "agents": [
                             {
-                                "persona": "Reviewer A",
+                                "persona": "Reviewer A. To provide insights on the clarity of the arguments made in the paper and suggest specific revisions that enhance readability.",
                                 "goal": "To provide insights on the clarity of the arguments made in the paper and suggest specific revisions that enhance readability.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer B",
+                                "persona": "Reviewer B. To analyze the data presentation and recommend ways to improve the visual and textual depiction of data to support the arguments more effectively.",
                                 "goal": "To analyze the data presentation and recommend ways to improve the visual and textual depiction of data to support the arguments more effectively.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer C",
+                                "persona": "Reviewer C. To offer a critical perspective on the overall structure of the paper and propose adjustments that strengthen the logical flow of arguments.",
                                 "goal": "To offer a critical perspective on the overall structure of the paper and propose adjustments that strengthen the logical flow of arguments.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer D",
+                                "persona": "Reviewer D. To facilitate discussions among reviewers to ensure that all aspects of the feedback are considered and integrated into the final suggestions.",
                                 "goal": "To facilitate discussions among reviewers to ensure that all aspects of the feedback are considered and integrated into the final suggestions."
                             }
                         ],
                         "summary": {
-                            "persona": "Lead Facilitator",
+                            "persona": "Lead Facilitator. To oversee the discussion process, ensuring that all reviewers contribute their perspectives and that the final actionable suggestions are clear, concise, and constructive.",
                             "goal": "To oversee the discussion process, ensuring that all reviewers contribute their perspectives and that the final actionable suggestions are clear, concise, and constructive.",
                             "patternPrompt": "Helpful assistant who can summarize the output of the agents."
                         }
@@ -367,7 +367,7 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Identification of Strengths and Weaknesses",
-                    "stepLabel": "Assessment results",
+                    "stepLabel": "Evaluate results",
                     "stepDescription": "Compile identified strengths and weaknesses, focusing on the paper's contributions and areas needing improvement.",
                     "pattern": {
                         "name": "Reflection",
@@ -394,7 +394,7 @@
                 {
                     "stepId": "step-5",
                     "stepName": "Draft Actionable Suggestions",
-                    "stepLabel": "Suggestions drafting",
+                    "stepLabel": "Draft review",
                     "stepDescription": "Formulate specific feedback on revisions to improve clarity, argumentation, or data presentation.",
                     "pattern": {
                         "name": "Discussion",
@@ -537,7 +537,7 @@
                 {
                     "stepId": "step-4",
                     "stepName": "Identification of Strengths and Weaknesses",
-                    "stepLabel": "Assessment results",
+                    "stepLabel": "Evaluate results",
                     "stepDescription": "Compile identified strengths and weaknesses, focusing on the paper's contributions and areas needing improvement.",
                     "pattern": {
                         "name": "Discussion",
@@ -552,27 +552,27 @@
                         "withSummary": true,
                         "agents": [
                             {
-                                "persona": "Reviewer A",
+                                "persona": "Reviewer A. To provide insights on the clarity of the arguments made in the paper and suggest specific revisions that enhance readability.",
                                 "goal": "To provide insights on the clarity of the arguments made in the paper and suggest specific revisions that enhance readability.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer B",
+                                "persona": "Reviewer B. To analyze the data presentation and recommend ways to improve the visual and textual depiction of data to support the arguments more effectively.",
                                 "goal": "To analyze the data presentation and recommend ways to improve the visual and textual depiction of data to support the arguments more effectively.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer C",
+                                "persona": "Reviewer C. To offer a critical perspective on the overall structure of the paper and propose adjustments that strengthen the logical flow of arguments.",
                                 "goal": "To offer a critical perspective on the overall structure of the paper and propose adjustments that strengthen the logical flow of arguments.",
                                 "patternPrompt": "Helpful assistant who can discuss with other agents to brainstorm and generate ideas"
                             },
                             {
-                                "persona": "Reviewer D",
+                                "persona": "Reviewer D. To facilitate discussions among reviewers to ensure that all aspects of the feedback are considered and integrated into the final suggestions.",
                                 "goal": "To facilitate discussions among reviewers to ensure that all aspects of the feedback are considered and integrated into the final suggestions."
                             }
                         ],
                         "summary": {
-                            "persona": "Lead Facilitator",
+                            "persona": "Lead Facilitator. To oversee the discussion process, ensuring that all reviewers contribute their perspectives and that the final actionable suggestions are clear, concise, and constructive.",
                             "goal": "To oversee the discussion process, ensuring that all reviewers contribute their perspectives and that the final actionable suggestions are clear, concise, and constructive.",
                             "patternPrompt": "Helpful assistant who can summarize the output of the agents."
                         }
@@ -581,7 +581,7 @@
                 {
                     "stepId": "step-5",
                     "stepName": "Draft Actionable Suggestions",
-                    "stepLabel": "Suggestions drafting",
+                    "stepLabel": "Draft review",
                     "stepDescription": "Formulate specific feedback on revisions to improve clarity, argumentation, or data presentation.",
                     "pattern": {
                         "name": "Reflection",

@@ -6,7 +6,7 @@ import { ToolMessage } from "@langchain/core/messages";
 import { toolsMap, TavilySearchTool } from "./tools";
 import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 
 const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
@@ -106,7 +106,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
 
         const responseSchema = z.object({
             response: z.string().describe(
-            "A human readable response aligned with the step description."
+            "Complete deliverable response aligned with the step description."
             ),
             goto: z.enum(params.destinations as [string, ...string[]]).describe("The next to call. Must be one of the specified values."),
         });
@@ -147,7 +147,9 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
         }
-
+        if (response_goto.includes("__end__")) {
+            response_goto = END;
+        }
         console.log("status in compileSingleAgent", status);
         console.log("response_goto in compileSingleAgent", response_goto);
         // console.log("discussion response", response);

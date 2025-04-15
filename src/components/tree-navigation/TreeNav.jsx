@@ -151,6 +151,10 @@ const TreeNav = () => {
       const agentSteps = getAgentSteps(pattern)
       const agentMaxCalls = getAgentMaxCalls(pattern)
       const agentRuntime = getAgentRuntime(pattern)
+
+      const childFlowsConfigIds = agentsConfig.filter(config => config.configId.startsWith(patternID)).map(config => config.configId)
+      const childFlowsUserRatings = childFlowsConfigIds.map(configId => multiStreamOutput[String(configId)]?.userRating ?? 0)
+      const userRating = childFlowsUserRatings.reduce((acc, curr) => acc + curr, 0) / childFlowsUserRatings.length
       // console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
@@ -170,7 +174,8 @@ const TreeNav = () => {
             // 'agentStepNum': agentSteps.length,
             'agentStepNum': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
             'maxCalls': agentMaxCalls.reduce((acc, curr) => acc + curr, 0),
-            'runtime': agentRuntime.reduce((acc, curr) => acc + curr, 0)
+            'runtime': agentRuntime.reduce((acc, curr) => acc + curr, 0),
+            'userRating': userRating
           }
         },
       });
@@ -212,6 +217,8 @@ const TreeNav = () => {
       const configOutput = multiStreamOutput[String(configId)]
       const userRating = configOutput?.userRating ?? 0
       const timeUsed = configOutput?.timeUsed ?? 0
+      const topic = configOutput?.topic ?? ""
+      const topic_num = topic === "Profits" ? 4 : topic === "IMDB Rating" ? 3 : topic === "Genres" ? 2 : topic === "Mixed" ? 1: 0
 
       g.setNode(`compiled-${configId}`, {
         label: configLabel,
@@ -225,6 +232,7 @@ const TreeNav = () => {
             'agentStepNum': agentSteps.length,
             'userRating': userRating,
             'timeUsed': timeUsed,
+            'topic': topic,
             // 'maxCalls': maxCalls,
             // 'runtime': runtime,
           }

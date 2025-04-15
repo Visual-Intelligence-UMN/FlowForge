@@ -5,7 +5,7 @@ import { AgentsState } from "./states";
 import { ChatOpenAI } from "@langchain/openai";
 import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
-import { Command } from "@langchain/langgraph/web";
+import { Command, END } from "@langchain/langgraph/web";
 
 // Example status check function using a promise-based wait
 function waitForStepStatus(
@@ -74,6 +74,7 @@ const makeAgentNode = (params: {
     summaryOrNot: boolean,
     parallelSteps: string[],
     summaryNodeOrNot: boolean,
+    nodesDescription: string,
 }) => {
     return async (state: typeof AgentsState.State) => {
 
@@ -81,7 +82,7 @@ const makeAgentNode = (params: {
             response: z.string().describe(
             "Complete deliverable response."
             ),
-            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent or Summary to call. Must be one of the specified values."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next appropriate Agent or Summary to call. Must be one of the specified values."),
             });
 
         const responseSchemaSummary = z.object({
@@ -93,7 +94,7 @@ const makeAgentNode = (params: {
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
-            temperature: 0.7,
+            temperature: 0.5,
             apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         });
 
@@ -109,7 +110,7 @@ const makeAgentNode = (params: {
             ...await getInputMessagesForStep(state, currentStep, params.previousSteps, params.name),
             {
                 role:"system",
-                content: params.systemPrompt,
+                content: params.systemPrompt + (params.summaryNodeOrNot ? "" : "\n" + params.nodesDescription),
             },
         ]
         console.log("invokePayload for", params.name, invokePayload);
@@ -137,6 +138,9 @@ const makeAgentNode = (params: {
                 status = "pending";
             }
         }
+        if (response_goto.includes("__end__")) {
+            response_goto = END;
+        }
         // if (state[currentStep].length >= params.maxRound ) {
         //     // random call, so one msg means one round
         //     if (params.summaryOrNot) {
@@ -163,13 +167,16 @@ const makeAgentNode = (params: {
                     continue;
                 }
                 if (state[parallelStep+"-status"] !== "done") {
+                    console.log("update status for parallel step as done as parallel step is pending", parallelStep);
+                    console.log("state[parallelStep]", state);
+                    console.log("state[currentStep] mark as done", currentStep);
                     return new Command({
-                        // goto: response_goto,
+                        goto: response_goto,
                         update: {
                             messages: aiMessage,
                             sender: params.name,
                             [currentStep]: aiMessage,
-                            [currentStep+"-status"]: status,
+                            [currentStep+"-status"]: "done",
                         }
                     })
                 }
@@ -178,7 +185,7 @@ const makeAgentNode = (params: {
         console.log("status in compileDiscussion", status);
         console.log("response_goto in compileDiscussion", response_goto);
         // console.log("discussion response", response);
-        // console.log("state", state);
+        console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -199,7 +206,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
     const uniquePreviousSteps = [...new Set(previousSteps)];
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
-
+    const nodesDescription = "Call one of the most appropriate agent to continue iterate your deliverable to better align with the step description: " + nodesInfo.map((node) => node.id + " (" + node.data.systemPrompt.split("\n")[0] + ")").join("; ");
     console.log("summaryNode", summaryNode);
     console.log("summaryTarget", summaryTarget);
 
@@ -226,6 +233,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
             summaryOrNot: true,
             parallelSteps: parallelSteps,
             summaryNodeOrNot: true,
+            nodesDescription: nodesDescription,
         })
         workflow.addNode(summaryNode.id, agentNode, {
             ends: [...destinations]
@@ -281,6 +289,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
             summaryOrNot: summaryNode ? true : false,
             parallelSteps: parallelSteps,
             summaryNodeOrNot: false,
+            nodesDescription: nodesDescription,
         })
         if (node.data.label === "Summary") {
             continue;

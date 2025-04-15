@@ -1,16 +1,43 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Select, Menu, MenuItem } from "@mui/material";
 import * as d3 from "d3";
-
+import { iconMap2 } from "../../images/iconsMap";
 
 import TreeNode from "./TreeNode";
+const dimensionConfigs = {
+    taskStepNum: { type: "numeric", label: "Task Step Number" },
+    agentStepNum: { type: "numeric", label: "Agent Step Number" },
+    maxCalls: { type: "numeric", label: "Max Calls" },
+    runtime: { type: "numeric", label: "Latency" },
+    timeUsed: { type: "numeric", label: "Time Used" },
+    userRating: { type: "numeric", label: "User Rating" },
+    topic: { type: "categorical", label: "Topic" },
+    creativity: { type: "numeric", label: "Creativity" },
+};
+
+function buildScale({ nodes, axisKey, dimension, range }) {
+    const { type } = dimensionConfigs[dimension];
+    const rawValues = nodes.map((d) => d.data.dims[axisKey]);
+    if (type === "numeric") {
+      const [min, max] = d3.extent(rawValues);
+      const padding = (max - min) * 0.1;
+      return d3
+        .scaleLinear()
+        .domain([min - padding, max + padding])
+        .range(range);
+    } else {
+    const categories = Array.from(new Set(rawValues)).filter(value => value !== "" && value !== null);
+    const categories_sorted = ["Mixed", "Genres", "IMDB Rating", "Profits"]
+      return d3.scaleBand().domain(categories_sorted).range(range).padding(0.2);
+    }
+  }
 
 export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXScale, agentYScale }) {
     let { nodes, edges } = treeNav;
     nodes = nodes.filter(node => node.data.dims);
     const config = {
         margin: { top: 5, right: 10, bottom: 20, left: 0 },
-        nanSpace: 60,
+        nanSpace: 62,
     }
     const [axis, setAxis] = useState({ x: 'taskStepNum', y: 'agentStepNum' });
 
@@ -42,55 +69,174 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
         return [min - padding, max + padding];
     }
 
-    const xScale = d3.scaleLinear()
-        .domain(getPaddedExtent(nodes.map(d => d.data.dims[axis['x']]), 0.1))
-        .range([
+    // const xScale = d3.scaleLinear()
+    //     .domain(getPaddedExtent(nodes.map(d => d.data.dims[axis['x']]), 0.1))
+    //     .range([
+    //         config.margin.left + config.nanSpace,
+    //         svgWidth - config.margin.right
+    //     ]);
+
+    // const yScale = d3.scaleLinear()
+    //     .domain(getPaddedExtent(nodes.map(d => d.data.dims[axis['y']]), 0.1))
+    //     .range([
+    //         svgHeight - config.margin.bottom - config.nanSpace,
+    //         config.margin.top
+    //     ]);
+
+    const xScale = buildScale({
+        nodes,
+        axisKey: axis.x,
+        dimension: axis.x,
+        range: [
             config.margin.left + config.nanSpace,
-            svgWidth - config.margin.right
-        ]);
-
-    const yScale = d3.scaleLinear()
-        .domain(getPaddedExtent(nodes.map(d => d.data.dims[axis['y']]), 0.1))
-        .range([
+            svgWidth - config.margin.right,
+        ],
+    });
+        
+          
+    const yScale = buildScale({
+        nodes,
+        axisKey: axis.y,
+        dimension: axis.y,
+        range: [
             svgHeight - config.margin.bottom - config.nanSpace,
-            config.margin.top
-        ]);
-
-
+            config.margin.top,
+        ],
+    });
+    console.log(axis.y)     
     const xSelector = <Select
         value={axis.x}
         variant="standard"
         size="small"
         onChange={e => setAxis({ ...axis, x: e.target.value })}
-        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '15px' }}
     >
-        <MenuItem value="taskStepNum">Task Step Number</MenuItem>
-        <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
-        <MenuItem value="maxCalls">Max Calls</MenuItem>
-        <MenuItem value="runtime">Runtime</MenuItem>
+        {Object.keys(dimensionConfigs).map(key => (
+            <MenuItem key={key} value={key}>
+                {dimensionConfigs[key].label}
+            </MenuItem>
+        ))}
     </Select>
 
     const ySelector = <Select
         value={axis.y}
         variant="standard"
         onChange={e => setAxis({ ...axis, y: e.target.value })}
-        sx={{ width: '35%', height: '30px', fontSize: '12px' }}
+        sx={{ width: '35%', height: '20px', fontSize: '15px' }}
     >
-        <MenuItem value="taskStepNum">Task Step Number</MenuItem>
-        <MenuItem value="agentStepNum">Agent Step Number</MenuItem>
-        <MenuItem value="maxCalls">Max Calls</MenuItem>
-        <MenuItem value="runtime">Runtime</MenuItem>
+        {Object.keys(dimensionConfigs).map(key => (
+            <MenuItem key={key} value={key}>
+                {dimensionConfigs[key].label}
+            </MenuItem>
+        ))}
     </Select>
 
+    let sortedKeys = ["Reflection", "Discussion", "Redundant", "Supervision"];
+    if (axis.y === 'runtime') {
+        sortedKeys = [ ["Supervision", "Discussion"], "Reflection", "Redundant"];
+    } else if (axis.y === 'agentStepNum') {
+        sortedKeys = [["Supervision",  "Discussion"], "Redundant","Reflection"];
+    } else if (axis.y === 'creativity') {
+        sortedKeys = [["Redundant",  "Discussion"], "Reflection","Supervision"];
+    }
+    const patternColumn = (
+       <> 
+        <span
+            style={{
+            writingMode: 'vertical-rl',
+            textAlign: 'center',
+            marginBottom: '0px',
+            transform: 'rotate(180deg)',
+            fontSize: '12px',
+            }}
+        >
+           {axis.y === 'runtime' ? '#latency' : '#Agent'}
+        </span>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '60%'
+          }}
+        >
+          {/* Vertical text added at the top */}
+          
+      
+          {sortedKeys.map((item, index) => {
+            if (Array.isArray(item)) {
+              return (
+                <Box
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  {item.map((key) => (
+                    <span
+                      key={key}
+                      style={{
+                        backgroundColor: iconMap2[key].color,
+                        margin: '1px',
+                        padding: '0px 1px',
+                        width: '20px',
+                        borderRadius: '5px',
+                        fontSize: '15px',
+                        textAlign: 'center'
+                      }}
+                    >
+                      {iconMap2[key].shortName}
+                    </span>
+                  ))}
+                </Box>
+              );
+            } else {
+              return (
+                <span
+                  key={item}
+                  style={{
+                    backgroundColor: iconMap2[item].color,
+                    margin: '2px',
+                    padding: '0px 4px',
+                    width: '18px',
+                    borderRadius: '5px',
+                    fontSize: '15px',
+                    textAlign: 'center'
+                  }}
+                >
+                  {iconMap2[item].shortName}
+                </span>
+              );
+            }
+          })}
+        </Box>
+      </>
+      );
+      
+      
+  
     // Render axes when svg dimensions or axis selection changes
     useEffect(() => {
         if (svgWidth && svgHeight) {
-            const xAxis = d3.axisBottom(xScale);
-            const yAxis = d3.axisLeft(yScale);
+            let xAxis = d3.axisBottom(xScale);
+            let yAxis = d3.axisLeft(yScale);
+            if (dimensionConfigs[axis.x].type === "numeric") {
+                xAxis = xAxis.ticks(5).tickFormat(d3.format("d")); 
+              } else {
+                xAxis = xAxis.tickSize(0);
+              }
+              if (dimensionConfigs[axis.y].type === "numeric") {
+                yAxis = yAxis.ticks(5).tickFormat(d3.format("d"));
+              } else {
+                yAxis = yAxis.tickSize(0);
+              }
             d3.select(xAxisRef.current).call(xAxis);
             d3.select(yAxisRef.current).call(yAxis);
         }
     }, [svgWidth, svgHeight, axis, nodes]);
+
 
     return <Box
         className="tree-nav"
@@ -124,7 +270,11 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             Y-axis: {ySelector}
         </Box>
 
-        <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
+        <Box sx={{ display: "flex", width: "100%", height: "100%", flexDirection: "row" }}>
+            {(axis.y === 'runtime' || axis.y === 'agentStepNum' || axis.y === 'creativity') && <Box sx={{ width: "6%"}}>
+                {patternColumn}
+            </Box>}
+            <Box sx={{ flex: 1, width: "100%", height: "100%" }}>
             <svg className="dim-scatter" width="100%" height="100%" ref={svgRef}>
                 <rect
                     className="background"
@@ -154,12 +304,13 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                     opacity={0.3}
                 />
                 {nodes.map(node => {
+                    const jitter = 0
                     const x = node.data.dims[axis['x']]
-                        ? xScale(node.data.dims[axis['x']])
-                        : config.nanSpace / 2 + config.margin.left;
+                        ? xScale(node.data.dims[axis['x']]) 
+                        : config.nanSpace / 2 + config.margin.left ;
                     const y = node.data.dims[axis['y']]
-                        ? yScale(node.data.dims[axis['y']])
-                        : svgHeight - config.margin.bottom - config.nanSpace / 2;
+                        ? yScale(node.data.dims[axis['y']]) 
+                        : svgHeight - config.margin.bottom - config.nanSpace / 2 + (Math.random()-0.5) * jitter;
                     // console.info(node, node.data.dims[axis['x']], node.data.dims[axis['y']])
                     return <g key={node.label} className={node.label} transform={`translate(${x}, ${y})`}  >
                         {/* <text x={20} y={-10} textAnchor="middle" dominantBaseline="middle" style={{ pointerEvents: "none" }} className="node-text">
@@ -175,16 +326,20 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
                     </g>
                 }
                 )}
-                {/* <g
+
+                    {axis.x === "userRating" && <g
                         ref={xAxisRef}
                         transform={`translate(0, ${svgHeight - config.margin.bottom - config.nanSpace})`}
-                    /> */}
-                {/* <g
+                    />}
+                
+                {axis.y === "topic" && <g
                         ref={yAxisRef}
                         transform={`translate(${config.margin.left + config.nanSpace}, 0)`}
-                    /> */}
+                    />
+                }
 
             </svg>
+            </Box>
         </Box>
     </Box>
 }

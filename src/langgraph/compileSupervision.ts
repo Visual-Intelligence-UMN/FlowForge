@@ -57,13 +57,22 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         //         throw error;
         //     }
         // }
-
         console.log("stepMsgs is empty, use previous steps", previousSteps);
         console.log("state", state);
-        for (const step of previousSteps) {
-            invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
+        const aiMessage = {
+            role: "assistant",
+            content: "Previous Deliverables: \n",
+            name: ""
         }
-        return invokeMsg;
+        for (const step of previousSteps) {
+            console.log("state[step]", state[step]?.slice(-1));
+            console.log("state[step]?.slice(-1).content", state[step]?.slice(-1)[0].content);
+            aiMessage.content += "[" + step + " Deliverable] " + state[step]?.slice(-1)[0].content + "\n";
+            // invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
+            console.log("aiMessage", aiMessage);
+            aiMessage.name = state[step]?.slice(-1)[0].name;
+        }
+        return invokeMsg.concat(aiMessage);
     }
     return stepMsgs.slice(-1);
   }
@@ -78,14 +87,21 @@ const makeAgentNode = (params: {
     previousSteps: string[],
     supervisorOrNot: boolean,
     parallelSteps: string[],
+    workersDescriptions: string,
 }) => {
     return async (state: typeof AgentsState.State) => {
+
+        const currentStepNum = params.name.split("-")[1];
+        const currentStep = 'step' + currentStepNum;
+        const currentStepId = 'step-' + currentStepNum;
+        const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
 
         const responseSchema = z.object({
             // response: z.string().describe(
             // "A human readable response to the original question. Does not need to be a final response. Will be streamed back to the user."
             // ),
-            goto: z.enum(params.destinations as [string, ...string[]]).describe("The next Agent to call or end. Must be one of the specified values."),
+            goto: z.enum(params.destinations as [string, ...string[]]).describe(
+                "Next worker Agent to call if CONTINUE or Next Step agent to call if NEXT or end."),
         });
 
         const workerResponseSchema = z.object({
@@ -106,10 +122,7 @@ const makeAgentNode = (params: {
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-        const currentStepNum = params.name.split("-")[1];
-        const currentStep = 'step' + currentStepNum;
-        const currentStepId = 'step-' + currentStepNum;
-        const nextStep = 'step-' + (parseInt(currentStepNum) + 1); 
+        
 
         const invokePayload = [
             ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
@@ -140,6 +153,9 @@ const makeAgentNode = (params: {
         } else if (!response_goto.includes(currentStepId) && params.supervisorOrNot) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
+        }
+        if (response_goto.includes("__end__")) {
+            response_goto = END;
         }
 
         console.log("state in compileSupervision", state);
@@ -207,29 +223,39 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     console.log("nodesInfo in compileSupervision", nodesInfo);
     console.log("stepEdges in compileSupervision", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
+
     const uniquePreviousSteps = [...new Set(previousSteps)];
     const supervisorNode = nodesInfo.find(node => node.type === "supervisor");
+    const currentStepIdx = supervisorNode.id.split("->")[0];
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
     // console.log("supervisorDestinations", supervisorDestinations);
     console.log("destinations in compileSupervision", supervisorDestinations);
-
+    const workersDescriptions = "Please decide CONTINUE or NEXT, if CONTINUE then call one of the most appropriate agent: " + agentsNodes.map(node => node.id + " (" + node.data.systemPrompt.split("\n")[0] + ")").join("; ");
+    const nextStepDestinations = supervisorDestinations.filter(d => !d?.includes(currentStepIdx));
+    const nextStepDestinationsDescription = " If NEXT, call one of the: " + nextStepDestinations.join(",");
+    
+    console.log("nextStepDestinationsDescription", nextStepDestinationsDescription);
+    console.log("workersDescriptions", workersDescriptions);
     const supervisorAgent = makeAgentNode({
         name: supervisorNode.id,
         destinations: supervisorDestinations as string[],
-        systemPrompt: supervisorNode.data.systemPrompt,
+        systemPrompt: supervisorNode.data.systemPrompt + "\n" + workersDescriptions + "\n" + nextStepDestinationsDescription,
         llmOption: supervisorNode.data.llm,
         tools: supervisorNode.data.tools,
         maxRound: maxRound,
         previousSteps: uniquePreviousSteps as string[],
         supervisorOrNot: true,
         parallelSteps: parallelSteps,
+        workersDescriptions: workersDescriptions + " " + nextStepDestinationsDescription,
     });
-
+    if (supervisorDestinations.length === 0) {
+        supervisorDestinations.push("__end__");
+    }
     workflow.addNode(supervisorNode.id, supervisorAgent, {
         ends: [...supervisorDestinations],
     });
-    // TODO: fix this, supervisor should be able to call next few nodes.
+        // TODO: fix this, supervisor should be able to call next few nodes.
 
     for (const node of agentsNodes) {
         const destinations = Array.from(
@@ -249,6 +275,7 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
             previousSteps: uniquePreviousSteps as string[],
             supervisorOrNot: false,
             parallelSteps: parallelSteps,
+            workersDescriptions: workersDescriptions,
         })
         workflow.addNode(node.id, agentNode, {
             ends: [...destinations]

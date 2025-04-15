@@ -70,17 +70,17 @@ export function SupervisionForm({ data, onChange }) {
           minHeight: 130,
         }}
       >
-        <Typography variant="subtitle2">Supervisor</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Supervisor</Typography>
         <PatternTextField
           label="Persona"
           value={data.supervisor?.persona || ""}
           onChange={handleSupervisorChange("persona")}
         />
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={data.supervisor?.goal || ""}
           onChange={handleSupervisorChange("goal")}
-        />
+        /> */}
       </Box>
     )
   }
@@ -91,7 +91,6 @@ export function SupervisionForm({ data, onChange }) {
         sx={{
           position: "relative",
           display: "flex",
-          flex: 1,
           // width: "80%",
           flexDirection: "column",
           gap: 1,
@@ -99,14 +98,14 @@ export function SupervisionForm({ data, onChange }) {
           p: 1,
           borderRadius: 2,
           boxShadow: 1,
-          minHeight: 130,
+          minHeight: 120,
         }}
       >
 
         <IconButton
           onClick={() => removeWorker(i)}
           size="small"
-          color="error"
+          // color="error"
           sx={{
             position: "absolute",
             top: 4,
@@ -126,13 +125,13 @@ export function SupervisionForm({ data, onChange }) {
           size="small"
           fullWidth
         />
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={w.goal || ""}
           onChange={handleWorkerChange(i, "goal")}
           size="small"
           fullWidth
-        />
+        /> */}
       </Box>
     )
   }
@@ -143,20 +142,21 @@ export function SupervisionForm({ data, onChange }) {
         display: "flex",
         flexDirection: "column",
         gap: 3,
-        width: "100%"
+        width: "100%",
+        alignItems: "center",
       }}
     >
 
       <Grid2
         container
-        spacing={1}
+        spacing={3}
         columns={3}
       >
-        <Grid2 xs={12} md={6} lg={4}>
+        {/* <Grid2 container spacing={2} xs={12} md={6} lg={4}> */}
           {supervisorDisplay()}
-        </Grid2>
+        {/* </Grid2> */}
         {workers.map((w, i) => (
-          <Grid2 key={i} xs={12} md={6} lg={4}>
+          <Grid2 key={i} xs={12} md={12} lg={12}>
             {eachWorker(w, i)}
           </Grid2>
         ))}

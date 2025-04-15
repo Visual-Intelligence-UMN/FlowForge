@@ -10,8 +10,9 @@ export function PatternTextField({ label, value, onChange, maxRows=5 }) {
       multiline
       variant="outlined"  
       minRows={2}
-      maxRows={5}
+      maxRows={12}
       className={`nodrag nopan nowheel`}
+      sx={{ p: 0.5}}
     />
   );
 }

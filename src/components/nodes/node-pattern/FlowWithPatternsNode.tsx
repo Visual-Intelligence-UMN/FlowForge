@@ -21,18 +21,42 @@ import Icon from "@mui/material/Icon";
 import { iconMap2 } from "../../../images/iconsMap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { calculateCost } from "./helpers";
+import { useState, useEffect } from "react";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
     console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
-  const showContent = data.showContent;
+  const showContentZoom = data.showContent;
   const hovered = data.hoveredPattern === data.pattern.name ? true : false;
+  const [showContent, setShowContent] = useState(false);
+  const [showContentClick, setShowContentClick] = useState(false);
   // const showContent = false;
   const patternName = data.pattern?.name || "";
   const template = data.template || {};
   // console.log("template", template);
+
+  useEffect(() => {
+    if (showContentZoom && showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(false);
+    } else if (!showContentZoom && showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    } else if (!showContentZoom && !showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    } else if (showContentZoom && !showContentClick) {
+      console.log("showContentZoom", showContentZoom);
+      console.log("showContentClick", showContentClick);
+      setShowContent(showContentZoom);
+    }
+  }, [showContentZoom, showContentClick]);
+
 
   const handleSelectPattern = (event) => {
     const chosenName = event.target.value;
@@ -83,11 +107,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const patternWidthMap = {
     "Single Agent": showContent ? [200, 450] : [200, 450],
-    Supervision: showContent ? [230, 700] : [100, 450],
+    Supervision: showContent ? [230, 750] : [100, 450],
     Validator: showContent ? [450, 450] : [230, 450],
-    Reflection: showContent ? [666, 600] : [333, 450],
-    Discussion: showContent ? [300, 700] : [200, 450],
-    Redundant: showContent ? [500, 700] : [300, 450],
+    Reflection: showContent ? [566, 600] : [333, 450],
+    Discussion: showContent ? [300, 750] : [200, 450],
+    Redundant: showContent ? [500, 750] : [300, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
@@ -217,7 +241,10 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     return parts.filter(p => p.length > 0);
   }
 
-  let [A, B, C] = decomposeCalls(calls);
+  let [A_, B_, C_] = decomposeCalls(calls);
+  let A = A_ ? parseInt(A_) : 1;
+  let B = B_ ? parseInt(B_) : 1;
+  let C = C_ ? parseInt(C_) : 0;
 
   const callCharts = <svg width={15 * A + 15} height={B * 15}>
     {Array.from({ length: A }, (_, i) => (
@@ -298,7 +325,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
         style={{ top: "50%", background: "#555" }}
       />
 
-      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} > {stepLabel}</Typography>
+      <Typography sx={{ backgroundColor: iconMap2[patternName] ? iconMap2[patternName].color : 'white' }} onClick={() => setShowContentClick(!showContentClick)}> {stepLabel}</Typography>
       <Box
         sx={{
           display: "flex",

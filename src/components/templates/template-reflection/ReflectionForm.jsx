@@ -1,4 +1,4 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography} from "@mui/material";
 import { PatternTextField } from "../textfield/patternText";
 export function ReflectionForm({ data, onChange }) {
   // data = {
@@ -53,11 +53,11 @@ export function ReflectionForm({ data, onChange }) {
           value={data.evaluator?.patternPrompt || ""}
           onChange={handleNestedFieldChange("evaluator", "patternPrompt")}
         /> */}
-        <PatternTextField
+        {/* <PatternTextField
           label="Evaluator Goal"
           value={data.evaluator?.goal || ""}
           onChange={handleNestedFieldChange("evaluator", "goal")}
-        />
+        /> */}
 
       </Box>
 
@@ -74,11 +74,11 @@ export function ReflectionForm({ data, onChange }) {
           value={data.optimizer?.patternPrompt || ""}
           onChange={handleNestedFieldChange("optimizer", "patternPrompt")}
         /> */}
-        <PatternTextField
+        {/* <PatternTextField
           label="Optimizer Goal"
           value={data.optimizer?.goal || ""}
           onChange={handleNestedFieldChange("optimizer", "goal")}
-        />
+        /> */}
       
       </Box>
       

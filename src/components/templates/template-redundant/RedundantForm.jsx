@@ -96,12 +96,12 @@ export function RedundantForm({ data, onChange }) {
           maxRows={4}
         />
 
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={agent.goal || ""}
           onChange={handleAgentChange(i, "goal")}
           maxRows={4}
-        />
+        /> */}
       </Box>
     )
   }
@@ -127,11 +127,11 @@ export function RedundantForm({ data, onChange }) {
           value={data.aggregation?.persona || ""}
           onChange={handleAggregationChange("persona")}
         />
-        <PatternTextField
+        {/* <PatternTextField
           label="Goal"
           value={data.aggregation?.goal || ""}
           onChange={handleAggregationChange("goal")}
-        />
+        /> */}
       </Box>
     )
   }
