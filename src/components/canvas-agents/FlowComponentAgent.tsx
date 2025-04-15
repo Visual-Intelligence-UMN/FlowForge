@@ -230,7 +230,7 @@ export function FlowComponentAgent(props) {
           nodes={modifiedNodes}
           edges={edges}
           nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
+          edgeTypes={edgeTypes as any}
           onNodesChange={onNodesChange}
           // onEdgesChange={onEdgesChange}
           // onConnect={onConnect}

@@ -122,7 +122,7 @@ export function FlowPanelComponent(props) {
         nodes={modifiedNodes}
         edges={edges}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        edgeTypes={edgeTypes as any}
         // onInit={setRfInstance}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
