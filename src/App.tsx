@@ -3,7 +3,8 @@ import Builder from "./components/builder/Builder";
 import { headerStyle } from "./components/header/header";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import "./App.css";
-
+import { useEffect, useState } from "react";
+import { WelcomeModal } from "./components/welcome-modal";
 // Or Create your Own theme:
 const theme = createTheme({
   palette: {
@@ -33,12 +34,34 @@ const NewConstruction = () => {
 };
 
 function App() {
+  const [firstTime, setFirstTime] = useState(localStorage.getItem("firstTime") !== "false");
+  const [openaiApiKey, setopenaiApiKey] = useState(import.meta.env.VITE_OPENAI_API_KEY); 
+
+  useEffect(() => {
+    if (firstTime) {
+      // tutorial
+      localStorage.setItem("firstTime", "false");
+    }
+  }, [firstTime]);
+
+  const updateOpenaiApiKey = (newApiKey: string) => {
+    setopenaiApiKey(newApiKey); 
+  }
+
   return (
+    <>
+    <WelcomeModal updateApiKey={updateOpenaiApiKey}/>
+      {/* {openaiApiKey ? (
+        <></>
+      ) : (
+      
+    )} */}
     <ThemeProvider theme={theme}>
       <div>
         <NewConstruction />
       </div>
     </ThemeProvider>
+    </>
   );
 }
 
