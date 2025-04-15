@@ -37,10 +37,12 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     }
   }
 
-  const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-  });
+  if (runRealtime) {
+    const openai = new OpenAI({
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true,
+    });
+  }
 
   const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
     "{{flow_num}}",
