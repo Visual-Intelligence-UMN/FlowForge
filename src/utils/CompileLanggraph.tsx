@@ -83,13 +83,13 @@ const CompileLanggraph = async (reactflowConfig) => {
                 compiledWorkflow = await compileDiscussion(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound);
                 break;
             case "voting":
-                compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, AgentsState, maxRound);
+                compiledWorkflow = await compileVoting(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
                 break;
             case "redundant":
                 compiledWorkflow = await compileParallel(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
                 break;
             default:
-                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, AgentsState);
+                compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
                 console.log("pattern not supported", pattern);
                 break;
         }

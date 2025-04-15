@@ -123,7 +123,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
             }
         }
         console.log("no stepMsgs");
-        const lastMsg = state.messages.slice(-1);
+        const lastMsg = state.messages.slice(-1) as any;
         console.log("lastMsg", lastMsg);
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {

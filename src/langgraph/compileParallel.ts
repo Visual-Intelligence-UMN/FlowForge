@@ -116,7 +116,7 @@ function waitForStepStatus(
         let response_goto = response.goto;
        
         if (params.name.includes("Aggregator")) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
             if (response_goto.includes("__end__")) {
                 response_goto = END;

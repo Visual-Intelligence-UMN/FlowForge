@@ -130,7 +130,7 @@ const makeAgentNode = (params: {
         // otherwise, the status is done when the round is over
 
         if (params.summaryNodeOrNot && params.summaryOrNot) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
         } else if (!params.summaryNodeOrNot && params.summaryOrNot) {
             if (state[currentStep].length >= params.maxRound) {

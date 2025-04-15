@@ -39,7 +39,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         //     }
         // }
         console.log("no stepMsgs");
-        const lastMsg = state.messages.slice(-1);
+        const lastMsg = state.messages.slice(-1) as any;
         console.log("lastMsg", lastMsg);
         console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
@@ -126,7 +126,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
-            ...await getInputMessagesForStep(state, currentStep, params.previousSteps, params.name),
+            ...await getInputMessagesForStep(state, currentStep, params.previousSteps),
             {
                 role:"system",
                 content: params.systemPrompt,
@@ -144,7 +144,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         let response_goto = response.goto;
        
         if (!response_goto.includes(currentStepId)) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             status = "done";
         }
         if (response_goto.includes("__end__")) {

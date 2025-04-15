@@ -124,12 +124,12 @@ const makeAgentNode = (params: {
             console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
             status = "done";
         } else if (state[currentStep].length / 2 >= params.maxRound+1) {
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             console.log("response_goto in compileReflection max round", response_goto);
             status = "done";
         } else if (!response_goto.includes(currentStepId)) {
             console.log ("next steps")
-            response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
+            response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
             console.log("response_goto in compileReflection next steps", response_goto);
             status = "done";
         }
