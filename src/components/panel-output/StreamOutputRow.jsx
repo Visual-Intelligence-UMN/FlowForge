@@ -253,7 +253,7 @@ const StreamOutput = ({ runConfig }) => {
       }));
     }
 
-    console.log("Recompile runConfig for new langgraph run", runConfig);
+    // console.log("Recompile runConfig for new langgraph run", runConfig);
 
     const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
       runConfig.reactflowDisplay
@@ -262,10 +262,14 @@ const StreamOutput = ({ runConfig }) => {
     // If you want to store/generate an image
     // const graphImage = await generateGraphImage(compiledLanggraph);
     // updateStreamData({ graphImage });
+    if (runRealtime) {
+      await runStreaming(compiledLanggraph, totalMaxRound);
+    } else {
+      alert("Failed to execute workflow due to failed API call. Please enter API key and try again.");
+      // await runStreaming(compiledLanggraph, totalMaxRound);
+    }
 
-    await runStreaming(compiledLanggraph, totalMaxRound);
-
-    console.log("Done streaming. streamData is now:", streamData);
+    // console.log("Done streaming. streamData is now:", streamData);
   };
 
   // UI Handlers
