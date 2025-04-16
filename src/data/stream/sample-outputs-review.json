@@ -12,7 +12,7 @@
             "showFullContent": false
         },
          "isThreadActive": false,
-        "isVisible": false,
+        "isVisible": true,
         "userRating": 3,
         "timeUsed": null
     },
@@ -50,7 +50,7 @@
             "showFullContent": false
         },
         "isThreadActive": false,
-        "isVisible": false,
+        "isVisible": true,
         "userRating": 4,
         "timeUsed": 20186
     }

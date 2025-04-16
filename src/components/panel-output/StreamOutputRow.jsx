@@ -83,9 +83,9 @@ const StreamOutput = ({ runConfig }) => {
   };
   let streamData;
   if (runRealtime) {
-    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+    streamData = defaultData || multiStreamOutput[runConfig?.configId] ;
   } else {
-    streamData = multiStreamOutput[runConfig?.configId] || defaultData;
+    streamData = defaultData || multiStreamOutput[runConfig?.configId] ;
   }
 
   // Helper: use functional updates so we don’t clobber concurrent changes
@@ -308,6 +308,14 @@ const StreamOutput = ({ runConfig }) => {
 
   };
 
+  const handleSubmit = () => {
+    if (runRealtime) {
+      handleFormSubmit();
+    } else {
+      // toggleVisibility();
+    }
+  };
+
   const startNewThread = () => {
     console.log("startNewThread", streamData);
     // Clears out old messages, sets new blank input
@@ -388,7 +396,8 @@ const StreamOutput = ({ runConfig }) => {
               variant="contained"
               fullWidth
               // onClick ={handleFormSubmit}
-              onClick={() => toggleVisibility()}
+              // onClick={() => toggleVisibility()}
+              onClick={handleSubmit}
               sx={{
                 backgroundColor: 'primary.main',
                 color: 'white',
