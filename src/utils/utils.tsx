@@ -5,6 +5,7 @@ export const saveEnvVal = (key: string, value: string) => {
   };
   
   export const getEnvVal = (key: string): string => {
+    // console.log("getEnvVal", import.meta.env[key]);
     return import.meta.env[key];
   }
 

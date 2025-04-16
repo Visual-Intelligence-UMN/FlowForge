@@ -38,10 +38,11 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
   }
 
   let openai;
-  if (!runRealtime && await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+  if (!runRealtime) {
     if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
       openai = new OpenAI({
-        apiKey: getEnvVal("VITE_OPENAI_API_KEY")
+        apiKey: getEnvVal("VITE_OPENAI_API_KEY"),
+        dangerouslyAllowBrowser: true,
       });
     } else {
       setRunRealtime(false);
