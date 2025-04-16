@@ -8,7 +8,7 @@ import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.j
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
-  console.log("reassignPatternIds", flowId);
+  // console.log("reassignPatternIds", flowId);
   flowIdToPatternCounter[flowId] = designPatterns.filter(p => p.taskFlowId.toString().startsWith(flowId)).length + 1;
   // flowIdToPatternCounter[flowId] = 1;
   return patterns.map((pattern) => {
@@ -27,16 +27,16 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
   let exampleFlowsWithPatterns;
   if (!runRealtime) {
     const flowId = flow.taskFlowId;
-    console.log("flowId", flowId);
-    console.log("selectedTask", selectedTask);
+    // console.log("flowId", flowId);
+    // console.log("selectedTask", selectedTask);
     if (selectedTask.name.includes("Review a Paper")) {
       exampleFlowsWithPatterns = sampleTaskFlowsReview
       .flowsWithPatterns?.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Visualization")) {
-      console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
+      // console.log("sampleTaskFlowsVis", sampleTaskFlowsVis);
       exampleFlowsWithPatterns = sampleTaskFlowsVis?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     } else if (selectedTask.name.includes("Script")) {
-      console.log("sampleTaskFlowsPresentation", sampleTaskFlowsPresentation);
+      // console.log("sampleTaskFlowsPresentation", sampleTaskFlowsPresentation);
       exampleFlowsWithPatterns = sampleTaskFlowsPresentation?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
     }
     // exampleFlowsWithPatterns = [
@@ -60,11 +60,24 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
     //   },
     // ];
   } else {
-    const flowWithPatterns = await GeneratePatterns(flow);
-    exampleFlowsWithPatterns = randomCombinePatterns(flowWithPatterns, 2);
+    if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      const flowWithPatterns = await GeneratePatterns(flow);
+      exampleFlowsWithPatterns = randomCombinePatterns(flowWithPatterns, 2);
+    } else {
+      alert("OpenAI API key is not valid. Switch to offline mode.");
+      let flowId = flow.taskFlowId;
+      if (selectedTask.name.includes("Review a Paper")) {
+        exampleFlowsWithPatterns = sampleTaskFlowsReview
+        .flowsWithPatterns?.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      } else if (selectedTask.name.includes("Visualization")) {
+        exampleFlowsWithPatterns = sampleTaskFlowsVis?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      } else if (selectedTask.name.includes("Script")) {
+        exampleFlowsWithPatterns = sampleTaskFlowsPresentation?.flowsWithPatterns.filter(f => f.taskFlowId.toString().startsWith(flowId));
+      }
+    }
   }
 
-  console.log("generated flow with patterns", exampleFlowsWithPatterns);
+  // console.log("generated flow with patterns", exampleFlowsWithPatterns);
 
   let exampleFlowsWithTemplates;
   if (!runRealtime) {
@@ -79,28 +92,33 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
     //   })
     // );
   } else {
-    exampleFlowsWithTemplates = await Promise.all(
-      exampleFlowsWithPatterns.map(async (flow) => {
-        const templatesInfo = await GenerateTemplatesInfo(flow);
+    if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      exampleFlowsWithTemplates = await Promise.all(
+        exampleFlowsWithPatterns.map(async (flow) => {
+          const templatesInfo = await GenerateTemplatesInfo(flow);
         return {
           ...flow,
           taskFlowSteps: templatesInfo,
         };
       })
     );
+    } else {
+      alert("OpenAI API key is not valid. Switch to offline mode.");
+      exampleFlowsWithTemplates = exampleFlowsWithPatterns;
+    }
   }
 
-  console.log("generated flows with templates", exampleFlowsWithTemplates);
+  // console.log("generated flows with templates", exampleFlowsWithTemplates);
   const reassignedPatterns = reassignPatternIds(
     flow.taskFlowId,
     designPatterns,
     exampleFlowsWithTemplates
   );
-  console.log("reassigned patterns", reassignedPatterns);
+  // console.log("reassigned patterns", reassignedPatterns);
 
   // Store generated workflow with patterns
   setDesignPatterns((previousPatterns) => {
-    console.log("previousPatterns", previousPatterns);
+    // console.log("previousPatterns", previousPatterns);
     const updatedPatterns = [];
     let replaced = false;
 

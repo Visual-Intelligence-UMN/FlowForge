@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-
+import { checkAPIKey, getEnvVal } from "./utils";
 import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
 // import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
 // import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
@@ -10,7 +10,7 @@ import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 
 import promptTaskflow from "../models/prompt-generate-taskflows.json";
 
-const GenerateTaskFlows = async (task, runRealtime) => {
+const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
   let taskDescription = task.description;
   const taskFile = task.uploadedFile || null;
   // TODO: how to integrate the task file into the task description
@@ -37,12 +37,16 @@ const GenerateTaskFlows = async (task, runRealtime) => {
     }
   }
 
-  if (runRealtime) {
-    const openai = new OpenAI({
-      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-      dangerouslyAllowBrowser: true,
-    });
-  }
+  let openai;
+  if (!runRealtime && await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+    if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      openai = new OpenAI({
+        apiKey: getEnvVal("VITE_OPENAI_API_KEY")
+      });
+    } else {
+      setRunRealtime(false);
+    }
+  } 
 
   const systemMessage_schema = promptTaskflow.systemMessage_schema.replace(
     "{{flow_num}}",
@@ -233,7 +237,27 @@ const GenerateTaskFlows = async (task, runRealtime) => {
         return returnData;
       }
     } else {
-      // returnData.taskFlows = [oneStepFlow];
+      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+
+      } else {
+        alert("OpenAI API key is not valid. Switch to offline mode.");
+        setRunRealtime(false);
+        if (task.name.includes("Review a Paper") ){
+          const sampleRes = sampleTaskFlowData.taskFlows;
+          const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3];
+          returnData.taskFlows.push(...sampleflows);
+          return returnData;
+        } else if (task.name.includes("Script") || task.name.includes("Visualization")) {
+          const sampleRes = sampleTaskFlowData.taskFlows;
+          console.log("sampleRes", sampleRes);  
+          const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
+          returnData.taskFlows.push(...sampleflows);
+          return returnData;
+        } else {
+          returnData.taskFlows.push(...sampleTaskFlowData?.taskFlows);
+          return returnData;
+        }
+      }
     }
 
     // const taskFlows = [];

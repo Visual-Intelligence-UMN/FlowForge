@@ -3,13 +3,15 @@ import { Box, IconButton, Modal, TextField, Button, Typography } from "@mui/mate
 import SettingsIcon from "@mui/icons-material/Settings";
 import { headerStyle } from "./header";
 import { saveEnvVal } from "../../utils/utils";
-
+import { runRealtimeAtom } from "../../patterns/GlobalStates";
+import { useAtom } from "jotai";
 const ApiKeyModal = ({ open, handleClose }) => {
   const [apiKey, setApiKey] = useState('');
-
+  const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
   const handleSave = () => {
     saveEnvVal("VITE_OPENAI_API_KEY", apiKey);
     handleClose();
+    setRunRealtime(true);
   };
 
   return (
@@ -39,7 +41,7 @@ const ApiKeyModal = ({ open, handleClose }) => {
           sx={{ mb: 2 }}
         />
         <Button variant="contained" color="primary" onClick={handleSave}>
-          Save
+          Save and Switch to Online Mode
         </Button>
       </Box>
     </Modal>

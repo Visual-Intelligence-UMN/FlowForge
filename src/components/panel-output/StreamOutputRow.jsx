@@ -24,6 +24,7 @@ import {
   runRealtimeAtom,
   testAtom,
 } from "../../patterns/GlobalStates";
+import { checkAPIKey } from "../../utils/utils";
 
 import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
 
@@ -41,7 +42,7 @@ const StreamOutput = ({ runConfig }) => {
   const [selectedTask] = useAtom(selectedTaskAtom);
   const [workflowInput] = useAtom(workflowInputAtom);
   const [canvasPages] = useAtom(canvasPagesAtom);
-  const [runRealtime] = useAtom(runRealtimeAtom);
+  const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
   const [test, setTest] = useAtom(testAtom);
   // This single global store holds *all* configs, keyed by configId.
   const [multiStreamOutput, setMultiStreamOutput] = useAtom(multiStreamOutputAtom);
@@ -108,7 +109,7 @@ const StreamOutput = ({ runConfig }) => {
     } else if (selectedTask?.name?.includes("Visualization")) {
       sampleData = sampleOutputsVis[runConfig.configId];
     }
-    console.log("sampleData in output panel", sampleData);
+    // console.log("sampleData in output panel", sampleData);
     if (sampleData) {
       setMultiStreamOutput((prev) => {
         const alreadyHasData = prev[runConfig.configId];
@@ -263,9 +264,15 @@ const StreamOutput = ({ runConfig }) => {
     // const graphImage = await generateGraphImage(compiledLanggraph);
     // updateStreamData({ graphImage });
     if (runRealtime) {
-      await runStreaming(compiledLanggraph, totalMaxRound);
+      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+        await runStreaming(compiledLanggraph, totalMaxRound);
+      } else {
+        alert("Please update effective OpenAI API key and try again.");
+        setRunRealtime(false);
+      }
     } else {
-      alert("Failed to execute workflow due to failed API call. Please enter API key and try again.");
+      alert("Please update effective OpenAI API key.");
+      setRunRealtime(false);
       // await runStreaming(compiledLanggraph, totalMaxRound);
     }
 

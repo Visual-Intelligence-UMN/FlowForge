@@ -88,7 +88,8 @@ const Builder = () => {
         flowsCounter,
         flowCounter,
         setFlowCounter,
-        runRealtime
+        runRealtime,
+        setRunRealtime
       );
       setTaskFlowsGenerate(1);
     }

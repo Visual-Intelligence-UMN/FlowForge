@@ -38,9 +38,10 @@ const OrganizeTaskFlows = async (
   flowsCounter,
   flowCounter,
   setFlowCounter,
-  runRealtime
+  runRealtime,
+  setRunRealtime
 ) => {
-  const newData = await GenerateTaskFlows(selectedTask, runRealtime);
+  const newData = await GenerateTaskFlows(selectedTask, runRealtime, setRunRealtime);
   const incomingFlows = reassignFlowIds(
     newData.taskFlows,
     flowsCounter,
