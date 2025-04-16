@@ -76,7 +76,7 @@ const StepNode = ({ node, isHighlighted, stepRScale }) => {
                         arcs.push(<path d={arcPath} fill={isHighlighted ? 'lightblue' : '#999'} />);
                     }
 
-                    return <g>{arcs}</g>
+                    return <g key={index}>{arcs}</g>
                 })}
             </g>
         </g>
