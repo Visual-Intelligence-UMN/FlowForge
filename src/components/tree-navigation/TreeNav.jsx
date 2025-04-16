@@ -443,10 +443,7 @@ const TreeNav = () => {
       // // console.log("flowsMap", flowsMap);
       // // console.log("patterns", patterns);
       // // console.log("agentsConfig", agentsConfig);
-      // console.log(
-        "pattern node clicked",
-        patterns.find((item) => item.patternId === node.data.id)
-      );
+      // console.log("pattern node clicked",patterns.find((item) => item.patternId === node.data.id));
       const patternId = node.data.id;
       const flowId = patternId.split("-")[0];
       const childrenConfigs = agentsConfig.filter(
@@ -476,11 +473,7 @@ const TreeNav = () => {
       // // console.log("compiled node clicked", compiledConfigs);
       const configId = node.data.id;
       const flowWithConfig = agentsConfig.find((item) => item.configId === configId)
-      // console.log(
-        "compiled node clicked (with config)",
-        compiledConfigs.find((item) => item.configId === configId),
-        flowWithConfig
-      );
+      // console.log("compiled node clicked (with config)",ompiledConfigs.find((item) => item.configId === configId),flowWithConfig);
       setCanvasPages({
         type: "compiled",
         configId: configId,
@@ -507,19 +500,13 @@ const TreeNav = () => {
       selectedNode.type = "flow";
       selectedNode.flowId = node.data.id;
     } else if (layer === "pattern") {
-      // console.log(
-        "pattern node right-clicked",
-        patterns.find((item) => item.patternId === node.data.id)
-      );
+      // console.log("pattern node right-clicked",patterns.find((item) => item.patternId === node.data.id));
 
       selectedNode.type = "pattern";
       selectedNode.patternId = node.data.id;
       selectedNode.flowId = node.data.id.split("-")[0];
     } else if (layer === "config") {
-      // console.log(
-        "config node right-clicked",
-        agentsConfig.find((item) => item.configId === node.data.id)
-      );
+      // console.log( "config node right-clicked",agentsConfig.find((item) => item.configId === node.data.id));
 
       selectedNode.type = "config";
       selectedNode.configId = node.data.id;
@@ -527,10 +514,7 @@ const TreeNav = () => {
       selectedNode.patternId = `${flowId}-${patternPart}`;
       selectedNode.flowId = flowId;
     } else if (layer === "compiled") {
-      // console.log(
-        "compiled node right-clicked",
-        compiledConfigs.find((item) => item.configId === node.data.id)
-      );
+      // console.log("compiled node right-clicked",compiledConfigs.find((item) => item.configId === node.data.id));
 
       selectedNode.type = "compiled";
       selectedNode.configId = node.data.id;
