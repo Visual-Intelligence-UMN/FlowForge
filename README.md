@@ -1,8 +1,14 @@
 <!-- ![](https://github.com/xyflow/web/blob/main/assets/codesandbox-header-ts.png?raw=true) -->
 
-# Agentic System Builder 
+# FlowForge
 
-A non-drag-and-drop interface that supports you to design and iterate diverse LLM-based Multi-Agent Workflows.
+Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold
+
+
+## Online Demo
+
+[Play with FlowForge](https://vis-flow-forge-demo.vercel.app)
+
 
 ## Quick Start
 
@@ -30,11 +36,11 @@ npm run dev
 ```
 
 
-## Repo Rename Options
+<!-- ## Repo Rename Options
 
 - **DivergiFlow**: reflecting diverse and branching workflow possibilities. 
 - **MetaFlow**: implying the workflow building process contains meta-level abstraction (task decomposition and design pattern).
-- ...
+- ... -->
 <!-- 
 ## Things to try:
 
@@ -42,12 +48,12 @@ npm run dev
 - Change how things look by [overriding some of the built-in classes](https://reactflow.dev/learn/customization/theming#overriding-built-in-classes).
 - Add a layouting library to [position your nodes automatically](https://reactflow.dev/learn/layouting/layouting) -->
 
-## Resources
+<!-- ## Resources
 
 Links:
 
 - [React Flow - Docs](https://reactflow.dev)
-- [LangGraphJS - Docs](https://github.com/langchain-ai/langgraphjs)
+- [LangGraphJS - Docs](https://github.com/langchain-ai/langgraphjs) -->
 
 
 <!-- - [React Flow - Discord](https://discord.com/invite/Bqt6xrs) -->
