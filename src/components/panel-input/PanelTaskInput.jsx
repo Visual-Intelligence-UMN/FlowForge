@@ -40,6 +40,9 @@ function TaskPanel() {
   const [localSelectedTask, setLocalSelectedTask] = useState(
     selectedTask || {}
   );
+  const [localExampleInput, setLocalExampleInput] = useState(
+    selectedTask?.exampleInput || ""
+  );
 
   const resetTask = useResetTask();
 
@@ -57,6 +60,7 @@ function TaskPanel() {
     const task = taskList[index];
     setLocalSelectedTask({ ...task, uploadedFile: null });
     setLocalTaskDescription(task.description || "");
+    setLocalExampleInput(task.exampleInput || "");
     setFilePreview(null);
     setFileName("");
   };
@@ -218,6 +222,7 @@ function TaskPanel() {
                     checked={test}
                     onChange={() => setTest(!test)}
                   /> */}
+          
           <Button
             component={fileName ? undefined : "label"}
             color="primary"
@@ -240,7 +245,14 @@ function TaskPanel() {
           {/* File Upload Button */}
 
         </Grid>
-        <TextField size="small" sx={{ width: "200px" }} />
+        <TextField 
+          value = {localExampleInput}
+          onChange={(e) => setLocalExampleInput(e.target.value)}
+          size="small" sx={{ width: "200px" }}
+          multiline
+          rows={1}
+          className="nodrag"
+         />
       </Grid>
     </Grid>
   );
