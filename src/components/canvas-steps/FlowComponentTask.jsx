@@ -89,7 +89,7 @@ function convertToReactFlowFormat(taskflow) {
     }
   });
 
-  // console.log("edges", edges);
+  // // console.log("edges", edges);
   return { nodes, edges };
 }
 
@@ -188,8 +188,8 @@ export function FlowComponentTask(props) {
         taskFlowSteps: updatedTaskFlowSteps,
       };
 
-      console.log("updatedWorkflow after saved", updatedWorkflow);
-      // console.log("updatedWorkflow", updatedWorkflow);
+      // console.log("updatedWorkflow after saved", updatedWorkflow);
+      // // console.log("updatedWorkflow", updatedWorkflow);
       // Update global flows map
       setFlowsMap((prevFlows) => ({
         ...prevFlows,
@@ -347,7 +347,7 @@ export function FlowComponentTask(props) {
   const panOnDrag = [1, 2];
 
   const handleNodeClick = (e, node) => {
-    console.log("node", node);
+    // console.log("node", node);
   };
 
   return (

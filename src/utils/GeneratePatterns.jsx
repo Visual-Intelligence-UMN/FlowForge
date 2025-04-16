@@ -34,7 +34,7 @@ const GeneratePatterns = async (taskFlow) => {
     const systemMessage = promptGeneratePatterns.systemMessage
     .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => ` - ${pattern.name}: ${pattern.description}`).join("\n"));
 
-    // console.log("System message to generate patterns:", systemMessage);
+    // // console.log("System message to generate patterns:", systemMessage);
 
     for (const step of taskFlowSteps) {
         const stepId = step.stepId;
@@ -56,7 +56,7 @@ const GeneratePatterns = async (taskFlow) => {
             response_format: zodResponseFormat(designPatternSchema, "designPattern"),
         });
             const res = completion.choices[0].message.parsed;
-            console.log("Design pattern for step " + stepName + " is: " + res);
+            // console.log("Design pattern for step " + stepName + " is: " + res);
             const designPatterns = [res.designPattern_1, res.designPattern_2];
             patternsFlow.taskFlowSteps.push({
                 stepId: stepId,

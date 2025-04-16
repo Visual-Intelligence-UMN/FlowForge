@@ -52,14 +52,14 @@ const StreamOutput = ({ langgraphRun }) => {
 
     for await (const output of await streamResults) {
       for (const [key, value] of Object.entries(output)) {
-        // console.log("key", key);
-        // console.log("value", value);
-        // console.log("output", output);
-        // console.log("--------------------------------");
+        // // console.log("key", key);
+        // // console.log("value", value);
+        // // console.log("output", output);
+        // // console.log("--------------------------------");
         let sender = value.sender;
         const messagesAll = value.messages;
-        // console.log("sender", sender);
-        // console.log("messagesAll", messagesAll);
+        // // console.log("sender", sender);
+        // // console.log("messagesAll", messagesAll);
 
         let messageContent = "";
         if (Array.isArray(messagesAll) || sender === undefined) {
@@ -183,7 +183,7 @@ const StreamOutput = ({ langgraphRun }) => {
         <div className="chat-messages">
           <h2>Intermediary Messages</h2>
           {intermediaryMessages.map((msg, index) => (
-            // console.log("msg", msg),
+            // // console.log("msg", msg),
             <div
               key={index}
               className={`chat-bubble ${msg.sender === "User" ? "user" : "system"

@@ -134,7 +134,7 @@ export function RflowComponent(props) {
       taskFlowStart: updatedTaskFlowStart,
     };
 
-    // console.log("change handleSave", updatedTaskflow);
+    // // console.log("change handleSave", updatedTaskflow);
     setDesignPatterns((prevPatterns) =>
       prevPatterns.map((pattern) =>
         pattern.patternId === canvasPages.patternId ? updatedTaskflow : pattern
@@ -183,20 +183,20 @@ export function RflowComponent(props) {
     (evt, node) => {
       if (node) {
         if (previousNodeRef.current && previousNodeRef.current.id === node.id) {
-          console.log("Clicked the same node. View remains unchanged.");
+          // console.log("Clicked the same node. View remains unchanged.");
           return; // Do nothing if it's the same node.
         }
         return;
 
         previousNodeRef.current = node;
 
-        console.log("node", node);
+        // console.log("node", node);
         // const eventX = evt.clientX;
         // const eventY = evt.clientY;
         // const pattern = node.data.pattern.name;
         let x = node.position.x + node.measured.width / 2;
         let y = node.position.y + node.measured.height / 0.8;
-        // console.log("zoomRatio", zoomRatio);
+        // // console.log("zoomRatio", zoomRatio);
 
         if (zoomRatio < 0.7) {
           const zoom = 0.7;
@@ -215,7 +215,7 @@ export function RflowComponent(props) {
   );
 //   useEffect(() => {
 //     handleSave();
-//     console.log("onNodesChange", onNodesChange);
+//     // console.log("onNodesChange", onNodesChange);
 //   }, [onNodesChange]);
 
   return (

@@ -18,7 +18,7 @@ const randomCombinePatterns = (patternsFlow, numCombinations) => {
     };
 
     for (let i = 0; i < numCombinations; i++) {
-        console.log("designPatterns for step0", taskFlowSteps[0].designPatterns);
+        // console.log("designPatterns for step0", taskFlowSteps[0].designPatterns);
         const combinedPatterns = {
             taskFlowId: taskFlowId,
             taskFlowName: taskFlowName,

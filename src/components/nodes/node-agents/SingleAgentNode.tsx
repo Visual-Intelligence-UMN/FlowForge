@@ -4,12 +4,12 @@ import {TextField, Typography, Box, FormControl, InputLabel, Select, MenuItem, L
 
 const SingleAgentNode = ({ id, data }) => {
 
-  // console.log("data", data);
+  // // console.log("data", data);
 
   const { updateNodeFieldset } = data;
   const showContent = data.showContent;
 
-  // console.log("showContent", showContent);
+  // // console.log("showContent", showContent);
 
   const onChange = (fieldName) => (event) => {
     updateNodeFieldset(id, fieldName, event.target.value);

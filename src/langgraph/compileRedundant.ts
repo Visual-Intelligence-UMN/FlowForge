@@ -2,12 +2,12 @@ import { RunnableConfig } from "@langchain/core/runnables";
 import { createAgent, create_agent_node } from "./utils";
 
 const compileRedundant = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState) => {
-    console.log("nodesInfo in compileRedundant", nodesInfo);
-    console.log("stepEdges in compileRedundant", stepEdges);
+    // console.log("nodesInfo in compileRedundant", nodesInfo);
+    // console.log("stepEdges in compileRedundant", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const uniquePreviousSteps = [...new Set(previousSteps)];
-    console.log("previousSteps in compileRedundant", previousSteps);
-    console.log("uniquePreviousSteps in compileRedundant", uniquePreviousSteps);
+    // console.log("previousSteps in compileRedundant", previousSteps);
+    // console.log("uniquePreviousSteps in compileRedundant", uniquePreviousSteps);
     const aggregatorNode = nodesInfo.find((node) => node.data.label === "Aggregator");
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
     for (const node of nodesInfo) {
@@ -37,9 +37,9 @@ const compileRedundant = async (workflow, nodesInfo, stepEdges, inputEdges, Agen
             workflow.addEdge(edge.source, edge.target);
         }
     }
-    console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
+    // console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
     if (aggregatorTarget.length > 0) {
-        // console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
+        // // console.log("aggregatorTarget in compileRedundant", aggregatorTarget);
         for (const target of aggregatorTarget) {
             workflow.addEdge(aggregatorNode.id, target)
         }

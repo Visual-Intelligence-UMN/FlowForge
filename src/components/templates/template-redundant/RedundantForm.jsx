@@ -11,7 +11,7 @@ import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 import { PatternTextField } from "../textfield/patternText";
 
 export function RedundantForm({ data, onChange }) {
-  // console.log("data", data)
+  // // console.log("data", data)
   const agents = data.agents || [];
 
   const handleAgentChange = (index, field) => (e) => {

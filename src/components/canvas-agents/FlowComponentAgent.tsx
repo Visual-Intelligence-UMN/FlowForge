@@ -124,7 +124,7 @@ export function FlowComponentAgent(props) {
     //   return edge;
     //   });
 
-    console.log("layout");
+    // console.log("layout");
     const { nodes: layoutedNodes, edges: layoutedEdges } = layoutDagre(
       initialNodes,
       initialEdges
@@ -210,13 +210,13 @@ export function FlowComponentAgent(props) {
 
   const handleNodeClick = useCallback((evt, node) => {
     if (node) {
-      console.log("node", node);
+      // console.log("node", node);
     }
   }, []);
 
   // const handleEdgeClick = useCallback((evt, edge) => {
   //   if (edge){
-  //     console.log("edge", edge);
+  //     // console.log("edge", edge);
   //   }
   // }, []);
 

@@ -88,7 +88,7 @@ const makeAgentNode = (params: {
             goto: z.enum(params.destinations as [string, ...string[]])
             .describe(params.responsePrompt),
         });
-        console.log("params destination null or not", params.destinations);
+        // console.log("params destination null or not", params.destinations);
 
         const agent = new ChatOpenAI({
             model: params.llmOption,
@@ -108,7 +108,7 @@ const makeAgentNode = (params: {
                 content: params.systemPrompt,
             },
         ]
-        console.log("invokePayload for", params.name, invokePayload);
+        // console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
             role: "assistant",
@@ -118,19 +118,19 @@ const makeAgentNode = (params: {
         
         let response_goto = response.goto;
         let status = "pending";
-        console.log("direct response_goto in compileReflection", response_goto);
+        // console.log("direct response_goto in compileReflection", response_goto);
 
         if (response_goto === "__end__") {
-            console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
+            // console.log("undefined response goto response_goto in compileReflection next steps", response_goto);
             status = "done";
         } else if (state[currentStep].length / 2 >= params.maxRound+1) {
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
-            console.log("response_goto in compileReflection max round", response_goto);
+            // console.log("response_goto in compileReflection max round", response_goto);
             status = "done";
         } else if (!response_goto.includes(currentStepId)) {
-            console.log ("next steps")
+            // console.log ("next steps")
             response_goto = params.destinations.filter((d) => !d.includes(currentStepId)) as any;
-            console.log("response_goto in compileReflection next steps", response_goto);
+            // console.log("response_goto in compileReflection next steps", response_goto);
             status = "done";
         }
 
@@ -138,10 +138,10 @@ const makeAgentNode = (params: {
             response_goto = END;
         }
         
-        // console.log("response_goto in compileReflection", response_goto);
-        // console.log("reflection response", params.name, response);
-        // console.log("reflection response_goto", response_goto);
-        console.log("state in compileReflection", state);
+        // // console.log("response_goto in compileReflection", response_goto);
+        // // console.log("reflection response", params.name, response);
+        // // console.log("reflection response_goto", response_goto);
+        // console.log("state in compileReflection", state);
 
         if (status === "done") {
             for (const parallelStep of params.parallelSteps) {
@@ -176,11 +176,11 @@ const makeAgentNode = (params: {
 
 
 const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
-    console.log("nodesInfo in compileReflection", nodesInfo);
-    console.log("stepEdges in compileReflection", stepEdges);
+    // console.log("nodesInfo in compileReflection", nodesInfo);
+    // console.log("stepEdges in compileReflection", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const uniquePreviousSteps = [...new Set(previousSteps)];
-    console.log("previousSteps in compileReflection", previousSteps);
+    // console.log("previousSteps in compileReflection", previousSteps);
     const nextStep = 'step-' + (parseInt(nodesInfo[0].id.split("-")[1]) + 1);
     const optimizerName = nodesInfo.find((n: any) => n.type === "optimizer")?.id;
     const evaluatorNode = nodesInfo.find((n: any) => n.data.label === "Evaluator");
@@ -197,7 +197,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, par
         let responsePrompt = "";
         if (node.type === "evaluator") {
             let nextOne = destinations.find((d: string) => d.includes(nextStep));
-            console.log("nextOne in compileReflection", nextOne);
+            // console.log("nextOne in compileReflection", nextOne);
             if (nextOne === undefined) {
                 nextOne = "__end__";
             }
@@ -206,7 +206,7 @@ const compileReflection = async (workflow, nodesInfo, stepEdges, inputEdges, par
         } else {
             responsePrompt = "You should always organize and concatenate your deliverable with the previous one, and call the Evaluator to get the feedbacks. "
         }
-        // console.log("destinations", node.id, destinations);
+        // // console.log("destinations", node.id, destinations);
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations as string[],

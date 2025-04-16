@@ -2,9 +2,9 @@ import CompileReactflow from "./CompileReactflow";
 import CompileLanggraph from "./CompileLanggraph";
 
 const OrganizeReactflow = async (config, setCompiledConfigs) => {
-    console.log("config to compile all", config);
+    // console.log("config to compile all", config);
     const compiledReactflow = await CompileReactflow(config);
-    // console.log("compiledReactflow", compiledReactflow);
+    // // console.log("compiledReactflow", compiledReactflow);
     const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(compiledReactflow);
     const compiledConfig = {
         reactflowDisplay: compiledReactflow, 

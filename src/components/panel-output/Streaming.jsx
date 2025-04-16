@@ -66,7 +66,7 @@ const Streaming = ({ runConfig }) => {
   // Submit user input
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("recompile runConfig", runConfig);
+    // console.log("recompile runConfig", runConfig);
 
     // 1) Compile (and optionally generate) the graph
     const langgraphRun = await CompileLanggraph(runConfig.reactflowDisplay);

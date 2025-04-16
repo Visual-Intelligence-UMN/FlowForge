@@ -12,7 +12,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     let firstMsg = state.messages.slice(0, 1);
-    console.log("firstMsg", firstMsg);
+    // console.log("firstMsg", firstMsg);
     // firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
@@ -38,28 +38,28 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         //         throw error;
         //     }
         // }
-        console.log("no stepMsgs");
+        // console.log("no stepMsgs");
         const lastMsg = state.messages.slice(-1) as any;
-        console.log("lastMsg", lastMsg);
-        console.log("previousSteps", previousSteps);
+        // console.log("lastMsg", lastMsg);
+        // console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
-            console.log("invokeMsg plus step", step, invokeMsg);
+            // console.log("invokeMsg plus step", step, invokeMsg);
         }
-        // console.log("invokeMsg for step", invokeMsg);
-        // console.log("last lastMsg", state.messages[state.messages.length - 1])
-        // console.log(lastMsg)
-        // console.log("lastMsg", lastMsg);
+        // // console.log("invokeMsg for step", invokeMsg);
+        // // console.log("last lastMsg", state.messages[state.messages.length - 1])
+        // // console.log(lastMsg)
+        // // console.log("lastMsg", lastMsg);
         let tool_msg = null;
         if (lastMsg[0]?.tool_calls) {
             // todo add tool msg 'tool_call_id'
             const tool_name = lastMsg[0].tool_calls[0]?.name;
-            // console.log("tool_name", tool_name);
+            // // console.log("tool_name", tool_name);
             switch (tool_name) {
                 case "PDFLoader":
-                    // console.log("tool_calls PDFLoader");
+                    // // console.log("tool_calls PDFLoader");
                     // const fileContent = await PDFLoaderTool(lastMsg[0].tool_calls[0].args);
-                    // console.log("fileContent", fileContent);
+                    // // console.log("fileContent", fileContent);
                     // tool_msg = new ToolMessage({
                     //     content: "PDF file content: " + fileContent,
                     //     tool_call_id: lastMsg[0].tool_calls[0].id,
@@ -71,7 +71,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
                     const result = await TavilySearchTool(lastMsg[0].tool_calls[0]?.args);
                     // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
                     // const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
-                    // console.log("result web", result);
+                    // // console.log("result web", result);
                     tool_msg = new ToolMessage({
                         content: "Web search results: " + JSON.stringify(result),
                         tool_call_id: lastMsg[0].tool_calls[0]?.id,
@@ -121,8 +121,8 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-        console.log("params.destinations", params.destinations);
-        console.log("try to get input messages for", params.name);
+        // console.log("params.destinations", params.destinations);
+        // console.log("try to get input messages for", params.name);
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
@@ -132,7 +132,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
                 content: params.systemPrompt,
             },
         ]
-        console.log("invokePayload for", params.name, invokePayload);
+        // console.log("invokePayload for", params.name, invokePayload);
 
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
@@ -150,10 +150,10 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         if (response_goto.includes("__end__")) {
             response_goto = END;
         }
-        console.log("status in compileSingleAgent", status);
-        console.log("response_goto in compileSingleAgent", response_goto);
-        // console.log("discussion response", response);
-        // console.log("state", state);
+        // console.log("status in compileSingleAgent", status);
+        // console.log("response_goto in compileSingleAgent", response_goto);
+        // // console.log("discussion response", response);
+        // // console.log("state", state);
 
         for (const parallelStep of params.parallelSteps) {
             if (parallelStep === currentStep) {
@@ -186,12 +186,12 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
 
 
 const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState) => {
-    // console.log("nodesInfo in compileSingleAgent", nodesInfo);
-    // console.log("stepEdges in compileSingleAgent", stepEdges);
-    // console.log("nodesInfo in compileSingleAgent", nodesInfo, stepEdges);
+    // // console.log("nodesInfo in compileSingleAgent", nodesInfo);
+    // // console.log("stepEdges in compileSingleAgent", stepEdges);
+    // // console.log("nodesInfo in compileSingleAgent", nodesInfo, stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const uniquePreviousSteps = [...new Set(previousSteps)];
-    console.log("previousSteps in compileSingleAgent", previousSteps);
+    // console.log("previousSteps in compileSingleAgent", previousSteps);
     for (const node of nodesInfo) {
         let destinations = Array.from(
             new Set(
@@ -203,7 +203,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, pa
         if (destinations.length === 0) {
             destinations = ["__end__"];
         }
-        console.log("destinations in compileSingleAgent", destinations);
+        // console.log("destinations in compileSingleAgent", destinations);
         const agentNode = makeAgentNode({
             name: node.id,
             destinations: destinations as string[],
@@ -219,7 +219,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, pa
         })
     }
     // for (const node of nodesInfo) {
-    //     // console.log("node", node);
+    //     // // console.log("node", node);
     //     const createdAgent = async () => await createAgent({
     //         llmOption: node.data.llm,
     //         tools: node.data.tools,
@@ -240,7 +240,7 @@ const compileSingleAgent = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     //     }
     //     workflow.addNode(node.id, agentNode);
     // }
-    // // console.log("workflow after single agent", workflow);
+    // // // console.log("workflow after single agent", workflow);
     // // direct next step edge
     // for (const edge of stepEdges) {
     //     workflow.addEdge(edge.source, edge.target);

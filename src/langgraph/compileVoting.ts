@@ -67,12 +67,12 @@ const makeAgentNode = (params: {
         let response_goto = response.goto;
         if (state[currentStep].length / params.destinations.length === params.maxRound) {
             // finish one round of voting
-            console.log("finish one round of voting");
+            // console.log("finish one round of voting");
             response_goto = params.destinations.find((d) => d.includes("Aggregator"));
         }
 
-        console.log("voting response", response);
-        // console.log("state", state);
+        // console.log("voting response", response);
+        // // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -85,16 +85,16 @@ const makeAgentNode = (params: {
 }
 
 const compileVoting = async (workflow, nodesInfo, stepEdges, inputEdges, AgentsState, maxRound) => {
-    // console.log("nodesInfo in compileVoting", nodesInfo);
-    // console.log("stepEdges in compileVoting", stepEdges);
+    // // console.log("nodesInfo in compileVoting", nodesInfo);
+    // // console.log("stepEdges in compileVoting", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const votingNode = nodesInfo.filter((node) => node.data.label.includes("Voting"));
     const aggregatorNode = nodesInfo.find((node) => node.data.label.includes("Aggregator"));
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
 
-    // console.log("aggregatorNode", aggregatorNode);
-    // console.log("votingNode", votingNode);
-    // console.log("aggregatorTarget", aggregatorTarget);
+    // // console.log("aggregatorNode", aggregatorNode);
+    // // console.log("votingNode", votingNode);
+    // // console.log("aggregatorTarget", aggregatorTarget);
 
     const createdAggregator = async () => await createAgent({
         llmOption: aggregatorNode.data.llm,

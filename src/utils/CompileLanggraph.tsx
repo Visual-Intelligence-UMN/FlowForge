@@ -42,29 +42,29 @@ const CompileLanggraph = async (reactflowConfig) => {
             reducer: (x,y) => y ?? x ?? "pending",
         });
     });
-    console.log("AgentsState", AgentsState);
+    // console.log("AgentsState", AgentsState);
 
     let compiledWorkflow = new StateGraph(AgentsState);
 
-    console.log("reactflow to compile to langgraph", reactflowConfig);
+    // console.log("reactflow to compile to langgraph", reactflowConfig);
     const parallelMap = computeParallelStepsForAll(stepMetadata);
-    console.log("parallelMap", parallelMap);
+    // console.log("parallelMap", parallelMap);
 
     for (const key of Object.keys(stepMetadata)) {
         if (key === "step-0") {
             continue;
         }
-        // console.log("key", key);
+        // // console.log("key", key);
         const stepEdges = edges.filter(edge => edge.id.startsWith(key));
         const inputEdges = edges.filter(edge => edge.id.includes("->"+key));
         const {inputNodes,  pattern, stepNodes, maxRound, runtime, nextSteps, maxCalls} = stepMetadata[key];
         const stepNodesInfo = stepNodes.map((id) => nodes.find((node) => node.id === id));
         // const passEdges = stepEdges.filter((edge) => edge.source === "step-0");
         totalMaxRound = Number(totalMaxRound) + Number(maxCalls);
-        // console.log("inputEdges for ", key, inputEdges);
-        // console.log("parallelSteps for ", key, parallelMap[key]);
+        // // console.log("inputEdges for ", key, inputEdges);
+        // // console.log("parallelSteps for ", key, parallelMap[key]);
         const parallelSteps = parallelMap[key].map((step) => step.split("-").join(""));
-        console.log("parallelSteps for ", key, parallelSteps);
+        // console.log("parallelSteps for ", key, parallelSteps);
 
         // TODO: deal with total runtime here
 
@@ -90,18 +90,18 @@ const CompileLanggraph = async (reactflowConfig) => {
                 break;
             default:
                 compiledWorkflow = await compileSingleAgent(compiledWorkflow, stepNodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState);
-                console.log("pattern not supported", pattern);
+                // console.log("pattern not supported", pattern);
                 break;
         }
 
         // no need to add END edge for the last step because it is already added in the patterns
     }
 
-    console.log("stepMetadata in langgraph", stepMetadata);
+    // console.log("stepMetadata in langgraph", stepMetadata);
 
     // add start step
 
-    console.log("startStep", startStep);
+    // console.log("startStep", startStep);
     const startStepEdges = edges.filter(edge => edge.id.startsWith("step-0"));
     startStepEdges.forEach((edge) => {
         compiledWorkflow.addEdge(START, edge.target);
@@ -109,7 +109,7 @@ const CompileLanggraph = async (reactflowConfig) => {
 
 
     const compiledLanggraph = compiledWorkflow.compile();
-    console.log("final Workflow after compile", compiledLanggraph);
+    // console.log("final Workflow after compile", compiledLanggraph);
     return {compiledLanggraph, totalMaxRound: Number(totalMaxRound)};
 }
 

@@ -16,7 +16,7 @@ import { PatternTextField } from "../textfield/patternText";
 
 export function DiscussionForm({ data, onChange }) {
   const agents = data.agents || [];
-  // console.log("data", data)
+  // // console.log("data", data)
 
   const handleSimpleFieldChange = (field) => (e) => {
     onChange({

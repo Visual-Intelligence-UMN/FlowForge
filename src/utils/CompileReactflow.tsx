@@ -5,7 +5,7 @@ const CompileReactflow = async (FlowWithConfig) => {
     const { taskFlowSteps, taskFlowStart, configId } = FlowWithConfig;
     // const configId = [taskId, taskFlowId, patternId].join("_");
 
-    console.log("config to compile for reactflow", FlowWithConfig);
+    // console.log("config to compile for reactflow", FlowWithConfig);
 
     const reactflowNodes: AppNode[] = [];
     const reactflowEdges: Edge[] = [];
@@ -16,7 +16,7 @@ const CompileReactflow = async (FlowWithConfig) => {
     // iterate over each step
     let stepGroupNodes = [];
     taskFlowSteps.forEach((step, stepIdx) => {
-        // console.log("step", step);
+        // // console.log("step", step);
 
         stepIdx += 1;
         const { config, nextSteps, stepId } = step;
@@ -155,7 +155,7 @@ const CompileReactflow = async (FlowWithConfig) => {
         deletable: false,
     });
     // process inter-step edges
-    console.log("stepMetadata", stepMetadata);
+    // console.log("stepMetadata", stepMetadata);
     let stepLabel = null;
     Object.keys(stepMetadata).forEach((stepKey, idx) => {
         if (stepKey === "step-0") {
@@ -269,7 +269,7 @@ const CompileReactflow = async (FlowWithConfig) => {
         stepMetadata, // store the step metadata dictionary for langgraph
     }];
 
-    console.log("Compiled ReactFlow:", compiledReactflow);
+    // console.log("Compiled ReactFlow:", compiledReactflow);
     return compiledReactflow;
 };
 

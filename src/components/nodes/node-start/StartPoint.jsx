@@ -42,7 +42,7 @@ export const StartPoint = ({ data, isConnectable, id }) => {
           variant="outlined"
           size="small"
         onChange={(e) => {
-          console.log("e.target.value", e.target.value);
+          // console.log("e.target.value", e.target.value);
           updateNodeFieldset(id, "inputText", e.target.value)
         }}
         sx={{ 

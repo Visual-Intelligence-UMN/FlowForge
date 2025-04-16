@@ -53,7 +53,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
     "FOUR" // conditionally set as THREE or ONE
   ).replace("{{TASK}}", taskDescription);
 
-  // console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
+  // // console.log("systemMessage_schema to generate taskflows: ", systemMessage_schema);
 
   const systemMessage = systemMessage_schema;
 
@@ -176,7 +176,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
   });
 
   // TODO: remove this after testing
-  console.log("task", task);
+  // console.log("task", task);
   let sampleTaskFlowData;
   if (task.name.includes("Travel")) {
     sampleTaskFlowData = sampleTaskFlowsTravel;
@@ -218,7 +218,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
   };
   returnData.taskFlows = [oneStepFlow];
 
-  console.log("sampleTaskFlowData", sampleTaskFlowData);
+  // console.log("sampleTaskFlowData", sampleTaskFlowData);
   try {
     if (!runRealtime) {
       if (task.name.includes("Review a Paper") ){
@@ -228,7 +228,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
         return returnData;
       } else if (task.name.includes("Script") || task.name.includes("Visualization")) {
         const sampleRes = sampleTaskFlowData.taskFlows;
-        console.log("sampleRes", sampleRes);  
+        // console.log("sampleRes", sampleRes);  
         const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
         returnData.taskFlows.push(...sampleflows);
         return returnData;
@@ -249,7 +249,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
           return returnData;
         } else if (task.name.includes("Script") || task.name.includes("Visualization")) {
           const sampleRes = sampleTaskFlowData.taskFlows;
-          console.log("sampleRes", sampleRes);  
+          // console.log("sampleRes", sampleRes);  
           const sampleflows = [sampleRes.taskFlow_1, sampleRes.taskFlow_2, sampleRes.taskFlow_3, sampleRes.taskFlow_4];
           returnData.taskFlows.push(...sampleflows);
           return returnData;
@@ -270,7 +270,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
     //     response_format: zodResponseFormat(ideasSchema, "flowProposals"),
     // });
     // const flowProposals = completion.choices[0].message.parsed.flowProposals;
-    // console.log("Task flows proposals formatted:", flowProposals);
+    // // console.log("Task flows proposals formatted:", flowProposals);
 
     // for (let i = 0; i < flowProposals.length; i++) {
     //     const oneTaskFlow = await openai.beta.chat.completions.parse({
@@ -283,7 +283,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
     //         response_format: zodResponseFormat(oneTaskFlowSchema, "taskflow"),
     //     });
     //     const res = oneTaskFlow.choices[0].message.parsed;
-    //     console.log("One task flow response formatted:", res);
+    //     // console.log("One task flow response formatted:", res);
     //     taskFlows.push(res);
     // }
     // return {taskFlows: taskFlows};
@@ -297,7 +297,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
       response_format: zodResponseFormat(taskFlowSchema, "taskflow"),
     });
     const res = completion.choices[0].message.parsed;
-    console.log("Task flows response formatted:", res);
+    // console.log("Task flows response formatted:", res);
 
     const generatedTaskFlows = [res.taskFlow_1, res.taskFlow_2, res.taskFlow_3, res?.taskFlow_4];
 

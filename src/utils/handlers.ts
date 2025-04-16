@@ -394,7 +394,7 @@ const handleVoting = (step) => {
         }
     )
 
-    console.log("agentsEdges in handle", agentsEdges);
+    // console.log("agentsEdges in handle", agentsEdges);
     return {
         type: "voting",
         maxRound: maxRound,

@@ -103,7 +103,7 @@ export default function DimScatter({ treeNav, isHighlighted, stepRScale, agentXS
             config.margin.top,
         ],
     });
-    console.log(axis.y)     
+    // console.log(axis.y)     
     const xSelector = <Select
         value={axis.x}
         variant="standard"

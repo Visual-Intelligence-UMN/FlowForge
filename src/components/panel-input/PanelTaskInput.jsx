@@ -45,7 +45,7 @@ function TaskPanel() {
 
   useEffect(() => {
     if (selectedTask && Object.keys(selectedTask).length > 0) {
-      // console.log("resetting task");
+      // // console.log("resetting task");
       resetTask();
     }
   }, [selectedTask]);
@@ -116,7 +116,7 @@ function TaskPanel() {
       });
     }
     setTaskFlowsGenerate(0);
-    console.log("Submitting task:", selectedTask);
+    // console.log("Submitting task:", selectedTask);
   };
 
   // Add checkbox for real-time execution control

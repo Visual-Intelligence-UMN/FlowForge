@@ -17,10 +17,10 @@ function waitForStepStatus(
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
-            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+            // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
-            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+            // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -102,8 +102,8 @@ const makeAgentNode = (params: {
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-        console.log("try to get input messages for", params.name);
-        console.log("params.destinations for discussion", params.name, params.destinations);
+        // console.log("try to get input messages for", params.name);
+        // console.log("params.destinations for discussion", params.name, params.destinations);
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
@@ -113,7 +113,7 @@ const makeAgentNode = (params: {
                 content: params.systemPrompt + (params.summaryNodeOrNot ? "" : "\n" + params.nodesDescription),
             },
         ]
-        console.log("invokePayload for", params.name, invokePayload);
+        // console.log("invokePayload for", params.name, invokePayload);
 
         const response = await agent.withStructuredOutput(
             params.summaryNodeOrNot ? responseSchemaSummary : responseSchema, 
@@ -125,7 +125,7 @@ const makeAgentNode = (params: {
         }
         let status = "pending";
         let response_goto = response.goto;
-        console.log("intial goto for ", params.name, response_goto);
+        // console.log("intial goto for ", params.name, response_goto);
         // only summary can change the status to done if any
         // otherwise, the status is done when the round is over
 
@@ -148,28 +148,28 @@ const makeAgentNode = (params: {
         //     } else {
         //         response_goto = params.destinations.filter((d) => !d.includes(currentStepId));
         //         status = "done";
-        //         console.log("status in compileDiscussion after summarization or no summary", status);
+        //         // console.log("status in compileDiscussion after summarization or no summary", status);
         //     }
         // } else {
-        //     console.log("params.name in compileDiscussion to summarize", params.name);
-        //     console.log("params.name.includes('Summary')", params.name.includes("Summary"));
+        //     // console.log("params.name in compileDiscussion to summarize", params.name);
+        //     // console.log("params.name.includes('Summary')", params.name.includes("Summary"));
         //     if (params.name.includes("Summary")) {
-        //         console.log("params.destinations in compileDiscussion to summarize", params.destinations);
+        //         // console.log("params.destinations in compileDiscussion to summarize", params.destinations);
         //         response_goto = params.destinations
         //         status = "done";
-        //         console.log("status in compileDiscussion with a summary node", status);
+        //         // console.log("status in compileDiscussion with a summary node", status);
         //     }
         // }
-        console.log("response_goto in compileDiscussion", response_goto);
+        // console.log("response_goto in compileDiscussion", response_goto);
         if (status === "done") {
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {
                     continue;
                 }
                 if (state[parallelStep+"-status"] !== "done") {
-                    console.log("update status for parallel step as done as parallel step is pending", parallelStep);
-                    console.log("state[parallelStep]", state);
-                    console.log("state[currentStep] mark as done", currentStep);
+                    // console.log("update status for parallel step as done as parallel step is pending", parallelStep);
+                    // console.log("state[parallelStep]", state);
+                    // console.log("state[currentStep] mark as done", currentStep);
                     return new Command({
                         goto: response_goto,
                         update: {
@@ -182,10 +182,10 @@ const makeAgentNode = (params: {
                 }
             }
         }
-        console.log("status in compileDiscussion", status);
-        console.log("response_goto in compileDiscussion", response_goto);
-        // console.log("discussion response", response);
-        console.log("state", state);
+        // console.log("status in compileDiscussion", status);
+        // console.log("response_goto in compileDiscussion", response_goto);
+        // // console.log("discussion response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -200,15 +200,15 @@ const makeAgentNode = (params: {
 
 
 const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
-    // console.log("nodesInfo in compileDiscussion", nodesInfo);
-    console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
+    // // console.log("nodesInfo in compileDiscussion", nodesInfo);
+    // console.log("stepEdges in compileDiscussion", stepEdges, nodesInfo);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const uniquePreviousSteps = [...new Set(previousSteps)];
     const summaryNode = nodesInfo.find((node) => node.data.label === "Summary");
     const summaryTarget = stepEdges.filter((edge) => edge.source === summaryNode.id).map((edge) => edge.target);
     const nodesDescription = "Call one of the most appropriate agent to continue iterate your deliverable to better align with the step description: " + nodesInfo.map((node) => node.id + " (" + node.data.systemPrompt.split("\n")[0] + ")").join("; ");
-    console.log("summaryNode", summaryNode);
-    console.log("summaryTarget", summaryTarget);
+    // console.log("summaryNode", summaryNode);
+    // console.log("summaryTarget", summaryTarget);
 
     if (summaryNode) {
         let destinations = Array.from(
@@ -218,7 +218,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
                 .map(edge => edge.target)
             )
           );
-        console.log("summaryNode is not null");
+        // console.log("summaryNode is not null");
         if (destinations.length === 0) {
             destinations = ["__end__"];
         }
@@ -258,7 +258,7 @@ const compileDiscussion = async (workflow, nodesInfo, stepEdges, inputEdges, par
         // }
         // workflow.addNode(summaryNode.id, agentNode)
         // if (summaryTarget.length > 0) {
-        //     console.log("summaryTarget add edges", summaryTarget);
+        //     // console.log("summaryTarget add edges", summaryTarget);
         //     for (const target of summaryTarget) {
         //         workflow.addEdge(summaryNode.id, target)
         //     }

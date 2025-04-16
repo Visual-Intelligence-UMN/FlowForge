@@ -102,14 +102,14 @@ const StreamOutput = ({ runConfig }) => {
     // if (!selectedTask?.name?.includes("Visualization")) return;
     let sampleData;
     if (selectedTask?.name?.includes("Script")) {
-      console.log("sampleOutputsPresentation", sampleOutputsPresentation);
+      // console.log("sampleOutputsPresentation", sampleOutputsPresentation);
       sampleData = sampleOutputsPresentation[runConfig.configId];
     } else if (selectedTask?.name?.includes("Review")) {
       sampleData = sampleOutputsReview[runConfig.configId];
     } else if (selectedTask?.name?.includes("Visualization")) {
       sampleData = sampleOutputsVis[runConfig.configId];
     }
-    // console.log("sampleData in output panel", sampleData);
+    // // console.log("sampleData in output panel", sampleData);
     if (sampleData) {
       setMultiStreamOutput((prev) => {
         const alreadyHasData = prev[runConfig.configId];
@@ -174,8 +174,8 @@ const StreamOutput = ({ runConfig }) => {
         const messagesAll = value.messages;
         let messageContent = "";
 
-        console.log("output", output);
-        console.log("messagesAll", messagesAll, sender);
+        // console.log("output", output);
+        // console.log("messagesAll", messagesAll, sender);
 
         // Figure out the content. (Your original logic might vary.)
         if (Array.isArray(messagesAll) || sender === undefined) {
@@ -226,7 +226,7 @@ const StreamOutput = ({ runConfig }) => {
 
     // If we have an uploaded file, process it
     if (selectedTask.uploadedFile) {
-      console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
+      // console.log("selectedTask.uploadedFile", selectedTask.uploadedFile);
 
       // Convert to Blob and load via PDF loader
       const pdfBlob = new Blob([selectedTask.uploadedFile], {
@@ -254,7 +254,7 @@ const StreamOutput = ({ runConfig }) => {
       }));
     }
 
-    // console.log("Recompile runConfig for new langgraph run", runConfig);
+    // // console.log("Recompile runConfig for new langgraph run", runConfig);
 
     const { compiledLanggraph, totalMaxRound } = await CompileLanggraph(
       runConfig.reactflowDisplay
@@ -276,7 +276,7 @@ const StreamOutput = ({ runConfig }) => {
       // await runStreaming(compiledLanggraph, totalMaxRound);
     }
 
-    // console.log("Done streaming. streamData is now:", streamData);
+    // // console.log("Done streaming. streamData is now:", streamData);
   };
 
   // UI Handlers
@@ -325,7 +325,7 @@ const StreamOutput = ({ runConfig }) => {
   };
 
   const startNewThread = () => {
-    console.log("startNewThread", streamData);
+    // console.log("startNewThread", streamData);
     // Clears out old messages, sets new blank input
     updateStreamData({
       inputMessage: { sender: "User", content: "", showFullContent: false },

@@ -16,10 +16,10 @@ function waitForStepStatus(
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
-            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+            // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
-            console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+            // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -93,8 +93,8 @@ function waitForStepStatus(
             const formattedTools = params.tools.map((t) => (toolsMap[t]));
             agent.bindTools(formattedTools);
         }
-        console.log("params.destinations", params.destinations);
-        console.log("try to get input messages for", params.name);
+        // console.log("params.destinations", params.destinations);
+        // console.log("try to get input messages for", params.name);
         const currentStep = 'step' + params.name.split("-")[1];
         const currentStepId = 'step-' + params.name.split("-")[1];
         const invokePayload = [
@@ -104,7 +104,7 @@ function waitForStepStatus(
                 content: params.systemPrompt,
             },
         ]
-        console.log("invokePayload for", params.name, invokePayload);
+        // console.log("invokePayload for", params.name, invokePayload);
 
         const response = await agent.withStructuredOutput(responseSchema, {name: params.name}).invoke(invokePayload);
         const aiMessage = {
@@ -121,15 +121,15 @@ function waitForStepStatus(
             if (response_goto.includes("__end__")) {
                 response_goto = END;
             }
-            console.log("response_goto in compileParallel for aggregator", response_goto);
+            // console.log("response_goto in compileParallel for aggregator", response_goto);
             for (const parallelStep of params.parallelSteps) {
                 if (parallelStep === currentStep) {
                     continue;
                 }
                 if (state[parallelStep+"-status"] !== "done") {
-                    console.log("update status for parallel step as done as parallel step is pending", parallelStep);
-                    console.log("state[parallelStep]", state);
-                    console.log("state[currentStep] mark as done", currentStep);
+                    // console.log("update status for parallel step as done as parallel step is pending", parallelStep);
+                    // console.log("state[parallelStep]", state);
+                    // console.log("state[currentStep] mark as done", currentStep);
                     return new Command({
                         // goto: response_goto,
                         update: {
@@ -144,10 +144,10 @@ function waitForStepStatus(
         }
 
         
-        console.log("status in compileParallel", status);
-        console.log("response_goto in compileParallel", response_goto);
-        // console.log("discussion response", response);
-        console.log("state", state);
+        // console.log("status in compileParallel", status);
+        // console.log("response_goto in compileParallel", response_goto);
+        // // console.log("discussion response", response);
+        // console.log("state", state);
         return new Command({
             goto: response_goto,
             update: {
@@ -163,12 +163,12 @@ function waitForStepStatus(
 
 
 const compileParallel = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState) => {
-    console.log("nodesInfo in compileParallel", nodesInfo);
-    console.log("stepEdges in compileParallel", stepEdges);
+    // console.log("nodesInfo in compileParallel", nodesInfo);
+    // console.log("stepEdges in compileParallel", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
     const uniquePreviousSteps = [...new Set(previousSteps)];
-    console.log("previousSteps in compileParallel", previousSteps);
-    console.log("uniquePreviousSteps in compileParallel", uniquePreviousSteps);
+    // console.log("previousSteps in compileParallel", previousSteps);
+    // console.log("uniquePreviousSteps in compileParallel", uniquePreviousSteps);
     const aggregatorNode = nodesInfo.find((node) => node.data.label === "Aggregator");
     const aggregatorTarget = stepEdges.filter((edge) => edge.source === aggregatorNode.id).map((edge) => edge.target);
     
@@ -180,7 +180,7 @@ const compileParallel = async (workflow, nodesInfo, stepEdges, inputEdges, paral
                 .map(edge => edge.target)
             )
           );
-        console.log("destinations in compileParallel", destinations);
+        // console.log("destinations in compileParallel", destinations);
         if (destinations.length === 0) {
             destinations = ["__end__"];
         }

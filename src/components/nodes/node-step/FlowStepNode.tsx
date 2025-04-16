@@ -3,9 +3,9 @@ import { Box, Typography, TextField } from "@mui/material";
 import { useState } from "react";
 
 export const FlowStepNode = ({ data, isConnectable, id }) => {
-  // console.log("id", id);
+  // // console.log("id", id);
   if (!id) {
-    console.log("FlowStepNode id", id);
+    // console.log("FlowStepNode id", id);
   }
   console.info(data)
   const { updateNodeField, updateNodeFieldset } = data;

@@ -25,7 +25,7 @@ import { useState, useEffect } from "react";
 
 export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   if (!id) {
-    console.log("FlowWithPatternsNode id", id);
+    // console.log("FlowWithPatternsNode id", id);
   }
   const { updateNodeFieldset } = data;
   const showContentZoom = data.showContent;
@@ -35,24 +35,24 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   // const showContent = false;
   const patternName = data.pattern?.name || "";
   const template = data.template || {};
-  // console.log("template", template);
+  // // console.log("template", template);
 
   useEffect(() => {
     if (showContentZoom && showContentClick) {
-      console.log("showContentZoom", showContentZoom);
-      console.log("showContentClick", showContentClick);
+      // console.log("showContentZoom", showContentZoom);
+      // console.log("showContentClick", showContentClick);
       setShowContent(false);
     } else if (!showContentZoom && showContentClick) {
-      console.log("showContentZoom", showContentZoom);
-      console.log("showContentClick", showContentClick);
+      // console.log("showContentZoom", showContentZoom);
+      // console.log("showContentClick", showContentClick);
       setShowContent(showContentZoom);
     } else if (!showContentZoom && !showContentClick) {
-      console.log("showContentZoom", showContentZoom);
-      console.log("showContentClick", showContentClick);
+      // console.log("showContentZoom", showContentZoom);
+      // console.log("showContentClick", showContentClick);
       setShowContent(showContentZoom);
     } else if (showContentZoom && !showContentClick) {
-      console.log("showContentZoom", showContentZoom);
-      console.log("showContentClick", showContentClick);
+      // console.log("showContentZoom", showContentZoom);
+      // console.log("showContentClick", showContentClick);
       setShowContent(showContentZoom);
     }
   }, [showContentZoom, showContentClick]);

@@ -96,7 +96,7 @@ const SharedCanvas = () => {
         });
       }
     });
-    // console.log("nodes and edges after transform", nodes, edges);
+    // // console.log("nodes and edges after transform", nodes, edges);
 
     return { nodes, edges };
   };
@@ -108,7 +108,7 @@ const SharedCanvas = () => {
   let nodeType;
 
   const canvasPage = () => {
-    // console.log("canvasPage", canvasPages);
+    // // console.log("canvasPage", canvasPages);
     targetWorkflow = null;
     const renderCanvasContent = () => {
       switch (type) {
@@ -129,7 +129,7 @@ const SharedCanvas = () => {
           }
           headerContent = "Flow with Patterns " + targetWorkflow.patternId;
           nodeType = "patternsStep";
-          console.log("targetWorkflow", targetWorkflow);
+          // console.log("targetWorkflow", targetWorkflow);
           break;
 
         case "flow":
@@ -169,7 +169,7 @@ const SharedCanvas = () => {
       if (targetWorkflow && type !== "compiled") {
         ({ nodes: initialNodes, edges: initialEdges } =
           convertToReactFlowFormat(targetWorkflow, nodeType));
-        // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
+        // // console.log("initialNodes and initialEdges after transform", initialNodes, initialEdges);
         if (type === "pattern") {
           return (
             <PatternsLayout
@@ -216,7 +216,7 @@ const SharedCanvas = () => {
       } else {
         initialNodes = targetWorkflow.reactflowDisplay[0].graph.nodes;
         initialEdges = targetWorkflow.reactflowDisplay[0].graph.edges;
-        // console.log("initialNodes", initialNodes);
+        // // console.log("initialNodes", initialNodes);
         return (
           <>
             <Typography variant="body1">{headerContent}</Typography>
@@ -241,7 +241,7 @@ const SharedCanvas = () => {
 
   const PatternsLayout = ({initialNodes, initialEdges, targetWorkflow}) => {
     const [hoveredPattern, setHoveredPattern] = useState(null);
-    // console.log("hoveredPattern", hoveredPattern);
+    // // console.log("hoveredPattern", hoveredPattern);
     return (
       <>
         <Typography variant="body1">{headerContent}</Typography>

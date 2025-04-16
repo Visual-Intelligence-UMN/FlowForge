@@ -14,7 +14,7 @@ const GenerateRunnableConfig = async (workflow, runRealtime) => {
     };
     // runtime, maxround can also dealt in compile langgraph
     for (const step of taskFlowSteps) {
-        console.log("step in generate config", step);
+        // console.log("step in generate config", step);
         const { stepId, stepName, stepLabel, stepDescription, pattern, config, template, nextSteps } = step;
         let newConfig = {};
         if (handlersMap[pattern.name]) {

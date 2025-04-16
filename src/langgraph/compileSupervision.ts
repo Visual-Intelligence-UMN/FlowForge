@@ -17,10 +17,10 @@ function waitForStepStatus(
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
-          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
-          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -57,19 +57,19 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         //         throw error;
         //     }
         // }
-        console.log("stepMsgs is empty, use previous steps", previousSteps);
-        console.log("state", state);
+        // console.log("stepMsgs is empty, use previous steps", previousSteps);
+        // console.log("state", state);
         const aiMessage = {
             role: "assistant",
             content: "Previous Deliverables: \n",
             name: ""
         }
         for (const step of previousSteps) {
-            console.log("state[step]", state[step]?.slice(-1));
-            console.log("state[step]?.slice(-1).content", state[step]?.slice(-1)[0].content);
+            // console.log("state[step]", state[step]?.slice(-1));
+            // console.log("state[step]?.slice(-1).content", state[step]?.slice(-1)[0].content);
             aiMessage.content += "[" + step + " Deliverable] " + state[step]?.slice(-1)[0].content + "\n";
             // invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
-            console.log("aiMessage", aiMessage);
+            // console.log("aiMessage", aiMessage);
             aiMessage.name = state[step]?.slice(-1)[0].name;
         }
         return invokeMsg.concat(aiMessage);
@@ -131,7 +131,7 @@ const makeAgentNode = (params: {
                 content: params.systemPrompt,
             },
         ]
-        console.log("invokePayload for", params.name, invokePayload);
+        // console.log("invokePayload for", params.name, invokePayload);
         const response = await agent.withStructuredOutput(
             params.supervisorOrNot ? responseSchema : workerResponseSchema, 
             {name: params.name}).invoke(invokePayload);
@@ -140,7 +140,7 @@ const makeAgentNode = (params: {
         //     content: response.response,
         //     name: params.name,
         // }
-        // console.log("response", response);
+        // // console.log("response", response);
 
         
         let response_goto = response.goto;
@@ -158,7 +158,7 @@ const makeAgentNode = (params: {
             response_goto = END;
         }
 
-        console.log("state in compileSupervision", state);
+        // console.log("state in compileSupervision", state);
         if (params.supervisorOrNot) {
             if (status === "done") {
                 for (const parallelStep of params.parallelSteps) {
@@ -220,8 +220,8 @@ const makeAgentNode = (params: {
 }
 
 const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, parallelSteps, AgentsState, maxRound) => {
-    console.log("nodesInfo in compileSupervision", nodesInfo);
-    console.log("stepEdges in compileSupervision", stepEdges);
+    // console.log("nodesInfo in compileSupervision", nodesInfo);
+    // console.log("stepEdges in compileSupervision", stepEdges);
     const previousSteps = inputEdges.map((edge) => 'step' + edge.id.split("->")[0].split("-")[1]);
 
     const uniquePreviousSteps = [...new Set(previousSteps)];
@@ -229,14 +229,14 @@ const compileSupervision = async (workflow, nodesInfo, stepEdges, inputEdges, pa
     const currentStepIdx = supervisorNode.id.split("->")[0];
     const agentsNodes = nodesInfo.filter(node => node.type !== "supervisor");
     const supervisorDestinations = Array.from(new Set(stepEdges.filter(edge => edge.source === supervisorNode.id).map(edge => edge.target)));
-    // console.log("supervisorDestinations", supervisorDestinations);
-    console.log("destinations in compileSupervision", supervisorDestinations);
+    // // console.log("supervisorDestinations", supervisorDestinations);
+    // console.log("destinations in compileSupervision", supervisorDestinations);
     const workersDescriptions = "Please decide CONTINUE or NEXT, if CONTINUE then call one of the most appropriate agent: " + agentsNodes.map(node => node.id + " (" + node.data.systemPrompt.split("\n")[0] + ")").join("; ");
     const nextStepDestinations = supervisorDestinations.filter(d => !d?.includes(currentStepIdx));
     const nextStepDestinationsDescription = " If NEXT, call one of the: " + nextStepDestinations.join(",");
     
-    console.log("nextStepDestinationsDescription", nextStepDestinationsDescription);
-    console.log("workersDescriptions", workersDescriptions);
+    // console.log("nextStepDestinationsDescription", nextStepDestinationsDescription);
+    // console.log("workersDescriptions", workersDescriptions);
     const supervisorAgent = makeAgentNode({
         name: supervisorNode.id,
         destinations: supervisorDestinations as string[],

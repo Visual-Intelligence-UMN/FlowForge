@@ -15,7 +15,7 @@ const GenerateTemplatesInfo = async (flow) => {
         const { stepName, stepDescription, pattern } = step;
         const stepTemplate = designPatternsTemplate[pattern.name];
 
-        // console.log("stepTemplate", stepTemplate);
+        // // console.log("stepTemplate", stepTemplate);
 
         const templateSchema = {
             "Single Agent": z.object({
@@ -115,7 +115,7 @@ const GenerateTemplatesInfo = async (flow) => {
         + stepDescription + ". The recommended pattern is: " + pattern.name + 
         + ". The pattern recommendation reason is: " + pattern.recommendationReason 
 
-        console.log("stepDescription for template generation: ", stepDescription);
+        // console.log("stepDescription for template generation: ", stepDescription);
         try {
             const completion = await openai.beta.chat.completions.parse({
                 model: "gpt-4o",
@@ -127,10 +127,10 @@ const GenerateTemplatesInfo = async (flow) => {
                 response_format: zodResponseFormat(stepTemplateSchema, "template")
             });
             const res = completion.choices[0].message.parsed;
-            // console.log("Templates info:", res);
+            // // console.log("Templates info:", res);
 
             const mergedTemplate = merge(stepTemplate, res);
-            // console.log("Merged template:", mergedTemplate, "for step:", step);
+            // // console.log("Merged template:", mergedTemplate, "for step:", step);
             return {
                 ...step,
                 template: mergedTemplate,

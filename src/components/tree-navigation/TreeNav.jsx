@@ -120,7 +120,7 @@ const TreeNav = () => {
       const label = `Flow ${flowId}`;
       const taskSteps = getTaskSteps(flow)
       // taskSteps = Object.keys(flow.taskFlowSteps).map(_ => Math.random() < 0.5 ? 1 : 2) // TODO: replace with actual steps
-      // console.log("taskSteps for flow", flow, taskSteps)
+      // // console.log("taskSteps for flow", flow, taskSteps)
       g.setNode(`flow-${flowId}`, {
         label: label,
         data: {
@@ -155,7 +155,7 @@ const TreeNav = () => {
       const childFlowsConfigIds = agentsConfig.filter(config => config.configId.startsWith(patternID)).map(config => config.configId)
       const childFlowsUserRatings = childFlowsConfigIds.map(configId => multiStreamOutput[String(configId)]?.userRating ?? 0)
       const userRating = childFlowsUserRatings.reduce((acc, curr) => acc + curr, 0) / childFlowsUserRatings.length
-      // console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
+      // // console.log("maxCalls, runtime for pattern", pattern, agentMaxCalls, agentRuntime)
       // const agentStepNum = Math.max(...agentSteps)
       g.setNode(`pattern-${patternID}`, {
         label: label,
@@ -275,7 +275,7 @@ const TreeNav = () => {
         data: g.node(nodeId).data,
       };
     });
-    //   console.log("laidOutNodes", laidOutNodes);
+    //   // console.log("laidOutNodes", laidOutNodes);
     const laidOutEdges = g.edges().map((edgeObj) => {
       const edgeData = g.edge(edgeObj);
       return {
@@ -284,7 +284,7 @@ const TreeNav = () => {
         points: edgeData.points,
       };
     });
-    // console.log("laidOutEdges", laidOutEdges);
+    // // console.log("laidOutEdges", laidOutEdges);
 
     const { width = 0, height = 0 } = g.graph();
 
@@ -299,7 +299,7 @@ const TreeNav = () => {
   useEffect(() => {
     handleTreeNav();
   }, [flowsMap, patterns, agentsConfig, compiledConfigs, selectedTask, multiStreamOutput]);
-  console.log("multiStreamOutput", multiStreamOutput)
+  // console.log("multiStreamOutput", multiStreamOutput)
 
   const handleDeleteNode = (selected) => {
     if (!selected || !selected.type) return;
@@ -405,10 +405,10 @@ const TreeNav = () => {
 
   // Example node click handler
   const handleNodeClick = (node) => {
-    // console.log("Node clicked: ", node);
+    // // console.log("Node clicked: ", node);
     const layer = node.id.split("-")[0];
     if (layer === "flow") {
-      console.log("flow node clicked", flowsMap);
+      // console.log("flow node clicked", flowsMap);
 
       const flowId = node.data.id;
       // Find a patternId/configId you want as the default
@@ -437,13 +437,13 @@ const TreeNav = () => {
         patternId: patternId,
         configId: configId,
       });
-      // console.log("canvasPages", canvasPages);
+      // // console.log("canvasPages", canvasPages);
     } else if (layer === "pattern") {
-      // console.log("canvasPages when pattern clicked", canvasPages);
-      // console.log("flowsMap", flowsMap);
-      // console.log("patterns", patterns);
-      // console.log("agentsConfig", agentsConfig);
-      console.log(
+      // // console.log("canvasPages when pattern clicked", canvasPages);
+      // // console.log("flowsMap", flowsMap);
+      // // console.log("patterns", patterns);
+      // // console.log("agentsConfig", agentsConfig);
+      // console.log(
         "pattern node clicked",
         patterns.find((item) => item.patternId === node.data.id)
       );
@@ -459,11 +459,11 @@ const TreeNav = () => {
         configId: childrenConfigs[0]?.configId,
       });
     } else if (layer === "config") {
-      // console.log("config node clicked", agentsConfig);
+      // // console.log("config node clicked", agentsConfig);
       const configId = node.data.id;
-      // console.log("canvasPages when config clicked", canvasPages);
-      // console.log("configs", agentsConfig);
-      // console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
+      // // console.log("canvasPages when config clicked", canvasPages);
+      // // console.log("configs", agentsConfig);
+      // // console.log("config node clicked", agentsConfig.find(item => item.configId === configId));
       const [flowId, patternPart] = configId.split("-");
       const patternId = `${flowId}-${patternPart}`;
       setCanvasPages({
@@ -473,10 +473,10 @@ const TreeNav = () => {
         configId: configId,
       });
     } else if (layer === "compiled") {
-      // console.log("compiled node clicked", compiledConfigs);
+      // // console.log("compiled node clicked", compiledConfigs);
       const configId = node.data.id;
       const flowWithConfig = agentsConfig.find((item) => item.configId === configId)
-      console.log(
+      // console.log(
         "compiled node clicked (with config)",
         compiledConfigs.find((item) => item.configId === configId),
         flowWithConfig
@@ -502,12 +502,12 @@ const TreeNav = () => {
     };
 
     if (layer === "flow") {
-      console.log("flow node right-clicked", flowsMap);
+      // console.log("flow node right-clicked", flowsMap);
 
       selectedNode.type = "flow";
       selectedNode.flowId = node.data.id;
     } else if (layer === "pattern") {
-      console.log(
+      // console.log(
         "pattern node right-clicked",
         patterns.find((item) => item.patternId === node.data.id)
       );
@@ -516,7 +516,7 @@ const TreeNav = () => {
       selectedNode.patternId = node.data.id;
       selectedNode.flowId = node.data.id.split("-")[0];
     } else if (layer === "config") {
-      console.log(
+      // console.log(
         "config node right-clicked",
         agentsConfig.find((item) => item.configId === node.data.id)
       );
@@ -527,7 +527,7 @@ const TreeNav = () => {
       selectedNode.patternId = `${flowId}-${patternPart}`;
       selectedNode.flowId = flowId;
     } else if (layer === "compiled") {
-      console.log(
+      // console.log(
         "compiled node right-clicked",
         compiledConfigs.find((item) => item.configId === node.data.id)
       );
@@ -551,9 +551,9 @@ const TreeNav = () => {
 
 
   const isHighlighted = (node) => {
-    // console.log("node", node);
-    // console.log("canvasPages clicked", canvasPages);
-    // console.log("flowmap", flowsMap);
+    // // console.log("node", node);
+    // // console.log("canvasPages clicked", canvasPages);
+    // // console.log("flowmap", flowsMap);
     if (!canvasPages) {
       return false;
     }

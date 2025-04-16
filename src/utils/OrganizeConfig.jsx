@@ -3,7 +3,7 @@ import GenerateRunnableConfig from "./GenerateConfig";
 const patternIdToConfigCounter = {};
 
 function reassignConfigIds(patternId, agentsConfig, configs) {
-  // console.log("agentsConfig", agentsConfig);
+  // // console.log("agentsConfig", agentsConfig);
   patternIdToConfigCounter[patternId] = agentsConfig?.filter(config => config.patternId === patternId).length + 1;
 
   return configs.map((config) => {
@@ -18,8 +18,8 @@ function reassignConfigIds(patternId, agentsConfig, configs) {
 }
 
 const OrganizeConfig = async (pattern, agentsConfig, setAgentsConfig, runRealtime) => {
-  console.log("agentsConfig input", agentsConfig);
-  console.log("pattern to organize", pattern);
+  // console.log("agentsConfig input", agentsConfig);
+  // console.log("pattern to organize", pattern);
   const generatedAgentsConfig = await GenerateRunnableConfig(pattern, runRealtime);
   // Reassign each config’s ID
   const assignedConfigs = reassignConfigIds(
@@ -27,7 +27,7 @@ const OrganizeConfig = async (pattern, agentsConfig, setAgentsConfig, runRealtim
     agentsConfig,
     generatedAgentsConfig
   );
-  console.log("new assignedConfigs", assignedConfigs);
+  // console.log("new assignedConfigs", assignedConfigs);
  
 
   setAgentsConfig((previousAgentsConfig) => {
@@ -44,10 +44,10 @@ const OrganizeConfig = async (pattern, agentsConfig, setAgentsConfig, runRealtim
     if (!replaced) {
       updatedAgentsConfig.push(...assignedConfigs);
     }
-    // console.log("newly updatedAgentsConfig list", updatedAgentsConfig);
+    // // console.log("newly updatedAgentsConfig list", updatedAgentsConfig);
     return updatedAgentsConfig;
   });
-  // console.log("updatedAgentsConfig all", updatedAgentsConfig);
+  // // console.log("updatedAgentsConfig all", updatedAgentsConfig);
 };
 
 export default OrganizeConfig;

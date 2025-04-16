@@ -32,14 +32,14 @@ async function createAgent({
     });
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");
     const formattedTools = tools.map((t) => convertToOpenAITool(toolsMap[t]));
-    console.log("formattedTools", formattedTools);
+    // console.log("formattedTools", formattedTools);
     if (tools.length === 0) {
         const prompt = ChatPromptTemplate.fromMessages([
             new MessagesPlaceholder("messages"),
             ...(accessStepMsgs ? [new MessagesPlaceholder("stepMsgs")] : []),
             ["system", systemMessage],
         ]);
-        // console.log("prompt", prompt);
+        // // console.log("prompt", prompt);
         return prompt.pipe(llm);
     } else {
         let prompt = ChatPromptTemplate.fromMessages([
@@ -51,7 +51,7 @@ async function createAgent({
             tool_names: toolNames,
             system_message: systemMessage,
         });
-        // console.log("prompt", prompt);
+        // // console.log("prompt", prompt);
         return prompt.pipe(llm.bindTools(formattedTools, { parallel_tool_calls:false}));
     }
 };
@@ -59,10 +59,10 @@ async function createAgent({
 
 function handle_agent_response(result: any, name: string) {
     if (!result?.tool_calls || result.tool_calls.length === 0) {
-        console.log("no tool_calls");
+        // console.log("no tool_calls");
         result = new AIMessage({ ...result, name: name });
     } else {
-        console.log("tool_calls");
+        // console.log("tool_calls");
         result = new AIMessage({ ...result, name: "tool" });
     }
     return result;
@@ -78,10 +78,10 @@ function waitForStepStatus(
       let attempts = 0;
       function checkStatus() {
         if (state[stepStatusKey] === 'done') {
-          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           resolve(true);
         } else if (attempts < retries) {
-          console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
+          // console.log("status in waitForStepStatus", stepStatusKey, state[stepStatusKey]);
           attempts++;
           setTimeout(checkStatus, interval);
         } else {
@@ -96,7 +96,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
     // For example, stepName might be "step1", "step2", etc.
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
     let firstMsg = state.messages.slice(0, 1);
-    console.log("firstMsg", firstMsg);
+    // console.log("firstMsg", firstMsg);
     // firstMsg = [] // ? 
     let invokeMsg = firstMsg;
     // const firstMsg = [] 
@@ -122,28 +122,28 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                 throw error;
             }
         }
-        console.log("no stepMsgs");
+        // console.log("no stepMsgs");
         const lastMsg = state.messages.slice(-1) as any;
-        console.log("lastMsg", lastMsg);
-        console.log("previousSteps", previousSteps);
+        // console.log("lastMsg", lastMsg);
+        // console.log("previousSteps", previousSteps);
         for (const step of previousSteps) {
             invokeMsg = invokeMsg.concat(state[step]?.slice(-1));
-            console.log("invokeMsg plus step", step, invokeMsg);
+            // console.log("invokeMsg plus step", step, invokeMsg);
         }
-        // console.log("invokeMsg for step", invokeMsg);
-        // console.log("last lastMsg", state.messages[state.messages.length - 1])
-        // console.log(lastMsg)
-        // console.log("lastMsg", lastMsg);
+        // // console.log("invokeMsg for step", invokeMsg);
+        // // console.log("last lastMsg", state.messages[state.messages.length - 1])
+        // // console.log(lastMsg)
+        // // console.log("lastMsg", lastMsg);
         let tool_msg = null;
         if (lastMsg[0]?.tool_calls) {
             // todo add tool msg 'tool_call_id'
             const tool_name = lastMsg[0].tool_calls[0]?.name;
-            // console.log("tool_name", tool_name);
+            // // console.log("tool_name", tool_name);
             switch (tool_name) {
                 case "PDFLoader":
-                    // console.log("tool_calls PDFLoader");
+                    // // console.log("tool_calls PDFLoader");
                     // const fileContent = await PDFLoaderTool(lastMsg[0].tool_calls[0].args);
-                    // console.log("fileContent", fileContent);
+                    // // console.log("fileContent", fileContent);
                     // tool_msg = new ToolMessage({
                     //     content: "PDF file content: " + fileContent,
                     //     tool_call_id: lastMsg[0].tool_calls[0].id,
@@ -155,7 +155,7 @@ async function getInputMessagesForStep(state: typeof AgentsState.State, stepName
                     const result = await TavilySearchTool(lastMsg[0].tool_calls[0]?.args);
                     // const search = new TavilySearchResults({ maxResults: 3, apiKey: import.meta.env.VITE_TAVILY_API_KEY });
                     // const result = await search.invoke(lastMsg[0].tool_calls[0].args.query);
-                    // console.log("result web", result);
+                    // // console.log("result web", result);
                     tool_msg = new ToolMessage({
                         content: "Web search results: " + JSON.stringify(result),
                         tool_call_id: lastMsg[0].tool_calls[0]?.id,
@@ -189,7 +189,7 @@ async function create_agent_node(props: {
     const current_step_status = `${current_step}-status`;
 
     const step_state = state[current_step] ?? [];
-    console.log("name", name, "changeStatus?", changeStatus);
+    // console.log("name", name, "changeStatus?", changeStatus);
 
     const inputMsgs = await getInputMessagesForStep(state, current_step, previousSteps);
 
@@ -197,7 +197,7 @@ async function create_agent_node(props: {
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
     // let response = await agent.invoke(input_state, config);
     // const input_state = {messages: state.messages.slice(-1), sender: state.sender};
-    console.log("invokePayload for", name, invokePayload);
+    // console.log("invokePayload for", name, invokePayload);
     let response = await agent.invoke(invokePayload, config);
     const response_msg = handle_agent_response(response, name);
     return {
@@ -212,14 +212,14 @@ import fs from "fs";
 
 async function saveGraphImage(g: any, savePath = "graph_image.png") {
     try {
-        console.log("Attempting to draw Mermaid PNG...");
+        // console.log("Attempting to draw Mermaid PNG...");
         const graphViz = g.getGraph({xray: 1});
         if (!graphViz) {
             console.error("GraphViz is not ready");
             return;
         }
         const image = await graphViz.drawMermaidPng();
-        console.log("Image obtained:", image);
+        // console.log("Image obtained:", image);
 
         const arrayBuffer = await image.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
@@ -228,7 +228,7 @@ async function saveGraphImage(g: any, savePath = "graph_image.png") {
             if (err) {
                 console.error(`Error saving the image to ${savePath}:`, err);
             } else {
-                console.log(`Image saved successfully at ${savePath}`);
+                // console.log(`Image saved successfully at ${savePath}`);
             }
         });
     } catch (error) {
@@ -237,7 +237,7 @@ async function saveGraphImage(g: any, savePath = "graph_image.png") {
 }
 async function generateGraphImage(g: any): Promise<string | null> {
     try {
-        console.log("Attempting to draw Mermaid PNG...");
+        // console.log("Attempting to draw Mermaid PNG...");
         const graphViz = g.getGraph({ xray: 1 });
 
         if (!graphViz) {
@@ -246,7 +246,7 @@ async function generateGraphImage(g: any): Promise<string | null> {
         }
 
         const image = await graphViz.drawMermaidPng();
-        console.log("Image obtained:", image);
+        // console.log("Image obtained:", image);
 
         const arrayBuffer = await image.arrayBuffer();
 
