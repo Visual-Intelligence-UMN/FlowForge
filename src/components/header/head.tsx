@@ -1,36 +1,85 @@
-import { Box, IconButton } from "@mui/material";
+import { useState } from "react";
+import { Box, IconButton, Modal, TextField, Button, Typography } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ExtensionIcon from "@mui/icons-material/Extension"; 
 import { headerStyle } from "./header";
+import { saveEnvVal } from "../../utils/utils";
 
-function headerWithIcons() {
+const ApiKeyModal = ({ open, handleClose }) => {
+  const [apiKey, setApiKey] = useState('');
+
+  const handleSave = () => {
+    saveEnvVal("VITE_OPENAI_API_KEY", apiKey);
+    handleClose();
+  };
+
   return (
-    <header style={headerStyle}>
-      <Box
+    <Modal open={open} onClose={handleClose}>
+      <Box 
         sx={{
-          paddingRight: "40px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          bgcolor: 'background.paper',
+          borderRadius: '4px',
+          boxShadow: 24,
+          p: 4,
+          minWidth: 300,
         }}
       >
-       
-          {/* <ExtensionIcon sx={{ fontSize: "28px" }} /> */}
-          <div style={{ fontSize: "24pt", padding: "10px 40px" }}>FlowForge</div>
-        
-
-        <Box>
-          <IconButton color="inherit">
-            <SettingsIcon />
-          </IconButton>
-          {/* <IconButton color="inherit">
-            <AccountCircleIcon />
-          </IconButton> */}
-        </Box>
+        <Typography variant="h6" gutterBottom>
+          OpenAI API Key
+        </Typography>
+        <TextField
+          fullWidth
+          label="API Key"
+          variant="outlined"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          sx={{ mb: 2 }}
+        />
+        <Button variant="contained" color="primary" onClick={handleSave}>
+          Save
+        </Button>
       </Box>
-    </header>
+    </Modal>
   );
 };
 
-export default headerWithIcons;
+// Main header component with icons
+function HeaderWithIcons() {
+  const [open, setOpen] = useState(false);
+
+  const popUpModal = () => {
+    setOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <header style={headerStyle}>
+        <Box
+          sx={{
+            paddingRight: "40px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ fontSize: "24pt", padding: "10px 40px" }}>FlowForge</div>
+          <Box>
+            <IconButton color="inherit" onClick={popUpModal}>
+              <SettingsIcon />
+            </IconButton>
+          </Box>
+        </Box>
+      </header>
+      <ApiKeyModal open={open} handleClose={handleModalClose} />
+    </>
+  );
+}
+
+export default HeaderWithIcons;
