@@ -7,7 +7,7 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
   if (!id) {
     // console.log("FlowStepNode id", id);
   }
-  console.info(data)
+  // console.info(data)
   const { updateNodeField, updateNodeFieldset } = data;
   const [showContent, setShowContent] = useState(false);
 

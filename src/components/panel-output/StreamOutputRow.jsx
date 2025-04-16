@@ -221,7 +221,7 @@ const StreamOutput = ({ runConfig }) => {
   };
 
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const inputMessageContent = streamData.inputMessage.content || "";
 
     // If we have an uploaded file, process it
@@ -315,9 +315,14 @@ const StreamOutput = ({ runConfig }) => {
 
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (runRealtime) {
-      handleFormSubmit();
+      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+        handleFormSubmit();
+      } else {
+        alert("Please update the API key and try again.");
+        setRunRealtime(false);
+      }
     } else {
       alert("Please update the API key and try again.");
       // toggleVisibility();
