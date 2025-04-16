@@ -44,11 +44,11 @@ export const WelcomeModal = ({ updateApiKey }) => {
           maxWidth: "90%",
           bgcolor: "background.paper",
           boxShadow: 24,
-          p: 4,
+          p: 8,
           borderRadius: 3,
         }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" sx={{ mb: 4 }}>
           👋 Welcome to FlowForge
         </Typography>
         {/* <Typography variant="body1" sx={{ mb: 4 }}>
@@ -59,8 +59,20 @@ export const WelcomeModal = ({ updateApiKey }) => {
           display="flex" 
           flexDirection={{ xs: "column", md: "row" }} 
           justifyContent="space-between" 
-          gap={4}
+          gap={8}
         >
+          {/* Right side: Continue without API Key */}
+          <Box flex="1">
+            <Typography variant="h6" gutterBottom>
+              Example Mode
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              Proceed without an API key. Real-time features will be disabled, but you can still explore example workflows or provide API key later.
+            </Typography>
+            <Button variant="outlined" onClick={handleContinueWithoutApi} sx={{ mt: 10 }}>
+              Begin Without API
+            </Button>
+          </Box>
           {/* Left side: Provide API Key */}
           <Box flex="1">
             <Typography variant="h6" gutterBottom>
@@ -88,25 +100,13 @@ export const WelcomeModal = ({ updateApiKey }) => {
                 label="OpenAI API Key"
                 name="openai-api"
                 autoFocus
+                fullWidth
               />
               <Button type="submit" variant="outlined" sx={{ mt: 2 }}>
                 Begin with API
               </Button>
             </Box>
-          </Box>
-
-          {/* Right side: Continue without API Key */}
-          <Box flex="1">
-            <Typography variant="h6" gutterBottom>
-              Example Mode
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Proceed without an API key. Real-time features will be disabled, but you can still explore example workflows or provide API key later.
-            </Typography>
-            <Button variant="outlined" onClick={handleContinueWithoutApi} sx={{ mt: 10 }}>
-              Begin Without API
-            </Button>
-          </Box>
+          </Box>          
         </Box>
       </Box>
     </Modal>
