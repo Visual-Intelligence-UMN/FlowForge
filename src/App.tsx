@@ -1,5 +1,6 @@
 import TaskPanel from "./components/panel-input/PanelTaskInput";
 import Builder from "./components/builder/Builder";
+import headerWithIcons from "./components/header/head";
 import { headerStyle } from "./components/header/header";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import "./App.css";
@@ -20,9 +21,10 @@ const theme = createTheme({
 const NewConstruction = () => {
   return (
     <div className="main-container">
-      <header style={headerStyle}>
+      {headerWithIcons()}
+      {/* <header style={headerStyle}>
         <div style={{ padding: "10px 40px", fontSize: "24pt" }}>FlowForge</div>
-      </header>
+      </header> */}
       <div className="pre-construction section">
         <TaskPanel />
       </div>
