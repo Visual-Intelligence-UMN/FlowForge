@@ -312,6 +312,7 @@ const StreamOutput = ({ runConfig }) => {
     if (runRealtime) {
       handleFormSubmit();
     } else {
+      alert("Please update the API key and try again.");
       // toggleVisibility();
     }
   };
