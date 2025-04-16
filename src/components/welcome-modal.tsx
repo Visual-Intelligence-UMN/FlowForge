@@ -51,9 +51,9 @@ export const WelcomeModal = ({ updateApiKey }) => {
         <Typography variant="h4" gutterBottom>
           👋 Welcome to FlowForge
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
+        {/* <Typography variant="body1" sx={{ mb: 4 }}>
           Choose how you would like to proceed:
-        </Typography>
+        </Typography> */}
 
         <Box 
           display="flex" 
@@ -64,34 +64,33 @@ export const WelcomeModal = ({ updateApiKey }) => {
           {/* Left side: Provide API Key */}
           <Box flex="1">
             <Typography variant="h6" gutterBottom>
-              Real-Time Mode
+              Real-time Mode
             </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 0 }}>
               Enter your OpenAI API key to enable real-time features.
-            </Typography>
-            <Box component="form" onSubmit={handleApiSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="openai-api"
-                label="OpenAI API Key"
-                name="openai-api"
-                autoFocus
-              />
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                Don’t have an API key yet? Find yours in{" "}
+            
+                Find your OpenAI API key in{" "}
                 <a
+                  style={{ color: "black" }}
                   href="https://platform.openai.com/account/api-keys"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   OpenAI User Settings
-                </a>
+                </a>.
               </Typography>
-              <Button type="submit" sx={{ mt: 2 }}>
-                Begin
+            <Box component="form" onSubmit={handleApiSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                id="openai-api"
+                label="OpenAI API Key"
+                name="openai-api"
+                autoFocus
+              />
+              <Button type="submit" variant="outlined" sx={{ mt: 2 }}>
+                Begin with API
               </Button>
             </Box>
           </Box>
@@ -99,13 +98,13 @@ export const WelcomeModal = ({ updateApiKey }) => {
           {/* Right side: Continue without API Key */}
           <Box flex="1">
             <Typography variant="h6" gutterBottom>
-              Offline Mode
+              Example Mode
             </Typography>
             <Typography variant="body2" sx={{ mb: 2 }}>
-              Proceed without providing an API key. Real-time features will be disabled.
+              Proceed without an API key. Real-time features will be disabled, but you can still explore example workflows or provide API key later.
             </Typography>
-            <Button variant="outlined" onClick={handleContinueWithoutApi}>
-              Continue Without API Key
+            <Button variant="outlined" onClick={handleContinueWithoutApi} sx={{ mt: 10 }}>
+              Begin Without API
             </Button>
           </Box>
         </Box>
