@@ -372,7 +372,7 @@ const StreamOutput = ({ runConfig }) => {
             variant="outlined"
             value={streamData.inputMessage.content}
             onChange={handleInputChange}
-            placeholder={selectedTask.description}
+            placeholder={selectedTask.exampleInput}
             sx={{ "& .MuiInputBase-root": { fontSize: "16px" } }}
           />
         </Grid>
