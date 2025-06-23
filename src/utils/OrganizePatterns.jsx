@@ -5,6 +5,7 @@ import GenerateTemplatesInfo from "./GenerateTemplates";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
+import { checkAPIKey, getEnvVal} from "./utils";
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
