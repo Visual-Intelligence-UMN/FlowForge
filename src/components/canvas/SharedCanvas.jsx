@@ -129,7 +129,7 @@ const SharedCanvas = () => {
           }
           headerContent = "Flow with Patterns " + targetWorkflow.patternId;
           nodeType = "patternsStep";
-          console.log("targetWorkflow", targetWorkflow);
+          // console.log("targetWorkflow", targetWorkflow);
           break;
 
         case "flow":

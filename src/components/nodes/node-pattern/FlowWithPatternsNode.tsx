@@ -107,11 +107,11 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
 
   const patternWidthMap = {
     "Single Agent": showContent ? [200, 450] : [200, 450],
-    Supervision: showContent ? [230, 750] : [100, 450],
-    Validator: showContent ? [450, 450] : [230, 450],
-    Reflection: showContent ? [566, 600] : [333, 450],
-    Discussion: showContent ? [300, 750] : [200, 450],
-    Redundant: showContent ? [500, 750] : [300, 450],
+    Supervision: showContent ? [566, 750] : [330, 450],
+    Validator: showContent ? [450, 450] : [330, 450],
+    Reflection: showContent ? [566, 750] : [330, 450],
+    Discussion: showContent ? [566, 750] : [330, 450],
+    Redundant: showContent ? [566, 750] : [330, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],
     "PDF Loader Agent": showContent ? [450, 450] : [230, 450],
     "Web Search Agent": showContent ? [450, 450] : [230, 450],
@@ -125,9 +125,9 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
       onChange={handleSelectPattern}
       size="small"
       sx={{
-        fontSize: "16px",
+        fontSize: "30px",
         marginBottom: 1,
-        maxWidth: 150,
+        maxWidth: 250,
         backgroundColor: hovered ? "#e3f2fd" : "#fff",
         "& .MuiOutlinedInput-notchedOutline": {
           borderColor: "#90caf9",
@@ -188,7 +188,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     <Typography
       variant="body1"
       sx={{
-        fontSize: "18px",
+        fontSize: "20px",
         mb: 1,
         ml: 2,
         textAlign: "left",
@@ -218,7 +218,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     <Typography
       sx={{
         fontWeight: "bold",
-        fontSize: "22px",
+        fontSize: "35px",
         m: 0,
       }}
     >
@@ -265,7 +265,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
   const computationCost = (
     <Typography
       sx={{
-        fontSize: "18px",
+        fontSize: "20px",
       }}
     >
       {showContent && callCharts}

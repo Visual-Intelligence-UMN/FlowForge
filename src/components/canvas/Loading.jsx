@@ -11,7 +11,8 @@ const LoadingOverlay = ({ message, open = true }) => {
       open={open}
       sx={{ 
         zIndex: (theme) => theme.zIndex.modal + 1,
-        color: '#fff'
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',   
+        color: '#fff',
       }}
     >
       <Box sx={{ 
@@ -71,7 +72,7 @@ const LoadingOverlay = ({ message, open = true }) => {
           }}
          >
            <CircularProgress color="inherit" />
-           <Typography variant="h6" sx={{ mt: 2,}}>
+           <Typography variant="h6" sx={{ mt: 2}}>
              {tips[tipIndex]}
            </Typography>
            <Typography
@@ -90,8 +91,9 @@ const LoadingPatterns = () => {
   let open = true;
   let message = "";
   if (progress.total === 0) {
+    message = "Generating design patterns...";
     open = true;
-  } else if (progress.completed < progress.total) {
+  } else if (progress.completed <= progress.total) {
     open = true;
     message = `Suggesting design patterns for step-${progress.completed}/${progress.total}: ${progress.currentStep}`;
   } else {

@@ -14,7 +14,7 @@ import {
   useStoreApi,
 } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useAtom, useAtomValue } from "jotai";
 
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -35,6 +35,7 @@ import isEqual from "lodash/isEqual";
 import {
   getMultiLineLayoutedNodesAndEdges,
   zoomOutLayout,
+  getGridLayout,
   getLayeredLayout
 } from "./layout";
 import { nodeTypes } from "../nodes";
@@ -46,8 +47,11 @@ import { ExploreButton } from "../canvas-buttons/ExploreButtons";
 import set from "lodash.set";
 
 export function RflowComponent(props) {
+  const store = useStoreApi();
+
   const hoveredPattern = props.hoveredPattern;
   const targetWorkflow = props.targetWorkflow;
+  // console.log("canvas flow",targetWorkflow)
 
   // const { nodes: initialNodes, edges: initialEdges } =
   // convertToReactFlowFormat(targetWorkflow);
@@ -85,9 +89,17 @@ export function RflowComponent(props) {
     // TODO: change the layout function
     let layoutedNodes;
     let layoutedEdges;
-    if (nextNodes.length > 3) {
+
+    const hasParallel = (Array.isArray(targetWorkflow.nextSteps) && targetWorkflow.nextSteps.length > 1) ||
+    targetWorkflow.taskFlowSteps.some(
+             (step) =>
+               Array.isArray(step.nextSteps) && step.nextSteps.length > 1
+         );
+
+        //  console.log(hasParallel)
+    if (nextNodes.length > 3 && !hasParallel) {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayeredLayout(nextNodes, nextEdges));
+        getGridLayout(nextNodes, nextEdges));
     } else {
       ({ nodes: layoutedNodes, edges: layoutedEdges } =
         getLayeredLayout(nextNodes, nextEdges));
@@ -96,14 +108,15 @@ export function RflowComponent(props) {
     setEdges(layoutedEdges);
 
     setTimeout(() => {
-      if (nodes.length) {
-        fitView({ padding: 0.2, duration: 1000 });
-        //   setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
-        //   setCenter(0, 0, { duration: 1000 });
+      if (layoutedNodes.length) {
+        fitView({ padding: 0.1, duration: 1000 });
+          // setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+          // setCenter(0, 0, { duration: 1000 });
+        // console.log("fit")
         //   zoomOut({ zoom: 1, duration: 1000 });
-      }
+      } 
       setAnimation(false);
-    }, 100);
+    }, 20);
   }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
 
   const handleSave = () => {
