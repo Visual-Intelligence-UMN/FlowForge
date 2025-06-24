@@ -109,7 +109,7 @@ export const FlowWithPatternsNode = ({ data, isConnectable, id }) => {
     "Single Agent": showContent ? [200, 450] : [200, 450],
     Supervision: showContent ? [566, 750] : [330, 450],
     Validator: showContent ? [450, 450] : [330, 450],
-    Reflection: showContent ? [566, 750] : [330, 450],
+    Reflection: showContent ? [566, 450] : [330, 450],
     Discussion: showContent ? [566, 750] : [330, 450],
     Redundant: showContent ? [566, 750] : [330, 450],
     // "Voting": showContent ? [666, 700] : [333, 450],

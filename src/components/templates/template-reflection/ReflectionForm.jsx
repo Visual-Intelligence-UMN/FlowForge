@@ -42,7 +42,7 @@ export function ReflectionForm({ data, onChange }) {
       <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
 
         {/* Evaluator */}
-        <Typography variant="subtitle2">Evaluator</Typography>
+        <Typography variant="subtitle2" fontSize={"18px"}>Evaluator</Typography>
         <PatternTextField
           label="Evaluator Persona"
           value={data.evaluator?.persona || ""}
@@ -63,7 +63,7 @@ export function ReflectionForm({ data, onChange }) {
 
       {/* Optimizer */}
       <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
-        <Typography variant="subtitle2">Optimizer</Typography>
+        <Typography variant="subtitle2" fontSize={"18px"}>Optimizer</Typography>
         <PatternTextField
           label="Optimizer Persona"
           value={data.optimizer?.persona || ""}

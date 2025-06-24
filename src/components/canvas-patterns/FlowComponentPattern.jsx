@@ -14,7 +14,7 @@ import {
   useStoreApi,
 } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
-import { useCallback, useEffect, useRef, useState, useMemo } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo, useLayoutEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
 
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -55,7 +55,7 @@ export function RflowComponent(props) {
 
   // const { nodes: initialNodes, edges: initialEdges } =
   // convertToReactFlowFormat(targetWorkflow);
-  const { fitView, setViewport, setCenter } = useReactFlow();
+  const { fitView, setViewport, setCenter, getNodes} = useReactFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
@@ -77,6 +77,17 @@ export function RflowComponent(props) {
   );
   const previousNodeRef = useRef(null);
   const [animation, setAnimation] = useState(true);
+  
+
+  useLayoutEffect(()=>{
+    const allMeasured = getNodes().every(
+      (n) =>  (n.measured?.width ?? n.width ?? 0) > 0 &&
+      (n.measured?.height ?? n.height ?? 0) > 0
+);
+  if (!allMeasured) return;
+  requestAnimationFrame(() => fitView({ padding: 0.1, duration: 1500, minZoom:0.1 }));
+  }, [nodes, edges]);        
+
   useEffect(() => {
     // To make sure the layout is always after the nodes and edges are set
     // 1) Set new nodes/edges from props
@@ -107,16 +118,16 @@ export function RflowComponent(props) {
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
 
-    setTimeout(() => {
-      if (layoutedNodes.length) {
-        fitView({ padding: 0.1, duration: 1000 });
-          // setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
-          // setCenter(0, 0, { duration: 1000 });
-        // console.log("fit")
-        //   zoomOut({ zoom: 1, duration: 1000 });
-      } 
-      setAnimation(false);
-    }, 20);
+    // setTimeout(() => {
+    //   if (layoutedNodes.length) {
+    //     fitView({ padding: 0.1, duration: 1000 });
+    //       // setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+    //       // setCenter(0, 0, { duration: 1000 });
+    //     // console.log("fit")
+    //     //   zoomOut({ zoom: 1, duration: 1000 });
+    //   } 
+    //   setAnimation(false);
+    // }, 20);
   }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
 
   const handleSave = () => {

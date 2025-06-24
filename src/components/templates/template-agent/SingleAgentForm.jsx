@@ -26,6 +26,7 @@ export function SingleAgentForm({ data, onChange }) {
         className="nodrag nopan"
         multiline
         minRows={3}
+        sx={{ maxWidth: 420 }} 
       />
       {/* <TextField
         label="Goal"
