@@ -133,6 +133,7 @@ const SharedCanvas = () => {
           break;
 
         case "flow":
+          // return <LoadingFlows />
           // return <LoadingPatterns />
           targetWorkflow = flowsMap[flowId];
           if (!targetWorkflow) {
