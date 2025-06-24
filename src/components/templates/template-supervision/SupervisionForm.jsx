@@ -3,6 +3,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 import { PatternTextField } from "../textfield/patternText";
+import {InputIO, OutputIO} from "../textfield/streamIcons"
+
 export function SupervisionForm({ data, onChange }) {
   // data = { workerNum, maxRound, workers: [...], supervisor: {...} }
   const workers = data.workers || [];
@@ -70,7 +72,9 @@ export function SupervisionForm({ data, onChange }) {
           minHeight: 130,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Supervisor</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold" ,textAlign: "center" ,display: "inline-flex"}}>
+          <InputIO active />
+          Supervisor</Typography>
         <PatternTextField
           label="Persona"
           value={data.supervisor?.persona || ""}
@@ -117,7 +121,11 @@ export function SupervisionForm({ data, onChange }) {
           />
         </IconButton>
 
-        <Typography variant="subtitle2">Worker #{i + 1}</Typography>
+        <Typography variant="subtitle1"
+          sx={{textAlign: "center" ,display: "inline-flex",}}
+        >
+          <OutputIO />
+          Worker #{i + 1}</Typography>
         <PatternTextField
           label="Persona"
           value={w.persona || ""}

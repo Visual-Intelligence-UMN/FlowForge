@@ -1,4 +1,6 @@
-import { Box, TextField } from "@mui/material";
+import { Box, TextField ,  Typography,} from "@mui/material";
+import {InputIO, OutputIO} from "../textfield/streamIcons"
+
 
 export function SingleAgentForm({ data, onChange }) {
   // data = { persona: "Single Agent", goal: "Single Agent" }
@@ -18,6 +20,10 @@ export function SingleAgentForm({ data, onChange }) {
       width: "100%",
       p: 1,
     }}>
+      <Typography variant="subtitle1" sx={{ fontWeight: "bold", textAlign: "center" ,display: "inline-flex",}}>
+          <InputIO active /> <OutputIO active />
+          Single Agent
+        </Typography>
       <TextField
         label="Persona / Goal"
         value={data.persona || ""}
