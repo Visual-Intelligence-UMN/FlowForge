@@ -35,7 +35,7 @@ export const iconMap2 = {
     // "Validator": ValidatorIcon,
     "Reflection": {
       'icon': ReflectionIcon, 
-      description: "A feedback loop where one agent generates and optimizes the response while another evaluates it, until criterion is met (quality or max iteration). Example: Refining drafts.",
+      description: "A feedback loop where one agent generates and optimizes the response while another evaluates it, until criterion is met (quality or max iteration). Example: Refining drafts.  Optimizer recieves input, and Evaluator sends output to the next step.",
       'color':ColorPalette[0],
       shortName: 'RF'
 },
@@ -43,17 +43,17 @@ export const iconMap2 = {
       'icon': DiscussionIcon,
       'color':ColorPalette[1], 
        shortName: 'D',
-      description: "A group of agents engage in a conversation, where they take turns speaking in a round-robin, random manner, or simultaneously. Extra agent to summarize is optional Example: Brainstorming ideas."
+      description: "A group of agents engage in a conversation, where they take turns speaking in a round-robin, random manner, or simultaneously. Extra agent to summarize is optional Example: Brainstorming ideas. Agent#1 recieves input, and one of the agents or Summarizer sends output to the next step."
    },
     "Redundant": {
-      description: "Multiple agents simultaneously attempt on the same input, but adopting different personas, or perspectives, yielding diverse outputs that can be aggregated. Example: Comprehensive content reviews.", 
+      description: "Multiple agents simultaneously attempt on the same input, but adopting different personas, or perspectives, yielding diverse outputs that can be aggregated. Example: Comprehensive content reviews. All agents recieves input, and Aggregator sends output to the next step.", 
       'icon': ParallelIcon,
       'color':ColorPalette[2],
        shortName: 'RD'
     },
     // "Voting": VotingIcon,
     "Supervision": {
-      description: "A hierarchical structure where a central agent dynamically decide which worker agents to act based on the current generated output. Example: Content refinement.",
+      description: "A hierarchical structure where a central agent dynamically decide which worker agents to act based on the current generated output. Example: Content refinement.  Supervisor recieves input, and one of the agents sends output to the next step.",
       'icon':SupervisionIcon,
       'color':ColorPalette[3],
        shortName: 'S'
