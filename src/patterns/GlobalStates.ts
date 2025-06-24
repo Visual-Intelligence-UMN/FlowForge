@@ -70,3 +70,9 @@ export const canvasPagesAtom = atomWithReset({
   patternId: [],
   configId: [],
 });
+
+export const patternsGenerateProgress = atomWithReset({
+  completed: 0,
+  total: 0,
+  currentStep: '',
+})

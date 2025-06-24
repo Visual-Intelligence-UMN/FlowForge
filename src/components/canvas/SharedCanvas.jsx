@@ -108,7 +108,7 @@ const SharedCanvas = () => {
   let nodeType;
 
   const canvasPage = () => {
-    // // console.log("canvasPage", canvasPages);
+    // console.log("canvasPage", canvasPages);
     targetWorkflow = null;
     const renderCanvasContent = () => {
       switch (type) {
@@ -129,7 +129,7 @@ const SharedCanvas = () => {
           }
           headerContent = "Flow with Patterns " + targetWorkflow.patternId;
           nodeType = "patternsStep";
-          // console.log("targetWorkflow", targetWorkflow);
+          console.log("targetWorkflow", targetWorkflow);
           break;
 
         case "flow":
