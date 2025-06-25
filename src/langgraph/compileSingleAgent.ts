@@ -7,6 +7,7 @@ import { toolsMap, TavilySearchTool } from "./tools";
 import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 import { Command, END } from "@langchain/langgraph/web";
+import { loadKey } from "../utils/utils";
 
 const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName: string, previousSteps: string[]) => {
     // For example, stepName might be "step1", "step2", etc.
@@ -114,7 +115,7 @@ const getInputMessagesForStep = async (state: typeof AgentsState.State, stepName
         const agent = new ChatOpenAI({
             model: params.llmOption,
             temperature: 0.7,
-            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+            apiKey: loadKey("VITE_OPENAI_API_KEY"),
         });
 
         if (params.tools.length > 0) {

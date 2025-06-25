@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { checkAPIKey, getEnvVal } from "./utils";
+import { checkAPIKey, loadKey } from "./utils";
 import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
 // import sampleTaskFlowsTravel from "../data/sample-tasksflows-travel.json";
 // import sampleTaskFlowsPodcast from "../data/sample-taskflows-podcast.json";
@@ -39,9 +39,9 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
 
   let openai;
   if (runRealtime) {
-    if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+    if (await checkAPIKey(loadKey("VITE_OPENAI_API_KEY"))) {
       openai = new OpenAI({
-        apiKey: getEnvVal("VITE_OPENAI_API_KEY"),
+        apiKey: loadKey("VITE_OPENAI_API_KEY"),
         dangerouslyAllowBrowser: true,
       });
     } else {
@@ -238,7 +238,7 @@ const GenerateTaskFlows = async (task, runRealtime, setRunRealtime) => {
         return returnData;
       }
     } else {
-      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      if (await checkAPIKey(loadKey("VITE_OPENAI_API_KEY"))) {
 
       } else {
         alert("OpenAI API key is not valid. Switch to offline mode.");

@@ -6,7 +6,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { toolsMap } from "./tools";
 import { BaseMessage } from "@langchain/core/messages";
 import { Command } from "@langchain/langgraph/web";
-
+import { loadKey } from "../utils/utils";
 const getInputMessagesForStep = (state: typeof AgentsState.State, stepName: string, votingNum: number) => {
 
     const stepMsgs = (state as any)[stepName] as BaseMessage[];
@@ -40,7 +40,7 @@ const makeAgentNode = (params: {
         const agent = new ChatOpenAI({
             model: params.llmOption,
             temperature: 1,
-            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+            apiKey: loadKey("VITE_OPENAI_API_KEY"),
         });
 
         if (params.tools.length > 0) {

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { ChatOpenAI } from "@langchain/openai";
 import toolsMap from "./utils";
 import { Command, END } from "@langchain/langgraph/web";
+import { loadKey } from "../utils/utils";
 // import END from "@langchain/langgraph/web";
 // Example status check function using a promise-based wait
 function waitForStepStatus(
@@ -93,7 +94,7 @@ const makeAgentNode = (params: {
         const agent = new ChatOpenAI({
             model: params.llmOption,
             temperature: 0.6,
-            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+            apiKey: loadKey("VITE_OPENAI_API_KEY"),
         });
 
         if (params.tools.length > 0) {

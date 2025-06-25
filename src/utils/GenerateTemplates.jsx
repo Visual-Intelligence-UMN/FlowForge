@@ -4,11 +4,11 @@ import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import merge from "lodash/merge";
 import promptGenerateTemplates from "../models/prompt-generate-templates.json";
-
+import { loadKey } from "./utils";
 const GenerateTemplatesInfo = async (flow) => {
     const {taskFlowSteps, taskFlowDescription } = flow;
     const openai = new OpenAI({
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        apiKey: loadKey("VITE_OPENAI_API_KEY"),
         dangerouslyAllowBrowser: true,
     });
     const templatesInfo = await Promise.all(taskFlowSteps.map(async (step) => {

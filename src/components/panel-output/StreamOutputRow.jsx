@@ -24,7 +24,7 @@ import {
   runRealtimeAtom,
   testAtom,
 } from "../../patterns/GlobalStates";
-import { checkAPIKey } from "../../utils/utils";
+import { checkAPIKey, loadKey } from "../../utils/utils";
 
 import sampleOutputsReview from "../../data/stream/sample-outputs-review.json";
 
@@ -264,7 +264,7 @@ const StreamOutput = ({ runConfig }) => {
     // const graphImage = await generateGraphImage(compiledLanggraph);
     // updateStreamData({ graphImage });
     if (runRealtime) {
-      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      if (await checkAPIKey(loadKey("VITE_OPENAI_API_KEY"))) {
         await runStreaming(compiledLanggraph, totalMaxRound);
       } else {
         alert("Please update effective OpenAI API key and try again.");
@@ -317,7 +317,7 @@ const StreamOutput = ({ runConfig }) => {
 
   const handleSubmit = async () => {
     if (runRealtime) {
-      if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
+      if (await checkAPIKey(loadKey("VITE_OPENAI_API_KEY"))) {
         handleFormSubmit();
       } else {
         alert("Please update the API key and try again.");

@@ -1,5 +1,18 @@
 import { OpenAI } from "openai";
 
+export const saveKey = (storageKey: string, key: string) => {
+  localStorage.setItem(storageKey, key.trim());
+};
+
+export const loadKey = (storageKey: string): string => {
+  return localStorage.getItem(storageKey) ?? "";
+};
+
+export const clearKey = (storageKey: string) => {
+  localStorage.removeItem(storageKey);
+};
+
+
 export const saveEnvVal = (key: string, value: string) => {
     import.meta.env[key] = value;
   };

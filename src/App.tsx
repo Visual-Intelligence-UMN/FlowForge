@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import "./App.css";
 import { useEffect, useState } from "react";
 import { WelcomeModal } from "./components/welcome-modal";
+import { loadKey } from "./utils/utils";
 // Or Create your Own theme:
 const theme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ const NewConstruction = () => {
 
 function App() {
   const [firstTime, setFirstTime] = useState(localStorage.getItem("firstTime") !== "false");
-  const [openaiApiKey, setopenaiApiKey] = useState(import.meta.env.VITE_OPENAI_API_KEY); 
+  const [openaiApiKey, setopenaiApiKey] = useState(loadKey("VITE_OPENAI_API_KEY")); 
 
   useEffect(() => {
     if (firstTime) {

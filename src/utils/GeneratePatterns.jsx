@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { designPatternsPool } from "../patterns/patternsData";
 import promptGeneratePatterns from "../models/prompt-generate-patterns.json";
-
+import { loadKey } from "./utils";
 
 const GeneratePatterns = async (taskFlow, setPatternsProgress) => {
     const { taskFlowSteps } = taskFlow;
@@ -15,7 +15,7 @@ const GeneratePatterns = async (taskFlow, setPatternsProgress) => {
     });
 
     const openai = new OpenAI({
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        apiKey: loadKey("VITE_OPENAI_API_KEY"),
         dangerouslyAllowBrowser: true,
     });
 

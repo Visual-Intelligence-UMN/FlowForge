@@ -8,7 +8,7 @@ import { toolsMap, TavilySearchTool } from "./tools";
 import { AgentsState } from "./states";
 // import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { ToolMessage } from "@langchain/core/messages";
-
+import { loadKey } from "../utils/utils";
 // function to define the agent
 async function createAgent({
     llmOption,
@@ -27,7 +27,7 @@ async function createAgent({
     const llm = new ChatOpenAI({
         modelName: llmOption,
         temperature: 0.7,
-        apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+        apiKey: loadKey("VITE_OPENAI_API_KEY"),
 
     });
     const toolNames = tools.map((tool) => toolsMap[tool]).join(", ");

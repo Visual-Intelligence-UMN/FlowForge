@@ -6,7 +6,7 @@ import { AgentsState } from "./states";
 import { BaseMessage } from "@langchain/core/messages";
 import { toolsMap } from "./tools";
 import { Command } from "@langchain/langgraph/web";
-
+import { loadKey } from "../utils/utils";
 // Example status check function using a promise-based wait
 function waitForStepStatus(
     state: typeof AgentsState.State,
@@ -115,7 +115,7 @@ const makeAgentNode = (params: {
         const agent = new ChatOpenAI({
             model: params.llmOption,
             temperature: 0.1,
-            apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+            apiKey: loadKey("VITE_OPENAI_API_KEY"),
         });
 
         if (params.tools.length > 0) {

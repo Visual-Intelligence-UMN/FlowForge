@@ -1,6 +1,6 @@
 import { Modal, Box, TextField, Button, Typography } from "@mui/material";
 import { useAtom } from "jotai";
-import { saveEnvVal } from "../utils/utils";
+import { saveEnvVal, saveKey } from "../utils/utils";
 import { runRealtimeAtom } from "../patterns/GlobalStates";
 import { useState } from "react";
 
@@ -12,7 +12,9 @@ export const WelcomeModal = ({ updateApiKey }) => {
     event.preventDefault();
     const data = new FormData(event.target);
     const openaiApiToken = data.get("openai-api") as string;
-    saveEnvVal("VITE_OPENAI_API_KEY", openaiApiToken);
+    // saveEnvVal("VITE_OPENAI_API_KEY", openaiApiToken);
+    saveKey("VITE_OPENAI_API_KEY", openaiApiToken)
+    // console.log(openaiApiToken)
 
     // Update parent state with the new API key
     updateApiKey(openaiApiToken);
