@@ -14,7 +14,7 @@ type IOProps = {
 export const InputIO: React.FC<IOProps> = ({ active = false }) => {
   return (
     <Tooltip
-      title="Receives input"
+      title="Receives input from previous step"
       arrow
       placement="top"
       className="nodrag nopan nowheel"
@@ -36,7 +36,7 @@ export const InputIO: React.FC<IOProps> = ({ active = false }) => {
 export const OutputIO: React.FC<IOProps> = ({ active = false }) => {
   return (
     <Tooltip
-      title={active ? 'Sends output' : 'Candidate agent sends outputs'}
+      title={active ? 'Sends output to next step' : 'Candidate agent sends outputs to next step'}
       arrow
       placement="top"
       className="nodrag nopan nowheel"

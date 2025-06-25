@@ -32,7 +32,7 @@ const LoadingOverlay = ({ message, open = true }) => {
  const LoadingFlows = () => {
     const tips = [
       "Decomposes the task into clear, actionable subtasks/steps",
-      "FlowForge generates five task planning and each flow with a unique perspective",
+      "FlowForge prompts GPT-4o to generate five distinct task planning, each with a unique perspective",
       "You can rename, add, delete, reorder the nodes to customize the task planning",
       "Define detailed inputs and expected outputs",
       "Ensure steps connected with cohesive input and output",
@@ -79,7 +79,7 @@ const LoadingOverlay = ({ message, open = true }) => {
             variant="body2"
              sx={{ mt: 1, color: 'secondary' }}
            >
-             Task planning awaiting: {seconds}s
+             Task planning generation usually takes 20-50 seconds, awaiting: {seconds}s 
            </Typography>
          </Box>
        </Backdrop>
@@ -91,7 +91,7 @@ const LoadingPatterns = () => {
   let open = true;
   let message = "";
   if (progress.total === 0) {
-    message = "Generating design patterns...";
+    message = "Generating design patterns for each subtasks...";
     open = true;
   } else if (progress.completed <= progress.total) {
     open = true;
