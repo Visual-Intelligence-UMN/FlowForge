@@ -108,7 +108,7 @@ const SharedCanvas = () => {
   let nodeType;
 
   const canvasPage = () => {
-    // // console.log("canvasPage", canvasPages);
+    // console.log("canvasPage", canvasPages);
     targetWorkflow = null;
     const renderCanvasContent = () => {
       switch (type) {
@@ -133,6 +133,7 @@ const SharedCanvas = () => {
           break;
 
         case "flow":
+          // return <LoadingFlows />
           // return <LoadingPatterns />
           targetWorkflow = flowsMap[flowId];
           if (!targetWorkflow) {

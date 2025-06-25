@@ -15,16 +15,16 @@ export function calculateCost(pattern, template) {
       break;
     case "Discussion":
       const { withSummary, agents } = template;
-      calls = `${maxRound} * ${agents.length}` + (withSummary ? ` + 1` : ``);
-      runtime = `${maxRound} * ${agents.length}` + (withSummary ? ` + 1` : ``);
-      calls_number = maxRound * agents.length + (withSummary ? 1 : 0);
-      runtime_number = maxRound * agents.length + (withSummary ? 1 : 0);
+      calls = `${maxRound} * ${agents?.length}` + (withSummary ? ` + 1` : ``);
+      runtime = `${maxRound} * ${agents?.length}` + (withSummary ? ` + 1` : ``);
+      calls_number = maxRound * agents?.length + (withSummary ? 1 : 0);
+      runtime_number = maxRound * agents?.length + (withSummary ? 1 : 0);
       break;
     case "Redundant":
       const { agents: agentsRedundant } = template;
-      calls = `${agentsRedundant.length} * 1 + 1`;
+      calls = `${agentsRedundant?.length} * 1 + 1`;
       runtime = `1 + 1`;
-      calls_number = agentsRedundant.length + 1;
+      calls_number = agentsRedundant?.length + 1;
       runtime_number = 1 + 1;
       break;
     // case "Voting":

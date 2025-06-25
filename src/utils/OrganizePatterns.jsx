@@ -5,6 +5,7 @@ import GenerateTemplatesInfo from "./GenerateTemplates";
 import sampleTaskFlowsReview from "../data/sample-taskflows-review.json";
 import sampleTaskFlowsVis from "../data/sample-taskflows-vis.json";
 import sampleTaskFlowsPresentation from "../data/sample-taskflows-presentation.json";
+import { checkAPIKey, getEnvVal} from "./utils";
 const flowIdToPatternCounter = {};
 // reassign pattern IDs for patterns of a specific flow
 function reassignPatternIds(flowId, designPatterns, patterns) {
@@ -21,7 +22,7 @@ function reassignPatternIds(flowId, designPatterns, patterns) {
   });
 }
 
-const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runRealtime, selectedTask) => {
+const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runRealtime, selectedTask, setPatternsProgress) => {
   // // console.log("flow to organize patterns", flow);
   // TODO: remove the hardcoded patterns
   let exampleFlowsWithPatterns;
@@ -61,7 +62,7 @@ const OrganizePatterns = async (flow, designPatterns, setDesignPatterns, runReal
     // ];
   } else {
     if (await checkAPIKey(getEnvVal("VITE_OPENAI_API_KEY"))) {
-      const flowWithPatterns = await GeneratePatterns(flow);
+      const flowWithPatterns = await GeneratePatterns(flow, setPatternsProgress);
       exampleFlowsWithPatterns = randomCombinePatterns(flowWithPatterns, 2);
     } else {
       alert("OpenAI API key is not valid. Switch to offline mode.");

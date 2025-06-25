@@ -9,6 +9,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 import { PatternTextField } from "../textfield/patternText";
+import {InputIO, OutputIO} from "../textfield/streamIcons"
+
 
 export function RedundantForm({ data, onChange }) {
   // // console.log("data", data)
@@ -85,7 +87,8 @@ export function RedundantForm({ data, onChange }) {
           />
         </IconButton>
 
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold", textAlign: "center" ,display: "inline-flex",}}>
+          <InputIO active />
           Agent #{i + 1}
         </Typography>
 
@@ -121,7 +124,9 @@ export function RedundantForm({ data, onChange }) {
           minHeight: 130,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Aggregation</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold" , display: "inline-flex",}}>
+          <OutputIO active />
+          Aggregation</Typography>
         <PatternTextField
           label="Persona"
           value={data.aggregation?.persona || ""}
@@ -142,6 +147,7 @@ export function RedundantForm({ data, onChange }) {
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        pt:3,
         width: "100%",
       }}
     >

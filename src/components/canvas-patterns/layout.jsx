@@ -74,3 +74,31 @@ export const getMultiLineLayoutedNodesAndEdges = (nodes, edges, nodesPerRow = 3)
       edges,
     };
   };
+
+  export const getGridLayout = (
+    nodes,
+    edges,
+    columns = 3,
+    verticalSpacing = 700,
+    horizontalSpacing = 800
+  ) => {
+    const layoutedNodes = nodes.map((node, i) => {
+      const row = Math.floor(i / columns);
+      const col = i % columns;
+      const w = node.measured?.width ?? 0;
+      const h = node.measured?.height ?? 0;
+  
+      return {
+        ...node,
+        position: {
+          // center each node inside its grid cell
+          x: col * horizontalSpacing - w / 10,
+          y: row * verticalSpacing - h / 10,
+        },
+        style:{ ...node.style,position: 'absolute'}
+      };
+    });
+  
+    return { nodes: layoutedNodes, edges };
+  };
+  

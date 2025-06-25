@@ -15,6 +15,7 @@ import {
   selectedConfigAtom,
   flowCounterAtom,
   runRealtimeAtom,
+  patternsGenerateProgress
 } from "../../patterns/GlobalStates";
 import {
   taskFlowsGenerateAtom,
@@ -66,6 +67,7 @@ const Builder = () => {
   const [treeNav, setTreeNav] = useAtom(treeNavAtom);
 
   const [runRealtime, setRunRealtime] = useAtom(runRealtimeAtom);
+  const [patternsProgress, setPatternsProgress] = useAtom(patternsGenerateProgress)
 
   useEffect(() => {
     setFlowsCounter(1);
@@ -117,22 +119,25 @@ const Builder = () => {
   useEffect(() => {
     // // console.log("generate pattern ing", canvasPages);
     if (patternsGenerate === 0 && patternsFlow) {
-      // console.log("generate pattern ing", canvasPages);
-      setCanvasPages({
-        type: "pattern-generating",
-        flowId: canvasPages.flowId,
-        patternId: canvasPages.patternId,
-        configId: canvasPages.configId,
-      });
-      // console.log("builder pattern generating to set canvas", canvasPages);
-      OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime, selectedTask);
-      setPatternsGenerate(1);
-      setPatternsFlow(null);
+      (async() => {
+        console.log("generate pattern ing", canvasPages);
+        setCanvasPages({
+          type: "pattern-generating",
+          flowId: canvasPages.flowId,
+          patternId: canvasPages.patternId,
+          configId: canvasPages.configId,
+        });
+        // console.log("builder pattern generating to set canvas", canvasPages);
+        await OrganizePatterns(patternsFlow, designPatterns, setDesignPatterns, runRealtime, selectedTask, setPatternsProgress);
+        setPatternsGenerate(1);
+        setPatternsFlow(null);
+      })();
     }
   }, [patternsGenerate, patternsFlow]);
 
   useEffect(() => {
-    if (canvasPages.type === "pattern-generating" && designPatterns.length > 0) {
+    if (canvasPages.type === "pattern-generating" && designPatterns.length > 0 && patternsGenerate === 1) {
+      // console.log(patternsGenerate, "patternGenerate")
       // console.log("builder task flows generate to set canvas after pattern generation", canvasPages);
       const newAddedPatterns = designPatterns.filter(
         (pattern) =>
@@ -148,7 +153,7 @@ const Builder = () => {
         configId: [],
       });
     }
-  }, [designPatterns, patternsGenerate]);
+  }, [designPatterns.length, patternsGenerate]);
 
   useEffect(() => {
     if (agentsConfigGenerate === 0 && agentsConfigPattern) {

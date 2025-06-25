@@ -13,6 +13,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveOutlinedIcon from '@mui/icons-material/Cancel';
 
 import { PatternTextField } from "../textfield/patternText";
+import {InputIO, OutputIO} from "../textfield/streamIcons"
 
 export function DiscussionForm({ data, onChange }) {
   const agents = data.agents || [];
@@ -88,7 +89,9 @@ export function DiscussionForm({ data, onChange }) {
           />
         </IconButton>
 
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: "bold", textAlign: "center" , display: "inline-flex", ml:2}}>
+        {i === 0 && <InputIO active/>}
+        {i !== 0 && !data.withSummary && <OutputIO/>}
           Agent #{i + 1}
         </Typography>
 
@@ -123,7 +126,9 @@ export function DiscussionForm({ data, onChange }) {
           minHeight: 130,
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>Summary</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: "bold" ,textAlign: "center" ,display: "inline-flex"}}>
+          <OutputIO active />
+          Summary</Typography>
         <PatternTextField
           label="Persona"
           value={data.summary?.persona || ""}

@@ -4,19 +4,27 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import { designPatternsPool } from "../patterns/patternsData";
 import promptGeneratePatterns from "../models/prompt-generate-patterns.json";
 
-const GeneratePatterns = async (taskFlow) => {
-    const { taskFlowId, taskFlowName, taskFlowDescription, taskFlowSteps, taskFlowStart } = taskFlow;
+
+const GeneratePatterns = async (taskFlow, setPatternsProgress) => {
+    const { taskFlowSteps } = taskFlow;
+
+    setPatternsProgress({
+      total: taskFlowSteps.length,
+      completed: 0,
+      currentStep: '',
+    });
+
     const openai = new OpenAI({
         apiKey: import.meta.env.VITE_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
     });
 
     const patternsFlow = {
-        taskFlowId: taskFlowId,
-        taskFlowName: taskFlowName,
-        taskFlowDescription: taskFlowDescription,
+        taskFlowId: taskFlow.taskFlowId,
+        taskFlowName: taskFlow.taskFlowName,
+        taskFlowDescription: taskFlow.taskFlowDescription,
         taskFlowSteps: [],
-        taskFlowStart: taskFlowStart,
+        taskFlowStart: taskFlow.taskFlowStart,
     }
 
     const designPatternSchema = z.object({
@@ -34,16 +42,17 @@ const GeneratePatterns = async (taskFlow) => {
     const systemMessage = promptGeneratePatterns.systemMessage
     .replace("{{designPatternsPoolList}}", designPatternsPool.map(pattern => ` - ${pattern.name}: ${pattern.description}`).join("\n"));
 
-    // // console.log("System message to generate patterns:", systemMessage);
+    for (let i = 0; i < taskFlowSteps.length; i++) {
+        const step = taskFlowSteps[i];
+        const { stepId, stepName, stepLabel, stepDescription, nextSteps } = step;
 
-    for (const step of taskFlowSteps) {
-        const stepId = step.stepId;
-        const nextSteps = step.nextSteps;
-        const stepName = step.stepName;
-        const stepLabel = step.stepLabel;
-        const stepDescription = step.stepDescription;
+        setPatternsProgress({
+            total: taskFlowSteps.length,
+            completed: i + 1,
+            currentStep: stepName,
+          });
 
-        const userMessage = "Please recommend patterns for this step as part of the workflow: " + taskFlowDescription + ". " 
+        const userMessage = "Please recommend patterns for this step as part of the workflow: " + taskFlow.taskFlowDescription + ". " 
         + "This specifc stepName is : " + stepName + " The stepLabel: " 
         + stepLabel + " The stepDescription: " + stepDescription;
         try {

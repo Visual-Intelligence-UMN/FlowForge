@@ -14,7 +14,7 @@ import {
   useStoreApi,
 } from "@xyflow/react";
 import { ViewportPortal } from "@xyflow/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo, useLayoutEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
 
 import StageHighlight from "../canvas-slider/StageHighlight";
@@ -35,6 +35,7 @@ import isEqual from "lodash/isEqual";
 import {
   getMultiLineLayoutedNodesAndEdges,
   zoomOutLayout,
+  getGridLayout,
   getLayeredLayout
 } from "./layout";
 import { nodeTypes } from "../nodes";
@@ -46,12 +47,15 @@ import { ExploreButton } from "../canvas-buttons/ExploreButtons";
 import set from "lodash.set";
 
 export function RflowComponent(props) {
+  const store = useStoreApi();   
+
   const hoveredPattern = props.hoveredPattern;
   const targetWorkflow = props.targetWorkflow;
+  // console.log("canvas flow",targetWorkflow)
 
   // const { nodes: initialNodes, edges: initialEdges } =
   // convertToReactFlowFormat(targetWorkflow);
-  const { fitView, setViewport, setCenter } = useReactFlow();
+  const { fitView, setViewport, setCenter, getNodes} = useReactFlow();
 
   const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes || []);
   const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges || []);
@@ -73,38 +77,89 @@ export function RflowComponent(props) {
   );
   const previousNodeRef = useRef(null);
   const [animation, setAnimation] = useState(true);
-  useEffect(() => {
-    // To make sure the layout is always after the nodes and edges are set
-    // 1) Set new nodes/edges from props
-    const nextNodes = props.nodes || [];
-    const nextEdges = props.edges || [];
-    // setNodes(nextNodes);
-    // setEdges(nextEdges);
+  
 
-    // 2) Immediately lay them out
-    // TODO: change the layout function
-    let layoutedNodes;
-    let layoutedEdges;
-    if (nextNodes.length > 3) {
-      ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayeredLayout(nextNodes, nextEdges));
-    } else {
-      ({ nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayeredLayout(nextNodes, nextEdges));
-    }
+  useLayoutEffect(() => {
+    const rawNodes = props.nodes ?? [];
+    const rawEdges = props.edges ?? [];
+  
+    const hasParallel =
+      (Array.isArray(targetWorkflow.nextSteps) && targetWorkflow.nextSteps.length > 1) ||
+      targetWorkflow.taskFlowSteps?.some(
+        step => Array.isArray(step.nextSteps) && step.nextSteps.length > 1,
+      );
+  
+    const { nodes: layoutedNodes, edges: layoutedEdges } =
+      rawNodes.length > 3 && !hasParallel
+        ? getGridLayout(rawNodes, rawEdges)
+        : getLayeredLayout(rawNodes, rawEdges);
+  
     setNodes(layoutedNodes);
     setEdges(layoutedEdges);
-
-    setTimeout(() => {
-      if (nodes.length) {
-        fitView({ padding: 0.2, duration: 1000 });
-        //   setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
-        //   setCenter(0, 0, { duration: 1000 });
-        //   zoomOut({ zoom: 1, duration: 1000 });
+  
+    const tryFit = () => {
+      const allMeasured = getNodes().every(
+        n =>
+          (n.measured?.width  ?? n.width  ?? 0) > 0 &&
+          (n.measured?.height ?? n.height ?? 0) > 0,
+      );
+  
+      if (!allMeasured) {
+        // not ready yet – check again on the next frame
+        requestAnimationFrame(tryFit);
+        return;
       }
-      setAnimation(false);
-    }, 100);
-  }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
+      fitView({ padding: 0.1, duration: 1500, minZoom: 0.1 });
+    };
+  
+    requestAnimationFrame(tryFit);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.nodes, props.edges, targetWorkflow]);   
+  
+//   useLayoutEffect(()=>{
+//     const allMeasured = getNodes().every(
+//       (n) =>  (n.measured?.width ?? n.width ?? 0) > 0 &&
+//       (n.measured?.height ?? n.height ?? 0) > 0
+// );
+//   if (!allMeasured) return;
+//   requestAnimationFrame(() => fitView({ padding: 0.1, duration: 1500, minZoom:0.1 }));
+//   }, [edges, targetWorkflow]);        
+
+//   useEffect(() => {
+//     const nextNodes = props.nodes || [];
+//     const nextEdges = props.edges || [];
+//     // setNodes(nextNodes);
+//     // setEdges(nextEdges);
+//     let layoutedNodes;
+//     let layoutedEdges;
+
+//     const hasParallel = (Array.isArray(targetWorkflow.nextSteps) && targetWorkflow.nextSteps.length > 1) ||
+//     targetWorkflow.taskFlowSteps.some(
+//              (step) =>
+//                Array.isArray(step.nextSteps) && step.nextSteps.length > 1
+//          );
+
+//     if (nextNodes.length > 3 && !hasParallel) {
+//       ({ nodes: layoutedNodes, edges: layoutedEdges } =
+//         getGridLayout(nextNodes, nextEdges));
+//     } else {
+//       ({ nodes: layoutedNodes, edges: layoutedEdges } =
+//         getLayeredLayout(nextNodes, nextEdges));
+//     }
+//     setNodes(layoutedNodes);
+//     setEdges(layoutedEdges);
+
+//     // setTimeout(() => {
+//     //   if (layoutedNodes.length) {
+//     //     fitView({ padding: 0.1, duration: 1000 });
+//     //       // setViewport({ x: 40, y: 20, zoom: 0.4 }, { duration: 600 });
+//     //       // setCenter(0, 0, { duration: 1000 });
+//     //     // console.log("fit")
+//     //     //   zoomOut({ zoom: 1, duration: 1000 });
+//     //   } 
+//     //   setAnimation(false);
+//     // }, 20);
+//   }, [targetWorkflow, canvasPages.type, props.nodes, props.edges, fitView]);
 
   const handleSave = () => {
     const stepNodes = nodes.filter((node) => node.id !== "step-0");

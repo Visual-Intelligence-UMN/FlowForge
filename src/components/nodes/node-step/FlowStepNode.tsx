@@ -54,7 +54,7 @@ export const FlowStepNode = ({ data, isConnectable, id }) => {
 
       <Typography 
         variant="subtitle1" 
-        sx={{ fontWeight: "bold", mb: 0.5 }}
+        sx={{ fontWeight: "bold", mb: 0.5, fontSize:"20px"}}
         onClick={() => setShowContent(!showContent)}
       >
         {data.stepLabel}

@@ -1,5 +1,7 @@
 import { Box, TextField, Typography} from "@mui/material";
 import { PatternTextField } from "../textfield/patternText";
+import {InputIO, OutputIO} from "../textfield/streamIcons"
+
 export function ReflectionForm({ data, onChange }) {
   // data = {
   //   maxRound: number,
@@ -39,31 +41,11 @@ export function ReflectionForm({ data, onChange }) {
       p: 3
       }}>
 
-      <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
-
-        {/* Evaluator */}
-        <Typography variant="subtitle2">Evaluator</Typography>
-        <PatternTextField
-          label="Evaluator Persona"
-          value={data.evaluator?.persona || ""}
-          onChange={handleNestedFieldChange("evaluator", "persona")}
-        />
-        {/* <PatternTextField
-          label="Evaluator Pattern Prompt"
-          value={data.evaluator?.patternPrompt || ""}
-          onChange={handleNestedFieldChange("evaluator", "patternPrompt")}
-        /> */}
-        {/* <PatternTextField
-          label="Evaluator Goal"
-          value={data.evaluator?.goal || ""}
-          onChange={handleNestedFieldChange("evaluator", "goal")}
-        /> */}
-
-      </Box>
-
       {/* Optimizer */}
       <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
-        <Typography variant="subtitle2">Optimizer</Typography>
+        <Typography variant="subtitle2" fontSize={"18px"}>
+          <InputIO active/>
+          Optimizer</Typography>
         <PatternTextField
           label="Optimizer Persona"
           value={data.optimizer?.persona || ""}
@@ -80,6 +62,31 @@ export function ReflectionForm({ data, onChange }) {
           onChange={handleNestedFieldChange("optimizer", "goal")}
         /> */}
       
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "column", flex:1, gap: 2 }}>
+
+        {/* Evaluator */}
+        <Typography variant="subtitle2" fontSize={"18px"} sx={{gap: 1.5 }}>
+          <OutputIO active/>
+          Evaluator
+        </Typography>
+        <PatternTextField
+          label="Evaluator Persona"
+          value={data.evaluator?.persona || ""}
+          onChange={handleNestedFieldChange("evaluator", "persona")}
+        />
+        {/* <PatternTextField
+          label="Evaluator Pattern Prompt"
+          value={data.evaluator?.patternPrompt || ""}
+          onChange={handleNestedFieldChange("evaluator", "patternPrompt")}
+        /> */}
+        {/* <PatternTextField
+          label="Evaluator Goal"
+          value={data.evaluator?.goal || ""}
+          onChange={handleNestedFieldChange("evaluator", "goal")}
+        /> */}
+
       </Box>
       
       
