@@ -1,39 +1,33 @@
-<!-- ![](https://github.com/xyflow/web/blob/main/assets/codesandbox-header-ts.png?raw=true) -->
+# FlowForge: Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold
 
-# FlowForge
-
-Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold
-
-
-## Online Demo
-
-[Play with FlowForge](https://vis-flow-forge-demo.vercel.app)
+Docs are available at 
+https://visual-intelligence-umn.github.io/FlowForge/
 
 
-## Quick Start
+![teaser](docs/assets/teaser.png)
+## Online Demo: [Play with FlowForge](https://vis-flow-forge-demo.vercel.app)
 
-### API Keys
 
-Make a copy of `.env_sample` and rename it to `.env`. 
+## Installation
 
-Replace the placeholders with your actual API keys.
+If running for the first time, install dependencies (nodejs version 18 or newer):
+```bash
+npm install # or `pnpm install` or `yarn install`
+```
+To run server:
+```bash
+npm run dev
+```
+
+To enable API locally: 
+
+Make a copy of `.env_sample` and rename it to `.env`. Replace the placeholders with your actual API keys.
 
 Following API keys are used in the current version:
 
 - `VITE_OPENAI_API_KEY` OpenAI as LLM provider, please refer to [OpenAI API](https://openai.com/index/openai-api/) for more info.
-- `VITE_TAVILY_API_KEY` Tavily as search engine, and you can get an API key by visiting [this site](https://app.tavily.com/sign-in) and creating an account.
+- (Optional) `VITE_TAVILY_API_KEY` Tavily as search engine, and you can get an API key by visiting [this site](https://app.tavily.com/sign-in) and creating an account.  This is only needed if you plan to enable the search tool for agent.
 
-### Install
-
-```bash
-npm install # or `pnpm install` or `yarn install`
-```
-
-### Run
-
-```bash
-npm run dev
-```
 
 
 <!-- ## Repo Rename Options
