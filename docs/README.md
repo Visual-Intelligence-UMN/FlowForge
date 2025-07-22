@@ -2,6 +2,11 @@
 
 # FlowForge
 
+FlowForge: Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold.   
+[Pan Hao](https://ppphhhleo.github.io/), [Dongyeop Kang](https://dykang.github.io/), [Nicholas Hinds](https://www.linkedin.com/in/nicholashinds/), [Qianwen Wang](https://qianwen.info/)
+
+Our paper is accepted to VIS 2025. The [preprint](http://arxiv.org/abs/2507.15559) is released. 
+
 ## 👋 [Play with FlowForge](https://vis-flow-forge-demo.vercel.app)
 
 --- 

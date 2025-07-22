@@ -1,7 +1,6 @@
 # FlowForge: Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold
 
-Docs are available at 
-https://visual-intelligence-umn.github.io/FlowForge/
+Our paper is accepted to VIS 2025. For more details, please check our [preprint](http://arxiv.org/abs/2507.15559), or [project page](https://visual-intelligence-umn.github.io/FlowForge/).
 
 
 ![teaser](docs/assets/teaser.png)
@@ -28,7 +27,13 @@ Following API keys are used in the current version:
 - `VITE_OPENAI_API_KEY` OpenAI as LLM provider, please refer to [OpenAI API](https://openai.com/index/openai-api/) for more info.
 - (Optional) `VITE_TAVILY_API_KEY` Tavily as search engine, and you can get an API key by visiting [this site](https://app.tavily.com/sign-in) and creating an account.  This is only needed if you plan to enable the search tool for agent.
 
+<!-- ## VIS 2025 Paper
 
+**FlowForge: Guiding the Creation of Multi-agent Workflows with Design Space Visualization as a Thinking Scaffold**  
+
+Pan Hao, Dongyeop Kang, Nicholas Hinds, Qianwen Wang 
+
+The [preprint](http://arxiv.org/abs/2507.15559) is released.  -->
 
 <!-- ## Repo Rename Options
 
