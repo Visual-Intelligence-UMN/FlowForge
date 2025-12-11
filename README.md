@@ -7,9 +7,9 @@ Our paper is accepted to VIS 2025. For more details, please check our [preprint]
 ## Online Demo: [Play with FlowForge](https://vis-flow-forge-demo.vercel.app)
 
 ## Video
-<!-- [![VIS recorded presentation](docs/assets/presentation.png)](https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview) -->
+[![VIS recorded presentation](docs/assets/presentation.png)](https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview)
 
-<iframe src="https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview" width="640" height="480" allow="autoplay"></iframe>
+<!-- <iframe src="https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview" width="640" height="480" allow="autoplay"></iframe> -->
 
 ## Installation
 
