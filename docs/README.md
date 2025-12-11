@@ -27,3 +27,9 @@ In contrast to fully automated multi-agent solutions that often generate opaque 
 </div>
 
 <b>FlowForge facilitates the creation of multi-agent workflows through structured, guided visual exploration of the design space.</b> This is achieved by coordinating a hierarchical tree view (A1) and a scatter plot (A2), both of which use a novel glyph design to represent each workflow’s computational cost and level of abstraction. Users can select a workflow for detailed inspection in the Canvas View (B1-B3), which supports semantic zooming that reveals more abstract representations and greater detail based on zoom level. Additionally, in-situ suggestions based on well-established design patterns are provided to guide users as they navigate the design space (C1-C3).
+
+
+# Video
+<!-- [![VIS recorded presentation](./assets/presentation.png)](https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview) -->
+
+<iframe src="https://drive.google.com/file/d/1rGGkwvL--QCCfHpH9FLWoEEHNqDd3yQC/preview" width="640" height="480" allow="autoplay"></iframe>
